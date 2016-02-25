@@ -188,23 +188,29 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
         // create object for Building_Improvements record
         Building_Improvements objBuilding_Improvements = new Building_Improvements(PK_Building_Improvements);
 
-        ComboHelper.FillBuildingForBuildingImprovements(new ListBox[] { lstBuildingNumber }, clsGeneral.GetInt(Session["ExposureLocation"]), false);
+        ComboHelper.FillBuildingForBuildingImprovements(new DropDownList[] { ddlBuildingNumber }, clsGeneral.GetInt(Session["ExposureLocation"]), true);
+        
         ComboHelper.FillBuildingImprovementStatus(new DropDownList[] { drpFK_LU_BI_Status }, true);
 
         if (PK_Building_Improvements > 0)
         {
 
-            DataTable dtBuildings = Building_Improvements.SelectBuildingByFK_Building_Improvements(PK_Building_Improvements).Tables[0];
-            if (dtBuildings != null && dtBuildings.Rows.Count > 0)
-            {
-                foreach (DataRow drBuilding in dtBuildings.Rows)
-                {
-                    if (lstBuildingNumber.Items.FindByValue(Convert.ToString(drBuilding["FK_Building"])) != null)
-                    {
-                        lstBuildingNumber.Items.FindByValue(Convert.ToString(drBuilding["FK_Building"])).Selected = true;
-                    }
-                }
-            }
+            //DataTable dtBuildings = Building_Improvements.SelectBuildingByFK_Building_Improvements(PK_Building_Improvements).Tables[0];
+            //if (dtBuildings != null && dtBuildings.Rows.Count > 0)
+            //{
+            //    foreach (DataRow drBuilding in dtBuildings.Rows)
+            //    {
+            //        if (lstBuildingNumber.Items.FindByValue(Convert.ToString(drBuilding["FK_Building"])) != null)
+            //        {
+            //            lstBuildingNumber.Items.FindByValue(Convert.ToString(drBuilding["FK_Building"])).Selected = true;
+            //        }
+            //    }
+            //}
+
+
+            ListItem item = ddlBuildingNumber.Items.FindByValue(Convert.ToString(objBuilding_Improvements.FK_Building));
+            if (item != null)
+                item.Selected = true;
 
             // set values in page controls using object variables
 
@@ -303,23 +309,26 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
         dvSave.Style["display"] = "none";
 
         //ComboHelper.FillBuildingForBuildingImprovements(new ListBox[] { lstBuildingNumberView }, false);
-        ComboHelper.FillBuildingForBuildingImprovements(new ListBox[] { lstBuildingNumberView }, clsGeneral.GetInt(Session["ExposureLocation"]), false);
+        //ComboHelper.FillBuildingForBuildingImprovements(new ListBox[] { lstBuildingNumberView }, clsGeneral.GetInt(Session["ExposureLocation"]), false);
+        
 
-        DataTable dtBuildings = Building_Improvements.SelectBuildingByFK_Building_Improvements(PK_Building_Improvements).Tables[0];
-        if (dtBuildings != null && dtBuildings.Rows.Count > 0)
-        {
-            foreach (DataRow drBuilding in dtBuildings.Rows)
-            {
-                if (lstBuildingNumberView.Items.FindByValue(Convert.ToString(drBuilding["FK_Building"])) != null)
-                {
-                    lstBuildingNumberView.Items.FindByValue(Convert.ToString(drBuilding["FK_Building"])).Selected = true;
-                }
-            }
-        }
+        //DataTable dtBuildings = Building_Improvements.SelectBuildingByFK_Building_Improvements(PK_Building_Improvements).Tables[0];
+        //if (dtBuildings != null && dtBuildings.Rows.Count > 0)
+        //{
+        //    foreach (DataRow drBuilding in dtBuildings.Rows)
+        //    {
+        //        if (lstBuildingNumberView.Items.FindByValue(Convert.ToString(drBuilding["FK_Building"])) != null)
+        //        {
+        //            lstBuildingNumberView.Items.FindByValue(Convert.ToString(drBuilding["FK_Building"])).Selected = true;
+        //        }
+        //    }
+        //}
 
         // create object for Building_Improvements record
         Building_Improvements objBuilding_Improvements = new Building_Improvements(PK_Building_Improvements);
+        Building building = new Building(Convert.ToInt32(objBuilding_Improvements.FK_Building));
 
+        lblBuildingNumberView.Text = building != null ? building.Building_Number + ", " + building.Address_1 + ", " + building.City + ", " + building.State : "";
         lblProjectNumber.Text = objBuilding_Improvements.Project_Number;
         lblProjectStartDate.Text = clsGeneral.FormatDBNullDateToDisplay(objBuilding_Improvements.Start_Date);
         lblTargetCompletionDate.Text = clsGeneral.FormatDBNullDateToDisplay(objBuilding_Improvements.Target_Completion_Date);
@@ -446,17 +455,20 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
         // create object for Building_Improvements record
         Building_Improvements objBuilding_Improvements = new Building_Improvements();
 
-        string FK_Building_Ids = string.Empty;
-        foreach (ListItem lstItem in lstBuildingNumber.Items)
-        {
-            if (lstItem.Selected)
-                FK_Building_Ids += lstItem.Value + ",";
-        }
+        //string FK_Building_Ids = string.Empty;
+        //foreach (ListItem lstItem in lstBuildingNumber.Items)
+        //{
+        //    if (lstItem.Selected)
+        //        FK_Building_Ids += lstItem.Value + ",";
+        //}
 
-        FK_Building_Ids = FK_Building_Ids.TrimEnd(',');
+
+
+        //FK_Building_Ids = FK_Building_Ids.TrimEnd(',');
 
         // set PK and FK
-        objBuilding_Improvements.FK_Building_Ids = FK_Building_Ids;
+        objBuilding_Improvements.FK_Building = Convert.ToDecimal(ddlBuildingNumber.SelectedValue);
+        //objBuilding_Improvements.FK_Building_Ids = FK_Building_Ids;
         objBuilding_Improvements.PK_Building_Improvements = PK_Building_Improvements;
         //objBuilding_Improvements.FK_Building = FK_Building;
         objBuilding_Improvements.FK_Property_Cope = FK_Property_Cope;
@@ -646,7 +658,7 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
             #region " set validation control IDs and messages "
             switch (Convert.ToString(drField["Field_Name"]))
             {
-                case "Building Number": strCtrlsIDs += lstBuildingNumber.ClientID + ","; strMessages += "Please select Building Number " + ","; Span9.Style["display"] = "inline-block"; MenuAsterisk1.Style["display"] = "inline-block"; break;
+                case "Building Number": strCtrlsIDs += ddlBuildingNumber.ClientID + ","; strMessages += "Please select Building Number " + ","; Span9.Style["display"] = "inline-block"; MenuAsterisk1.Style["display"] = "inline-block"; break;
                 case "Project Number": strCtrlsIDs += txtProject_Number.ClientID + ","; strMessages += "Please enter Project Number " + ","; Span10.Style["display"] = "inline-block"; MenuAsterisk1.Style["display"] = "inline-block"; break;
                 case "Project Start Date": strCtrlsIDs += txtProject_Start_Date.ClientID + ","; strMessages += "Please enter Project Start Date " + ","; Span11.Style["display"] = "inline-block"; MenuAsterisk1.Style["display"] = "inline-block"; break;
                 case "Target Completion Date": strCtrlsIDs += txtTarget_Completion_Date.ClientID + ","; strMessages += "Please enter Target Completion Date " + ","; Span13.Style["display"] = "inline-block"; MenuAsterisk1.Style["display"] = "inline-block"; break;

@@ -5132,11 +5132,11 @@ public class ComboHelper
         }
     }
 
-    public static void FillBuildingForBuildingImprovements(ListBox[] dropDownList, int fK_LU_Location_ID, bool booladdSelectAsFirstElement)
+    public static void FillBuildingForBuildingImprovements(DropDownList[] dropDownList, int fK_LU_Location_ID, bool booladdSelectAsFirstElement)
     {
         DataSet dsData = ERIMS.DAL.Building.SelectBuildingForBuildingImprovements(fK_LU_Location_ID);
 
-        foreach (ListBox ddlToFill in dropDownList)
+        foreach (DropDownList ddlToFill in dropDownList)
         {
             ddlToFill.Items.Clear();
             ddlToFill.DataTextField = "BuildingName";
@@ -6435,23 +6435,23 @@ public class ComboHelper
     /// </summary>
     /// <param name="dropDownList"></param>
     /// <param name="booladdSelectAsFirstElement"></param>
-    public static void FillResponsibleParty(DropDownList[] dropDownList, bool booladdSelectAsFirstElement)
-    {
-        DataTable dtData = ERIMS.DAL.LU_Responsible_Party.SelectAll().Tables[0];
-        dtData.DefaultView.RowFilter = " Active = 'Y' ";
+    //public static void FillResponsibleParty(DropDownList[] dropDownList, bool booladdSelectAsFirstElement)
+    //{
+    //    DataTable dtData = ERIMS.DAL.LU_Responsible_Party.SelectAll().Tables[0];
+    //    dtData.DefaultView.RowFilter = " Active = 'Y' ";
 
-        foreach (DropDownList ddlToFill in dropDownList)
-        {
-            ddlToFill.Items.Clear();
-            ddlToFill.DataTextField = "Description";
-            ddlToFill.DataValueField = "PK_LU_Responsible_Party";
-            ddlToFill.DataSource = dtData;
-            ddlToFill.DataBind();
-            //check require to add "-- select --" at first item of dropdown.
-            if (booladdSelectAsFirstElement)
-            {
-                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
-            }
-        }
-    }
+    //    foreach (DropDownList ddlToFill in dropDownList)
+    //    {
+    //        ddlToFill.Items.Clear();
+    //        ddlToFill.DataTextField = "Description";
+    //        ddlToFill.DataValueField = "PK_LU_Responsible_Party";
+    //        ddlToFill.DataSource = dtData;
+    //        ddlToFill.DataBind();
+    //        //check require to add "-- select --" at first item of dropdown.
+    //        if (booladdSelectAsFirstElement)
+    //        {
+    //            ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+    //        }
+    //    }
+    //}
 }

@@ -36,7 +36,7 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         set { ViewState["FK_PM_Site_Information"] = value; }
     }
     /// <summary>
-    /// Denotes foriegn key for Location record
+    /// Denotes foreign key for Location record
     /// </summary>
     public decimal FK_LU_Location_ID
     {
@@ -154,6 +154,12 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         get { return (!clsGeneral.IsNull(ViewState["SortBy"]) ? ViewState["SortBy"].ToString() : string.Empty); }
         set { ViewState["SortBy"] = value; }
     }
+
+    private string Use_Lift_Identifier
+    {
+        get { return (!clsGeneral.IsNull(ViewState["Use_Lift_Identifier"]) ? ViewState["Use_Lift_Identifier"].ToString() : string.Empty); }
+        set { ViewState["Use_Lift_Identifier"] = value; }
+    }
     #endregion
 
     #region Page Events
@@ -256,43 +262,43 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         AuditTrailText = drpEquipmentType.SelectedItem.Text.ToString();
         if (PM_Equipment > 0)
         {
-            //Equiptment type 'Tank' is selected then Pass Table Name 'PM_Equipment_Tank' and return PK_ID from PM_Equipment_Tank Table
+            //Equipment type 'Tank' is selected then Pass Table Name 'PM_Equipment_Tank' and return PK_ID from PM_Equipment_Tank Table
             if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "tank")
             {
                 SetValidationsTank();
                 PK_PM_Equipment_Tank = (decimal)objPM_Equipment.FK_Table_Name;
                 BindDetailsFor_Equipment_Tank_Edit();
             }
-            //Equiptment type 'Paint Booth' is selected then Pass Table Name 'PK_PM_Equipment_Spray_Booth' and return PK_ID from PM_Equipment_Spray_Booth Table
+            //Equipment type 'Paint Booth' is selected then Pass Table Name 'PK_PM_Equipment_Spray_Booth' and return PK_ID from PM_Equipment_Spray_Booth Table
             else if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "paint booth")
             {
                 SetValidationsPaintBooth();
                 PK_PM_Equipment_Spray_Booth = (decimal)objPM_Equipment.FK_Table_Name;
                 BindDetailsFor_Equipment_Spray_Booth_Edit();
             }
-            //Equiptment type 'Prep Station' is selected then Pass Table Name 'PK_PM_Equipment_Prep_Station' and return PK_ID from PM_Equipment_Spray_Booth Table
+            //Equipment type 'Prep Station' is selected then Pass Table Name 'PK_PM_Equipment_Prep_Station' and return PK_ID from PM_Equipment_Spray_Booth Table
             else if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "prep station")
             {
                 SetValidationsPrepStation();
                 PK_PM_Equipment_Prep_Station = (decimal)objPM_Equipment.FK_Table_Name;
                 BindDetailsFor_Equipment_Prep_Station_Edit();
             }
-            //Equiptment type 'Oil and Water Separator' is selected then Pass Table Name 'PM_Equipment_Tank' and return PK_ID from PM_Equipment_OWS Table
+            //Equipment type 'Oil and Water Separator' is selected then Pass Table Name 'PM_Equipment_Tank' and return PK_ID from PM_Equipment_OWS Table
             else if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "oil and water separator")
             {
                 SetValidationsOWS();
                 PK_PM_Equipment_OWS = (decimal)objPM_Equipment.FK_Table_Name;
                 BindDetailsFor_Equipment_OWS_Edit();
             }
-            //Equiptment type 'Hydraulic Lift' is selected then Pass Table Name 'PK_PM_Equipment_Hydraulic_Lift' and return PK_ID from PM_Equipment_Hydraulic_Lift Table
-            //Equiptment type 'Alignment Rack' is selected then Pass Table Name 'PK_PM_Equipment_Hydraulic_Lift' and return PK_ID from PM_Equipment_Hydraulic_Lift Table // Ticket # 3142
+            //Equipment type 'Hydraulic Lift' is selected then Pass Table Name 'PK_PM_Equipment_Hydraulic_Lift' and return PK_ID from PM_Equipment_Hydraulic_Lift Table
+            //Equipment type 'Alignment Rack' is selected then Pass Table Name 'PK_PM_Equipment_Hydraulic_Lift' and return PK_ID from PM_Equipment_Hydraulic_Lift Table // Ticket # 3142
             else if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "hydraulic lift" || drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "alignment rack")
             {
                 SetValidationsHydraulic();
                 PK_PM_Equipment_Hydraulic_Lift = (decimal)objPM_Equipment.FK_Table_Name;
                 BindDetailsFor_Equipment_Hydraulic_Lift_Edit();
             }
-            //Equiptment type 'Paint Gun Cleaning Cabinet' is selected then Pass Table Name 'PM_Equipment_PGCC' and return PK_ID from PM_Equipment_PGCC Table
+            //Equipment type 'Paint Gun Cleaning Cabinet' is selected then Pass Table Name 'PM_Equipment_PGCC' and return PK_ID from PM_Equipment_PGCC Table
             else if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "paint gun cleaning cabinet")
             {
                 SetValidationsPGCC();
@@ -312,38 +318,38 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
 
         clsPM_Equipment objPM_Equipment = new clsPM_Equipment(PM_Equipment);
         PM_Equipment = (decimal)objPM_Equipment.PK_PM_Equipment;
-        string strEquiptmentType = objPM_Equipment.Table_Name;
-        if (strEquiptmentType.ToString() == "PM_Equipment_Tank")
+        string strEquipmentType = objPM_Equipment.Table_Name;
+        if (strEquipmentType.ToString() == "PM_Equipment_Tank")
         {
             PK_PM_Equipment_Tank = Convert.ToDecimal(objPM_Equipment.FK_Table_Name);
             BindDetailsFor_Equipment_Tank_View();
         }
-        else if (strEquiptmentType.ToString() == "PM_Equipment_Spray_Booth")
+        else if (strEquipmentType.ToString() == "PM_Equipment_Spray_Booth")
         {
             PK_PM_Equipment_Spray_Booth = Convert.ToDecimal(objPM_Equipment.FK_Table_Name);
             BindDetailsFor_Equipment_Spray_Booth_View();
         }
-        else if (strEquiptmentType.ToString() == "PM_Equipment_Prep_Station")
+        else if (strEquipmentType.ToString() == "PM_Equipment_Prep_Station")
         {
             PK_PM_Equipment_Prep_Station = Convert.ToDecimal(objPM_Equipment.FK_Table_Name);
             BindDetailsFor_Equipment_Prep_Station_View();
         }
-        else if (strEquiptmentType.ToString() == "PM_Equipment_OWS")
+        else if (strEquipmentType.ToString() == "PM_Equipment_OWS")
         {
             PK_PM_Equipment_OWS = Convert.ToDecimal(objPM_Equipment.FK_Table_Name);
             BindDetailsFor_Equipment_OWS_View();
         }
-        else if (strEquiptmentType.ToString() == "PM_Equipment_Hydraulic_Lift")
+        else if (strEquipmentType.ToString() == "PM_Equipment_Hydraulic_Lift")
         {
             PK_PM_Equipment_Hydraulic_Lift = Convert.ToDecimal(objPM_Equipment.FK_Table_Name);
             BindDetailsFor_Equipment_Hydraulic_Lift_View();
         }
-        else if (strEquiptmentType.ToString() == "PM_Equipment_PGCC")
+        else if (strEquipmentType.ToString() == "PM_Equipment_PGCC")
         {
             PK_PM_Equipment_PGCC = Convert.ToDecimal(objPM_Equipment.FK_Table_Name);
             BindDetailsFor_Equipment_PGCC_View();
         }
-        AuditTrailText = strEquiptmentType;
+        AuditTrailText = strEquipmentType;
     }
     /// <summary>
     /// Bind Tank Page Controls for edit mode
@@ -730,9 +736,6 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         lblManual6HBinder_PrepStation.Text = objPM_Equipment_Prep_Station.Manual_6H_Binder == "N" ? "No" : "Yes";
         lblCapture_EfficiencyDate_PrepStation.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Prep_Station.Capture_Efficieicny_Date);
         lblControl_EfficiencyDate_PrepStation.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Prep_Station.Control_Efficiency_Date);
-
-        //SprayBoothAttachDetailsView.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_Prep_Station), "FK_Table_Name", "PK_PM_Equipment_Attachments", false, 2);
-        //BindSprayBoothAttachmentDetaills();
         AttachDetailsView.Equipment_Table_Name = "PM_Equipment_Prep_Station";
         AttachDetailsView.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_Prep_Station), "FK_Table_Name", "PK_PM_Equipment_Attachments", false, 2);
         BindPrepStationAttachmentDetaills();
@@ -756,38 +759,37 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         clsPM_Equipment_Hydraulic_Lift objPM_Equipment_Hydraulic_Lift = new clsPM_Equipment_Hydraulic_Lift(PK_PM_Equipment_Hydraulic_Lift);
         if (objPM_Equipment_Hydraulic_Lift.PK_PM_Equipment != null)
             PM_Equipment = (decimal)objPM_Equipment_Hydraulic_Lift.PK_PM_Equipment;
-        //lblHydraulicLiftType.Text = "Hydraulic Lift";
-        //txtHydraulicLiftDescription.Text = objPM_Equipment_Hydraulic_Lift.Description;
-        //txtOil_Type.Text = objPM_Equipment_Hydraulic_Lift.Oil_Type;
-        //if (objPM_Equipment_Hydraulic_Lift.Above_Ground != null)
-        //    rdoAbove_Ground.SelectedValue = objPM_Equipment_Hydraulic_Lift.Above_Ground;
+        
+        //if (objPM_Equipment_Hydraulic_Lift.Use_Same_Dates != null)
+        //    rdbUseSameDates.SelectedValue = objPM_Equipment_Hydraulic_Lift.Use_Same_Dates;
         //else
-        //    rdoAbove_Ground.SelectedValue = "Y";
-        //txtHydraulicLiftManufacture.Text = objPM_Equipment_Hydraulic_Lift.Manufacturer_Name;
-        ////txtIs_Number_Of_Lifts_At_Location.Text = Convert.ToString(objPM_Equipment_Hydraulic_Lift.Is_Number_Of_Lifts_At_Location);
-        //txtNumber_Of_Lifts_At_Location.Text = Convert.ToString(objPM_Equipment_Hydraulic_Lift.Number_Of_Lifts_At_Location);
-        //txtAs_Of_Date_Number.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Hydraulic_Lift.As_Of_Date_Number);
-        //txtHydraulicLift_Installation_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Hydraulic_Lift.Installation_Date);
-        //txtHydraulicLift_Last_Inspection_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Hydraulic_Lift.Last_Inspection_Date);
-        //if (objPM_Equipment_Hydraulic_Lift.Any_Inground_Lifts_Been_Removed != null)
-        //    rdoAny_Inground_Lifts_Been_Removed.SelectedValue = objPM_Equipment_Hydraulic_Lift.Any_Inground_Lifts_Been_Removed;
-        //else
-        //    rdoAny_Inground_Lifts_Been_Removed.SelectedValue = "Y";
-        if (objPM_Equipment_Hydraulic_Lift.Use_Same_Dates != null)
-            rdbUseSameDates.SelectedValue = objPM_Equipment_Hydraulic_Lift.Use_Same_Dates;
-        else
-            rdbUseSameDates.SelectedValue = "N";
-        //if (objPM_Equipment_Hydraulic_Lift.Documentation_Related_To_Removed_Lifts != null)
-        //    rdoDocumentation_Related_To_Removed_Lifts.SelectedValue = objPM_Equipment_Hydraulic_Lift.Documentation_Related_To_Removed_Lifts;
-        //else
-        //    rdoDocumentation_Related_To_Removed_Lifts.SelectedValue = "Y";
+        //    rdbUseSameDates.SelectedValue = "N";
+        
         BindHydraulicLiftGrid(PK_PM_Equipment_Hydraulic_Lift);
-        //txtHydraulicLiftNotes.Text = objPM_Equipment_Hydraulic_Lift.Notes;
         // set attachment details control in read/write mode. so user can add or remove attachment as well.
         AttachDetails.Equipment_Table_Name = "PM_Equipment_Hydraulic_Lift";
         AttachDetails.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_Hydraulic_Lift), "FK_Table_Name", "PK_PM_Equipment_Attachments", true, 2);
         BindHydraulicLiftAttachmentDetaills();
+        BindLiftDropdown();
+        ddlHydrolicLifts.ClearSelection();
+        Use_Lift_Identifier = objPM_Equipment_Hydraulic_Lift.Use_Lift_Identifier;
+        ListItem item = ddlHydrolicLifts.Items.FindByValue(objPM_Equipment_Hydraulic_Lift.Use_Lift_Identifier != null ? objPM_Equipment_Hydraulic_Lift.Use_Lift_Identifier : "0");
+        if (item != null)
+            item.Selected = true;
     }
+
+    /// <summary>
+    /// Clear and rebind all the items in dropdown list
+    /// </summary>
+    private void BindLiftDropdown()
+    {
+        ddlHydrolicLifts.Items.Clear();
+        FillHydraulicLifts(new DropDownList[] { ddlHydrolicLifts }, true);
+        ListItem item = ddlHydrolicLifts.Items.FindByValue(Use_Lift_Identifier);
+        if (item != null)
+            item.Selected = true;
+    }
+
     /// <summary>
     /// Bind Hydraulic_Lift Page Controls for view mode
     /// </summary>
@@ -802,9 +804,11 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         pnlHydraulicLiftTypeview.Style["display"] = "block";
         pnlPGCCview.Style["display"] = "none";
         clsPM_Equipment_Hydraulic_Lift objPM_Equipment_Hydraulic_Lift = new clsPM_Equipment_Hydraulic_Lift(PK_PM_Equipment_Hydraulic_Lift);
-        lblUse_Same_Dates.Text = objPM_Equipment_Hydraulic_Lift.Use_Same_Dates == "Y" ? "Yes" : "No";
-        //lblAny_Inground_Lifts_Been_Removed.Text = objPM_Equipment_Hydraulic_Lift.Any_Inground_Lifts_Been_Removed == "Y" ? "Yes" : "No";
-        //lblDocumentation_Related_To_Removed_Lifts.Text = objPM_Equipment_Hydraulic_Lift.Documentation_Related_To_Removed_Lifts == "Y" ? "Yes" : "No";
+        //lblUse_Same_Dates.Text = objPM_Equipment_Hydraulic_Lift.Use_Same_Dates == "Y" ? "Yes" : "No";
+
+        clsPM_Equipment_Hydraulic_Lift_Grid clsPM_Equipment_Hydraulic_Lift_Grid = new clsPM_Equipment_Hydraulic_Lift_Grid(Convert.ToInt32(objPM_Equipment_Hydraulic_Lift.Use_Lift_Identifier));
+        lblUse_Same_Dates.Text = Convert.ToString(clsPM_Equipment_Hydraulic_Lift_Grid.Is_Number_Of_Lifts_At_Location);
+        
         BindHydraulicLiftGridView(PK_PM_Equipment_Hydraulic_Lift);
         AttachDetailsView.Equipment_Table_Name = "PM_Equipment_Hydraulic_Lift";
         AttachDetailsView.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_Hydraulic_Lift), "FK_Table_Name", "PK_PM_Equipment_Attachments", false, 2);
@@ -829,7 +833,6 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         clsPM_Equipment_PGCC objPM_Equipment_PGCC = new clsPM_Equipment_PGCC(PK_PM_Equipment_PGCC);
         if (objPM_Equipment_PGCC.PK_PM_Equipment != null)
             PM_Equipment = (decimal)objPM_Equipment_PGCC.PK_PM_Equipment;
-        //lblPGCCType.Text = "Paint Gun Cleaning Cabinet";
         txtPGCCDescription.Text = objPM_Equipment_PGCC.Description;
         txtPGCCManufacturer.Text = objPM_Equipment_PGCC.Manufacturer_Name;
         txtPGCCInstallation_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_PGCC.Installation_Date);
@@ -886,9 +889,6 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
 
         lblIsCabinet6HComplaint.Text = objPM_Equipment_PGCC.SixH_Compliant == "N" ? "No" : "Yes";
         lblManualPaintGunCleaningCabinet6H.Text = objPM_Equipment_PGCC.Manual_6H_Binder == "N" ? "No" : "Yes";
-
-        //PGCCAttachDetailsView.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_PGCC), "FK_Table_Name", "PK_PM_Equipment_Attachments", false, 2);
-        //BindPGCCAttachmentDetaills();
         AttachDetailsView.Equipment_Table_Name = "PM_Equipment_PGCC";
         AttachDetailsView.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_PGCC), "FK_Table_Name", "PK_PM_Equipment_Attachments", false, 2);
         BindPGCCAttachmentDetaills();
@@ -925,8 +925,6 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         else
             rdOWSConnectedtoPublicWater.SelectedValue = "Y";
         BindSludgeGrid(PK_PM_Equipment_OWS);
-        //AttachDetailsOWS.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_OWS), "FK_Table_Name", "PK_PM_Equipment_Attachments", true, 2);
-        //BindOWSAttachmentDetaills();
         AttachDetails.Equipment_Table_Name = "PM_Equipment_OWS";
         AttachDetails.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_OWS), "FK_Table_Name", "PK_PM_Equipment_Attachments", true, 2);
         BindOWSAttachmentDetaills();
@@ -955,8 +953,6 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         lblOWSNotes.Text = objPM_Equipment_OWS.Notes;
         lblConnectedtoPublicWater.Text = objPM_Equipment_OWS.Connected_to_Public_Water_Application == "Y" ? "Yes" : "No";
         BindSludgeGridView(PK_PM_Equipment_OWS);
-        //OWSAttachDetailsView.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_OWS), "FK_Table_Name", "PK_PM_Equipment_Attachments", false, 2);
-        //BindOWSAttachmentDetaills();
         AttachDetailsView.Equipment_Table_Name = "PM_Equipment_OWS";
         AttachDetailsView.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_OWS), "FK_Table_Name", "PK_PM_Equipment_Attachments", false, 2);
         BindOWSAttachmentDetaills();
@@ -1009,32 +1005,25 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
             PM_Equipment = (decimal)objPM_Equipment_Hydraulic_Lift.PK_PM_Equipment;
 
         objPM_Equipment_Hydraulic_Lift.PK_PM_Equipment_Hydraulic_Lift = PK_PM_Equipment_Hydraulic_Lift;
-        //objPM_Equipment_Hydraulic_Lift.Any_Inground_Lifts_Been_Removed = rdoAny_Inground_Lifts_Been_Removed.SelectedValue;
-        //objPM_Equipment_Hydraulic_Lift.Documentation_Related_To_Removed_Lifts = rdoDocumentation_Related_To_Removed_Lifts.SelectedValue;
         objPM_Equipment_Hydraulic_Lift.Update_Date = DateTime.Now;
         objPM_Equipment_Hydraulic_Lift.Updated_By = clsSession.UserID;
-        objPM_Equipment_Hydraulic_Lift.Use_Same_Dates = Convert.ToString(rdbUseSameDates.SelectedValue);
+        //objPM_Equipment_Hydraulic_Lift.Use_Same_Dates = Convert.ToString(rdbUseSameDates.SelectedValue);
         if (PK_PM_Equipment_Hydraulic_Lift > 0)
             objPM_Equipment_Hydraulic_Lift.Update();
     }
 
     private void GetUse_Same_Dates()
     {
-        if (rdbUseSameDates.SelectedValue == "Y")
+        //if (Convert.ToString(ddlHydrolicLifts.SelectedValue) != "" && Convert.ToInt32(ddlHydrolicLifts.SelectedValue) > 0)
+        if (!string.IsNullOrEmpty(Use_Lift_Identifier) && Use_Lift_Identifier != "0")
         {
-            bool type = false;
-            if (StrOperation.ToLower() == "edit")
-                type = true;
-            DataSet dsUseSameDates = clsPM_Equipment_Hydraulic_Lift_Grid.Select_UseSameDates_ByFK(PK_PM_Equipment_Hydraulic_Lift, type);
-            if (dsUseSameDates != null && dsUseSameDates.Tables.Count > 0 && dsUseSameDates.Tables[0].Rows.Count > 0)
-            {                
-                txtHydraulicLift_Installation_Date.Text = clsGeneral.FormatDBNullDateToDisplay(dsUseSameDates.Tables[0].Rows[0]["Installation_Date"]);
-                txtHydraulicLift_Last_Inspection_Date.Text = clsGeneral.FormatDBNullDateToDisplay(dsUseSameDates.Tables[0].Rows[0]["Last_Inspection_Date"]);
-            }
+            clsPM_Equipment_Hydraulic_Lift_Grid clsPM_Equipment_Hydraulic_Lift_Grid = new clsPM_Equipment_Hydraulic_Lift_Grid(Convert.ToDecimal(Use_Lift_Identifier));
+            txtHydraulicLift_Installation_Date.Text = clsGeneral.FormatDBNullDateToDisplay(clsPM_Equipment_Hydraulic_Lift_Grid.Installation_Date);
+            txtHydraulicLift_Last_Inspection_Date.Text = clsGeneral.FormatDBNullDateToDisplay(clsPM_Equipment_Hydraulic_Lift_Grid.Last_Inspection_Date);
         }
     }
 
-    //Select Lift as Label name where Equpment Type is Hydraulick Lift
+    //Select Lift as Label name where Equipment Type is Hydraulic Lift
     private void Lift()
     {
         spnDocumentation.InnerText = spnInGroundLifts.InnerText = "Lifts";
@@ -1054,7 +1043,7 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         lblEquipmentHydraulicLift.Text = "Hydraulic Lift";
     }
 
-    //Select Rack as Label name where Equpment Type is Alignment Rack
+    //Select Rack as Label name where Equipment Type is Alignment Rack
     private void Rack()
     {
         spnDocumentation.InnerText = spnInGroundLifts.InnerText = "Racks";
@@ -1067,14 +1056,14 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         spnvwDocumentation.InnerText = spnvwInGround.InnerText = "Racks";
         spnvwFirstInstalled.InnerText = spvwLiftNumber.InnerText = spvwLiftNumberAsOfDate.InnerText = "Racks";
         spnvwFirstInstalled2.InnerText = "Racks";
-        spnvwEquipmentTypeScreen.InnerText = "Aligment Rack - Aligment Rack";
+        spnvwEquipmentTypeScreen.InnerText = "Alignment Rack - Alignment Rack";
         spnvwHydraulicLiftGrid.InnerText = "Alignment Rack";
         spnvwReplacementLift.InnerText = spnvwReplacementLiftInformation.InnerText = "Rack";
 
-        lblEquipmentHydraulicLift.Text = "Aligment Rack";
+        lblEquipmentHydraulicLift.Text = "Alignment Rack";
     }
 
-    //Set Header name of Grid as Lift  where Equpment Type is Hydraulick Lift
+    //Set Header name of Grid as Lift  where Equipment Type is Hydraulic Lift
     private void LiftGrid()
     {
         gvHydraulicLiftView.Columns[0].HeaderText = "Lift";
@@ -1083,7 +1072,7 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         BindHydraulicLiftGrid(PK_PM_Equipment_Hydraulic_Lift);
     }
 
-    //Set Header name of Grid as Rack  where Equpment Type is Hydraulick Lift
+    //Set Header name of Grid as Rack  where Equipment Type is Hydraulic Lift
     private void RackGrid()
     {
         gvHydraulicLiftView.Columns[0].HeaderText = "Rack";
@@ -1175,7 +1164,7 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         hdnControlIDsHydraulicLiftGrid.Value = ""; hdnErrorMsgsHydraulicLiftGrid.Value = "";
         hdnControlIDsPGCC.Value = ""; hdnErrorMsgsPGCC.Value = "";
 
-        //Equiptment type 'Tank' is selected then show and hide Panel
+        //Equipment type 'Tank' is selected then show and hide Panel
         if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "tank")
         {
             SetValidationsTank();
@@ -1190,7 +1179,7 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
             pnlPGCC.Visible = false;
             //lblEquiptmentType.Text = drpEquipmentType.SelectedItem.Text.ToString();
             txtTankManufacture.Focus();
-            //If Edit Mode then Attachement Detail Bind in PK_PM_Equipment_Tank ID wise otherwise other ID is selected then no data display
+            //If Edit Mode then Attachment Detail Bind in PK_PM_Equipment_Tank ID wise otherwise other ID is selected then no data display
             if (PK_PM_Equipment_Tank > 0)
             {
                 AttachDetails.Equipment_Table_Name = "PM_Equipment_Tank";
@@ -1204,7 +1193,7 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
                 AttachDetails.FindControl("btnRemoveAttachment").Visible = false;
             }
         }
-        //Equiptment type 'Paint Booth' is selected then show and hide Panel
+        //Equipment type 'Paint Booth' is selected then show and hide Panel
         else if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "paint booth")
         {
             SetValidationsPaintBooth();
@@ -1232,7 +1221,7 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
                 AttachDetails.FindControl("btnRemoveAttachment").Visible = false;
             }
         }
-        //Equiptment type 'Prep Station' is selected then show and hide Panel
+        //Equipment type 'Prep Station' is selected then show and hide Panel
         else if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "prep station")
         {
             SetValidationsPrepStation();
@@ -1260,7 +1249,7 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
                 AttachDetails.FindControl("btnRemoveAttachment").Visible = false;
             }
         }
-        //Equiptment type 'Oil and Water Separator' is selected then show and hide Panel
+        //Equipment type 'Oil and Water Separator' is selected then show and hide Panel
         else if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "oil and water separator")
         {
             SetValidationsOWS();
@@ -1289,8 +1278,8 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
                 BindSludgeGrid(PK_PM_Equipment_OWS);
             }
         }
-        //Equiptment type 'Hydraulic Lift' is selected then show and hide Panel
-        //Equiptment type 'Alignment Rack' is selected then show and hide Panel ticket #3142
+        //Equipment type 'Hydraulic Lift' is selected then show and hide Panel
+        //Equipment type 'Alignment Rack' is selected then show and hide Panel ticket #3142
         else if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "hydraulic lift" || drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "alignment rack")
         {
             if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "hydraulic lift")
@@ -1303,7 +1292,8 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
                 Rack();
                 RackGrid();
             }
-            //RackLift();            
+            //RackLift();
+            FillHydraulicLifts(new DropDownList[] { ddlHydrolicLifts }, true);
             SetValidationsHydraulic();
             dvView.Visible = false;
             dvEdit.Visible = true;
@@ -1329,7 +1319,7 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
                 AttachDetails.FindControl("btnRemoveAttachment").Visible = false;
             }
         }
-        //Equiptment type 'Paint Gun Cleaning Cabinet' is selected then show and hide Panel
+        //Equipment type 'Paint Gun Cleaning Cabinet' is selected then show and hide Panel
         else if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "paint gun cleaning cabinet")
         {
             SetValidationsPGCC();
@@ -1357,7 +1347,7 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
                 AttachDetails.FindControl("btnRemoveAttachment").Visible = false;
             }
         }
-        //Equiptment type '--Select--' is selected then show and hide Panel
+        //Equipment type '--Select--' is selected then show and hide Panel
         else
         {
             dvView.Visible = false;
@@ -1372,6 +1362,24 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         }
         AuditTrailText = drpEquipmentType.SelectedItem.Text.ToString();
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
+    }
+
+    public void FillHydraulicLifts(DropDownList[] dropDowns, bool booladdSelectAsFirstElement)
+    {
+        DataSet dsData = clsPM_Equipment_Hydraulic_Lift_Grid.SelectByFK(PK_PM_Equipment_Hydraulic_Lift);
+        foreach (DropDownList ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Is_Number_Of_Lifts_At_Location";
+            ddlToFill.DataValueField = "PK_PM_Equipment_Hydraulic_Lift_Grid";
+            ddlToFill.DataSource = dsData;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem("--Select--", "0"));
+            }
+        }
     }
 
     /// <summary>
@@ -1574,6 +1582,7 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         pnlHydraulicLiftType.Visible = true;
         pnlAdd_Hydraulic_Lift.Visible = false;
         tblEquipment.Style["display"] = "block";
+        BindLiftDropdown();
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);displayHydraulicLift('inline');", true);
     }
     /// <summary>
@@ -1889,7 +1898,7 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
     /// <param name="e"></param>
     protected void btnSaveView_Click(object sender, EventArgs e)
     {
-        //Equiptment type 'Tank' is selected then Save Data in PM_Equipment_Tank table
+        //Equipment type 'Tank' is selected then Save Data in PM_Equipment_Tank table
         if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "tank")
         {
             clsPM_Equipment objPM_Equipment = new clsPM_Equipment();
@@ -1988,7 +1997,7 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
             Response.Redirect("Equipment.aspx?op=view&id=" + Encryption.Encrypt(Convert.ToString(PM_Equipment)) + "&fid=" + Encryption.Encrypt(Convert.ToString(FK_PM_Site_Information)) + "&loc=" + Request.QueryString["loc"]);
 
         }
-        //Equiptment type 'Paint Booth' is selected then Save Data in PM_Equipment_Spray_Booth table
+        //Equipment type 'Paint Booth' is selected then Save Data in PM_Equipment_Spray_Booth table
         else if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "paint booth")
         {
             clsPM_Equipment objPM_Equipment = new clsPM_Equipment();
@@ -2035,7 +2044,7 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
             Response.Redirect("Equipment.aspx?op=view&id=" + Encryption.Encrypt(Convert.ToString(PM_Equipment)) + "&fid=" + Encryption.Encrypt(Convert.ToString(FK_PM_Site_Information)) + "&loc=" + Request.QueryString["loc"]);
 
         }
-        //Equiptment type 'Paint Booth' is selected then Save Data in PM_Equipment_Prep_Station table
+        //Equipment type 'Paint Booth' is selected then Save Data in PM_Equipment_Prep_Station table
         else if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "prep station")
         {
             clsPM_Equipment objPM_Equipment = new clsPM_Equipment();
@@ -2082,7 +2091,7 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
             Response.Redirect("Equipment.aspx?op=view&id=" + Encryption.Encrypt(Convert.ToString(PM_Equipment)) + "&fid=" + Encryption.Encrypt(Convert.ToString(FK_PM_Site_Information)) + "&loc=" + Request.QueryString["loc"]);
 
         }
-        //Equiptment type 'Oil and Water Separator' is selected then Save Data in PM_Equipment_OWS table
+        //Equipment type 'Oil and Water Separator' is selected then Save Data in PM_Equipment_OWS table
         else if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "oil and water separator")
         {
             SaveOWSData();
@@ -2093,8 +2102,8 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
             Response.Redirect("Equipment.aspx?op=view&id=" + Encryption.Encrypt(Convert.ToString(PM_Equipment)) + "&fid=" + Encryption.Encrypt(Convert.ToString(FK_PM_Site_Information)) + "&loc=" + Request.QueryString["loc"]);
 
         }
-        //Equiptment type 'Hydraulic Lift' is selected then Save Data in PM_Equipment_Hydraulic_Lift table
-        //Equiptment type 'Alignment Rack' is selected then Save Data in PM_Equipment_Hydraulic_Lift table ticket #3142
+        //Equipment type 'Hydraulic Lift' is selected then Save Data in PM_Equipment_Hydraulic_Lift table
+        //Equipment type 'Alignment Rack' is selected then Save Data in PM_Equipment_Hydraulic_Lift table ticket #3142
         else if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "hydraulic lift" || drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "alignment rack")
         {
             RackLiftAsPerEventType();                
@@ -2111,36 +2120,27 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
                 PM_Equipment = (decimal)objPM_Equipment_Hydraulic_Lift.PK_PM_Equipment;
 
             objPM_Equipment_Hydraulic_Lift.PK_PM_Equipment_Hydraulic_Lift = PK_PM_Equipment_Hydraulic_Lift;
-            //objPM_Equipment_Hydraulic_Lift.Description = txtHydraulicLiftDescription.Text.Trim();
-            //objPM_Equipment_Hydraulic_Lift.Oil_Type = txtOil_Type.Text.Trim();
-            //objPM_Equipment_Hydraulic_Lift.Above_Ground = rdoAbove_Ground.SelectedValue;
-            //objPM_Equipment_Hydraulic_Lift.Manufacturer_Name = txtHydraulicLiftManufacture.Text.Trim();
-            ////objPM_Equipment_Hydraulic_Lift.Is_Number_Of_Lifts_At_Location = Convert.ToString(txtIs_Number_Of_Lifts_At_Location.Text.Trim());
-            //if (txtNumber_Of_Lifts_At_Location.Text != "") objPM_Equipment_Hydraulic_Lift.Number_Of_Lifts_At_Location = Convert.ToInt32(txtNumber_Of_Lifts_At_Location.Text.Trim());
-            //objPM_Equipment_Hydraulic_Lift.As_Of_Date_Number = clsGeneral.FormatNullDateToStore(txtAs_Of_Date_Number.Text);
-            //objPM_Equipment_Hydraulic_Lift.Installation_Date = clsGeneral.FormatNullDateToStore(txtHydraulicLift_Installation_Date.Text);
-            //objPM_Equipment_Hydraulic_Lift.Last_Inspection_Date = clsGeneral.FormatNullDateToStore(txtHydraulicLift_Last_Inspection_Date.Text);
-            //objPM_Equipment_Hydraulic_Lift.Any_Inground_Lifts_Been_Removed = rdoAny_Inground_Lifts_Been_Removed.SelectedValue;
-            //objPM_Equipment_Hydraulic_Lift.Documentation_Related_To_Removed_Lifts = rdoDocumentation_Related_To_Removed_Lifts.SelectedValue;
-            objPM_Equipment_Hydraulic_Lift.Use_Same_Dates = Convert.ToString(rdbUseSameDates.SelectedValue);
+            
+            // Commented by Rushabh --- Ticket #3584
+            //objPM_Equipment_Hydraulic_Lift.Use_Same_Dates = Convert.ToString(rdbUseSameDates.SelectedValue);
+            objPM_Equipment_Hydraulic_Lift.Use_Lift_Identifier = Use_Lift_Identifier = ddlHydrolicLifts.SelectedValue;
 
-            //objPM_Equipment_Hydraulic_Lift.Notes = txtHydraulicLiftNotes.Text.Trim();
             objPM_Equipment_Hydraulic_Lift.Update_Date = DateTime.Now;
             objPM_Equipment_Hydraulic_Lift.Updated_By = clsSession.UserID;
             if (PK_PM_Equipment_Hydraulic_Lift > 0)
                 objPM_Equipment_Hydraulic_Lift.Update();
-            if (rdbUseSameDates.SelectedValue == "Y")
+            //if (rdbUseSameDates.SelectedValue == "Y")
+            if(Convert.ToInt32(ddlHydrolicLifts.SelectedValue) > 0)
             {
-                clsPM_Equipment_Hydraulic_Lift_Grid.UpdateBYFK(PK_PM_Equipment_Hydraulic_Lift,clsSession.UserID, DateTime.Now);
+                clsPM_Equipment_Hydraulic_Lift_Grid.UpdateBYFK(PK_PM_Equipment_Hydraulic_Lift,Convert.ToDecimal(ddlHydrolicLifts.SelectedValue),clsSession.UserID, DateTime.Now);
             }
+            
             Upload_File("");
             StrOperation = "view";
-            // BindDetailsForView();
-            // Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
             Response.Redirect("Equipment.aspx?op=view&id=" + Encryption.Encrypt(Convert.ToString(PM_Equipment)) + "&fid=" + Encryption.Encrypt(Convert.ToString(FK_PM_Site_Information)) + "&loc=" + Request.QueryString["loc"]);
 
         }
-        //Equiptment type 'Paint Gun Cleaning Cabinet' is selected then Save Data in PM_Equipment_PGCC table
+        //Equipment type 'Paint Gun Cleaning Cabinet' is selected then Save Data in PM_Equipment_PGCC table
         else if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "paint gun cleaning cabinet")
         {
             clsPM_Equipment objPM_Equipment = new clsPM_Equipment();
@@ -2306,7 +2306,7 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
     }
 
     /// <summary>
-    /// Attachment Control Fill Equiptment Type Selected in DropDownList Wise Bind Attachment Data
+    /// Attachment Control Fill Equipment Type Selected in DropDownList Wise Bind Attachment Data
     /// </summary>
     /// <param name="strValue"></param>
     void Upload_File(string strValue)
@@ -2330,7 +2330,7 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
                 Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);alert('Please save Equipment details first');", true);
             }
         }
-        //Equiptment type 'Paint Booth' is selected then Pass Table Name 'PK_PM_Equipment_Spray_Booth' and return PK_ID from PM_Equipment_Spray_Booth Table
+        //Equipment type 'Paint Booth' is selected then Pass Table Name 'PK_PM_Equipment_Spray_Booth' and return PK_ID from PM_Equipment_Spray_Booth Table
         else if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "paint booth")
         {
             if (PK_PM_Equipment_Spray_Booth > 0)
@@ -2350,7 +2350,7 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
                 Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);alert('Please save Equipment details first');", true);
             }
         }
-        //Equiptment type 'Prep Station' is selected then Pass Table Name 'PK_PM_Equipment_Prep_Station' and return PK_ID from PM_Equipment_Prep_Station Table
+        //Equipment type 'Prep Station' is selected then Pass Table Name 'PK_PM_Equipment_Prep_Station' and return PK_ID from PM_Equipment_Prep_Station Table
         else if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "prep station")
         {
             if (PK_PM_Equipment_Prep_Station > 0)
@@ -2370,7 +2370,7 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
                 Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);alert('Please save Equipment details first');", true);
             }
         }
-        //Equiptment type 'Oil and Water Separator' is selected then Pass Table Name 'PM_Equipment_Tank' and return PK_ID from PM_Equipment_OWS Table
+        //Equipment type 'Oil and Water Separator' is selected then Pass Table Name 'PM_Equipment_Tank' and return PK_ID from PM_Equipment_OWS Table
         else if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "oil and water separator")
         {
             if (PK_PM_Equipment_OWS > 0)
@@ -2391,8 +2391,8 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
                 Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);alert('Please save Equipment details first');", true);
             }
         }
-        //Equiptment type 'Hydraulic Lift' is selected then Pass Table Name 'PK_PM_Equipment_Hydraulic_Lift' and return PK_ID from PM_Equipment_Hydraulic_Lift Table
-        //Equiptment type 'Alignment Rack' is selected then Pass Table Name 'PK_PM_Equipment_Hydraulic_Lift' and return PK_ID from PM_Equipment_Hydraulic_Lift Table
+        //Equipment type 'Hydraulic Lift' is selected then Pass Table Name 'PK_PM_Equipment_Hydraulic_Lift' and return PK_ID from PM_Equipment_Hydraulic_Lift Table
+        //Equipment type 'Alignment Rack' is selected then Pass Table Name 'PK_PM_Equipment_Hydraulic_Lift' and return PK_ID from PM_Equipment_Hydraulic_Lift Table
         else if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "hydraulic lift" || drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "alignment rack")
         {
             if (PK_PM_Equipment_Hydraulic_Lift > 0)
@@ -2412,7 +2412,7 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
                 Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);alert('Please save Equipment details first');", true);
             }
         }
-        //Equiptment type 'Paint Gun Cleaning Cabinet' is selected then Pass Table Name 'PM_Equipment_PGCC' and return PK_ID from PM_Equipment_PGCC Table
+        //Equipment type 'Paint Gun Cleaning Cabinet' is selected then Pass Table Name 'PM_Equipment_PGCC' and return PK_ID from PM_Equipment_PGCC Table
         else if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "paint gun cleaning cabinet")
         {
             if (PK_PM_Equipment_PGCC > 0)

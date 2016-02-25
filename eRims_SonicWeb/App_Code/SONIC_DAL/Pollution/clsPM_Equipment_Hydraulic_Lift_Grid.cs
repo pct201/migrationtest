@@ -822,13 +822,14 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static void UpdateBYFK(decimal FK_PM_Equipment_Hydraulic_Lift, string Updated_By, DateTime Update_Date)
+        public static void UpdateBYFK(decimal FK_PM_Equipment_Hydraulic_Lift, decimal pK_PM_Equipment_Hydraulic_Lift_Grid, string Updated_By, DateTime Update_Date)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("PM_Equipment_Hydraulic_Lift_GridUpdateBYFK");
 
             db.AddInParameter(dbCommand, "FK_PM_Equipment_Hydraulic_Lift", DbType.Decimal, FK_PM_Equipment_Hydraulic_Lift);
             //db.AddInParameter(dbCommand, "Installation_Date", DbType.DateTime, Installation_Date);
+            db.AddInParameter(dbCommand, "PK_PM_Equipment_Hydraulic_Lift_Grid", DbType.Decimal, pK_PM_Equipment_Hydraulic_Lift_Grid);
 
             //db.AddInParameter(dbCommand, "Last_Inspection_Date", DbType.DateTime, Last_Inspection_Date);
             db.AddInParameter(dbCommand, "Updated_By", DbType.String, Updated_By);

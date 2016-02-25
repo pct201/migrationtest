@@ -25,7 +25,6 @@ namespace ERIMS.DAL
         private DateTime? _Completion_Date;
         private string _Updated_By;
         private DateTime? _Updated_Date;
-
         private string _FK_Building_Ids;
         private string _Project_Number;
         private DateTime? _Start_Date;
@@ -61,6 +60,7 @@ namespace ERIMS.DAL
         private string _Roof_Improvement_Details;
         private string _Additional_Replace;
         private string _Other_comments;
+        private decimal? _FK_Building;
         #endregion
 
         #region Public Property
@@ -303,6 +303,12 @@ namespace ERIMS.DAL
         {
             get { return _Other_comments; }
             set { _Other_comments = value; }
+        }
+
+        public decimal? FK_Building
+        {
+            get { return _FK_Building; }
+            set { _FK_Building = value; }
         }
 
         #endregion
@@ -584,6 +590,12 @@ namespace ERIMS.DAL
                     this._Other_comments = null;
                 else
                     this._Other_comments = Convert.ToString(drBuilding_Improvements["Other_comments"]);
+
+                if (drBuilding_Improvements["FK_Building"] == DBNull.Value)
+                    this._FK_Building = null;
+                else
+                    this._FK_Building = Convert.ToDecimal(drBuilding_Improvements["FK_Building"]);
+
             }
             else
             {
@@ -798,6 +810,8 @@ namespace ERIMS.DAL
             else
                 db.AddInParameter(dbCommand, "Other_comments", DbType.String, this._Other_comments);
 
+            db.AddInParameter(dbCommand, "FK_Building", DbType.String, this._FK_Building.HasValue ? this._FK_Building.Value : 0);
+
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
 
@@ -989,6 +1003,8 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Other_comments", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Other_comments", DbType.String, this._Other_comments);
+
+            db.AddInParameter(dbCommand, "FK_Building", DbType.String, this._FK_Building.HasValue ? this._FK_Building.Value : 0);
 
             int i = db.ExecuteNonQuery(dbCommand);
         }

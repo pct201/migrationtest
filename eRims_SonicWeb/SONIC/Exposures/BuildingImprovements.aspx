@@ -354,7 +354,8 @@
                                                         <td align="center" valign="top" width="2%">:
                                                         </td>
                                                         <td align="left" valign="top" colspan="4" width="78%">
-                                                            <asp:ListBox ID="lstBuildingNumber" runat="server" SelectionMode="Multiple" Rows="6" Width="600px"></asp:ListBox>
+                                                            <%--<asp:ListBox ID="lstBuildingNumber" runat="server" SelectionMode="Multiple" Rows="6" Width="600px"></asp:ListBox>--%>
+                                                            <asp:DropDownList ID="ddlBuildingNumber" runat="server"></asp:DropDownList>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -861,7 +862,8 @@
                                                         <td align="center" valign="top" width="2%">:
                                                         </td>
                                                         <td align="left" valign="top" colspan="4" width="78%">
-                                                            <asp:ListBox ID="lstBuildingNumberView" runat="server" SelectionMode="Multiple" Rows="6" Width="600px"></asp:ListBox>
+                                                            <%--<asp:ListBox ID="lstBuildingNumberView" runat="server" SelectionMode="Multiple" Rows="6" Width="600px"></asp:ListBox>--%>
+                                                            <asp:Label ID="lblBuildingNumberView" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>

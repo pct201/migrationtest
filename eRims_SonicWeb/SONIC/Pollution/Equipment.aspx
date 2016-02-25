@@ -1892,13 +1892,23 @@ function ValidateFieldsEquipment(sender, args) {
                                                             <td align="center" valign="top"></td>
                                                             <td align="left" valign="top"></td>
                                                         </tr>
-                                                        <tr>
+                                                        <%--<tr>
                                                             <td align="left" valign="top" colspan="4" width="80%">Apply the Installation and Inspection Dates of the First Installed <span id="spnInstalledLift" runat="server">Lift</span> in the Below
                                                                 Grid to all Installed <span id="spnInstalledLift2" runat="server">Lifts</span> in the Grid?                                                                
                                                             </td>
                                                             <td align="left" valign="top" colspan="2" width="20%">
                                                                 <asp:RadioButtonList ID="rdbUseSameDates" runat="server" SkinID="YesNoType">
                                                                 </asp:RadioButtonList>
+                                                            </td>
+                                                        </tr>--%>
+                                                        <tr>
+                                                            <td align="left" valign="top" colspan="4" width="80%">
+                                                                Apply the Installation and Inspection Dates of the Following <span id="spnInstalledLift" runat="server">Lift</span> in the Below Grid to all Installed
+                                                                 <span id="spnInstalledLift2" runat="server">Lifts</span> in the Grid:
+                                                            </td>
+                                                            <td align="left" valign="top" colspan="2" width="20%">
+                                                                <asp:DropDownList runat="server" ID="ddlHydrolicLifts">
+                                                                </asp:DropDownList>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -3665,8 +3675,11 @@ function ValidateFieldsEquipment(sender, args) {
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td align="left" valign="top" colspan="4" width="80%">Apply the Installation and Inspection Dates of the First Installed <span id="spnvwFirstInstalled" runat="server">Lift</span> in the Below
+                                                            <%--<td align="left" valign="top" colspan="4" width="80%">Apply the Installation and Inspection Dates of the First Installed <span id="spnvwFirstInstalled" runat="server">Lift</span> in the Below
                                                                 Grid to all Installed <span id="spnvwFirstInstalled2" runat="server">Lifts</span> in the Grid?
+                                                            </td>--%>
+                                                            <td align="left" valign="top" colspan="4" width="80%">Apply the Installation and Inspection Dates of the Following  <span id="spnvwFirstInstalled" runat="server">Lift</span> in the Below Grid to 
+                                                                all Installed <span id="spnvwFirstInstalled2" runat="server">Lifts</span> in the Grid: 
                                                             </td>
                                                             <td align="left" valign="top" colspan="2" width="20%">
                                                                 <asp:Label ID="lblUse_Same_Dates" runat="server"></asp:Label>

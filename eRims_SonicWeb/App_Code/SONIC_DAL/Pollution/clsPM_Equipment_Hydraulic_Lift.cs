@@ -19,6 +19,7 @@ namespace ERIMS.DAL
 		private DateTime? _Update_Date;
         private decimal? _PK_PM_Equipment;
         private string _Use_Same_Dates;
+        private string _Use_Lift_Identifier;
 
 		#endregion
 
@@ -82,6 +83,13 @@ namespace ERIMS.DAL
             get{return _Use_Same_Dates;}
             set { _Use_Same_Dates = value; }
         }
+
+        public string Use_Lift_Identifier
+        {
+            get { return _Use_Lift_Identifier; }
+            set { _Use_Lift_Identifier = value; }
+        }
+        
 
 		#endregion
 
@@ -150,7 +158,12 @@ namespace ERIMS.DAL
                 if (drPM_Equipment_Hydraulic_Lift["Use_Same_Dates"] == DBNull.Value)
                     this._Use_Same_Dates = null;
                 else
-                    this._Use_Same_Dates = (string)drPM_Equipment_Hydraulic_Lift["Use_Same_Dates"];			
+                    this._Use_Same_Dates = (string)drPM_Equipment_Hydraulic_Lift["Use_Same_Dates"];
+
+                if (drPM_Equipment_Hydraulic_Lift["Use_Lift_Identifier"] == DBNull.Value)
+                    this._Use_Lift_Identifier = null;
+                else
+                    this._Use_Lift_Identifier = (string)drPM_Equipment_Hydraulic_Lift["Use_Lift_Identifier"];
 		}
 
 		#endregion
@@ -185,6 +198,11 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Use_Same_Dates", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Use_Same_Dates", DbType.String, this._Use_Same_Dates);
+
+            if (string.IsNullOrEmpty(this._Use_Lift_Identifier))
+                db.AddInParameter(dbCommand, "Use_Lift_Identifier", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Use_Lift_Identifier", DbType.String, this._Use_Lift_Identifier);
 
 			// Execute the query and return the new identity value
 			int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -249,6 +267,11 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Use_Same_Dates", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Use_Same_Dates", DbType.String, this._Use_Same_Dates);
+
+            if (string.IsNullOrEmpty(this._Use_Lift_Identifier))
+                db.AddInParameter(dbCommand, "Use_Lift_Identifier", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Use_Lift_Identifier", DbType.String, this._Use_Lift_Identifier);
 
 			db.ExecuteNonQuery(dbCommand);
 		}
