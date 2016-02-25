@@ -131,6 +131,8 @@
                 $('#<%= txtVendor_Address.ClientID%>').val('');
                 $('#<%= txtVendor_Zip_Code.ClientID%>').val('');
                 $('#<%= txtVendor_Telephone.ClientID%>').val('');
+                $('#<%= txtVendor_City.ClientID%>').val('');
+                $("#<%= drpFK_LU_Vendor_State.ClientID%>").val("0");
             }
             else {
                 arr = selectedVal.split('|');
@@ -140,6 +142,14 @@
                 $('#<%= txtVendor_Address.ClientID%>').val(arr[2]);
                 $('#<%= txtVendor_Zip_Code.ClientID%>').val(arr[3]);
                 $('#<%= txtVendor_Telephone.ClientID%>').val(arr[4]);
+                    if (arr[0] == "Examinetics") {
+                        $('#<%= txtVendor_City.ClientID%>').val("Overland Park");
+                        $("#<%= drpFK_LU_Vendor_State.ClientID%>").val("17");
+                    }
+                    else {
+                        $('#<%= txtVendor_City.ClientID%>').val('');
+                        $("#<%= drpFK_LU_Vendor_State.ClientID%>").val('0');
+                    }
             }
                 //$('txtVendor').val(arr[0]);
             });

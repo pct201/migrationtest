@@ -167,38 +167,38 @@ public partial class Attachment_Pollution : System.Web.UI.UserControl
 
     private void SaveAttachmentDetails(clsGeneral.Pollution_Tables AttachmentTable, FileUpload fpFile)
     {
-        if (FK_Field_Value != 0 && Table_Name == "PM_Attachments" && !clsGeneral.IsNull(fpFile.PostedFile.FileName))
-        {
-            DataTable dtEPM_Identification = PM_Site_Information.GetPK_EPM_Identification(Building_ID).Tables[0];
-            if (dtEPM_Identification != null && dtEPM_Identification.Rows.Count > 0)
-            {
-                for (int i = 0; i < dtEPM_Identification.Rows.Count; i++)
-                {
-                    string strUploadPath = AppConfig.strEPMDocumentPath;
-                    string Attachment_Filename = clsGeneral.UploadFile(fpFile, strUploadPath, false, false);
+        //if (FK_Field_Value != 0 && Table_Name == "PM_Attachments" && !clsGeneral.IsNull(fpFile.PostedFile.FileName))
+        //{
+        //    DataTable dtEPM_Identification = PM_Site_Information.GetPK_EPM_Identification(Building_ID).Tables[0];
+        //    if (dtEPM_Identification != null && dtEPM_Identification.Rows.Count > 0)
+        //    {
+        //        for (int i = 0; i < dtEPM_Identification.Rows.Count; i++)
+        //        {
+        //            string strUploadPath = AppConfig.strEPMDocumentPath;
+        //            string Attachment_Filename = clsGeneral.UploadFile(fpFile, strUploadPath, false, false);
 
-                    string strSQL_EPM = "";
-                    strSQL_EPM = strSQL_EPM + "INSERT INTO " + "EPM_Attachments" + Environment.NewLine;
-                    strSQL_EPM = strSQL_EPM + "(" + "FK_EPM_Identification" + "," + Environment.NewLine;
-                    strSQL_EPM = strSQL_EPM + "Attachment_Type" + "," + Environment.NewLine;
-                    strSQL_EPM = strSQL_EPM + "Attachment_Description" + "," + Environment.NewLine;
-                    strSQL_EPM = strSQL_EPM + "Attachment_Filename" + "," + Environment.NewLine;
-                    strSQL_EPM = strSQL_EPM + "Attach_Date" + "," + Environment.NewLine;
-                    strSQL_EPM = strSQL_EPM + "Updated_By" + "," + Environment.NewLine;
-                    strSQL_EPM = strSQL_EPM + "Update_Date)" + Environment.NewLine;
-                    strSQL_EPM = strSQL_EPM + "VALUES(" + Convert.ToString(dtEPM_Identification.Rows[i]["PK_EPM_Identification"]) + "," + Environment.NewLine;
-                    strSQL_EPM = strSQL_EPM + Convert.ToString(drpAttachType.SelectedValue) + "," + Environment.NewLine;
-                    strSQL_EPM = strSQL_EPM + "'" + fpFile.PostedFile.FileName.Substring(fpFile.PostedFile.FileName.LastIndexOf("\\") + 1).Replace("'", "''") + "'," + Environment.NewLine;
-                    strSQL_EPM = strSQL_EPM + "'" + Attachment_Filename.Trim().Replace("'","''") + "'," + Environment.NewLine;
-                    strSQL_EPM = strSQL_EPM + "'" + Convert.ToString(DateTime.Now) + "'," + Environment.NewLine;
-                    strSQL_EPM = strSQL_EPM + (string.IsNullOrEmpty(clsSession.UserID) ? "''" : clsSession.UserID) + "," + Environment.NewLine;
-                    strSQL_EPM = strSQL_EPM + "'" + Convert.ToString(DateTime.Now) + "')";
+        //            string strSQL_EPM = "";
+        //            strSQL_EPM = strSQL_EPM + "INSERT INTO " + "EPM_Attachments" + Environment.NewLine;
+        //            strSQL_EPM = strSQL_EPM + "(" + "FK_EPM_Identification" + "," + Environment.NewLine;
+        //            strSQL_EPM = strSQL_EPM + "Attachment_Type" + "," + Environment.NewLine;
+        //            strSQL_EPM = strSQL_EPM + "Attachment_Description" + "," + Environment.NewLine;
+        //            strSQL_EPM = strSQL_EPM + "Attachment_Filename" + "," + Environment.NewLine;
+        //            strSQL_EPM = strSQL_EPM + "Attach_Date" + "," + Environment.NewLine;
+        //            strSQL_EPM = strSQL_EPM + "Updated_By" + "," + Environment.NewLine;
+        //            strSQL_EPM = strSQL_EPM + "Update_Date)" + Environment.NewLine;
+        //            strSQL_EPM = strSQL_EPM + "VALUES(" + Convert.ToString(dtEPM_Identification.Rows[i]["PK_EPM_Identification"]) + "," + Environment.NewLine;
+        //            strSQL_EPM = strSQL_EPM + Convert.ToString(drpAttachType.SelectedValue) + "," + Environment.NewLine;
+        //            strSQL_EPM = strSQL_EPM + "'" + fpFile.PostedFile.FileName.Substring(fpFile.PostedFile.FileName.LastIndexOf("\\") + 1).Replace("'", "''") + "'," + Environment.NewLine;
+        //            strSQL_EPM = strSQL_EPM + "'" + Attachment_Filename.Trim().Replace("'","''") + "'," + Environment.NewLine;
+        //            strSQL_EPM = strSQL_EPM + "'" + Convert.ToString(DateTime.Now) + "'," + Environment.NewLine;
+        //            strSQL_EPM = strSQL_EPM + (string.IsNullOrEmpty(clsSession.UserID) ? "''" : clsSession.UserID) + "," + Environment.NewLine;
+        //            strSQL_EPM = strSQL_EPM + "'" + Convert.ToString(DateTime.Now) + "')";
 
-                    Database db = DatabaseFactory.CreateDatabase();
-                    db.ExecuteNonQuery(System.Data.CommandType.Text, strSQL_EPM);
-                }
-            }
-        }
+        //            Database db = DatabaseFactory.CreateDatabase();
+        //            db.ExecuteNonQuery(System.Data.CommandType.Text, strSQL_EPM);
+        //        }
+        //    }
+        //}
 
         // PK and table must be specified, also attachment type must be selected and file must be uploaded.        
         if (FK_Field_Value != 0 && !clsGeneral.IsNull(AttachmentTable) && !clsGeneral.IsNull(fpFile.PostedFile.FileName))

@@ -325,11 +325,6 @@ public partial class SONIC_Pollution_Waste_Disposal_Waste_Removal : clsBasePage
         objPM_Waste_Removal.Apply_To_Location = rdoApply_To_Location.SelectedValue;
         objPM_Waste_Removal.EPA_ID_Number = txtEpaIdNumber.Text.Trim();
 
-        //SLT_Safety_Walk_Responses_Departments objdepartmnt = new SLT_Safety_Walk_Responses_Departments();
-        clsPM_Hazardous_Waste_Codes_Mapping objWaste_Codes = new clsPM_Hazardous_Waste_Codes_Mapping();
-        //if (GetSelectedItemString(lstHWCodes, false) != "")
-         objWaste_Codes.Insert(PK_PM_Waste_Removal, GetSelectedItemString(lstHWCodes, false));
-
         decimal _retVal;
         if (PK_PM_Waste_Removal > 0)
         {
@@ -339,6 +334,8 @@ public partial class SONIC_Pollution_Waste_Disposal_Waste_Removal : clsBasePage
             Attachment.FK_Field_Value = Convert.ToInt32(PK_PM_Waste_Removal);
             Attachment.FK_Field_Name = "FK_PM_Waste_Removal";
             Attachment.Add(clsGeneral.Pollution_Tables.PM_Waste_Removal_Attachments);
+            clsPM_Hazardous_Waste_Codes_Mapping objWaste_Codes = new clsPM_Hazardous_Waste_Codes_Mapping();
+            objWaste_Codes.Insert(PK_PM_Waste_Removal, GetSelectedItemString(lstHWCodes, false));
             Response.Redirect("Waste_Disposal_Waste_Removal.aspx?op=view&id=" + Encryption.Encrypt(Convert.ToString(PK_PM_Waste_Removal)) + "&fid=" + Encryption.Encrypt(Convert.ToString(FK_PM_Site_Information)) + "&loc=" + Encryption.Encrypt(Convert.ToString(FK_LU_Location_ID)));
         }
         else
@@ -349,9 +346,13 @@ public partial class SONIC_Pollution_Waste_Disposal_Waste_Removal : clsBasePage
             Attachment.FK_Field_Value = Convert.ToInt32(PK_PM_Waste_Removal);
             Attachment.FK_Field_Name = "FK_PM_Waste_Removal";
             Attachment.Add(clsGeneral.Pollution_Tables.PM_Waste_Removal_Attachments);
+            clsPM_Hazardous_Waste_Codes_Mapping objWaste_Codes = new clsPM_Hazardous_Waste_Codes_Mapping();
+            objWaste_Codes.Insert(PK_PM_Waste_Removal, GetSelectedItemString(lstHWCodes, false));
             if (!IsFromAdd)
                 Response.Redirect("Waste_Disposal_Waste_Removal.aspx?op=view&id=" + Encryption.Encrypt(Convert.ToString(PK_PM_Waste_Removal)) + "&fid=" + Encryption.Encrypt(Convert.ToString(FK_PM_Site_Information)) + "&loc=" + Encryption.Encrypt(Convert.ToString(FK_LU_Location_ID)));
         }
+
+        
     }
 
     /// <summary>
