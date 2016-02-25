@@ -116,10 +116,12 @@ public partial class Controls_Attachment_OC_Attachment : System.Web.UI.UserContr
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
             LinkButton lnkDocName = (LinkButton)e.Row.FindControl("lnkDocName");
-
             string strFileName = DataBinder.Eval(e.Row.DataItem, "File_Name").ToString();
-
             lnkDocName.OnClientClick = "javascript:openWindow('../../Download.aspx?fname=" + Encryption.Encrypt(strFileName) + "&SLT=RP_Docs');return false;";
+
+            LinkButton lnkEmail = (LinkButton)e.Row.FindControl("lnkEmail");
+            string strPK_ID = DataBinder.Eval(e.Row.DataItem, "PK_Attachments").ToString();
+            lnkEmail.OnClientClick = "javascript:ShowDialog('" + AppConfig.SiteURL + "SONIC/Exposures/AM_Attachment_Mail.aspx?OC_Attch_Id=" + Encryption.Encrypt(strPK_ID) + "');return false;";
         }
     }
 
@@ -152,12 +154,15 @@ public partial class Controls_Attachment_OC_Attachment : System.Web.UI.UserContr
                     if (File.Exists(AppConfig.PM_Respiratory_Protection_AttachmentsDocPath + strArgs[1]))
                         File.Delete(AppConfig.PM_Respiratory_Protection_AttachmentsDocPath + strArgs[1]);
                 }
-                else if (AttachmentTable == "nihir")
+                else if (AttachmentTable == "PM_Hearing_Conservation_Attachments")
                 {
+                    PM_Hearing_Conservation_Attachments.Delete(clsGeneral.GetDecimal(strArgs[0]));
+                    if (File.Exists(AppConfig.PM_Hearing_ConservationAttachmentsDocPath + strArgs[1]))
+                        File.Delete(AppConfig.PM_Hearing_ConservationAttachmentsDocPath + strArgs[1]);
 
                 }
                 BindGridFiles();
-                //Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:ShowPanel(" + PanelNumber + ");", true);
+                Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:ShowPanel(" + PanelNumber + ");", true);
             }
         }
     }
@@ -202,9 +207,11 @@ public partial class Controls_Attachment_OC_Attachment : System.Web.UI.UserContr
                 //btnViewPDF.Visible =(dtAttachment.Rows.Count > 0);
                 //btnEmail.Visible = (dtAttachment.Rows.Count > 0);
             }
-            else if (AttachmentTable == "nihir")
+            else if (AttachmentTable == "PM_Hearing_Conservation_Attachments")
             {
-                
+                DataTable dtAttachment = PM_Hearing_Conservation_Attachments.SelectByFK(PK_ID).Tables[0];
+                gvFiles.DataSource = dtAttachment;
+                gvFiles.DataBind();
             }
             //Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:ShowPanel(" + PanelNumber + ");", true);
         }
@@ -458,7 +465,7 @@ public partial class Controls_Attachment_OC_Attachment : System.Web.UI.UserContr
         SaveAttachment(Attachment10);
         BindGridFiles();
         if (Is_AttachmentExists)
-            Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:alert('Attachment saved successfully');", true);
+            Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:alert('Attachment saved successfully');ShowPanel(" + PanelNumber + ");", true);
         //tblAddAttachment.Visible = false;
         //tblFileList.Visible = tblAddEditAttachment.Visible = false;
     }
@@ -488,6 +495,27 @@ public partial class Controls_Attachment_OC_Attachment : System.Web.UI.UserContr
                     txtAttachmentNameAdd.Text = string.Empty;
                 }
             }
+            else if (AttachmentTable == "PM_Hearing_Conservation_Attachments")
+            {
+                PM_Hearing_Conservation_Attachments objPM_Hearing_Conservation_Attachments = new PM_Hearing_Conservation_Attachments();
+
+                objPM_Hearing_Conservation_Attachments.Updated_By = clsSession.UserID;
+                objPM_Hearing_Conservation_Attachments.Update_Date = DateTime.Now;
+                objPM_Hearing_Conservation_Attachments.FK_PM_Hearing_Conservation = PK_ID;
+                if (!string.IsNullOrEmpty(obj.FileBrowser.PostedFile.FileName))
+                {
+                    TextBox txtAttachmentNameAdd = (TextBox)obj.FindControl("txtAttachmentNameAdd");
+                    if (txtAttachmentNameAdd != null)
+                        objPM_Hearing_Conservation_Attachments.Document_Name = txtAttachmentNameAdd.Text;
+                    string strUploadPath = AppConfig.PM_Respiratory_Protection_AttachmentsDocPath;
+                    objPM_Hearing_Conservation_Attachments.File_Name = clsGeneral.UploadFile(obj.FileBrowser, strUploadPath, false, false);
+
+                    PK_AM_Attachments = objPM_Hearing_Conservation_Attachments.Insert();
+                    Is_AttachmentExists = true;
+                    txtAttachmentNameAdd.Text = string.Empty;
+                }
+            }
+
             string strFolder = string.Empty; //strNewFileName = string.Empty;// strFileToAttach = string.Empty;
            
             //clsAM_Attachments objAM_Attachments = new clsAM_Attachments();
