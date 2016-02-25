@@ -194,31 +194,54 @@ public partial class DealershipDetail : System.Web.UI.Page
         if (objSum != null)
         {
             decimal _intScore = Convert.ToDecimal(objSum);
+            _intScore = (_intScore / 200) * 100;
             score = _intScore;
-            if (_intScore > 189 && _intScore <= 200)
+            //if (_intScore > 189 && _intScore <= 200)
+            //{
+            //    strResult = "All Pro";
+            //}
+            //else if (_intScore > 179 && _intScore <= 189)
+            //{
+            //    strResult = "Starter";
+            //}
+            //else if (_intScore > 159 && _intScore <= 179)
+            //{
+            //    strResult = "Second String";
+            //}
+            //else if (_intScore > 139 && _intScore <= 159)
+            //{
+            //    strResult = "Water boy";
+            //}
+            //else if (_intScore >= 0 && _intScore <= 139)
+            //{
+            //    strResult = "Spectator";
+            //}            
+
+            ////
+            if (_intScore > 94.5m && _intScore <= 100)
             {
                 strResult = "All Pro";
             }
-            else if (_intScore > 179 && _intScore <= 189)
+            else if (_intScore > 89.5m && _intScore <= 94.5m)
             {
                 strResult = "Starter";
             }
-            else if (_intScore > 159 && _intScore <= 179)
+            else if (_intScore > 79.5m && _intScore <= 89.5m)
             {
                 strResult = "Second String";
             }
-            else if (_intScore > 139 && _intScore <= 159)
+            else if (_intScore > 69.5m && _intScore <= 79.5m)
             {
                 strResult = "Water boy";
             }
-            else if (_intScore >= 0 && _intScore <= 139)
+            else if (_intScore >= 0 && _intScore <= 69.5m)
             {
                 strResult = "Spectator";
             }            
         }
 
         if (score > 0)
-            lblResultingScore.Text = string.Format("{0:N0}", score) + " (" + strResult + ")";
+            lblResultingScore.Text = string.Format("{0:N2}", score) + " (" + strResult + ")";
 
     }
     public void MergeColumn(ref DataTable dtBase, DataTable dtDestination, int GraphType)

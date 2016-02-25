@@ -178,27 +178,56 @@ public partial class DashboardGraph : clsBasePage
             decimal decAvg = Convert.ToDecimal(dtResult.Compute("AVG(Score)", " Region = '" + Convert.ToString(dtRegion.Rows[_iRow]["region"]) + "' "));
             decimal.TryParse(Convert.ToString(dtResult.Compute("SUM(Score)", " Region = '" + Convert.ToString(dtRegion.Rows[_iRow]["region"]) + "' ")), out _intScore);
 
-            if (_intScore > 189 && _intScore <= 200)
+            //if (_intScore > 189 && _intScore <= 200)
+            //{
+            //    dtRegion.Rows[_iRow][2] = "All Pro";
+            //    dtRegion.Rows[_iRow][1] = _intScore;
+            //}
+            //else if (_intScore > 179 && _intScore <= 189)
+            //{
+            //    dtRegion.Rows[_iRow][2] = "Starter";
+            //    dtRegion.Rows[_iRow][1] = _intScore;
+            //}
+            //else if (_intScore > 159 && _intScore <= 179)
+            //{
+            //    dtRegion.Rows[_iRow][2] = "Second String";
+            //    dtRegion.Rows[_iRow][1] = _intScore;
+            //}
+            //else if (_intScore > 139 && _intScore <= 159)
+            //{
+            //    dtRegion.Rows[_iRow][2] = "Water boy";
+            //    dtRegion.Rows[_iRow][1] = _intScore;
+            //}
+            //else if (_intScore >= 0 && _intScore <= 139)
+            //{
+            //    dtRegion.Rows[_iRow][2] = "Spectator";
+            //    dtRegion.Rows[_iRow][1] = _intScore;
+            //}
+
+            ////Change as per bug-tracker #3585.
+            _intScore = (_intScore / 200) * 100;
+
+            if (_intScore > 94.5M && _intScore <= 100)
             {
                 dtRegion.Rows[_iRow][2] = "All Pro";
                 dtRegion.Rows[_iRow][1] = _intScore;
             }
-            else if (_intScore > 179 && _intScore <= 189)
+            else if (_intScore > 89.5m && _intScore <= 94.5m)
             {
                 dtRegion.Rows[_iRow][2] = "Starter";
                 dtRegion.Rows[_iRow][1] = _intScore;
             }
-            else if (_intScore > 159 && _intScore <= 179)
+            else if (_intScore > 79.5m && _intScore <= 89.5m)
             {
                 dtRegion.Rows[_iRow][2] = "Second String";
                 dtRegion.Rows[_iRow][1] = _intScore;
             }
-            else if (_intScore > 139 && _intScore <= 159)
+            else if (_intScore > 69.5m && _intScore <= 79.5m)
             {
                 dtRegion.Rows[_iRow][2] = "Water boy";
                 dtRegion.Rows[_iRow][1] = _intScore;
             }
-            else if (_intScore >= 0 && _intScore <= 139)
+            else if (_intScore >= 0 && _intScore <= 69.5m)
             {
                 dtRegion.Rows[_iRow][2] = "Spectator";
                 dtRegion.Rows[_iRow][1] = _intScore;
@@ -212,7 +241,7 @@ public partial class DashboardGraph : clsBasePage
             strHeader = "Aggregate Performance";
 
         // Set Chart property 
-        strChartXML.Append("<chart caption='" + strHeader + "' xAxisName='Region' yAxisName='Level' useRoundEdges='1' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='240' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
+        strChartXML.Append("<chart caption='" + strHeader + "' xAxisName='Region' yAxisName='Level' useRoundEdges='1' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='120' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
 
         decimal _devAvg = 0;
         //decimal.TryParse(Convert.ToString(dtAverage.Compute("AVG(Score)", "")), out _devAvg);
@@ -226,11 +255,11 @@ public partial class DashboardGraph : clsBasePage
 
         // set Tread Lines
         strChartXML.Append("<trendLines>");
-        strChartXML.Append("<line startValue='139' color='49563A' displayvalue='Spectator' /> ");
-        strChartXML.Append("<line startValue='159' color='49563A' displayvalue='Water boy' /> ");
-        strChartXML.Append("<line startValue='179' color='49563A' displayvalue='Second String' /> ");
-        strChartXML.Append("<line startValue='189' color='49563A' displayvalue='Starter' /> ");
-        strChartXML.Append("<line startValue='200' color='49563A' displayvalue='All Pro' /> ");
+        strChartXML.Append("<line startValue='69.5' color='49563A' displayvalue='Spectator' /> ");
+        strChartXML.Append("<line startValue='79.5' color='49563A' displayvalue='Water boy' /> ");
+        strChartXML.Append("<line startValue='89.5' color='49563A' displayvalue='Second String' /> ");
+        strChartXML.Append("<line startValue='94.5' color='49563A' displayvalue='Starter' /> ");
+        strChartXML.Append("<line startValue='100' color='49563A' displayvalue='All Pro' /> ");
         strChartXML.Append("<line startValue='" + string.Format("{0:N2}", _devAvg) + "' color='FF0000' displayvalue='Company Average' valueOnRight='1' thickness='2' /> ");
 
         strChartXML.Append("</trendLines>");

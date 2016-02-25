@@ -1752,6 +1752,8 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
 
             Score = Convert.ToDecimal(dt.Rows[i]["PreviousScore"]);
             ToolTip = Convert.ToDecimal(dt.Rows[i]["ToolTip_Previous"]);
+            if (Convert.ToString(dt.Rows[i]["Type"]).ToLower() == "aggregate performance")
+                ToolTip = (ToolTip / 200) * 100;
             //strLink = Server.UrlEncode("javascript:TotalCasesByMonth(" + i.ToString() + "," + (DateTime.Now.Year - 1).ToString() + ");").Replace("'", "%26apos;").Replace("&", "%26");
             strLink = string.Empty;
             strChartXML.Append("<set value='" + Score.ToString() + "'  link='" + strLink + "' toolText='" + ToolTip.ToString() + "' />");
@@ -1771,6 +1773,8 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
 
             Score = Convert.ToDecimal(dt.Rows[i]["Score"]);
             ToolTip = Convert.ToDecimal(dt.Rows[i]["ToolTip_Current"]);
+            if (Convert.ToString(dt.Rows[i]["Type"]).ToLower() == "aggregate performance")
+                ToolTip = (ToolTip / 200) * 100;
             //Color = Convert.ToString(dtSeries1.Rows[i - 1]["Color"]);            
             //strLink = Server.UrlEncode("javascript:TotalCasesByMonth(" + i.ToString() + "," + (DateTime.Now.Year).ToString() + ");").Replace("'", "%26apos;").Replace("&", "%26");
             strLink = string.Empty;

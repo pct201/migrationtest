@@ -5,8 +5,9 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
 using ERIMS.DAL;
+using System.Web.UI.HtmlControls;
 
-public partial class DashBoard_SafetyFirstAwardReport : System.Web.UI.Page
+public partial class DashBoard_SafetyFirstAwardReport : clsBasePage
 {
     #region "Page Events"
 
@@ -77,19 +78,60 @@ public partial class DashBoard_SafetyFirstAwardReport : System.Web.UI.Page
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
             Label lblResultingScore = (Label)e.Row.FindControl("lblResultingScore");
+            Label lblFinal_ScoreCard = (Label)e.Row.FindControl("lblFinal_ScoreCard");
+            HtmlTableCell tdResult = (HtmlTableCell)e.Row.FindControl("tdResult");
+            HtmlTableCell tdScoreCard = (HtmlTableCell)e.Row.FindControl("tdScoreCard");
             double decTotalScore = 0;
             double.TryParse(Convert.ToString(DataBinder.Eval(e.Row.DataItem, "ResultingScore")), out decTotalScore);
 
+            int Is_Total = 0;
+            int.TryParse(Convert.ToString(DataBinder.Eval(e.Row.DataItem, "Is_Total")), out Is_Total);
+
+
             if (decTotalScore > 189 && decTotalScore <= 200)
+            {
                 lblResultingScore.Text = decTotalScore.ToString() + " (All Pro)";
+                lblFinal_ScoreCard.Text = (decTotalScore / 200) * 100 + " (All Pro)";
+                tdResult.BgColor = "green";
+                tdScoreCard.BgColor = "green";
+            }
             else if (decTotalScore > 179 && decTotalScore <= 189)
+            {
                 lblResultingScore.Text = decTotalScore.ToString() + " (Starter)";
+                lblFinal_ScoreCard.Text = (decTotalScore / 200) * 100 + " (Starter)";
+                tdResult.BgColor = "blue";
+                tdScoreCard.BgColor = "blue";
+            }
             else if (decTotalScore > 159 && decTotalScore <= 179)
+            {
                 lblResultingScore.Text = decTotalScore.ToString() + " (Second String)";
+                lblFinal_ScoreCard.Text = (decTotalScore / 200) * 100 + " (Second String)";
+                tdResult.BgColor = "yellow";
+                tdScoreCard.BgColor = "Yellow";
+            }
             else if (decTotalScore > 139 && decTotalScore <= 159)
+            {
                 lblResultingScore.Text = decTotalScore.ToString() + " (Water boy)";
+                lblFinal_ScoreCard.Text = (decTotalScore / 200) * 100 + " (Water boy)";
+                tdResult.BgColor = "orange";
+                tdScoreCard.BgColor = "orange";
+            }
             else if (decTotalScore >= 0 && decTotalScore <= 139)
+            {
                 lblResultingScore.Text = decTotalScore.ToString() + " (Spectator)";
+                lblFinal_ScoreCard.Text = (decTotalScore / 200) * 100 + " (Spectator)";
+                tdResult.BgColor = "red";
+                tdScoreCard.BgColor = "red";
+            }
+
+            if (Is_Total == 1)
+            {
+                tdResult.BgColor = "blue";
+                tdScoreCard.BgColor = "blue";
+                //e.Row.Cells[0].BackColor = System.Drawing.Color.Blue;
+                e.Row.Cells[0].Style.Add("background-color", "blue");
+                e.Row.Cells[0].Style.Add("color", "white");
+            }
         }
     }
     #endregion

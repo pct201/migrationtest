@@ -174,27 +174,56 @@ public partial class ScorecardByLocation : System.Web.UI.Page
             decimal decAvg = Convert.ToDecimal(dtResult.Compute("AVG(Score)", " DBA = '" + Convert.ToString(dtRegion.Rows[_iRow]["DBA"]).Replace("'", "''") + "' "));
             decimal.TryParse(Convert.ToString(dtResult.Compute("SUM(Score)", " DBA = '" + Convert.ToString(dtRegion.Rows[_iRow]["DBA"]).Replace("'", "''") + "' ")), out _intScore);
 
-            if (_intScore > 189 && _intScore <= 200)
+            //if (_intScore > 189 && _intScore <= 200)
+            //{
+            //    dtRegion.Rows[_iRow]["Performance"] = "All Pro";
+            //    dtRegion.Rows[_iRow]["Score"] = _intScore;
+            //}
+            //else if (_intScore > 179 && _intScore <= 189)
+            //{
+            //    dtRegion.Rows[_iRow]["Performance"] = "Starter";
+            //    dtRegion.Rows[_iRow]["Score"] = _intScore;
+            //}
+            //else if (_intScore > 159 && _intScore <= 179)
+            //{
+            //    dtRegion.Rows[_iRow]["Performance"] = "Second String";
+            //    dtRegion.Rows[_iRow]["Score"] = _intScore;
+            //}
+            //else if (_intScore > 139 && _intScore <= 159)
+            //{
+            //    dtRegion.Rows[_iRow]["Performance"] = "Water boy";
+            //    dtRegion.Rows[_iRow]["Score"] = _intScore;
+            //}
+            //else if (_intScore >= 0 && _intScore <= 139)
+            //{
+            //    dtRegion.Rows[_iRow]["Performance"] = "Spectator";
+            //    dtRegion.Rows[_iRow]["Score"] = _intScore;
+            //}
+
+            ////Change as per bug-tracker #3585.
+            _intScore = (_intScore / 200) * 100;
+
+            if (_intScore > 94.5m && _intScore <= 100)
             {
                 dtRegion.Rows[_iRow]["Performance"] = "All Pro";
                 dtRegion.Rows[_iRow]["Score"] = _intScore;
             }
-            else if (_intScore > 179 && _intScore <= 189)
+            else if (_intScore > 89.5m && _intScore <= 94.5m)
             {
                 dtRegion.Rows[_iRow]["Performance"] = "Starter";
                 dtRegion.Rows[_iRow]["Score"] = _intScore;
             }
-            else if (_intScore > 159 && _intScore <= 179)
+            else if (_intScore > 79.5m && _intScore <= 89.5m)
             {
                 dtRegion.Rows[_iRow]["Performance"] = "Second String";
                 dtRegion.Rows[_iRow]["Score"] = _intScore;
             }
-            else if (_intScore > 139 && _intScore <= 159)
+            else if (_intScore > 69.5m && _intScore <= 79.5m)
             {
                 dtRegion.Rows[_iRow]["Performance"] = "Water boy";
                 dtRegion.Rows[_iRow]["Score"] = _intScore;
             }
-            else if (_intScore >= 0 && _intScore <= 139)
+            else if (_intScore >= 0 && _intScore <= 69.5m)
             {
                 dtRegion.Rows[_iRow]["Performance"] = "Spectator";
                 dtRegion.Rows[_iRow]["Score"] = _intScore;
@@ -204,9 +233,9 @@ public partial class ScorecardByLocation : System.Web.UI.Page
 
         // for new version
         string strWidth = dtRegion.Rows.Count > 25 ? "950" : "800";
-        strChartXML.Append("<chart caption='Aggregate Performance for Region " + Region + "' xAxisName='Location' yAxisName='Level' useRoundEdges='1' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='240' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
+        strChartXML.Append("<chart caption='Aggregate Performance for Region " + Region + "' xAxisName='Location' yAxisName='Level' useRoundEdges='1' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='120' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
 
-        // Set Lable
+        // Set Label
         for (int i = 0; i < dtRegion.Rows.Count; i++)
         {
             //strlink = Server.UrlEncode("JavaScript:OpenPopupForAggreage(\"" + Region + "\",\"" + dtRegion.Rows[i]["DBA"].ToString() + "\",\"" + dtRegion.Rows[i]["Sonic_Location_Code"].ToString() + "\",\"" + Year.ToString() + "\",\"1\");").Replace("'", "%26apos;");            
@@ -530,11 +559,11 @@ public partial class ScorecardByLocation : System.Web.UI.Page
 
         // set Tread Lines
         strChartXML.Append("<trendLines>");
-        strChartXML.Append("<line startValue='139' color='666666' displayvalue='Spectator' /> ");
-        strChartXML.Append("<line startValue='159' color='666666' displayvalue='Water boy' /> ");
-        strChartXML.Append("<line startValue='179' color='666666' displayvalue='Second String' /> ");
-        strChartXML.Append("<line startValue='189' color='666666' displayvalue='Starter' /> ");
-        strChartXML.Append("<line startValue='200' color='666666' displayvalue='All Pro' /> ");
+        strChartXML.Append("<line startValue='69.5' color='666666' displayvalue='Spectator' /> ");
+        strChartXML.Append("<line startValue='79.5' color='666666' displayvalue='Water boy' /> ");
+        strChartXML.Append("<line startValue='89.5' color='666666' displayvalue='Second String' /> ");
+        strChartXML.Append("<line startValue='94.5' color='666666' displayvalue='Starter' /> ");
+        strChartXML.Append("<line startValue='100' color='666666' displayvalue='All Pro' /> ");
 
         if (Average != 0 && decCompAverage > 0 && (Math.Abs(Average - decCompAverage) <= 0.75M))
         {

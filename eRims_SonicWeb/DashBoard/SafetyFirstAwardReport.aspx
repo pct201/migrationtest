@@ -108,8 +108,8 @@
                                                         <td>
                                                             &nbsp;
                                                         </td>
-                                                        <td colspan="8" align="center">
-                                                            <b>Safety First Award Report</b>
+                                                        <td colspan="9" align="center">
+                                                            <b>Risk Management Playbook Scorecard</b>
                                                         </td>
                                                         <td align="right">
                                                             <b><%= DateTime.Today.ToString("MM/dd/yyyy") %></b>
@@ -146,6 +146,9 @@
                                                         <td align="center" width="150px">
                                                             Resulting Score
                                                         </td>
+                                                        <td align="center" width="150px">
+                                                            Final Playbook Scorecard (100 Point Program)
+                                                        </td>
                                                     </tr>
                                                 </table>
                                             </HeaderTemplate>
@@ -179,8 +182,11 @@
                                                         <td align="center" width="150px">
                                                             <asp:Label ID="lblTotalAggregateScore" runat="server" Text='<%#Eval("TotalScore") %>'></asp:Label>
                                                         </td>
-                                                        <td align="center" width="150px">
+                                                        <td align="center" width="150px" id="tdResult" runat="server">
                                                             <asp:Label ID="lblResultingScore" runat="server" Text=''></asp:Label>
+                                                        </td>
+                                                         <td align="center" width="150px" id="tdScoreCard" runat="server">
+                                                            <asp:Label ID="lblFinal_ScoreCard" runat="server" Text=''></asp:Label>
                                                         </td>
                                                     </tr>
                                                 </table>
