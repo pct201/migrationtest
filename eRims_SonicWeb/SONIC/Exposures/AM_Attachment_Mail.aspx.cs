@@ -49,6 +49,22 @@ public partial class SONIC_Exposures_AM_Attachment_Mail : System.Web.UI.Page
                 DocName = strTemp;
                 lblAttachment.Text = strFileNameList;
             }
+            else if (!string.IsNullOrEmpty(Request.QueryString["OC_Attch_Id"]))
+            {
+                DataTable dtAttachments = clsPM_Respiratory_Protection_Attachments.SelectAttachmentByPK(clsGeneral.GetDecimal
+                    (Encryption.Decrypt(Request.QueryString["OC_Attch_Id"]).ToString())).Tables[0];
+
+                string strRpFileName = Convert.ToString(dtAttachments.Rows[0]["NewAttachment_Name"]);
+                string strOriginalFileName = Convert.ToString(dtAttachments.Rows[0]["File_Name"]);
+                string strRpFilePath = AppConfig.PM_Respiratory_Protection_AttachmentsDocPath + strOriginalFileName;
+                lblAttachment.Text = strRpFileName;
+
+                m_arrGlobalPath = new string[Request.QueryString["OC_Attch_Id"].ToString().Split(',').Length];
+                m_arrGlobalPath[0] = strRpFilePath;
+                ArrayList strTemp = new ArrayList();
+                strTemp.AddRange(m_arrGlobalPath);
+                DocName = strTemp;
+            }
         }
     }
     #endregion

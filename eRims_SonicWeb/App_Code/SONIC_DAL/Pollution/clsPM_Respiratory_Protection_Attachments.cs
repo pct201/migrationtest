@@ -273,5 +273,15 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
-	}
+
+        public static DataSet SelectAttachmentByPK(decimal PK_PM_Respiratory_Protection_Attachments)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("PM_Respiratory_AttachmentsSelectByPK");
+
+            db.AddInParameter(dbCommand, "PK_PM_Respiratory_Protection_Attachments", DbType.Decimal, PK_PM_Respiratory_Protection_Attachments);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+    }
 }
