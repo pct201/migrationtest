@@ -584,7 +584,7 @@ public partial class DashboardGraphCal : clsBasePage
     {
         DataRow drCal = dtResult.NewRow();
         drCal[0] = "Western Region";
-        drCal[1] = dtResult.Compute("AVG(Score)", "Region in ('NCA','SCA')");
+        drCal[1] = string.IsNullOrEmpty(Convert.ToString(dtResult.Compute("AVG(Score)", "Region in ('NCA','SCA')"))) ? 0 : dtResult.Compute("AVG(Score)", "Region in ('NCA','SCA')");
         dtResult.Rows.Add(drCal);
 
         dtResult.DefaultView.RowFilter = "Region not in ('NCA','SCA')";
