@@ -147,6 +147,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Accident_Year", DbType.String, Accident_Year);
             db.AddInParameter(dbCommand, "Claim_Type", DbType.String, Claim_Type);
             db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Int32, clsSession.UserID);
+            dbCommand.CommandTimeout = 100000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -160,6 +161,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Accident_En_Date", DbType.DateTime, Accident_En_Date);
             db.AddInParameter(dbCommand, "Claim_Type", DbType.String, strClaimType);
             db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Int32, clsSession.UserID);
+            dbCommand.CommandTimeout = 100000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -172,6 +174,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Claim_Type", DbType.String, strClaimType);
             db.AddInParameter(dbCommand, "year", DbType.String, strYears);
             db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Int32, clsSession.UserID);
+            dbCommand.CommandTimeout = 100000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -195,7 +198,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "dt_LossFrom3", DbType.DateTime, dtLossFrom3);
             db.AddInParameter(dbCommand, "dt_LossTo3", DbType.DateTime, dtLossTo3);
             db.AddInParameter(dbCommand, "PK_Security_Id", DbType.Decimal, clsSession.UserID);
-
+            dbCommand.CommandTimeout = 100000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -219,7 +222,7 @@ namespace ERIMS.DAL
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rpt_Reconciliation_Report_New");
-            dbCommand.CommandTimeout = 1000;
+            dbCommand.CommandTimeout = 100000;
             db.AddInParameter(dbCommand, "FilePath", DbType.String, FilePath);
             return db.ExecuteDataSet(dbCommand);
         }
@@ -228,7 +231,7 @@ namespace ERIMS.DAL
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptFROIRecapReport");
-            dbCommand.CommandTimeout = 1000;
+            dbCommand.CommandTimeout = 100000;
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
             db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
             db.AddInParameter(dbCommand, "LocaionDBA", DbType.String, LocationDBA);
