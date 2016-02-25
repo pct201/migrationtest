@@ -9,6 +9,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using ERIMS.DAL;
 using Microsoft.VisualBasic.FileIO;
+using System.Collections;
 
 public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
 {
@@ -94,7 +95,7 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
                     filename = AppConfig.strGeneralDocument + "\\" + strUploadedFile;
                     //clsPM_Permits_VOC_Emissions objVOCEmission = new clsPM_Permits_VOC_Emissions();
                     //DataTable dt = objVOCEmission.InsertData(filename).Tables[0];
-                    string paintCategory = string.Empty, subTotalText = string.Empty, subtotalTextUpdate = string.Empty, fkCategoryIds = string.Empty,categoriIds = string.Empty;
+                    string paintCategory = string.Empty, subTotalText = string.Empty, subtotalTextUpdate = string.Empty, fkCategoryIds = string.Empty, categoriIds = string.Empty;
                     int retValue = 0, fK_LU_VOC_Category = 0;
                     int month = Convert.ToInt32(ddlMonth.SelectedItem.Value);
                     int year = Convert.ToInt32(ddlYear.SelectedItem.Value);
@@ -130,6 +131,8 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
                     }
                     #endregion
 
+                    Hashtable htDuplicateItems = new Hashtable();
+
                     if (dt != null && dt.Rows.Count > 0)
                     {
                         foreach (DataRow dr in dt.Rows)
@@ -162,6 +165,19 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
                                 retValue = 0;
                             }
 
+
+                            string tempItem = year.ToString() + "||" + month.ToString() + "||" + fK_LU_VOC_Category.ToString() + "||" + FK_LU_Location.ToString() + "||" + part_Number;
+
+                            if(htDuplicateItems.Contains(tempItem))
+                            {
+                                retValue = 2;
+                            }
+                            else
+                            {
+                                htDuplicateItems.Add(tempItem, retValue);
+                                //retValue = 1;
+                            }
+                            
                             if (retValue == 1 && !string.IsNullOrEmpty(part_Number))
                             {
                                 strFinal = strFinal + "<Section><FK_PM_Permits>" + PK_PM_Permits + "</FK_PM_Permits><Year>" + year + "</Year><Month>" + month + "</Month><Paint_Category>" + fK_LU_VOC_Category + "</Paint_Category><Part_Number>" + Convert.ToString(dr["Part Number"]) + "</Part_Number><Unit>" + Convert.ToString(dr["Unit"]).Replace("\"", "") + "</Unit><Quantity>" + clsGeneral.GetDecimal(dr["Qty"]) + "</Quantity><Gallons>" + clsGeneral.GetDecimal(dr["Gallons"]) + "</Gallons><VOC_Emissions>" + clsGeneral.GetDecimal(dr["VOC Total"]) + "</VOC_Emissions><Updated_By>" + clsSession.UserID + "</Updated_By></Section>";
@@ -211,7 +227,7 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
         {
             Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "alert('Select only CSV File.');", true);
         }
-        
+
     }
 
     /// <summary>
@@ -278,5 +294,5 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
     }
 
     #endregion
-    
+
 }
