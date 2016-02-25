@@ -4980,20 +4980,42 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
 
             if (IsUserInAdministrativeGroup || UserAccessType == AccessType.Administrative_Access || IsUserRLCM)
             {
-                e.Row.Cells[gvMeeting.Columns.Count - 1].Visible = true;
+                LinkButton lnkDelete = (LinkButton)e.Row.Cells[gvMeeting.Columns.Count - 1].FindControl("lnkDelete");
+                if (lnkDelete != null)
+                {
+                    lnkDelete.Visible = true;
+                }
+                //= true;
             }
             else
-            { e.Row.Cells[gvMeeting.Columns.Count - 1].Visible = false; }
-        }
-        else if (e.Row.RowType == DataControlRowType.Header)
-        {
-            if (IsUserInAdministrativeGroup || UserAccessType == AccessType.Administrative_Access || IsUserRLCM)
             {
-                e.Row.Cells[gvMeeting.Columns.Count - 1].Visible = true;
+                LinkButton lnkDelete = (LinkButton)e.Row.Cells[gvMeeting.Columns.Count - 1].FindControl("lnkDelete");
+                if (lnkDelete != null)
+                {
+                    lnkDelete.Visible = false;
+                }
             }
-            else
-            { e.Row.Cells[gvMeeting.Columns.Count - 1].Visible = false; }
         }
+        //else if (e.Row.RowType == DataControlRowType.Header)
+        //{
+        //    if (IsUserInAdministrativeGroup || UserAccessType == AccessType.Administrative_Access || IsUserRLCM)
+        //    {
+        //        LinkButton lnkDelete = (LinkButton)e.Row.Cells[gvMeeting.Columns.Count - 1].FindControl("lnkDelete");
+        //        if(lnkDelete!=null)
+        //        {
+        //            lnkDelete.Visible = true;
+        //        }
+        //                //= true;
+        //    }
+        //    else
+        //    {
+        //        LinkButton lnkDelete = (LinkButton)e.Row.Cells[gvMeeting.Columns.Count - 1].FindControl("lnkDelete");
+        //        if (lnkDelete != null)
+        //        {
+        //            lnkDelete.Visible = false;
+        //        }
+        //    }
+        //}
     }
 
     protected void gvMeeting_Sorting(object sender, GridViewSortEventArgs e)
