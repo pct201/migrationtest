@@ -155,67 +155,67 @@ public partial class SONIC_Pollution_PM_Hearing_Conservation : clsBasePage
     }
     protected void btnSave_Click(object sender, EventArgs e)
     {
-        PM_Hearing_Conservation objPM_Hearing_Conservation = new PM_Hearing_Conservation();
-        objPM_Hearing_Conservation.PK_PM_Hearing_Conservation = PK_PM_Hearing_Conservation;
-        objPM_Hearing_Conservation.FK_PM_Site_Information = FK_PM_Site_Information;
-        objPM_Hearing_Conservation.Date_Of_Test = clsGeneral.FormatNullDateToStore(txtDate_Of_Test.Text);
-        objPM_Hearing_Conservation.FK_LU_Employee = clsGeneral.GetDecimal(ddlFK_LU_Employee.SelectedValue);
-        objPM_Hearing_Conservation.FK_LU_Hearing_Conservation_Test_Type = clsGeneral.GetDecimal(ddlFK_LU_Hearing_Conservation_Test_Type.SelectedValue);
-        if (rdlLocation_Exceed_Noise_Level.SelectedIndex > -1)
-            objPM_Hearing_Conservation.Location_Exceed_Noise_Level = rdlLocation_Exceed_Noise_Level.SelectedValue;
-        else
-            objPM_Hearing_Conservation.Location_Exceed_Noise_Level = "0";
-        if (rdlSTS_Shift.SelectedIndex > -1)
-            objPM_Hearing_Conservation.STS_Shift = rdlSTS_Shift.SelectedValue;
-        if (rdlRetest_Scheduled.SelectedIndex > -1)
-            objPM_Hearing_Conservation.Retest_Scheduled = rdlRetest_Scheduled.SelectedValue;
-        objPM_Hearing_Conservation.Rested_Date = clsGeneral.FormatNullDateToStore(txtRested_Date.Text);
-        objPM_Hearing_Conservation.Notes = txtNotes.Text;
-        objPM_Hearing_Conservation.Vendor = txtVendor.Text;
-        objPM_Hearing_Conservation.Vendor_Representative = txtVendorContactName.Text;
-        objPM_Hearing_Conservation.Vendor_Address = txtVendor_Address.Text;
-        objPM_Hearing_Conservation.Vendor_City = txtVendor_City.Text;
-        objPM_Hearing_Conservation.FK_Vendor_State = clsGeneral.GetDecimal(ddlFK_State.SelectedValue);
-        objPM_Hearing_Conservation.Vendor_Zip_Code = txtVendor_Zip_Code.Text;
-        objPM_Hearing_Conservation.Vendor_Telephone = txtVendor_Telephone.Text;
-        objPM_Hearing_Conservation.Vendor_EMail = txtVendor_EMail.Text;
-        objPM_Hearing_Conservation.Update_Date = DateTime.Now;
-        objPM_Hearing_Conservation.Updated_By = clsSession.UserID;       
+            PM_Hearing_Conservation objPM_Hearing_Conservation = new PM_Hearing_Conservation();
+            objPM_Hearing_Conservation.PK_PM_Hearing_Conservation = PK_PM_Hearing_Conservation;
+            objPM_Hearing_Conservation.FK_PM_Site_Information = FK_PM_Site_Information;
+            objPM_Hearing_Conservation.Date_Of_Test = clsGeneral.FormatNullDateToStore(txtDate_Of_Test.Text);
+            objPM_Hearing_Conservation.FK_LU_Employee = clsGeneral.GetDecimal(ddlFK_LU_Employee.SelectedValue);
+            objPM_Hearing_Conservation.FK_LU_Hearing_Conservation_Test_Type = clsGeneral.GetDecimal(ddlFK_LU_Hearing_Conservation_Test_Type.SelectedValue);
+            if (rdlLocation_Exceed_Noise_Level.SelectedIndex > -1)
+                objPM_Hearing_Conservation.Location_Exceed_Noise_Level = rdlLocation_Exceed_Noise_Level.SelectedValue;
+            else
+                objPM_Hearing_Conservation.Location_Exceed_Noise_Level = "0";
+            if (rdlSTS_Shift.SelectedIndex > -1)
+                objPM_Hearing_Conservation.STS_Shift = rdlSTS_Shift.SelectedValue;
+            if (rdlRetest_Scheduled.SelectedIndex > -1)
+                objPM_Hearing_Conservation.Retest_Scheduled = rdlRetest_Scheduled.SelectedValue;
+            objPM_Hearing_Conservation.Rested_Date = clsGeneral.FormatNullDateToStore(txtRested_Date.Text);
+            objPM_Hearing_Conservation.Notes = txtNotes.Text;
+            objPM_Hearing_Conservation.Vendor = txtVendor.Text;
+            objPM_Hearing_Conservation.Vendor_Representative = txtVendorContactName.Text;
+            objPM_Hearing_Conservation.Vendor_Address = txtVendor_Address.Text;
+            objPM_Hearing_Conservation.Vendor_City = txtVendor_City.Text;
+            objPM_Hearing_Conservation.FK_Vendor_State = clsGeneral.GetDecimal(ddlFK_State.SelectedValue);
+            objPM_Hearing_Conservation.Vendor_Zip_Code = txtVendor_Zip_Code.Text;
+            objPM_Hearing_Conservation.Vendor_Telephone = txtVendor_Telephone.Text;
+            objPM_Hearing_Conservation.Vendor_EMail = txtVendor_EMail.Text;
+            objPM_Hearing_Conservation.Update_Date = DateTime.Now;
+            objPM_Hearing_Conservation.Updated_By = clsSession.UserID;
 
-       
-        decimal _retVal;
-        if (PK_PM_Hearing_Conservation > 0)
-            _retVal = objPM_Hearing_Conservation.Update();
-        else
-            _retVal = objPM_Hearing_Conservation.Insert();        
-        
 
-        if (_retVal == -2)
-        {
-            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:alert('The Hearing Conservation that you are trying to add already exists.');ShowPanel(1);", true);
-            return;
-        }
-         //Building details
-        string strBuildingIDs = "";
-        for (int i = 0; i < chkBuilding.Items.Count; i++)
-        {
-            if (chkBuilding.Items[i].Selected == true)
+            decimal _retVal;
+            if (PK_PM_Hearing_Conservation > 0)
+                _retVal = objPM_Hearing_Conservation.Update();
+            else
+                _retVal = objPM_Hearing_Conservation.Insert();
+
+
+            if (_retVal == -2)
             {
-                strBuildingIDs = strBuildingIDs + chkBuilding.Items[i].Value + ",";
+                Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:alert('The Hearing Conservation that you are trying to add already exists.');ShowPanel(1);", true);
+                return;
             }
-        }
-        strBuildingIDs = strBuildingIDs.TrimEnd(',');
-        if (strBuildingIDs != "")
-        {
-            objPM_Hearing_Conservation.BuildingId = strBuildingIDs;
-            objPM_Hearing_Conservation.InsertBuildingDetails(_retVal, strBuildingIDs, objPM_Hearing_Conservation.Updated_By, DateTime.Now);
-        }       
+            //Building details
+            string strBuildingIDs = "";
+            for (int i = 0; i < chkBuilding.Items.Count; i++)
+            {
+                if (chkBuilding.Items[i].Selected == true)
+                {
+                    strBuildingIDs = strBuildingIDs + chkBuilding.Items[i].Value + ",";
+                }
+            }
+            strBuildingIDs = strBuildingIDs.TrimEnd(',');
+            if (strBuildingIDs != "")
+            {
+                objPM_Hearing_Conservation.BuildingId = strBuildingIDs;
+                objPM_Hearing_Conservation.InsertBuildingDetails(_retVal, strBuildingIDs, objPM_Hearing_Conservation.Updated_By, DateTime.Now);
+            }
 
-        //// add the attachment 
-        //Attachment.FK_Field_Value = Convert.ToInt32(_retVal.ToString());
-        //Attachment.FK_Field_Name = "FK_PM_Hearing_Conservation";
-        //Attachment.Add(clsGeneral.Pollution_Tables.PM_Hearing_Conservation_Attachments);
-        Response.Redirect("PM_Hearing_Conservation.aspx?id=" + Encryption.Encrypt(_retVal.ToString()) + "&fid=" + Encryption.Encrypt(FK_PM_Site_Information.ToString()) + "&loc=" + Request.QueryString["loc"] + "&op=view");
+            //// add the attachment 
+            //Attachment.FK_Field_Value = Convert.ToInt32(_retVal.ToString());
+            //Attachment.FK_Field_Name = "FK_PM_Hearing_Conservation";
+            //Attachment.Add(clsGeneral.Pollution_Tables.PM_Hearing_Conservation_Attachments);
+            Response.Redirect("PM_Hearing_Conservation.aspx?id=" + Encryption.Encrypt(_retVal.ToString()) + "&fid=" + Encryption.Encrypt(FK_PM_Site_Information.ToString()) + "&loc=" + Request.QueryString["loc"] + "&op=view");    
     }
     protected void btnEdit_Click(object sender, EventArgs e)
     {
@@ -338,7 +338,7 @@ public partial class SONIC_Pollution_PM_Hearing_Conservation : clsBasePage
         rdlLocation_Exceed_Noise_Level.SelectedValue = objPM_Hearing_Conservation.Location_Exceed_Noise_Level;
         rdlSTS_Shift.SelectedValue = objPM_Hearing_Conservation.STS_Shift;
         rdlRetest_Scheduled.SelectedValue = objPM_Hearing_Conservation.Retest_Scheduled;
-        txtRested_Date.Text = clsGeneral.FormatDBNullDateTimeToDisplay(objPM_Hearing_Conservation.Rested_Date);
+        txtRested_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Hearing_Conservation.Rested_Date);
         txtNotes.Text = objPM_Hearing_Conservation.Notes;
         ddlVendorLookup.SelectedValue = Convert.ToString(objPM_Hearing_Conservation.PK_PM_Hearing_Conservation);
         txtVendor.Text = objPM_Hearing_Conservation.Vendor;

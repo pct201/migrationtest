@@ -272,7 +272,7 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
 
                 BindGridOshaLog();
                 BindGridHearingConversation();
-                
+                BindGridRespiratory();                
                 // set attachment details control in read/write mode. so user can add or remove attachment as well.
                 AttachDetails.FindControl("gvAttachment").DataBind();
                 SetValidations();
@@ -806,7 +806,7 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
         BindGridHearingConversation();
 
         // Respiratory Protection Grid
-        gvRespiratoryProtection.DataSource = gvRespiratoryProtection.DataSource  = dsGrids.Tables[17];
+        gvRespiratoryProtection.DataSource = dsGrids.Tables[17];
         gvRespiratoryProtection.DataBind();
         gvRespiratoryProtectionView.DataBind();
 
@@ -1092,8 +1092,7 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
     private void BindGridHearingConversation()
     {
         if (PK_PM_Site_Information > 0)
-        {
-            lnkHearingConversation.Visible = true;
+        {         
             DataSet ds = PM_Hearing_Conservation.SelectByFK(PK_PM_Site_Information);
             DataTable dtHearingConversation = ds.Tables[0];
             gvHearingConversation.DataSource = gvHearingConversationView.DataSource = dtHearingConversation;
@@ -1101,8 +1100,7 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
             gvHearingConversationView.DataBind();
         }
         else
-        {
-            lnkHearingConversation.Visible = false;
+        {            
             gvHearingConversation.DataBind();
         }
     }
@@ -1113,8 +1111,14 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
     private void BindGridRespiratory()
     {
         DataTable dtRespiratoryProtection = clsPM_Respiratory_Protection.SelectByFK_SiteInfo(PK_PM_Site_Information).Tables[0];
-        gvRespiratoryProtection.DataSource = dtRespiratoryProtection;
-        gvRespiratoryProtection.DataBind();
+        if (PK_PM_Site_Information > 0)
+        {
+            gvRespiratoryProtection.DataSource = dtRespiratoryProtection;
+            gvRespiratoryProtection.DataBind();
+        }
+        {
+            gvRespiratoryProtection.DataBind();
+        }
     }
 
     //private void BindGridViewOshaLog()
