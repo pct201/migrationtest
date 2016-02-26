@@ -170,6 +170,7 @@
             }
             else {
                 $("#trWereRestrictions1").hide(); $("#trWereRestrictions2").hide();
+                $('#<%= txtReevaluation_Date.ClientID%>').val(""); $('#<%= txtRestrictionsNotes.ClientID%>').val(""); 
             }
         }
 
@@ -178,8 +179,10 @@
 
             if (rdoTraining_Completed == 'Y')
                 $("#trTraining").show();
-            else
+            else {
                 $("#trTraining").hide();
+                $('#<%= txtTraining_Completed_Date.ClientID%>').val("");
+            }
         }
 
         function ShowHideFitTestRow() {
@@ -190,6 +193,7 @@
             }
             else {
                 $("#trFitTest1").hide(); $("#trFitTest2").hide();
+                $('#<%= txtFit_Test_Date.ClientID%>').val("");
             }
         }
 

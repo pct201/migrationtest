@@ -127,12 +127,13 @@ public partial class Controls_Attachment_OC_Attachment : System.Web.UI.UserContr
                 gvFiles.Columns[gvFiles.Columns.Count - 1].Visible = false;
             }
 
-            LinkButton lnkDocName = (LinkButton)e.Row.FindControl("lnkDocName");
             string strFileName = DataBinder.Eval(e.Row.DataItem, "File_Name").ToString();
-            lnkDocName.OnClientClick = "javascript:openWindow('../../Download.aspx?fname=" + Encryption.Encrypt(strFileName) + "&SLT=RP_Docs');return false;";
+            string strPK_ID = DataBinder.Eval(e.Row.DataItem, "PK_Attachments").ToString();
+
+            LinkButton lnkDocName = (LinkButton)e.Row.FindControl("lnkDocName");
+            lnkDocName.OnClientClick = "javascript:openWindow('../../Download.aspx?OC_Attch_Id=" + Encryption.Encrypt(strPK_ID) + "&tbl="+AttachmentTable+"');return false;";
 
             LinkButton lnkEmail = (LinkButton)e.Row.FindControl("lnkEmail");
-            string strPK_ID = DataBinder.Eval(e.Row.DataItem, "PK_Attachments").ToString();
             lnkEmail.OnClientClick = "javascript:ShowDialog('" + AppConfig.SiteURL + "SONIC/Exposures/AM_Attachment_Mail.aspx?OC_Attch_Id=" + Encryption.Encrypt(strPK_ID) + "&tbl=" + AttachmentTable + "');return false;";
         }
         if (e.Row.RowType == DataControlRowType.Header)
