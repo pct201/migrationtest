@@ -2122,16 +2122,11 @@ public class clsGeneral : System.Web.UI.Page
                 mMailMessage.CC.Add(new MailAddress(strCCID));
             }
         }
-        MemoryStream[] msArray = new MemoryStream[strAttachments.Length];
         foreach (string strAttachment in strAttachments)
         {
-
-            int i = 0;
             if (File.Exists(strAttachment))
             {
-                msArray[i] = new MemoryStream(File.ReadAllBytes(strAttachment));
-                mMailMessage.Attachments.Add(new Attachment(msArray[i], "prashant132.jpg"));
-                i++;
+                mMailMessage.Attachments.Add(new Attachment(strAttachment));
             }
         }
 
@@ -2168,11 +2163,6 @@ public class clsGeneral : System.Web.UI.Page
             mSmtpClient = null;
             //CommonHelper.DisposeOf(mMailMessage);
             //CommonHelper.DisposeOf(mSmtpClient);
-            foreach (MemoryStream ms in msArray)
-            {
-                if (ms != null)
-                    ms.Close();
-            }
         }
 
 
