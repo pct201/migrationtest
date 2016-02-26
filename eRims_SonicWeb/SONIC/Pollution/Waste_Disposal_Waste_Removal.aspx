@@ -568,6 +568,17 @@
                                                     </tr>
                                                     <tr>
                                                         <td align="left" valign="top">
+                                                            Facility Generator Status
+                                                        </td>
+                                                        <td align="center" valign="top">
+                                                            :
+                                                        </td>
+                                                        <td align="left" valign="top" colspan="4">
+                                                            <asp:Label ID="lblFK_LU_Facility_Generator_Status" runat="server"></asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" valign="top">
                                                             Date
                                                         </td>
                                                         <td align="center" valign="top">
@@ -633,18 +644,10 @@
                                                         <td align="center" valign="top">
                                                             :
                                                         </td>
-                                                        <td align="left" valign="top">
+                                                        <td align="left" valign="top" colspan="4">
                                                             <asp:Label ID="lblHW_Profile_Complete_And_Maintained" runat="server"></asp:Label>
                                                         </td>
-                                                        <td align="left" valign="top">
-                                                            Facility Generator Status
-                                                        </td>
-                                                        <td align="center" valign="top">
-                                                            :
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            <asp:Label ID="lblFK_LU_Facility_Generator_Status" runat="server"></asp:Label>
-                                                        </td>
+                                                        
                                                     </tr>
                                                     <tr>
                                                         <td colspan="6">

@@ -1776,7 +1776,7 @@
                                                                                 CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_Respiratory_Protection") %>' />
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="Event Type">
+                                                                    <asp:TemplateField HeaderText="Event">
                                                                         <ItemStyle Width="18%" HorizontalAlign="Left" />
                                                                         <ItemTemplate>
                                                                             <asp:LinkButton ID="lnkNext_Inspection_Date" runat="server" Text='<%# Eval("EventType") %>'
@@ -2891,7 +2891,7 @@
                                                                                 CommandName="ViewDetails" CommandArgument='<%# Eval("PK_PM_Respiratory_Protection") %>' />
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="Event Type">
+                                                                    <asp:TemplateField HeaderText="Event">
                                                                         <ItemStyle Width="18%" HorizontalAlign="Left" />
                                                                         <ItemTemplate>
                                                                             <asp:LinkButton ID="lnkNext_Inspection_Date" runat="server" Text='<%# Eval("EventType") %>'
