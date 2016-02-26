@@ -109,7 +109,7 @@
                 </div>
                 <div style="overflow: scroll; width: 300px; height: 400px;" id="divPM_Respiratory_Protection_Grid"
                     runat="server">
-                    <asp:GridView ID="gvPMWasteRemoval" runat="server" AutoGenerateColumns="False"
+                    <asp:GridView ID="gvPMWasteRemoval" runat="server" AutoGenerateColumns="False" Style="word-wrap: normal; word-break: break-all;"
                         CellPadding="4" EnableTheming="True" EmptyDataText="No records found!" ShowHeader="false">
                         <RowStyle HorizontalAlign="Left" VerticalAlign="Top" />
                         <Columns>
