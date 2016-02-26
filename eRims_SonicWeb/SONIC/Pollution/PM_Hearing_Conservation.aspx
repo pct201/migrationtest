@@ -588,7 +588,7 @@
                                         <div id="dvView" runat="server" width="794px">
                                              <asp:Panel ID="pnl1View" runat="server" Style="display: none;">
                                                  <div class="bandHeaderRow">
-                                                    Hazardous Waste Hauler</div>
+                                                    Hearing Conversation</div>
                                                <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                     <tr>
                                                         <td align="left" width="18%" valign="top">
