@@ -18,6 +18,7 @@ public partial class SONIC_Exposures_AM_Attachment_Mail : System.Web.UI.Page
 
     public static string m_strGlobalPath = string.Empty;
     public static string[] m_arrGlobalPath;
+    public static string[] arrOrginalFileName;
     #endregion
 
     #region " Page Load event "
@@ -74,6 +75,8 @@ public partial class SONIC_Exposures_AM_Attachment_Mail : System.Web.UI.Page
 
                     m_arrGlobalPath = new string[Request.QueryString["OC_Attch_Id"].ToString().Split(',').Length];
                     m_arrGlobalPath[0] = strRpFilePath;
+                    arrOrginalFileName = new string[strRpFileName.Split(',').Length];
+                    arrOrginalFileName[0] = strRpFileName;
                     ArrayList strTemp = new ArrayList();
                     strTemp.AddRange(m_arrGlobalPath);
                     DocName = strTemp;
@@ -94,7 +97,11 @@ public partial class SONIC_Exposures_AM_Attachment_Mail : System.Web.UI.Page
         bool isSent = false;
         string[] arrAttachment = new string[DocName.Count];
         DocName.CopyTo(arrAttachment);
-        isSent = clsGeneral.SendMailMessage(AppConfig.MailFrom, txtToEmail.Text.Trim(), string.Empty, "", txtSubject.Text.Trim(), txtBody.Text.Trim().Replace("\r\n", "<br/>"), true, arrAttachment);
+
+        if (!string.IsNullOrEmpty(Request.QueryString["OC_Attch_Id"]))
+            isSent = clsGeneral.SendMailWithNewFileName(AppConfig.MailFrom, txtToEmail.Text.Trim(), string.Empty, "", txtSubject.Text.Trim(), txtBody.Text.Trim().Replace("\r\n", "<br/>"), true, arrAttachment, arrOrginalFileName);
+        else
+            isSent = clsGeneral.SendMailMessage(AppConfig.MailFrom, txtToEmail.Text.Trim(), string.Empty, "", txtSubject.Text.Trim(), txtBody.Text.Trim().Replace("\r\n", "<br/>"), true, arrAttachment);
 
         if (isSent)
         {

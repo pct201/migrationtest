@@ -79,7 +79,7 @@ public class clsGeneral : System.Web.UI.Page
 
     public static string[] ClaimTableName = { "WCClaim", "ALClaim", "PLClaim" };
 
-    public static string[] PollutionTableName = { "PM_SI_UP_Attachments", "PM_SI_FI_Attachments", "PM_Permits_Attachments", "PM_CR_CI_Attachments", "PM_CR_PI_Attachments", "PM_Receiving_TSDF_Attachments", "PM_Waste_Hauler_Attachments", "PM_Waste_Removal_Attachments", "PM_Frequency_Attachments", "PM_Phase_I_Attachments", "PM_EPA_Inspection_Attachments", "PM_Remediation_Grid_Attachments", "PM_Violation_Attachments", "PM_Attachments", "PM_Equipment_Attachments", "PM_Equipment_Tank", "PM_Equipment_Spray_Booth", "PM_Equipment_OWS", "PM_Equipment_Hydraulic_Lift", "PM_Equipment_PGCC", "PM_CR_Grids_Attachments", "PM_Compliance_Reporting_OSHA_Attachments", "PM_Hearing_Conservation_Attachments" };
+    public static string[] PollutionTableName = { "PM_SI_UP_Attachments", "PM_SI_FI_Attachments", "PM_Permits_Attachments", "PM_CR_CI_Attachments", "PM_CR_PI_Attachments", "PM_Receiving_TSDF_Attachments", "PM_Waste_Hauler_Attachments", "PM_Waste_Removal_Attachments", "PM_Frequency_Attachments", "PM_Phase_I_Attachments", "PM_EPA_Inspection_Attachments", "PM_Remediation_Grid_Attachments", "PM_Violation_Attachments", "PM_Attachments", "PM_Equipment_Attachments", "PM_Equipment_Tank", "PM_Equipment_Spray_Booth", "PM_Equipment_OWS", "PM_Equipment_Hydraulic_Lift", "PM_Equipment_PGCC", "PM_CR_Grids_Attachments", "PM_Compliance_Reporting_OSHA_Attachments", "PM_Hearing_Conservation_Attachments", "PM_Respiratory_Protection_Attachments" };
 
     public static string[] SLT_TablesNames = { "SLT_Safety_Walk", "SLT_Training", "SLT_Meeting_Review", "Main_Wall_Attachment", "SLT_BT_Security_Walk", "Dashboard_Wall_Attachment" };
 
@@ -231,7 +231,8 @@ public class clsGeneral : System.Web.UI.Page
         PM_Equipment_PGCC = 19,
         PM_CR_Grids_Attachments = 20,
         PM_Compliance_Reporting_OSHA_Attachments = 21,
-        PM_Hearing_Conservation_Attachments = 22
+        PM_Hearing_Conservation_Attachments = 22,
+        PM_Respiratory_Protection_Attachments = 23
     }
 
     public enum SLT_Tables : int
@@ -625,6 +626,10 @@ public class clsGeneral : System.Web.UI.Page
         {
             strUploadPath = AppConfig.PM_Hearing_ConservationAttachmentsDocPath;
         }
+        else if (tbl == PollutionTableName[(int)clsGeneral.Pollution_Tables.PM_Respiratory_Protection_Attachments])
+        {
+            strUploadPath = AppConfig.PM_Respiratory_Protection_AttachmentsDocPath;
+        }
 
         return strUploadPath;
 
@@ -972,6 +977,10 @@ public class clsGeneral : System.Web.UI.Page
         else if (tbl == PollutionTableName[(int)clsGeneral.Pollution_Tables.PM_Hearing_Conservation_Attachments])
         {
             strUploadPath = AppConfig.PM_Hearing_ConservationAttachmentsDocPath;
+        }
+        else if (tbl == PollutionTableName[(int)clsGeneral.Pollution_Tables.PM_Respiratory_Protection_Attachments])
+        {
+            strUploadPath = AppConfig.PM_Respiratory_Protection_AttachmentsDocPath;
         }
         return strUploadPath;
     }
@@ -2113,14 +2122,133 @@ public class clsGeneral : System.Web.UI.Page
                 mMailMessage.CC.Add(new MailAddress(strCCID));
             }
         }
-
+        MemoryStream[] msArray = new MemoryStream[strAttachments.Length];
         foreach (string strAttachment in strAttachments)
         {
+
+            int i = 0;
             if (File.Exists(strAttachment))
             {
-                mMailMessage.Attachments.Add(new Attachment(strAttachment));
+                msArray[i] = new MemoryStream(File.ReadAllBytes(strAttachment));
+                mMailMessage.Attachments.Add(new Attachment(msArray[i], "prashant132.jpg"));
+                i++;
             }
         }
+
+        
+        // Set the subject of the mail message
+        mMailMessage.Subject = strSubject;
+        // Set the body of the mail message
+        mMailMessage.Body = strBody;
+
+        // Set the format of the mail message body as HTML
+        mMailMessage.IsBodyHtml = boolIsHTML;
+        // Set the priority of the mail message to normal
+        mMailMessage.Priority = MailPriority.Normal;
+
+        // Instantiate a new instance of SmtpClient
+        SmtpClient mSmtpClient = new SmtpClient(AppConfig.SMTPServer, Convert.ToInt32(AppConfig.Port));
+
+        mSmtpClient.Credentials = new NetworkCredential(strFrom, AppConfig.SMTPpwd);
+
+        try
+        {
+            // Send the mail message
+            mSmtpClient.Send(mMailMessage);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            return false;
+        }
+        finally
+        {
+            mMailMessage.Dispose();
+            mMailMessage = null;
+            mSmtpClient = null;
+            //CommonHelper.DisposeOf(mMailMessage);
+            //CommonHelper.DisposeOf(mSmtpClient);
+            foreach (MemoryStream ms in msArray)
+            {
+                if (ms != null)
+                    ms.Close();
+            }
+        }
+
+
+    }
+
+    /// <summary>
+    /// Used to Send EMail with Attachment
+    /// </summary>
+    /// <param name="strFrom"></param>
+    /// <param name="strTo"></param>
+    /// <param name="strBCC"></param>
+    /// <param name="strCC"></param>
+    /// <param name="strSubject"></param>
+    /// <param name="strBody"></param>
+    /// <param name="boolIsHTML"></param>
+    /// <param name="strAttachments"></param>
+    /// <returns></returns>
+    public static bool SendMailWithNewFileName(string strFrom, string strTo, string strBCC, string strCC, string strSubject, string strBody, bool boolIsHTML, string[] strAttachments,string[] strNewFileName)
+    {
+        if (!AppConfig.AllowMailSending)
+            return false;
+        // Instantiate a new instance of MailMessage
+        MailMessage mMailMessage = new MailMessage();
+
+        if (!clsGeneral.IsNull(strFrom))
+        {
+            // Set the sender address of the mail message
+            mMailMessage.From = new MailAddress(strFrom);
+        }
+
+        char[] arrSplitChar = { ',' };
+        if (!clsGeneral.IsNull(strTo))
+        {
+            string[] arrTo = strTo.Split(arrSplitChar);
+            foreach (string strTOID in arrTo)
+            {
+                // Set the recepient address of the mail message
+                mMailMessage.To.Add(new MailAddress(strTOID));
+            }
+        }
+
+
+        // Check if the bcc value is nothing or an empty string
+        if (!clsGeneral.IsNull(strBCC))
+        {
+            string[] arrBCC = strBCC.Split(arrSplitChar);
+            foreach (string strBCCID in arrBCC)
+            {
+                // Set the recepient address of the mail message
+                mMailMessage.Bcc.Add(new MailAddress(strBCCID));
+            }
+        }
+
+        // Check if the cc value is nothing or an empty value
+        if (!string.IsNullOrEmpty(strCC))
+        {
+            string[] arrCC = strCC.Split(arrSplitChar);
+            foreach (string strCCID in arrCC)
+            {
+                // Set the recepient address of the mail message
+                mMailMessage.CC.Add(new MailAddress(strCCID));
+            }
+        }
+        MemoryStream[] msArray = new MemoryStream[strAttachments.Length];
+        foreach (string strAttachment in strAttachments)
+        {
+
+            int i = 0;
+            if (File.Exists(strAttachment))
+            {
+                msArray[i] = new MemoryStream(File.ReadAllBytes(strAttachment));
+                mMailMessage.Attachments.Add(new Attachment(msArray[i], strNewFileName[i]));
+                i++;
+            }
+        }
+
 
         // Set the subject of the mail message
         mMailMessage.Subject = strSubject;
@@ -2154,6 +2282,11 @@ public class clsGeneral : System.Web.UI.Page
             mSmtpClient = null;
             //CommonHelper.DisposeOf(mMailMessage);
             //CommonHelper.DisposeOf(mSmtpClient);
+            foreach (MemoryStream ms in msArray)
+            {
+                if (ms != null)
+                    ms.Close();
+            }
         }
 
 
