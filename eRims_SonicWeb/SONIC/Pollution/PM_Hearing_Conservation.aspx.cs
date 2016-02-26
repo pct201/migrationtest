@@ -458,7 +458,7 @@ public partial class SONIC_Pollution_PM_Hearing_Conservation : clsBasePage
 
         #region " Site Information "
 
-        DataTable dtFields = clsScreen_Validators.SelectByScreen(225).Tables[0];
+        DataTable dtFields = clsScreen_Validators.SelectByScreenName("Hearing Conversation").Tables[0];
         dtFields.DefaultView.RowFilter = "IsRequired = '1'";
         dtFields = dtFields.DefaultView.ToTable();
 
