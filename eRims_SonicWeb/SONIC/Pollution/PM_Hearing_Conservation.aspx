@@ -142,9 +142,9 @@
             }
         }
 
-        
+      
 
-        $(document).ready(function () {                
+        $(document).ready(function () {         
 
                 $('#<%= ddlFK_LU_Hearing_Conservation_Test_Type.ClientID%>').on('change', function () {                    
                     var selectedVal = $("#<%= ddlFK_LU_Hearing_Conservation_Test_Type.ClientID%> option:selected").text();                    
@@ -153,6 +153,7 @@
                         $('#Location_Exceed_Noise_Level').show();
                         $('#STS_Shift').hide();
                         $('#Retest_Scheduled').hide();
+                        $('#<%= txtRested_Date.ClientID%>').val('');
                     }
                     else if (selectedVal == "Audiometric Testing")
                     {
@@ -161,17 +162,19 @@
                         $('#Retest_Scheduled').hide();
                         var selectedVal = $("#<%= rdlSTS_Shift.ClientID%>").find('input:checked').val();
                         if (selectedVal == "Y") {
-                            $('#Retest_Scheduled').show();
+                            $('#Retest_Scheduled').show();                            
                         }
                         else {
                             $('#Retest_Scheduled').hide();
-                        }
+                            $('#<%= txtRested_Date.ClientID%>').val('');
+                        }                        
                     }
                     else
                     {
                         $('#Location_Exceed_Noise_Level').hide();
                         $('#STS_Shift').hide();
                         $('#Retest_Scheduled').hide();
+                        $('#<%= txtRested_Date.ClientID%>').val('');
                     }
                 });
                 $('#<%= rdlSTS_Shift.ClientID%>').on('change', function () {
@@ -183,8 +186,9 @@
                     else
                     {
                         $('#Retest_Scheduled').hide();
+                        $('#<%= txtRested_Date.ClientID%>').val('');
                     }                     
-                     
+                    $('#<%= txtRested_Date.ClientID%>').val('');
                 });
 
                     
@@ -202,8 +206,7 @@
                 }
                 else
                 {
-                    arr = selectedVal.split('|');
-                    //alert(arr[0] + arr[1]);
+                    arr = selectedVal.split('|');                    
                     $('#<%= txtVendor.ClientID%>').val(arr[0]);
                     $('#<%= txtVendorContactName.ClientID%>').val(arr[1]);
                     $('#<%= txtVendor_Address.ClientID%>').val(arr[2]);
@@ -264,17 +267,18 @@
                 $('#Retest_Scheduled').hide();
                 var selectedVal = $("#<%= rdlSTS_Shift.ClientID%>").find('input:checked').val();
                 if (selectedVal == "Y") {
-                    $('#Retest_Scheduled').show();
+                    $('#Retest_Scheduled').show();                    
                 }
                 else {
                     $('#Retest_Scheduled').hide();
-                }
-
+                    $('#<%= txtRested_Date.ClientID%>').val('');
+                }                                
             }
             else {
                 $('#Location_Exceed_Noise_Level').hide();
                 $('#STS_Shift').hide();
                 $('#Retest_Scheduled').hide();
+                $('#<%= txtRested_Date.ClientID%>').val('');
             }
           
 
@@ -465,24 +469,24 @@
                                                         <td align="left" valign="top">Vendor<span id="spnVendor" style="color: Red; display: none;" runat="server">*</span></td>
                                                         <td align="center" valign="top">:</td>
                                                         <td align="left">
-                                                            <asp:TextBox ID="txtVendor" MaxLength="150" runat="server" />
+                                                            <asp:TextBox ID="txtVendor" MaxLength="75" runat="server" />
                                                         </td>
                                                         <td align="left" valign="top">Vendor Contact Name<span id="spnVendorContactName" style="color: Red; display: none;" runat="server">*</span></td>
                                                         <td align="center" valign="top">:</td>
                                                         <td align="left" valign="top">
-                                                            <asp:TextBox ID="txtVendorContactName" MaxLength="150" runat="server" />
+                                                            <asp:TextBox ID="txtVendorContactName" MaxLength="75" runat="server" />
                                                         </td>
                                                     </tr>
                                                      <tr>
                                                         <td align="left" valign="top">Vendor Address<span id="spnVendor_Address" style="color: Red; display: none;" runat="server">*</span></td>
                                                         <td align="center" valign="top">:</td>
                                                         <td align="left">
-                                                            <asp:TextBox ID="txtVendor_Address" MaxLength="150" runat="server" />
+                                                            <asp:TextBox ID="txtVendor_Address" MaxLength="75" runat="server" />
                                                         </td>
                                                         <td align="left" valign="top">Vendor City<span id="spnVendor_City" style="color: Red; display: none;" runat="server">*</span></td>
                                                         <td align="center" valign="top">:</td>
                                                         <td align="left" valign="top">
-                                                            <asp:TextBox ID="txtVendor_City" MaxLength="100" runat="server" />
+                                                            <asp:TextBox ID="txtVendor_City" MaxLength="50" runat="server" />
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -531,7 +535,7 @@
                                                             :
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            <asp:TextBox ID="txtVendor_EMail" runat="server" Width="170px" MaxLength="510" />
+                                                            <asp:TextBox ID="txtVendor_EMail" runat="server" Width="170px" MaxLength="255" />
                                                         </td>
                                                     </tr>     
                                                     <tr>
@@ -691,12 +695,12 @@
                                                         <td align="left" valign="top">Vendor</td>
                                                         <td align="center" valign="top">:</td>
                                                         <td align="left">
-                                                            <asp:Label ID="lblVendor" runat="server" />
+                                                            <asp:Label ID="lblVendor" runat="server" Style="word-wrap: normal; word-break: break-all;" />
                                                         </td>
                                                         <td align="left" valign="top">Vendor Contact Name</td>
                                                         <td align="center" valign="top">:</td>
                                                         <td align="left" valign="top">
-                                                            <asp:Label ID="lblVendor_Representative" runat="server" />
+                                                            <asp:Label ID="lblVendor_Representative" Style="word-wrap: normal; word-break: break-all;" runat="server" />
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -708,7 +712,7 @@
                                                         <td align="left" valign="top">Vendor City</td>
                                                         <td align="center" valign="top">:</td>
                                                         <td align="left" valign="top">
-                                                            <asp:Label ID="lblVendor_City" runat="server" />
+                                                            <asp:Label ID="lblVendor_City" Style="word-wrap: normal; word-break: break-all;" runat="server" />
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -750,7 +754,7 @@
                                                             :
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            <asp:Label ID="lblVendor_EMail" runat="server" />
+                                                            <asp:Label ID="lblVendor_EMail" Style="word-wrap: normal; word-break: break-all;" runat="server" />
                                                         </td>
                                                     </tr>     
                                                     <tr>

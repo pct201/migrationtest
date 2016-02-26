@@ -18,9 +18,9 @@
             <asp:GridView ID="gvFiles" runat="server" Width="100%" AutoGenerateColumns="false"
                 EmptyDataText="No Files Found." OnRowCommand="gvFiles_RowCommand" OnRowDataBound="gvFiles_RowDataBound">
                 <Columns>
-                    <asp:TemplateField HeaderText="File Name">
+                    <asp:TemplateField HeaderText="File Name" >
                         <ItemStyle Width="70%" />
-                        <HeaderStyle />
+                        <HeaderStyle HorizontalAlign="Center"/>
                         <ItemTemplate  >
                             <asp:LinkButton ID="lnkDocName" runat="server" Text='<%# Convert.ToString(Eval("NewAttachment_Name")) %>' />
                             <input type="hidden" id="hdnID" runat="server" value='<%#Eval("PK_Attachments")%>' />

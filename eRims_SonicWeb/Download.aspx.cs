@@ -107,6 +107,28 @@ public partial class Download : System.Web.UI.Page
                 }
                 //Transfer File
             }
+            else if (Request.QueryString["tbl"] == "PM_Hearing_Conservation_Attachments")
+            {
+                if (!string.IsNullOrEmpty(Request.QueryString["OC_Attch_Id"]))
+                {
+                    DataTable dtAttachments = PM_Hearing_Conservation.SelectAttachmentByPK(clsGeneral.GetDecimal
+                                                (Encryption.Decrypt(Request.QueryString["OC_Attch_Id"]).ToString())).Tables[0];
+
+                    if (dtAttachments.Rows.Count > 0)
+                    {
+                        string strRpFileName = Convert.ToString(dtAttachments.Rows[0]["NewAttachment_Name"]);
+                        string strOriginalFileName = Convert.ToString(dtAttachments.Rows[0]["File_Name"]);
+                        string strRpFilePath = AppConfig.PM_Respiratory_Protection_AttachmentsDocPath + strOriginalFileName;
+                        // Transfer File
+                        HttpContext.Current.Response.Clear();
+                        HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", strRpFileName));
+                        HttpContext.Current.Response.ContentType = "application/octet-stream";
+                        HttpContext.Current.Response.TransmitFile(strRpFilePath);
+                        HttpContext.Current.Response.Flush();
+                        HttpContext.Current.Response.End();
+                    }
+                }
+            }
             else if (Request.QueryString["tbl"] == "PM_Respiratory_Protection_Attachments")
             {
                 if (!string.IsNullOrEmpty(Request.QueryString["OC_Attch_Id"]))

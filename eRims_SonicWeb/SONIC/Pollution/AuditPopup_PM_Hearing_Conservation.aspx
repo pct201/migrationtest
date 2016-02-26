@@ -204,21 +204,21 @@
                                     <asp:TemplateField HeaderText="Vendor">
                                         <ItemStyle CssClass="cols" />
                                         <ItemTemplate>
-                                            <asp:Label ID="lblVendor" runat="server" Text='<%#Eval("Vendor")%>'
+                                            <asp:Label ID="lblVendor" runat="server" Text='<%#Eval("Vendor")%>' style="word-wrap:normal;word-break:break-all;" 
                                                 Width="160px"></asp:Label>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="Vendor_Representative">
                                         <ItemStyle CssClass="cols" />
                                         <ItemTemplate>
-                                            <asp:Label ID="lblVendor_Representative" runat="server" Text='<%#Eval("Vendor_Representative")%>'
+                                            <asp:Label ID="lblVendor_Representative" runat="server" style="word-wrap:normal;word-break:break-all;"  Text='<%#Eval("Vendor_Representative")%>'
                                                 Width="160px"></asp:Label>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="Vendor_Address">
                                         <ItemStyle CssClass="cols" />
                                         <ItemTemplate>
-                                            <asp:Label ID="lblVendor_Address" runat="server" Text='<%#Eval("Vendor_Address")%>'
+                                            <asp:Label ID="lblVendor_Address" runat="server" Text='<%#Eval("Vendor_Address")%>' style="word-wrap:normal;word-break:break-all;" 
                                                 Width="160px"></asp:Label>
                                         </ItemTemplate>
                                     </asp:TemplateField>
