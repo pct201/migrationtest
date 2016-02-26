@@ -535,7 +535,7 @@
                                                             :
                                                         </td>
                                                         <td align="left" valign="top" colspan="4">
-                                                            <asp:DropDownList ID="drpVendorLookup" Width="350px" runat="server" SkinID="dropGen">
+                                                            <asp:DropDownList ID="drpVendorLookup"  Width="350px" runat="server" SkinID="dropGen">
                                                             </asp:DropDownList>                                                            
                                                         </td>
                                                     </tr>
@@ -851,7 +851,7 @@
                                                             :
                                                         </td>
                                                         <td align="left" valign="top">                                                            
-                                                            <asp:Label ID="lblVendor" runat="server" />
+                                                            <asp:Label ID="lblVendor" runat="server" Style="word-wrap: normal; word-break: break-all;"/>
                                                         </td>
                                                         <td align="left" valign="top">
                                                             Vendor Representative Name
@@ -860,7 +860,7 @@
                                                             :
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            <asp:Label ID="lblVendor_Representative" runat="server" />
+                                                            <asp:Label ID="lblVendor_Representative" runat="server" Style="word-wrap: normal; word-break: break-all;"/>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -871,7 +871,7 @@
                                                             :
                                                         </td>
                                                         <td align="left" valign="top">                                                            
-                                                            <asp:Label ID="lblVendor_Address" runat="server" />
+                                                            <asp:Label ID="lblVendor_Address" runat="server" Style="word-wrap: normal; word-break: break-all;"/>
                                                         </td>
                                                         <td align="left" valign="top">
                                                             Vendor City
