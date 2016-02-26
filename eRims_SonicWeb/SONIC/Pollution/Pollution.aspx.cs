@@ -206,7 +206,7 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
                     SetBuildingInfo(true);
                     btnEdit.Visible = (App_Access == AccessType.Administrative_Access);
                     // set attachment details control in readonly mode.
-                    AttachDetails.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Attachments, Convert.ToInt32(PK_PM_Site_Information), "FK_PM_Site_Information", "PK_PM_Attachments", false, 9);
+                    AttachDetails.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Attachments, Convert.ToInt32(PK_PM_Site_Information), "FK_PM_Site_Information", "PK_PM_Attachments", false, 10);
                 }
                 else
                 {
@@ -219,7 +219,7 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
                     SetBuildingInfo(false);
                     BindAllGrids();
                     // set attachment details control in read/write mode. so user can add or remove attachment as well.
-                    AttachDetails.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Attachments, Convert.ToInt32(PK_PM_Site_Information), "FK_PM_Site_Information", "PK_PM_Attachments", true, 9);
+                    AttachDetails.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Attachments, Convert.ToInt32(PK_PM_Site_Information), "FK_PM_Site_Information", "PK_PM_Attachments", true, 10);
 
                     SetValidations();
                 }

@@ -36,19 +36,19 @@ public partial class SONIC_Pollution_AuditPopup_PM_Hearing_Conservation : clsBas
             {
                 //lbltable_Name.Text = (Request.QueryString["id"] + " < - > " + Request.QueryString["Table_Name"]);
                 BindPM_Hearing_Conservation_Audit();
-                BindAP_Property_Security_Financial_Audit();
+                BindPM_Hearing_Conservation_Building_Audit();
 
             }
         }
     }
 
-    private void BindAP_Property_Security_Financial_Audit()
+    private void BindPM_Hearing_Conservation_Building_Audit()
     {
         DataTable dt = new DataTable();
 
         // show Case Grid 
         dvGrid.Visible = true;
-        lbltable_Name.Text = "Pollution Module – Hearing Conversation Audit Trail";
+        lbltable_Name.Text = "Pollution Module – Hearing Conversation Building Audit Trail";
 
         // Fill grid with audit table
         dt = PM_Hearing_Conservation.GetPM_Hearing_Conservation_Buildings_AuditTrail(PK).Tables[0];
