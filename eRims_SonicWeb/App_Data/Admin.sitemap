@@ -219,8 +219,10 @@
           <siteMapNode url="Administrator/RegulatoryAgency.aspx" title ="Regulatory/Notifying Agency" description="" roles="" />
           <siteMapNode url="Administrator/LU_Result_Of.aspx" title ="Remediation Result Of" description="" roles="" />
           <siteMapNode url="Administrator/LU_PM_Remediation_Type.aspx" title ="Remediation Type" description="" roles="" />
+          <siteMapNode url="Administrator/LU_Respirator_Type.aspx" title ="Respirator Type" description="" roles="" />
           <siteMapNode url="Administrator/LU_Secondary_Containment_Type.aspx" title ="Secondary Containment Type" description="" roles="" />
           <siteMapNode url="Administrator/LU_SIC.aspx" title ="SIC Screen" description="" roles="" />
+          <siteMapNode url="Administrator/LU_PM_Hearing_Conservation.aspx" title ="Hearing Conversation" description="" roles="" />
           <siteMapNode url="Administrator/Storage_Location.aspx" title ="Storage Location" description="" roles="" />
           <siteMapNode url="Administrator/Storage_Type.aspx" title ="Storage Type" description="" roles="" />
           <siteMapNode url="Administrator/LU_Tank_Construction.aspx" title ="Tank Construction" description="" roles="" />

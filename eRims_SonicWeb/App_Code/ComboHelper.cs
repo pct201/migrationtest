@@ -4382,6 +4382,33 @@ public class ComboHelper
         }
     }
 
+    public static void FillEventType(DropDownList[] dropDowns, int intID, bool booladdSelectAsFirstElement)
+    {
+        DataSet dsData = LU_Hearing_Conservation_Test_Type.SelectAllActive();
+        foreach (DropDownList ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Fld_Desc";
+            ddlToFill.DataValueField = "PK_LU_Hearing_Conservation_Test_Type";
+            ddlToFill.DataSource = dsData;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+            //check id greater 0 than find the value in dropdown list. if find than select the item.
+            if (intID > 0)
+            {
+                ListItem lst = new ListItem();
+                lst = ddlToFill.Items.FindByValue(intID.ToString());
+                if (lst != null)
+                {
+                    lst.Selected = true;
+                }
+            }
+        }
+    }
     public static void FillEventByStaus(ListBox[] LstBox, bool booladdSelectAsFirstElement)
     {
         foreach (ListBox li in LstBox)
@@ -6454,4 +6481,24 @@ public class ComboHelper
     //        }
     //    }
     //}
+
+    public static void FillRespiratorype(DropDownList[] dropDownList, bool booladdSelectAsFirstElement)
+    {
+        DataTable dtData = ERIMS.DAL.clsLU_Respirator_Type.SelectAll().Tables[0];
+        dtData.DefaultView.RowFilter = " Active = 'Y' ";
+
+        foreach (DropDownList ddlToFill in dropDownList)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Fld_Desc";
+            ddlToFill.DataValueField = "PK_LU_Respirator_Type";
+            ddlToFill.DataSource = dtData;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
 }
