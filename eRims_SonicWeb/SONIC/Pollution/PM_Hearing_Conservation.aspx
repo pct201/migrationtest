@@ -228,7 +228,7 @@
             });
 
             if ($( '#<%= dvView.ClientID %>').is(':visible')) {
-                var selectedVal = $('#<%= lblFK_LU_Hearing_Conservation_Test_Type.ClientID%>').text();                
+                var selectedVal = $('#<%= lblFK_LU_Hearing_Conservation_Test_Type.ClientID%>').text();                  
                 if (selectedVal == "Noise Level Monitoring") {
                     $('#trViewLocation_Exceed_Noise_Level').show();
                     $('#trViewSTS_Shift').hide();
@@ -238,6 +238,13 @@
                     $('#trViewLocation_Exceed_Noise_Level').hide();
                     $('#trViewSTS_Shift').show();
                     $('#trViewRetest_Scheduled').hide();
+                    var selectedValYN = $("#<%= lblSTS_Shift.ClientID%>").text(); 
+                    if (selectedValYN == "Yes") {
+                        $('#trViewRetest_Scheduled').show();
+                    }
+                    else {
+                        $('#trViewRetest_Scheduled').hide();
+                    }
                 }
                 else {
                     $('#trViewLocation_Exceed_Noise_Level').hide();
@@ -245,13 +252,8 @@
                     $('#trViewRetest_Scheduled').hide();
                 }
 
-            var selectedVal = $("#<%= lblSTS_Shift.ClientID%>").text();                       
-            if (selectedVal == "Yes") {
-                $('#trViewRetest_Scheduled').show();
-            }
-            else {
-                $('#trViewRetest_Scheduled').hide();
-            }
+                                  
+          
 
             }
 
