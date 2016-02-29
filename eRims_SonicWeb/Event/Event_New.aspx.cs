@@ -12,6 +12,8 @@ using Aspose.Words;
 
 public partial class Event_Event_New : clsBasePage
 {
+    public string _strAttachmentName = string.Empty;
+
     #region Properties
 
     /// <summary>
@@ -1705,14 +1707,16 @@ public partial class Event_Event_New : clsBasePage
             DataTable dtEmailList = Security.GetEmailsByLocationForEvent(objEvent.FK_LU_Location).Tables[0];
             //string[] strEmailIds = new string[1];
 
-            string strAbstractReportData = Convert.ToString(Event_AbstactReport(PK_Event, false, clsGeneral.Major_Coverage.Event));
+            DataSet ds_Event = clsEvent.GetEventAbstractLetterData(PK_Event);
 
-            string[] attchment = null;
-            if (ViewState["Attchments"] != null)
-            {
-                attchment = new string[1];
-                attchment[0] = AppConfig.SitePath + "Documents/EventImage" + "/" + Convert.ToString(ViewState["Attchments"]);
-            }
+            string strAbstractReportData = Convert.ToString(Event_AbstactReport(ds_Event, PK_Event, false, clsGeneral.Major_Coverage.Event));
+
+            //string[] attchment = null;
+            //if (ViewState["Attchments"] != null)
+            //{
+            //    attchment = new string[1];
+            //    attchment[0] = AppConfig.SitePath + "Documents/EventImage" + "/" + Convert.ToString(ViewState["Attchments"]);
+            //}
 
             System.Collections.Generic.List<string> lstMail = new System.Collections.Generic.List<string>();
 
@@ -1728,10 +1732,32 @@ public partial class Event_Event_New : clsBasePage
 
             string[] EmailTo = lstMail.ToArray();
 
+            System.Collections.Generic.List<string> lstImages = new System.Collections.Generic.List<string>();
+            int intImagescount = 0;
+
+            DataTable dtInvestigationImages = ds_Event.Tables[6];
+
+            if (!string.IsNullOrEmpty(_strAttachmentName) && File.Exists(AppConfig.DocumentsPath + "EventImage\\" + _strAttachmentName))
+            {
+                lstImages.Insert(intImagescount, AppConfig.DocumentsPath + "EventImage\\" + _strAttachmentName);
+                intImagescount++;
+            }
+
+            foreach (DataRow drEvent_Images in dtInvestigationImages.Rows)
+            {
+                if (!string.IsNullOrEmpty(Convert.ToString(drEvent_Images["Attachment_Name"])) && File.Exists(AppConfig.SitePath + "Documents\\Attach\\" + drEvent_Images["Attachment_Name"]))
+                {
+                    lstImages.Insert(intImagescount, AppConfig.SitePath + "Documents\\Attach\\" + drEvent_Images["Attachment_Name"]);
+                    intImagescount++;
+                }
+            }
+
+            string[] strTemp = lstImages.ToArray();
+
             if (EmailTo.Length > 0)
             {
                 EmailHelper objEmail = new EmailHelper(AppConfig.SMTPServer, AppConfig.MailFrom, AppConfig.SMTPpwd, Convert.ToInt32(AppConfig.Port));
-                objEmail.SendMailMessage(AppConfig.ManagementEmailID, " ", EmailTo, "ACI Actionable Event Abstract", strAbstractReportData, true, attchment, AppConfig.MailCC);
+                objEmail.SendEventMailMessage(AppConfig.ManagementEmailID, " ", EmailTo, "ACI Actionable Event Abstract", strAbstractReportData, true, strTemp, AppConfig.MailCC);
             }
 
             //for (int i = 0; i < dtEmailList.Rows.Count; i++)
@@ -1742,13 +1768,13 @@ public partial class Event_Event_New : clsBasePage
             //    strEmailIds[0] = string.Empty;
             //}
 
-            ViewState.Remove("Attchments");
+            //ViewState.Remove("Attchments");
         }
     }
 
-    public StringBuilder Event_AbstactReport(decimal _PK_Event, bool ShowAttachments, clsGeneral.Major_Coverage MajorCoverageType)
+    public StringBuilder Event_AbstactReport(DataSet dsEvent, decimal _PK_Event, bool ShowAttachments, clsGeneral.Major_Coverage MajorCoverageType)
     {
-        DataSet dsEvent = clsEvent.GetEventAbstractLetterData(_PK_Event);
+        //DataSet dsEvent = clsEvent.GetEventAbstractLetterData(_PK_Event);
 
         StringBuilder strBody = new StringBuilder("");
 
@@ -1827,17 +1853,33 @@ public partial class Event_Event_New : clsBasePage
             strBody = strBody.Replace("[Acadian_Investigator_Email_Address]", Convert.ToString(dtEvent.Rows[0]["Investigator_Email"]));
             strBody = strBody.Replace("[Acadian_Investigator_Phone]", Convert.ToString(dtEvent.Rows[0]["Investigator_Phone"]));
 
-            //string AttachmentDocPath = "Documents/EventImage";
-            if (!string.IsNullOrEmpty(Convert.ToString(dtEvent.Rows[0]["Event_Image"])) && File.Exists(AppConfig.DocumentsPath + "EventImage\\" + dtEvent.Rows[0]["Event_Image"]))
+            int ImageCounter = 0;
+
+            ////string AttachmentDocPath = "Documents/EventImage";
+            //if (!string.IsNullOrEmpty(Convert.ToString(dtEvent.Rows[0]["Event_Image"])) && File.Exists(AppConfig.DocumentsPath + "EventImage\\" + dtEvent.Rows[0]["Event_Image"]))
+            //{
+            //    ViewState["Attchments"] = dtEvent.Rows[0]["Event_Image"];
+            //    //strBody = strBody.Replace("[Event_Image]", "<img  alt='' src='" + AppConfig.SiteURL + AttachmentDocPath + "/" + dtEvent.Rows[0]["Event_Image"] + "' Height='200' Width='200' />");
+            //}
+            //else
+            //{
+            //    // ViewState["Attchments"] = dtEvent.Rows[0]["Event_Image"];
+            //    ViewState.Remove("Attchments");
+            //    //strBody = strBody.Replace("[Event_Image]", string.Empty);
+            //}
+
+            string AttachmentDocPath = "Documents/EventImage";
+            if (!DBNull.Value.Equals(dtEvent.Rows[0]["Event_Image"]) && File.Exists(Server.MapPath("..\\") + AttachmentDocPath + "/" + dtEvent.Rows[0]["Event_Image"]) && !Is_Sonic_Event)
             {
-                ViewState["Attchments"] = dtEvent.Rows[0]["Event_Image"];
                 //strBody = strBody.Replace("[Event_Image]", "<img  alt='' src='" + AppConfig.SiteURL + AttachmentDocPath + "/" + dtEvent.Rows[0]["Event_Image"] + "' Height='200' Width='200' />");
+                _strAttachmentName = Convert.ToString(dtEvent.Rows[0]["Event_Image"]);
+                strBody = strBody.Replace("[Event_Image]", "<img src=\"cid:Event_Images_" + ImageCounter + "\" Height=\"288\" Width=\"352\" />");
+                ImageCounter++;
             }
             else
             {
-                // ViewState["Attchments"] = dtEvent.Rows[0]["Event_Image"];
-                ViewState.Remove("Attchments");
-                //strBody = strBody.Replace("[Event_Image]", string.Empty);
+                strBody = strBody.Replace("[Event_Image]", string.Empty);
+                _strAttachmentName = string.Empty;
             }
 
             strBody = strBody.Replace("[AL_FR_Number]", Convert.ToString(dtEvent.Rows[0]["AL_FR_Number"]));
@@ -1855,6 +1897,7 @@ public partial class Event_Event_New : clsBasePage
             strBody = strBody.Replace("[SRE#]", Convert.ToString(dtEvent.Rows[0]["Event_Number"]));
             strBody = strBody.Replace("[Monitoring_Hours]", Convert.ToString(dtEvent.Rows[0]["Monitoring_Hours"]));
             strBody = strBody.Replace("[Source_of_Information]", Convert.ToString(dtEvent.Rows[0]["Source_Of_Information"]));
+            strBody = strBody.Replace("[Event_Level]", Convert.ToString(dtEvent.Rows[0]["Event_Level"]));
             strBody = strBody.Replace("[Budge#]", Convert.ToString(dtEvent.Rows[0]["Badge_Number"]));
             strBody = strBody.Replace("[Sonic_Contact_Name]", Convert.ToString(dtEvent.Rows[0]["Sonic_Contact_Name"]));
             strBody = strBody.Replace("[Sonic_Contact_Phone_#]", Convert.ToString(dtEvent.Rows[0]["Sonic_Contact_Phone"]));
@@ -1876,10 +1919,54 @@ public partial class Event_Event_New : clsBasePage
             strBody = strBody.Replace("[Suspect_Information_Grid]", GetSuspectDetails(dtSuspectInformation));
             strBody = strBody.Replace("[Acadian_Notes_Grid]", GetACINotesDetails(dtACINotes));
 
-            if (Is_Sonic_Event)
+            strBody = strBody.Replace("[Status]", Convert.ToString(dtEvent.Rows[0]["Status"]));
+            if (!string.IsNullOrEmpty(Convert.ToString(dtEvent.Rows[0]["Date_Closed"])))
+                strBody = strBody.Replace("[Date_Closed]", clsGeneral.FormatDBNullDateToDisplay(dtEvent.Rows[0]["Date_Closed"]));
+            else
+                strBody = strBody.Replace("[Date_Closed]", string.Empty);
+
+            strBody = strBody.Replace("[Sonic_Notes_Grid]", GetSonicNotesDetails(dtSonicNotes));
+            //if (Is_Sonic_Event)
+            //{
+            //    strBody = strBody.Replace("[Sonic_Notes_Grid]", GetSonicNotesDetails(dtSonicNotes));
+            //}
+
+            #endregion
+
+            #region "Images of Event"
+
+            string strEventImages = string.Empty;
+            if (dtEventImages.Rows.Count > 0)
             {
-                strBody = strBody.Replace("[Sonic_Notes_Grid]", GetSonicNotesDetails(dtSonicNotes));
+                strEventImages = "<table cellpadding='1' cellspacing='1' width='95%'>";
+
+                foreach (DataRow drEvent_Images in dtEventImages.Rows)
+                {
+                    if (!string.IsNullOrEmpty(Convert.ToString(drEvent_Images["Attachment_Name"])) && File.Exists(AppConfig.DocumentsPath + "Attach\\" + drEvent_Images["Attachment_Name"]))
+                    {
+                        System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(AppConfig.SitePath + "Documents\\Attach\\" + drEvent_Images["Attachment_Name"]);
+
+                        int originalWidth = bmp.Width;
+                        int originalHeight = bmp.Height;
+
+                        float ratioX = (float)600 / (float)originalWidth;
+                        float ratioY = (float)200 / (float)originalHeight;
+                        float ratio = Math.Min(ratioX, ratioY);
+
+                        // New width and height based on aspect ratio
+                        int newWidth = (int)(originalWidth * ratio);
+                        int newHeight = (int)(originalHeight * ratio);
+
+                        bmp.Dispose();
+
+                        strEventImages += "<tr style='page-break-inside: avoid'><td valign='top' align='center' border='3px solid'><img src=\"cid:Event_Images_" + ImageCounter + "\" BorderWidth='1px' BorderStyle='Solid' BorderColor='Black' Height='" + newHeight + "' Width='" + newWidth + "' /></td></tr>";
+                        ImageCounter++;
+                    }
+                }
+                strEventImages += "</table>";
             }
+
+            strBody = strBody.Replace("[Images_of_Event]", strEventImages);
 
             #endregion
         }

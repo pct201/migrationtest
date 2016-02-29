@@ -1,0 +1,273 @@
+<?xml version="1.0"?>
+<configuration xmlns="http://schemas.microsoft.com/.NetConfiguration/v2.0">
+	<configSections>
+		<section name="dataConfiguration" type="Microsoft.Practices.EnterpriseLibrary.Data.Configuration.DatabaseSettings, Microsoft.Practices.EnterpriseLibrary.Data"/>
+		<sectionGroup name="system.web.extensions" type="System.Web.Configuration.SystemWebExtensionsSectionGroup, System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+			<sectionGroup name="scripting" type="System.Web.Configuration.ScriptingSectionGroup, System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+				<section name="scriptResourceHandler" type="System.Web.Configuration.ScriptingScriptResourceHandlerSection, System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" requirePermission="false" allowDefinition="MachineToApplication"/>
+				<sectionGroup name="webServices" type="System.Web.Configuration.ScriptingWebServicesSectionGroup, System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+					<section name="jsonSerialization" type="System.Web.Configuration.ScriptingJsonSerializationSection, System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" requirePermission="false" allowDefinition="Everywhere"/>
+					<section name="profileService" type="System.Web.Configuration.ScriptingProfileServiceSection, System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" requirePermission="false" allowDefinition="MachineToApplication"/>
+					<section name="authenticationService" type="System.Web.Configuration.ScriptingAuthenticationServiceSection, System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" requirePermission="false" allowDefinition="MachineToApplication"/>
+				</sectionGroup>
+			</sectionGroup>
+		</sectionGroup>
+	</configSections>
+	<appSettings>
+		<!-- Path to Uploaded all files thru out the project-->
+		<add key="DictionaryFolder" value="netspell/dic"/>
+		<add key="UploadPath" value="~/Documents"/>
+		<add key="SMTPPwd" value="tatva123"/>
+		<add key="SMTPserver" value="192.168.0.6"></add>
+		<add key="ClaimEmailID" value="hastik.vaghasia@server1.com"/>
+    <add key="Management_EmailID" value="hastik.vaghasia@server1.com"/>
+		<add key="SMTPmail" value="prashant.sagar@server1.com"/>
+		<add key="mailCC" value="hastik.vaghasia@server1.com"/>
+
+    <!--<add key="SMTPPwd" value="hardi"/>
+    <add key="SMTPserver" value="smtpout.secureserver.net"></add>
+    <add key="ClaimEmailID" value="ravi.patel@server1.com"/>
+    <add key="SMTPmail" value="harshad.patel@etatvasoft.com"/>
+    <add key="mailCC" value="hetal.prajapati@etatvasoft.com"/>-->
+    
+		<add key="Port" value="25"></add>
+		<add key="TestmailTo" value="erims@astegic.com"/>
+		<add key="SQLDateFormat" value="yyyy-MM-dd"/>
+		<add key="DisplayDateFormat" value="MM/dd/yyyy"/>
+		<add key="AttachmentDocs" value="Documents"/>
+		<!-- This is For the Encrypt Decrypt Functionality-->
+		<add key="SecurityKey" value="astegic"/>
+		<add key="ErroLogMode" value="BOTH"/>
+		<add key="ReportingService.reportservice" value="http://206.204.192.84/ReportServer"/>
+		<add key="ReportPath" value="/Rims_Report"/>
+		<add key="PremiumAllocationPath" value="/PAR_Import"/>
+		<add key="ImagesURL" value="/Images"></add>
+		<add key="maxRequestLength" value="10240000"/>
+		<add key="WC_FRDocs" value="WC_FR_Data"/>
+		<add key="AL_FRDocs" value="AL_FR_Data"/>
+		<add key="DPD_FRDocs" value="DPD_FR_Data"/>
+		<add key="Property_FRDocs" value="Property_FR_Data"/>
+		<add key="PL_FRDocs" value="PL_FR_Data"/>
+		<add key="EnvironDoc" value="Environment_Data"/>
+		<add key="BuildingDocs" value="Building"/>
+		<add key="AdditionalInsuredDocs" value="AdditionalInsured"/>
+		<add key="LeaseSubleaseDocs" value="LeaseSublease"/>
+		<add key="PropertyCOIDocs" value="PropertyCOI"/>
+		<add key="PropertyAssessmentDocs" value="PropertyAssessment"/>
+		<add key="ExecutiveRiskDocs" value="ExecutiveRisk"/>
+		<add key="InvestigatorNotesDocs" value="InvestigatorNotes"/>
+		<add key="Executive_Risk_ContactsDocs" value="Executive_Risk_Contacts"/>
+		<add key="ExecutiveRiskCarrierDocs" value="ExecutiveRiskCarrier"/>
+		<add key="DefenseAttorneyDocs" value="DefenseAttorney"/>
+		<add key="PlantiffAttorneyDocs" value="PlantiffAttorney"/>
+		<add key="ExecutiveRiskExpensesDocs" value="RiskExpenses"/>
+		<add key="InspectionDocs" value="Inspections"/>
+		<add key="WCClaimDocs" value="WC_Claim"/>
+		<add key="ALClaimDocs" value="AL_Claim"/>
+		<add key="PLClaimDocs" value="PL_Claim"/>
+		<add key="DPDClaimDocs" value="DPD_Claim"/>
+		<add key="PropertyClaimDocs" value="Property_Claim"/>
+		<add key="PurchasingDocs" value="PurchasingDocs"/>
+		<add key="PurchasingServiceContractDocPath" value="Purchasing_SC_DocPath"/>
+		<add key="Purchasing_LR_AgreementDocPath" value="Purchasing_LR_DocPath"/>
+		<add key="RealEstateDocs" value="RealEstate"/>
+		<!--<add key="WC_FR_EmailID" value="reportaclaim@srsconnect.com,tim.hallice@sonicautomotive.com"></add>-->
+		<add key="WC_FR_EmailID" value="hastik.vaghasia@server1.com"></add>
+		<add key="InspectionFocusAreaDocs" value="Inspection_Responses"/>
+		<add key="ThemeImagesURL" value="App_Themes/Default/Images/"/>
+		<add key="Policy" value="Policy"/>
+		<add key="PolicyFeature" value="Policy_Features"/>
+		<add key="SabaTrainingDoc" value="SabaTrainingDoc"></add>
+		<add key="AllowMailSending" value="true"/>
+		<add key="RiskProfile" value="Risk_Profile"/>
+		<add key="CertificatesofInsurance" value="Certificates_of_Insurance"/>
+		<add key="COIDocs" value="COI"/>
+		<add key="ProducersDocs" value="Producer"/>
+		<add key="InsuranceCompanyDocs" value="InsuranceCompany"/>
+		<add key="GeneralPolicyDocs" value="GeneralPolicy"/>
+		<add key="AutomobilePolicyDocs" value="AutomobilePolicy"/>
+		<add key="ExcessPolicyDocs" value="ExcessPolicy"/>
+		<add key="WCPolicyDocs" value="WCPolicy"/>
+		<add key="PropertyPolicyDocs" value="PropertyPolicy"/>
+		<add key="LocationDocs" value="Location"/>
+		<add key="AdditionalInsuredDocs" value="AdditionalInsured"/>
+		<add key="ProfessionalPolicyDocs" value="ProfessionalPolicy"/>
+		<add key="LiquorPolicyDocs" value="LiquorPolicy"/>
+		<add key="OwnersDocs" value="Owners"/>
+		<add key="CopiesDocs" value="Copies"/>
+		<add key="ASPLoginURL" value="Default.asp"/>
+		<add key="LetterHistoryDocs" value="LetterHistory"/>
+		<add key="FranchiseDocs" value="Franchise"/>
+		<add key="CRMCustomerDocs" value="CRMCustomer"/>
+		<add key="CRMNonCustomerDocs" value="CRMNonCustomer"/>
+		<add key="PM_AttachmentDocs" value="PM_Site_Info" />
+		<add key="PM_SI_UP_AttachmentsDocs" value="SI_UtilityProvider"/>
+		<add key="PM_SI_FI_AttachmentsDocs" value="SI_FacilitiyId"/>
+		<add key="Permits_Attachments" value="Permits_Attachments"/>
+		<add key="ChemicalInventory" value="ChemicalInventory"/>
+		<add key="PaintInventory" value="PaintInventory"/>
+		<add key="Receiving_TSDF" value="Receiving_TSDF"/>
+		<add key="Waste_Hauler" value="Waste_Hauler"/>
+		<add key="Waste_Removal" value="Waste_Removal"/>
+		<add key="Frequency" value="Frequency"/>
+		<add key="Phase_I" value="Phase_I"/>
+		<add key="EPA_Inspection" value="EPA_Inspection"/>
+		<add key="Remediation_Grid" value="Remediation_Grid"/>
+		<add key="Violation" value="Violation"/>
+		<add key="Equipment_Hydraulic_LiftDocs" value="Equipment_Hydraulic_LiftDocs"/>
+		<add key="Equipment_OWS_AttachmentDocs" value="Equipment_OWS_AttachmentDocs"/>
+		<add key="Equipment_PGCC_AttachmentDocs" value="Equipment_PGCC_AttachmentDocs"/>
+		<add key="CR_Grids_AttachmentDocs" value="CR_Grids_AttachmentDocs"/>
+		<add key="Equipment_Spray_Booth_AttachmentDocs" value="Equipment_Spray_Booth_AttachmentDocs"/>
+		<add key="PM_Equipment_AttachmentsDocs" value="PM_Equipment_AttachmentsDocs"/>
+		<add key="PM_Equipment_AttachmentsDocs" value="PM_Equipment_AttachmentsDocs"/>
+		<add key ="SLT_SafetyWalkDocs" value="SLT_SafetyWalkDocs"></add>
+		<add key="SLT_TrainingDocs" value="SLT_TrainingDocs"></add>
+		<add key="EPM_Docs" value="EPM_Docs"></add>
+    <add key="FCP_Docs" value="FCP_Docs"></add>
+		<add key="EPM_Attachment" value="EPM_Attachment"></add>    
+		<add key="aspnet:MaxHttpCollectionKeys" value="10000" />
+		<add key="localhost.SonicInspectioniPhone" value="http://localhost:51516/SonicInspectioniPhone.asmx"/>
+		<add key="EPM_MaiTo" value="rajan.bajania@server1.com" />
+    <add key="ACI_Management_MailTo" value="prashant.sagar@server1.com" />
+		<add key="Asset_Protection_Docs" value="Asset_Protection_Docs"></add>
+    <add key="New_SLT_Safety_Walk_Date" value="04/02/2014"></add>
+    <add key="SLT_Meeting_CutOff_Day" value="4"></add>    
+  </appSettings>
+	<connectionStrings>
+		<add connectionString="Server=192.168.0.7;Database=Erims_sonic;User ID=harshad;Password=harshad;Connect Timeout=30;" name="SONICConn" providerName="System.Data.SqlClient"/>
+		<!--<add connectionString="Server=PCI120;Database=eRIMS_Sonic;User ID=sa;Password=tatva123;Connect Timeout=30;" name="SONICConn" providerName="System.Data.SqlClient"/>-->
+		<!--<add connectionString="Server=192.168.0.7\sql2008r2;Database=sonic;User ID=HarshadP;Password=HarshadP;Connect Timeout=30;" name="SONICConn" providerName="System.Data.SqlClient"/>-->
+		<!--<add connectionString="Server=192.168.100.122;Database=sonic;User ID=rims;Password=rqx9z7" name="sonicconn" providerName="System.Data.SqlClient"/>-->
+	</connectionStrings>
+	<system.web>
+		<identity impersonate="false"/>
+		<httpRuntime maxRequestLength="2097151"/>
+		<sessionState mode="InProc"></sessionState>
+		<pages theme="Default" validateRequest="true" enableViewStateMac="false" enableEventValidation="false" viewStateEncryptionMode="Never">
+			<controls>
+				<add tagPrefix="asp" namespace="System.Web.UI" assembly="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"/>
+			</controls>
+			<tagMapping>
+				<add tagType="System.Web.UI.WebControls.CompareValidator" mappedTagType="Sample.Web.UI.Compatibility.CompareValidator, Validators, Version=1.0.0.0"/>
+				<add tagType="System.Web.UI.WebControls.CustomValidator" mappedTagType="Sample.Web.UI.Compatibility.CustomValidator, Validators, Version=1.0.0.0"/>
+				<add tagType="System.Web.UI.WebControls.RangeValidator" mappedTagType="Sample.Web.UI.Compatibility.RangeValidator, Validators, Version=1.0.0.0"/>
+				<add tagType="System.Web.UI.WebControls.RegularExpressionValidator" mappedTagType="Sample.Web.UI.Compatibility.RegularExpressionValidator, Validators, Version=1.0.0.0"/>
+				<add tagType="System.Web.UI.WebControls.RequiredFieldValidator" mappedTagType="Sample.Web.UI.Compatibility.RequiredFieldValidator, Validators, Version=1.0.0.0"/>
+				<add tagType="System.Web.UI.WebControls.ValidationSummary" mappedTagType="Sample.Web.UI.Compatibility.ValidationSummary, Validators, Version=1.0.0.0"/>
+			</tagMapping>
+		</pages>
+		<!--
+					Set compilation debug="true" to insert debugging
+					symbols into the compiled page. Because this
+					affects performance, set this value to true only
+					during development.
+		-->
+		<compilation debug="true">
+			<assemblies>
+				<add assembly="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"/>
+				<add assembly="System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=B03F5F7F11D50A3A"/>
+				<add assembly="System.Web.Extensions.Design, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31BF3856AD364E35"/>
+				<add assembly="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=B77A5C561934E089"/>
+				<add assembly="System.Management, Version=2.0.0.0, Culture=neutral, PublicKeyToken=B03F5F7F11D50A3A"/>
+				<add assembly="System.Configuration.Install, Version=2.0.0.0, Culture=neutral, PublicKeyToken=B03F5F7F11D50A3A"/>
+				<add assembly="System.Data.OracleClient, Version=2.0.0.0, Culture=neutral, PublicKeyToken=B77A5C561934E089"/>
+				<add assembly="System.Transactions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=B77A5C561934E089"/>
+				<add assembly="System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=B77A5C561934E089"/>
+				<add assembly="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=B77A5C561934E089"/>
+				<add assembly="System.Xml, Version=2.0.0.0, Culture=neutral, PublicKeyToken=B77A5C561934E089"/>
+				<add assembly="System.Configuration, Version=2.0.0.0, Culture=neutral, PublicKeyToken=B03F5F7F11D50A3A"/>
+				<!--<add assembly="Infragistics2.WebUI.UltraWebChart.v8.2, Version=8.2.20082.1000, Culture=neutral, PublicKeyToken=7DD5C3163F2CD0CB"/>
+				<add assembly="Infragistics2.WebUI.Shared.v8.2, Version=8.2.20082.1000, Culture=neutral, PublicKeyToken=7DD5C3163F2CD0CB"/>-->
+				<!--<add assembly="Microsoft.Office.Interop.Word, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71E9BCE111E9429C"/>
+				<add assembly="Office, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71E9BCE111E9429C"/>-->
+				<add assembly="Microsoft.VisualBasic, Version=8.0.0.0, Culture=neutral, PublicKeyToken=B03F5F7F11D50A3A"/>
+			</assemblies>
+			<buildProviders>
+				<add extension=".rdlc" type="Microsoft.Reporting.RdlBuildProvider, Microsoft.ReportViewer.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"/>
+			</buildProviders>
+		</compilation>
+		<authentication mode="Forms">
+			<forms name="LoginForm" loginUrl="SignIn.aspx" protection="All"></forms>
+		</authentication>
+		<authorization>
+			<allow users="*"/>
+			<!-- Allow all users -->
+			<!--  <allow     users="[comma separated list of users]" roles="[comma separated list of roles]"/>
+						 <deny      users="[comma separated list of users]" roles="[comma separated list of roles]"/> -->
+		</authorization>
+		<!--  APPLICATION-LEVEL TRACE LOGGING
+					Application-level tracing enables trace log output for every page within an application. 
+					Set trace enabled="true" to enable application trace logging.  If pageOutput="true", the
+					trace information will be displayed at the bottom of each page.  Otherwise, you can view the 
+					application trace log by browsing the "trace.axd" page from your web application
+					root. 
+			 defaultRedirect="SignIn.aspx
+		-->
+		<trace enabled="true" requestLimit="10" pageOutput="false" traceMode="SortByTime" localOnly="true"/>
+		<httpHandlers>
+			<remove path="*.asmx" verb="*"/>
+			<add path="*.asmx" verb="*" type="System.Web.Script.Services.ScriptHandlerFactory, System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" validate="false"/>
+			<add path="*_AppService.axd" verb="*" type="System.Web.Script.Services.ScriptHandlerFactory, System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" validate="false"/>
+			<add path="ScriptResource.axd" verb="GET,HEAD" type="System.Web.Handlers.ScriptResourceHandler, System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" validate="false"/>
+			<add path="Reserved.ReportViewerWebControl.axd" verb="*" type="Microsoft.Reporting.WebForms.HttpHandler, Microsoft.ReportViewer.WebForms, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" validate="false"/>
+		</httpHandlers>
+		<httpModules>
+			<add name="ScriptModule" type="System.Web.Handlers.ScriptModule, System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"/>
+			<add name="AjaxUploadModule" type="Jeffz.Web.AjaxFileUploadModule"/>
+		</httpModules>
+		<customErrors mode="Off" defaultRedirect="SignIn.aspx">
+			<error statusCode="403" redirect="SignIn.aspx"/>
+			<error statusCode="404" redirect="SignIn.aspx"/>
+		</customErrors>
+		<globalization requestEncoding="utf-8" responseEncoding="utf-8"  culture="en-US"/>
+		<xhtmlConformance mode="Strict"/>
+		<siteMap>
+			<providers>
+				<add name="Admin" type="System.Web.XmlSiteMapProvider" siteMapFile="app_data/admin.sitemap"/>
+				<add name="User" type="System.Web.XmlSiteMapProvider" siteMapFile="app_data/user.sitemap"/>
+				<add name="UserShop" type="System.Web.XmlSiteMapProvider" siteMapFile="app_data/user_shop.sitemap"/>
+				<add name="WorkComp" type="System.Web.XmlSiteMapProvider" siteMapFile="app_data/WorkerCompensation.sitemap"/>
+				<add name="Liability" type="System.Web.XmlSiteMapProvider" siteMapFile="app_data/Liability.sitemap"/>
+				<add name="WCMenuProvider" type="System.Web.XmlSiteMapProvider" siteMapFile="app_data/WCMenu.sitemap"/>
+				<add name="ALMenuProvider" type="System.Web.XmlSiteMapProvider" siteMapFile="app_data/ALMenu.sitemap"/>
+				<add name="DPDMenuProvider" type="System.Web.XmlSiteMapProvider" siteMapFile="app_data/DPDMenu.sitemap"/>
+				<add name="PLMenuProvider" type="System.Web.XmlSiteMapProvider" siteMapFile="app_data/PLMenu.sitemap"/>
+				<add name="EX-PropertyMenuProvider" type="System.Web.XmlSiteMapProvider" siteMapFile="app_data/Ex-PropertyMenu.sitemap"/>
+				<add name="SonicPropertyMenuProvider" type="System.Web.XmlSiteMapProvider" siteMapFile="app_data/SonicPropertyMenu.sitemap"/>
+				<add name="EX-EnvironmentalMenuProvider" type="System.Web.XmlSiteMapProvider" siteMapFile="app_data/Ex-Environmental.sitemap"/>
+				<add name="EX-InvestigationMenuProvider" type="System.Web.XmlSiteMapProvider" siteMapFile="app_data/Ex-InvestigationMenu.sitemap"/>
+				<add name="Ex-Admin" type="System.Web.XmlSiteMapProvider" siteMapFile="app_data/Exposure_Admin.sitemap"/>
+				<add name="ExecutiveRiskMenuProvider" type="System.Web.XmlSiteMapProvider" siteMapFile="app_data/ExecutiveRiskMenu.sitemap"/>
+				<add name="PurchasingAssetInformationMenuProvider" type="System.Web.XmlSiteMapProvider" siteMapFile="app_data/PurchasingAssetInformationMenu.sitemap"/>
+				<add name="PurchasingServiceContractMenuProvider" type="System.Web.XmlSiteMapProvider" siteMapFile="app_data/SonicPurchasing.sitemap"/>
+				<add name="PurchasingLeaseRentalAgreement" type="System.Web.XmlSiteMapProvider" siteMapFile="app_data/PurchasingLeaseRentalAgreement.sitemap"/>
+				<add name="AdminMenuProvider" type="System.Web.XmlSiteMapProvider" siteMapFile="app_data/AdminMenu.sitemap"/>
+				<add name="RiskProfileMenuProvider" type="System.Web.XmlSiteMapProvider" siteMapFile="app_data/RiskProfileMenu.sitemap"/>
+				<add name="COIProcedureProvider" type="System.Web.XmlSiteMapProvider" siteMapFile="app_data/COIProcedureMenu.sitemap"/>
+				<add name="COICompnayProvider" type="System.Web.XmlSiteMapProvider" siteMapFile="app_data/COICompanyMenu.sitemap"/>
+				<add name="COIGeneralPolicyProvider" type="System.Web.XmlSiteMapProvider" siteMapFile="app_data/COIGeneralPolicyMenu.sitemap"/>
+				<add name="COIAutoMobilePolicyProvider" type="System.Web.XmlSiteMapProvider" siteMapFile="app_data/COIAutomobilePolicyMenu.sitemap"/>
+				<add name="COIExcessPolicyProvider" type="System.Web.XmlSiteMapProvider" siteMapFile="app_data/COIExcessPolicyMenu.sitemap"/>
+				<add name="COIPropertyPolicyProvider" type="System.Web.XmlSiteMapProvider" siteMapFile="app_data/COIPropertyPolicyMenu.sitemap"/>
+				<add name="COIMenuProvider" type="System.Web.XmlSiteMapProvider" siteMapFile="app_data/COIMenu.sitemap"/>
+				<add name="VehiclesMenuProvider" type="System.Web.XmlSiteMapProvider" siteMapFile="app_data/VehiclesMenu.sitemap"/>
+				<add name="DriversMenuProvider" type="System.Web.XmlSiteMapProvider" siteMapFile="app_data/DriversMenu.sitemap"/>
+			</providers>
+		</siteMap>
+	</system.web>
+	<!--<dataConfiguration defaultDatabase="ErimsConn"/>-->
+	<dataConfiguration defaultDatabase="SONICConn"/>
+	<system.webServer>
+		<validation validateIntegratedModeConfiguration="false"/>
+		<modules>
+			<add name="ScriptModule" preCondition="integratedMode" type="System.Web.Handlers.ScriptModule, System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"/>
+		</modules>
+		<handlers>
+			<remove name="WebServiceHandlerFactory-Integrated"/>
+			<add name="ScriptHandlerFactory" verb="*" path="*.asmx" preCondition="integratedMode" type="System.Web.Script.Services.ScriptHandlerFactory, System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"/>
+			<add name="ScriptHandlerFactoryAppServices" verb="*" path="*_AppService.axd" preCondition="integratedMode" type="System.Web.Script.Services.ScriptHandlerFactory, System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"/>
+			<add name="ScriptResource" preCondition="integratedMode" verb="GET,HEAD" path="ScriptResource.axd" type="System.Web.Handlers.ScriptResourceHandler, System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"/>
+		</handlers>
+	</system.webServer>
+</configuration>

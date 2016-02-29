@@ -124,6 +124,7 @@ public class AbstractLetters
             strBody = strBody.Replace("[SRE#]", Convert.ToString(dtEvent.Rows[0]["Event_Number"]));
             strBody = strBody.Replace("[Monitoring_Hours]", Convert.ToString(dtEvent.Rows[0]["Monitoring_Hours"]));
             strBody = strBody.Replace("[Source_of_Information]", Convert.ToString(dtEvent.Rows[0]["Source_Of_Information"]));
+            strBody = strBody.Replace("[Event_Level]", Convert.ToString(dtEvent.Rows[0]["Event_Level"]));
             strBody = strBody.Replace("[Budge#]", Convert.ToString(dtEvent.Rows[0]["Badge_Number"]));
             strBody = strBody.Replace("[Sonic_Contact_Name]", Convert.ToString(dtEvent.Rows[0]["Sonic_Contact_Name"]));
             strBody = strBody.Replace("[Sonic_Contact_Phone_#]", Convert.ToString(dtEvent.Rows[0]["Sonic_Contact_Phone"]));
@@ -145,10 +146,11 @@ public class AbstractLetters
             strBody = strBody.Replace("[Suspect_Information_Grid]", GetSuspectDetails(dtSuspectInformation)); 
             strBody = strBody.Replace("[Acadian_Notes_Grid]", GetACINotesDetails(dtACINotes));
 
-            if (Is_Sonic_Event)
-            {
-                strBody = strBody.Replace("[Sonic_Notes_Grid]", GetSonicNotesDetails(dtSonicNotes));
-            }
+            strBody = strBody.Replace("[Sonic_Notes_Grid]", GetSonicNotesDetails(dtSonicNotes));
+            //if (Is_Sonic_Event)
+            //{
+            //    strBody = strBody.Replace("[Sonic_Notes_Grid]", GetSonicNotesDetails(dtSonicNotes));
+            //}
 
             string strEventImages = string.Empty;
             if (dtEventImages.Rows.Count > 0)
@@ -180,6 +182,11 @@ public class AbstractLetters
             }
 
             strBody = strBody.Replace("[Images_of_Event]", strEventImages);
+            strBody = strBody.Replace("[Status]", Convert.ToString(dtEvent.Rows[0]["Status"]));
+            if (!string.IsNullOrEmpty(Convert.ToString(dtEvent.Rows[0]["Date_Closed"])))
+                strBody = strBody.Replace("[Date_Closed]", clsGeneral.FormatDBNullDateToDisplay(dtEvent.Rows[0]["Date_Closed"]));
+            else
+                strBody = strBody.Replace("[Date_Closed]", string.Empty);
 
             #endregion
         }

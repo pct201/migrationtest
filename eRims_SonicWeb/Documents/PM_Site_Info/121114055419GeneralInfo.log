@@ -1,0 +1,176 @@
+8/30/2014 7:02:27 AM :- //////////////////////////////////Rising Import Export Start On :8/30/2014 7:02:27 AM  ///////////////////////////
+
+8/30/2014 7:02:27 AM :- ----------Start One Time Export File : Rising Claim/ Patient Layout---------------------------------------------------
+
+8/30/2014 7:02:27 AM :- File Exported To Archive Folder : D:/erims2 applications/dev/CCS/exports/Rising\CLM_20140830_070227.txt
+
+8/30/2014 7:02:27 AM :- Start Copy File From : D:/erims2 applications/dev/CCS/exports/Rising\CLM_20140830_070227.txt To Rising FTP : testrisingftp.com/INBOUND TO RISING/CLAIM
+
+8/30/2014 7:02:29 AM :- End Copy File To Rising FTP
+
+8/30/2014 7:02:29 AM :- --------------------End One Time Export File : Rising Claim/ Patient Layout  -----------------------------------------
+
+8/30/2014 7:02:29 AM :- ----------Start Export File : Rising Claim/ Patient Layout------------------------------------------------------------
+
+8/30/2014 7:02:29 AM :- File Exported To Archive Folder : D:/erims2 applications/dev/CCS/exports/Rising\CLM_20140830_070229.txt
+
+8/30/2014 7:02:29 AM :- Start Copy File From : D:/erims2 applications/dev/CCS/exports/Rising\CLM_20140830_070229.txt To Rising FTP : testrisingftp.com/INBOUND TO RISING/CLAIM
+
+8/30/2014 7:02:30 AM :- End Copy File To Rising FTP
+
+8/30/2014 7:02:30 AM :- --------------------End Export File : Rising Claim/ Patient Layout----------------------------------------------------
+
+8/30/2014 7:02:30 AM :- ----------Start Import File : Rising Payment Confirmation Layout------------------------------------------------------
+
+8/30/2014 7:02:30 AM :- No File Exists for Import : Rising Medical Solutions - Rising Payment Confirmation Layout.
+
+8/30/2014 7:02:30 AM :- --------------------End Import File : Rising Payment Confirmation Layout----------------------------------------------
+
+8/30/2014 7:02:30 AM :- ----------Start Import File : EOR BILL HEADER RECORD LAYOUT & EOR Bill Line Detail------------------------------------
+
+8/30/2014 7:02:33 AM :- File Imported Successfully : EOR_20140826_133540.TXT
+
+8/30/2014 7:02:34 AM :- File Imported Successfully : EOR_20140826_140206.TXT
+
+8/30/2014 7:02:35 AM :- File Imported Successfully : EOR_20140826_140942.TXT
+
+8/30/2014 7:02:36 AM :- File Imported Successfully : EOR_20140826_153658.TXT
+
+8/30/2014 7:02:37 AM :- File Imported Successfully : EOR_20140827_103034.TXT
+
+8/30/2014 7:02:37 AM :- --------------------End Import File :EOR BILL HEADER RECORD LAYOUT & EOR Bill Line Detail-----------------------------
+
+8/30/2014 7:02:37 AM :- ----------Start Import PDF ERO documents from Rising------------------------------------------------------------------
+
+8/30/2014 7:02:39 AM :- File Imported Successfully : WCBISUM60016_55555-H-10010065-0.PDF
+
+8/30/2014 7:02:40 AM :- File Imported Successfully : WCBISUM60016_55555-U-10010068-0.PDF
+
+8/30/2014 7:02:40 AM :- --------------------End Import PDF ERO documents from Rising----------------------------------------------------------
+
+8/30/2014 7:02:40 AM :- ----------Start Export File : Payment Authentication------------------------------------------------------------------
+
+8/30/2014 7:02:40 AM :- File Exported To Archive Folder : D:/erims2 applications/dev/CCS/exports/Rising\PAY_20140830_070240.txt
+
+8/30/2014 7:02:40 AM :- Start Copy File From : D:/erims2 applications/dev/CCS/exports/Rising\PAY_20140830_070240.txt To Rising FTP : testrisingftp.com/INBOUND TO RISING/PAYAUTH
+
+8/30/2014 7:02:41 AM :- End Copy File To Rising FTP
+
+8/30/2014 7:02:41 AM :- --------------------End Export File : Payment Authentication----------------------------------------------------------
+
+8/30/2014 7:02:41 AM :- //////////////////////////////////Rising Import Export End /////////////////////////////////////////////////////////
+
+8/30/2014 7:02:41 AM :- Thread is going to sleep.
+
+8/30/2014 7:03:42 AM :- Rising Import Export Service Stopped 
+
+10/6/2014 2:18:59 AM :- Rising Import Export Service Stopped 
+
+10/6/2014 2:19:06 AM :- //////////////////////////////////Rising Import Export Start On :10/6/2014 2:19:06 AM  ///////////////////////////
+
+10/6/2014 2:19:06 AM :- ----------Start One Time Export File : Rising Claim/ Patient Layout---------------------------------------------------
+
+10/6/2014 2:19:06 AM :- File Exported To Archive Folder : D:/erims2 applications/dev/CCS/exports/Rising\CLM_20141006_021906.txt
+
+10/6/2014 2:19:06 AM :- Start Copy File From : D:/erims2 applications/dev/CCS/exports/Rising\CLM_20141006_021906.txt To Rising FTP : testrisingftp.com/INBOUND TO RISING/CLAIM
+
+10/6/2014 2:19:08 AM :- End Copy File To Rising FTP
+
+10/6/2014 2:19:08 AM :- --------------------End One Time Export File : Rising Claim/ Patient Layout  -----------------------------------------
+
+10/6/2014 2:19:08 AM :- ----------Start Export File : Rising Claim/ Patient Layout------------------------------------------------------------
+
+10/6/2014 2:19:08 AM :- File Exported To Archive Folder : D:/erims2 applications/dev/CCS/exports/Rising\CLM_20141006_021908.txt
+
+10/6/2014 2:19:08 AM :- Start Copy File From : D:/erims2 applications/dev/CCS/exports/Rising\CLM_20141006_021908.txt To Rising FTP : testrisingftp.com/INBOUND TO RISING/CLAIM
+
+10/6/2014 2:19:09 AM :- End Copy File To Rising FTP
+
+10/6/2014 2:19:09 AM :- --------------------End Export File : Rising Claim/ Patient Layout----------------------------------------------------
+
+10/6/2014 2:19:09 AM :- ----------Start Import File : Rising Payment Confirmation Layout------------------------------------------------------
+
+10/6/2014 2:19:10 AM :- No File Exists for Import : Rising Medical Solutions - Rising Payment Confirmation Layout.
+
+10/6/2014 2:19:10 AM :- --------------------End Import File : Rising Payment Confirmation Layout----------------------------------------------
+
+10/6/2014 2:19:10 AM :- ----------Start Import File : EOR BILL HEADER RECORD LAYOUT & EOR Bill Line Detail------------------------------------
+
+10/6/2014 2:19:13 AM :- File Imported Successfully : EOR_20140917_103533.TXT
+
+10/6/2014 2:19:13 AM :- --------------------End Import File :EOR BILL HEADER RECORD LAYOUT & EOR Bill Line Detail-----------------------------
+
+10/6/2014 2:19:13 AM :- ----------Start Import PDF ERO documents from Rising------------------------------------------------------------------
+
+10/6/2014 2:19:13 AM :- --------------------End Import PDF ERO documents from Rising----------------------------------------------------------
+
+10/6/2014 2:19:13 AM :- ----------Start Export File : Payment Authentication------------------------------------------------------------------
+
+10/6/2014 2:19:13 AM :- File Exported To Archive Folder : D:/erims2 applications/dev/CCS/exports/Rising\PAY_20141006_021913.txt
+
+10/6/2014 2:19:13 AM :- Start Copy File From : D:/erims2 applications/dev/CCS/exports/Rising\PAY_20141006_021913.txt To Rising FTP : testrisingftp.com/INBOUND TO RISING/PAYAUTH
+
+10/6/2014 2:19:14 AM :- End Copy File To Rising FTP
+
+10/6/2014 2:19:14 AM :- --------------------End Export File : Payment Authentication----------------------------------------------------------
+
+10/6/2014 2:19:14 AM :- //////////////////////////////////Rising Import Export End /////////////////////////////////////////////////////////
+
+10/6/2014 2:19:14 AM :- Thread is going to sleep.
+
+10/9/2014 4:14:04 AM :- //////////////////////////////////Rising Import Export Start On :10/9/2014 4:14:04 AM  ///////////////////////////
+
+10/9/2014 4:14:04 AM :- ----------Start One Time Export File : Rising Claim/ Patient Layout---------------------------------------------------
+
+10/9/2014 4:14:06 AM :- File Exported To Archive Folder : D:/erims2 applications/dev/CCS/exports/Rising\CLM_20141009_041404.txt
+
+10/9/2014 4:14:06 AM :- Start Copy File From : D:/erims2 applications/dev/CCS/exports/Rising\CLM_20141009_041404.txt To Rising FTP : testrisingftp.com/INBOUND TO RISING/CLAIM
+
+10/9/2014 4:14:08 AM :- End Copy File To Rising FTP
+
+10/9/2014 4:14:08 AM :- --------------------End One Time Export File : Rising Claim/ Patient Layout  -----------------------------------------
+
+10/9/2014 4:14:08 AM :- ----------Start Export File : Rising Claim/ Patient Layout------------------------------------------------------------
+
+10/9/2014 4:14:08 AM :- File Exported To Archive Folder : D:/erims2 applications/dev/CCS/exports/Rising\CLM_20141009_041408.txt
+
+10/9/2014 4:14:08 AM :- Start Copy File From : D:/erims2 applications/dev/CCS/exports/Rising\CLM_20141009_041408.txt To Rising FTP : testrisingftp.com/INBOUND TO RISING/CLAIM
+
+10/9/2014 4:14:09 AM :- End Copy File To Rising FTP
+
+10/9/2014 4:14:09 AM :- --------------------End Export File : Rising Claim/ Patient Layout----------------------------------------------------
+
+10/9/2014 4:14:09 AM :- ----------Start Import File : Rising Payment Confirmation Layout------------------------------------------------------
+
+10/9/2014 4:14:09 AM :- No File Exists for Import : Rising Medical Solutions - Rising Payment Confirmation Layout.
+
+10/9/2014 4:14:09 AM :- --------------------End Import File : Rising Payment Confirmation Layout----------------------------------------------
+
+10/9/2014 4:14:09 AM :- ----------Start Import File : EOR BILL HEADER RECORD LAYOUT & EOR Bill Line Detail------------------------------------
+
+10/9/2014 4:14:10 AM :- No file Exists for Import :Rising Medical Solutions - EOR BILL HEADER and LINE Details RECORD LAYOUT.
+
+10/9/2014 4:14:10 AM :- --------------------End Import File :EOR BILL HEADER RECORD LAYOUT & EOR Bill Line Detail-----------------------------
+
+10/9/2014 4:14:10 AM :- ----------Start Import PDF ERO documents from Rising------------------------------------------------------------------
+
+10/9/2014 4:14:11 AM :- File Imported Successfully : WCCOLMD60001_99997-H-10010217-0.PDF
+
+10/9/2014 4:14:11 AM :- --------------------End Import PDF ERO documents from Rising----------------------------------------------------------
+
+10/9/2014 4:14:12 AM :- ----------Start Export File : Payment Authentication------------------------------------------------------------------
+
+10/9/2014 4:14:12 AM :- File Exported To Archive Folder : D:/erims2 applications/dev/CCS/exports/Rising\PAY_20141009_041412.txt
+
+10/9/2014 4:14:12 AM :- Start Copy File From : D:/erims2 applications/dev/CCS/exports/Rising\PAY_20141009_041412.txt To Rising FTP : testrisingftp.com/INBOUND TO RISING/PAYAUTH
+
+10/9/2014 4:14:13 AM :- End Copy File To Rising FTP
+
+10/9/2014 4:14:13 AM :- --------------------End Export File : Payment Authentication----------------------------------------------------------
+
+10/9/2014 4:14:13 AM :- ////////////////////////////////// Rising Import Export End /////////////////////////////////////////////////////////
+
+10/9/2014 4:14:13 AM :- Thread is going to sleep.
+
+10/9/2014 4:15:31 AM :- Rising Import Export Service Stopped 
+
