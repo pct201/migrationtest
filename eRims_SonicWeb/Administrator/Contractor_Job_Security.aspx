@@ -4,6 +4,10 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 <%@ Register Src="~/Controls/NotesWithSpellCheck/Notes.ascx" TagName="ctrlMultiLineTextBox" TagPrefix="uc" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
+        HeaderText="Verify the following fields:" BorderWidth="1" BorderColor="DimGray"
+        ValidationGroup="vsErrorGroup" CssClass="errormessage"></asp:ValidationSummary>
+
     <script type="text/javascript" src="<%=AppConfig.SiteURL%>JavaScript/JFunctions.js"></script>
     <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/Calendar_new.js"></script>
     <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/calendar-en.js"></script>
@@ -19,22 +23,22 @@
             return false;
         }
         function Validate() {
-            var el = document.getElementById('<%=ddlLocation.ClientID%>').selectedIndex;
-            if (el == 0) {
-                alert("Please Select Location");
-                return false;
-            }
-            else {
-                var ep = document.getElementById('<%=ddlProjectNumber.ClientID%>').selectedIndex;
-                if (ep == 0) {
-                    alert("Please Select Project Number");
-                    return false;
-                }
-                else {
-                    return true;
-                }
-            }
-            
+            //  var el = document.getElementById('').selectedIndex;
+            //  if (el == 0) {
+            //      alert("Please Select Location");
+            //      return false;
+            //  }
+            //  else {
+            //      var ep = document.getElementById('').selectedIndex;
+            //      if (ep == 0) {
+            //          alert("Please Select Project Number");
+            //          return false;
+            //      }
+            //      else {
+            //          return true;
+            //      }
+            //  }
+
         }
     </script>
 
@@ -51,10 +55,10 @@
                     </tr>
                     <tr>
                         <td class="bandHeaderRow" align="left">Location/Project Access Grid Screen
-                                    </td>
+                        </td>
                     </tr>
                     <tr>
-                        <td class="Spacer" style="height: 3px;" ></td>
+                        <td class="Spacer" style="height: 3px;"></td>
                     </tr>
                     <tr>
 
@@ -63,61 +67,22 @@
                                 <tr>
                                     <td width="5px" class="Spacer">&nbsp;
                                     </td>
-                                    
+
                                     <td class="dvContainer">
-                                        <div id="dvEdit" runat="server" width="794px">
+                                        <div id="dvEdit" runat="server" width="100%">
                                             <%--<asp:Panel ID="pnl1" runat="server" Style="display: inline;">--%>
                                             <%--<div class="bandHeaderRow">
                                                     Location/Project Access Grid Screen</div>--%>
                                             <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                 <tr>
-                                                    <td align="left" width="18%" valign="top">Location&nbsp;<span id="Span1" style="color: Red;"  runat="server">*</span>
-                                                    </td>
-                                                    <td align="center" width="4%" valign="top">:
-                                                    </td>
-                                                    <td align="left" width="28%" valign="top">
-                                                        <asp:DropDownList ID="ddlLocation" Width="175px" runat="server" AutoPostBack="true" SkinID="dropGen" OnSelectedIndexChanged="ddlLocation_SelectedIndexChanged">
-                                                        </asp:DropDownList>
-                                                    </td>
-                                                    <td align="left" width="18%" valign="top">Project Number&nbsp;<span id="Span2" style="color: Red;"  runat="server">*</span>
-                                                    </td>
-                                                    <td align="center" width="4%" valign="top">:
-                                                    </td>
-                                                    <td align="left" width="28%" valign="top">
-                                                        <asp:DropDownList ID="ddlProjectNumber" Width="175px" AutoPostBack="true" runat="server" SkinID="dropGen" OnSelectedIndexChanged="ddlProjectNumber_SelectedIndexChanged">
-                                                        </asp:DropDownList>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td align="left" valign="top">Project Start Date&nbsp;<span id="Span3" style="color: Red; display: none;" runat="server">*</span>
+                                                    <td align="left" colspan="2" style="width:100px;" valign="top">Projects&nbsp;<span id="Span1" style="color: Red;" runat="server">*</span>
                                                     </td>
                                                     <td align="center" valign="top">:
                                                     </td>
-                                                    <td align="left" valign="top">
-                                                        <asp:TextBox ID="txtProject_Start_Date" runat="server" Width="170px" SkinID="txtDate" MaxLength="10"></asp:TextBox>
-                                                        <img alt="Project_Start_Date" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtProject_Start_Date', 'mm/dd/y');"
-                                                            onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
-                                                            align="middle" id="img1" /><br />
-                                                        <asp:RegularExpressionValidator ID="rvProject_Start_Date" runat="server" ControlToValidate="txtProject_Start_Date"
-                                                            ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$"
-                                                            ErrorMessage="Project Start Date is Not Valid Date." Display="none" SetFocusOnError="true">
-                                                        </asp:RegularExpressionValidator>
-                                                    </td>
-                                                    <td align="left" valign="top">&nbsp;
-                                                    </td>
-                                                    <td align="center" valign="top">&nbsp;
-                                                    </td>
-                                                    <td align="left" valign="top">&nbsp;
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td align="left" valign="top">Project Description&nbsp;<span id="Span4" style="color: Red; display: none;" runat="server">*</span>
-                                                    </td>
-                                                    <td align="center" valign="top">:
-                                                    </td>
-                                                    <td align="left" valign="top" colspan="4">
-                                                        <uc:ctrlMultiLineTextBox ControlType="TextBox" ID="CtrlMultiLineLabelProject_Description" runat="server" />
-                                                        <%--<asp:TextBox ID="txtProject_Description" runat="server" Width="170px" MaxLength="100" TextMode="MultiLine" />--%>
+                                                    <td align="left" colspan="3" valign="top">
+                                                        <asp:ListBox runat="server" ID="lstProjects" Width="300px" Height="150px" SelectionMode="Multiple"></asp:ListBox>
+                                                        <asp:RequiredFieldValidator runat="server" ID="rfvProjects" ControlToValidate="lstProjects"
+                                                            ValidationGroup="vsErrorGroup" Display="none" ErrorMessage="Please select at least one Projects."></asp:RequiredFieldValidator>
                                                     </td>
                                                     <%--<td align="left" valign="top">&nbsp;
                                                     </td>
@@ -127,22 +92,25 @@
                                                     </td>--%>
                                                 </tr>
                                                 <tr>
-                                                    <td align="left" valign="top">Access&nbsp;<span id="Span5" style="color: Red; display: none;" runat="server">*</span>
+                                                    <td align="left" colspan="2" valign="top">Access&nbsp;<span id="Span5" style="color: Red; " runat="server">*</span>
                                                     </td>
                                                     <td align="center" valign="top">:
                                                     </td>
-                                                    <td align="left" valign="top">
+                                                    <td align="left" colspan="3" valign="top">
                                                         <asp:RadioButtonList ID="rdoAccess" runat="server">
                                                             <asp:ListItem Text="Read Only" Value="R"></asp:ListItem>
                                                             <asp:ListItem Text="Read/Write" Value="RW"></asp:ListItem>
                                                         </asp:RadioButtonList>
+                                                        <asp:RequiredFieldValidator ID="revAccess" runat="server" ValidationGroup="vsErrorGroup"
+                                                            ErrorMessage="Please check Access?" Text="*" Display="None"
+                                                            ControlToValidate="rdoAccess"></asp:RequiredFieldValidator>
                                                     </td>
-                                                    <td align="left" valign="top">&nbsp;
+                                                    <%--<td align="left" valign="top">&nbsp;
                                                     </td>
                                                     <td align="center" valign="top">&nbsp;
                                                     </td>
                                                     <td align="left" valign="top">&nbsp;
-                                                    </td>
+                                                    </td>--%>
                                                 </tr>
 
                                                 <tr>
@@ -177,27 +145,27 @@
                                                 </table>
                                             </asp:Panel>--%>
                                         </div>
-                                        <div id="dvView" runat="server" width="794px">
+                                        <div id="dvView" runat="server" width="100%">
                                             <%--<div class="bandHeaderRow">
                                                     Location/Project Access Grid Screen</div>--%>
                                             <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                 <tr>
-                                                    <td align="left" width="18%" valign="top">Location
+                                                    <%--<td align="left" width="18%" valign="top">Location
                                                     </td>
                                                     <td align="center" width="4%" valign="top">:
                                                     </td>
                                                     <td align="left" width="28%" valign="top">
                                                         <asp:Label ID="lblLocation" runat="server"></asp:Label>
-                                                    </td>
-                                                    <td align="left" width="18%" valign="top">Project Number
+                                                    </td>--%>
+                                                    <td colspan="2" align="left" width="18%" valign="top">Project Number
                                                     </td>
                                                     <td align="center" width="4%" valign="top">:
                                                     </td>
-                                                    <td align="left" width="28%" valign="top">
+                                                    <td colspan="3" align="left" width="28%" valign="top">
                                                         <asp:Label ID="lblProject_Number" runat="server" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                                                     </td>
                                                 </tr>
-                                                <tr>
+                                                <%--   <tr>
                                                     <td align="left" valign="top">Project Start Date
                                                     </td>
                                                     <td align="center" valign="top">:
@@ -211,34 +179,34 @@
                                                     </td>
                                                     <td align="left" valign="top">&nbsp;
                                                     </td>
-                                                </tr>
-                                                <tr>
+                                                </tr>--%>
+                                                <%--  <tr>
                                                     <td align="left" valign="top">Project Description
                                                     </td>
                                                     <td align="center" valign="top">:
                                                     </td>
                                                     <td align="left" valign="top" colspan="4">
-                                                        <%--<asp:Label ID="lblProject_Description" style="word-wrap:normal;word-break:break-all" runat="server"></asp:Label>--%>
+                                                        <%--<asp:Label ID="lblProject_Description" style="word-wrap:normal;word-break:break-all" runat="server"></asp:Label>
                                                         <uc:ctrlMultiLineTextBox ControlType="Label" ID="lblProject_Description" runat="server" />
                                                     </td>
-                                                    <%--<td align="left" valign="top">&nbsp;
+                                                    <td align="left" valign="top">&nbsp;
                                                     </td>
                                                     <td align="center" valign="top">&nbsp;
                                                     </td>
                                                     <td align="left" valign="top">&nbsp;
-                                                    </td>--%>
-                                                </tr>
+                                                    </td>
+                                                </tr>--%>
                                                 <tr>
-                                                    <td align="left" valign="top">Access
+                                                    <td align="left" colspan="2" valign="top">Access
                                                     </td>
                                                     <td align="center" valign="top">:
                                                     </td>
-                                                    <td align="left" valign="top">
+                                                    <td align="left" colspan="3" valign="top">
                                                         <asp:Label ID="lblAccess" runat="server"></asp:Label>
                                                     </td>
-                                                    <td align="left" valign="top"></td>
+                                                    <%-- <td align="left" valign="top"></td>
                                                     <td align="center" valign="top"></td>
-                                                    <td align="left" valign="top"></td>
+                                                    <td align="left" valign="top"></td>--%>
                                                 </tr>
 
                                                 <tr>
@@ -263,11 +231,11 @@
                                 <table cellpadding="5" cellspacing="0" border="0" width="100%">
                                     <tr>
                                         <td width="60%" align="right">
-                                            <asp:Button ID="btnSave" runat="server" Text="Save & View" OnClick="btnSave_Click"
-                                                CausesValidation="true" ValidationGroup="vsErrorGroup" OnClientClick="javascript: return Validate();" />
-                                            <asp:Button ID="btnEdit" runat="server" Text=" Edit " OnClick="btnEdit_Click"  />
-                                            <asp:Button runat="server" ID="btnAuditTrail" Text="View Audit Trail" CausesValidation="false"
-                                                Visible="true" OnClientClick="javascript:return OpenAuditPopUp();" />
+                                            <asp:Button ID="btnSave" runat="server" Text="Save & Continue" OnClick="btnSave_Click"
+                                                CausesValidation="true" ValidationGroup="vsErrorGroup" />
+                                            <asp:Button ID="btnEdit" runat="server" Text=" Edit " OnClick="btnEdit_Click" />
+                                            <%--<asp:Button runat="server" ID="btnAuditTrail" Text="View Audit Trail" CausesValidation="false"
+                                                Visible="true" OnClientClick="javascript:return OpenAuditPopUp();" />--%>
                                             <asp:Button ID="btnBack" runat="server" Text=" Back " OnClick="btnBack_Click" />
                                         </td>
                                         <td align="left">&nbsp;

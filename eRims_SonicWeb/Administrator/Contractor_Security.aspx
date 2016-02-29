@@ -462,39 +462,44 @@
                         <asp:GridView ID="gvLocationProjectAccess" runat="server" Width="100%" AutoGenerateColumns="false" 
                             EmptyDataText="No Record Exists" OnRowCommand="gvLocationProjectAccess_RowCommand" AllowSorting="true" OnSorting="gvLocationProjectAccess_Sorting">
                             <Columns>
-                                <asp:TemplateField HeaderText="Location" HeaderStyle-HorizontalAlign="Center">
+                              <%--  <asp:TemplateField HeaderText="Location" HeaderStyle-HorizontalAlign="Center">
                                     <ItemStyle Width="20%" HorizontalAlign="Center" />
                                     <ItemTemplate>
-                                        <asp:LinkButton ID="lnkLocation" runat="server" Text='<%# Eval("dba") %>'
+                                      <%--  <asp:LinkButton ID="lnkLocation" runat="server" Text='<%# Eval("dba") %>'
                                             CommandName="EditDetails" Style="word-wrap: normal; word-break: break-all;" CommandArgument='<%# Eval("PK_Contractor_Job_Security") %>' />
+                                        <asp:Label ID="lbldba" runat="server" Style="word-wrap: normal; word-break: break-all;"  Text='<%# Eval("dba")%>'></asp:Label>
                                     </ItemTemplate>
-                                </asp:TemplateField>
+                                </asp:TemplateField>--%>
                                 <asp:TemplateField HeaderText="Project Number" HeaderStyle-HorizontalAlign="Center" SortExpression="Project_Number">
-                                    <ItemStyle Width="20%" HorizontalAlign="Center" />
+                                    <ItemStyle Width="50%" HorizontalAlign="Center" />
                                     <ItemTemplate>
-                                        <asp:LinkButton ID="lnkProject_Number" Style="word-wrap: normal; word-break: break-all;" runat="server" Text='<%# Eval("Project_Number") %>'
-                                            CommandName="EditDetails" CommandArgument='<%# Eval("PK_Contractor_Job_Security") %>' />
+                                        <%--<asp:LinkButton ID="lnkProject_Number" Style="word-wrap: normal; word-break: break-all;" runat="server" Text='<%# Eval("Project_Number") %>'
+                                            CommandName="EditDetails" CommandArgument='<%# Eval("PK_Contractor_Job_Security") %>' />--%>
+                                        <asp:Label ID="lblProject_Number" runat="server" Style="word-wrap: normal; word-break: break-all;"  Text='<%# Eval("Project_Number")%>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Title" HeaderStyle-HorizontalAlign="Center" SortExpression="Title">
+                                <%--<asp:TemplateField HeaderText="Title" HeaderStyle-HorizontalAlign="Center" SortExpression="Title">
                                     <ItemStyle Width="20%" HorizontalAlign="Center" />
                                     <ItemTemplate>
-                                        <asp:LinkButton ID="lnkTitle" Style="word-wrap: normal; word-break: break-all;" runat="server" Text='<%# Eval("Title") %>'
+                                        <%--<asp:LinkButton ID="lnkTitle" Style="word-wrap: normal; word-break: break-all;" runat="server" Text='<%# Eval("Title") %>'
                                             CommandName="EditDetails" CommandArgument='<%# Eval("PK_Contractor_Job_Security") %>' />
+                                        <asp:Label ID="lblTitle" runat="server" Style="word-wrap: normal; word-break: break-all;"  Text='<%# Eval("Title")%>'></asp:Label>
                                     </ItemTemplate>
-                                </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Project Start Date" HeaderStyle-HorizontalAlign="Center">
+                                </asp:TemplateField>--%>
+                              <%--  <asp:TemplateField HeaderText="Project Start Date" HeaderStyle-HorizontalAlign="Center">
                                     <ItemStyle Width="20%" HorizontalAlign="Center" />
                                     <ItemTemplate>
-                                        <asp:LinkButton ID="lnkEstimated_Start_Date" runat="server" Text='<%# DataBinder.Eval(Container.DataItem,"Estimated_Start_Date","{0:MM/dd/yyyy}") %>'
+                                        <%--<asp:LinkButton ID="lnkEstimated_Start_Date" runat="server" Text='<%# DataBinder.Eval(Container.DataItem,"Estimated_Start_Date","{0:MM/dd/yyyy}") %>'
                                             CommandName="EditDetails" CommandArgument='<%# Eval("PK_Contractor_Job_Security") %>' />
+                                        <asp:Label ID="lblTitle" runat="server" Style="word-wrap: normal; word-break: break-all;"  Text='<%# DataBinder.Eval(Container.DataItem,"Estimated_Start_Date","{0:MM/dd/yyyy}") %>'></asp:Label>
                                     </ItemTemplate>
-                                </asp:TemplateField>
+                                </asp:TemplateField>--%>
                                 <asp:TemplateField HeaderText="Access" HeaderStyle-HorizontalAlign="Center">
-                                    <ItemStyle Width="20%" HorizontalAlign="Center" />
+                                    <ItemStyle Width="40%" HorizontalAlign="Center" />
                                     <ItemTemplate>
-                                        <asp:LinkButton ID="lnkAccess" runat="server" Text='<%# Eval("Access") %>'
-                                            CommandName="EditDetails" CommandArgument='<%# Eval("PK_Contractor_Job_Security") %>' />
+                                        <%--<asp:LinkButton ID="lnkAccess" runat="server" Text='<%# Eval("Access") %>'
+                                            CommandName="EditDetails" CommandArgument='<%# Eval("PK_Contractor_Job_Security") %>' />--%>
+                                        <asp:Label ID="lblAccess" runat="server" Style="word-wrap: normal; word-break: break-all;"  Text='<%# Eval("Access")%>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
 
@@ -684,39 +689,41 @@
                         <asp:GridView ID="gvViewLocationProjectAccess" runat="server" Width="100%" AutoGenerateColumns="false" AllowSorting="true" OnSorting="gvViewLocationProjectAccess_Sorting"
                             EmptyDataText="No Record Exists" OnRowCommand="gvViewLocationProjectAccess_RowCommand">
                             <Columns>
-                                <asp:TemplateField HeaderText="Location">
+                                <%--<asp:TemplateField HeaderText="Location">
                                     <ItemStyle Width="20%" HorizontalAlign="Left" />
                                     <ItemTemplate>
                                         <asp:LinkButton ID="lnkdbaview" runat="server" Text='<%# Eval("dba") %>'
                                             CommandName="ViewDetails" CommandArgument='<%# Eval("PK_Contractor_Job_Security") %>' />
                                     </ItemTemplate>
-                                </asp:TemplateField>
+                                </asp:TemplateField>--%>
                                 <asp:TemplateField HeaderText="Project Number" SortExpression="Project_Number">
-                                    <ItemStyle Width="20%" HorizontalAlign="Left" />
+                                    <ItemStyle Width="70%" HorizontalAlign="Left" />
                                     <ItemTemplate>
-                                        <asp:LinkButton ID="lnkProject_NumberView" runat="server" Text='<%# Eval("Project_Number") %>'
-                                            CommandName="ViewDetails" CommandArgument='<%# Eval("PK_Contractor_Job_Security") %>' />
+                                        <%--<asp:LinkButton ID="lnkProject_NumberView" runat="server" Text='<%# Eval("Project_Number") %>'
+                                            CommandName="ViewDetails" CommandArgument='<%# Eval("PK_Contractor_Job_Security") %>' />--%>
+                                        <asp:Label ID="lblProject_Number" runat="server" Style="word-wrap: break-word; word-break: break-all;"  Text='<%# Eval("Project_Number")%>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Title" HeaderStyle-HorizontalAlign="Center" SortExpression="Title">
+                               <%-- <asp:TemplateField HeaderText="Title" HeaderStyle-HorizontalAlign="Center" SortExpression="Title">
                                     <ItemStyle Width="20%" HorizontalAlign="Center" />
                                     <ItemTemplate>
                                         <asp:LinkButton ID="lnkTitle" Style="word-wrap: normal; word-break: break-all;" runat="server" Text='<%# Eval("Title") %>'
                                             CommandName="ViewDetails" CommandArgument='<%# Eval("PK_Contractor_Job_Security") %>' />
                                     </ItemTemplate>
-                                </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Project Start Date">
+                                </asp:TemplateField>--%>
+                                <%--<asp:TemplateField HeaderText="Project Start Date">
                                     <ItemStyle Width="20%" HorizontalAlign="Left" />
                                     <ItemTemplate>
                                         <asp:LinkButton ID="lnkEstimated_Start_DateView" runat="server" Text='<%# DataBinder.Eval(Container.DataItem,"Estimated_Start_Date","{0:MM/dd/yyyy}") %>'
                                             CommandName="ViewDetails" CommandArgument='<%# Eval("PK_Contractor_Job_Security") %>' />
                                     </ItemTemplate>
-                                </asp:TemplateField>
+                                </asp:TemplateField>--%>
                                 <asp:TemplateField HeaderText="Access">
-                                    <ItemStyle Width="20%" HorizontalAlign="Left" />
+                                    <ItemStyle Width="30%" HorizontalAlign="Left" />
                                     <ItemTemplate>
-                                        <asp:LinkButton ID="lnkAccessview" runat="server" Text='<%# Eval("Access") %>'
-                                            CommandName="ViewDetails" CommandArgument='<%# Eval("PK_Contractor_Job_Security") %>' />
+                                        <%--<asp:LinkButton ID="lnkAccessview" runat="server" Text='<%# Eval("Access") %>'
+                                            CommandName="ViewDetails" CommandArgument='<%# Eval("PK_Contractor_Job_Security") %>' />--%>
+                                        <asp:Label ID="lblAccess" runat="server" Style="word-wrap: normal; word-break: break-all;"  Text='<%# Eval("Access")%>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <%-- 

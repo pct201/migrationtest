@@ -318,6 +318,20 @@ namespace ERIMS.DAL
         }
 
         /// <summary>
+        /// Selects list of project which not access to user from Facility_construction_Project table.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static DataSet SelectByProjectNotAccess(decimal PK_Contractor_Security)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Facility_Construction_ProjectSelectNotAccess");
+
+            db.AddInParameter(dbCommand, "PK_Contractor_Security", DbType.Decimal, PK_Contractor_Security);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        /// <summary>
         /// Selects a single record from the Contractor_Job_Security table by FK_Contactor_Security.
         /// </summary>
         /// <returns>DataSet</returns>
