@@ -507,7 +507,7 @@ namespace ERIMS.DAL
         /// <param name="Year"></param>
         /// <param name="FK_LU_VOC_Category"></param>
         /// <returns></returns>
-        public static int CheckRecord(int Month, int Year, decimal FK_LU_VOC_Category, decimal FK_LU_Location, decimal FK_PM_Permits, string Part_Number)
+        public static Int64 CheckRecord(int Month, int Year, decimal FK_LU_VOC_Category, decimal FK_LU_Location, decimal FK_PM_Permits, string Part_Number, decimal pK_PM_Permits_VOC_Emissions)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("PM_Permits_VOC_EmissionsSelectPermit");
@@ -518,6 +518,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "FK_LU_Location", DbType.Decimal, FK_LU_Location);
             db.AddInParameter(dbCommand, "FK_PM_Permits", DbType.Decimal, FK_PM_Permits);
             db.AddInParameter(dbCommand, "Part_Number", DbType.String, Part_Number);
+            db.AddInParameter(dbCommand, "PK_PM_Permits_VOC_Emissions", DbType.Decimal, pK_PM_Permits_VOC_Emissions);
 
             return Convert.ToInt32(db.ExecuteScalar(dbCommand));
         }

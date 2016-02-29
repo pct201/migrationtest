@@ -732,29 +732,38 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
                 objPM_Permits_VOC_Emissions.SubTotal_Text = drpPaintCategory.SelectedItem.Text;
             }
 
+            Int64 recordData = clsPM_Permits_VOC_Emissions.CheckRecord(Convert.ToInt32(objPM_Permits_VOC_Emissions.Month), Convert.ToInt32(objPM_Permits_VOC_Emissions.Year), Convert.ToDecimal(objPM_Permits_VOC_Emissions.FK_LU_VOC_Category), Convert.ToDecimal(objPM_Permits_VOC_Emissions.FK_LU_Location), Convert.ToDecimal(objPM_Permits_VOC_Emissions.FK_PM_Permits), objPM_Permits_VOC_Emissions.Part_Number, PK_PM_Permits_VOC_Emissions);
             if (PK_PM_Permits_VOC_Emissions > 0)
             {
-                objPM_Permits_VOC_Emissions.Update();
-                ScriptManager.RegisterStartupScript(this, Page.GetType(), DateTime.Now.ToString(), "javascript:alert('VOC Details Saved successfully.');", true);
+                if (recordData > 0)
+                {
+                    ScriptManager.RegisterStartupScript(this, Page.GetType(), DateTime.Now.ToString(), "javascript:alert('VOC Details already exists for entered Item Number.');", true);
+                }
+                else
+                {
+                    objPM_Permits_VOC_Emissions.Update();
+                    ScriptManager.RegisterStartupScript(this, Page.GetType(), DateTime.Now.ToString(), "javascript:alert('VOC Details Saved successfully.');", true);
+                    pnlVOCEdit.Visible = false;
+                    lnkAddNew.Visible = true;
+                }
+
                 BindVOCGrid();
             }
             else
             {
-                int recordData = clsPM_Permits_VOC_Emissions.CheckRecord(Convert.ToInt32(objPM_Permits_VOC_Emissions.Month), Convert.ToInt32(objPM_Permits_VOC_Emissions.Year), Convert.ToDecimal(objPM_Permits_VOC_Emissions.FK_LU_VOC_Category), Convert.ToDecimal(objPM_Permits_VOC_Emissions.FK_LU_Location), Convert.ToDecimal(objPM_Permits_VOC_Emissions.FK_PM_Permits), objPM_Permits_VOC_Emissions.Part_Number);
                 if (recordData == 1)
                 {
                     objPM_Permits_VOC_Emissions.Insert();
                     ScriptManager.RegisterStartupScript(this, Page.GetType(), DateTime.Now.ToString(), "javascript:alert('VOC Details Saved successfully.');", true);
                     BindVOCGrid();
+                    pnlVOCEdit.Visible = false;
+                    lnkAddNew.Visible = true;
                 }
                 else
                 {
                     ScriptManager.RegisterStartupScript(this, Page.GetType(), DateTime.Now.ToString(), "javascript:alert('VOC Details already exists for entered Item Number.');", true);
                 }
-            }            
-
-            pnlVOCEdit.Visible = false;
-            lnkAddNew.Visible = true;
+            }
         }
         else
         {

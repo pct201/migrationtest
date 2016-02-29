@@ -69,7 +69,15 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
             PK_PM_Permits = clsGeneral.GetQueryStringID(Request.QueryString["id"]);
             FK_PM_Site_Information = clsGeneral.GetQueryStringID(Request.QueryString["fid"]);
             FK_LU_Location = clsGeneral.GetQueryStringID(Request.QueryString["loc"]);
-            ddlLocation.SelectedValue = Convert.ToString(FK_LU_Location);
+            if (FK_LU_Location > 0)
+            {
+                Session["ExposureLocation"] = FK_LU_Location;
+                ddlLocation.SelectedValue = Convert.ToString(FK_LU_Location);
+            }
+            else
+            {
+                Response.Redirect("../Exposures/ExposureSearch.aspx");
+            }
         }
     }
 
@@ -96,11 +104,11 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
                     //clsPM_Permits_VOC_Emissions objVOCEmission = new clsPM_Permits_VOC_Emissions();
                     //DataTable dt = objVOCEmission.InsertData(filename).Tables[0];
                     string paintCategory = string.Empty, subTotalText = string.Empty, subtotalTextUpdate = string.Empty, fkCategoryIds = string.Empty, categoriIds = string.Empty;
-                    int retValue = 0, fK_LU_VOC_Category = 0;
+                    Int64 retValue = 0, fK_LU_VOC_Category = 0;
                     int month = Convert.ToInt32(ddlMonth.SelectedItem.Value);
                     int year = Convert.ToInt32(ddlYear.SelectedItem.Value);
                     string strFinal = "<ImportXML>", strFinalUpdate = "<ImportXML>";
-                    decimal subTotal = 0, subtotalUpdate = 0;
+                    int duplicateRecords = 0;
                     DataTable dt = new DataTable();
 
                     #region " CSV to DataTable "
@@ -135,6 +143,7 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
 
                     if (dt != null && dt.Rows.Count > 0)
                     {
+                        DataTable dtDuplicateImportData = dt.Clone();
                         foreach (DataRow dr in dt.Rows)
                         {
                             if (!string.IsNullOrEmpty(Convert.ToString(dr["Paint Category"])) && paintCategory.ToUpper() != (Convert.ToString(dr["Paint Category"])).ToUpper())
@@ -142,8 +151,7 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
                                 paintCategory = Convert.ToString(dr["Paint Category"]);
                                 paintCategory = paintCategory.Replace("\"", "");
                                 fK_LU_VOC_Category = clsLU_VOC_Category.SelectByCategory(paintCategory);
-                                fkCategoryIds += fK_LU_VOC_Category + ",";
-                                subTotal = subtotalUpdate = 0;
+                                fkCategoryIds += fK_LU_VOC_Category + ",";                                
                                 if (fK_LU_VOC_Category > 0)
                                 {
                                     categoriIds += fK_LU_VOC_Category + ",";
@@ -158,7 +166,7 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
 
                             if ((fK_LU_VOC_Category > 0) && !string.IsNullOrEmpty(part_Number))
                             {
-                                retValue = clsPM_Permits_VOC_Emissions.CheckRecord(month, year, fK_LU_VOC_Category, FK_LU_Location, PK_PM_Permits, part_Number);
+                                retValue = clsPM_Permits_VOC_Emissions.CheckRecord(month, year, fK_LU_VOC_Category, FK_LU_Location, PK_PM_Permits, part_Number, 0);
                             }
                             else
                             {
@@ -168,16 +176,22 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
 
                             string tempItem = year.ToString() + "||" + month.ToString() + "||" + fK_LU_VOC_Category.ToString() + "||" + FK_LU_Location.ToString() + "||" + part_Number;
 
-                            if(htDuplicateItems.Contains(tempItem))
+                            if (htDuplicateItems.Contains(tempItem))
                             {
-                                retValue = 2;
+                                if (!string.IsNullOrEmpty(part_Number))
+                                {
+                                    dtDuplicateImportData.ImportRow(dr);
+                                    dtDuplicateImportData.Rows[dtDuplicateImportData.Rows.Count - 1]["Paint Category"] = paintCategory;
+                                    duplicateRecords++;
+                                }
+                                // retValue = 2;
                             }
                             else
                             {
                                 htDuplicateItems.Add(tempItem, retValue);
                                 //retValue = 1;
                             }
-                            
+
                             if (retValue == 1 && !string.IsNullOrEmpty(part_Number))
                             {
                                 strFinal = strFinal + "<Section><FK_PM_Permits>" + PK_PM_Permits + "</FK_PM_Permits><Year>" + year + "</Year><Month>" + month + "</Month><Paint_Category>" + fK_LU_VOC_Category + "</Paint_Category><Part_Number>" + Convert.ToString(dr["Part Number"]) + "</Part_Number><Unit>" + Convert.ToString(dr["Unit"]).Replace("\"", "") + "</Unit><Quantity>" + clsGeneral.GetDecimal(dr["Qty"]) + "</Quantity><Gallons>" + clsGeneral.GetDecimal(dr["Gallons"]) + "</Gallons><VOC_Emissions>" + clsGeneral.GetDecimal(dr["VOC Total"]) + "</VOC_Emissions><Updated_By>" + clsSession.UserID + "</Updated_By></Section>";
@@ -192,29 +206,43 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
 
                         strFinal += "</ImportXML>";
                         strFinalUpdate += "</ImportXML>";
-                        clsPM_Permits_VOC_Emissions.ImportXML(strFinal, strFinalUpdate);
 
-                        if (!string.IsNullOrEmpty(categoriIds) && categoriIds.Contains(","))
+                        if (dtDuplicateImportData != null && dtDuplicateImportData.Rows.Count > 0)
                         {
-                            string[] voc_Category = categoriIds.Split(',');
-                            string[] subTotalTextData = subTotalText.Split(',');
-                            int count = 0;
-                            foreach (string voc_categoryId in voc_Category)
+                            Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "alert('File Import Aborted, Following duplicate entries found.');", true);
+                            gvVOCEmission.DataSource = dtDuplicateImportData;
+                            gvVOCEmission.DataBind();
+                            divVOCData.Visible = true;
+                            lblDuplicateEntries.Text = "Number of Duplicate Records : " + duplicateRecords.ToString();
+                        }
+                        else
+                        {
+                            clsPM_Permits_VOC_Emissions.ImportXML(strFinal, strFinalUpdate);
+
+                            if (!string.IsNullOrEmpty(categoriIds) && categoriIds.Contains(","))
                             {
-                                if (!string.IsNullOrEmpty(voc_categoryId))
+                                string[] voc_Category = categoriIds.Split(',');
+                                string[] subTotalTextData = subTotalText.Split(',');
+                                int count = 0;
+                                foreach (string voc_categoryId in voc_Category)
                                 {
-                                    clsPM_Permits_VOC_Emissions.UpdateSubTotal(subTotalTextData[count], Convert.ToInt32(voc_categoryId), PK_PM_Permits, month, year, Convert.ToString(DateTime.Now), Convert.ToString(clsSession.UserID));
-                                    count++;
+                                    if (!string.IsNullOrEmpty(voc_categoryId))
+                                    {
+                                        clsPM_Permits_VOC_Emissions.UpdateSubTotal(subTotalTextData[count], Convert.ToInt32(voc_categoryId), PK_PM_Permits, month, year, Convert.ToString(DateTime.Now), Convert.ToString(clsSession.UserID));
+                                        count++;
+                                    }
                                 }
                             }
-                        }
 
-                        Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "alert('File Imported Successfully');", true);
+                            divVOCData.Visible = false;
+                            Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "alert('File Imported Successfully');", true);
+                        }
                     }
                 }
             }
             catch
             {
+                divVOCData.Visible = false;
                 Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "alert('Selected file can not be imported');", true);
             }
             finally
