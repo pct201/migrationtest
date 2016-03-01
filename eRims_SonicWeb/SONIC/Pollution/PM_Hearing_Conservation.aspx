@@ -202,6 +202,7 @@
                     $('#<%= txtVendor_Zip_Code.ClientID%>').val('');
                     $('#<%= txtVendor_Telephone.ClientID%>').val('');
                     $('#<%= txtVendor_City.ClientID%>').val('');
+                    $('#<%= txtVendor_EMail.ClientID%>').val('');
                     $("#<%= ddlFK_State.ClientID%>").val('0');
                 }
                 else
@@ -212,6 +213,7 @@
                     $('#<%= txtVendor_Address.ClientID%>').val(arr[2]);
                     $('#<%= txtVendor_Zip_Code.ClientID%>').val(arr[3]);
                     $('#<%= txtVendor_Telephone.ClientID%>').val(arr[4]);
+                    $('#<%= txtVendor_EMail.ClientID%>').val(arr[5]);
 
                     if (arr[0] == "Examinetics") {
                         $('#<%= txtVendor_City.ClientID%>').val("Overland Park");
