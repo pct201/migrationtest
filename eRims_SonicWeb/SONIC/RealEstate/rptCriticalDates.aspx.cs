@@ -9,6 +9,7 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using ERIMS.DAL;
+using System.IO;
 public partial class SONIC_RealEstate_rptCriticalDates : clsBasePage
 {
     #region "Variables"
@@ -101,8 +102,36 @@ public partial class SONIC_RealEstate_rptCriticalDates : clsBasePage
             GridView gvDetail = (GridView)gRow.FindControl("gvReport");
             gvDetail.GridLines = GridLines.Both;
         }
-        // export gridview to excel
-        GridViewExportUtil.ExportGrid("CriticalDatesReport.xls", gvDBA);
+        //// export gridview to excel
+        //GridViewExportUtil.ExportGrid("CriticalDatesReport.xls", gvDBA);
+
+        if (gvDBA.Rows.Count > 0)
+        {
+            string data = GridViewExportUtil.ExportAdHoc_New(this.gvDBA);
+            data = data.Trim();
+            HTML2Excel objHtml2Excel = new HTML2Excel(data);
+            string strPath = AppConfig.SitePath + @"temp\";
+            string fileName = "CriticalDates.xlsx";
+            string outputFiles = Path.GetFullPath(strPath + fileName);
+            bool blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
+            if ((blnHTML2Excel == true) && File.Exists(outputFiles))
+            {
+                try
+                {
+                    HttpContext.Current.Response.Clear();
+                    HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", fileName));
+                    HttpContext.Current.Response.ContentType = "application/ms-excel";
+                    HttpContext.Current.Response.TransmitFile(outputFiles);
+                    HttpContext.Current.Response.Flush();
+                }
+                finally
+                {
+                    if (File.Exists(outputFiles))
+                        File.Delete(outputFiles);
+                    HttpContext.Current.Response.End();
+                }
+            }
+        }
 
         // hide gridlines
         gvDBA.GridLines = GridLines.None;
