@@ -62,11 +62,11 @@
             var selectedValue = ddlContractorType.value;
             if (selectedText.toUpperCase() == 'AED' || selectedText.toUpperCase() == 'CONTRACTOR' || selectedText.toUpperCase() == 'VENDOR ACCOUNTANT') {
                 document.getElementById("<%=rfvtxtVendorNumber.ClientID%>").enabled = true;
-                document.getElementById('spantxtVendorNumber').style.display = 'block';
+                document.getElementById('spantxtVendorNumber').style.visibility = 'visible';                
             }
             else {
                 document.getElementById("<%=rfvtxtVendorNumber.ClientID%>").enabled = false;
-                document.getElementById('spantxtVendorNumber').style.display = 'none';
+                document.getElementById('spantxtVendorNumber').style.visibility = 'hidden';
             }
 
         }
@@ -445,7 +445,7 @@
                             ValidationGroup="vsErrorGroup" Display="None" ErrorMessage="Email Address Is Invalid."
                             SetFocusOnError="True" Text="*" ToolTip="Email Address Is Invalid" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*">*</asp:RegularExpressionValidator>
                     </td>
-                    <td align="left">Vendor Number <span id="spantxtVendorNumber" style="color: Red; display:none; " >*</span>
+                    <td align="left">Vendor Number <span id="spantxtVendorNumber" style="color: Red; visibility:hidden;">*</span>
                     </td>
                     <td align="center">:
                     </td>
