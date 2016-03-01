@@ -39,6 +39,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "region", DbType.String, strRegion);
             db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
             db.AddInParameter(dbCommand, "valuation_date", DbType.DateTime, valuation_date);
+            dbCommand.CommandTimeout = 100000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -50,6 +51,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "region", DbType.String, strRegion);
             db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
             db.AddInParameter(dbCommand, "valuation_date", DbType.DateTime, valuation_date);
+            dbCommand.CommandTimeout = 100000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -61,6 +63,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "To_Date", DbType.DateTime, dtTo);
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
             db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
+            dbCommand.CommandTimeout = 100000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -72,6 +75,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "To_Date", DbType.DateTime, dtTo);
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
             db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
+            dbCommand.CommandTimeout = 100000;
             return db.ExecuteDataSet(dbCommand);
         }
         public static DataSet GetCompletionLagSummaryData(DateTime dtFrom, DateTime dtTo, string strRegion, string strMarket)
@@ -82,6 +86,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "To_Date", DbType.DateTime, dtTo);
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
             db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
+            dbCommand.CommandTimeout = 100000;
             return db.ExecuteDataSet(dbCommand);
         }
         public static DataSet GetTPALagSummaryData(DateTime dtFrom, DateTime dtTo, string strRegion, string strMarket)
@@ -92,6 +97,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "To_Date", DbType.DateTime, dtTo);
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
             db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
+            dbCommand.CommandTimeout = 100000;
             return db.ExecuteDataSet(dbCommand);
         }
         public static DataSet GetFrequencyAnalysisData(DateTime dtFrom, DateTime dtTo, string strClaimType)
@@ -102,6 +108,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "ToDate", DbType.DateTime, dtTo);
             db.AddInParameter(dbCommand, "claim_type", DbType.String, strClaimType);
             db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Int32, clsSession.UserID);
+            dbCommand.CommandTimeout = 100000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -112,6 +119,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "FromDate", DbType.DateTime, dtFrom);
             db.AddInParameter(dbCommand, "ToDate", DbType.DateTime, dtTo);
             db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Int32, clsSession.UserID);
+            dbCommand.CommandTimeout = 100000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -136,7 +144,7 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "claim_type", DbType.String, strClaimType);
             db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Int32, clsSession.UserID);
-
+            dbCommand.CommandTimeout = 100000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -214,7 +222,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "To_Date", DbType.DateTime, dtIncidentTo);
             db.AddInParameter(dbCommand, "FK_Part_of_Body_Code", DbType.String, strBodyParts);
             db.AddInParameter(dbCommand, "Claim_Status", DbType.String, strClaimStatus);
-
+            dbCommand.CommandTimeout = 100000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -224,6 +232,7 @@ namespace ERIMS.DAL
             DbCommand dbCommand = db.GetStoredProcCommand("rpt_Reconciliation_Report_New");
             dbCommand.CommandTimeout = 100000;
             db.AddInParameter(dbCommand, "FilePath", DbType.String, FilePath);
+            dbCommand.CommandTimeout = 100000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -238,7 +247,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "IncidentBeginDate", DbType.DateTime, IncidentBeginDate);
             db.AddInParameter(dbCommand, "IncidentEndDate", DbType.DateTime, IncidentEndDate);
             db.AddInParameter(dbCommand, "FirstReportCategory", DbType.String, FirstReportCategory);
-
+            dbCommand.CommandTimeout = 100000;
             return db.ExecuteDataSet(dbCommand);
         }
     }
