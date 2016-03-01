@@ -211,8 +211,9 @@ public partial class Administrator_Contractor_Security : clsBasePage
     protected void btnEdit_Click(object sender, EventArgs e)
     {
         if (PK_Contactor_Security > 0)
-            
+        
             Response.Redirect("Contractor_Security.aspx?op=edit&id=" + Encryption.Encrypt(Convert.ToString(PK_Contactor_Security)));
+
     }
 
     /// <summary>
@@ -424,6 +425,10 @@ public partial class Administrator_Contractor_Security : clsBasePage
             PK_Contactor_Security = Convert.ToInt32(e.CommandArgument.ToString());
             hdnPKContractorSecurity.Value = PK_Contactor_Security.ToString();
             EditRecords();
+            //Page.RegisterStartupScript("close", "<script language=javascript>   window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtFirstName').value = '" + lbtnTempFirst.Text.Replace("''", "\\'") + "'; window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtLastName').value = '" + lbtnTempLast.Text.Replace("''", "\\'") + "';  window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtempid').value = '" + lbtnTempID.Text + "'; self.close(); </script>");
+           // Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ddlChangeValidator();", true);
+
+            
         }
         else if (e.CommandName == "View")
         {
@@ -653,6 +658,7 @@ public partial class Administrator_Contractor_Security : clsBasePage
         hdnPKContractorSecurity.Value = Convert.ToString(PK_Contactor_Security);
         btnCopyFrom.Visible = true;
         btnCopyTo.Visible = true;
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ddlChangeValidator();", true);
     }
 
     /// <summary>

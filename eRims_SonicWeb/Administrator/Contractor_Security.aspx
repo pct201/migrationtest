@@ -57,9 +57,10 @@
             return false;
         }
 
-        function ddlChangeValidator(ddlContractorType) {
+        function ddlChangeValidator() {
+            var ddlContractorType = document.getElementById("<%=ddlContractoType.ClientID%>");
             var selectedText = ddlContractorType.options[ddlContractorType.selectedIndex].innerHTML;
-            var selectedValue = ddlContractorType.value;
+            //var selectedValue = ddlContractorType.value;
             if (selectedText.toUpperCase() == 'AED' || selectedText.toUpperCase() == 'CONTRACTOR' || selectedText.toUpperCase() == 'VENDOR ACCOUNTANT') {
                 document.getElementById("<%=rfvtxtVendorNumber.ClientID%>").enabled = true;
                 document.getElementById('spantxtVendorNumber').style.visibility = 'visible';                
@@ -298,7 +299,7 @@
                     <td align="center">:
                     </td>
                     <td align="left">
-                        <asp:DropDownList ID="ddlContractoType" runat="server" Width="170px" SkinID="ddlSONIC" onchange="ddlChangeValidator(this);">
+                        <asp:DropDownList ID="ddlContractoType" runat="server" Width="170px" SkinID="ddlSONIC" onchange="ddlChangeValidator();">
                         </asp:DropDownList>
                         <asp:RequiredFieldValidator ID="rfvddlContractoType" ControlToValidate="ddlContractoType" Display="None"
                             ValidationGroup="vsErrorGroup" Text="*" InitialValue="0" runat="server" ErrorMessage="Please select atleast one Contractor Type."></asp:RequiredFieldValidator>
