@@ -56,6 +56,20 @@
             GB_showCenter(title, '<%=AppConfig.SiteURL%>Administrator/ContractorSecurityPopup.aspx?action=' + action + '&FK_Contractor_Security=<%= PK_Contactor_Security %>', 300, 800, '');
             return false;
         }
+
+        function ddlChangeValidator(ddlContractorType) {
+            var selectedText = ddlContractorType.options[ddlContractorType.selectedIndex].innerHTML;
+            var selectedValue = ddlContractorType.value;
+            if (selectedText.toUpperCase() == 'AED' || selectedText.toUpperCase() == 'CONTRACTOR' || selectedText.toUpperCase() == 'VENDOR ACCOUNTANT') {
+                document.getElementById("<%=rfvtxtVendorNumber.ClientID%>").enabled = true;
+                document.getElementById('spantxtVendorNumber').style.display = 'block';
+            }
+            else {
+                document.getElementById("<%=rfvtxtVendorNumber.ClientID%>").enabled = false;
+                document.getElementById('spantxtVendorNumber').style.display = 'none';
+            }
+
+        }
     </script>
     <link href="<%=AppConfig.SiteURL%>greybox/gb_styles.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="<%=AppConfig.SiteURL%>greybox/AJS.js"></script>
@@ -284,7 +298,7 @@
                     <td align="center">:
                     </td>
                     <td align="left">
-                        <asp:DropDownList ID="ddlContractoType" runat="server" Width="170px" SkinID="ddlSONIC">
+                        <asp:DropDownList ID="ddlContractoType" runat="server" Width="170px" SkinID="ddlSONIC" onchange="ddlChangeValidator(this);">
                         </asp:DropDownList>
                         <asp:RequiredFieldValidator ID="rfvddlContractoType" ControlToValidate="ddlContractoType" Display="None"
                             ValidationGroup="vsErrorGroup" Text="*" InitialValue="0" runat="server" ErrorMessage="Please select atleast one Contractor Type."></asp:RequiredFieldValidator>
@@ -377,26 +391,26 @@
                 </tr>
 
                 <tr>
-                    <td align="left">Office Telephone (999-999-9999)
+                    <td align="left">Office Telephone (999-999-9999)<span style="color: Red;">*</span>
                     </td>
                     <td align="center">:
                     </td>
                     <td align="left">
                         <asp:TextBox runat="server" ID="txtOfficeTelephone" MaxLength="12" Width="170px"></asp:TextBox>
-                        <%--<asp:RequiredFieldValidator ID="rfvtxtOfficeTelephone" ControlToValidate="txtOfficeTelephone" Display="None"
-                            runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Office Telephone."></asp:RequiredFieldValidator>--%>
+                        <asp:RequiredFieldValidator ID="rfvtxtOfficeTelephone1" ControlToValidate="txtOfficeTelephone" Display="None"
+                            runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Office Telephone."></asp:RequiredFieldValidator>
                         <asp:RegularExpressionValidator ID="rfvtxtOfficeTelephone" ControlToValidate="txtOfficeTelephone"
                             runat="server" ErrorMessage="Please Enter Office TelePhone in XXX-XXX-XXXX format."
                             Display="none" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>
                     </td>
-                    <td align="left">Cell Phone (999-999-9999)<%--<span style="color: Red;">*</span>--%>
+                    <td align="left">Cell Phone (999-999-9999)<span style="color: Red;">*</span>
                     </td>
                     <td align="center">:
                     </td>
                     <td align="left">
                         <asp:TextBox runat="server" ID="txtCellPhone" MaxLength="12" Width="170px"></asp:TextBox>
-                        <%--<asp:RequiredFieldValidator ID="rfvtxtCellPhone" ControlToValidate="txtCellPhone" Display="None"
-                            runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Cell Phone."></asp:RequiredFieldValidator>--%>
+                        <asp:RequiredFieldValidator ID="rfvtxtCellPhone1" ControlToValidate="txtCellPhone" Display="None"
+                            runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Cell Phone."></asp:RequiredFieldValidator>
                         <asp:RegularExpressionValidator ID="rfvtxtCellPhone" ControlToValidate="txtCellPhone"
                             runat="server" ErrorMessage="Please Enter Cell Phone in XXX-XXX-XXXX format."
                             Display="none" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>
@@ -431,12 +445,15 @@
                             ValidationGroup="vsErrorGroup" Display="None" ErrorMessage="Email Address Is Invalid."
                             SetFocusOnError="True" Text="*" ToolTip="Email Address Is Invalid" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*">*</asp:RegularExpressionValidator>
                     </td>
-                    <td align="left">Vendor Number
+                    <td align="left">Vendor Number <span id="spantxtVendorNumber" style="color: Red; display:none; " >*</span>
                     </td>
                     <td align="center">:
                     </td>
                     <td align="left">
-                        <asp:TextBox runat="server" ID="txtVendorNumber" MaxLength="50" Width="170px"></asp:TextBox>                                                
+                        <asp:TextBox runat="server" ID="txtVendorNumber" MaxLength="50" Width="170px"></asp:TextBox>    
+                         <asp:RequiredFieldValidator ID="rfvtxtVendorNumber" ControlToValidate="txtVendorNumber" Display="None" 
+                            runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Vendor Number."></asp:RequiredFieldValidator>
+                                                                    
                     </td>
                 </tr>
                 <tr>
