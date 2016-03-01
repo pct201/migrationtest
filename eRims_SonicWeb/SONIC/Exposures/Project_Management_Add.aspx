@@ -5,8 +5,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <table border="0" cellpadding="3" cellspacing="1" width="100%">
         <tr>
-            <td style="height: 18px;" class="Spacer" colspan="2">
-            </td>
+            <td style="height: 18px;" class="Spacer" colspan="2"></td>
         </tr>
         <tr>
             <td width="100%" colspan="2">
@@ -58,16 +57,14 @@
             </td>
         </tr>
         <tr>
-            <td style="height: 10px;" class="Spacer" colspan="2">
-            </td>
+            <td style="height: 10px;" class="Spacer" colspan="2"></td>
         </tr>
         <tr>
             <td align="left" valign="top" colspan="2">
                 <div class="bandHeaderRow">
                     <table width="100%" border="0" cellpadding="2" cellspacing="0">
                         <tr>
-                            <td align="left">
-                                Project Management Module
+                            <td align="left">Project Management Module
                             </td>
                         </tr>
                     </table>
@@ -78,8 +75,7 @@
             <td colspan="2">
                 <table border="0" cellpadding="0" cellspacing="0" width="100%">
                     <tr>
-                        <td width="45%">
-                        </td>
+                        <td width="45%"></td>
                         <td valign="top" align="right">
                             <uc:ctrlPaging ID="ctrlPageProjects" runat="server" OnGetPage="GetPage" />
                         </td>
@@ -89,8 +85,7 @@
             </td>
         </tr>
         <tr>
-            <td align="left" valign="top" width="15%">
-                Project Management Grid
+            <td align="left" valign="top" width="15%">Project Management Grid
                 <br />
                 <asp:LinkButton ID="lnkAdd" Text="Add" runat="server" OnClick="lnkAdd_OnClick" />
             </td>
@@ -112,10 +107,10 @@
                                 <ItemStyle Width="10%" />
                                 <ItemTemplate>
                                     <asp:LinkButton ID="lnkBuilding" runat="server" CommandName="ViewProjectManagement"
-                                        CommandArgument='<%# Eval("PK_EPM_Identification") %>' Text='<%# Eval("Buildings")%>'></asp:LinkButton>
+                                        CommandArgument='<%# Eval("PK_EPM_Identification") %>' Text='<%# Convert.ToString(Eval("Buildings")).Replace(",","</br>")%>'></asp:LinkButton>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                             <asp:TemplateField HeaderText="Building Description" SortExpression="BuildingDetails">
+                            <asp:TemplateField HeaderText="Building Description" SortExpression="BuildingDetails">
                                 <ItemStyle Width="20%" />
                                 <ItemTemplate>
                                     <asp:LinkButton ID="lnkBuildingDetails" runat="server" CommandName="ViewProjectManagement"
@@ -129,7 +124,7 @@
                                         CommandArgument='<%# Eval("PK_EPM_Identification") %>' Text='<%# Eval("Project_Type") %>'></asp:LinkButton>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                           <%-- <asp:TemplateField HeaderText="Target Department" SortExpression="Target_Dept">
+                            <%-- <asp:TemplateField HeaderText="Target Department" SortExpression="Target_Dept">
                                 <ItemStyle Width="150px" />
                                 <ItemTemplate>
                                     <asp:LinkButton ID="lnkTarget_Department" runat="server" CommandName="ViewProjectManagement"
@@ -195,7 +190,8 @@
         </tr>
         <tr>
             <td align="left">&nbsp;</td>
-            <td align="center"><asp:Button runat="server" ID="btnBack" Text="Return To EHS Module" Visible="false" OnClick="btnBack_Click"/></td>
+            <td align="center">
+                <asp:Button runat="server" ID="btnBack" Text="Return To EHS Module" Visible="false" OnClick="btnBack_Click" /></td>
         </tr>
     </table>
 </asp:Content>
