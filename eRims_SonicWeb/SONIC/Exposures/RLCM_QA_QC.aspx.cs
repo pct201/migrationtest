@@ -58,7 +58,7 @@ public partial class SONIC_Exposures_RLCM_QA_QC : clsBasePage
             BindDropDownList();
             //clsSession.AllowedTab = "1,2,3,4,5";
             clsSession.AllowedTab = "";
-            
+
             //Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
         }
     }
@@ -113,7 +113,7 @@ public partial class SONIC_Exposures_RLCM_QA_QC : clsBasePage
         dvTemp.RowFilter = "Module = 'ACI' or Module = ''";
         dvTemp.Sort = "Module DESC";
         dtACIManagementRLCM = dvTemp.ToTable();
-        
+
         //dtClaimRLCM = dvClaimRLCM.ToTable();
         //dtSLTRLCM = dvSLTRLCM.ToTable();
         //dtExposureRLCM = dvExposureRLCM.ToTable();
@@ -222,8 +222,8 @@ public partial class SONIC_Exposures_RLCM_QA_QC : clsBasePage
                 string strTask = lblTask.Text;
                 //if (e.Row.RowIndex != (RLCMTableRows - 1))
                 //{
-                    gvChild.DataSource = clsRLCM_QA_QC.RLCM_Search(rlcm, year, month, strOrderBy, strOrder, strTask);
-                    gvChild.DataBind();
+                gvChild.DataSource = clsRLCM_QA_QC.RLCM_Search(rlcm, year, month, strOrderBy, strOrder, strTask);
+                gvChild.DataBind();
                 //}
                 //else
                 //{
@@ -260,8 +260,8 @@ public partial class SONIC_Exposures_RLCM_QA_QC : clsBasePage
                 string strTask = lblTask.Text;
                 //if (e.Row.RowIndex != (SLTRLCMTableRows - 1))
                 //{
-                    gvChild.DataSource = clsRLCM_QA_QC.RLCM_Search(rlcm, year, month, strOrderBy, strOrder, strTask);
-                    gvChild.DataBind();
+                gvChild.DataSource = clsRLCM_QA_QC.RLCM_Search(rlcm, year, month, strOrderBy, strOrder, strTask);
+                gvChild.DataBind();
                 //}
                 //else
                 //{
@@ -312,7 +312,7 @@ public partial class SONIC_Exposures_RLCM_QA_QC : clsBasePage
                         strChaildGridId = "gvExposureCustomerChildGrid";
                         strTaskID = "lblExposureCustomerTask";
                         break;
-                   
+
                 }
 
                 GridView gvChild = (GridView)e.Row.FindControl(strChaildGridId);
@@ -321,8 +321,8 @@ public partial class SONIC_Exposures_RLCM_QA_QC : clsBasePage
                 string strTask = lblTask.Text;
                 //if (e.Row.RowIndex != (ExposureRLCMTableRows - 1))
                 //{
-                    gvChild.DataSource = clsRLCM_QA_QC.RLCM_Search(rlcm, year, month, strOrderBy, strOrder, strTask);
-                    gvChild.DataBind();
+                gvChild.DataSource = clsRLCM_QA_QC.RLCM_Search(rlcm, year, month, strOrderBy, strOrder, strTask);
+                gvChild.DataBind();
                 //}
                 //else
                 //{
@@ -536,9 +536,12 @@ public partial class SONIC_Exposures_RLCM_QA_QC : clsBasePage
                                 else
                                     uncheckedIDs += hdnStatus.Value + ",";
 
-                                if (chkRequest_Deleted.Checked)
-                                    strRequestChecked += hdnStatus.Value + ",";                                
-                            }                           
+                                if (Convert.ToInt16(strPanel) == 1 )
+                                {
+                                    if (chkRequest_Deleted.Checked)
+                                        strRequestChecked += hdnStatus.Value + ",";
+                                }
+                            }
                         }
                 }
             }

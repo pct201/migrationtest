@@ -257,6 +257,10 @@ $(document).ready(function () {
             
         }
 
+        if ($(this).text().trim() == 'Monthly Review Complete') {
+            $(this).closest('tr').find("[type='checkbox']").attr('onclick', '').unbind('click');
+        }
+
     });
 
 });
