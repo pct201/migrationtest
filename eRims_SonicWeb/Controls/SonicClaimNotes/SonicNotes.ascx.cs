@@ -75,6 +75,11 @@ public partial class Controls_SonicClaimNotes_SonicNotes : System.Web.UI.UserCon
         get { return Convert.ToInt32(ViewState["PageSize"]); }
         set { ViewState["PageSize"] = value; }
     }
+    public long WzID
+    {
+        get { return Convert.ToInt64(ViewState["wz_id"]); }
+        set { ViewState["wz_id"] = value; }
+    }
     #endregion
 
     #region " PageEvents "
@@ -196,7 +201,7 @@ public partial class Controls_SonicClaimNotes_SonicNotes : System.Web.UI.UserCon
             }
             if (claimtype == clsGeneral.Claim_Tables.PropertyClaim)
             {
-                Response.Redirect("ClaimNotes.aspx?id=" + Encryption.Encrypt(e.CommandArgument.ToString()) + "&FK_Claim=" + Encryption.Encrypt(PK_Property_CI_ID.ToString()) + "&tbl=" + clsGeneral.Claim_Tables.PropertyClaim.ToString());
+                Response.Redirect("ClaimNotes.aspx?id=" + Encryption.Encrypt(e.CommandArgument.ToString()) + "&FK_Claim=" + Encryption.Encrypt(PK_Property_CI_ID.ToString()) + "&tbl=" + clsGeneral.Claim_Tables.PropertyClaim.ToString() + "&wz_id=" + Encryption.Encrypt(WzID.ToString()));
             }
             if (claimtype == clsGeneral.Claim_Tables.WCClaim)
             {
@@ -303,7 +308,7 @@ public partial class Controls_SonicClaimNotes_SonicNotes : System.Web.UI.UserCon
         }
         else if (claimtype == clsGeneral.Claim_Tables.PropertyClaim)
         {
-            Response.Redirect("ClaimNotes.aspx?viewIDs=" + Encryption.Encrypt(strPK) + "&FK_Claim=" + Encryption.Encrypt(PK_Property_CI_ID.ToString()) + "&tbl=" + clsGeneral.Claim_Tables.PropertyClaim.ToString());
+            Response.Redirect("ClaimNotes.aspx?viewIDs=" + Encryption.Encrypt(strPK) + "&FK_Claim=" + Encryption.Encrypt(PK_Property_CI_ID.ToString()) + "&tbl=" + clsGeneral.Claim_Tables.PropertyClaim.ToString() + "&wz_id=" + Encryption.Encrypt(Convert.ToString(WzID)));
         }
         else if (claimtype == clsGeneral.Claim_Tables.WCClaim)
         {

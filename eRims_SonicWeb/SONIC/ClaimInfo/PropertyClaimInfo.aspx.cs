@@ -439,6 +439,7 @@ public partial class SONIC_PropertyClaimInfo : clsBasePage
             lblDateClaimClosed.Text = txtDate_Claim_Closed.Text = drProperty_FR["Date_Claim_Closed"] == DBNull.Value || Convert.ToString(drProperty_FR["Date_Claim_Closed"]) == "" ? "" : clsGeneral.FormatDateToDisplay(Convert.ToDateTime(drProperty_FR["Date_Claim_Closed"]));
 
             ctrlSonicNotes.PK_Property_CI_ID = PK_Property_Claims_ID;
+            ctrlSonicNotes.WzID = PK_First_Report_Wizard_ID;
             ctrlSonicNotes.CurrentClaimType = clsGeneral.Tables.PropertyClaim.ToString();
             ctrlSonicNotes.BindGridSonicNotes(PK_Property_Claims_ID, clsGeneral.Tables.PropertyClaim.ToString());
 

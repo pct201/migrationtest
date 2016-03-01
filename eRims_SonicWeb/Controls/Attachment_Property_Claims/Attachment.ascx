@@ -119,7 +119,7 @@
             <asp:Button ID="btnViewPDF" runat="server" Text="View Selections (PDFs only)" OnClick="btnViewPDF_Click"
                 Width="200px" OnClientClick="return CheckSeleted('File');" />&nbsp;
             <%--<asp:Button ID="btnRemoveAttachment" runat="server" Text="Remove" OnClick="btnRemoveAttachment_Click" OnClientClick="return DeleteConfirm('File2');" />&nbsp;--%>
-            <asp:Button ID="btnCancelFile" runat="server" Text="Cancel" OnClick="btnCancelFile_Click" />
+            <asp:Button ID="btnCancelFile" runat="server" Text="Return" OnClick="btnCancelFile_Click" />
             <span style="padding-left:500px"><asp:Button ID="btnEmail" runat="server" Text="Email Selected Attachments" Width="200px"  OnClick="btnEmail_Click" /></span>
 
         </td>
@@ -259,7 +259,7 @@
                 </tr>
                 <tr>
                     <td colspan="3" align="center">
-                        <asp:Button ID="btnCancelAttachment" runat="server" Text="Cancel" OnClick="btnCancelAttachment_Click" />
+                        <asp:Button ID="btnCancelAttachment" runat="server" Text="Return" OnClick="btnCancelAttachment_Click" />
                     </td>
                 </tr>
             </table>

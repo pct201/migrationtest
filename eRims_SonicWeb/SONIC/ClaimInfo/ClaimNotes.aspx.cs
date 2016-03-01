@@ -99,6 +99,12 @@ public partial class SONIC_ClaimNotes : clsBasePage
         }
         set { ViewState["Location_ID"] = value; }
     }
+
+    public decimal WzID
+    {
+        get { return clsGeneral.GetInt(ViewState["wz_id"]); }
+        set { ViewState["wz_id"] = value; }
+    }
     #endregion
 
     #region "Page Events"
@@ -144,6 +150,8 @@ public partial class SONIC_ClaimNotes : clsBasePage
                             PK_Claim_Notes = _decPk;
                         }
                     }
+
+                    
 
                     if (_decPk > 0)
                     {
@@ -312,7 +320,7 @@ public partial class SONIC_ClaimNotes : clsBasePage
         else if (FK_Table_Name.ToLower() == clsGeneral.Claim_Tables.ALClaim.ToString().ToLower())
             Response.Redirect("ALClaimInfo.aspx?id=" + Encryption.Encrypt(FK_Claim.ToString()) + "&pnl=6");
         else if (FK_Table_Name.ToLower() == clsGeneral.Claim_Tables.PropertyClaim.ToString().ToLower())
-            Response.Redirect("PropertyClaimInfo.aspx?id=" + Encryption.Encrypt(FK_Claim.ToString()) + "&pnl=3");
+            Response.Redirect("PropertyClaimInfo.aspx?id=" + Encryption.Encrypt(FK_Claim.ToString()) + "&wz_id=" + Encryption.Encrypt(Convert.ToString(WzID)) +"&pnl=3");
     }
 
     /// <summary>
@@ -382,6 +390,16 @@ public partial class SONIC_ClaimNotes : clsBasePage
     /// <returns></returns>
     private bool CheckClaimInfo()
     {
+        if (Request.QueryString["wz_id"] != null)
+        {
+            decimal _wz_id;
+
+            if (decimal.TryParse(Encryption.Decrypt(Request.QueryString["wz_id"]), out _wz_id))
+            {
+                WzID = _wz_id;
+            }
+        }
+
         // Check parameter ClaimID is passed or not
         if (Request.QueryString["FK_Claim"] != null)
         {
@@ -394,6 +412,8 @@ public partial class SONIC_ClaimNotes : clsBasePage
                 return true;
             }
         }
+
+        
 
         return false;
     }
