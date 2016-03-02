@@ -3187,9 +3187,51 @@
                                                                     <td align="left" valign="top">
                                                                         <div style="width: 600px; overflow-x: scroll; overflow-y: hidden;">
                                                                             <asp:GridView ID="gvRepairMaintenance" runat="server" EmptyDataText="No Record Found"
-                                                                                Width="1300px" OnRowCommand="gvRepairMaintenance_RowCommand">
+                                                                                Width="800px" OnRowCommand="gvRepairMaintenance_RowCommand">
                                                                                 <Columns>
-                                                                                    <asp:TemplateField HeaderText="Repair Type">
+                                                                                    <asp:TemplateField HeaderText="HVAC Repairs">
+                                                                                        <ItemStyle Width="100px" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton ID="lnkHVACRepairs" runat="server" Text='<%#Eval("FK_LU_Responsibilie_Party_HVAC_Repairs")%>'
+                                                                                                CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Repair_Maintenance")%>' />
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                     <asp:TemplateField HeaderText="HVAC Capital">
+                                                                                        <ItemStyle Width="100px" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton ID="lnkHVACCapital" runat="server" Text='<%#Eval("FK_LU_Responsibilie_Party_HVAC_Capital")%>'
+                                                                                                CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Repair_Maintenance")%>' />
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                     <asp:TemplateField HeaderText="Roof Repairs">
+                                                                                        <ItemStyle Width="100px" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton ID="lnkRoofRepairs" runat="server" Text='<%#Eval("FK_LU_Responsibilie_Party_Roof_Repairs")%>'
+                                                                                                CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Repair_Maintenance")%>' />
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                     <asp:TemplateField HeaderText="Roof Capital">
+                                                                                        <ItemStyle Width="100px" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton ID="lnkRoofCapital" runat="server" Text='<%#Eval("FK_LU_Responsibilie_Party_Roof_Capital")%>'
+                                                                                                CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Repair_Maintenance")%>' />
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                     <asp:TemplateField HeaderText="Other Repairs">
+                                                                                        <ItemStyle Width="100px" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton ID="lnkOtherRepairs" runat="server" Text='<%#Eval("FK_LU_Responsibilie_Party_Other_Repairs")%>'
+                                                                                                CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Repair_Maintenance")%>' />
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                    <asp:TemplateField HeaderText="Maintenance Notes">
+                                                                                        <ItemStyle Width="100px" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:Label ID="lblMaintenanceNotes" runat="server" Text='<%#Eval("Maintenance_Notes")%>'
+                                                                                             CssClass="TextClip" Width="90px"  CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Repair_Maintenance")%>'  />
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                    <%--<asp:TemplateField HeaderText="Repair Type">
                                                                                         <ItemStyle Width="100px" />
                                                                                         <ItemTemplate>
                                                                                             <asp:LinkButton ID="lnkRepairType" runat="server" Text='<%#Eval("Repair_Type")%>'
@@ -3279,7 +3321,7 @@
                                                                                             <asp:LinkButton ID="lnkDays" runat="server" Text='<%#Eval("Days")%>' CommandName="ShowDetails"
                                                                                                 CommandArgument='<%#Eval("PK_RE_Repair_Maintenance")%>' />
                                                                                         </ItemTemplate>
-                                                                                    </asp:TemplateField>
+                                                                                    </asp:TemplateField>--%>
                                                                                     <asp:TemplateField HeaderText="Remove">
                                                                                         <ItemStyle Width="50px" />
                                                                                         <ItemTemplate>
@@ -6403,9 +6445,51 @@
                                                                     <td align="left" valign="top">
                                                                         <div style="width: 600px; overflow-x: scroll; overflow-y: hidden;">
                                                                             <asp:GridView ID="gvRepairMaintenanceView" runat="server" EmptyDataText="No Record Found"
-                                                                                Width="1250px" OnRowCommand="gvRepairMaintenance_RowCommand">
+                                                                                Width="800px" OnRowCommand="gvRepairMaintenance_RowCommand">
                                                                                 <Columns>
-                                                                                    <asp:TemplateField HeaderText="Repair Type">
+                                                                                    <asp:TemplateField HeaderText="HVAC Repairs">
+                                                                                        <ItemStyle Width="100px" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton ID="lnkHVACRepairs" runat="server" Text='<%#Eval("FK_LU_Responsibilie_Party_HVAC_Repairs")%>'
+                                                                                                CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Repair_Maintenance")%>' />
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                     <asp:TemplateField HeaderText="HVAC Capital">
+                                                                                        <ItemStyle Width="100px" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton ID="lnkHVACCapital" runat="server" Text='<%#Eval("FK_LU_Responsibilie_Party_HVAC_Capital")%>'
+                                                                                                CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Repair_Maintenance")%>' />
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                     <asp:TemplateField HeaderText="Roof Repairs">
+                                                                                        <ItemStyle Width="100px" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton ID="lnkRoofRepairs" runat="server" Text='<%#Eval("FK_LU_Responsibilie_Party_Roof_Repairs")%>'
+                                                                                                CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Repair_Maintenance")%>' />
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                     <asp:TemplateField HeaderText="Roof Capital">
+                                                                                        <ItemStyle Width="100px" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton ID="lnkRoofCapital" runat="server" Text='<%#Eval("FK_LU_Responsibilie_Party_Roof_Capital")%>'
+                                                                                                CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Repair_Maintenance")%>' />
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                     <asp:TemplateField HeaderText="Other Repairs">
+                                                                                        <ItemStyle Width="100px" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton ID="lnkOtherRepairs" runat="server" Text='<%#Eval("FK_LU_Responsibilie_Party_Other_Repairs")%>'
+                                                                                                CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Repair_Maintenance")%>' />
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                    <asp:TemplateField HeaderText="Maintenance Notes">
+                                                                                        <ItemStyle Width="100px" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:Label ID="lblMaintenanceNotes" runat="server" Text='<%#Eval("Maintenance_Notes")%>'
+                                                                                                CssClass="TextClip" Width="90px" CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Repair_Maintenance")%>'/>
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                    <%--<asp:TemplateField HeaderText="Repair Type">
                                                                                         <ItemStyle Width="100px" />
                                                                                         <ItemTemplate>
                                                                                             <asp:LinkButton ID="lnkRepairType" runat="server" Text='<%#Eval("Repair_Type")%>'
@@ -6495,7 +6579,7 @@
                                                                                             <asp:LinkButton ID="lnkDays" runat="server" Text='<%#Eval("Days")%>' CommandName="ShowDetails"
                                                                                                 CommandArgument='<%#Eval("PK_RE_Repair_Maintenance")%>' />
                                                                                         </ItemTemplate>
-                                                                                    </asp:TemplateField>
+                                                                                    </asp:TemplateField>--%>
                                                                                 </Columns>
                                                                             </asp:GridView>
                                                                         </div>

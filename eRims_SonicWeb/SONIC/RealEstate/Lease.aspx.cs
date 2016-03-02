@@ -311,6 +311,7 @@ public partial class SONIC_Exposures_Lease : clsBasePage
             {
                 SetValidations();
                 SetVadidationForSubLease();
+                SetValidationsMaintenance();
             }
             if (Request.QueryString["Subtenant"] != null)
             {
@@ -1427,8 +1428,8 @@ public partial class SONIC_Exposures_Lease : clsBasePage
     /// </summary>
     private void BindRepairMaintenanceGrid()
     {
-        // get datatable for RE_Repair_Maintenance records
-        DataTable dtRepairMaint = RE_Repair_Maintenance.SelectByFK(_PK_RE_Information).Tables[0];
+        // get datatable for RE_Repair_And_Maintenance records
+        DataTable dtRepairMaint = RE_Repair_And_Maintenance.SelectByFK(_PK_RE_Information).Tables[0];
 
         // bind the grid as per the page operation either edit or view
         if (_StrOperation == "view")
@@ -2878,6 +2879,7 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         clsSession.Str_RE_Operation = "edit";
         SetValidations();
         SetVadidationForSubLease();
+        SetValidationsMaintenance();
         // show page in edit mode
         BindDetailsForEdit();
         gvRealEstate.Columns[gvRealEstate.Columns.Count - 1].Visible = true;
@@ -3081,7 +3083,7 @@ public partial class SONIC_Exposures_Lease : clsBasePage
     protected void lnkAddRepairMaint_Click(object sender, EventArgs e)
     {
         // save data and redirect to Repair Maintenance page with edit mode
-        SaveData(12, AppConfig.SiteURL + "SONIC/RealEstate/RepairMantenance.aspx?loc=" + Request.QueryString["loc"]);
+        SaveData(12, AppConfig.SiteURL + "SONIC/RealEstate/RepairAndMaintenance.aspx?loc=" + Request.QueryString["loc"]);
     }
 
     /// <summary>
@@ -3585,14 +3587,14 @@ public partial class SONIC_Exposures_Lease : clsBasePage
             // if page is in edit mode then save page data and redirect to Repair Mantenance page
             // else redirect to Repair Mantenance page without saving the record
             if (_StrOperation == "edit")
-                SaveData(11, AppConfig.SiteURL + "SONIC/RealEstate/RepairMantenance.aspx?id=" + Encryption.Encrypt(e.CommandArgument.ToString()) + "&loc=" + Request.QueryString["loc"]);
+                SaveData(11, AppConfig.SiteURL + "SONIC/RealEstate/RepairAndMaintenance.aspx?id=" + Encryption.Encrypt(e.CommandArgument.ToString()) + "&loc=" + Request.QueryString["loc"]);
             else
-                Response.Redirect(AppConfig.SiteURL + "SONIC/RealEstate/RepairMantenance.aspx?id=" + Encryption.Encrypt(e.CommandArgument.ToString()) + "&loc=" + Request.QueryString["loc"]);
+                Response.Redirect(AppConfig.SiteURL + "SONIC/RealEstate/RepairAndMaintenance.aspx?id=" + Encryption.Encrypt(e.CommandArgument.ToString()) + "&loc=" + Request.QueryString["loc"]);
         }
         else if (e.CommandName == "RemoveDetails") // if command is for removing the record
         {
             // delete the record by PK passed in commandargument
-            RE_Repair_Maintenance.DeleteByPK(Convert.ToDecimal(e.CommandArgument));
+            RE_Repair_And_Maintenance.DeleteByPK(Convert.ToDecimal(e.CommandArgument));
 
             // bind the grid again
             BindRepairMaintenanceGrid();
@@ -3770,7 +3772,7 @@ public partial class SONIC_Exposures_Lease : clsBasePage
                 BindDetailsForEdit();
             else
                 BindDetailsForView();
-
+                
             ScriptManager.RegisterStartupScript(this, Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
         }
         else if (e.CommandName == "RemoveLease") // if command is for removing the record
@@ -4794,6 +4796,15 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         hdnSubtenanatIDs.Value = strCtrlsIDs;
         hdnSubtenantErroeMassage.Value = strMessages;
         #endregion
+    }
+
+    private void SetValidationsMaintenance()
+    {
+        DataTable dtFields = clsScreen_Validators.SelectByScreen(73).Tables[0];
+        dtFields.DefaultView.RowFilter = "IsRequired = '1'";
+        dtFields = dtFields.DefaultView.ToTable();
+
+        MenuAsterisk6.Style["display"] = (dtFields.Select("LeftMenuIndex = 1").Length > 0) ? "inline-block" : "none";
     }
     #endregion
 }

@@ -782,7 +782,15 @@ public class AuditTrail
     public static DataSet GetRE_Repair_Maintenance_AuditTrail(decimal pk_RE_Repair_Maintenance)
     {
         Database db = DatabaseFactory.CreateDatabase();
-        DbCommand dbCommand = db.GetStoredProcCommand("RE_Repair_Maintenance_AuditView");
+        DbCommand dbCommand = db.GetStoredProcCommand("RE_Repair_Maintenance_Audit_OldView");
+        db.AddInParameter(dbCommand, "PK_RE_Repair_Maintenance", DbType.Decimal, pk_RE_Repair_Maintenance);
+        return db.ExecuteDataSet(dbCommand);
+    }
+
+    public static DataSet GetRE_Repair_And_Maintenance_AuditTrail(decimal pk_RE_Repair_Maintenance)
+    {
+        Database db = DatabaseFactory.CreateDatabase();
+        DbCommand dbCommand = db.GetStoredProcCommand("RE_Repair_Maintenance_Audit_View");
         db.AddInParameter(dbCommand, "PK_RE_Repair_Maintenance", DbType.Decimal, pk_RE_Repair_Maintenance);
         return db.ExecuteDataSet(dbCommand);
     }

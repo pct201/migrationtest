@@ -369,7 +369,7 @@ namespace ERIMS.DAL
         public int Insert()
         {
             Database db = DatabaseFactory.CreateDatabase();
-            DbCommand dbCommand = db.GetStoredProcCommand("RE_Repair_MaintenanceInsert");
+            DbCommand dbCommand = db.GetStoredProcCommand("RE_Repair_Maintenance_OldInsert");
 
 
             db.AddInParameter(dbCommand, "FK_RE_Information", DbType.Decimal, this._FK_RE_Information);
@@ -431,7 +431,7 @@ namespace ERIMS.DAL
         private static DataSet SelectByPK(decimal pK_RE_Repair_Maintenance)
         {
             Database db = DatabaseFactory.CreateDatabase();
-            DbCommand dbCommand = db.GetStoredProcCommand("RE_Repair_MaintenanceSelectByPK");
+            DbCommand dbCommand = db.GetStoredProcCommand("RE_Repair_Maintenance_OldSelectByPK");
 
             db.AddInParameter(dbCommand, "PK_RE_Repair_Maintenance", DbType.Decimal, pK_RE_Repair_Maintenance);
 
@@ -445,7 +445,7 @@ namespace ERIMS.DAL
         public static DataSet SelectAll()
         {
             Database db = DatabaseFactory.CreateDatabase();
-            DbCommand dbCommand = db.GetStoredProcCommand("RE_Repair_MaintenanceSelectAll");
+            DbCommand dbCommand = db.GetStoredProcCommand("RE_Repair_Maintenance_OldSelectAll");
 
             return db.ExecuteDataSet(dbCommand);
         }
@@ -456,7 +456,7 @@ namespace ERIMS.DAL
         public void Update()
         {
             Database db = DatabaseFactory.CreateDatabase();
-            DbCommand dbCommand = db.GetStoredProcCommand("RE_Repair_MaintenanceUpdate");
+            DbCommand dbCommand = db.GetStoredProcCommand("RE_Repair_Maintenance_OldUpdate");
 
 
             db.AddInParameter(dbCommand, "PK_RE_Repair_Maintenance", DbType.Decimal, this._PK_RE_Repair_Maintenance);
@@ -517,7 +517,7 @@ namespace ERIMS.DAL
         public static void DeleteByPK(decimal pK_RE_Repair_Maintenance)
         {
             Database db = DatabaseFactory.CreateDatabase();
-            DbCommand dbCommand = db.GetStoredProcCommand("RE_Repair_MaintenanceDeleteByPK");
+            DbCommand dbCommand = db.GetStoredProcCommand("RE_Repair_Maintenance_OldDeleteByPK");
 
             db.AddInParameter(dbCommand, "PK_RE_Repair_Maintenance", DbType.Decimal, pK_RE_Repair_Maintenance);
 
@@ -528,7 +528,7 @@ namespace ERIMS.DAL
         public static DataSet SelectByFK(decimal fK_RE_Information)
         {
             Database db = DatabaseFactory.CreateDatabase();
-            DbCommand dbCommand = db.GetStoredProcCommand("RE_Repair_MaintenanceSelectByFK");
+            DbCommand dbCommand = db.GetStoredProcCommand("RE_Repair_Maintenance_OldSelectByFK");
 
             db.AddInParameter(dbCommand, "FK_RE_Information", DbType.Decimal, fK_RE_Information);
 
