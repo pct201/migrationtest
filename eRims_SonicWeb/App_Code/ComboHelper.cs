@@ -5984,7 +5984,7 @@ public class ComboHelper
             {
                 ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
             }
-            ddlToFill.Items.FindByText("General Contractor").Selected = true;
+            clsGeneral.SetDropdownValue(ddlToFill, "General Contractor", false);
         }
     }
 
@@ -6462,25 +6462,25 @@ public class ComboHelper
     /// </summary>
     /// <param name="dropDownList"></param>
     /// <param name="booladdSelectAsFirstElement"></param>
-    //public static void FillResponsibleParty(DropDownList[] dropDownList, bool booladdSelectAsFirstElement)
-    //{
-    //    DataTable dtData = ERIMS.DAL.LU_Responsible_Party.SelectAll().Tables[0];
-    //    dtData.DefaultView.RowFilter = " Active = 'Y' ";
+    public static void FillResponsibleParty(DropDownList[] dropDownList, bool booladdSelectAsFirstElement)
+    {
+        DataTable dtData = LU_Responsible_Party.SelectAll().Tables[0];
+        dtData.DefaultView.RowFilter = " Active = 'Y' ";
 
-    //    foreach (DropDownList ddlToFill in dropDownList)
-    //    {
-    //        ddlToFill.Items.Clear();
-    //        ddlToFill.DataTextField = "Description";
-    //        ddlToFill.DataValueField = "PK_LU_Responsible_Party";
-    //        ddlToFill.DataSource = dtData;
-    //        ddlToFill.DataBind();
-    //        //check require to add "-- select --" at first item of dropdown.
-    //        if (booladdSelectAsFirstElement)
-    //        {
-    //            ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
-    //        }
-    //    }
-    //}
+        foreach (DropDownList ddlToFill in dropDownList)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Description";
+            ddlToFill.DataValueField = "PK_LU_Responsible_Party";
+            ddlToFill.DataSource = dtData;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
 
     public static void FillRespiratorype(DropDownList[] dropDownList, bool booladdSelectAsFirstElement)
     {

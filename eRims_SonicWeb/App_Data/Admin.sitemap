@@ -335,10 +335,11 @@
           <siteMapNode url="Administrator/RE_Contractor.aspx" title ="Contractor" description="" roles="" />
           <siteMapNode url="Administrator/LeaseType.aspx" title ="Lease Type" description="" roles="" />
           <siteMapNode url="Administrator/ProjectType.aspx" title ="Project Type" description="" roles="" />
-          <siteMapNode url="Administrator/Work_Scope.aspx" title ="Scope of Work" description="" roles="" />
+          <!--<siteMapNode url="Administrator/Work_Scope.aspx" title ="Scope of Work" description="" roles="" />-->
           <siteMapNode url="Administrator/SecurityDeposit.aspx" title ="Security Deposit Held At" description="" roles="" />
           <siteMapNode url="Administrator/Re_Status.aspx" title ="Status" description="" roles="" />
-          <siteMapNode url="Administrator/RepairType.aspx" title ="Type of Repair" description="" roles="" />
+          <!--<siteMapNode url="Administrator/RepairType.aspx" title ="Type of Repair" description="" roles="" />-->
+         <siteMapNode url="Administrator/LU_Responsible_Party.aspx" title ="Responsible Party" description="" roles="" />
         </siteMapNode>
         <siteMapNode title ="Sedgwick Claim File Review" description="" roles="">
           <siteMapNode url="Administrator\LU_Sedgwick_Evaluation.aspx" title ="RLCM Comments Evaluation Criteria" description="" roles="" />
