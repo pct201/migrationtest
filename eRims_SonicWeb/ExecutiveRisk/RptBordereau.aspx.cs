@@ -167,7 +167,7 @@ public partial class ERReports_Bordereau : clsBasePage
         }
 
         // export data to excel from gridview
-        GridViewExportUtil.ExportGrid("Bordereau_Report.xls", gvReport);
+        GridViewExportUtil.ExportGrid("Bordereau_Report.xlsx", gvReport);
 
         // reset the settings
         gvReport.GridLines = GridLines.None;

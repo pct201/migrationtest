@@ -95,7 +95,7 @@ public partial class SONIC_ClaimInfo_rptPointInTimeSummary : clsBasePage
             }
         }
 
-        GridViewExportUtil.ExportGrid("SummaryPITComparisonReport.xls", gvReport);
+        GridViewExportUtil.ExportGrid("SummaryPITComparisonReport.xlsx", gvReport);
 
         ((HtmlTable)gvReport.HeaderRow.FindControl("tblHeader")).Border = 0;
         ((HtmlTable)gvReport.FooterRow.FindControl("tblFooter")).Border = 0;

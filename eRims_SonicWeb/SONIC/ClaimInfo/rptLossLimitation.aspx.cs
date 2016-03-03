@@ -69,7 +69,7 @@ public partial class SONIC_ClaimInfo_rptLossLimitation : clsBasePage
         }
 
         // export grid into excel document
-        GridViewExportUtil.ExportGrid("LossLimitationReport.xls", gvRegion);
+        GridViewExportUtil.ExportGrid("LossLimitationReport.xlsx", gvRegion);
 
         // remove grid lines and table borders
         gvRegion.GridLines = GridLines.None;

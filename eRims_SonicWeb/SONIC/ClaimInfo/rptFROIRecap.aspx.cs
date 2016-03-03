@@ -602,15 +602,45 @@ public partial class SONIC_ClaimInfo_rptFROIRecap : clsBasePage
             byte[] _bytes = Encoding.UTF8.GetBytes(stringWrite.ToString());
             memorystream.Write(_bytes, 0, _bytes.Length);
             memorystream.Seek(0, SeekOrigin.Begin);
-
-            HttpContext.Current.Response.Clear();
-            HttpContext.Current.Response.AddHeader(
-                "content-disposition", string.Format("attachment; filename={0}", "FROI_Recapt_Report.xls"));
-            HttpContext.Current.Response.ContentType = "application/ms-excel";
-
-            HttpContext.Current.Response.Write(stringWrite.ToString());
-            HttpContext.Current.Response.End();
             
+            String strPath = String.Empty, data = String.Empty, outputFiles = String.Empty;
+            strPath = AppConfig.SitePath + @"temp\" + DateTime.Now.ToString("ddMMyyyyhhmmss");
+            if (!File.Exists(strPath))
+            {
+                if (!Directory.Exists(AppConfig.SitePath + @"temp\"))
+                    Directory.CreateDirectory(AppConfig.SitePath + @"temp\");
+                // Create a file to write to.
+                using (StreamWriter sw = File.CreateText(strPath))
+                {
+                    sw.Write(stringWrite.ToString());
+                }
+            }
+
+            data = File.ReadAllText(strPath);
+            data = data.Trim();
+            HTML2Excel objHtml2Excel = new HTML2Excel(data);
+            outputFiles = Path.GetFullPath(strPath) + ".xlsx";
+            bool blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
+
+            if (blnHTML2Excel)
+            {
+                try
+                {
+                    HttpContext.Current.Response.Clear();
+                    HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename=\"FROI_Recapt_Report.xlsx\""));
+                    HttpContext.Current.Response.ContentType = "application/ms-excel";
+                    HttpContext.Current.Response.TransmitFile(outputFiles);
+                    HttpContext.Current.Response.Flush();
+                }
+                finally
+                {
+                    if (File.Exists(outputFiles))
+                        File.Delete(outputFiles);
+                    if (File.Exists(strPath))
+                       File.Delete(strPath);
+                    HttpContext.Current.Response.End();
+                }
+            }
         }
     }
     #endregion

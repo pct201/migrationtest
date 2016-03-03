@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using ERIMS.DAL;
+using System.IO;
 
 /************************************************************************************************************************************
  * File Name    : WCMonthlyAllocationSummaryReport.aspx
@@ -110,8 +111,48 @@ public partial class SONIC_FirstReport_WCMonthlyAllocationSummaryReport : clsBas
     protected void lnkExportToExcel_Click(object sender, EventArgs e)
     {
         gvworkers_comp_summary.GridLines = GridLines.Both;
-        GridViewExportUtil.ExportAdHoc("WC Allocation Summary Report.xls", gvworkers_comp_summary);
+        string htmlContent = GridViewExportUtil.ExportAdHoc_New(gvworkers_comp_summary);
         gvworkers_comp_summary.GridLines = GridLines.None;
+
+        String strPath = String.Empty, data = String.Empty, outputFiles = String.Empty;
+        strPath = AppConfig.SitePath + @"temp\" + DateTime.Now.ToString("ddMMyyyyhhmmss");
+        if (!File.Exists(strPath))
+        {
+            if (!Directory.Exists(AppConfig.SitePath + @"temp\"))
+                Directory.CreateDirectory(AppConfig.SitePath + @"temp\");
+            // Create a file to write to.
+            using (StreamWriter sw = File.CreateText(strPath))
+            {
+                sw.Write(htmlContent);
+            }
+        }
+
+        data = File.ReadAllText(strPath);
+        data = data.Trim();
+        HTML2Excel objHtml2Excel = new HTML2Excel(data);
+        outputFiles = Path.GetFullPath(strPath) + ".xlsx";
+        bool blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
+
+        if (blnHTML2Excel)
+        {
+            try
+            {
+                HttpContext.Current.Response.Clear();
+                HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename=\"WC Allocation Summary Report.xlsx\""));
+                HttpContext.Current.Response.ContentType = "application/ms-excel";
+                HttpContext.Current.Response.TransmitFile(outputFiles);
+                HttpContext.Current.Response.Flush();
+            }
+            finally
+            {
+                if (File.Exists(outputFiles))
+                    //File.Delete(outputFiles);
+                    if (File.Exists(strPath))
+                        //File.Delete(strPath);
+
+                        HttpContext.Current.Response.End();
+            }
+        }
     }
 
     /// <summary>

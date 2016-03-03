@@ -142,7 +142,7 @@ public partial class SONIC_RealEstate_rptlandlordInformation : clsBasePage
             gvDetail.GridLines = GridLines.Both;
         }
         // export gridview to excel
-        GridViewExportUtil.ExportGrid("LandlordReport.xls", gvReport);
+        GridViewExportUtil.ExportGrid("LandlordReport.xlsx", gvReport);
 
         // hide gridlines
         gvReport.GridLines = GridLines.None;

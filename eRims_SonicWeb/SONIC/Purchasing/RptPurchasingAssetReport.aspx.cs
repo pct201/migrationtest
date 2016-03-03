@@ -126,7 +126,7 @@ public partial class SONIC_Purchasing_RptPurchasingAssetReport : clsBasePage
         }
 
         // export data to excel from gridview
-        GridViewExportUtil.ExportGrid("AssetDetail.xls", gvReport);
+        GridViewExportUtil.ExportGrid("AssetDetail.xlsx", gvReport);
 
         // reset the settings
         gvReport.GridLines = GridLines.None;

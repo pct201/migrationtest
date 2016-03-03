@@ -85,25 +85,7 @@ public partial class rptIncidentInvestigation : clsBasePage
     /// <param name="e"></param>
     protected void lbtExportToExcel_Click(object sender, EventArgs e)
     {
-
-        string strcols = "border: #7f7f7f 1px solid;vertical-align: top;font-size: 8pt;border-collapse: collapse;";
-        System.IO.StringWriter stringWrite = new System.IO.StringWriter();
-        System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
-
-        //PrepareControlForExport(gvReportGrid.HeaderRow);
-        lblReport.RenderControl(htmlWrite);
-        // gvReportGrid.RenderControl(htmlWrite);
-
-        MemoryStream memorystream = new MemoryStream();
-        byte[] _bytes = Encoding.UTF8.GetBytes(stringWrite.ToString().Replace("border-top:#EAEAEA", "border-top:#000000").Replace("<style type='text/css'></style>", "<style type='text/css'> .cols_{" + strcols + " }</style>"));
-        memorystream.Write(_bytes, 0, _bytes.Length);
-        memorystream.Seek(0, SeekOrigin.Begin);
-
-        HttpContext.Current.Response.Clear();
-        HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "Incident Investigation.xls"));
-        HttpContext.Current.Response.ContentType = "application/ms-excel";
-        HttpContext.Current.Response.Write(stringWrite.ToString().Replace("#EAEAEA", "White").Replace("#eaeaea", "White").Replace("background-color:#C0C0C0", "background-color:White;").Replace("<style type='text/css'></style>", "<style type='text/css'> .cols_{" + strcols + " }</style>").Replace("background-color:#7f7f7f;color:White", "background-color:White;color:Black"));
-        HttpContext.Current.Response.End();
+        GridViewExportUtil.ExportGrid("Incident Investigation.xlsx", lblReport);
     }
     /// <summary>
     /// Back hrom report to Criteria
@@ -169,9 +151,8 @@ public partial class rptIncidentInvestigation : clsBasePage
         // Check if record found or not.
         if (dtRegions.Rows.Count > 0)
         {
-            sbRecorords.Append("<style type='text/css'></style><table border='0' style='border: black 0.5px solid;border-collapse: collapse;' cellpadding='0' cellspacing='0'  Width='100%px'><tr><td class='cols_' >");
-            //sbRecorords.Append("<div style='overflow: hidden; width: 995px;'>");
-            sbRecorords.Append("<div style='overflow-x: scroll;overflow-y:hidden; width: 994px; height: 100%;'>");
+            sbRecorords.Append("<style type='text/css'></style><div style='overflow-x: scroll;overflow-y:hidden; width: 994px; height: 100%;'><table border='0' style='border: black 0.5px solid;border-collapse: collapse;' cellpadding='0' cellspacing='0'  Width='100%px'><tr><td class='cols_' >");
+            //sbRecorords.Append("<div style='overflow-x: scroll;overflow-y:hidden; width: 994px; height: 100%;'>");
             sbRecorords.Append("<table style='padding-left:4px;font-size:8.5pt;font-family:Tahoma' cellpadding='4' cellspacing='0' Width='1980px'>");//Sub Table
             sbRecorords.Append("<tr style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:11pt;height:25'>"); //Title
             sbRecorords.Append("<td align='left' style='font-size:9pt;' colspan='2'><b>Sonic Automotive</b></td>");
@@ -225,8 +206,8 @@ public partial class rptIncidentInvestigation : clsBasePage
 
             //sbRecorords.Append("<tr><td colspan='15' class='cols_'>&nbsp;</td></tr>");
             sbRecorords.Append("</table>");
-            sbRecorords.Append("</div>");
-            sbRecorords.Append("</table>");
+            //sbRecorords.Append("</div>");
+            sbRecorords.Append("</table></div>");
             trGrid.Visible = true;
         }
         else

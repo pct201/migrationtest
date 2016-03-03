@@ -10,6 +10,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using ERIMS.DAL;
 using System.Text;
+using System.IO;
 
 public partial class SONIC_Exposures_rptRM_Dealership_Facility_Specs : clsBasePage
 {
@@ -200,13 +201,58 @@ public partial class SONIC_Exposures_rptRM_Dealership_Facility_Specs : clsBasePa
         //Write HTML in to HtmlWriter
         htmlWrite.WriteLine(strHTML.ToString());
 
-        HttpContext context = HttpContext.Current;
-        context.Response.Clear();
+        String strPath = String.Empty, data = String.Empty, outputFiles = String.Empty;
+        MemoryStream memorystream = new MemoryStream();
+        byte[] _bytes = Encoding.UTF8.GetBytes(stringWrite.ToString());
+        memorystream.Write(_bytes, 0, _bytes.Length);
+        memorystream.Seek(0, SeekOrigin.Begin);
 
-        context.Response.Write(stringWrite);
-        context.Response.ContentType = "application/ms-excel";
-        context.Response.AppendHeader("Content-Disposition", "attachment; filename=RM Dealership and Facility Specs.XLS");
-        context.Response.End();
+        strPath = AppConfig.SitePath + @"temp\" + DateTime.Now.ToString("ddMMyyyyhhmmss");
+        if (!File.Exists(strPath))
+        {
+            if (!Directory.Exists(AppConfig.SitePath + @"temp\"))
+                Directory.CreateDirectory(AppConfig.SitePath + @"temp\");
+            // Create a file to write to.
+            using (StreamWriter sw = File.CreateText(strPath))
+            {
+                sw.Write(stringWrite.ToString());
+            }
+        }
+
+        data = File.ReadAllText(strPath);
+        data = data.Trim();
+        HTML2Excel objHtml2Excel = new HTML2Excel(data);
+        outputFiles = Path.GetFullPath(strPath) + ".xlsx";
+        bool blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
+
+        if (blnHTML2Excel)
+        {
+            try
+            {
+                HttpContext.Current.Response.Clear();
+                HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename=\"RM Dealership and Facility Specs.xlsx\""));
+                HttpContext.Current.Response.ContentType = "application/ms-excel";
+                HttpContext.Current.Response.TransmitFile(outputFiles);
+                HttpContext.Current.Response.Flush();
+            }
+            finally
+            {
+                if (File.Exists(outputFiles))
+                    File.Delete(outputFiles);
+                if (File.Exists(strPath))
+                    File.Delete(strPath);
+
+                HttpContext.Current.Response.End();
+            }
+        }
+
+        //HttpContext context = HttpContext.Current;
+        //context.Response.Clear();
+
+        //context.Response.Write(stringWrite);
+        //context.Response.ContentType = "application/ms-excel";
+        //context.Response.AppendHeader("Content-Disposition", "attachment; filename=RM Dealership and Facility Specs.XLS");
+        //context.Response.End();
     }
 
     /// <summary>

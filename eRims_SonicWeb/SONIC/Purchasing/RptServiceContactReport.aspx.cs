@@ -256,7 +256,7 @@ public partial class SONIC_Purchasing_RptServiceContactReport : clsBasePage
         }
 
         // export data to excel from gridview
-        GridViewExportUtil.ExportGrid("ServiceContract.xls", gvRegion);
+        GridViewExportUtil.ExportGrid("ServiceContract.xlsx", gvRegion);
 
         // reset the settings
         gvRegion.GridLines = GridLines.None;

@@ -105,7 +105,7 @@ public partial class SONIC_RealEstate_LeaseReport : clsBasePage
         }
 
         // export gridview to excel
-        GridViewExportUtil.ExportGrid("LeaseReport.xls", gvDBA);
+        GridViewExportUtil.ExportGrid("LeaseReport.xlsx", gvDBA);
 
         // hide gridlines
         gvDBA.GridLines = GridLines.None;

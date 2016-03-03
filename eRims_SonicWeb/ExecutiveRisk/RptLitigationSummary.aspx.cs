@@ -137,7 +137,7 @@ public partial class ERReports_LitigationSummary : clsBasePage
         }
 
         // export data to excel from gridview
-        GridViewExportUtil.ExportGrid("EPLI_Litigation_Summary_Report.xls", gvReport);
+        GridViewExportUtil.ExportGrid("EPLI_Litigation_Summary_Report.xlsx", gvReport);
 
         // reset the settings
         gvReport.GridLines = GridLines.None;

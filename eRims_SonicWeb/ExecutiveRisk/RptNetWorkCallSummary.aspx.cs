@@ -138,7 +138,7 @@ public partial class ERReports_NetWorkCallSummary : clsBasePage
         }
 
         // export data to excel from gridview
-        GridViewExportUtil.ExportGrid("Network_Call_Summary_Report.xls", gvReport);
+        GridViewExportUtil.ExportGrid("Network_Call_Summary_Report.xlsx", gvReport);
 
         // reset the settings
         gvReport.GridLines = GridLines.None;

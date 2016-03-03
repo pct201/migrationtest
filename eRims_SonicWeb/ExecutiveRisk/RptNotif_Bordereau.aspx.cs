@@ -137,7 +137,7 @@ public partial class ERReports_Notif_Bordereau : clsBasePage
         }
 
         // export data to excel from gridview
-        GridViewExportUtil.ExportGrid("Claim_Notification_Bordereau_Report.xls", gvReport);
+        GridViewExportUtil.ExportGrid("Claim_Notification_Bordereau_Report.xlsx", gvReport);
 
         // reset the settings
         gvReport.GridLines = GridLines.None;

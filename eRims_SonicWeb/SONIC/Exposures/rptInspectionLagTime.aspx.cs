@@ -161,7 +161,7 @@ public partial class SONIC_Exposures_rptInspectionLagTime : clsBasePage
         gvInspection.GridLines = GridLines.Both;       
 
         // export data to excel from gridview
-        GridViewExportUtil.ExportGrid("Inspection Distribution Lag Time.xls", gvInspection);
+        GridViewExportUtil.ExportGrid("Inspection Distribution Lag Time.xlsx", gvInspection);
        
         // gvDescription.ShowHeader = false;
         gvInspection.GridLines = GridLines.None;

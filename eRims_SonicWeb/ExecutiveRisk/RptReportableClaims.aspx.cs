@@ -96,7 +96,7 @@ public partial class ERReports_ReportableClaims : clsBasePage
         }
 
         // export data to excel from gridview
-        GridViewExportUtil.ExportGrid("Immediately_Reportable_Claims.xls", gvReport);
+        GridViewExportUtil.ExportGrid("Immediately_Reportable_Claims.xlsx", gvReport);
 
         // reset the settings
         gvReport.GridLines = GridLines.None;

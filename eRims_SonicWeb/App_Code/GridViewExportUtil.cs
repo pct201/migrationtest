@@ -55,7 +55,7 @@ public class GridViewExportUtil
                 //  add the footer row to the table
                 if (gv.FooterRow != null)
                 {
-                    
+
                     GridViewExportUtil.PrepareControlForExport(gv.FooterRow);
                     table.Rows.Add(gv.FooterRow);
                 }
@@ -76,7 +76,7 @@ public class GridViewExportUtil
     /// <param name="control"></param>
     private static void PrepareControlForExport(Control control)
     {
-        
+
         for (int i = 0; i < control.Controls.Count; i++)
         {
             Control current = control.Controls[i];
@@ -163,7 +163,7 @@ public class GridViewExportUtil
                 table.RenderControl(htw);
 
                 //  render the htmlwriter into the response
-               HttpContext.Current.Response.Write(sw.ToString());
+                HttpContext.Current.Response.Write(sw.ToString());
                 HttpContext.Current.Response.End();
             }
         }
@@ -176,7 +176,7 @@ public class GridViewExportUtil
     /// <param name="gv"></param>
     public static string ExportAdHoc_New(GridView gv)
     {
-      
+
         using (StringWriter sw = new StringWriter())
         {
             using (HtmlTextWriter htw = new HtmlTextWriter(sw))
@@ -272,44 +272,174 @@ public class GridViewExportUtil
 
     public static void ExportGrid(string fileNameToSave, GridView gvReportGrid)
     {
-        System.IO.StringWriter stringWrite = new System.IO.StringWriter();
-        System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
+        try
+        {
+            StringWriter stringWrite = new StringWriter();
+            HtmlTextWriter htmlWrite = new HtmlTextWriter(stringWrite);
+            MemoryStream memorystream = new MemoryStream();
+            String strPath = String.Empty, data = String.Empty, outputFiles = String.Empty;
 
-        gvReportGrid.RenderControl(htmlWrite);
+            gvReportGrid.RenderControl(htmlWrite);
 
-        MemoryStream memorystream = new MemoryStream();
-        byte[] _bytes = Encoding.UTF8.GetBytes(stringWrite.ToString());
-        memorystream.Write(_bytes, 0, _bytes.Length);
-        memorystream.Seek(0, SeekOrigin.Begin);
+            byte[] _bytes = Encoding.UTF8.GetBytes(stringWrite.ToString());
+            memorystream.Write(_bytes, 0, _bytes.Length);
+            memorystream.Seek(0, SeekOrigin.Begin);
 
-        HttpContext.Current.Response.Clear();
-        HttpContext.Current.Response.AddHeader(
-            "content-disposition", string.Format("attachment; filename={0}", fileNameToSave));
-        HttpContext.Current.Response.ContentType = "application/ms-excel";
+            strPath = AppConfig.SitePath + @"temp\" + DateTime.Now.ToString("ddMMyyyyhhmmss");
+            if (!File.Exists(strPath))
+            {
+                if (!Directory.Exists(AppConfig.SitePath + @"temp\"))
+                    Directory.CreateDirectory(AppConfig.SitePath + @"temp\");
+                // Create a file to write to.
+                using (StreamWriter sw = File.CreateText(strPath))
+                {
+                    sw.Write(stringWrite.ToString());
+                }
+            }
 
-        HttpContext.Current.Response.Write(stringWrite.ToString());
-        HttpContext.Current.Response.End();
+            data = File.ReadAllText(strPath);
+            data = data.Trim();
+            HTML2Excel objHtml2Excel = new HTML2Excel(data);
+            outputFiles = Path.GetFullPath(strPath) + ".xlsx";
+            bool blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
+
+            if (blnHTML2Excel)
+            {
+                try
+                {
+                    HttpContext.Current.Response.Clear();
+                    HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename=\"" + fileNameToSave + "\""));
+                    HttpContext.Current.Response.ContentType = "application/ms-excel";
+                    HttpContext.Current.Response.TransmitFile(outputFiles);
+                    HttpContext.Current.Response.Flush();
+                }
+                finally
+                {
+                    if (File.Exists(outputFiles))
+                        File.Delete(outputFiles);
+                    if (File.Exists(strPath))
+                        File.Delete(strPath);
+                    HttpContext.Current.Response.End();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
     }
 
-    public static void ExportGrid(string fileNameToSave, GridView gvReportGrid,string css)
+    public static void ExportGrid(string fileNameToSave, Label lblReport)
     {
-        System.IO.StringWriter stringWrite = new System.IO.StringWriter();
-        System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
+        try
+        {
+            System.IO.StringWriter stringWrite = new System.IO.StringWriter();
+            System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
+            lblReport.RenderControl(htmlWrite);
+            String strPath = String.Empty, data = String.Empty, outputFiles = String.Empty;
+            string strcols = "border: #7f7f7f 1px solid;vertical-align: top;font-size: 8pt;border-collapse: collapse;";
 
-        gvReportGrid.RenderControl(htmlWrite);
+            MemoryStream memorystream = new MemoryStream();
+            byte[] _bytes = Encoding.UTF8.GetBytes(stringWrite.ToString().Replace("border-top:#EAEAEA", "border-top:#000000").Replace("<style type='text/css'></style>", "<style type='text/css'> .cols_{" + strcols + " }</style>"));
+            memorystream.Write(_bytes, 0, _bytes.Length);
+            memorystream.Seek(0, SeekOrigin.Begin);
 
-        MemoryStream memorystream = new MemoryStream();
-        byte[] _bytes = Encoding.UTF8.GetBytes(stringWrite.ToString());
-        memorystream.Write(_bytes, 0, _bytes.Length);
-        memorystream.Seek(0, SeekOrigin.Begin);
+            strPath = AppConfig.SitePath + @"temp\" + DateTime.Now.ToString("ddMMyyyyhhmmss");
+            if (!File.Exists(strPath))
+            {
+                if (!Directory.Exists(AppConfig.SitePath + @"temp\"))
+                    Directory.CreateDirectory(AppConfig.SitePath + @"temp\");
+                // Create a file to write to.
+                using (StreamWriter sw = File.CreateText(strPath))
+                {
+                    sw.Write(stringWrite.ToString());
+                }
+            }
 
-        HttpContext.Current.Response.Clear();
-        HttpContext.Current.Response.AddHeader(
-            "content-disposition", string.Format("attachment; filename={0}", fileNameToSave));
-        HttpContext.Current.Response.ContentType = "application/ms-excel";
+            data = File.ReadAllText(strPath);
+            data = data.Trim();
+            HTML2Excel objHtml2Excel = new HTML2Excel(data);
+            outputFiles = Path.GetFullPath(strPath) + ".xlsx";
+            bool blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
 
-        HttpContext.Current.Response.Write("<html><head><style type='text/css'>" + css + "</style></head><body>" + stringWrite.ToString() + "</body></html>");
-        //HttpContext.Current.Response.Write(stringWrite.ToString());
-        HttpContext.Current.Response.End();
+            if (blnHTML2Excel)
+            {
+                try
+                {
+                    HttpContext.Current.Response.Clear();
+                    HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename=\"" + fileNameToSave + "\""));
+                    HttpContext.Current.Response.ContentType = "application/ms-excel";
+                    HttpContext.Current.Response.TransmitFile(outputFiles);
+                    HttpContext.Current.Response.Flush();
+                }
+                finally
+                {
+                    if (File.Exists(outputFiles))
+                        File.Delete(outputFiles);
+                    if (File.Exists(strPath))
+                        File.Delete(strPath);
+                    HttpContext.Current.Response.End();
+                }
+            }
+
+        }
+        catch (Exception ex) { }
+    }
+
+    public static void ExportGrid(string fileNameToSave, GridView gvReportGrid, string css)
+    {
+        try
+        {
+            System.IO.StringWriter stringWrite = new System.IO.StringWriter();
+            System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
+            String strPath = String.Empty, data = String.Empty, outputFiles = String.Empty;
+
+            gvReportGrid.RenderControl(htmlWrite);
+
+            MemoryStream memorystream = new MemoryStream();
+            byte[] _bytes = Encoding.UTF8.GetBytes("<html><head><style type='text/css'>" + css + "</style></head><body>" + stringWrite.ToString() + "</body></html>");
+            memorystream.Write(_bytes, 0, _bytes.Length);
+            memorystream.Seek(0, SeekOrigin.Begin);
+
+            strPath = AppConfig.SitePath + @"temp\" + DateTime.Now.ToString("ddMMyyyyhhmmss");
+            if (!File.Exists(strPath))
+            {
+                if (!Directory.Exists(AppConfig.SitePath + @"temp\"))
+                    Directory.CreateDirectory(AppConfig.SitePath + @"temp\");
+                // Create a file to write to.
+                using (StreamWriter sw = File.CreateText(strPath))
+                {
+                    sw.Write(stringWrite.ToString());
+                }
+            }
+
+            data = File.ReadAllText(strPath);
+            data = data.Trim();
+            HTML2Excel objHtml2Excel = new HTML2Excel(data);
+            outputFiles = Path.GetFullPath(strPath) + ".xlsx";
+            bool blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
+
+            if (blnHTML2Excel)
+            {
+                try
+                {
+                    HttpContext.Current.Response.Clear();
+                    HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename=\"" + fileNameToSave + "\""));
+                    HttpContext.Current.Response.ContentType = "application/ms-excel";
+                    HttpContext.Current.Response.TransmitFile(outputFiles);
+                    HttpContext.Current.Response.Flush();
+                }
+                finally
+                {
+                    if (File.Exists(outputFiles))
+                        File.Delete(outputFiles);
+                    if (File.Exists(strPath))
+                        File.Delete(strPath);
+                    HttpContext.Current.Response.End();
+                }
+            }
+        }
+        catch (Exception ex) { }
+
     }
 }

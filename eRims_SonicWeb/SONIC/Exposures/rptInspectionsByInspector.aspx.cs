@@ -159,7 +159,7 @@ public partial class SONIC_Exposures_rptInspectionsByInspector : clsBasePage
         gvInspection.GridLines = GridLines.Both;       
 
         // export data to excel from gridview
-        GridViewExportUtil.ExportGrid("Inspections By Inspectors.xls", gvInspection);
+        GridViewExportUtil.ExportGrid("Inspections By Inspectors.xlsx", gvInspection);
        
         // gvDescription.ShowHeader = false;
         gvInspection.GridLines = GridLines.None;

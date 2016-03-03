@@ -167,7 +167,7 @@ public partial class SONIC_FirstReport_RptSonicCauseCodeReclassification : clsBa
         }
 
         // export gridview to excel
-        GridViewExportUtil.ExportGrid("SonicCauseCodeReclassification.xls", gvDescription);
+        GridViewExportUtil.ExportGrid("SonicCauseCodeReclassification.xlsx", gvDescription);
 
         // hide gridlines
         gvDescription.GridLines = GridLines.None;

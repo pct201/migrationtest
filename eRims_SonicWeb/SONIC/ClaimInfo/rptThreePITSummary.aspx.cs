@@ -163,7 +163,7 @@ public partial class SONIC_ClaimInfo_rptThreePITSummary : clsBasePage
         }
 
         //Export Grid
-        GridViewExportUtil.ExportGrid("ThreePITSummaryReport.xls", gvRegion);
+        GridViewExportUtil.ExportGrid("ThreePITSummaryReport.xlsx", gvRegion);
 
         //Hide the Grid lines
         gvRegion.GridLines = GridLines.None;

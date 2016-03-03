@@ -107,7 +107,7 @@ public partial class SONIC_ClaimInfo_rptFrequencyAnalysis : clsBasePage
         }
 
         // export data to excel from gridview
-        GridViewExportUtil.ExportGrid("FrequencyAnalysisReport.xls", gvRegions);
+        GridViewExportUtil.ExportGrid("FrequencyAnalysisReport.xlsx", gvRegions);
 
         // reset the settings
         foreach (GridViewRow gvRow in gvRegions.Rows)

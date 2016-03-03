@@ -68,7 +68,7 @@ public partial class SONIC_ClaimInfo_rptPointInTimeDetail : clsBasePage
     protected void lbtExportToExcel_Click(object sender, EventArgs e)
     {
         gvReport.GridLines = GridLines.Both;
-        GridViewExportUtil.ExportGrid("DetailPITComparisonReport.xls", gvReport);
+        GridViewExportUtil.ExportGrid("DetailPITComparisonReport.xlsx", gvReport);
         gvReport.GridLines = GridLines.None;
     }
 

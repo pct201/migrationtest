@@ -103,7 +103,7 @@ public partial class SONIC_RealEstate_rptLandlordNotifyDate : clsBasePage
             gvDetail.GridLines = GridLines.Both;
         }
         // export gridview to excel
-        GridViewExportUtil.ExportGrid("LandlordNotificationReport.xls", gvDBA);
+        GridViewExportUtil.ExportGrid("LandlordNotificationReport.xlsx", gvDBA);
 
         // hide gridlines
         gvDBA.GridLines = GridLines.None;

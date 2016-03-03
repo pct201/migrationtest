@@ -155,7 +155,7 @@ public partial class SONIC_RealEstate_rptSubleaseReport : System.Web.UI.Page
         }
 
         // export data to excel from gridview
-        GridViewExportUtil.ExportGrid("SubLeaseReport.xls", gvDescription);
+        GridViewExportUtil.ExportGrid("SubLeaseReport.xlsx", gvDescription);
 
         // reset the settings
         foreach (GridViewRow gvRow in gvDescription.Rows)

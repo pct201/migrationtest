@@ -163,7 +163,7 @@ public partial class SONIC_ClaimInfo_rptFinancialSummary : clsBasePage
         }
 
         // export data to excel from gridview
-        GridViewExportUtil.ExportGrid("FinancialSummary.xls", gvReportOuter);
+        GridViewExportUtil.ExportGrid("FinancialSummary.xlsx", gvReportOuter);
 
         // reset the settings
         gvReportOuter.GridLines = GridLines.None;

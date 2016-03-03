@@ -144,7 +144,7 @@ public partial class SONIC_RealEstate_rptMasterDealership : clsBasePage
             gvDetail.GridLines = GridLines.Both;
         }
         // export gridview to excel
-        GridViewExportUtil.ExportGrid("MasterDealershipListReport.xls", gvReport);
+        GridViewExportUtil.ExportGrid("MasterDealershipListReport.xlsx", gvReport);
 
         // hide gridlines
         gvReport.GridLines = GridLines.None;

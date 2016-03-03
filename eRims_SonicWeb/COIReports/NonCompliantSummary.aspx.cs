@@ -91,7 +91,7 @@ public partial class COIReports_NonCompliantSummary : clsBasePage
             while (gvReport.FooterRow.Cells.Count > 2)
                 gvReport.FooterRow.Cells.Remove(gvReport.FooterRow.Cells[2]);
         }
-        GridViewExportUtil.ExportGrid("NonCompliantSummary.xls", gvReport);
+        GridViewExportUtil.ExportGrid("NonCompliantSummary.xlsx", gvReport);
         gvReport.GridLines = GridLines.None;
     }
     #endregion

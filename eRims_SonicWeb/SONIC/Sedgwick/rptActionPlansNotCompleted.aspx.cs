@@ -95,7 +95,7 @@ public partial class SONIC_Sedgwick_rptActionPlansNotCompleted : clsBasePage
 
             sbRecorords.Append("<tr style='font-weight: bold;background-color:#7f7f7f;color:White;height:25;font-size:11pt'>"); //Title
             sbRecorords.Append("<td>&nbsp;</td>");
-            sbRecorords.Append("<td align='left' colspan='13'>&nbsp;</td>");
+            sbRecorords.Append("<td align='left' colspan='13'>&nbsp;</td></tr>");
             //sbRecorords.Append("<td style='font-size:9pt;' colspan='3' align='right'>Valued as of: " + clsGeneral.FormatDBNullDateToDisplay(txtPriorValuationDate.Text) + "</td></tr>");
 
 
@@ -277,25 +277,7 @@ public partial class SONIC_Sedgwick_rptActionPlansNotCompleted : clsBasePage
     /// <param name="e"></param>
     protected void lnkExportExcel_Click(object sender, EventArgs e)
     {
-        string strcols = "border-right: black 1px solid;border-top: black 1px solid; border-left: black 1px solid;border-bottom: black 1px solid;vertical-align: top;padding-right: 2px;padding-left: 4px;font-size: 8pt;border-collapse: collapse;";
-        System.IO.StringWriter stringWrite = new System.IO.StringWriter();
-        System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
-
-        //PrepareControlForExport(gvReportGrid.HeaderRow);
-        lblClaimRecords.RenderControl(htmlWrite);
-        // gvReportGrid.RenderControl(htmlWrite);
-
-        MemoryStream memorystream = new MemoryStream();
-        byte[] _bytes = Encoding.UTF8.GetBytes(stringWrite.ToString().Replace("border-top:#EAEAEA", "border-top:#000000").Replace("<style type='text/css'></style>", "<style type='text/css'> .cols_{" + strcols + " }</style>"));
-        memorystream.Write(_bytes, 0, _bytes.Length);
-        memorystream.Seek(0, SeekOrigin.Begin);
-
-        HttpContext.Current.Response.Clear();
-        HttpContext.Current.Response.AddHeader(
-            "content-disposition", string.Format("attachment; filename={0}", " Action Plans Not Completed Report.xls"));
-        HttpContext.Current.Response.ContentType = "application/ms-excel";
-        HttpContext.Current.Response.Write(stringWrite.ToString().Replace("#EAEAEA", "White").Replace("#eaeaea", "White").Replace("background-color:#C0C0C0", "background-color:White;").Replace("<style type='text/css'></style>", "<style type='text/css'> .cols_{" + strcols + " }</style>").Replace("background-color:#7f7f7f;color:White", "background-color:White;color:Black"));
-        HttpContext.Current.Response.End();
+        GridViewExportUtil.ExportGrid("Action Plans Not Completed Report.xlsx", lblClaimRecords);
     }
 
     /// <summary>

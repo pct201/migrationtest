@@ -5,6 +5,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Text;
 using System.Data;
+using System.IO;
 
 public partial class Reports_Worksheet_Template_Export : clsBasePage
 {
@@ -62,12 +63,45 @@ public partial class Reports_Worksheet_Template_Export : clsBasePage
         //Write HTML in to HtmlWriter
         htmlWrite.WriteLine(strHTML.ToString());
 
-        HttpContext context = HttpContext.Current;
-        context.Response.Clear();
+        String strPath = String.Empty, data = String.Empty, outputFiles = String.Empty;
+        strPath = AppConfig.SitePath + @"temp\" + DateTime.Now.ToString("ddMMyyyyhhmmss");
+        if (!File.Exists(strPath))
+        {
+            if (!Directory.Exists(AppConfig.SitePath + @"temp\"))
+                Directory.CreateDirectory(AppConfig.SitePath + @"temp\");
+            // Create a file to write to.
+            using (StreamWriter sw = File.CreateText(strPath))
+            {
+                sw.Write(stringWrite.ToString());
+            }
+        }
 
-        context.Response.Write(stringWrite);
-        context.Response.ContentType = "application/ms-excel";
-        context.Response.AppendHeader("Content-Disposition", "attachment; filename=Worksheet Template Export.xls");
-        context.Response.End();
+        data = File.ReadAllText(strPath);
+        data = data.Trim();
+        HTML2Excel objHtml2Excel = new HTML2Excel(data);
+        outputFiles = Path.GetFullPath(strPath) + ".xlsx";
+        bool blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
+
+        if (blnHTML2Excel)
+        {
+            try
+            {
+                HttpContext.Current.Response.Clear();
+                HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename=\"Worksheet Template Export.xlsx\""));
+                HttpContext.Current.Response.ContentType = "application/ms-excel";
+                HttpContext.Current.Response.TransmitFile(outputFiles);
+                HttpContext.Current.Response.Flush();
+            }
+            finally
+            {
+                if (File.Exists(outputFiles))
+                    File.Delete(outputFiles);
+                if (File.Exists(strPath))
+                    File.Delete(strPath);
+
+                HttpContext.Current.Response.End();
+            }
+        }
+
     }
 }
