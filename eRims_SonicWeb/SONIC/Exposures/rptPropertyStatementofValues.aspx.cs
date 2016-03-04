@@ -200,7 +200,7 @@ public partial class SONIC_Exposures_rptPropertyStatementofValues : clsBasePage
 
 
         #region remove Item Columns
-        int item_ColumnIndexStart = 90;
+        int item_ColumnIndexStart = 97;
 
 
         #endregion
@@ -365,6 +365,7 @@ public partial class SONIC_Exposures_rptPropertyStatementofValues : clsBasePage
         // export data to excel from gridview
         string css = " #ctl00_ContentPlaceHolder1_gvDescription_New th {height: 22px;}.HeaderStyle th {vertical-align: bottom;text-align: left;padding-bottom: 3px;padding-left: 3px;height: 22px;}";
         GridViewExportUtil.ExportGrid("StatementofValuesReport.xls", gvDescription1, css);
+        
         // reset the settings
         //foreach (GridViewRow gvRow in gvDescription1.Rows)
         //{

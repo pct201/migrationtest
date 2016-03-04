@@ -1364,48 +1364,47 @@
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Parent Company<br> Legal Entity FEIN">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label6" runat="server" Text='<%# Eval("Parent_Company_LE_FEIN") %>' Width="180px"></asp:Label>
+                                    <asp:Label ID="Label7" runat="server" Text='<%# Eval("Parent_Company_LE_FEIN") %>' Width="180px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Legal Entity<br> (Operations)">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label6" runat="server" Text='<%# Eval("LE_Operations") %>' Width="180px"></asp:Label>
+                                    <asp:Label ID="Label8" runat="server" Text='<%# Eval("LE_Operations") %>' Width="180px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Legal Entity<br> (Operations) FEIN">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label6" runat="server" Text='<%# Eval("LE_Operations_FEIN") %>' Width="180px"></asp:Label>
+                                    <asp:Label ID="Label9" runat="server" Text='<%# Eval("LE_Operations_FEIN") %>' Width="180px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Legal Entity<br> (Properties)">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label6" runat="server" Text='<%# Eval("LE_Properties") %>' Width="180px"></asp:Label>
+                                    <asp:Label ID="Label0" runat="server" Text='<%# Eval("LE_Properties") %>' Width="180px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Legal Entity<br> (Properties) FEIN">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label6" runat="server" Text='<%# Eval("LE_Properties_FEIN") %>' Width="180px"></asp:Label>
+                                    <asp:Label ID="Label11" runat="server" Text='<%# Eval("LE_Properties_FEIN") %>' Width="180px"></asp:Label>
                                 </ItemTemplate>
-                            </asp:TemplateField>
-                                
+                            </asp:TemplateField>                                
                             <asp:TemplateField HeaderText="Federal Id">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label7" runat="server" Text='<%# Eval("Federal_id") %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label12" runat="server" Text='<%# Eval("Federal_id") %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Location Status">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label8" runat="server" Text='<%# Eval("Location_Status") %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label13" runat="server" Text='<%# Eval("Location_Status") %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Building #">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label9" runat="server" Text='<%# Eval("Building") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label14" runat="server" Text='<%# Eval("Building") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Building Status">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label10" runat="server" Text='<%# Eval("Building_Status") %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label15" runat="server" Text='<%# Eval("Building_Status") %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Address 1">
@@ -1420,189 +1419,182 @@
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="City">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label11" runat="server" Text='<%# Eval("City") %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label16" runat="server" Text='<%# Eval("City") %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="State">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label12" runat="server" Text='<%# Eval("State") %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label17" runat="server" Text='<%# Eval("State") %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Zip Code">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label13" runat="server" Text='<%# Eval("Zip_Code") %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label18" runat="server" Text='<%# Eval("Zip_Code") %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="County">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label14" runat="server" Text='<%# Eval("County") %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label19" runat="server" Text='<%# Eval("County") %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Owned/Leased/Sub Leased/Assigned/ Management Agreement">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label15" runat="server" Text='<%# Eval("Ownership") %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label20" runat="server" Text='<%# Eval("Ownership") %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Sales - New">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label16" runat="server" Text='<%# Eval("Sales_New") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label21" runat="server" Text='<%# Eval("Sales_New") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Sales - Used">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label17" runat="server" Text='<%# Eval("Sales_Used") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label22" runat="server" Text='<%# Eval("Sales_Used") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Services">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label18" runat="server" Text='<%# Eval("Service") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label23" runat="server" Text='<%# Eval("Service") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Body Shop">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label19" runat="server" Text='<%# Eval("Body_Shop") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label24" runat="server" Text='<%# Eval("Body_Shop") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Parts">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label20" runat="server" Text='<%# Eval("Parts") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label25" runat="server" Text='<%# Eval("Parts") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Office">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label21" runat="server" Text='<%# Eval("Office") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label26" runat="server" Text='<%# Eval("Office") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Parking Lot">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label22" runat="server" Text='<%# Eval("Parking_Lot") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label27" runat="server" Text='<%# Eval("Parking_Lot") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Row Land">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label23" runat="server" Text='<%# Eval("Raw_Land") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label28" runat="server" Text='<%# Eval("Raw_Land") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Car Wash">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label23" runat="server" Text='<%# Eval("Car_Wash") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label29" runat="server" Text='<%# Eval("Car_Wash") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Photo Booth">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label23" runat="server" Text='<%# Eval("Photo_Booth") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label30" runat="server" Text='<%# Eval("Photo_Booth") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Property Valuation Date">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label24" runat="server" Text='<%# clsGeneral.FormatDBNullDateToDisplay_Claim(Eval("Property_Valuation_Date")) %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label31" runat="server" Text='<%# clsGeneral.FormatDBNullDateToDisplay_Claim(Eval("Property_Valuation_Date")) %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="RS Means Building Limit">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label25" runat="server" Text='<%# clsGeneral.GetStringValue(Eval("Building_Limit")) %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label32" runat="server" Text='<%# clsGeneral.GetStringValue(Eval("Building_Limit")) %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-
                             <asp:TemplateField HeaderText="Associate Tools Limit">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label26" runat="server" Text='<%# clsGeneral.GetStringValue(Eval("Associate_Tools_Limit")) %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label33" runat="server" Text='<%# clsGeneral.GetStringValue(Eval("Associate_Tools_Limit")) %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-
                             <asp:TemplateField HeaderText="Contents Limit">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label27" runat="server" Text='<%# clsGeneral.GetStringValue(Eval("Contents_Limit")) %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label34" runat="server" Text='<%# clsGeneral.GetStringValue(Eval("Contents_Limit")) %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-
                             <asp:TemplateField HeaderText="Parts Limit">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label28" runat="server" Text='<%# clsGeneral.GetStringValue(Eval("Parts_Limit")) %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label35" runat="server" Text='<%# clsGeneral.GetStringValue(Eval("Parts_Limit")) %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-
                             <asp:TemplateField HeaderText="Business Interruption">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label29" runat="server" Text='<%#String.Format("{0:C2}",Eval("Business_Interruption"))%>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label36" runat="server" Text='<%#String.Format("{0:C2}",Eval("Business_Interruption"))%>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-
                             <asp:TemplateField HeaderText="Total">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label30" runat="server" Text='<%# clsGeneral.GetStringValue(Eval("Total")) %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label37" runat="server" Text='<%# clsGeneral.GetStringValue(Eval("Total")) %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-
                             <asp:TemplateField HeaderText="Contact Name">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label31" runat="server" Text='<%# Eval("Fire_Contact_Name") %>' Width="180px"></asp:Label>
+                                    <asp:Label ID="Label38" runat="server" Text='<%# Eval("Fire_Contact_Name") %>' Width="180px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Vendor Name">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label32" runat="server" Text='<%# Eval("Fire_Vendor_Name") %>' Width="180px"></asp:Label>
+                                    <asp:Label ID="Label39" runat="server" Text='<%# Eval("Fire_Vendor_Name") %>' Width="180px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Contract Expiration Date">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label33" runat="server" Text=' <%# string.IsNullOrEmpty(Convert.ToString(Eval("Fire_Contact_Expiration_Date "))) ? string.Empty : clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("Fire_Contact_Expiration_Date ")))%>' Width="180px"></asp:Label>
+                                    <asp:Label ID="Label40" runat="server" Text=' <%# string.IsNullOrEmpty(Convert.ToString(Eval("Fire_Contact_Expiration_Date "))) ? string.Empty : clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("Fire_Contact_Expiration_Date ")))%>' Width="180px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Address 1">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label34" runat="server" Text='<%# Eval("Fire_Address_1") %>' Width="180px"></asp:Label>
+                                    <asp:Label ID="Label41" runat="server" Text='<%# Eval("Fire_Address_1") %>' Width="180px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Address 2">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label35" runat="server" Text='<%# Eval("Fire_Address_2") %>' Width="180px"></asp:Label>
+                                    <asp:Label ID="Label42" runat="server" Text='<%# Eval("Fire_Address_2") %>' Width="180px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="City">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label36" runat="server" Text='<%# Eval("Fire_City") %>' Width="180px"></asp:Label>
+                                    <asp:Label ID="Label43" runat="server" Text='<%# Eval("Fire_City") %>' Width="180px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="State">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label37" runat="server" Text='<%# Eval("Fire_State") %>' Width="180px"></asp:Label>
+                                    <asp:Label ID="Label44" runat="server" Text='<%# Eval("Fire_State") %>' Width="180px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Zip">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label38" runat="server" Text='<%# Eval("Fire_Zip") %>' Width="180px"></asp:Label>
+                                    <asp:Label ID="Label45" runat="server" Text='<%# Eval("Fire_Zip") %>' Width="180px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Email">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label39" runat="server" Text='<%# Eval("Fire_Email") %>' Width="180px"></asp:Label>
+                                    <asp:Label ID="Label46" runat="server" Text='<%# Eval("Fire_Email") %>' Width="180px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Telephone Number">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label40" runat="server" Text='<%# Eval("Fire_Telephone_Number") %>' Width="180px"></asp:Label>
+                                    <asp:Label ID="Label47" runat="server" Text='<%# Eval("Fire_Telephone_Number") %>' Width="180px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-
                             <asp:TemplateField HeaderText="Alternate Number">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label41" runat="server" Text='<%# Eval("Fire_Alternate_Number") %>' Width="180px"></asp:Label>
+                                    <asp:Label ID="Label48" runat="server" Text='<%# Eval("Fire_Alternate_Number") %>' Width="180px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Comments">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label42" runat="server" Text='<%# Eval("Fire_Comments") %>' Width="180px"></asp:Label>
+                                    <asp:Label ID="Label49" runat="server" Text='<%# Eval("Fire_Comments") %>' Width="180px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="System">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label43" runat="server" Text='<%# Eval("System") %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label50" runat="server" Text='<%# Eval("System") %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Vendor Name">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label44" runat="server" Text='<%# Eval("Vendor_Name") %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label51" runat="server" Text='<%# Eval("Vendor_Name") %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Address 1">
@@ -1617,43 +1609,42 @@
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="City">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label45" runat="server" Text='<%# Eval("Guard_City") %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label52" runat="server" Text='<%# Eval("Guard_City") %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="State">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label46" runat="server" Text='<%# Eval("Guard_State") %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label53" runat="server" Text='<%# Eval("Guard_State") %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Zip">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label47" runat="server" Text='<%# Eval("Guard_Zip") %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label54" runat="server" Text='<%# Eval("Guard_Zip") %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Contact Name">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label48" runat="server" Text='<%# Eval("Contact_Name") %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label55" runat="server" Text='<%# Eval("Contact_Name") %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Contract Expiration Date">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label49" runat="server" Text='<%# clsGeneral.FormatDBNullDateToDisplay_Claim(Eval("Guard_Expiration_Date"))%>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label56" runat="server" Text='<%# clsGeneral.FormatDBNullDateToDisplay_Claim(Eval("Guard_Expiration_Date"))%>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Telephone Number">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label50" runat="server" Text='<%# Eval("Guard_Telephone_Number") %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label57" runat="server" Text='<%# Eval("Guard_Telephone_Number") %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-
                             <asp:TemplateField HeaderText="Alternet Number ">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label51" runat="server" Text='<%# Eval("Guard_Alternate_Number") %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label58" runat="server" Text='<%# Eval("Guard_Alternate_Number") %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Email">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label52" runat="server" Text='<%# Eval("Guard_Email") %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label59" runat="server" Text='<%# Eval("Guard_Email") %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Comments">
@@ -1663,324 +1654,347 @@
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="System">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label53" runat="server" Text='<%# Eval("Intru_System_Name") %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label60" runat="server" Text='<%# Eval("Intru_System_Name") %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Vendor Name">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label54" runat="server" Text='<%# Eval("Intru_Vendor_Name") %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label61" runat="server" Text='<%# Eval("Intru_Vendor_Name") %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Address 1">
                                 <ItemTemplate>
-                                    <asp:Label runat="server" ID="Label1" Width="200"><%# Eval("Intru_Address_1")%></asp:Label>
+                                    <asp:Label runat="server" ID="Label62" Width="200"><%# Eval("Intru_Address_1")%></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Address 2">
                                 <ItemTemplate>
-                                    <asp:Label runat="server" ID="Label2" Width="200"><%# Eval("Intru_Address_2")%></asp:Label>
+                                    <asp:Label runat="server" ID="Label63" Width="200"><%# Eval("Intru_Address_2")%></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="City">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label55" runat="server" Text='<%# Eval("Intru_City") %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label64" runat="server" Text='<%# Eval("Intru_City") %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="State">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label56" runat="server" Text='<%# Eval("Intru_State") %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label65" runat="server" Text='<%# Eval("Intru_State") %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Zip">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label57" runat="server" Text='<%# Eval("Intru_Zip") %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label66" runat="server" Text='<%# Eval("Intru_Zip") %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Contact Name">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label58" runat="server" Text='<%# Eval("Intru_Contact_Name") %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label67" runat="server" Text='<%# Eval("Intru_Contact_Name") %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Contract Expiration Date">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label59" runat="server" Text='<%# clsGeneral.FormatDBNullDateToDisplay_Claim(Eval("Intru_Contract_Expiration_Date"))%>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label68" runat="server" Text='<%# clsGeneral.FormatDBNullDateToDisplay_Claim(Eval("Intru_Contract_Expiration_Date"))%>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-
                             <asp:TemplateField HeaderText="Telephone Number">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label60" runat="server" Text='<%# Eval("Intru_Telephone_Number") %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label69" runat="server" Text='<%# Eval("Intru_Telephone_Number") %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Alternet Number">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label61" runat="server" Text='<%# Eval("Intru_Alternate_Number") %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label70" runat="server" Text='<%# Eval("Intru_Alternate_Number") %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Email">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label62" runat="server" Text='<%# Eval("Intru_Email") %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label71" runat="server" Text='<%# Eval("Intru_Email") %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Comments">
                                 <ItemTemplate>
-                                    <asp:Label runat="server" ID="Label3" CssClass="TextClip" Width="200"><%# Eval("Intru_Comments")%></asp:Label>
+                                    <asp:Label runat="server" ID="Label72" CssClass="TextClip" Width="200"><%# Eval("Intru_Comments")%></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Razor Wire </br> YES/No">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label63" runat="server" Text='<%# Eval("Fence_Razor_Wire") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label73" runat="server" Text='<%# Eval("Fence_Razor_Wire") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Electrified </br> YES/No">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label64" runat="server" Text='<%# Eval("Fence_Electrified") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label74" runat="server" Text='<%# Eval("Fence_Electrified") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Make">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label65" runat="server" Text='<%# Eval("Generator_Make") %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label75" runat="server" Text='<%# Eval("Generator_Make") %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Model">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label66" runat="server" Text='<%# Eval("Generator_Model") %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label76" runat="server" Text='<%# Eval("Generator_Model") %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Size">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label67" runat="server" Text='<%# Eval("Generator_Size") %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label77" runat="server" Text='<%# Eval("Generator_Size") %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Type (Paid/Part Paid/Volunteer)">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label68" runat="server" Text='<%# Eval("Fire_Department_Type") %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label78" runat="server" Text='<%# Eval("Fire_Department_Type") %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Distance - Miles">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label69" runat="server" Text='<%# Eval("Fire_Department_Distance") %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label79" runat="server" Text='<%# Eval("Fire_Department_Distance") %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Year Built">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label70" runat="server" Text='<%# Eval("Year_Built") %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label80" runat="server" Text='<%# Eval("Year_Built") %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Squre Footage">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label71" runat="server" Text='<%# Eval("Square_Footage") %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label81" runat="server" Text='<%# Eval("Square_Footage") %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Number of Floors">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label72" runat="server" Text='<%# Eval("Number_Of_Stories") %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label82" runat="server" Text='<%# Eval("Number_Of_Stories") %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="% Sprink">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label73" runat="server" Text='<%# Eval("Percent_Sprinklered") %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="Label83" runat="server" Text='<%# Eval("Percent_Sprinklered") %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Reinforced Concrete">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label74" runat="server" Text='<%# Eval("Roof_Reinforced_Concrete") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label84" runat="server" Text='<%# Eval("Roof_Reinforced_Concrete") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Poured Concrete">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label75" runat="server" Text='<%# Eval("Roof_Poured_Concrete") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label85" runat="server" Text='<%# Eval("Roof_Poured_Concrete") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Concrete Panels">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label76" runat="server" Text='<%# Eval("Roof_Concrete_Panels") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label86" runat="server" Text='<%# Eval("Roof_Concrete_Panels") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Steel Deck">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label77" runat="server" Text='<%# Eval("Roof_Steel_Deck") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label87" runat="server" Text='<%# Eval("Roof_Steel_Deck") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Steel Deck Fastener">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label78" runat="server" Text='<%# Eval("Roof_Steel_Deck_With_Fasteners") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label88" runat="server" Text='<%# Eval("Roof_Steel_Deck_With_Fasteners") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Wood Joists">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label79" runat="server" Text='<%# Eval("Roof_Wood_Joists") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label89" runat="server" Text='<%# Eval("Roof_Wood_Joists") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Reinforced Concrete">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label80" runat="server" Text='<%# Eval("Ext_Walls_Reinforced_Concrete") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label90" runat="server" Text='<%# Eval("Ext_Walls_Reinforced_Concrete") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Tilt Up Concrete">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label81" runat="server" Text='<%# Eval("Ext_Walls_Tilt_Up_Concrete") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label91" runat="server" Text='<%# Eval("Ext_Walls_Tilt_Up_Concrete") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Masonry">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label82" runat="server" Text='<%# Eval("Ext_Walls_Masonary") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label92" runat="server" Text='<%# Eval("Ext_Walls_Masonary") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Glass and Steel Curtain">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label83" runat="server" Text='<%# Eval("Ext_Walls_Glass_And_Steel_Curtain") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label93" runat="server" Text='<%# Eval("Ext_Walls_Glass_And_Steel_Curtain") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Corrugated Metal Panels">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label84" runat="server" Text='<%# Eval("Ext_Walls_Corrugated_Metal_Panels") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label94" runat="server" Text='<%# Eval("Ext_Walls_Corrugated_Metal_Panels") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Wood Frame">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label85" runat="server" Text='<%# Eval("Ext_Walls_Wood_Frame") %>' Width="120px"></asp:Label>
-                                </ItemTemplate>
-                            </asp:TemplateField>
-
-                            <asp:TemplateField HeaderText="">
-                                <ItemTemplate>
-                                    <asp:Label ID="Label86" runat="server" Text='<%# Eval("Item_1") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label95" runat="server" Text='<%# Eval("Ext_Walls_Wood_Frame") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label87" runat="server" Text='<%# Eval("Item_2") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label96" runat="server" Text='<%# Eval("Item_1") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label88" runat="server" Text='<%# Eval("Item_3") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label97" runat="server" Text='<%# Eval("Item_2") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label89" runat="server" Text='<%# Eval("Item_4") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label98" runat="server" Text='<%# Eval("Item_3") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label90" runat="server" Text='<%# Eval("Item_5") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label99" runat="server" Text='<%# Eval("Item_4") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label91" runat="server" Text='<%# Eval("Item_6") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label100" runat="server" Text='<%# Eval("Item_5") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label92" runat="server" Text='<%# Eval("Item_7") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label101" runat="server" Text='<%# Eval("Item_6") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label93" runat="server" Text='<%# Eval("Item_8") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label102" runat="server" Text='<%# Eval("Item_7") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label94" runat="server" Text='<%# Eval("Item_9") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label103" runat="server" Text='<%# Eval("Item_8") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label95" runat="server" Text='<%# Eval("Item_10") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label104" runat="server" Text='<%# Eval("Item_9") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label96" runat="server" Text='<%# Eval("Item_11") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label105" runat="server" Text='<%# Eval("Item_10") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label97" runat="server" Text='<%# Eval("Item_12") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label106" runat="server" Text='<%# Eval("Item_11") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label98" runat="server" Text='<%# Eval("Item_13") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label107" runat="server" Text='<%# Eval("Item_12") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label99" runat="server" Text='<%# Eval("Item_14") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label108" runat="server" Text='<%# Eval("Item_13") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label100" runat="server" Text='<%# Eval("Item_15") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label109" runat="server" Text='<%# Eval("Item_14") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label101" runat="server" Text='<%# Eval("Item_16") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label110" runat="server" Text='<%# Eval("Item_15") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label102" runat="server" Text='<%# Eval("Item_17") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label111" runat="server" Text='<%# Eval("Item_16") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label103" runat="server" Text='<%# Eval("Item_18") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label112" runat="server" Text='<%# Eval("Item_17") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label104" runat="server" Text='<%# Eval("Item_19") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label113" runat="server" Text='<%# Eval("Item_18") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label105" runat="server" Text='<%# Eval("Item_20") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label114" runat="server" Text='<%# Eval("Item_19") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label106" runat="server" Text='<%# Eval("Item_21") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label115" runat="server" Text='<%# Eval("Item_20") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label107" runat="server" Text='<%# Eval("Item_22") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label116" runat="server" Text='<%# Eval("Item_21") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label108" runat="server" Text='<%# Eval("Item_23") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label117" runat="server" Text='<%# Eval("Item_22") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label109" runat="server" Text='<%# Eval("Item_24") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label118" runat="server" Text='<%# Eval("Item_23") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label110" runat="server" Text='<%# Eval("Item_25") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label119" runat="server" Text='<%# Eval("Item_24") %>' Width="120px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="">
+                                <ItemTemplate>
+                                    <asp:Label ID="Label120" runat="server" Text='<%# Eval("Item_25") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Number of Lifts">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label111" runat="server" Text='<%# Eval("Number_Of_Lifts") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label121" runat="server" Text='<%# Eval("Number_Of_Lifts") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Number of Paint Booths">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label112" runat="server" Text='<%# Eval("Number_Of_Paint_Booths") %>' Width="120px"></asp:Label>
+                                    <asp:Label ID="Label122" runat="server" Text='<%# Eval("Number_Of_Paint_Booths") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Other Building Comments  ">
                                 <ItemTemplate>
                                     <asp:Label Width="240px" runat="server" ID="lblOtherBuildingComments" Text='<%# Eval("Comments")%>' CssClass="TextClip"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="HVAC Repairs">
+                                <ItemTemplate>
+                                    <asp:Label Width="120px" runat="server" ID="lblHVAC_Repairs" Text='<%# Eval("HVAC_Repairs")%>' ></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="HVAC Capital">
+                                <ItemTemplate>
+                                    <asp:Label Width="120px" runat="server" ID="lblHVAC_Capital" Text='<%# Eval("HVAC_Capital")%>' ></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Roof Repairs">
+                                <ItemTemplate>
+                                    <asp:Label Width="120px" runat="server" ID="lblRoof_Repairs" Text='<%# Eval("Roof_Repairs")%>' ></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Roof Capital">
+                                <ItemTemplate>
+                                    <asp:Label Width="120px" runat="server" ID="lblRoof_Capital" Text='<%# Eval("Roof_Capital")%>' ></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Other Repairs">
+                                <ItemTemplate>
+                                    <asp:Label Width="120px" runat="server" ID="lblOther_Repairs" Text='<%# Eval("Other_Repairs")%>'></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
 
