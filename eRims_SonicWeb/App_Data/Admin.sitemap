@@ -33,7 +33,7 @@
     </siteMapNode>
     <siteMapNode url="" title="Exposures"  description="" roles="">
       <siteMapNode url="SONIC/Exposures/ExposureSearch.aspx" title="Exposures"  description="" roles="" />
-	  <siteMapNode url="SONIC/Exposures/RLCM_QA_QC.aspx" title="RLCM Monthly QA/QC"  description="" roles="" />
+      <siteMapNode url="SONIC/Exposures/RLCM_QA_QC.aspx" title="RLCM Monthly QA/QC"  description="" roles="" />
       <siteMapNode url="" title="Purchasing" description="" roles="">
         <siteMapNode url="" title="Add" description="" roles="">
           <siteMapNode url="SONIC/Purchasing/PurchasingAssetInformation.aspx" title="Asset"  description="" roles="" />
@@ -45,10 +45,10 @@
       </siteMapNode>
 
       <siteMapNode url="" title="Training" description="" roles="">
-          <siteMapNode url="SONIC/Exposures/Manually_Update_Training.aspx" title="Manually Update Training Data"  description="" roles="" />
-          <siteMapNode url="SONIC/Exposures/Learning_Program_Items_Report.aspx" title="Learning Program Items Report"  description="" roles="" />
+        <siteMapNode url="SONIC/Exposures/Manually_Update_Training.aspx" title="Manually Update Training Data"  description="" roles="" />
+        <siteMapNode url="SONIC/Exposures/Learning_Program_Items_Report.aspx" title="Learning Program Items Report"  description="" roles="" />
       </siteMapNode>
-      
+
       <siteMapNode url="SONIC/Exposures/PropertyValuesImport.aspx" title="Values Export/Import" description=""/>
       <siteMapNode url="" title="Customer Relationship Management" description="">
         <siteMapNode url="SONIC/CRM/CRM_SelectType.aspx" title="Add" description=""></siteMapNode>
@@ -62,22 +62,22 @@
     </siteMapNode>
     <siteMapNode url="" title="ACI"  description="" roles="">
       <siteMapNode url="Event/EventSearch_New.aspx" title="ACI Event Search" description="" roles=""></siteMapNode>
-	  <siteMapNode url="" title="ACI Management" description="">
-          <siteMapNode url="Management/ManagementSearch.aspx" title="ACI Management Search" description="" roles=""></siteMapNode>
-		  <siteMapNode title="Attachment Download" description="Search" url="Management/ACI_Management_Attachment_Download.aspx" roles=""></siteMapNode>
+      <siteMapNode url="" title="ACI Management" description="">
+        <siteMapNode url="Management/ManagementSearch.aspx" title="ACI Management Search" description="" roles=""></siteMapNode>
+        <siteMapNode title="Attachment Download" description="Search" url="Management/ACI_Management_Attachment_Download.aspx" roles=""></siteMapNode>
       </siteMapNode>
-	  <siteMapNode url="https://www.amsvideo.com" title="Immix Webportal" description="" roles=""></siteMapNode>
+      <siteMapNode url="https://www.amsvideo.com" title="Immix Webportal" description="" roles=""></siteMapNode>
     </siteMapNode>
     <siteMapNode url="" title="Reports"  description="" roles="">
       <siteMapNode url="javascript:void(0);" title="Standard Reports" description="">
         <siteMapNode url="COIReports/Default.aspx" title="Certificate of Insurance" />
         <siteMapNode url="SONIC/ClaimInfo/rptDefault.aspx" title="Claim Reports" description="Claim Reports" />
         <siteMapNode url="SONIC/CRM/rptDefault.aspx" title="Customer Relationship Management Reports" description="CRM Reports"/>
-		<siteMapNode url="UserAccessRequest/rptUserAccessRequest.aspx" title="User Access Request Reports" description="UserAccessRequest Reports"/>
+        <siteMapNode url="UserAccessRequest/rptUserAccessRequest.aspx" title="User Access Request Reports" description="UserAccessRequest Reports"/>
         <siteMapNode url="DashBoard/rptDefault.aspx" title="Dashboard Reports" description="Dashboard Reports"/>
         <siteMapNode url="ExecutiveRisk/RptDefault.aspx" title="Executive Risk"/>
         <siteMapNode url="SONIC/Exposures/rptDefault.aspx" title="Exposures" description="Exposures" />
-		<siteMapNode url="UserAccessRequest/rptVOCEmissions.aspx" title="VOC Report" />
+        <siteMapNode url="SONIC/Exposures/rptVOCEmissions.aspx" title="VOC Report" />
         <siteMapNode url="SONIC/Franchise/AdHocReportWriter.aspx" title="Franchise Reports" />
         <siteMapNode url="SONIC/RealEstate/rptDefault.aspx" title="Lease Reports" description="Lease Reports" />
         <siteMapNode url="Policy/rptDefault.aspx" title="Policy Reports" description="Policy Reports"/>
@@ -106,12 +106,12 @@
         <siteMapNode url="" title="ACI Event" description="">
           <siteMapNode url="Event/ACI_Event_Report.aspx" title="ACI Event Report" description="ACI Event Report"/>
         </siteMapNode>
-        
+
         <siteMapNode url="" title="OSHA" description="">
           <siteMapNode url="SONIC/FirstReport/rptOSHA300.aspx" title="300 and 300A" description="300 and 300A Report"/>
           <siteMapNode url="SONIC/FirstReport/rptOSHA301.aspx" title="301" description="301 Report"/>
         </siteMapNode>
-        
+
       </siteMapNode>
       <siteMapNode url="" title="Ad-Hoc Report Writer" description="">
         <siteMapNode url="SONIC/Exposures/AssetProtection_AdHocReportWriter.aspx" title="Asset Protection" description="Asset Protection"/>
@@ -125,12 +125,12 @@
         <siteMapNode url="SONIC/SLT/SLT_AdHocReportWriter.aspx" title="SLT" description="SLT"/>
         <siteMapNode url="Event/ACIEvents_AdHocReportWriter.aspx" title="ACI Events" description="ACI Events"/>
         <siteMapNode url="PropertyClaims/Property_Claims_AdHocReportWriter.aspx" title="Property Claims" description="Property Claims"/>
-		<siteMapNode url="Management/ACIManagement_AdHocReportWriter.aspx" title="ACI Management" description="ACI Management"/>
+        <siteMapNode url="Management/ACIManagement_AdHocReportWriter.aspx" title="ACI Management" description="ACI Management"/>
         <siteMapNode url="SONIC/SafetyTraining_AdhocReportWriter.aspx" title="Safety Training" description="Safety Training"/>
-        
-		 <siteMapNode url="SONIC/Exposures/Property_AdHocReportWriter.aspx" title="Property" description="Property"/>
-       <siteMapNode url="SONIC/SLT/SonicUTraining_AdHocReportWriter.aspx" title="Sonic U Training" description="Sonic U Training"/>
-      
+
+        <siteMapNode url="SONIC/Exposures/Property_AdHocReportWriter.aspx" title="Property" description="Property"/>
+        <siteMapNode url="SONIC/SLT/SonicUTraining_AdHocReportWriter.aspx" title="Sonic U Training" description="Sonic U Training"/>
+
       </siteMapNode>
       <siteMapNode url="" title="Administrator"  description="" roles="">
         <siteMapNode url="Administrator/rptLog_Audit.aspx" title="Login Audit" description="" roles=""></siteMapNode>
@@ -138,10 +138,10 @@
       </siteMapNode>
     </siteMapNode>
     <siteMapNode url="" title="Administrator"  description="" roles="">
-     <!-- <siteMapNode url="Administrator/security.aspx" title="User"  description="" roles="" />-->
-	 <siteMapNode url="Administrator/Contractor_Firm.aspx" title="Contractor Firm"  description="" roles="" />
+      <!-- <siteMapNode url="Administrator/security.aspx" title="User"  description="" roles="" />-->
+      <siteMapNode url="Administrator/Contractor_Firm.aspx" title="Contractor Firm"  description="" roles="" />
       <siteMapNode url="Administrator/Contractor_Security.aspx" title="Contractor Security"  description="" roles="" />
-	  <siteMapNode url="" title="User" description="">        
+      <siteMapNode url="" title="User" description="">
         <siteMapNode url="Administrator/security.aspx" title="User Security"  description="" roles="" />
         <siteMapNode url="Administrator/UserAccessRequestForm.aspx" title="User Access Request"  description="" roles="" />
       </siteMapNode>
@@ -172,9 +172,9 @@
       <siteMapNode url="Administrator/DeleteFirstReport.aspx" title ="Delete First Report" description="" roles="" />
       <siteMapNode url="Administrator/AttachmentFolders.aspx" title ="Document Folder Maintenance" description="Document Folder Maintenance" roles=""/>
       <siteMapNode url="" title="Lookup Table Maintenance"  description="" roles="">
-	  <siteMapNode url="" title="ACI" description="">
-		  <siteMapNode url="Administrator/LU_Incident_Type.aspx" title="Event Type" description=""></siteMapNode>
-	  </siteMapNode>
+        <siteMapNode url="" title="ACI" description="">
+          <siteMapNode url="Administrator/LU_Incident_Type.aspx" title="Event Type" description=""></siteMapNode>
+        </siteMapNode>
         <siteMapNode url="" title="Asset Protection" description="">
           <siteMapNode url="Administrator/LU_AM_Attachment_Type.aspx" title="Attachment Type" description=""></siteMapNode>
           <siteMapNode url="Administrator/LU_AP_Cap_Index_Risk_Category.aspx" title="Cap Index menu selection" description=""></siteMapNode>
@@ -230,7 +230,7 @@
           <siteMapNode url="Administrator/LU_Tank_Material.aspx" title ="Tank Material" description="" roles="" />
           <siteMapNode url="Administrator/LU_Units.aspx" title ="Units" description="" roles="" />
           <siteMapNode url="Administrator/Utility_Type.aspx" title ="Utility Type" description="" roles="" />
-		  <!--3407-->
+          <!--3407-->
           <siteMapNode url="Administrator/LU_VOC_Category.aspx" title ="VOC Category" description="" roles="" />
           <siteMapNode url="Administrator/LU_Waste_Type.aspx" title ="Waste Type" description="" roles="" />
         </siteMapNode>
@@ -247,15 +247,15 @@
           <siteMapNode url="Administrator/LU_Document_Folders_FacilityConstruction.aspx" title ="Document Folders" description="" roles="" />
           <siteMapNode url="Administrator/LU_Contractor_Type.aspx" title ="Contractor Type" description="" roles="" />
           <siteMapNode url="Administrator/LU_FCP_Project_Type.aspx" title ="Facility Project Type" description="" roles="" />
-		  <siteMapNode url="Administrator/LU_Punchlist_Item_Type.aspx" title ="Facility Punchlist Item Type" description="" roles="" />
-		  <siteMapNode url="Administrator/LU_Origin_Type.aspx" title ="Origin Type" description="" roles="" />
-        <siteMapNode url="Administrator/LU_Facility_Area.aspx" title ="Facility Area" description="" roles="" />
+          <siteMapNode url="Administrator/LU_Punchlist_Item_Type.aspx" title ="Facility Punchlist Item Type" description="" roles="" />
+          <siteMapNode url="Administrator/LU_Origin_Type.aspx" title ="Origin Type" description="" roles="" />
+          <siteMapNode url="Administrator/LU_Facility_Area.aspx" title ="Facility Area" description="" roles="" />
           <siteMapNode url="Administrator/LU_Facility_Specific_Location.aspx" title ="Facility Specific Location" description="" roles="" />
-		  <siteMapNode url="Administrator/LU_Construction_Firm_Type.aspx" title ="Firm Type" description="" roles="" />
+          <siteMapNode url="Administrator/LU_Construction_Firm_Type.aspx" title ="Firm Type" description="" roles="" />
           <siteMapNode url="Administrator/LU_CO_Type.aspx" title ="CO Type" description="" roles="" />
-		  <siteMapNode url="Administrator/LU_Contract_Type.aspx" title ="Contract Type" description="" roles="" />
+          <siteMapNode url="Administrator/LU_Contract_Type.aspx" title ="Contract Type" description="" roles="" />
           <siteMapNode url="Administrator/LU_PunchList_Status.aspx" title ="Punch List Status" description="" roles="" />
-		  <!--3408-->
+          <!--3408-->
           <siteMapNode url="Administrator/LU_Facility_Inspection_Focus_Area.aspx" title ="Facility Inspection Focus Area" description="" roles="" />
           <siteMapNode url="Administrator/LU_Facility_Inspection_Item.aspx" title ="Facility Inspection Item" description="" roles="" />
           <siteMapNode url="Administrator/LU_Facility_Maintenance_Scope.aspx" title ="Facility Maintenance Scope" description="" roles="" />
@@ -267,14 +267,14 @@
           <siteMapNode url="Administrator/LU_HVAC_Repairs.aspx" title ="HVAC Repairs" description="" roles="" />
           <siteMapNode url="Administrator/LU_Roof_Capital.aspx" title ="Roof Capital" description="" roles="" />
           <siteMapNode url="Administrator/LU_Roof_Repairs.aspx" title ="Roof Repairs" description="" roles="" />
-		<!--<3432>-->
+          <!--<3432>-->
           <siteMapNode url="Administrator/LU_Facility_Spec_Section.aspx" title ="Facility Specification Section" description="" roles="" />
-		  <!--<3474>-->
-		  <siteMapNode url="Administrator/LU_Function_Area.aspx" title ="Function Area" description="" roles="" />
+          <!--<3474>-->
+          <siteMapNode url="Administrator/LU_Function_Area.aspx" title ="Function Area" description="" roles="" />
         </siteMapNode>
         <siteMapNode url="" title="First Reports" description="">
           <siteMapNode url="Administrator/IncidentInvolvementType.aspx" title="Incident Involvement Type" description=""></siteMapNode>
-		   <siteMapNode url="Administrator/LU_PL_Loss_Category.aspx" title="Loss Category" description=""></siteMapNode>
+          <siteMapNode url="Administrator/LU_PL_Loss_Category.aspx" title="Loss Category" description=""></siteMapNode>
         </siteMapNode>
         <siteMapNode url="" title="Franchise" description="">
           <siteMapNode url="Administrator/Franchise_Additional_Land.aspx" title="Additional Land" description=""></siteMapNode>
@@ -289,11 +289,11 @@
           <siteMapNode url="Administrator/InspectionQuestion.aspx" title="Inspection Questions"  description="" roles="" />
         </siteMapNode>
         <siteMapNode url="" title="Investigation" description="">
-		<siteMapNode url="Administrator/LU_Cause_Code_Information.aspx" title="Cause Code Information" description="Cause Code Information" roles=""></siteMapNode>		  
+          <siteMapNode url="Administrator/LU_Cause_Code_Information.aspx" title="Cause Code Information" description="Cause Code Information" roles=""></siteMapNode>
           <siteMapNode url="Administrator/Contributing Factor.aspx" title="Contributing Factor" description="Contributing Factor" roles=""></siteMapNode>
         </siteMapNode>
         <siteMapNode url="" title ="Management" description="" roles="" >
-		  <!--<siteMapNode url="Administrator/LU_Approval_Submission.aspx" title="Approval Submission" description="" roles=""></siteMapNode>-->
+          <!--<siteMapNode url="Administrator/LU_Approval_Submission.aspx" title="Approval Submission" description="" roles=""></siteMapNode>-->
           <siteMapNode url="Administrator/LU_Record_Type.aspx" title ="Record Type" description="" roles="" />
           <siteMapNode url="Administrator/LU_Work_Completed.aspx" title ="Work Completed" description="" roles="" />
         </siteMapNode>
@@ -339,7 +339,7 @@
           <siteMapNode url="Administrator/SecurityDeposit.aspx" title ="Security Deposit Held At" description="" roles="" />
           <siteMapNode url="Administrator/Re_Status.aspx" title ="Status" description="" roles="" />
           <!--<siteMapNode url="Administrator/RepairType.aspx" title ="Type of Repair" description="" roles="" />-->
-         <siteMapNode url="Administrator/LU_Responsible_Party.aspx" title ="Responsible Party" description="" roles="" />
+          <siteMapNode url="Administrator/LU_Responsible_Party.aspx" title ="Responsible Party" description="" roles="" />
         </siteMapNode>
         <siteMapNode title ="Sedgwick Claim File Review" description="" roles="">
           <siteMapNode url="Administrator\LU_Sedgwick_Evaluation.aspx" title ="RLCM Comments Evaluation Criteria" description="" roles="" />
@@ -352,14 +352,14 @@
           </siteMapNode>
           <siteMapNode url="Administrator/LU_SLT_Safety_Walk_Department.aspx" title ="Department" description="" roles="" />
         </siteMapNode>
-		<siteMapNode title ="SLT BT Security Walk" description="" roles="">
+        <siteMapNode title ="SLT BT Security Walk" description="" roles="">
           <siteMapNode title ="SLT BT Security Area" description="" roles="">
             <siteMapNode url="SONIC/SLTBTSecurity/MonthlyQuestions.aspx" title ="Monthly Questions" description="" roles="" />
             <siteMapNode url="SONIC/SLTBTSecurity/AnnualQuestions.aspx" title ="Annual Questions" description="" roles="" />
           </siteMapNode>
           <siteMapNode url="Administrator/LU_SLT_BT_Security_Walk_Department.aspx" title ="Department" description="" roles="" />
         </siteMapNode>
-		<siteMapNode url="" title="User Access Request" description="">
+        <siteMapNode url="" title="User Access Request" description="">
           <siteMapNode url="Administrator/U_A_Request_Admin.aspx" title="Administrator E-Mail" description=""></siteMapNode>
         </siteMapNode>
       </siteMapNode>
@@ -367,7 +367,7 @@
       <siteMapNode url="Administrator\Mandatory_Field_Management.aspx" title ="Mandatory Field Management" description="Mandatory Field Management" roles="" />
       <siteMapNode url="Administrator\UserHelp.aspx" title ="User Help" description="User Help" roles="" />
       <siteMapNode url="Administrator\BuildingUnlock.aspx" title="Environmental Building Unlock" description="Environmental Building Unlock" roles=""/>
- <siteMapNode url="" title="Wall Post Search"  description="" roles="">
+      <siteMapNode url="" title="Wall Post Search"  description="" roles="">
         <siteMapNode url="Administrator\DashboardWallSearch.aspx" title ="Dashboard Wall Post Search" description="Dashboard Wall Post Search" roles="" />
         <siteMapNode url="Administrator\WallSearch.aspx" title ="Main Wall Post Search" description="Main Wall Post Search" roles="" />
         <siteMapNode url="Administrator\WallSearchByLocation.aspx" title ="Wall Post Search By Location" description="Main Wall Post Search By Location" roles="" />
