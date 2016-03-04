@@ -85,8 +85,8 @@ public class HTML2Excel
         //    range.Style.Font.Size = 10;
         //}
 
-        //excelWorksheet.Cells.AutoFitColumns();
-        excelWorksheet.Cells.AutoFitColumns(25, 60);
+        excelWorksheet.Cells.AutoFitColumns();
+        //excelWorksheet.Cells.AutoFitColumns(25, 60);
         excelWorksheet.Cells.Style.WrapText = true;
 
         Byte[] bin = excelWorkbook.GetAsByteArray();
@@ -315,6 +315,11 @@ public class HTML2Excel
                                         isBold = true;
                                     }
                                     break;
+                                case "background-color":
+                                    Color backcolor = ColorTranslator.FromHtml(nodeVal[1].Trim());
+                                    excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                                    excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].Style.Fill.BackgroundColor.SetColor(backcolor);
+                                    break;
                             }
                         }
 
@@ -361,7 +366,7 @@ public class HTML2Excel
                         ExcelRichTextCollection rtfCollection = excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].RichText;
                         ExcelRichText tempText = rtfCollection.Add(childNode.InnerText.Replace("&nbsp;", " "));
                         tempText.Bold = true;
-                        tempText.PreserveSpace = true;
+                        //tempText.PreserveSpace = true;
                         if (color != Color.Black)
                         {
                             tempText.Color = color;
@@ -534,32 +539,35 @@ public class HTML2Excel
                         break;
                     case "#text":
                         //excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].Value = colVal;
-                        if (htGridCells.Contains(currColumnNumber) && !isNestedTable)
+                        if (!string.IsNullOrEmpty(childNode.InnerText.Replace("&nbsp;", " ").Trim()))
                         {
-                            currColumnNumber = currColumnNumber + Convert.ToInt32(htGridCells[currColumnNumber]) - 1;
-                        }
-                        ExcelRichTextCollection rtfCollection1 = excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].RichText;
-                        string innerText = childNode.InnerText.Replace("&nbsp;", " ");
-                        ExcelRichText tempText1;
-                        if (innerText.Contains("$"))
-                        {
-                            //innerText = innerText.Replace("$", "").Replace("(", "-").Replace(")", "");
-                            excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].Style.Numberformat.Format = "$#,##0 ;[Red]($#,##0);-";
-                            tempText1 = rtfCollection1.Add(innerText);
-                            if (innerText.Contains("($"))
-                                color = Color.Red;
-                        }
-                        else
-                        {
-                            tempText1 = rtfCollection1.Add(innerText);
-                        }
-                        if (!isBold && isTH)
-                            isBold = true;
-                        tempText1.Bold = isBold;
-                        tempText1.PreserveSpace = true;
-                        if (color != Color.Black)
-                        {
-                            tempText1.Color = color;
+                            if (htGridCells.Contains(currColumnNumber) && !isNestedTable)
+                            {
+                                currColumnNumber = currColumnNumber + Convert.ToInt32(htGridCells[currColumnNumber]) - 1;
+                            }
+                            ExcelRichTextCollection rtfCollection1 = excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].RichText;
+                            string innerText = childNode.InnerText.Replace("&nbsp;", " ");
+                            ExcelRichText tempText1;
+                            if (innerText.Contains("$"))
+                            {
+                                //innerText = innerText.Replace("$", "").Replace("(", "-").Replace(")", "");
+                                excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].Style.Numberformat.Format = "$#,##0 ;[Red]($#,##0);-";
+                                tempText1 = rtfCollection1.Add(innerText);
+                                if (innerText.Contains("($"))
+                                    color = Color.Red;
+                            }
+                            else
+                            {
+                                tempText1 = rtfCollection1.Add(innerText);
+                            }
+                            if (!isBold && isTH)
+                                isBold = true;
+                            tempText1.Bold = isBold;
+                            //tempText1.PreserveSpace = true;
+                            if (color != Color.Black)
+                            {
+                                tempText1.Color = color;
+                            }
                         }
                         break;
                     case "span":
@@ -603,16 +611,19 @@ public class HTML2Excel
                         {
                             currColumnNumber = currColumnNumber + Convert.ToInt32(htGridCells[currColumnNumber]) - 1;
                         }
-                        ExcelRichTextCollection rtfCollection2 = excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].RichText;
-                        ExcelRichText tempText2 = rtfCollection2.Add(childNode.InnerText.Replace("&nbsp;", " "));
-
-                        if (!isBold && isTH)
-                            isBold = true;
-                        tempText2.Bold = isBold;
-                        tempText2.PreserveSpace = true;
-                        if (color != Color.Black)
+                        if (!string.IsNullOrEmpty(hNode.InnerText.Replace("&nbsp;", " ").Trim()))
                         {
-                            tempText2.Color = color;
+                            ExcelRichTextCollection rtfCollection2 = excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].RichText;
+                            ExcelRichText tempText2 = rtfCollection2.Add(childNode.InnerText.Replace("&nbsp;", " "));
+
+                            if (!isBold && isTH)
+                                isBold = true;
+                            tempText2.Bold = isBold;
+                            //tempText2.PreserveSpace = true;
+                            if (color != Color.Black)
+                            {
+                                tempText2.Color = color;
+                            }
                         }
                         break;
                 }
@@ -685,7 +696,7 @@ public class HTML2Excel
             {
                 case "border":
                     if (currRowNumber - 1 > startRow)
-                        using (ExcelRange range = excelWorksheet.Cells[startRow, startCol, currRowNumber - 1, NoOfCol])
+                        using (ExcelRange range = excelWorksheet.Cells[startRow, startCol, currRowNumber - 1, startCol + NoOfCol])
                         {
                             range.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
                             Border border = range.Style.Border;
@@ -764,7 +775,7 @@ public class HTML2Excel
 
                             isBold = true;
                             tempText1.Bold = isBold;
-                            tempText1.PreserveSpace = true;
+                            //tempText1.PreserveSpace = true;
                             if (color != Color.Black)
                             {
                                 tempText1.Color = color;
@@ -776,20 +787,23 @@ public class HTML2Excel
                 break;
             case "#TEXT":
                 //excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].Value = colVal;
-                if (htGridCells.Contains(currColumnNumber) && !isNestedTable)
+                if (!string.IsNullOrEmpty(hNode.InnerText.Replace("&nbsp;", " ").Trim()))
                 {
-                    currColumnNumber = currColumnNumber + Convert.ToInt32(htGridCells[currColumnNumber]);
-                }
-                ExcelRichTextCollection rtfCollection2 = excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].RichText;
-                ExcelRichText tempText2 = rtfCollection2.Add(hNode.InnerText.Replace("&nbsp;", " "));
+                    if (htGridCells.Contains(currColumnNumber) && !isNestedTable)
+                    {
+                        currColumnNumber = currColumnNumber + Convert.ToInt32(htGridCells[currColumnNumber]);
+                    }
+                    ExcelRichTextCollection rtfCollection2 = excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].RichText;
+                    ExcelRichText tempText2 = rtfCollection2.Add(hNode.InnerText.Replace("&nbsp;", " "));
 
-                if (!isBold && isTH)
-                    isBold = true;
-                tempText2.Bold = isBold;
-                tempText2.PreserveSpace = true;
-                if (color != Color.Black)
-                {
-                    tempText2.Color = color;
+                    if (!isBold && isTH)
+                        isBold = true;
+                    tempText2.Bold = isBold;
+                    //tempText2.PreserveSpace = true;
+                    if (color != Color.Black)
+                    {
+                        tempText2.Color = color;
+                    }
                 }
                 break;
             case "SPAN":
