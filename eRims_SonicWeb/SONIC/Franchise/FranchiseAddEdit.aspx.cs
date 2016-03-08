@@ -256,7 +256,8 @@ public partial class SONIC_Franchise_FranchiseAddEdit : clsBasePage
         dvView.Style["display"] = "block";
         dvEdit.Style["display"] = "none";
         btnSave.Visible = false;
-        btnEdit.Visible = (App_Access == AccessType.Franchise_AddEdit);
+        btnEdit.Visible = true;
+            //(App_Access == AccessType.Franchise_AddEdit);
         btnReturn.Text = "Back";
         Franchise objFranchise = new Franchise(PK_Franchise);
 
@@ -421,8 +422,7 @@ public partial class SONIC_Franchise_FranchiseAddEdit : clsBasePage
     protected void btnSave_Click(object sender, EventArgs e)
     {
         SaveData();
-        Response.Redirect("FranchiseGrid.aspx?loc=" + Request.QueryString["loc"]);
-
+        Response.Redirect("FranchiseAddEdit.aspx?id=" + Encryption.Encrypt(PK_Franchise.ToString()) + "&op=view&loc=" + Request.QueryString["loc"]);
     }
     /// <summary>
     /// Handle Edit Button click
