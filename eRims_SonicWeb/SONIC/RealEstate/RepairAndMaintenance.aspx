@@ -106,7 +106,7 @@
                                     <td class="dvContainer">
                                         <div id="dvEdit" runat="server" width="794px">
                                             <asp:Panel ID="pnl1" runat="server">
-                                                <div class="bandHeaderRow" style="color:black;">
+                                                <div class="bandHeaderRow">
                                                     Real Estate : Repair/Maintenance</div>
                                                 <table cellpadding="5" cellspacing="1" border="0" width="100%">
                                                      <tr>
@@ -205,7 +205,7 @@
                                         </div>
                                         <div id="dvView" runat="server" width="794px">
                                             <asp:Panel ID="pnl1View" runat="server">
-                                                <div class="bandHeaderRow" style="color:black;">
+                                                <div class="bandHeaderRow">
                                                     Real Estate : Repair/Maintenance</div>
                                                 <table cellpadding="5" cellspacing="1" border="0" width="100%">
                                                     <tr>

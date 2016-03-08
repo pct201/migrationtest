@@ -1997,6 +1997,11 @@
                                     <asp:Label Width="120px" runat="server" ID="lblOther_Repairs" Text='<%# Eval("Other_Repairs")%>'></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
+                             <asp:TemplateField HeaderText="Maintenance Notes">
+                                <ItemTemplate>
+                                    <asp:Label Width="120px" runat="server" ID="lblMaintenance_Notes" Text='<%# Eval("Maintenance_Notes")%>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
 
                         </Columns>
                     </asp:GridView>
