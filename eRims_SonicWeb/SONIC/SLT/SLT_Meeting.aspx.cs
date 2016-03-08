@@ -2433,7 +2433,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                 DataRow[] result2 = dsDetail.Tables[0].Select("AssociateQuarter = '2'");
                 if (result2.Length > 0)
                 {
-                    if (string.IsNullOrEmpty(result1[0]["Percentage"].ToString()))
+                    if (string.IsNullOrEmpty(result2[0]["Percentage"].ToString()))
                         lblTrainingQ2.Text = "0";
                     else
                         lblTrainingQ2.Text = string.Format("{0:0.0#}", result2[0]["Percentage"]) + "%";
@@ -2446,7 +2446,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                 DataRow[] result3 = dsDetail.Tables[0].Select("AssociateQuarter = '3'");
                 if (result3.Length > 0)
                 {
-                    if (string.IsNullOrEmpty(result1[0]["Percentage"].ToString()))
+                    if (string.IsNullOrEmpty(result3[0]["Percentage"].ToString()))
                         lblTrainingQ3.Text = "0";
                     else
                         lblTrainingQ3.Text = string.Format("{0:0.0#}", result3[0]["Percentage"]) + "%";
@@ -2462,7 +2462,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                     if (string.IsNullOrEmpty(result4[0]["Percentage"].ToString()))
                         lblTrainingQ4.Text = "0";
                     else
-                        lblTrainingQ4.Text = string.Format("{0:0.0#}", result1[0]["Percentage"]) + "%";
+                        lblTrainingQ4.Text = string.Format("{0:0.0#}", result4[0]["Percentage"]) + "%";
                 }
                 else
                 {
@@ -2512,7 +2512,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
 
                 if (result2.Length > 0)
                 {
-                    if (string.IsNullOrEmpty(result1[0]["Percentage"].ToString()))
+                    if (string.IsNullOrEmpty(result2[0]["Percentage"].ToString()))
                         lblTrainingQ2View.Text = "0";
                     else
                         lblTrainingQ2View.Text = string.Format("{0:0.0#}", result2[0]["Percentage"]) + "%";
@@ -2522,7 +2522,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
 
                 if (result3.Length > 0)
                 {
-                    if (string.IsNullOrEmpty(result1[0]["Percentage"].ToString()))
+                    if (string.IsNullOrEmpty(result3[0]["Percentage"].ToString()))
                         lblTrainingQ3View.Text = "0";
                     else
                         lblTrainingQ3View.Text = string.Format("{0:0.0#}", result3[0]["Percentage"]) + "%";
@@ -2535,7 +2535,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                     if (string.IsNullOrEmpty(result4[0]["Percentage"].ToString()))
                         lblTrainingQ4View.Text = "0";
                     else
-                        lblTrainingQ4View.Text = string.Format("{0:0.0#}", result1[0]["Percentage"]) + "%";
+                        lblTrainingQ4View.Text = string.Format("{0:0.0#}", result4[0]["Percentage"]) + "%";
                 }
 
                 DataRow[] result5 = dsDetail.Tables[1].Select("PerformanceLevel In ('All Pro','Starter', 'Second String', 'Water boy', 'Spectator')");

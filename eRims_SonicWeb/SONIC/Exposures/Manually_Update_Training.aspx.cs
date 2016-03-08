@@ -62,7 +62,7 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
     /// </summary>
     private void BindSearchResult()
     {
-        decimal Associate = 0;
+        decimal? Associate = null;
         int year = 0, Qaurter = 0;
 
         if (ddlQuarter.SelectedIndex > 0) Qaurter = Convert.ToInt32(ddlQuarter.SelectedValue);
@@ -71,7 +71,7 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
         if (ddlAssociate.SelectedIndex > 0) Associate = Convert.ToDecimal(ddlAssociate.SelectedValue);
 
 
-        DataSet dsSearchResult = Sonic_U_Training.Associate_Training_Search(Associate, year, Qaurter);
+        DataSet dsSearchResult = Sonic_U_Training.Associate_Training_Search(Associate, year, Qaurter, Convert.ToDecimal(ddlLocation.SelectedValue));
 
         if (dsSearchResult.Tables[0].Rows.Count > 0)
             btnSave.Visible = true;
@@ -81,7 +81,7 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
         gvTraining.DataSource = dsSearchResult.Tables[0];
         gvTraining.DataBind();
 
-        lblAssociate.Text = ddlAssociate.SelectedItem.Text;
+        lblAssociate.Text =ddlAssociate.SelectedIndex > 0 ? ddlAssociate.SelectedItem.Text : string.Empty;
         lblYear.Text = Convert.ToString(year);
         lblQuarter.Text = Convert.ToString(Qaurter);
     }
@@ -129,7 +129,7 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
 
         bool is_AllTraining_Completed = true;
         string[] strCode = new string[gvTraining.Rows.Count];
-        int i=0;
+        int i = 0;
         if (ddlQuarter.SelectedIndex > 0) Qaurter = Convert.ToInt32(ddlQuarter.SelectedValue);
         year = Convert.ToInt32(ddlYear.SelectedValue);
         if (ddlAssociate.SelectedIndex > 0) Associate = Convert.ToDecimal(ddlAssociate.SelectedValue);
@@ -144,13 +144,16 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
                     HiddenField hdnCode = (HiddenField)gvTrain.FindControl("hdnCode");
 
                     Label lblClass_Name = (Label)gvTrain.FindControl("lblClass_Name");
+                    HiddenField hdnFK_Employee = (HiddenField)gvTrain.FindControl("hdnFK_Employee");
+                    HiddenField hdnFK_LU_Location_ID = (HiddenField)gvTrain.FindControl("hdnFK_LU_Location_ID");
+                    
                     RadioButtonList rblIs_Complete = (RadioButtonList)gvTrain.FindControl("rblIs_Complete");
 
-                    Sonic_U_Training.Manage_Training_Data_InsertUpdate(hdnEmployee_ID.Value, hdnCode.Value, year, Qaurter, Associate, lblClass_Name.Text, Convert.ToBoolean(Convert.ToInt16(rblIs_Complete.SelectedValue)));
+                    Sonic_U_Training.Manage_Training_Data_InsertUpdate(hdnEmployee_ID.Value, hdnCode.Value, year, Qaurter, Convert.ToDecimal(hdnFK_Employee.Value), lblClass_Name.Text, Convert.ToBoolean(Convert.ToInt16(rblIs_Complete.SelectedValue)), Convert.ToDecimal(hdnFK_LU_Location_ID.Value));
 
                     strCode[i] = hdnCode.Value;
                     ///Mark as completed in Sonic_U_Training_Associate_Training if all training is manually completed. 
-                    if(Convert.ToInt16(rblIs_Complete.SelectedValue) == 0)
+                    if (Convert.ToInt16(rblIs_Complete.SelectedValue) == 0)
                     {
                         is_AllTraining_Completed = false;
                     }
@@ -178,7 +181,7 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
         }
     }
 
-   
+
     protected void btnCancel_Click(object sender, EventArgs e)
     {
         pnlSearch.Visible = true;

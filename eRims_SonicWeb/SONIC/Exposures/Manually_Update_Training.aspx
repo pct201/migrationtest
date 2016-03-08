@@ -80,7 +80,7 @@
                         </asp:RequiredFieldValidator>
                     </td>
 
-                    <td align="left" class="lc">Associate <span id="Span4" style="color: Red;" runat="server">*</span>
+                    <td align="left" class="lc">Associate <%--<span id="Span4" style="color: Red;" runat="server">*</span>--%>
                     </td>
                     <td align="right" class="lc" valign="top">:
                     </td>
@@ -88,9 +88,9 @@
                         <asp:DropDownList ID="ddlAssociate" runat="server" Width="180px" SkinID="ddlSONIC">
                             <asp:ListItem Selected="True" Text="-- Select --" Value="0"></asp:ListItem>
                         </asp:DropDownList>
-                        <asp:RequiredFieldValidator ID="rfvAssociate" Display="none" runat="server" ControlToValidate="ddlAssociate"
+                       <%-- <asp:RequiredFieldValidator ID="rfvAssociate" Display="none" runat="server" ControlToValidate="ddlAssociate"
                             ErrorMessage="Please Select Associate." Text="*" ValidationGroup="vsErrorGroup" InitialValue="0">
-                        </asp:RequiredFieldValidator>
+                        </asp:RequiredFieldValidator>--%>
                     </td>
                 </tr>
 
@@ -167,6 +167,14 @@
                     <td align="left" colspan="4" valign="top">
                         <asp:GridView ID="gvTraining" runat="server" AutoGenerateColumns="false" Width="97%" EmptyDataText="No Record Found." OnRowDataBound="gvTraining_RowDataBound" BorderWidth="1px" GridLines="Both">
                             <Columns>
+                                <asp:TemplateField HeaderText="Associate Name" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
+                                    <ItemStyle Width="30%" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblName" runat="server" Text='<%# Eval("NAME")%>'></asp:Label>
+                                        <asp:HiddenField ID="hdnFK_Employee" runat="server" Value='<%# Eval("FK_Employee")%>' />
+                                        <asp:HiddenField ID="hdnFK_LU_Location_ID" runat="server" Value='<%# Eval("FK_LU_Location_ID")%>' />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Class" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
                                     <ItemStyle Width="50%" />
                                     <ItemTemplate>
@@ -176,7 +184,7 @@
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Completed/Waived" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
-                                    <ItemStyle Width="50%" />
+                                    <ItemStyle Width="20%" />
                                     <ItemTemplate>
                                         <asp:RadioButtonList ID="rblIs_Complete" runat="server" SkinID="YesNoTypeNullSelection"></asp:RadioButtonList>
                                     </ItemTemplate>

@@ -23,19 +23,20 @@ namespace ERIMS.DAL
         /// select by search criteria
         /// </summary>
         /// <returns></returns>
-        public static DataSet Associate_Training_Search(decimal Associate, int year, int quarter)
+        public static DataSet Associate_Training_Search(decimal? Associate, int year, int quarter,decimal? fk_LU_Location)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("Sonic_University_Training_Data");
             db.AddInParameter(dbCommand, "FK_Employee_ID", DbType.Decimal, Associate);
             db.AddInParameter(dbCommand, "Year", DbType.Int32, year);
             db.AddInParameter(dbCommand, "Quarter", DbType.Int32, quarter);
+            db.AddInParameter(dbCommand, "PK_LU_Location_ID", DbType.Decimal, fk_LU_Location);
 
             dbCommand.CommandTimeout = 10000;
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static  void Manage_Training_Data_InsertUpdate(string Employee_Id,string Code, int year, int quarter, decimal FK_Employee, string Class_Name, bool Completed)
+        public static void Manage_Training_Data_InsertUpdate(string Employee_Id, string Code, int year, int quarter, decimal FK_Employee, string Class_Name, bool Completed, decimal? fk_LU_Location)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("Manage_Training_Data_InsertUpdate");
@@ -46,6 +47,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "FK_Employee", DbType.Decimal, FK_Employee);
             db.AddInParameter(dbCommand, "Class_Name", DbType.String, Class_Name);
             db.AddInParameter(dbCommand, "Completed", DbType.Boolean, Completed);
+            db.AddInParameter(dbCommand, "FK_LU_Location_ID", DbType.Decimal, fk_LU_Location);
 
             dbCommand.CommandTimeout = 10000;
             db.ExecuteNonQuery(dbCommand);
