@@ -73,7 +73,8 @@ public partial class SONIC_RealEstate_LeaseAbstract : System.Web.UI.Page
         builder.Font.Name = "Calibri";
         builder.InsertParagraph();
         GenerateHTML(sbHtml);
-        builder.InsertHtml(sbHtml.ToString()); 
+        System.IO.File.WriteAllText(@"D:\Temp\Lease.html", sbHtml.ToString());
+        builder.InsertHtml(sbHtml.ToString());
         //builder.Write(litLetter.Text);
         //doc.MailMerge.Execute(dt);
         //Don't need merge fields in the document anymore.
@@ -82,7 +83,7 @@ public partial class SONIC_RealEstate_LeaseAbstract : System.Web.UI.Page
         doc.MailMerge.DeleteFields();
 
         //doc.Save("EmployeeAbstract.doc", Aspose.Words.SaveFormat.Doc, Aspose.Words.SaveType.OpenInWord, Response);
-        doc.Save(Response, "EmployeeAbstract.doc", ContentDisposition.Attachment, Aspose.Words.Saving.SaveOptions.CreateSaveOptions(SaveFormat.Doc));
+        doc.Save(Response, "LeaseAbstract.doc", ContentDisposition.Attachment, Aspose.Words.Saving.SaveOptions.CreateSaveOptions(SaveFormat.Doc));
 
         Response.End();
     }
@@ -104,9 +105,9 @@ public partial class SONIC_RealEstate_LeaseAbstract : System.Web.UI.Page
         RE_Information objRE = new RE_Information(_PK_RE_Information);
 
         LU_Location objLocation = new LU_Location(Convert.ToDecimal(objRE.FK_LU_Location));
-        
+
         sbHtml.Append("<table width='100%'>");
-        
+
         #region "Location"
 
         sbHtml.Append(GetHeaderRow("Location Information"));
@@ -535,22 +536,22 @@ public partial class SONIC_RealEstate_LeaseAbstract : System.Web.UI.Page
             sbHtml.Append("<td  valign='top'>" + (!string.IsNullOrEmpty(Convert.ToString(dtSubtenant.Rows[i]["PK_Subtenant_Mailing_State"])) ? new State(Convert.ToDecimal(dtSubtenant.Rows[i]["PK_Subtenant_Mailing_State"])).FLD_state : "") + "</td>");
             sbHtml.Append("<td  valign='top'>Options</td>");
             sbHtml.Append("<td  valign='top'> :</td>");
-            sbHtml.Append("<td  valign='top'><b>Cancel Options</b> -" +  Convert.ToString(dtSubtenant.Rows[i]["Cancel_Options"]) + Environment.NewLine + ",&nbsp;<b>Renew options</b> -" +  Convert.ToString(dtSubtenant.Rows[i]["Renew_Options"]) + "</td>");
+            sbHtml.Append("<td  valign='top'><b>Cancel Options</b> -" + Convert.ToString(dtSubtenant.Rows[i]["Cancel_Options"]) + Environment.NewLine + ",&nbsp;<b>Renew options</b> -" + Convert.ToString(dtSubtenant.Rows[i]["Renew_Options"]) + "</td>");
             sbHtml.Append("</tr>");
 
             sbHtml.Append("<tr>");
             sbHtml.Append("<td  valign='top'>Zip</td>");
             sbHtml.Append("<td  valign='top'> :</td>");
-            sbHtml.Append("<td  valign='top'>" +  Convert.ToString(dtSubtenant.Rows[i]["Subtenant_Mailing_Zip_Code"]) + "</td>");
+            sbHtml.Append("<td  valign='top'>" + Convert.ToString(dtSubtenant.Rows[i]["Subtenant_Mailing_Zip_Code"]) + "</td>");
             sbHtml.Append("<td  valign='top'>Options Notification</td>");
             sbHtml.Append("<td  valign='top'> :</td>");
-            sbHtml.Append("<td  valign='top'> " +   Convert.ToString(dtSubtenant.Rows[i]["Option_Notification"]) + "</td>");
+            sbHtml.Append("<td  valign='top'> " + Convert.ToString(dtSubtenant.Rows[i]["Option_Notification"]) + "</td>");
             sbHtml.Append("</tr>");
 
             sbHtml.Append("<tr>");
             sbHtml.Append("<td  valign='top'>Telephone</td>");
             sbHtml.Append("<td  valign='top'> :</td>");
-            sbHtml.Append("<td  valign='top'>" +  Convert.ToString(dtSubtenant.Rows[i]["Subtenant_Telephone"])  + "</td>");
+            sbHtml.Append("<td  valign='top'>" + Convert.ToString(dtSubtenant.Rows[i]["Subtenant_Telephone"]) + "</td>");
             sbHtml.Append("<td  valign='top'>Notification Due Date</td>");
             sbHtml.Append("<td  valign='top'> :</td>");
             sbHtml.Append("<td  valign='top'> " + clsGeneral.FormatDBNullDateToDisplay(Convert.ToString(dtSubtenant.Rows[i]["Notification_Due_Date"])) + "</td>");
@@ -959,6 +960,39 @@ public partial class SONIC_RealEstate_LeaseAbstract : System.Web.UI.Page
 
         #endregion
 
+        #endregion
+
+        #region "Repair & Maintainence"
+        DataTable dtRepair = RE_Repair_And_Maintenance.SelectByFK(_PK_RE_Information).Tables[0];
+        sbHtml.Append(GetBlankRow(8));
+        sbHtml.Append(GetHeaderRow("Repair/Maintenance"));
+        sbHtml.Append(GetBlankRow(8));
+        sbHtml.Append("<tr><td colspan='6'>");
+        sbHtml.Append("<table width='100%' cellspacing='0' cellpadding='3' style='padding-bottom:5px;' >");
+        sbHtml.Append("<tr valign='top' align='center'>");
+        sbHtml.Append("<td style='background-color: silver;border-collapse: collapse;border-style: solid; border-color: Black; border-width: 2px;width:15%' > <b>HVAC Repairs</td>");
+        sbHtml.Append("<td style='background-color: silver;border-collapse: collapse;border-style: solid; border-color: Black; border-width: 2px;width:15%' > <b>HVAC Capital</td>");
+        sbHtml.Append("<td style='background-color: silver;border-collapse: collapse;border-style: solid; border-color: Black; border-width: 2px;width:15%' > <b>Roof Repairs</td>");
+        sbHtml.Append("<td style='background-color: silver;border-collapse: collapse;border-style: solid; border-color: Black; border-width: 2px;width:15%' > <b>Roof Capital</td>");
+        sbHtml.Append("<td style='background-color: silver;border-collapse: collapse;border-style: solid; border-color: Black; border-width: 2px;width:15%' > <b>Other Repairs</td>");
+        sbHtml.Append("<td style='background-color: silver;border-collapse: collapse;border-style: solid; border-color: Black; border-width: 2px;width:25%' > <b>Maintenance Notes</td>");
+        sbHtml.Append("</tr>");
+
+        for (int i = 0; i < dtRepair.Rows.Count; i++)
+        {
+            sbHtml.Append("<tr valign='top' align='center'>");
+            sbHtml.Append("<td style='border-collapse: collapse;border-style: solid; border-color: Black; border-width: 2px;width:15%;' >" + Convert.ToString(dtRepair.Rows[i]["FK_LU_Responsibilie_Party_HVAC_Repairs"]) + " </td>");
+            sbHtml.Append("<td style='border-collapse: collapse;border-style: solid; border-color: Black; border-width: 2px;width:15%' > " + Convert.ToString(dtRepair.Rows[i]["FK_LU_Responsibilie_Party_HVAC_Capital"]) + " </td>");
+            sbHtml.Append("<td style='border-collapse: collapse;border-style: solid; border-color: Black; border-width: 2px;width:15%' > " + Convert.ToString(dtRepair.Rows[i]["FK_LU_Responsibilie_Party_Roof_Repairs"]) + "</td>");
+            sbHtml.Append("<td style='border-collapse: collapse;border-style: solid; border-color: Black; border-width: 2px;width:15%' > " + Convert.ToString(dtRepair.Rows[i]["FK_LU_Responsibilie_Party_Roof_Capital"]) + "</td>");
+            sbHtml.Append("<td style='border-collapse: collapse;border-style: solid; border-color: Black; border-width: 2px;width:15%' > " + Convert.ToString(dtRepair.Rows[i]["FK_LU_Responsibilie_Party_Other_Repairs"]) + "</td>");
+            sbHtml.Append("<td style='border-collapse: collapse;border-style: solid; border-color: Black; border-width: 2px;width:25%' > " + Convert.ToString(dtRepair.Rows[i]["Maintenance_Notes"]) + "</td>");
+            sbHtml.Append("</tr>");
+        }
+        sbHtml.Append(GetBlankRow(8));
+        
+        sbHtml.Append("</table>");
+        sbHtml.Append("</td></tr>");
         #endregion
 
         sbHtml.Append(GetBlankRow(8));
