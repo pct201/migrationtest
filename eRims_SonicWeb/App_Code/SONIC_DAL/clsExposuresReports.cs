@@ -72,7 +72,7 @@ public class clsExposuresReports
         db.AddInParameter(dbCommand, "InspectionArea", DbType.String, strInspectionArea);
         db.AddInParameter(dbCommand, "Inspection_From", DbType.DateTime, dtInspectionDateFrom);
         db.AddInParameter(dbCommand, "Inspection_To", DbType.DateTime, dtInspectionDateTo);
-
+        dbCommand.CommandTimeout = 10000;
         return db.ExecuteDataSet(dbCommand);
     }
 
