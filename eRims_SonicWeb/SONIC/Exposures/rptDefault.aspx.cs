@@ -73,6 +73,11 @@ public partial class SONIC_Exposures_rptDefault : clsBasePage
             {
                 rptLink.HRef = "rptACI_Key_Contact_Report.aspx";
             }
+            if (Report_ID == 73)
+            {
+                rptLink.HRef = "rptRepairAndMaintanance.aspx";
+                btnSchedule.Visible = false;
+            }
         }
     }
     #endregion

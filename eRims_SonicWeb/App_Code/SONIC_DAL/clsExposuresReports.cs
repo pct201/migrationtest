@@ -209,5 +209,28 @@ public class clsExposuresReports
         return db.ExecuteDataSet(dbCommand);
     }
 
+    public static DataSet GetPropertyRepairAndMaintenance(string strRegion, string strMarket, string strStatus, string strBuildingStatus, string strOwnership, DateTime? dtPropertyValuationDateFrom, DateTime? dtPropertyValuationDateTo)
+    {
+        Database db = DatabaseFactory.CreateDatabase();
+        DbCommand dbCommand = db.GetStoredProcCommand("rptRepairAndMaintenance");
+
+        if (strRegion != string.Empty)
+            db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+        if (strMarket != string.Empty)
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
+        if (strStatus != string.Empty)
+            db.AddInParameter(dbCommand, "Status", DbType.String, strStatus);
+        if (strBuildingStatus != string.Empty)
+            db.AddInParameter(dbCommand, "BuildingStatus", DbType.String, strBuildingStatus);
+        if (strOwnership != string.Empty)
+            db.AddInParameter(dbCommand, "Ownership", DbType.String, strOwnership);
+        db.AddInParameter(dbCommand, "PropertyValuationDateFrom", DbType.DateTime, dtPropertyValuationDateFrom);
+        db.AddInParameter(dbCommand, "PropertyValuationDateTo", DbType.DateTime, dtPropertyValuationDateTo);
+
+        dbCommand.CommandTimeout = 10000;
+
+        return db.ExecuteDataSet(dbCommand);
+    }
+
     #endregion
 }
