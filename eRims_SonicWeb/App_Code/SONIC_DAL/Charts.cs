@@ -99,7 +99,8 @@ public class Charts
     public static DataSet GetSabaTrainingByRegion(int Year)
     {
         Database db = DatabaseFactory.CreateDatabase();
-        DbCommand dbCommand = db.GetStoredProcCommand("Chart_SabaTrainingByRegion_New");
+		////change Reverted for sonic u training. ticket #3503/////
+        DbCommand dbCommand = db.GetStoredProcCommand("Chart_SabaTrainingByRegion");
          
         db.AddInParameter(dbCommand, "Year", DbType.Int32, Year);
         db.AddInParameter(dbCommand, "UserID", DbType.Decimal, clsSession.UserID);
@@ -111,7 +112,8 @@ public class Charts
     public static DataSet GetSabaTrainingByLocation(int Year, string Region)
     {
         Database db = DatabaseFactory.CreateDatabase();
-        DbCommand dbCommand = db.GetStoredProcCommand("Chart_SabaTrainingByLocation_New");
+		////change Reverted for sonic u training. ticket #3503/////
+        DbCommand dbCommand = db.GetStoredProcCommand("Chart_SabaTrainingByLocation");
         db.AddInParameter(dbCommand, "Year", DbType.Int32, Year);
         db.AddInParameter(dbCommand, "Region", DbType.String, Region);
         db.AddInParameter(dbCommand, "UserID", DbType.Decimal, clsSession.UserID);
@@ -131,41 +133,43 @@ public class Charts
         return db.ExecuteDataSet(dbCommand);
     }
 
-    public static DataSet GetSabaTrainingDetail1(int Year, string DBA, string Sonic_Location_Code, int Quarter, string AssociateStatus)
-    {
-        Database db = DatabaseFactory.CreateDatabase();
-        DbCommand dbCommand = db.GetStoredProcCommand("DealerShipDetails");
 
-        db.AddInParameter(dbCommand, "@DealerShipYear", DbType.Int32, Year);
-        if(Quarter == 0)
-            db.AddInParameter(dbCommand, "@DealerShipQuarter", DbType.Int32, null);
-        else
-            db.AddInParameter(dbCommand, "@DealerShipQuarter", DbType.Int32, Quarter);
-        db.AddInParameter(dbCommand, "@AssociateStatus", DbType.String, AssociateStatus);
-        db.AddInParameter(dbCommand, "DBA", DbType.String, DBA);
-        db.AddInParameter(dbCommand, "Sonic_Location_Code", DbType.String, Sonic_Location_Code);
-        db.AddInParameter(dbCommand, "UserID", DbType.Decimal, clsSession.UserID);
+	////change Reverted for sonic u training. ticket #3503/////
+    //public static DataSet GetSabaTrainingDetail1(int Year, string DBA, string Sonic_Location_Code, int Quarter, string AssociateStatus)
+    //{
+    //    Database db = DatabaseFactory.CreateDatabase();
+    //    DbCommand dbCommand = db.GetStoredProcCommand("DealerShipDetails");
 
-        return db.ExecuteDataSet(dbCommand);
-    }
+    //    db.AddInParameter(dbCommand, "@DealerShipYear", DbType.Int32, Year);
+    //    if(Quarter == 0)
+    //        db.AddInParameter(dbCommand, "@DealerShipQuarter", DbType.Int32, null);
+    //    else
+    //        db.AddInParameter(dbCommand, "@DealerShipQuarter", DbType.Int32, Quarter);
+    //    db.AddInParameter(dbCommand, "@AssociateStatus", DbType.String, AssociateStatus);
+    //    db.AddInParameter(dbCommand, "DBA", DbType.String, DBA);
+    //    db.AddInParameter(dbCommand, "Sonic_Location_Code", DbType.String, Sonic_Location_Code);
+    //    db.AddInParameter(dbCommand, "UserID", DbType.Decimal, clsSession.UserID);
 
-    public static DataSet GetSabaTrainingDetail2(int Year, string DBA, string Sonic_Location_Code, int Quarter, string AssociateStatus)
-    {
-        Database db = DatabaseFactory.CreateDatabase();
-        DbCommand dbCommand = db.GetStoredProcCommand("DealerShipDetailsLatest_New");
+    //    return db.ExecuteDataSet(dbCommand);
+    //}
 
-        db.AddInParameter(dbCommand, "@DealerShipYear", DbType.Int32, Year);
-        if (Quarter == 0)
-            db.AddInParameter(dbCommand, "@DealerShipQuarter", DbType.Int32, null);
-        else
-            db.AddInParameter(dbCommand, "@DealerShipQuarter", DbType.Int32, Quarter);
-        db.AddInParameter(dbCommand, "@AssociateStatus", DbType.String, AssociateStatus);
-        db.AddInParameter(dbCommand, "DBA", DbType.String, DBA);
-        db.AddInParameter(dbCommand, "Sonic_Location_Code", DbType.String, Sonic_Location_Code);
+    //public static DataSet GetSabaTrainingDetail2(int Year, string DBA, string Sonic_Location_Code, int Quarter, string AssociateStatus)
+    //{
+    //    Database db = DatabaseFactory.CreateDatabase();
+    //    DbCommand dbCommand = db.GetStoredProcCommand("DealerShipDetailsLatest_New");
 
-        dbCommand.CommandTimeout = 10000;
-        return db.ExecuteDataSet(dbCommand);
-    }
+    //    db.AddInParameter(dbCommand, "@DealerShipYear", DbType.Int32, Year);
+    //    if (Quarter == 0)
+    //        db.AddInParameter(dbCommand, "@DealerShipQuarter", DbType.Int32, null);
+    //    else
+    //        db.AddInParameter(dbCommand, "@DealerShipQuarter", DbType.Int32, Quarter);
+    //    db.AddInParameter(dbCommand, "@AssociateStatus", DbType.String, AssociateStatus);
+    //    db.AddInParameter(dbCommand, "DBA", DbType.String, DBA);
+    //    db.AddInParameter(dbCommand, "Sonic_Location_Code", DbType.String, Sonic_Location_Code);
+
+    //    dbCommand.CommandTimeout = 10000;
+    //    return db.ExecuteDataSet(dbCommand);
+    //}
 
     public static DataSet GetIncidentReductionByRegion(int Year)
     {
@@ -397,7 +401,8 @@ public class Charts
     public static DataSet RLCMSonicUniversityTraining(decimal pk_Security_ID, string Regions, string Markets, int idState, DateTime FromDate, DateTime ToDate, DateTime PreviousFromDate, DateTime PreviousToDate, string Rlcms)
     {
         Database db = DatabaseFactory.CreateDatabase();
-        DbCommand dbCommand = db.GetStoredProcCommand("rptQuarterlyPerformanceSabaTraining_New");
+		////change Reverted for sonic u training. ticket #3503/////
+        DbCommand dbCommand = db.GetStoredProcCommand("rptQuarterlyPerformanceSabaTraining");
 
         dbCommand.CommandTimeout = 1000;
         db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Decimal, pk_Security_ID);
@@ -417,7 +422,8 @@ public class Charts
     public static DataSet RLCMSonicUniversityTraining_ByRLCM(decimal pk_Security_ID, string Regions, string Markets, int idState, DateTime FromDate, DateTime ToDate, DateTime PreviousFromDate, DateTime PreviousToDate, string Rlcms)
     {
         Database db = DatabaseFactory.CreateDatabase();
-        DbCommand dbCommand = db.GetStoredProcCommand("rptQuarterlyPerformanceSabaTraining_ByRLCM_New");
+		////change Reverted for sonic u training. ticket #3503/////
+        DbCommand dbCommand = db.GetStoredProcCommand("rptQuarterlyPerformanceSabaTraining_ByRLCM");
 
         dbCommand.CommandTimeout = 1000;
         db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Decimal, pk_Security_ID);

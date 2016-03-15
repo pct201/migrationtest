@@ -31,25 +31,18 @@
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="Job Title">
                         <HeaderStyle HorizontalAlign="left" />
-                        <ItemStyle Width="20%" HorizontalAlign="left" />
+                        <ItemStyle Width="40%" HorizontalAlign="left" />
                         <ItemTemplate>
                             <%# Eval("Job_Title") %>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="Program Completion Date" Visible="false">
                         <HeaderStyle HorizontalAlign="left" />
-                        <ItemStyle Width="20%" HorizontalAlign="left" />
+                        <ItemStyle Width="30%" HorizontalAlign="left" />
                         <ItemTemplate>
                             <%# clsGeneral.FormatDateToDisplay(clsGeneral.FormatDateToStore(Eval("ProgramCompletionDate"))) %>
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <%-- <asp:TemplateField HeaderText="Course">
-                        <HeaderStyle HorizontalAlign="left" />
-                        <ItemStyle Width="30%" HorizontalAlign="left" />
-                        <ItemTemplate>
-                            <%# Eval("Course") %>
-                        </ItemTemplate>
-                    </asp:TemplateField>--%>
                 </Columns>
             </asp:GridView>
         </div>
