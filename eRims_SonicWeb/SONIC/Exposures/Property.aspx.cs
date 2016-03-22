@@ -719,16 +719,46 @@ public partial class Exposures_Property : clsBasePage
         //Insert and update Insurance cope
         InsertUpdateInsuranceCope(PK_Building_ID);
 
-        // bind the building grid
-        BindGridBuilding();
+        Button btn = (Button)sender;
+        if (btn != null && btn.ID == "btnShowChangeBuildingLocationScreen")//when this button call visibility changed
+        {
+            dvChangeBuilding.Style["display"] = "";
+            dvBuildingGrid.Style["display"] = "none";
+            dvBuilding.Style["display"] = "none";
 
-        // bind ownership details for the builiding record
-        BindOwnershipDetails();
+            txtExistingLocation.Text = Convert.ToString(ucCtrlExposureInfo.Int_Location_Code);
+            //if (!string.IsNullOrEmpty(objBuilding.Building_Number)) //set in buildingDetail method
+            //    txtExistingBuilding.Text = objBuilding.Building_Number;
 
-        // set attachment FK for the building attachment and lease attachment
-        BuildingAttachment.FK_Building_ID = PK_Building_ID;
-        LeaseAttachment.FK_Building_ID = PK_Building_ID;
-        ucCtrlExposureInfo.SetRMLocationCode(PK_Building_ID);
+            ComboHelper.FillSonicLocationCode(new DropDownList[] { drpLocation }, 0, true);
+            //clsGeneral.SetDropdownValue(drpLocation, Convert.ToString(ucCtrlExposureInfo.Int_Location_Code), true);
+        }
+        else
+        {
+            // bind the building grid
+            BindGridBuilding();
+
+            // bind ownership details for the building record
+            BindOwnershipDetails();
+
+            // set attachment FK for the building attachment and lease attachment
+            BuildingAttachment.FK_Building_ID = PK_Building_ID;
+            LeaseAttachment.FK_Building_ID = PK_Building_ID;
+            ucCtrlExposureInfo.SetRMLocationCode(PK_Building_ID);
+
+            if (isLocationHasMainBuilding)
+            {
+                // redirect to PropertyView page to display all information in view mode
+                string strURL = "PropertyView.aspx?loc=" + Request.QueryString["loc"];
+                ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:MainBuildingAlert('" + strURL + "');", true);
+            }
+            else
+            {
+                // show next panel
+                ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:window.scrollTo(0, 0);ShowPanel(" + (rdoOwnership.SelectedIndex == -1 ? "4" : "3") + ");", true); //seLocationBuildingNumber('" + strLocationCode + "');
+            }
+        }
+        
         if (objBuilding.Ownership == "ThirdParty" || objBuilding.Ownership == "ThirdPartySublease")
         {
             trgvSubLease.Style["Display"] = "";
@@ -742,17 +772,7 @@ public partial class Exposures_Property : clsBasePage
             trAddNewLease.Style["Display"] = "none";
         }
 
-        if (isLocationHasMainBuilding)
-        {
-            // redirect to PropertyView page to display all information in view mode
-            string strURL = "PropertyView.aspx?loc=" + Request.QueryString["loc"];
-            ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:MainBuildingAlert('" + strURL + "');", true);
-        }
-        else
-        {
-            // show next panel
-            ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:window.scrollTo(0, 0);ShowPanel(" + (rdoOwnership.SelectedIndex == -1 ? "4" : "3") + ");", true); //seLocationBuildingNumber('" + strLocationCode + "');
-        }
+        
     }
 
     /// <summary>
@@ -1256,7 +1276,7 @@ public partial class Exposures_Property : clsBasePage
         btnViewAuditOwnership.Visible = false;
         btnViewAuditContacts.Visible = false;
         btnViewAuditAdditionalInsured.Style["display"] = "none";
-        lnkChangeBuildingLocation.Style["display"] = "none";
+        btnShowChangeBuildingLocationScreen.Style["display"] = "none";
         // re-initialize the Building PK and Ownership PK
         PK_Building_ID = -1;
         PK_Building_Ownership = -1;
@@ -1273,30 +1293,6 @@ public partial class Exposures_Property : clsBasePage
         //ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "", "javascript:seLocationBuildingNumber('" + strLocationCode + "');", true);
     }
 
-    /// <summary>
-    /// handles Change Building Location Click
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    protected void lnkChangeBuildingLocation_Click(object sender, EventArgs e)
-    {
-        dvChangeBuilding.Style["display"] = "";
-        dvBuildingGrid.Style["display"] = "none";
-        dvBuilding.Style["display"] = "none";
-
-        txtExistingLocation.Text = Convert.ToString(ucCtrlExposureInfo.Int_Location_Code);
-
-        Building objBuilding = new Building(PK_Building_ID);
-        if (!string.IsNullOrEmpty(objBuilding.Building_Number))
-            txtExistingBuilding.Text = objBuilding.Building_Number;
-
-        ComboHelper.FillSonicLocationCode(new DropDownList[] { drpLocation }, 0, true);
-        //ComboHelper.FillLocationLocationCodeFranchiseReport(new DropDownList[] { drpLocation }, true);
-        clsGeneral.SetDropdownValue(drpLocation, Convert.ToString(ucCtrlExposureInfo.Int_Location_Code), true);
-        BindBuildingByLocation(ucCtrlExposureInfo.Int_Location_Code);
-
-    }
-
     protected void btnCancelBuildingInfo_Click(object sender, EventArgs e)
     {
         dvChangeBuilding.Style["display"] = "none";
@@ -1310,8 +1306,9 @@ public partial class Exposures_Property : clsBasePage
         dvBuildingGrid.Style["display"] = "";
         dvBuilding.Style["display"] = "none";
 
-        Building.ChangeBuilding_Location(Convert.ToInt32(txtExistingLocation.Text), Convert.ToInt32(drpLocation.SelectedValue), txtExistingBuilding.Text, drpBuilding.SelectedValue);
+        Building.ChangeBuilding_Location(Convert.ToInt32(txtExistingLocation.Text), Convert.ToInt32(drpLocation.SelectedValue), txtExistingBuilding.Text);
         BindGridBuilding();
+        BindBuildingImprovementGrid();
     }
 
     /// <summary>
@@ -1384,7 +1381,7 @@ public partial class Exposures_Property : clsBasePage
     #region "GRIDVIEW EVENTS"
 
     /// <summary>
-    /// Handles Building grid rowcommand event
+    /// Handles Building grid row command event
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -1396,7 +1393,7 @@ public partial class Exposures_Property : clsBasePage
             // set PK as ID passed in command argument
             PK_Building_ID = Convert.ToInt32(e.CommandArgument);
 
-            lnkChangeBuildingLocation.Style["display"] = "";//if (PK_Building_ID > 0)
+            btnShowChangeBuildingLocationScreen.Style["display"] = "";//if (PK_Building_ID > 0)
 
             BindBuildingDetails();// bind building details
             SetDynamicInsuranceControl();
@@ -2380,12 +2377,14 @@ public partial class Exposures_Property : clsBasePage
         #endregion
 
         string strLocationCode = ucCtrlExposureInfo.Int_Location_Code.ToString() + ", Building Number " + objBuilding.Building_Number;
+        if (!string.IsNullOrEmpty(objBuilding.Building_Number))
+            txtExistingBuilding.Text = objBuilding.Building_Number;//Change Building Location screen field
 
         // set Building FK for building and lease attachment
         BuildingAttachment.FK_Building_ID = PK_Building_ID;
         LeaseAttachment.FK_Building_ID = PK_Building_ID;
 
-        // bind building attahcment grid
+        // bind building attachment grid
         BindGridBuildingAttachments();
         dvBuilding.Style["display"] = "";
 
@@ -2651,19 +2650,6 @@ public partial class Exposures_Property : clsBasePage
         BindEmergencyContactGrid();
         BindUtilityContactGrid();
         BindOtherContactGrid();
-    }
-
-    private void BindBuildingByLocation(int LocationCode)
-    {
-        DataTable dtBuilding = Building.BuildingByLocationCode(LocationCode).Tables[0];
-        drpBuilding.DataSource = dtBuilding;
-        drpBuilding.DataTextField = "Building_Number";
-        drpBuilding.DataValueField = "Building_Number";//PK_Building_ID
-        drpBuilding.DataBind();
-        drpBuilding.Items.Insert(0, new ListItem("-- Select --", "0"));
-
-        //clean up memory
-        clsGeneral.DisposeOf(dtBuilding);
     }
 
     /// <summary>
@@ -4495,9 +4481,6 @@ public partial class Exposures_Property : clsBasePage
         txtBox.Text = "";
     }
 
-    protected void drpLocation_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        BindBuildingByLocation(Convert.ToInt32(drpLocation.SelectedValue));
-    }
+  
 }
 

@@ -3877,12 +3877,6 @@ function ValidateFieldsOwnership(sender, args) {
                                                                 </td>
                                                             </tr>
                                                             <tr>
-                                                                <td align="left" colspan="6">
-                                                                     <asp:LinkButton ID="lnkChangeBuildingLocation" runat="server" OnClick="lnkChangeBuildingLocation_Click"
-                                                                        Text="Change Building Location" style="display:none;"/>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
                                                                 <td colspan="6" width="100%" align="center">
                                                                     <table>
                                                                         <tr>
@@ -3897,6 +3891,10 @@ function ValidateFieldsOwnership(sender, args) {
                                                                             <td align="center">
                                                                                 <asp:Button ID="btnOwnerShip" runat="server" Text="Ownership Details" OnClick="btnBuildingInformationSave_Click"
                                                                                     CausesValidation="true" ValidationGroup="vsErrorBuilding" />
+                                                                            </td>
+                                                                            <td align="center">
+                                                                                <asp:Button ID="btnShowChangeBuildingLocationScreen" runat="server" Text="Change building Location" OnClick="btnBuildingInformationSave_Click"
+                                                                                    CausesValidation="true" ValidationGroup="vsErrorBuilding" style="display:none;"/>
                                                                             </td>
                                                                         </tr>
                                                                     </table>
@@ -3939,22 +3937,10 @@ function ValidateFieldsOwnership(sender, args) {
                                                                                     :
                                                                                 </td>
                                                                                 <td>
-                                                                                    <asp:DropDownList ID="drpLocation" runat="server" SkinID="propertyBuilding" OnSelectedIndexChanged="drpLocation_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
+                                                                                    <asp:DropDownList ID="drpLocation" runat="server" SkinID="propertyBuilding" ></asp:DropDownList>
                                                                                     <asp:RequiredFieldValidator ID="rfvdrpLocation" runat="server" ControlToValidate="drpLocation"
-                                                                                        InitialValue="0" Display="None" ValidationGroup="vsErrorBuildingInfo" ErrorMessage="Please select Location"></asp:RequiredFieldValidator>
+                                                                                        InitialValue="0" Display="None" ValidationGroup="vsErrorBuildingInfo" ErrorMessage="Please select New Location Number"></asp:RequiredFieldValidator>
                                                                                 </td>
-                                                                                <td>
-                                                                                    New Building Number
-                                                                                    <span id="Span118" style="color: Red; " runat="server">*</span>
-                                                                                </td>
-                                                                                <td width="2%">
-                                                                                    :
-                                                                                </td>
-                                                                                <td>
-                                                                                    <asp:DropDownList ID="drpBuilding" runat="server" SkinID="propertyBuilding"></asp:DropDownList>
-                                                                                    <asp:RequiredFieldValidator ID="rfvdrpBuilding" runat="server" ControlToValidate="drpBuilding"
-                                                                                        InitialValue="0" Display="None" ValidationGroup="vsErrorBuildingInfo" ErrorMessage="Please select Building"></asp:RequiredFieldValidator>
-                                                                                 </td>
                                                                             </tr>
                                                                              <tr>
                                                                                 <td class="Spacer" style="height: 8px;" colspan="6"></td>

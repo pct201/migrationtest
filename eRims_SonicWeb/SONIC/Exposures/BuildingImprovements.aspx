@@ -375,6 +375,11 @@
                                                             <img alt="Project Start Date" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtProject_Start_Date', 'mm/dd/y');"
                                                                 onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
                                                                 align="middle" />
+                                                            <asp:RegularExpressionValidator ID="rgvProject_Start_Date" runat="server" ControlToValidate="txtProject_Start_Date"
+                                                                ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"
+                                                                ErrorMessage="Project Start Date is Not Valid Date" Display="none" ValidationGroup="vsErrorGroup"
+                                                                SetFocusOnError="true">
+                                                            </asp:RegularExpressionValidator>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -390,6 +395,11 @@
                                                             <img alt="Target Completion Date" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtTarget_Completion_Date', 'mm/dd/y');"
                                                                 onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
                                                                 align="middle" />
+                                                            <asp:RegularExpressionValidator ID="rgvTarget_Completion_Date" runat="server" ControlToValidate="txtTarget_Completion_Date"
+                                                                ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"
+                                                                ErrorMessage="Target Completion Date is Not Valid Date" Display="none" ValidationGroup="vsErrorGroup"
+                                                                SetFocusOnError="true">
+                                                            </asp:RegularExpressionValidator>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -405,6 +415,11 @@
                                                             <img alt="Actual Completion Date" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtActual_Completion_Date', 'mm/dd/y');"
                                                                 onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
                                                                 align="middle" />
+                                                             <asp:RegularExpressionValidator ID="revtxtActual_Completion_Date" runat="server" ControlToValidate="txtActual_Completion_Date"
+                                                                ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"
+                                                                ErrorMessage="Actual Completion Date is Not Valid Date" Display="none" ValidationGroup="vsErrorGroup"
+                                                                SetFocusOnError="true">
+                                                            </asp:RegularExpressionValidator>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -441,6 +456,11 @@
                                                             <img alt="Project Status As Of Date" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtProjectStatusAsOf', 'mm/dd/y');"
                                                                 onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
                                                                 align="middle" />
+                                                             <asp:RegularExpressionValidator ID="rgvProjectStatusAsOf" runat="server" ControlToValidate="txtProjectStatusAsOf"
+                                                                ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"
+                                                                ErrorMessage="Project Status As Of is Not Valid Date" Display="none" ValidationGroup="vsErrorGroup"
+                                                                SetFocusOnError="true">
+                                                            </asp:RegularExpressionValidator>
                                                         </td>
                                                         <td align="left" valign="top">Open? &nbsp;
                                                         </td>
@@ -486,14 +506,14 @@
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            <asp:TextBox ID="txtSales" runat="server" Width="170px" onblur="CalculateTotalSquareFootage();" onkeypress="return FormatNumber(event,this.id,10 ,true);" />
+                                                            <asp:TextBox ID="txtSales" runat="server" Width="170px" autocomplete="off" onpaste="return false;" onblur="CalculateTotalSquareFootage();" onkeypress="return FormatNumber(event,this.id,10 ,true);" />
                                                         </td>
                                                         <td align="left" valign="top">Service Lane&nbsp;<span id="Span19" style="color: Red; display: none;" runat="server">*</span>
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            <asp:TextBox ID="txtServiceLane" runat="server" Width="170px" onblur="CalculateTotalSquareFootage();" onkeypress="return FormatNumber(event,this.id,10 ,true);" />
+                                                            <asp:TextBox ID="txtServiceLane" runat="server" Width="170px" onblur="CalculateTotalSquareFootage();" autocomplete="off" onpaste="return false;"  onkeypress="return FormatNumber(event,this.id,10 ,true);" />
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -502,14 +522,14 @@
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            <asp:TextBox ID="txtPart" runat="server" Width="170px" onblur="CalculateTotalSquareFootage();" onkeypress="return FormatNumber(event,this.id,10 ,true);" />
+                                                            <asp:TextBox ID="txtPart" runat="server" Width="170px" onblur="CalculateTotalSquareFootage();" autocomplete="off" onpaste="return false;" onkeypress="return FormatNumber(event,this.id,10 ,true);" />
                                                         </td>
                                                         <td align="left" valign="top">Service Department&nbsp;<span id="Span21" style="color: Red; display: none;" runat="server">*</span>
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            <asp:TextBox ID="txtServiceDepartment" runat="server" Width="170px" onblur="CalculateTotalSquareFootage();" onkeypress="return FormatNumber(event,this.id,10 ,true);" />
+                                                            <asp:TextBox ID="txtServiceDepartment" runat="server" Width="170px" onblur="CalculateTotalSquareFootage();" autocomplete="off" onpaste="return false;" onkeypress="return FormatNumber(event,this.id,10 ,true);" />
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -518,7 +538,7 @@
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            <asp:TextBox ID="txtOther" runat="server" Width="170px" onblur="CalculateTotalSquareFootage();" onkeypress="return FormatNumber(event,this.id,10 ,true);" />
+                                                            <asp:TextBox ID="txtOther" runat="server" Width="170px" onblur="CalculateTotalSquareFootage();" autocomplete="off" onpaste="return false;" onkeypress="return FormatNumber(event,this.id,10 ,true);" />
                                                         </td>
                                                         <td align="left" valign="top"></td>
                                                         <td align="center" valign="top"></td>
