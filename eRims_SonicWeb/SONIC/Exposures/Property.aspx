@@ -3893,7 +3893,7 @@ function ValidateFieldsOwnership(sender, args) {
                                                                                     CausesValidation="true" ValidationGroup="vsErrorBuilding" />
                                                                             </td>
                                                                             <td align="center">
-                                                                                <asp:Button ID="btnShowChangeBuildingLocationScreen" runat="server" Text="Change building Location" OnClick="btnBuildingInformationSave_Click"
+                                                                                <asp:Button ID="btnShowChangeBuildingLocationScreen" runat="server" Text="Change Building Location" OnClick="btnBuildingInformationSave_Click"
                                                                                     CausesValidation="true" ValidationGroup="vsErrorBuilding" style="display:none;"/>
                                                                             </td>
                                                                         </tr>
