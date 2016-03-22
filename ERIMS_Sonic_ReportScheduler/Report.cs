@@ -1162,7 +1162,7 @@ namespace ERIMS_Sonic_ReportScheduler
         public static DataSet GetPropertyStatementofValues(string strRegion, string strMarket, string strStatus, string strOwnership, DateTime? dtPropertyValuationDateFrom, DateTime? dtPropertyValuationDateTo)
         {
             Database db = DatabaseFactory.CreateDatabase();
-            DbCommand dbCommand = db.GetStoredProcCommand("rptPropertyStatementofValues");
+            DbCommand dbCommand = db.GetStoredProcCommand("rptPropertyStatementofValues_NEW");
 
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
             db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
@@ -1258,6 +1258,27 @@ namespace ERIMS_Sonic_ReportScheduler
 
             return db.ExecuteDataSet(dbCommand);
         }
+
+        /// <summary>
+        /// Generate VOC Report
+        /// </summary>
+        /// <param name="StartYear"></param>
+        /// <param name="EndYear"></param>
+        /// <param name="StartMonth"></param>
+        /// <param name="EndMonth"></param>
+        /// <param name="Location"></param>
+        /// <returns></returns>
+        public static DataSet GetVOCReport(int StartYear, int EndYear, int StartMonth, int EndMonth, string Location)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("VOCReportForMultipleLocation");
+            db.AddInParameter(dbCommand, "StartYear", DbType.Int16, StartYear);
+            db.AddInParameter(dbCommand, "EndYear", DbType.Int16, EndYear);
+            db.AddInParameter(dbCommand, "StartMonth", DbType.Int16, StartMonth);
+            db.AddInParameter(dbCommand, "EndMonth", DbType.Int16, EndMonth);
+            db.AddInParameter(dbCommand, "Location", DbType.String, Location);
+            return db.ExecuteDataSet(dbCommand);
+        }
         #endregion
 
         #region " Policy Report "
@@ -1347,6 +1368,16 @@ namespace ERIMS_Sonic_ReportScheduler
             DataSet ds = db.ExecuteDataSet(dbCommand);
             dbCommand.CommandTimeout = 1000;
             return Convert.ToString(ds.Tables[0].Rows[0][0]);
+        }
+
+        public static DataSet GetCommaSepratedLocationFromIDs(string strFK_LU_Location_IDs)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("GetCommaSepratedLocationFromIDs");
+
+            db.AddInParameter(dbCommand, "PK_LU_Location_IDs", DbType.String, strFK_LU_Location_IDs);
+
+            return db.ExecuteDataSet(dbCommand);
         }
 
         #endregion

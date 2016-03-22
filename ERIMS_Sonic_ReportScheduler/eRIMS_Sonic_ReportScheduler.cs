@@ -10,6 +10,8 @@ using System.IO;
 using System.Net.Mail;
 using System.Threading;
 using ERIMS_DAL;
+using System.Web;
+using Winnovative.WnvHtmlConvert;
 
 namespace ERIMS_Sonic_ReportScheduler
 {
@@ -33,6 +35,14 @@ namespace ERIMS_Sonic_ReportScheduler
         //Date time format to display in attached excel with Email
         public const String DateDisplayFormat = "MM/dd/yyyy";
         public string _strServiceRunTime = string.Empty;
+
+        public static string PDFLicenseKey
+        {
+            get
+            {
+                return Convert.ToString(ConfigurationManager.AppSettings["LicenseKey"]);
+            }
+        }
 
         #endregion
 
@@ -140,17 +150,17 @@ namespace ERIMS_Sonic_ReportScheduler
 
                 //Stop Process For 1 Hour to reduce CPU Utilization
                 //Thread.Sleep(3600000);
-                
+
                 //service start at 9:00 AM everyday
                 //get current date time and tomorrow date time with 9:00 am ::subtract that and get ms this is sleep time of thread
                 if (string.IsNullOrEmpty(_strServiceRunTime)) _strServiceRunTime = "09:00:00";
 
-                DateTime dtNextDateTime = Convert.ToDateTime(DateTime.Now.AddDays(1).ToString("yyyy-MM-dd") + " " + _strServiceRunTime); 
+                DateTime dtNextDateTime = Convert.ToDateTime(DateTime.Now.AddDays(1).ToString("yyyy-MM-dd") + " " + _strServiceRunTime);
                 DateTime dtCurrentDateTime = DateTime.Now;
-                
+
                 TimeSpan span = dtNextDateTime - dtCurrentDateTime;
                 int ms = (int)span.TotalMilliseconds;
-                
+
                 if (ms > 0)
                 {
                     EventLog.WriteEntry("Thread sleeps for next " + ms / 3600000 + " Hours");
@@ -165,7 +175,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 //    dtSchduleDate = DateTime.Today;
                 //    flgSendEmail = true;
                 //}
-                
+
             }
         }
 
@@ -379,8 +389,12 @@ namespace ERIMS_Sonic_ReportScheduler
                         case 71:
                             BindACIKeyContactReport(dtScheduleReports.Rows[i]);
                             break;
+                        case 72:
+                            BindVOCEmissionsReport(dtScheduleReports.Rows[i]);
+                            break;
                         default:
                             break;
+
                     }
                 }
                 //Make event log entry on successful completion of sending mail.
@@ -13117,7 +13131,7 @@ namespace ERIMS_Sonic_ReportScheduler
                     strLastName = Convert.ToString(dtUser.Rows[0]["LAST_NAME"]).Trim();
                     strMailFrom = Convert.ToString(dtUser.Rows[0]["Email"]).Trim();
                 }
-               
+
                 string strDBA = Convert.ToString(dtFilter.Rows[0]["DBA"]).Trim();
                 //string strInspector = Convert.ToString(dtFilter.Rows[0]["Inspector_Name"]).Trim();
                 //string strInspectionArea = Convert.ToString(dtFilter.Rows[0]["InspectionArea"]).Trim();
@@ -13232,6 +13246,199 @@ namespace ERIMS_Sonic_ReportScheduler
                 SendMail("ACI Key Contact Report", "ACI_Key_Contact_Report.xls", strFirstName, strLastName, strMailFrom, stringWrite, dtRecipients);
             }
         }
+
+        //Report 72
+        private void BindVOCEmissionsReport(DataRow drReportSchedule)
+        {
+            decimal pK_Schedule_ID = Convert.ToDecimal(drReportSchedule["PK_Schedule"]);
+            decimal Fk_RecipientList = Convert.ToDecimal(drReportSchedule["Fk_RecipientList"]);
+            decimal FK_Security_Id = Convert.ToDecimal(drReportSchedule["FK_Security_Id"]);
+
+            //Get Report criteria for the scheduled report
+            DataTable dtFilter = Report.SelectFilterCriteria(72, pK_Schedule_ID).Tables[0];
+            if (dtFilter.Rows.Count > 0)
+            {
+                //Get the recipient from the recipient list 
+                DataTable dtRecipients = Report.SelectOneRecordWithRecipientList(Fk_RecipientList).Tables[0];
+
+                //Get the user who has scheduled the report
+                DataTable dtUser = Report.SelectSecurityByPK(FK_Security_Id).Tables[0];
+
+                String strFirstName, strLastName, strMailFrom;
+                strFirstName = strLastName = strMailFrom = "";
+                if (dtUser.Rows.Count > 0)
+                {
+                    strFirstName = Convert.ToString(dtUser.Rows[0]["FIRST_NAME"]).Trim();
+                    strLastName = Convert.ToString(dtUser.Rows[0]["LAST_NAME"]).Trim();
+                    strMailFrom = Convert.ToString(dtUser.Rows[0]["Email"]).Trim();
+                }
+
+                // get start date
+                DateTime Start_Date = Convert.ToDateTime(dtFilter.Rows[0]["Start_Date"]);
+                // get end date
+                DateTime End_Date = Convert.ToDateTime(dtFilter.Rows[0]["End_Date"]);
+
+                string strLocation = Convert.ToString(dtFilter.Rows[0]["Location"]).Trim();
+                int startYear, endYear, startMonth, endMonth, selectedLocationCount, allLocationCount;
+                startYear = Start_Date.Year;
+                endYear = End_Date.Year;
+                startMonth = Start_Date.Month;
+                endMonth = End_Date.Month;
+                string strLoc = string.Empty;
+
+                DataSet dsResult = Report.GetVOCReport(startYear, endYear, startMonth, endMonth, strLocation);
+                DataSet dsLocation = Report.GetCommaSepratedLocationFromIDs(strLocation);
+
+                // get data tables from dataset
+                DataTable dtCategory = dsResult.Tables[0];
+                DataTable dtRegions = dsResult.Tables[1];
+                DataTable dtGrand_Total = dsResult.Tables[2];
+                DataTable dtYearData = dsResult.Tables[3];
+                DataTable dtYearAllCategory = dsResult.Tables[4];
+                selectedLocationCount = Convert.ToInt32(dsLocation.Tables[0].Rows[0][0]);
+                allLocationCount = Convert.ToInt32(dsLocation.Tables[1].Rows[0][0]);
+                DataTable dtSelectedLocation = dsLocation.Tables[2];
+
+                if (selectedLocationCount == allLocationCount)
+                {
+                    strLoc = "All Locations";
+                }
+                else
+                {
+                    strLoc = Convert.ToString(dsLocation.Tables[2].Rows[0][0]);
+                }
+
+                System.Text.StringBuilder sbRecorords = new System.Text.StringBuilder("");
+                System.IO.StringWriter stringWrite = new System.IO.StringWriter();
+                System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
+
+                if (dtCategory != null && dtCategory.Rows.Count > 0)
+                {
+                    sbRecorords.Append("<table style='padding-left:4px;font-size:8.5pt;font-family:Tahoma' cellpadding='4' cellspacing='0' Width='996px'>");
+                    sbRecorords.Append("<tr style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:11pt;height:25'>");
+                    sbRecorords.Append("<td align='left' style='font-size:9pt'  colspan='5'>VOC Report: " + DateTime.Now.ToString("MM/dd/yyy HH:mm tt") + "</td></tr>");
+                    sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:8.5pt'>");
+                    sbRecorords.Append("<td colspan='5'></td>");
+                    sbRecorords.Append("</tr>");
+                    sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:8.5pt'><td align='left' style='font-size:9pt'  colspan='5'><b> Filter Conditions :  </b></td></tr>");
+                    sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:8.5pt'><td align='left' style='font-size:9pt'  colspan='5'><b>Start Date: </b>" + Start_Date.ToString("MM/dd/yyyy") + "</td></tr>");
+                    sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:8.5pt'><td align='left' style='font-size:9pt'  colspan='5'><b>End Date: </b>" + End_Date.ToString("MM/dd/yyyy") + "</td></tr>");
+                    sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:8.5pt'><td align='left' style='font-size:9pt'  colspan='5'><b>Locations: </b>" + strLoc + "</td></tr>");
+                    sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:8.5pt'><td align='left' style='font-size:9pt'  colspan='5'><b> Report Columns :  </b></td></tr>");
+                    sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:8.5pt'>");
+                    sbRecorords.Append("<td class='cols_' width='12.5%'>Product Part Number</td>");
+                    sbRecorords.Append("<td class='cols_' width='12.5%'>Unit Volume</td>");
+                    sbRecorords.Append("<td class='cols_' width='12.5%'align='left'>Quantity Purchased</td>");
+                    sbRecorords.Append("<td class='cols_' width='12.5%'align='left'>Gallons</td>");
+                    sbRecorords.Append("<td class='cols_' width='12.5%'align='left'>VOC total</td>");
+                    sbRecorords.Append("</tr>");
+
+                    //now category 
+                    foreach (DataRow drCategory in dtCategory.Rows)
+                    {
+                        string category = Convert.ToString(drCategory["Category"]);
+
+                        DataRow[] drVOCEmissions = dtRegions.Select("Category = '" + category + "'");
+                        this.FillVocReportRows(sbRecorords, category, drVOCEmissions, false);
+
+                        DataRow[] drYearVOCEmissions = dtYearData.Select("Category = '" + category + "'");
+
+                        if (drYearVOCEmissions != null && drYearVOCEmissions.Length > 0)
+                        {
+                            int intRes = 0;
+                            foreach (DataRow drYearVOCEmission in drYearVOCEmissions)
+                            {
+                                intRes += 1;
+                                if (intRes % 2 == 0)
+                                    sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#EAEAEA;font-family:Tahoma;'>");
+                                else
+                                    sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#FFFFFF;font-family:Tahoma;'>");
+
+                                sbRecorords.Append("<td  class='cols_' align='left' style='word-wrap:normal;word-break:break-all'>" + Convert.ToString(drYearVOCEmission["Part_Number"]) + "</td>");
+                                sbRecorords.Append("<td class='cols_' style='word-wrap:normal;word-break:break-all'>" + Convert.ToString(drYearVOCEmission["Unit"]) + "</td>");
+                                sbRecorords.Append("<td class='cols_' align='left' style='word-wrap:normal;word-break:break-all'>" + Convert.ToString(drYearVOCEmission["Quantity"]) + "</td>");
+                                sbRecorords.Append("<td class='cols_' align='left' style='word-wrap:normal;word-break:break-all'>" + Convert.ToString(drYearVOCEmission["Gallons"]) + "</td>");
+                                sbRecorords.Append("<td class='cols_' align='left' style='word-wrap:normal;word-break:break-all'>" + Convert.ToString(drYearVOCEmission["VOC_Emissions"]) + "</td>");
+                                sbRecorords.Append("</tr>");
+                            }
+                        }
+                    }
+
+                    if (dtYearAllCategory != null && dtYearAllCategory.Rows.Count > 0)
+                    {
+                        DataRow[] drAllCategoryRows = dtYearAllCategory.Select();
+                        this.FillVocReportRows(sbRecorords, "All Paint Categories", drAllCategoryRows, true);
+                    }
+
+                    //add grand by category
+                    sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:blue;color:White;font-size:8.5pt'><td align='left' style='font-size:9pt'  colspan='3'> Grand Totals :</td>");
+                    sbRecorords.Append("<td align='left' style='font-size:9pt' ><b>" + string.Format("{0:N2}", dtGrand_Total.Rows[0]["Total_Gallons"]) + " </b></td>");
+                    sbRecorords.Append("<td align='left' style='font-size:9pt' ><b>" + string.Format("{0:N2}", dtGrand_Total.Rows[0]["VOC_Emissions"]) + " </b></td></tr>");
+                    sbRecorords.Append("</table>");
+                }
+                else
+                {
+                    // if record not found then hide Header and set width and height so scroll bar not visible.            
+                    sbRecorords.Append("<table style='font-family:Tahoma' cellpadding='4' cellspacing='0' Width='100%'>");
+                    sbRecorords.Append("<tr style='background-color:#F2F2F2;color:Black;'>");
+                    sbRecorords.Append("<td align='center' style='font-size:9pt;'>No Records found.</td></tr></table>");
+                }
+
+                //Write HTML in to HtmlWriter
+                htmlWrite.WriteLine(sbRecorords.ToString());
+
+                //Send Mail
+                if (Convert.ToDecimal(drReportSchedule["Format_Type"]) == 1)
+                {
+                    SendMail("VOC Emissions Report", "VOC_Emissions_Report.xls", strFirstName, strLastName, strMailFrom, stringWrite, dtRecipients);
+                }
+                else if (Convert.ToDecimal(drReportSchedule["Format_Type"]) == 2)
+                {
+                    SendMailPDF("VOC Emissions Report", "VOC_Emissions_Report.pdf", strFirstName, strLastName, strMailFrom, sbRecorords.ToString(), dtRecipients);
+                }
+            }
+        }
+
+        private void FillVocReportRows(StringBuilder sbRecorords, string category, DataRow[] drVOCEmissions, bool isAllCategories)
+        {
+            decimal totalGallons = 0, totalVOC_Emissions = 0;
+            string SubTotalText = string.Empty;
+
+            if (drVOCEmissions != null && drVOCEmissions.Length > 0)
+            {
+                sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:white; color:#ff9c09;font-size:8.5pt'><td align='left' style='font-size:9pt'  colspan='5'><b>Category : " + category + "</b></td></tr>");
+                int intRes = 0;
+                foreach (DataRow drVOCEmission in drVOCEmissions)
+                {
+                    totalGallons += Convert.ToDecimal(drVOCEmission["Gallons"]);
+                    totalVOC_Emissions += Convert.ToDecimal(drVOCEmission["VOC_Emissions"]);
+                    SubTotalText = Convert.ToString(drVOCEmission["Subtotal_Text"]);
+
+                    intRes += 1;
+                    if (intRes % 2 == 0)
+                        sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#EAEAEA;font-family:Tahoma;'>");
+                    else
+                        sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#FFFFFF;font-family:Tahoma;'>");
+
+                    sbRecorords.Append("<td  class='cols_' align='left' style='word-wrap:normal;word-break:break-all'>" + Convert.ToString(drVOCEmission["Part_Number"]) + "</td>");
+                    sbRecorords.Append("<td class='cols_' style='word-wrap:normal;word-break:break-all'>" + Convert.ToString(drVOCEmission["Unit"]) + "</td>");
+                    sbRecorords.Append("<td class='cols_' align='left' style='word-wrap:normal;word-break:break-all'>" + Convert.ToString(drVOCEmission["Quantity"]) + "</td>");
+                    sbRecorords.Append("<td class='cols_' align='left' style='word-wrap:normal;word-break:break-all'>" + Convert.ToString(drVOCEmission["Gallons"]) + "</td>");
+                    sbRecorords.Append("<td class='cols_' align='left' style='word-wrap:normal;word-break:break-all'>" + Convert.ToString(drVOCEmission["VOC_Emissions"]) + "</td>");
+                    sbRecorords.Append("</tr>");
+                }
+
+                if (!isAllCategories)
+                {
+                    //add subtotal by category
+                    sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:yellow;color:black;font-size:8.5pt'><td align='left' style='font-size:9pt'  colspan='3'>Sub Total For " + category + " : </td>");
+                    sbRecorords.Append("<td align='left' style='font-size:9pt' ><b>" + string.Format("{0:N2}", totalGallons) + " </b></td>");
+                    sbRecorords.Append("<td align='left' style='font-size:9pt' ><b>" + string.Format("{0:N2}", totalVOC_Emissions) + " </b></td></tr>");
+                }
+            }
+        }
+
+
         #endregion
 
         #region Mail Send Method
@@ -13290,6 +13497,11 @@ namespace ERIMS_Sonic_ReportScheduler
                     EventLog.WriteEntry("Error in Sending Mail for " + strReportTitle + ", " + ex.Message);
                 }
                 atts.Dispose();
+
+                if (File.Exists(strPath))
+                    File.Delete(strPath);
+                if (File.Exists(outputFiles))
+                    File.Delete(outputFiles);
             }
             else
             {
@@ -13367,7 +13579,81 @@ namespace ERIMS_Sonic_ReportScheduler
             }
         }
 
+        protected void SendMailPDF(String strReportTitle, String strFileNameToSave, String strFirstName, String strLastName, String strMailFrom, String sw, DataTable dtRecipients)
+        {
+            string strPath = AppDomain.CurrentDomain.BaseDirectory + @"temp\" + strFileNameToSave.Replace(".pdf", "") + System.DateTime.Now.ToString("MMddyyhhmmss") + ".pdf";
 
+            bool blnHTML2PDF = false;
+            Byte[] pdfByte = null;
+
+            PdfConverter objPdf = new PdfConverter();
+            //string _strHtmltoPDFConverterKey = "5M/VxNXE0NPE0srUxNfVytXWyt3d3d0=";
+            objPdf.LicenseKey = PDFLicenseKey;
+            objPdf.PdfDocumentOptions.TopMargin = 20;
+            objPdf.PdfDocumentOptions.LeftMargin = 20;
+            objPdf.PdfDocumentOptions.RightMargin = 20;
+            objPdf.PdfDocumentOptions.BottomMargin = 20;
+            objPdf.PdfDocumentOptions.ShowHeader = false;
+            objPdf.PdfDocumentOptions.ShowFooter = false;
+            objPdf.PdfDocumentOptions.EmbedFonts = false;
+            objPdf.PdfDocumentOptions.LiveUrlsEnabled = false;
+            objPdf.RightToLeftEnabled = false;
+            objPdf.PdfSecurityOptions.CanPrint = true;
+            objPdf.PdfSecurityOptions.CanEditContent = true;
+            objPdf.PdfSecurityOptions.UserPassword = "";
+            objPdf.PdfDocumentOptions.PdfPageOrientation = PDFPageOrientation.Landscape;
+            objPdf.PdfDocumentOptions.PdfPageSize = PdfPageSize.Letter;
+            objPdf.PdfDocumentInfo.AuthorName = "eRIMS2";
+            pdfByte = objPdf.GetPdfBytesFromHtmlString(sw.ToString());
+
+            System.IO.File.WriteAllBytes(strPath, pdfByte);
+
+            if (File.Exists(strPath))
+            {
+                blnHTML2PDF = true;
+            }
+
+            MemoryStream memorystream = new MemoryStream();
+
+            if (blnHTML2PDF)
+            {
+                MailMessage mail = new MailMessage();
+                mail.From = new MailAddress(strMailFrom);
+                mail.Subject = "eRIMS :: " + strReportTitle;
+                memorystream = new MemoryStream(File.ReadAllBytes(strPath));
+                Attachment atts = new Attachment(memorystream, strFileNameToSave);
+                mail.Attachments.Add(atts);
+
+                SmtpClient mSmtpClient = new SmtpClient();
+                mSmtpClient.Host = System.Configuration.ConfigurationManager.AppSettings.Get("SMTPServer");
+                mSmtpClient.Credentials = new System.Net.NetworkCredential(System.Configuration.ConfigurationManager.AppSettings.Get("SMTPmail"), System.Configuration.ConfigurationManager.AppSettings.Get("SMTPPwd"));
+                try
+                {
+                    for (int i = 0; i < dtRecipients.Rows.Count; i++)
+                    {
+                        mail.Body = dtRecipients.Rows[i]["FirstName"].ToString() + " " + dtRecipients.Rows[i]["LastName"].ToString() + ",<br />Please find the " + strReportTitle + " Attached with this mail.<br /><br /><br />Thankyou!<br />" + strFirstName + " " + strLastName;
+                        mail.Body += "<br /> This is system generated message. Please do not reply.";
+                        mail.IsBodyHtml = true;
+                        mail.To.Add(new MailAddress(dtRecipients.Rows[i]["Email"].ToString()));
+                        mSmtpClient.Send(mail);
+                        mail.To.Clear();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    EventLog.WriteEntry("Error in Sending Mail for " + strReportTitle + ", " + ex.Message);
+                }
+                atts.Dispose();
+
+                if (File.Exists(strPath))
+                    File.Delete(strPath);
+            }
+
+            else
+            {
+                EventLog.WriteEntry("Error in converting Report to PDF for " + strReportTitle);
+            }
+        }
         #endregion
 
         #region Get Month String
