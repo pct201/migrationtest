@@ -52,13 +52,13 @@ public partial class Management_ManagementSearch : clsBasePage
         if (!IsPostBack)
         {
             BindDropDownList();
-
+            clsGeneral.SetDropdownValue(drpFK_LU_Maintenance_Status, "Open", false);
             // Check User Rights
             //txtCompany.Focus();
             drpLocation.Focus();
             ctrlPageProperty.PageSize = clsSession.NumberOfSearchRows;
-            _SortBy = "dba";
-            _SortOrder = "asc";
+            _SortBy = "Date_Entered";
+            _SortOrder = "desc";
 
             btnAdd.Visible = (App_Access != AccessType.View_Only);
 
@@ -96,6 +96,7 @@ public partial class Management_ManagementSearch : clsBasePage
         //ComboHelper.FillLU_Camera_Type(new DropDownList[] { drpCamera_Type }, true);
         //ComboHelper.FillStatus(drpClient_Issue, true);
         //ComboHelper.FillStatus(drpFacilities_Issue, true);
+        ComboHelper.FillMaintenanceStatus((new DropDownList[] { drpFK_LU_Maintenance_Status }), true);
     }
 
     /// <summary>
@@ -108,7 +109,7 @@ public partial class Management_ManagementSearch : clsBasePage
 
         #region "Variable"
 
-        decimal? decLocation = 0, decRecordType = 0, decLocation_Code = null, decWorkToBeCompleted = 0, decFK_LU_Approval_Submission = 0;
+        decimal? decLocation = 0, decRecordType = 0, decLocation_Code = null, decWorkToBeCompleted = 0, decFK_LU_Approval_Submission = 0, decFK_LU_Maintenance_Status = 0;
         DateTime? Date_Scheduled_From = null, Date_Scheduled_To = null, Date_Complete_From = null, Date_Complete_To = null, CR_Approved_From = null, CR_Approved_To = null;
         string strOtherWorkType = null, strOtherRecordType = null, strJob = null, strOrder = null, strCreatedBy = null, strReferenceNumber = null; 
 
@@ -139,6 +140,7 @@ public partial class Management_ManagementSearch : clsBasePage
         if (!string.IsNullOrEmpty(txtOrder.Text)) strOrder = txtOrder.Text.Trim().Replace("'", "''");
         if (!string.IsNullOrEmpty(txtCreatedBy.Text)) strCreatedBy = txtCreatedBy.Text.Trim().Replace("'", "''");
         //if (!string.IsNullOrEmpty(txtCost.Text)) decCost = Convert.ToDecimal(txtCost.Text);
+        if (drpFK_LU_Maintenance_Status.SelectedIndex > 0) decFK_LU_Maintenance_Status = Convert.ToDecimal(drpFK_LU_Maintenance_Status.SelectedValue);
 
         if (!string.IsNullOrEmpty(txtLocation_Code.Text)) decLocation_Code = Convert.ToDecimal(txtLocation_Code.Text);
 
@@ -149,10 +151,10 @@ public partial class Management_ManagementSearch : clsBasePage
             workToBeCompletedBy = Convert.ToBoolean(Convert.ToInt32(rdbWorkToBeCompletedBy.SelectedValue));
         }
 
-        if (!string.IsNullOrEmpty(rdbTaskComplete.SelectedValue))
-        {
-            Task_Complete = Convert.ToBoolean(Convert.ToInt32(rdbTaskComplete.SelectedValue));
-        }
+        //if (!string.IsNullOrEmpty(rdbTaskComplete.SelectedValue))
+        //{
+        //    Task_Complete = Convert.ToBoolean(Convert.ToInt32(rdbTaskComplete.SelectedValue));
+        //}
         if (!string.IsNullOrEmpty(txtReference_Number.Text)) strReferenceNumber = txtReference_Number.Text.Trim().Replace("'", "''");
         #endregion
 
@@ -161,7 +163,7 @@ public partial class Management_ManagementSearch : clsBasePage
         // selects records depending on paging criteria and search values.
         DataSet dsManagement = ERIMS.DAL.clsManagement.ManagementSearch(decLocation, decWorkToBeCompleted, strOtherWorkType,
             decRecordType, strOtherRecordType, strCreatedBy, strJob, strOrder, Date_Scheduled_From, Date_Scheduled_To, Date_Complete_From,
-            Date_Complete_To, CR_Approved_From, CR_Approved_To, decLocation_Code, workToBeCompletedBy, Task_Complete, _SortBy, _SortOrder, PageNumber, PageSize,
+            Date_Complete_To, CR_Approved_From, CR_Approved_To, decLocation_Code, workToBeCompletedBy, decFK_LU_Maintenance_Status, _SortBy, _SortOrder, PageNumber, PageSize,
             strReferenceNumber, decFK_LU_Approval_Submission);
         DataTable dtManagement = dsManagement.Tables[0];
 
@@ -227,6 +229,7 @@ public partial class Management_ManagementSearch : clsBasePage
         dtCriteria.Columns.Add("workToBeCompletedBy", typeof(bool));
         dtCriteria.Columns.Add("strReferenceNumber", typeof(string));
         dtCriteria.Columns.Add("decFK_LU_Approval_Submission", typeof(decimal));
+        dtCriteria.Columns.Add("decFK_LU_Maintenance_Status", typeof(decimal));
 
         DataRow drCriteria = dtCriteria.NewRow();
         //drCriteria["strCompany"] = strCompany;
@@ -265,6 +268,7 @@ public partial class Management_ManagementSearch : clsBasePage
 
         drCriteria["strReferenceNumber"] = strReferenceNumber;
         drCriteria["decFK_LU_Approval_Submission"] = decFK_LU_Approval_Submission;
+        drCriteria["decFK_LU_Maintenance_Status"] = decFK_LU_Maintenance_Status;
 
         dtCriteria.Rows.Add(drCriteria);
         Session["ManagementCriteria"] = dtCriteria;
@@ -309,6 +313,7 @@ public partial class Management_ManagementSearch : clsBasePage
 
         decimal? decWorkToBeCompleted = Convert.ToDecimal(drCriteria["decWorkToBeCompleted"]);
         decimal? decRecordType = Convert.ToDecimal(drCriteria["decRecordType"]);
+        decimal? decFk_LU_Maintenance_Status = Convert.ToDecimal(drCriteria["decFK_LU_Maintenance_Status"]);
         string strOtherWorkType = Convert.ToString(drCriteria["strOtherWorkType"]);
         string strOtherRecordType = Convert.ToString(drCriteria["strOtherRecordType"]);
         string strJob = Convert.ToString(drCriteria["strJob"]);
@@ -331,7 +336,7 @@ public partial class Management_ManagementSearch : clsBasePage
 
         DataSet dsManagement = ERIMS.DAL.clsManagement.ManagementSearch(decLocation, decWorkToBeCompleted, strOtherWorkType,
             decRecordType, strOtherRecordType, strCreatedBy, strJob, strOrder, Date_Scheduled_From, Date_Scheduled_To, Date_Complete_From, Date_Complete_To, CR_Approved_From,
-            CR_Approved_To, decLocation_Code, workToBeCompletedBy, Task_Complete, _SortBy, _SortOrder, PageNumber, PageSize, strReferenceNumber, decFK_LU_Approval_Submission);
+            CR_Approved_To, decLocation_Code, workToBeCompletedBy, decFk_LU_Maintenance_Status, _SortBy, _SortOrder, PageNumber, PageSize, strReferenceNumber, decFK_LU_Approval_Submission);
 
         // set values for paging control,so it shows values as needed.
         DataTable dtManagement = dsManagement.Tables[0];
@@ -574,7 +579,15 @@ public partial class Management_ManagementSearch : clsBasePage
             //objEdit.FK_Claim = PK_Claim_ID;
             //objEdit.FK_Security_ID = Convert.ToDecimal(clsSession.UserID);
             //objEdit.Insert();    
-            Response.Redirect("Management.aspx?id=" + Encryption.Encrypt(Convert.ToString(e.CommandArgument)) + "&mode=edit", true);
+            LinkButton lnk = (LinkButton)e.CommandSource;
+            if (lnk.ID.ToUpper() == "LNKREFERENCENO" && App_Access == AccessType.View_Only)
+            {
+                Response.Redirect("Management.aspx?id=" + Encryption.Encrypt(Convert.ToString(e.CommandArgument)) + "&mode=view", true);
+            }
+            else
+            {
+                Response.Redirect("Management.aspx?id=" + Encryption.Encrypt(Convert.ToString(e.CommandArgument)) + "&mode=edit", true);
+            }
         }
         else if (e.CommandName == "ViewManagement")
         {
@@ -600,8 +613,8 @@ public partial class Management_ManagementSearch : clsBasePage
     {
         _IsCriteria = false;
         //Set Soryby,Sortorder and Page size filed
-        _SortBy = "dba";
-        _SortOrder = "asc";
+        _SortBy = "Date_Entered";
+        _SortOrder = "desc";
         ctrlPageProperty.PageSize = 25;
 
         BindGrid(1, ctrlPageProperty.PageSize);
@@ -640,7 +653,7 @@ public partial class Management_ManagementSearch : clsBasePage
         pnlSearchResult.Visible = false;
         pnlSearchFilter.Visible = true;
         rdbWorkToBeCompletedBy.ClearSelection();
-        rdbTaskComplete.ClearSelection();
+        //rdbTaskComplete.ClearSelection();
 
         // Check User Rights
         btnAdd.Visible = App_Access == AccessType.Administrative_Access;
@@ -678,6 +691,7 @@ public partial class Management_ManagementSearch : clsBasePage
 
         //decimal? decState = Convert.ToDecimal(drCriteria["decState"]);
         decimal? decLocation = Convert.ToDecimal(drCriteria["decLocation"]);
+        decimal? decFK_LU_Maintenance_Status = Convert.ToDecimal(drCriteria["FK_LU_Maintenance_Status"]);
         //decimal? decRegion = Convert.ToDecimal(drCriteria["decRegion"]);
         //decimal? decCameraType = Convert.ToDecimal(drCriteria["decCameraType"]);
         //decimal? decCost = Convert.ToDecimal(drCriteria["decCost"]);
@@ -720,7 +734,7 @@ public partial class Management_ManagementSearch : clsBasePage
         // selects records depending on paging criteria and search values.
         DataSet dsManagement = ERIMS.DAL.clsManagement.ManagementSearch(decLocation, decWorkToBeCompleted, strOtherWorkType,
             decRecordType, strOtherRecordType, strCreatedBy, strJob, strOrder, Date_Scheduled_From, Date_Scheduled_To, Date_Complete_From, Date_Complete_To, CR_Approved_From,
-            CR_Approved_To, decLocation_Code, workToBeCompletedBy, Task_Complete, _SortBy, _SortOrder, 1, ctrlPageProperty.TotalRecords, strReferenceNumber, decFK_LU_Approval_Submission);
+            CR_Approved_To, decLocation_Code, workToBeCompletedBy, decFK_LU_Maintenance_Status, _SortBy, _SortOrder, 1, ctrlPageProperty.TotalRecords, strReferenceNumber, decFK_LU_Approval_Submission);
 
         DataTable dtManagement = dsManagement.Tables[0];
         ExportToSpreadsheet(dtManagement, "ManagementSearch.xls");

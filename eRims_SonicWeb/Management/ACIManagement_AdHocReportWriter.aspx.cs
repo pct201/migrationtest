@@ -1529,7 +1529,14 @@ public partial class Management_ACIManagement_AdHocReportWriter : clsBasePage
                         } 
                         #endregion
                     }
-
+                    else if(lstAdHoc[0].Field_Header.ToUpper() == "RPM APPROVAL")
+                    {
+                        ComboHelper.FillTaskComplete(new ListBox[] { lst_F }, false);
+                    }
+                    else if (lstAdHoc[0].Field_Header.ToUpper() == "STATUS")
+                    {
+                        ComboHelper.FillMaintenanceStatusList(new ListBox[] { lst_F }, false);
+                    }
                     else
                     {
                         AdHocReportHelper.FillFilterDropDown(lstAdHoc[0].Field_Header, new ListBox[] { lst_F }, false, GetSelectedCoverage());
@@ -4916,6 +4923,14 @@ public partial class Management_ACIManagement_AdHocReportWriter : clsBasePage
                 lst_F.Items.Add((ListItem)liItem[i]);
             }
             #endregion
+        }
+        else if (Field_Header.ToUpper() == "RPM APPROVAL")
+        {
+            ComboHelper.FillTaskComplete(new ListBox[] { lst_F }, false);
+        }
+        else if (Field_Header.ToUpper() == "STATUS")
+        {
+            ComboHelper.FillMaintenanceStatusList(new ListBox[] {lst_F},false);
         }
         else
         {

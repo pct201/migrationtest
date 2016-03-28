@@ -6,11 +6,11 @@
 <%@ Register Src="~/Controls/ManagementTab/ManagementTab.ascx" TagName="ctrlManagementTab"
     TagPrefix="uc" %>
 <%@ Register Src="~/Controls/Attachment_Event/AttachmentEvent.ascx" TagName="Attachment" TagPrefix="uc" %>
-<%@ register src="~/Controls/Navigation/Navigation.ascx" tagname="ctrlPaging" tagprefix="uc" %>
+<%@ Register Src="~/Controls/Navigation/Navigation.ascx" TagName="ctrlPaging" TagPrefix="uc" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-     <script language="javascript" type="text/javascript">
-         var GB_ROOT_DIR = '<%=AppConfig.SiteURL%>' + 'greybox/';
+    <script language="javascript" type="text/javascript">
+        var GB_ROOT_DIR = '<%=AppConfig.SiteURL%>' + 'greybox/';
     </script>
     <script type="text/javascript" src="<%=AppConfig.SiteURL%>JavaScript/JFunctions.js"></script>
     <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/Calendar_new.js"></script>
@@ -21,6 +21,42 @@
     <script type="text/javascript" language="javascript" src="../JavaScript/jquery-1.5.min.js"></script>
     <script type="text/javascript" language="javascript" src="../JavaScript/jquery.maskedinput.js"></script>
     <script type="text/javascript">
+
+        $(function () {
+            $("#<%= drpFK_Work_Completed.ClientID %>").change(function () {
+                var selected = ($('#<%= drpFK_Work_Completed.ClientID %> option:selected').text());
+                if(selected.indexOf("Add New Equipment") > -1)
+                {
+                    $('#<%= trRPMApproval.ClientID%>').show();
+                    if($('#<%= rdbRPMApproval.ClientID %> tr td input')[0].checked)
+                    {
+                        $('#<%= drpFK_LU_Approval_Submission.ClientID %> option:contains("Yes")').attr('selected','selected');    
+                    }
+                }
+                else{
+                    $('#<%= trRPMApproval.ClientID%>').hide();
+                    $('#<%= drpFK_LU_Approval_Submission.ClientID %> option:contains("No")').attr('selected','selected');
+                }
+            });
+
+            $('#<%= rdbRPMApproval.ClientID %> tr td input').click(function(){
+                var val = $(this).val();
+
+                if(val == "1")
+                {
+                    $($('#<%= rdoGM_Decision.ClientID%> tr td input')[0]).attr('checked','checked').trigger('click');
+                    $($('#<%= rdoRLCM_Decision.ClientID%> tr td input')[0]).attr('checked','checked').trigger('click');
+                    $($('#<%= rdoNAPM_Decision.ClientID%> tr td input')[0]).attr('checked','checked').trigger('click');
+                    $($('#<%= rdoDRM_Decision.ClientID%> tr td input')[0]).attr('checked','checked').trigger('click');
+                }
+                else{
+                    $($('#<%= rdoGM_Decision.ClientID%> tr td input')[1]).attr('checked','checked').trigger('click');
+                    $($('#<%= rdoRLCM_Decision.ClientID%> tr td input')[1]).attr('checked','checked').trigger('click');
+                    $($('#<%= rdoNAPM_Decision.ClientID%> tr td input')[1]).attr('checked','checked').trigger('click');
+                    $($('#<%= rdoDRM_Decision.ClientID%> tr td input')[1]).attr('checked','checked').trigger('click');
+                }
+            });
+        });
 
         function ConfirmDelete() {
             return confirm("Are you sure that you want to delete the selected information and all of its subordinate data (if exists)?");
@@ -121,7 +157,14 @@
 
         function onNextStep() {
 
-            ActiveTabIndex = ActiveTabIndex + 1;
+            var rowVisibility = $('#ctl00_ContentPlaceHolder1_trApprovals').css("display");
+            if(rowVisibility.toLowerCase() == "none" && ActiveTabIndex == 1)
+            {
+                ActiveTabIndex = ActiveTabIndex + 2;
+            }
+            else{
+                ActiveTabIndex = ActiveTabIndex + 1;
+            }
             document.getElementById('<%= hdnPanel.ClientID %>').value = ActiveTabIndex;
             ShowPanel(ActiveTabIndex);
             return false;
@@ -130,7 +173,14 @@
 
         function onPreviousStep() {
 
-            ActiveTabIndex = ActiveTabIndex - 1;
+            var rowVisibility = $('#ctl00_ContentPlaceHolder1_trApprovals').css("display");
+            if(rowVisibility.toLowerCase() == "none"  && ActiveTabIndex == 3)
+            {
+                ActiveTabIndex = ActiveTabIndex - 2;
+            }
+            else{
+                ActiveTabIndex = ActiveTabIndex - 1;
+            }
             document.getElementById('<%= hdnPanel.ClientID %>').value = ActiveTabIndex;
             ShowPanel(ActiveTabIndex);
             return false;
@@ -139,8 +189,8 @@
 
         function OpenWizardPopup(ManagementId, num) {
             document.getElementById('<%=hdnApprovalVal.ClientID %>').value = num;
-             document.getElementById('<%=hdnEmailList.ClientID %>').value = '';
-             document.getElementById('<%=hdnEmailDate.ClientID %>').value = '';
+            document.getElementById('<%=hdnEmailList.ClientID %>').value = '';
+            document.getElementById('<%=hdnEmailDate.ClientID %>').value = '';
             GB_showCenter('', '<%=AppConfig.SiteURL%>Management/EmailAttachment.aspx?ManagementId=' + ManagementId + '&Tbl=Management', 500, 950, ReturnFunction);
         }
         var CheckChangeVal = false;
@@ -205,6 +255,18 @@
 
         function SetApprovalSubmissionOnSaveButton() {
             if (Page_ClientValidate('vsErrorGroup')) {
+
+                var selectedWork = $('#ctl00_ContentPlaceHolder1_drpFK_Work_Completed option:selected').text().trim().toLowerCase();
+
+                if(selectedWork.indexOf("repair equipment") > -1)
+                {
+                    if($('#ctl00_ContentPlaceHolder1_chkNoApprovalNeeded').attr('checked') == false && $('#ctl00_ContentPlaceHolder1_chkApprovalNeeded').attr('checked') == false)
+                    {
+                        alert("Either No approval needed and Approval needed checkbox needs to be cheched");
+                        return false;
+                    }
+                }
+
                 var drpLU_Approval_Submission = document.getElementById('<%=drpFK_LU_Approval_Submission.ClientID %>');
                 var hdnApprovalSubmission = document.getElementById('<%=hdnApprovalSubmission.ClientID %>');
                 //alert(drpLU_Approval_Submission.value);
@@ -212,6 +274,12 @@
                     SetApprovalSubmission();
                 else
                     hdnApprovalSubmission.value = drpLU_Approval_Submission.value;
+
+                var btn = document.getElementById('<%= btnSave.ClientID %>');
+                btn.value = "Saving...";
+                btn.disabled = true;
+                $('#<%=txtService_Repair_Cost.ClientID %>').removeAttr('disabled');
+                return true;
             }
             else
                 return false;
@@ -219,13 +287,13 @@
 
         function SetApprovalSubmission() {
 
-                //set approval submission dropdown and "CR approved" date #Issue 3402 point 1-d,e
-                var rdoGMStatus = document.getElementById('<%=rdoGM_Decision.ClientID %>');
-                var rdoRLCMStatus = document.getElementById('<%=rdoRLCM_Decision.ClientID %>');
-                var rdoNAPMStatus = document.getElementById('<%=rdoNAPM_Decision.ClientID %>');
-                var rdoDRMStatus = document.getElementById('<%=rdoDRM_Decision.ClientID %>');
-                var drpLU_Approval_Submission = document.getElementById('<%=drpFK_LU_Approval_Submission.ClientID %>');
-                var hdnApprovalSubmission = document.getElementById('<%=hdnApprovalSubmission.ClientID %>');
+            //set approval submission dropdown and "CR approved" date #Issue 3402 point 1-d,e
+            var rdoGMStatus = document.getElementById('<%=rdoGM_Decision.ClientID %>');
+            var rdoRLCMStatus = document.getElementById('<%=rdoRLCM_Decision.ClientID %>');
+            var rdoNAPMStatus = document.getElementById('<%=rdoNAPM_Decision.ClientID %>');
+            var rdoDRMStatus = document.getElementById('<%=rdoDRM_Decision.ClientID %>');
+            var drpLU_Approval_Submission = document.getElementById('<%=drpFK_LU_Approval_Submission.ClientID %>');
+            var hdnApprovalSubmission = document.getElementById('<%=hdnApprovalSubmission.ClientID %>');
 
             for (var i = 0; i < rdoGMStatus.rows.length; ++i) {//all radio button have same value
                 //alert(rdoGMStatus.rows[i].cells[0].firstChild.value + '  and  ' + rdoGMStatus.rows[i].cells[1].firstChild.value);
@@ -268,6 +336,29 @@
             }
            
         }
+
+        function ClearReponseDateControls(btn){
+            switch(btn)
+            {
+                case "GM":
+                    $('#<%= rdoGM_Decision.ClientID %> input:checked').removeAttr('checked');
+                    $('#<%= txtGM_Response_Date.ClientID %>').val('');
+                    break;
+                case "RLCM":
+                    $('#<%= rdoRLCM_Decision.ClientID %> input:checked').removeAttr('checked');
+                    $('#<%= txtRLCM_Response_Date.ClientID %>').val('');
+                    break;
+                case "NAPM":
+                    $('#<%= rdoNAPM_Decision.ClientID %> input:checked').removeAttr('checked');
+                    $('#<%= txtNAPM_Response_Date.ClientID %>').val('');
+                    break;
+                case "DRM":
+                    $('#<%= rdoDRM_Decision.ClientID %> input:checked').removeAttr('checked');
+                    $('#<%= txtDRM_Response_Date.ClientID %>').val('');
+                    break;
+            }
+        }
+
         function checkLengthSonic() {
             var oObject = document.getElementById('ctl00_ContentPlaceHolder1_txtManagement_Notes_txtNote')
             if (oObject.value.length < 50) {
@@ -356,8 +447,8 @@
             var winWidth = 750;
             var EventId = <%=ViewState["PK_Management"]%>;            
             obj = window.open("Management_Note.aspx?viewIDs=" +  NoteId + "&id=" + '<%=ViewState["PK_Management"]%>' + "&type=" + type, 'AuditPopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',resizable=yes,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
-              obj.focus();
-              return false;
+            obj.focus();
+            return false;
         }
 
         function SonicNotePopup(NoteId, type) {            
@@ -370,13 +461,13 @@
 
         function CheckManagement() {
             var values = '<%=ViewState["PK_Management"]%>';
-                    if (values == '' || values == '0') {
-                        alert('Please Save Management Record First');
-                        return false;
-                    }
-                    else {
-                        return true;
-                    }
+            if (values == '' || values == '0') {
+                alert('Please Save Management Record First');
+                return false;
+            }
+            else {
+                return true;
+            }
         }
 
         function SelectDeselectAllACINotesView(bChecked) {
@@ -474,8 +565,7 @@
     <div style="width: 100%" id="contmain">
         <table border="0" cellpadding="0" cellspacing="0" width="100%">
             <tr>
-                <td>
-                    &nbsp;
+                <td>&nbsp;
                 </td>
             </tr>
             <tr>
@@ -500,8 +590,7 @@
                                         <td class="leftMenu">
                                             <table cellpadding="5" cellspacing="0" width="180px">
                                                 <tr>
-                                                    <td style="height: 10px;" class="Spacer">
-                                                    </td>
+                                                    <td style="height: 10px;" class="Spacer"></td>
                                                 </tr>
                                                 <tr>
                                                     <td align="left" width="100%">
@@ -509,7 +598,7 @@
                                                         <span id="MenuAsterisk1" runat="server" style="color: Red; display: none;">*</span>
                                                     </td>
                                                 </tr>
-                                                <tr>
+                                                <tr id="trApprovals" runat="server">
                                                     <td align="left" width="100%">
                                                         <span id="Menu2" onclick="javascript:ShowPanel(2);" class="LeftMenuStatic">Approvals</span>
                                                         <span id="MenuAsterisk2" runat="server" style="color: Red; display: none;">*</span>
@@ -521,20 +610,18 @@
                                                         <span id="MenuAsterisk3" runat="server" style="color: Red; display: none;">*</span>
                                                     </td>
                                                 </tr>
-                                                 <tr>
+                                                <tr>
                                                     <td align="left" width="100%">
                                                         <span id="Menu4" onclick="javascript:ShowPanel(4);" class="LeftMenuStatic">Attachment</span>
                                                         <span id="MenuAsterisk4" runat="server" style="color: Red; display: none;">*</span>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="height: 10px;" class="Spacer">
-                                                    </td>
+                                                    <td style="height: 10px;" class="Spacer"></td>
                                                 </tr>
                                             </table>
                                         </td>
-                                        <td style="width: 5px;" class="Spacer">
-                                            &nbsp;
+                                        <td style="width: 5px;" class="Spacer">&nbsp;
                                         </td>
                                         <td valign="top" width="100%" class="dvContainer">
                                             <div id="dvEdit" runat="server">
@@ -544,10 +631,9 @@
                                                     </div>
                                                     <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                         <tr>
-                                                            <td style="height: 5px" colspan="6">
-                                                            </td>
+                                                            <td style="height: 5px" colspan="6"></td>
                                                         </tr>
-                                                           <tr>
+                                                        <tr>
                                                             <td align="left" width="18%" valign="top">Reference Number
                                                             </td>
                                                             <td align="center" width="4%" valign="top">:
@@ -575,11 +661,9 @@
                                                             <asp:RequiredFieldValidator ID="rfvtxtCompany" runat="server" ControlToValidate="txtCompany"
                                                                 ErrorMessage="Please Enter Company" Display="None" SetFocusOnError="true" ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
                                                         </td>--%>
-                                                            <td align="left" width="18%" valign="top">
-                                                                DBA<span class="mf">*</span>
+                                                            <td align="left" width="18%" valign="top">DBA<span class="mf">*</span>
                                                             </td>
-                                                            <td align="center" width="4%" valign="top">
-                                                                :
+                                                            <td align="center" width="4%" valign="top">:
                                                             </td>
                                                             <td align="left" width="28%" valign="top">
                                                                 <asp:DropDownList ID="drpLocation" runat="server" Width="170px" SkinID="dropGen"
@@ -589,11 +673,9 @@
                                                                     InitialValue="0" ErrorMessage="Please Select DBA" Display="None" SetFocusOnError="true"
                                                                     ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
                                                             </td>
-                                                            <td align="left" width="18%" valign="top">
-                                                                Location Code
+                                                            <td align="left" width="18%" valign="top">Location Code
                                                             </td>
-                                                            <td align="center" width="4%" valign="top">
-                                                                :
+                                                            <td align="center" width="4%" valign="top">:
                                                             </td>
                                                             <td align="left" width="28%" valign="top">
                                                                 <asp:UpdatePanel ID="upnlCode" runat="server">
@@ -686,16 +768,14 @@
                                                         </td>
                                                     </tr>--%>
                                                         <tr>
-                                                            <td align="left" valign="top">
-                                                                Date Scheduled
+                                                            <td align="left" valign="top">Date Scheduled
                                                             </td>
-                                                            <td align="center" valign="top">
-                                                                :
+                                                            <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
-                                                                <asp:TextBox ID="txtdate_Scheduled" runat="server" SkinID="txtDate" Enabled="false"/>
+                                                                <asp:TextBox ID="txtdate_Scheduled" runat="server" SkinID="txtDate" Enabled="false" />
                                                                 <asp:TextBox ID="txtCurrentDate" runat="server" Width="180px" MaxLength="10" Style="display: none;"></asp:TextBox>
-                                                              <%--  <img alt="Scheduled Date" onclick="return showCalendar('<%= txtdate_Scheduled.ClientID %>', 'mm/dd/y');"
+                                                                <%--  <img alt="Scheduled Date" onclick="return showCalendar('<%= txtdate_Scheduled.ClientID %>', 'mm/dd/y');"
                                                                     onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
                                                                     align="middle" />--%>
                                                                 <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ValidationGroup="vsErrorGroup"
@@ -705,11 +785,9 @@
                                                                     Display="none" ValidationGroup="vsErrorGroup" SetFocusOnError="true" ControlToCompare="txtCurrentDate"
                                                                     ControlToValidate="txtdate_Scheduled" Type="Date" Operator="GreaterThanEqual"></asp:CompareValidator>--%>
                                                             </td>
-                                                            <td align="left" valign="top">
-                                                                Date Completed
+                                                            <td align="left" valign="top">Date Completed
                                                             </td>
-                                                            <td align="center" valign="top">
-                                                                :
+                                                            <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
                                                                 <asp:TextBox ID="txtDate_Completed" runat="server" SkinID="txtDate" />
@@ -725,32 +803,29 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td align="left" valign="top">
-                                                                Work To Be Completed
+                                                            <td align="left" valign="top">Work To Be Completed<span class="mf">*</span>
                                                             </td>
-                                                            <td align="center" valign="top">
-                                                                :
+                                                            <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
                                                                 <asp:DropDownList ID="drpFK_Work_Completed" runat="server" Width="175px" SkinID="dropGen">
                                                                 </asp:DropDownList>
+                                                                <asp:RequiredFieldValidator ID="rfvFK_Work_Completed" runat="server" ControlToValidate="drpFK_Work_Completed"
+                                                                    InitialValue="0" ErrorMessage="Please Select Work to be Completed" Display="None" SetFocusOnError="true"
+                                                                    ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
                                                             </td>
-                                                            <td align="left" valign="top">
-                                                                Other
+                                                            <td align="left" valign="top">Other
                                                             </td>
-                                                            <td align="center" valign="top">
-                                                                :
+                                                            <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
                                                                 <asp:TextBox ID="txtWork_To_Complete_Other" MaxLength="50" runat="server" Width="170px"></asp:TextBox>
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td align="left" valign="top">
-                                                                Work To Be Completed By
+                                                            <td align="left" valign="top">Work To Be Completed By
                                                             </td>
-                                                            <td align="center" valign="top">
-                                                                :
+                                                            <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
                                                                 <asp:RadioButtonList ID="rdoWork_Completed_By" runat="server">
@@ -758,30 +833,43 @@
                                                                     <asp:ListItem Text="Sonic" Value="0"></asp:ListItem>
                                                                 </asp:RadioButtonList>
                                                             </td>
-                                                            <td align="left" valign="top">
-                                                                Task Complete?
+                                                            <td align="left" valign="top">Status
                                                             </td>
-                                                            <td align="center" valign="top">
-                                                                :
+                                                            <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
-                                                                <asp:RadioButtonList ID="rblTask_Complete" runat="server">
+                                                                <%--<asp:RadioButtonList ID="rblTask_Complete" runat="server">
                                                                     <asp:ListItem Text="Yes" Value="1"></asp:ListItem>
                                                                     <asp:ListItem Text="No" Value="0" Selected="True"></asp:ListItem>
-                                                                </asp:RadioButtonList>
+                                                                </asp:RadioButtonList>--%>
+                                                                <asp:DropDownList runat="server" ID="drpMaintenanceStatus"></asp:DropDownList>
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td>
-                                                                Service/Repair Cost
+                                                            <td align="left" valign="top">No Approval Needed<br />
+                                                                (Repair Est. Under $1000)</td>
+                                                            <td align="center" valign="top">:
                                                             </td>
-                                                            <td>
-                                                                :
+                                                            <td align="left" valign="top">
+                                                                <asp:CheckBox runat="server" ID="chkNoApprovalNeeded" AutoPostBack="true" OnCheckedChanged="chkNoApprovalNeeded_CheckedChanged" />
+                                                            </td>
+                                                            <td align="left" valign="top">Approval Needed<br />
+                                                                (Repair Est. Exceed $1000)</td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:CheckBox runat="server" ID="chkApprovalNeeded" AutoPostBack="true" OnCheckedChanged="chkApprovalNeeded_CheckedChanged" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Total Repair Cost
+                                                            </td>
+                                                            <td>:
                                                             </td>
                                                             <td>
                                                                 <%--$<asp:TextBox ID="txtService_Repair_Cost" runat="server" MaxLength="10" onKeyPress="return(currencyFormat_New(this,',','.',10,event))"
                                                                     OnBlur="CheckNumericVal(this,20);" Width="170px" AutoComplete="off"></asp:TextBox>--%>
-                                                                $<asp:TextBox ID="txtService_Repair_Cost" runat="server" onkeypress="javascript:return FormatNumber(event,this.id,12,false,true);"  onpaste="return false;"
+                                                                $<asp:TextBox ID="txtService_Repair_Cost" runat="server" onkeypress="javascript:return FormatNumber(event,this.id,12,false,true);" onpaste="return false;"
                                                                     OnBlur="CheckNumericVal(this,20);" Width="170px" AutoComplete="off" Enabled="false"></asp:TextBox>
                                                             </td>
                                                             <td align="left" valign="top">Approval Submission
@@ -789,27 +877,24 @@
                                                             <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
-                                                                <asp:DropDownList ID="drpFK_LU_Approval_Submission" Enabled="false" runat="server" Width="175px" SkinID="dropGen" ><%--onchange="SetCRApprovedDate(this.options[this.selectedIndex].text);"--%>
+                                                                <asp:DropDownList ID="drpFK_LU_Approval_Submission" Enabled="false" runat="server" Width="175px" SkinID="dropGen">
+                                                                    <%--onchange="SetCRApprovedDate(this.options[this.selectedIndex].text);"--%>
                                                                 </asp:DropDownList>
                                                             </td>
-                                                           
+
                                                         </tr>
                                                         <tr>
-                                                            <td align="left" valign="top">
-                                                                Record Type
+                                                            <td align="left" valign="top">Record Type
                                                             </td>
-                                                            <td align="center" valign="top">
-                                                                :
+                                                            <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
                                                                 <asp:DropDownList ID="drpFK_Record_Type" runat="server" Width="175px" SkinID="dropGen">
                                                                 </asp:DropDownList>
                                                             </td>
-                                                             <td align="left" valign="top">
-                                                                CR Approved
+                                                            <td align="left" valign="top">CR Approved
                                                             </td>
-                                                            <td align="center" valign="top">
-                                                                :
+                                                            <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
                                                                 <asp:TextBox ID="txtCR_Approved" runat="server" SkinID="txtDate" onkeydown="javascript:return disableDeleteBackSpace();" CssClass="disbled" onpaste="return false;" />
@@ -823,41 +908,43 @@
                                                                     Display="none" ValidationGroup="vsErrorGroup" SetFocusOnError="true" ControlToCompare="txtCurrentDate"
                                                                     ControlToValidate="txtCR_Approved" Type="Date" Operator="LessThanEqual"></asp:CompareValidator>
                                                             </td>
-                                                           
+
                                                         </tr>
                                                         <tr>
-                                                            <td align="left" valign="top">
-                                                                Job #
+                                                            <td align="left" valign="top">Job #
                                                             </td>
-                                                            <td align="center" valign="top">
-                                                                :
+                                                            <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
                                                                 <asp:TextBox ID="txtJob" MaxLength="50" runat="server" Width="170px" Enabled="false"></asp:TextBox>
                                                             </td>
-                                                             <td align="left" valign="top">
-                                                                Other
+                                                            <td align="left" valign="top">Order Date
                                                             </td>
-                                                            <td align="center" valign="top">
-                                                                :
+                                                            <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
-                                                                <asp:TextBox ID="txtRecord_Type_Other" MaxLength="30" runat="server" Width="170px"></asp:TextBox>
-                                                            </td>
-                                                            
-                                                        </tr>
-                                                        <tr>
-                                                            <td align="left" valign="top">
-                                                                Order Date
-                                                            </td>
-                                                            <td align="center" valign="top">
-                                                                :
-                                                            </td>
-                                                            <td align="left" valign="top">
-                                                                <asp:TextBox ID="txtOrderDate" runat="server" SkinID="txtDate" Enabled="false"/>
-                                                               <%-- <img alt="Order Date" onclick="return showCalendar('<%= txtOrderDate.ClientID %>', 'mm/dd/y');"
+                                                                <asp:TextBox ID="txtOrderDate" runat="server" SkinID="txtDate" Enabled="false" />
+                                                                <%-- <img alt="Order Date" onclick="return showCalendar('<%= txtOrderDate.ClientID %>', 'mm/dd/y');"
                                                                     onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
                                                                     align="middle" />--%>
+                                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator4" runat="server" ValidationGroup="vsErrorGroup"
+                                                                    Display="none" ErrorMessage="Order Date is not a valid date" SetFocusOnError="true"
+                                                                    ControlToValidate="txtOrderDate" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
+                                                                <asp:CompareValidator ID="CompareValidator1" runat="server" ErrorMessage="Order Date should be less than or equal to current date"
+                                                                    Display="none" ValidationGroup="vsErrorGroup" SetFocusOnError="true" ControlToCompare="txtCurrentDate"
+                                                                    ControlToValidate="txtOrderDate" Type="Date" Operator="LessThanEqual"></asp:CompareValidator>
+                                                            </td>
+                                                        </tr>
+                                                        <%--<tr>
+                                                            <td align="left" valign="top">Order Date
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:TextBox ID="txtOrderDate" runat="server" SkinID="txtDate" Enabled="false" />
+                                                                <%-- <img alt="Order Date" onclick="return showCalendar('<%= txtOrderDate.ClientID %>', 'mm/dd/y');"
+                                                                    onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
+                                                                    align="middle" />
                                                                 <asp:RegularExpressionValidator ID="rgvtxtOrderDate" runat="server" ValidationGroup="vsErrorGroup"
                                                                     Display="none" ErrorMessage="Order Date is not a valid date" SetFocusOnError="true"
                                                                     ControlToValidate="txtOrderDate" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
@@ -865,16 +952,14 @@
                                                                     Display="none" ValidationGroup="vsErrorGroup" SetFocusOnError="true" ControlToCompare="txtCurrentDate"
                                                                     ControlToValidate="txtOrderDate" Type="Date" Operator="LessThanEqual"></asp:CompareValidator>
                                                             </td>
-                                                            <td align="left" valign="top">
-                                                                Order #
+                                                            <td align="left" valign="top">Order #
                                                             </td>
-                                                            <td align="center" valign="top">
-                                                                :
+                                                            <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
                                                                 <asp:TextBox ID="txtOrder" MaxLength="50" runat="server" Width="170px" Enabled="false"></asp:TextBox>
                                                             </td>
-                                                        </tr>
+                                                        </tr>--%>
                                                         <%--<tr>
                                                         <td align="left" valign="top">Sonic Task
                                                         </td>
@@ -900,45 +985,44 @@
                                                         </td>
                                                     </tr>--%>
                                                         <tr>
-                                                            <td align="left" valign="top">
-                                                                Requested By
+                                                            <td align="left" valign="top">Requested By<span class="mf">*</span>
                                                             </td>
-                                                            <td align="center" valign="top">
-                                                                :
+                                                            <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
                                                                 <asp:TextBox ID="txtRequestedBy" MaxLength="50" runat="server" Width="170px"></asp:TextBox>
+                                                                <asp:RequiredFieldValidator ID="rfvRequestedBy" runat="server" ControlToValidate="txtRequestedBy"
+                                                                    InitialValue="" ErrorMessage="Please Enter Request By" Display="None" SetFocusOnError="true"
+                                                                    ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
                                                             </td>
-                                                            <td align="left" valign="top">
-                                                                Created By
+                                                            <td align="left" valign="top">Created By<span class="mf">*</span>
                                                             </td>
-                                                            <td align="center" valign="top">
-                                                                :
+                                                            <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
                                                                 <asp:TextBox ID="txtCreatedBy" MaxLength="50" runat="server" Width="170px"></asp:TextBox>
+                                                                
+                                                                <asp:RequiredFieldValidator ID="rfvCreatedBy" runat="server" ControlToValidate="txtCreatedBy"
+                                                                    InitialValue="" ErrorMessage="Please Enter Created By" Display="None" SetFocusOnError="true"
+                                                                    ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td align="left" valign="top">
-                                                                Previous Contract Amount
+                                                            <td align="left" valign="top"><label runat="server" id="lblOriginalService" style="display:none"> Original Service Estimate<span class="mf" id="spOriginalService" runat="server"  style="display:none">*</span></label>
                                                             </td>
-                                                            <td align="center" valign="top">
-                                                                :
+                                                            <td align="center" valign="top"><label runat="server" id="lblOriginalServiceCol" style="display:none">:</label> 
                                                             </td>
-                                                            <td align="left" valign="top">
-                                                                $<asp:TextBox ID="txtPreviousContractAmount" autocomplete="off" onpaste="return false;" OnBlur="CheckNumericVal(this,20);" 
-                                                                    runat="server" Width="165px" onkeypress="javascript:return FormatNumber(event,this.id,12,false,true);" Enabled="false"/>
+                                                            <td align="left" valign="top"><label runat="server" id="lblOriginalServiceDollar" style="display:none">$</label> 
+                                                                <asp:TextBox ID="txtPreviousContractAmount" autocomplete="off" onpaste="return false;" OnBlur="CheckNumericVal(this,20);" Visible="false"
+                                                                runat="server" Width="165px" onkeypress="javascript:return FormatNumber(event,this.id,12,false,true);" Enabled="false" />
                                                             </td>
-                                                            <td align="left" valign="top">
-                                                                Revised Contract Amount
+                                                            <td align="left" valign="top"><label runat="server" id="lblRepairEstimate" style="display:none"> Repair and Estimate Amount<span class="mf" id="spRepairEstimate" runat="server" style="display:none">*</span></label>
                                                             </td>
-                                                            <td align="center" valign="top">
-                                                                :
+                                                            <td align="center" valign="top"><label runat="server" id="lblRepairEstimateCol" style="display:none">:</label> 
                                                             </td>
-                                                            <td align="left" valign="top">
-                                                                $<asp:TextBox ID="txtRevisedContractAmount" autocomplete="off" onpaste="return false;"  OnBlur="CheckNumericVal(this,20);" 
-                                                                    runat="server" Width="165px" onkeypress="javascript:return FormatNumber(event,this.id,12,false,true);" Enabled="false"/>
+                                                            <td align="left" valign="top"><label runat="server" id="lblRepairEstimateDollar" style="display:none">$</label> 
+                                                                <asp:TextBox ID="txtRevisedContractAmount" autocomplete="off" onpaste="return false;" OnBlur="CheckNumericVal(this,20);"  Visible="false"
+                                                                runat="server" Width="165px" onkeypress="javascript:return FormatNumber(event,this.id,12,false,true);" Enabled="false" />
                                                             </td>
                                                         </tr>
                                                         <%--  <tr>
@@ -961,11 +1045,9 @@
                                                         </td>
                                                     </tr>--%>
                                                         <tr>
-                                                            <td align="left" valign="top">
-                                                                Reason for Request<span class="mf">*</span>
+                                                            <td align="left" valign="top">Reason for Request<span class="mf">*</span>
                                                             </td>
-                                                            <td align="center" valign="top">
-                                                                :
+                                                            <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top" colspan="4">
                                                                 <uc:ctrlMultiLineTextBox ID="ctrlReason_Request" runat="server" IsRequired="true"
@@ -973,11 +1055,9 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td align="left" valign="top">
-                                                                Recommendation<span class="mf">*</span>
+                                                            <td align="left" valign="top">Recommendation<span class="mf">*</span>
                                                             </td>
-                                                            <td align="center" valign="top">
-                                                                :
+                                                            <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top" colspan="4">
                                                                 <uc:ctrlMultiLineTextBox ID="ctrlRecommendation" runat="server" IsRequired="true"
@@ -985,8 +1065,7 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td colspan="6">
-                                                                &nbsp;
+                                                            <td colspan="6">&nbsp;
                                                             </td>
                                                         </tr>
                                                         <tr runat="server" id="trManagementNotes" style="display: none;">
@@ -996,26 +1075,21 @@
                                                                         <td align="left" valign="top">
                                                                             <b>Management Notes Grid </b>
                                                                         </td>
-                                                                        <td align="center" valign="top" colspan="5">
-                                                                            &nbsp;
+                                                                        <td align="center" valign="top" colspan="5">&nbsp;
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td align="left" valign="top" width="19%">
-                                                                            Note
+                                                                        <td align="left" valign="top" width="19%">Note
                                                                         </td>
-                                                                        <td align="center" valign="top" width="2%">
-                                                                            :
+                                                                        <td align="center" valign="top" width="2%">:
                                                                         </td>
                                                                         <td align="left" valign="top" style="padding-left: 5px;">
                                                                             <uc:ctrlMultiLineTextBox ID="txtManagement_Notes" runat="server" />
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td align="left">
-                                                                        </td>
-                                                                        <td align="center">
-                                                                        </td>
+                                                                        <td align="left"></td>
+                                                                        <td align="center"></td>
                                                                         <td align="left" colspan="4">
                                                                             <asp:Button ID="btnManagementNotesAdd" OnClick="btnManagementNotesAdd_Click" runat="server"
                                                                                 ValidationGroup="vsErrorGroup" OnClientClick="javascript:return checkLengthSonic();"
@@ -1028,19 +1102,16 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td colspan="6">
-                                                                &nbsp;
+                                                            <td colspan="6">&nbsp;
                                                             </td>
                                                         </tr>
                                                         <tr runat="server" id="trManagementNotesGrid">
                                                             <td colspan="6">
                                                                 <table width="100%">
                                                                     <tr>
-                                                                        <td align="left" valign="top" width="17%">
-                                                                            Management Notes Grid
+                                                                        <td align="left" valign="top" width="17%">Management Notes Grid
                                                                         </td>
-                                                                        <td align="center" valign="top" width="5%">
-                                                                            :
+                                                                        <td align="center" valign="top" width="5%">:
                                                                         </td>
                                                                         <td align="left" valign="top" colspan="4">
                                                                             <uc:ctrlPaging ID="ctrlPageSonicNotes" runat="server" OnGetPage="GetManagementPage" RecordPerPage="true" />
@@ -1048,13 +1119,11 @@
                                                                     </tr>
                                                                     <tr>
                                                                         <td colspan="6">
-                                                                            <div runat="server" id="dvManagementNotes" style="width: 99%; overflow-y: scroll;
-                                                                                border: solid 1px #000000;">
+                                                                            <div runat="server" id="dvManagementNotes" style="width: 99%; overflow-y: scroll; border: solid 1px #000000;">
                                                                                 <asp:GridView ID="gvManagement_Notes" runat="server" Width="97%" AutoGenerateColumns="false"
                                                                                     OnSorting="gvManagement_Notes_Sorting" EnableViewState="true" AllowPaging="false"
                                                                                     OnRowCommand="gvManagement_Notes_RowCommand" AllowSorting="true" OnRowDataBound="gvManagement_Notes_RowDataBound"
-                                                                                    OnPageIndexChanging="gvManagement_Notes_PageIndexChanging" Style="word-wrap: normal;
-                                                                                    word-break: break-all;">
+                                                                                    OnPageIndexChanging="gvManagement_Notes_PageIndexChanging" Style="word-wrap: normal; word-break: break-all;">
                                                                                     <Columns>
                                                                                         <asp:TemplateField ItemStyle-VerticalAlign="Top" ItemStyle-Width="12%">
                                                                                             <HeaderTemplate>
@@ -1082,15 +1151,15 @@
                                                                                         <asp:TemplateField HeaderText="Notes">
                                                                                             <ItemStyle Width="45%" />
                                                                                             <ItemTemplate>
-                                                                                                <asp:Label ID="lbtNotes" runat="server" Text='<%# Eval("Note") %>' Style="word-wrap: normal;
-                                                                                                    word-break: break-all;" Width="310px" CssClass="TextClip"></asp:Label>
+                                                                                                <asp:Label ID="lbtNotes" runat="server" Text='<%# Eval("Note") %>' Style="word-wrap: normal; word-break: break-all;"
+                                                                                                    Width="310px" CssClass="TextClip"></asp:Label>
                                                                                             </ItemTemplate>
                                                                                         </asp:TemplateField>
                                                                                         <asp:TemplateField HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center">
                                                                                             <ItemStyle Width="10%" HorizontalAlign="Center" />
                                                                                             <ItemTemplate>
                                                                                                 <asp:LinkButton runat="server" ID="lnkEdit" Text=" Edit " CommandName="EditRecord"
-                                                                                                    CommandArgument='<%#Eval("PK_Sonic_Management_Notes") %>' >
+                                                                                                    CommandArgument='<%#Eval("PK_Sonic_Management_Notes") %>'>
                                                                                                 </asp:LinkButton>
                                                                                                 &nbsp;&nbsp;&nbsp;
                                                                                                 <asp:LinkButton ID="lnkRemove" runat="server" Text="Delete" CommandArgument='<%#Eval("PK_Sonic_Management_Notes") %>'
@@ -1130,8 +1199,7 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td colspan="6">
-                                                                &nbsp;
+                                                            <td colspan="6">&nbsp;
                                                             </td>
                                                         </tr>
                                                         <tr runat="server" id="trstoreGrid">
@@ -1216,25 +1284,20 @@
                                                                         <td align="left" valign="top">
                                                                             <b>Store Contact :</b>
                                                                         </td>
-                                                                        <td align="center" valign="top" colspan="5">
-                                                                            &nbsp;
+                                                                        <td align="center" valign="top" colspan="5">&nbsp;
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td align="left" width="18%" valign="top">
-                                                                            First Name
+                                                                        <td align="left" width="18%" valign="top">First Name
                                                                         </td>
-                                                                        <td align="center" width="4%" valign="top">
-                                                                            :
+                                                                        <td align="center" width="4%" valign="top">:
                                                                         </td>
                                                                         <td align="left" width="28%" valign="top">
                                                                             <asp:TextBox ID="txtStore_Contact_First_Name" MaxLength="40" runat="server" Width="170px"></asp:TextBox>
                                                                         </td>
-                                                                        <td align="left" width="18%" valign="top">
-                                                                            Last Name
+                                                                        <td align="left" width="18%" valign="top">Last Name
                                                                         </td>
-                                                                        <td align="center" width="4%" valign="top">
-                                                                            :
+                                                                        <td align="center" width="4%" valign="top">:
                                                                         </td>
                                                                         <td align="left" width="28%" valign="top">
                                                                             <asp:TextBox ID="txtStore_Contact_Last_Name" MaxLength="40" runat="server" Width="170px"></asp:TextBox>
@@ -1242,11 +1305,9 @@
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td align="left" valign="top">
-                                                                            Phone
+                                                                        <td align="left" valign="top">Phone
                                                                         </td>
-                                                                        <td align="center" valign="top">
-                                                                            :
+                                                                        <td align="center" valign="top">:
                                                                         </td>
                                                                         <td align="left" valign="top">
                                                                             <asp:TextBox ID="txtStore_Contact_Phone" runat="server" Width="170px" SkinID="txtPhone"
@@ -1255,11 +1316,9 @@
                                                                                 runat="server" ErrorMessage="Please Enter Store Contact Phone in XXX-XXX-XXXX format."
                                                                                 Display="none" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$" ValidationGroup="vsErrorGroup"></asp:RegularExpressionValidator>
                                                                         </td>
-                                                                        <td align="left" valign="top">
-                                                                            Email
+                                                                        <td align="left" valign="top">Email
                                                                         </td>
-                                                                        <td align="center" valign="top">
-                                                                            :
+                                                                        <td align="center" valign="top">:
                                                                         </td>
                                                                         <td align="left" valign="top">
                                                                             <asp:TextBox ID="txtStore_Contact_Email" runat="server" Width="170px" MaxLength="100"></asp:TextBox>
@@ -1269,10 +1328,8 @@
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td align="left">
-                                                                        </td>
-                                                                        <td align="center">
-                                                                        </td>
+                                                                        <td align="left"></td>
+                                                                        <td align="center"></td>
                                                                         <td align="left" colspan="4">
                                                                             <asp:Button ID="btnStoreAdd" OnClick="btnStoreAdd_Click" runat="server" ValidationGroup="vsErrorGroup"
                                                                                 Text="Add" Width="70px"></asp:Button>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -1284,8 +1341,7 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td colspan="6">
-                                                                &nbsp;
+                                                            <td colspan="6">&nbsp;
                                                             </td>
                                                         </tr>
                                                         <tr runat="server" id="trACIGrid">
@@ -1370,36 +1426,29 @@
                                                                         <td align="left" valign="top">
                                                                             <b>ACI Contact :</b>
                                                                         </td>
-                                                                        <td align="center" valign="top" colspan="5">
-                                                                            &nbsp;
+                                                                        <td align="center" valign="top" colspan="5">&nbsp;
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td align="left" width="18%" valign="top">
-                                                                            First Name
+                                                                        <td align="left" width="18%" valign="top">First Name
                                                                         </td>
-                                                                        <td align="center" width="4%" valign="top">
-                                                                            :
+                                                                        <td align="center" width="4%" valign="top">:
                                                                         </td>
                                                                         <td align="left" width="28%" valign="top">
                                                                             <asp:TextBox ID="txtAci_Contact_First_Name" MaxLength="40" runat="server" Width="170px"></asp:TextBox>
                                                                         </td>
-                                                                        <td align="left" width="18%" valign="top">
-                                                                            Last Name
+                                                                        <td align="left" width="18%" valign="top">Last Name
                                                                         </td>
-                                                                        <td align="center" width="4%" valign="top">
-                                                                            :
+                                                                        <td align="center" width="4%" valign="top">:
                                                                         </td>
                                                                         <td align="left" width="28%" valign="top">
                                                                             <asp:TextBox ID="txtAci_Contact_Last_Name" MaxLength="40" runat="server" Width="170px"></asp:TextBox>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td align="left" valign="top">
-                                                                            Phone
+                                                                        <td align="left" valign="top">Phone
                                                                         </td>
-                                                                        <td align="center" valign="top">
-                                                                            :
+                                                                        <td align="center" valign="top">:
                                                                         </td>
                                                                         <td align="left" valign="top">
                                                                             <asp:TextBox ID="txtAci_Contact_Phone" runat="server" Width="170px" SkinID="txtPhone"
@@ -1408,11 +1457,9 @@
                                                                                 runat="server" ErrorMessage="Please Enter ACI Contact Phone in XXX-XXX-XXXX format."
                                                                                 Display="none" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$" ValidationGroup="vsErrorGroup"></asp:RegularExpressionValidator>
                                                                         </td>
-                                                                        <td align="left" valign="top">
-                                                                            Email
+                                                                        <td align="left" valign="top">Email
                                                                         </td>
-                                                                        <td align="center" valign="top">
-                                                                            :
+                                                                        <td align="center" valign="top">:
                                                                         </td>
                                                                         <td align="left" valign="top">
                                                                             <asp:TextBox ID="txtAci_Contact_Email" runat="server" Width="170px" MaxLength="100"></asp:TextBox>
@@ -1422,10 +1469,8 @@
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td align="left">
-                                                                        </td>
-                                                                        <td align="center">
-                                                                        </td>
+                                                                        <td align="left"></td>
+                                                                        <td align="center"></td>
                                                                         <td align="left" colspan="4">
                                                                             <asp:Button ID="btnACIAdd" OnClick="btnACIAdd_Click" runat="server" ValidationGroup="vsErrorGroup"
                                                                                 Text="Add" Width="70px"></asp:Button>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -1437,8 +1482,7 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td colspan="6">
-                                                                &nbsp;
+                                                            <td colspan="6">&nbsp;
                                                             </td>
                                                         </tr>
                                                     </table>
@@ -1453,39 +1497,47 @@
                                                                 <a href="#" onclick="OpenWizardPopup(<%=ViewState["PK_Management"] %>,0);">Email ALL</a>
                                                             </td>
                                                         </tr>
-                                                        <tr>
-                                                            <td colspan="6">
-                                                                &nbsp;
+                                                        <tr id="trRPMApproval" runat="server" style="display: none">
+                                                            <td colspan="6" style="width: 100%;">
+                                                                <table cellpadding="0" cellspacing="0" width="100%" border="0">
+                                                                    <tr>
+                                                                        <td align="left" width="20%">RPM Approval
+                                                                        </td>
+                                                                        <td align="center" width="4%">:
+                                                                        </td>
+                                                                        <td>
+                                                                            <asp:RadioButtonList runat="server" ID="rdbRPMApproval">
+                                                                                <asp:ListItem Text="Yes" Value="1"></asp:ListItem>
+                                                                                <asp:ListItem Text="No" Value="0"></asp:ListItem>
+                                                                            </asp:RadioButtonList>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td colspan="6">
-                                                                GM
+                                                            <td colspan="6">GM
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td colspan="6" style="width: 100%;">
                                                                 <table cellpadding="0" cellspacing="0" width="100%" border="0">
                                                                     <tr>
-                                                                        <td align="left" width="20%">
-                                                                            E-Mail To&nbsp;<span id="Span16" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left" width="20%">E-Mail To&nbsp;<span id="Span16" style="color: Red; display: none;" runat="server">*</span>
                                                                             <br />
                                                                             --<a href="#" onclick="OpenWizardPopup(<%=ViewState["PK_Management"] %>,'GM');">Email GM</a>--
                                                                         </td>
-                                                                        <td align="center" width="4%">
-                                                                            :
+                                                                        <td align="center" width="4%">:
                                                                         </td>
                                                                         <td align="left" width="26%">
-                                                                            <asp:TextBox runat="server" ID="txtGM_Email_To"  MaxLength="100"></asp:TextBox>
+                                                                            <asp:TextBox runat="server" ID="txtGM_Email_To" MaxLength="100"></asp:TextBox>
                                                                             <asp:RegularExpressionValidator ID="revEmail" runat="server" ControlToValidate="txtGM_Email_To"
-                                                                            ValidationGroup="vsErrorGroup" Display="None" ErrorMessage="[Approvals]/GM Email To Address Is Invalid"
-                                                                            SetFocusOnError="True" ToolTip="Email Address Is Invalid" ValidationExpression="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*([,]\s*\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)*">*</asp:RegularExpressionValidator>
+                                                                                ValidationGroup="vsErrorGroup" Display="None" ErrorMessage="[Approvals]/GM Email To Address Is Invalid"
+                                                                                SetFocusOnError="True" ToolTip="Email Address Is Invalid" ValidationExpression="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*([,]\s*\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)*">*</asp:RegularExpressionValidator>
                                                                         </td>
-                                                                        <td align="left" width="20%">
-                                                                            Last E-Mail Date&nbsp;<span id="Span17" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left" width="20%">Last E-Mail Date&nbsp;<span id="Span17" style="color: Red; display: none;" runat="server">*</span>
                                                                         </td>
-                                                                        <td align="center" width="4%">
-                                                                            :
+                                                                        <td align="center" width="4%">:
                                                                         </td>
                                                                         <td align="left" width="26%">
                                                                             <asp:TextBox ID="txtGM_Last_Email_Date" runat="server"></asp:TextBox>
@@ -1502,21 +1554,18 @@
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td align="left">
-                                                                            Decision
+                                                                        <td align="left">Decision
                                                                         </td>
-                                                                        <td align="center">
-                                                                            :
+                                                                        <td align="center">:
                                                                         </td>
                                                                         <td align="left">
-                                                                            <asp:RadioButtonList runat="server" ID="rdoGM_Decision" SkinID="ApprovedNotApprovedTypeNullSelection" onclick="SetApprovalSubmission();">
+                                                                            <asp:RadioButtonList runat="server" ID="rdoGM_Decision" SkinID="ApprovedNotApprovedTypeNullSelection" onclick="SetApprovalSubmission();" Style="float: left">
                                                                             </asp:RadioButtonList>
+                                                                            <asp:Button runat="server" Text="C" CommandArgument="GM" OnClick="btnClear_Click" OnClientClick="ClearReponseDateControls('GM');" ValidationGroup="vsErrorGroup" Style="float: left; margin-left: 5px;" />
                                                                         </td>
-                                                                        <td align="left">
-                                                                            GM Response Date&nbsp;<span id="Span18" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left">GM Response Date&nbsp;<span id="Span18" style="color: Red; display: none;" runat="server">*</span>
                                                                         </td>
-                                                                        <td align="center">
-                                                                            :
+                                                                        <td align="center">:
                                                                         </td>
                                                                         <td align="left">
                                                                             <asp:TextBox ID="txtGM_Response_Date" runat="server"></asp:TextBox>
@@ -1525,7 +1574,7 @@
                                                                             <asp:RegularExpressionValidator ID="revtxtGM_Response_Date" runat="server" ControlToValidate="txtGM_Response_Date"
                                                                                 ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([01])(\d{1})|([8901])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([2-9])(\d{1})|(20)([01])(\d{1})|([8901])(\d{1})))$"
                                                                                 ErrorMessage="[Approvals]/Date Not Valid(GM Response Date)" Display="none" ValidationGroup="vsErrorGroup"></asp:RegularExpressionValidator>
-                                                                          <%--  <asp:CustomValidator ID="cvGM_Response_Date" runat="server" ControlToValidate="txtGM_Response_Date"
+                                                                            <%--  <asp:CustomValidator ID="cvGM_Response_Date" runat="server" ControlToValidate="txtGM_Response_Date"
                                                                                 ValidationGroup="vsErrorGroup" ClientValidationFunction="CheckDate" ErrorMessage="[Approvals]/GM Response Date is not valid."
                                                                                 Display="None">
                                                                             </asp:CustomValidator>--%>
@@ -1535,34 +1584,29 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td colspan="6">
-                                                                RLCM
+                                                            <td colspan="6">RLCM
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td colspan="6" style="width: 100%;">
                                                                 <table cellpadding="0" cellspacing="0" width="100%" border="0">
                                                                     <tr>
-                                                                        <td align="left" width="20%">
-                                                                            E-Mail To&nbsp;<span id="Span19" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left" width="20%">E-Mail To&nbsp;<span id="Span19" style="color: Red; display: none;" runat="server">*</span>
                                                                             <br />
                                                                             --<a href="#" onclick="OpenWizardPopup(<%=ViewState["PK_Management"] %>,'RLCM');">Email
                                                                                 RLCM--</a>
                                                                         </td>
-                                                                        <td align="center" width="4%">
-                                                                            :
+                                                                        <td align="center" width="4%">:
                                                                         </td>
                                                                         <td align="left" width="26%">
                                                                             <asp:TextBox runat="server" ID="txtRLCM_Email_To" MaxLength="100"></asp:TextBox>
                                                                             <asp:RegularExpressionValidator ID="rgvRLCM_Email_To" runat="server" ControlToValidate="txtRLCM_Email_To"
-                                                                            ValidationGroup="vsErrorGroup" Display="None" ErrorMessage="[Approvals]/RLCM Email To Address Is Invalid"
-                                                                            SetFocusOnError="True" ToolTip="Email Address Is Invalid" ValidationExpression="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*([,]\s*\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)*">*</asp:RegularExpressionValidator>
+                                                                                ValidationGroup="vsErrorGroup" Display="None" ErrorMessage="[Approvals]/RLCM Email To Address Is Invalid"
+                                                                                SetFocusOnError="True" ToolTip="Email Address Is Invalid" ValidationExpression="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*([,]\s*\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)*">*</asp:RegularExpressionValidator>
                                                                         </td>
-                                                                        <td align="left" width="20%">
-                                                                            Last E-Mail Date&nbsp;<span id="Span20" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left" width="20%">Last E-Mail Date&nbsp;<span id="Span20" style="color: Red; display: none;" runat="server">*</span>
                                                                         </td>
-                                                                        <td align="center" width="4%">
-                                                                            :
+                                                                        <td align="center" width="4%">:
                                                                         </td>
                                                                         <td align="left" width="26%">
                                                                             <asp:TextBox ID="txtRLCM_Last_Email_Date" runat="server"></asp:TextBox>
@@ -1571,28 +1615,25 @@
                                                                             <asp:RegularExpressionValidator ID="revtxtRLCM_Last_Email_Date" runat="server" ControlToValidate="txtRLCM_Last_Email_Date"
                                                                                 ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([01])(\d{1})|([8901])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([2-9])(\d{1})|(20)([01])(\d{1})|([8901])(\d{1})))$"
                                                                                 ErrorMessage="[Approvals]/Date Not Valid(Last E-Mail Date)" Display="none" ValidationGroup="vsErrorGroup"></asp:RegularExpressionValidator>
-                                                                          <%--  <asp:CustomValidator ID="cvRLCM_Last_Email_Date" runat="server" ControlToValidate="txtRLCM_Last_Email_Date"
+                                                                            <%--  <asp:CustomValidator ID="cvRLCM_Last_Email_Date" runat="server" ControlToValidate="txtRLCM_Last_Email_Date"
                                                                                 ValidationGroup="vsErrorGroup" ClientValidationFunction="CheckDate" ErrorMessage="[Approvals]/RLCM Last Email Date is not valid."
                                                                                 Display="None">
                                                                             </asp:CustomValidator>--%>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td align="left">
-                                                                            Decision
+                                                                        <td align="left">Decision
                                                                         </td>
-                                                                        <td align="center">
-                                                                            :
+                                                                        <td align="center">:
                                                                         </td>
                                                                         <td align="left">
-                                                                            <asp:RadioButtonList runat="server" ID="rdoRLCM_Decision" SkinID="ApprovedNotApprovedTypeNullSelection" onclick="SetApprovalSubmission();">
+                                                                            <asp:RadioButtonList runat="server" ID="rdoRLCM_Decision" SkinID="ApprovedNotApprovedTypeNullSelection" onclick="SetApprovalSubmission();" Style="float: left">
                                                                             </asp:RadioButtonList>
+                                                                            <asp:Button runat="server" Text="C" CommandArgument="RLCM" OnClick="btnClear_Click" OnClientClick="ClearReponseDateControls('RLCM');" ValidationGroup="vsErrorGroup" Style="float: left; margin-left: 5px;" />
                                                                         </td>
-                                                                        <td align="left">
-                                                                            RLCM Response Date&nbsp;<span id="Span21" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left">RLCM Response Date&nbsp;<span id="Span21" style="color: Red; display: none;" runat="server">*</span>
                                                                         </td>
-                                                                        <td align="center">
-                                                                            :
+                                                                        <td align="center">:
                                                                         </td>
                                                                         <td align="left">
                                                                             <asp:TextBox ID="txtRLCM_Response_Date" runat="server"></asp:TextBox>
@@ -1601,7 +1642,7 @@
                                                                             <asp:RegularExpressionValidator ID="revtxtRLCM_Response_Date" runat="server" ControlToValidate="txtRLCM_Response_Date"
                                                                                 ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([01])(\d{1})|([8901])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([2-9])(\d{1})|(20)([01])(\d{1})|([8901])(\d{1})))$"
                                                                                 ErrorMessage="[Approvals]/Date Not Valid(RLCM Response Date)" Display="none" ValidationGroup="vsErrorGroup"></asp:RegularExpressionValidator>
-                                                                           <%-- <asp:CustomValidator ID="cvRLCM_Response_Date" runat="server" ControlToValidate="txtRLCM_Response_Date"
+                                                                            <%-- <asp:CustomValidator ID="cvRLCM_Response_Date" runat="server" ControlToValidate="txtRLCM_Response_Date"
                                                                                 ValidationGroup="vsErrorGroup" ClientValidationFunction="CheckDate" ErrorMessage="[Approvals]/RLCM Response Date is not valid."
                                                                                 Display="None">
                                                                             </asp:CustomValidator>--%>
@@ -1611,34 +1652,29 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td colspan="6">
-                                                                NAPM
+                                                            <td colspan="6">NAPM
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td colspan="6" style="width: 100%;">
                                                                 <table cellpadding="0" cellspacing="0" width="100%" border="0">
                                                                     <tr>
-                                                                        <td align="left" width="20%">
-                                                                            E-Mail To&nbsp;<span id="Span22" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left" width="20%">E-Mail To&nbsp;<span id="Span22" style="color: Red; display: none;" runat="server">*</span>
                                                                             <br />
                                                                             --<a href="#" onclick="OpenWizardPopup(<%=ViewState["PK_Management"] %>,'NAPM');">Email
                                                                                 NAPM</a>--
                                                                         </td>
-                                                                        <td align="center" width="4%">
-                                                                            :
+                                                                        <td align="center" width="4%">:
                                                                         </td>
                                                                         <td align="left" width="26%">
                                                                             <asp:TextBox runat="server" ID="txtNAPM_Email_To" MaxLength="100"></asp:TextBox>
                                                                             <asp:RegularExpressionValidator ID="rgvNAPM_Email_To" runat="server" ControlToValidate="txtNAPM_Email_To"
-                                                                            ValidationGroup="vsErrorGroup" Display="None" ErrorMessage="[Approvals]/NAPM Email To Address Is Invalid"
-                                                                            SetFocusOnError="True" ToolTip="Email Address Is Invalid" ValidationExpression="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*([,]\s*\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)*">*</asp:RegularExpressionValidator>
+                                                                                ValidationGroup="vsErrorGroup" Display="None" ErrorMessage="[Approvals]/NAPM Email To Address Is Invalid"
+                                                                                SetFocusOnError="True" ToolTip="Email Address Is Invalid" ValidationExpression="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*([,]\s*\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)*">*</asp:RegularExpressionValidator>
                                                                         </td>
-                                                                        <td align="left" width="20%">
-                                                                            Last E-Mail Date&nbsp;<span id="Span23" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left" width="20%">Last E-Mail Date&nbsp;<span id="Span23" style="color: Red; display: none;" runat="server">*</span>
                                                                         </td>
-                                                                        <td align="center" width="4%">
-                                                                            :
+                                                                        <td align="center" width="4%">:
                                                                         </td>
                                                                         <td align="left" width="26%">
                                                                             <asp:TextBox ID="txtNAPM_Last_Email_Date" runat="server"></asp:TextBox>
@@ -1647,28 +1683,25 @@
                                                                             <asp:RegularExpressionValidator ID="revtxtNAPM_Last_Email_Date" runat="server" ControlToValidate="txtNAPM_Last_Email_Date"
                                                                                 ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([01])(\d{1})|([8901])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([2-9])(\d{1})|(20)([01])(\d{1})|([8901])(\d{1})))$"
                                                                                 ErrorMessage="[Approvals]/Date Not Valid(Last E-Mail Date)" Display="none" ValidationGroup="vsErrorGroup"></asp:RegularExpressionValidator>
-                                                                           <%-- <asp:CustomValidator ID="cvNAPM_Last_Email_Date" runat="server" ControlToValidate="txtNAPM_Last_Email_Date"
+                                                                            <%-- <asp:CustomValidator ID="cvNAPM_Last_Email_Date" runat="server" ControlToValidate="txtNAPM_Last_Email_Date"
                                                                                 ValidationGroup="vsErrorGroup" ClientValidationFunction="CheckDate" ErrorMessage="[Approvals]/NAPM Last Email Date is not valid."
                                                                                 Display="None">
                                                                             </asp:CustomValidator>--%>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td align="left">
-                                                                            Decision
+                                                                        <td align="left">Decision
                                                                         </td>
-                                                                        <td align="center">
-                                                                            :
+                                                                        <td align="center">:
                                                                         </td>
                                                                         <td align="left">
-                                                                            <asp:RadioButtonList runat="server" ID="rdoNAPM_Decision" SkinID="ApprovedNotApprovedTypeNullSelection" onclick="SetApprovalSubmission();">
+                                                                            <asp:RadioButtonList runat="server" ID="rdoNAPM_Decision" SkinID="ApprovedNotApprovedTypeNullSelection" onclick="SetApprovalSubmission();" Style="float: left">
                                                                             </asp:RadioButtonList>
+                                                                            <asp:Button runat="server" Text="C" CommandArgument="NAPM" OnClick="btnClear_Click" OnClientClick="ClearReponseDateControls('NAPM');" ValidationGroup="vsErrorGroup" Style="float: left; margin-left: 5px;" />
                                                                         </td>
-                                                                        <td align="left">
-                                                                            NAPM Response Date&nbsp;<span id="Span24" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left">NAPM Response Date&nbsp;<span id="Span24" style="color: Red; display: none;" runat="server">*</span>
                                                                         </td>
-                                                                        <td align="center">
-                                                                            :
+                                                                        <td align="center">:
                                                                         </td>
                                                                         <td align="left">
                                                                             <asp:TextBox ID="txtNAPM_Response_Date" runat="server"></asp:TextBox>
@@ -1677,7 +1710,7 @@
                                                                             <asp:RegularExpressionValidator ID="revtxtNAPM_Response_Date" runat="server" ControlToValidate="txtNAPM_Response_Date"
                                                                                 ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([01])(\d{1})|([8901])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([2-9])(\d{1})|(20)([01])(\d{1})|([8901])(\d{1})))$"
                                                                                 ErrorMessage="[Approvals]/Date Not Valid(NAPM Response Date)" Display="none" ValidationGroup="vsErrorGroup"></asp:RegularExpressionValidator>
-                                                                           <%-- <asp:CustomValidator ID="cvNAPM_Response_Date" runat="server" ControlToValidate="txtNAPM_Response_Date"
+                                                                            <%-- <asp:CustomValidator ID="cvNAPM_Response_Date" runat="server" ControlToValidate="txtNAPM_Response_Date"
                                                                                 ValidationGroup="vsErrorGroup" ClientValidationFunction="CheckDate" ErrorMessage="[Approvals]/NAPM Response Date is not valid."
                                                                                 Display="None">
                                                                             </asp:CustomValidator>--%>
@@ -1687,67 +1720,59 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td colspan="6">
-                                                                DRM
+                                                            <td colspan="6">DRM
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td colspan="6" style="width: 100%;">
                                                                 <table cellpadding="0" cellspacing="0" width="100%" border="0">
                                                                     <tr>
-                                                                        <td align="left" width="20%">
-                                                                            E-Mail To&nbsp;<span id="Span28" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left" width="20%">E-Mail To&nbsp;<span id="Span28" style="color: Red; display: none;" runat="server">*</span>
                                                                             <br />
                                                                             --<a href="#" onclick="OpenWizardPopup(<%=ViewState["PK_Management"] %>,'DRM');">Email
                                                                                 DRM</a>--
                                                                         </td>
-                                                                        <td align="center" width="4%">
-                                                                            :
+                                                                        <td align="center" width="4%">:
                                                                         </td>
                                                                         <td align="left" width="26%">
                                                                             <asp:TextBox runat="server" ID="txtDRM_Email_To" MaxLength="100"></asp:TextBox>
                                                                             <asp:RegularExpressionValidator ID="rgvDRM_Email_To" runat="server" ControlToValidate="txtDRM_Email_To"
-                                                                            ValidationGroup="vsErrorGroup" Display="None" ErrorMessage="[Approvals]/DRM Email To Address Is Invalid"
-                                                                            SetFocusOnError="True" ToolTip="Email Address Is Invalid" ValidationExpression="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*([,]\s*\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)*">*</asp:RegularExpressionValidator>
+                                                                                ValidationGroup="vsErrorGroup" Display="None" ErrorMessage="[Approvals]/DRM Email To Address Is Invalid"
+                                                                                SetFocusOnError="True" ToolTip="Email Address Is Invalid" ValidationExpression="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*([,]\s*\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)*">*</asp:RegularExpressionValidator>
                                                                         </td>
-                                                                        <td align="left" width="20%">
-                                                                            Last E-Mail Date&nbsp;<span id="Span29" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left" width="20%">Last E-Mail Date&nbsp;<span id="Span29" style="color: Red; display: none;" runat="server">*</span>
                                                                         </td>
-                                                                        <td align="center" width="4%">
-                                                                            :
+                                                                        <td align="center" width="4%">:
                                                                         </td>
                                                                         <td align="left" width="26%">
                                                                             <asp:TextBox ID="txtDRM_Last_Email_Date" runat="server"></asp:TextBox>
                                                                             <img onmouseover="javascript:this.style.cursor='hand';" onclick="return showCalendar('<%= txtDRM_Last_Email_Date.ClientID %>', 'mm/dd/y');"
                                                                                 alt="DRM Last Email Date" src="../Images/iconPicDate.gif" align="middle" /><br />
-                                                                           <%-- <asp:CustomValidator ID="cvDRM_Last_Email_Date" runat="server" ControlToValidate="txtDRM_Last_Email_Date"
+                                                                            <%-- <asp:CustomValidator ID="cvDRM_Last_Email_Date" runat="server" ControlToValidate="txtDRM_Last_Email_Date"
                                                                                 ValidationGroup="vsErrorGroup" ClientValidationFunction="CheckDate" ErrorMessage="[Approvals]/DRM Last Email Date is not valid."
                                                                                 Display="None">
                                                                             </asp:CustomValidator>--%>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td align="left">
-                                                                            Decision
+                                                                        <td align="left">Decision
                                                                         </td>
-                                                                        <td align="center">
-                                                                            :
+                                                                        <td align="center">:
                                                                         </td>
                                                                         <td align="left">
-                                                                            <asp:RadioButtonList runat="server" ID="rdoDRM_Decision" SkinID="ApprovedNotApprovedTypeNullSelection" onclick="SetApprovalSubmission();">
+                                                                            <asp:RadioButtonList runat="server" ID="rdoDRM_Decision" SkinID="ApprovedNotApprovedTypeNullSelection" onclick="SetApprovalSubmission();" Style="float: left">
                                                                             </asp:RadioButtonList>
+                                                                            <asp:Button runat="server" Text="C" CommandArgument="DRM" OnClick="btnClear_Click" OnClientClick="ClearReponseDateControls('DRM');" ValidationGroup="vsErrorGroup" Style="float: left; margin-left: 5px;" />
                                                                         </td>
-                                                                        <td align="left">
-                                                                            DRM Response Date&nbsp;<span id="Span30" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left">DRM Response Date&nbsp;<span id="Span30" style="color: Red; display: none;" runat="server">*</span>
                                                                         </td>
-                                                                        <td align="center">
-                                                                            :
+                                                                        <td align="center">:
                                                                         </td>
                                                                         <td align="left">
                                                                             <asp:TextBox ID="txtDRM_Response_Date" runat="server"></asp:TextBox>
                                                                             <img onmouseover="javascript:this.style.cursor='hand';" onclick="return showCalendar('<%= txtDRM_Response_Date.ClientID %>', 'mm/dd/y');"
                                                                                 alt="DRM Response Date" src="../Images/iconPicDate.gif" align="middle" /><br />
-                                                                           <%-- <asp:CustomValidator ID="cvDRM_Response_Date" runat="server" ControlToValidate="txtDRM_Response_Date"
+                                                                            <%-- <asp:CustomValidator ID="cvDRM_Response_Date" runat="server" ControlToValidate="txtDRM_Response_Date"
                                                                                 ValidationGroup="vsErrorGroup" ClientValidationFunction="CheckDate" ErrorMessage="[Approvals]/DRM Response Date is not valid."
                                                                                 Display="None">
                                                                             </asp:CustomValidator>--%>
@@ -1757,11 +1782,9 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td align="left" width="20%" valign="top">
-                                                                Comments&nbsp;<span id="Span37" style="color: Red; display: none;" runat="server">*</span>
+                                                            <td align="left" width="20%" valign="top">Comments&nbsp;<span id="Span37" style="color: Red; display: none;" runat="server">*</span>
                                                             </td>
-                                                            <td align="center" width="4%" valign="top">
-                                                                :
+                                                            <td align="center" width="4%" valign="top">:
                                                             </td>
                                                             <td colspan="4" valign="top">
                                                                 <uc:ctrlMultiLineTextBox ID="txtComments" runat="server" ControlType="TextBox" />
@@ -1771,7 +1794,7 @@
                                                 </asp:Panel>
                                                 <asp:Panel ID="pnl3" runat="server" Style="display: block;" Width="100%">
                                                     <div class="bandHeaderRow">
-                                                    Project Cost
+                                                        Project Cost
                                                     </div>
                                                     <table border="0" cellpadding="3" cellspacing="1" width="100%">
                                                         <tr id="Tr1" runat="server">
@@ -1786,7 +1809,7 @@
                                                                     OnRowCommand="gvProjectCost_RowCommand" OnRowDataBound="gvProjectCost_OnRowDataBound"
                                                                     ShowFooter="true">
                                                                     <Columns>
-                                                                       <%-- <asp:TemplateField HeaderText="Project Number">
+                                                                        <%-- <asp:TemplateField HeaderText="Project Number">
                                                                             <ItemStyle Width="15%" />
                                                                             <ItemTemplate>
                                                                                 <asp:LinkButton ID="lnkProject_Number" runat="server" CommandName="EditProjectCost"
@@ -1874,7 +1897,7 @@
                                                                 <asp:CheckBox ID="chkIncludeCompProject" runat="server" AutoPostBack="true" OnCheckedChanged="chkIncludeCompProject_OnCheckedChanged" />
                                                             </td>
                                                         </tr>--%>
-                                                         <tr>
+                                                        <tr>
                                                             <td valign="top" style="width: auto">Invoice Grid<br />
                                                                 <asp:LinkButton ID="lnkAddInvoice" runat="server" ValidationGroup="vsError" Text="--Add--"
                                                                     OnClick="lnkAddInvoice_Click" OnClientClick="return CheckManagement();"></asp:LinkButton>
@@ -1932,21 +1955,21 @@
                                                             <td>&nbsp;
                                                             </td>
                                                         </tr>
-                                                            </table>
+                                                    </table>
                                                 </asp:Panel>
                                                 <asp:Panel ID="pnl4" runat="server" Style="display: block;" Width="100%">
-                                                     <div class="bandHeaderRow">
+                                                    <div class="bandHeaderRow">
                                                         Attachment
                                                     </div>
                                                     <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                         <tr>
                                                             <td>
-                                                               <uc:Attachment ID="ucAttachment" runat="server" Attachment_Table="Management" MajorCoverage="Management"/>
+                                                                <uc:Attachment ID="ucAttachment" runat="server" Attachment_Table="Management" MajorCoverage="Management" />
                                                             </td>
                                                         </tr>
-                                                          
+
                                                     </table>
-                                                 </asp:Panel>
+                                                </asp:Panel>
                                             </div>
                                             <div id="dvView" runat="server">
                                                 <asp:Panel ID="pnl1View" runat="server" Style="display: none;" Width="100%">
@@ -1955,8 +1978,7 @@
                                                     </div>
                                                     <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                         <tr>
-                                                            <td style="height: 5px" colspan="6">
-                                                            </td>
+                                                            <td style="height: 5px" colspan="6"></td>
                                                         </tr>
                                                         <tr>
                                                             <td align="left" width="18%" valign="top">Reference Number
@@ -1984,20 +2006,16 @@
                                                         <td align="left" width="28%" valign="top">
                                                             <asp:Label ID="lblCompany" runat="server"></asp:Label>
                                                         </td>--%>
-                                                            <td align="left" width="18%" valign="top">
-                                                                DBA
+                                                            <td align="left" width="18%" valign="top">DBA
                                                             </td>
-                                                            <td align="center" width="4%" valign="top">
-                                                                :
+                                                            <td align="center" width="4%" valign="top">:
                                                             </td>
                                                             <td align="left" width="28%" valign="top">
                                                                 <asp:Label ID="lblLocation" runat="server"></asp:Label>
                                                             </td>
-                                                            <td align="left" width="18%" valign="top">
-                                                                Location Code
+                                                            <td align="left" width="18%" valign="top">Location Code
                                                             </td>
-                                                            <td align="center" width="4%" valign="top">
-                                                                :
+                                                            <td align="center" width="4%" valign="top">:
                                                             </td>
                                                             <td align="left" width="28%" valign="top">
                                                                 <asp:Label ID="lblLocation_Code" runat="server"></asp:Label>
@@ -2073,76 +2091,62 @@
                                                         </td>
                                                     </tr>--%>
                                                         <tr>
-                                                            <td align="left" valign="top">
-                                                                Date Scheduled
+                                                            <td align="left" valign="top">Date Scheduled
                                                             </td>
-                                                            <td align="center" valign="top">
-                                                                :
+                                                            <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
                                                                 <asp:Label ID="lblDateScheduled" runat="server"></asp:Label>
                                                             </td>
-                                                            <td align="left" valign="top">
-                                                                Date Completed
+                                                            <td align="left" valign="top">Date Completed
                                                             </td>
-                                                            <td align="center" valign="top">
-                                                                :
+                                                            <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
                                                                 <asp:Label ID="lblDateComleted" runat="server"></asp:Label>
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td align="left" valign="top">
-                                                                Work To Be Completed
+                                                            <td align="left" valign="top">Work To Be Completed
                                                             </td>
-                                                            <td align="center" valign="top">
-                                                                :
+                                                            <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
                                                                 <asp:Label ID="lblFK_Work_Completed" runat="server">
                                                                 </asp:Label>
                                                             </td>
-                                                            <td align="left" valign="top">
-                                                                Other
+                                                            <td align="left" valign="top">Other
                                                             </td>
-                                                            <td align="center" valign="top">
-                                                                :
+                                                            <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
                                                                 <asp:Label ID="lblWork_To_Complete_Other" MaxLength="30" runat="server" Width="170px"></asp:Label>
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td align="left" valign="top">
-                                                                Work To Be Completed By
+                                                            <td align="left" valign="top">Work To Be Completed By
                                                             </td>
-                                                            <td align="center" valign="top">
-                                                                :
+                                                            <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
                                                                 <asp:Label ID="lblrdoWork_Completed_By" runat="server">
                                                                 </asp:Label>
                                                             </td>
-                                                            <td align="left" valign="top">
-                                                                Task Complete?
+                                                            <td align="left" valign="top">Status
                                                             </td>
-                                                            <td align="center" valign="top">
-                                                                :
+                                                            <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top" colspan="4">
-                                                                <asp:Label runat="server" ID="lblTask_Complete"></asp:Label>
+                                                                <%--<asp:Label runat="server" ID="lblTask_Complete"></asp:Label>--%>
+                                                                <asp:Label runat="server" ID="lblFK_LU_Maintenance_Status"></asp:Label>
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td>
-                                                                Service/Repair Cost
+                                                            <td>Total Repair Cost
                                                             </td>
-                                                            <td>
-                                                                :
+                                                            <td>:
                                                             </td>
-                                                            <td>
-                                                                $<asp:Label ID="lblService_Repair_Cost" runat="server" MaxLength="10"></asp:Label>
+                                                            <td>$<asp:Label ID="lblService_Repair_Cost" runat="server" MaxLength="10"></asp:Label>
                                                             </td>
                                                             <td align="left" valign="top">Approval Submission
                                                             </td>
@@ -2152,29 +2156,25 @@
                                                                 <asp:Label ID="lblFK_LU_Approval_Submission" runat="server">
                                                                 </asp:Label>
                                                             </td>
-                                                            
+
                                                         </tr>
                                                         <tr>
-                                                            <td align="left" valign="top">
-                                                                Record Type
+                                                            <td align="left" valign="top">Record Type
                                                             </td>
-                                                            <td align="center" valign="top">
-                                                                :
+                                                            <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
                                                                 <asp:Label ID="lblFK_LU_Record_Type" runat="server">
                                                                 </asp:Label>
                                                             </td>
-                                                            <td align="left" valign="top">
-                                                                CR Approved
+                                                            <td align="left" valign="top">CR Approved
                                                             </td>
-                                                            <td align="center" valign="top">
-                                                                :
+                                                            <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
                                                                 <asp:Label ID="lblCRApproved" runat="server"></asp:Label>
                                                             </td>
-                                                            
+
                                                         </tr>
                                                         <%--<tr>
                                                         <td align="left" valign="top">Client Issue
@@ -2202,122 +2202,97 @@
                                                         
                                                     </tr>--%>
                                                         <tr>
-                                                            <td align="left" valign="top">
-                                                                Job #
+                                                            <td align="left" valign="top">Job #
                                                             </td>
-                                                            <td align="center" valign="top">
-                                                                :
+                                                            <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
                                                                 <asp:Label ID="lblJob" runat="server"></asp:Label>
                                                             </td>
-                                                            <td align="left" valign="top">
-                                                                Other
+                                                            <td align="left" valign="top">Other
                                                             </td>
-                                                            <td align="center" valign="top">
-                                                                :
+                                                            <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
                                                                 <asp:Label ID="lblRecord_Type_Other" MaxLength="30" runat="server"></asp:Label>
                                                             </td>
-                                                            
+
                                                         </tr>
                                                         <tr>
-                                                            <td align="left" valign="top">
-                                                                Order Date
+                                                            <td align="left" valign="top">Order Date
                                                             </td>
-                                                            <td align="center" valign="top">
-                                                                :
+                                                            <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
                                                                 <asp:Label ID="lblOrderDate" runat="server" />
                                                             </td>
-                                                            <td align="left" valign="top">
-                                                                Order #
+                                                            <td align="left" valign="top">Order #
                                                             </td>
-                                                            <td align="center" valign="top">
-                                                                :
+                                                            <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
                                                                 <asp:Label ID="lblOrder" runat="server"></asp:Label>
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td align="left" valign="top">
-                                                                Requested By
+                                                            <td align="left" valign="top">Requested By
                                                             </td>
-                                                            <td align="center" valign="top">
-                                                                :
+                                                            <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
                                                                 <asp:Label ID="lblRequestedBy" runat="server"></asp:Label>
                                                             </td>
-                                                            <td align="left" valign="top">
-                                                                Created By
+                                                            <td align="left" valign="top">Created By
                                                             </td>
-                                                            <td align="center" valign="top">
-                                                                :
+                                                            <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
                                                                 <asp:Label ID="lblCreatedBy" runat="server" Width="170px"></asp:Label>
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td align="left" valign="top">
-                                                                Previous Contract Amount
+                                                            <td align="left" valign="top">Original Service Estimate
                                                             </td>
-                                                            <td align="center" valign="top">
-                                                                :
+                                                            <td align="center" valign="top">:
                                                             </td>
-                                                            <td align="left" valign="top">
-                                                                $<asp:Label ID="lblPreviousContractAmount" runat="server" />
+                                                            <td align="left" valign="top">$<asp:Label ID="lblPreviousContractAmount" runat="server" />
                                                             </td>
-                                                            <td align="left" valign="top">
-                                                                Revised Contract Amount
+                                                            <td align="left" valign="top">Repair and Estimate Amount
                                                             </td>
-                                                            <td align="center" valign="top">
-                                                                :
+                                                            <td align="center" valign="top">:
                                                             </td>
-                                                            <td align="left" valign="top">
-                                                                $<asp:Label ID="lblRevisedContractAmount" runat="server" Width="165px" />
+                                                            <td align="left" valign="top">$<asp:Label ID="lblRevisedContractAmount" runat="server" Width="165px" />
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td align="left" valign="top">
-                                                                Reason for Request
+                                                            <td align="left" valign="top">Reason for Request
                                                             </td>
-                                                            <td align="center" valign="top">
-                                                                :
+                                                            <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top" colspan="4">
                                                                 <uc:ctrlMultiLineTextBox ID="lblReason_Request" runat="server" ControlType="Label" />
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td align="left" valign="top">
-                                                                Recommendation
+                                                            <td align="left" valign="top">Recommendation
                                                             </td>
-                                                            <td align="center" valign="top">
-                                                                :
+                                                            <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top" colspan="4">
                                                                 <uc:ctrlMultiLineTextBox ID="lblRecommendation" runat="server" ControlType="Label" />
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td colspan="6">
-                                                                &nbsp;
+                                                            <td colspan="6">&nbsp;
                                                             </td>
                                                         </tr>
-                                                         <tr runat="server" id="trManagementNotesGridView">
+                                                        <tr runat="server" id="trManagementNotesGridView">
                                                             <td colspan="6">
                                                                 <table width="100%">
                                                                     <tr>
-                                                                        <td align="left" valign="top" width="17%">
-                                                                            Management Notes Grid
+                                                                        <td align="left" valign="top" width="17%">Management Notes Grid
                                                                         </td>
-                                                                        <td align="center" valign="top" width="5%">
-                                                                            :
+                                                                        <td align="center" valign="top" width="5%">:
                                                                         </td>
                                                                         <td align="left" valign="top" colspan="4">
                                                                             <uc:ctrlPaging ID="ctrlPageSonicNotesView" runat="server" OnGetPage="GetManagementPageView" RecordPerPage="true" />
@@ -2325,13 +2300,11 @@
                                                                     </tr>
                                                                     <tr>
                                                                         <td colspan="6">
-                                                                            <div runat="server" id="dvManagementNotesView" style="width: 99%; overflow-y: scroll;
-                                                                                border: solid 1px #000000;">
+                                                                            <div runat="server" id="dvManagementNotesView" style="width: 99%; overflow-y: scroll; border: solid 1px #000000;">
                                                                                 <asp:GridView ID="gvManagement_NotesView" runat="server" Width="97%" AutoGenerateColumns="false"
                                                                                     OnSorting="gvManagement_NotesView_Sorting" EnableViewState="true" AllowPaging="false"
                                                                                     OnRowCommand="gvManagement_NotesView_RowCommand" AllowSorting="true"
-                                                                                    OnPageIndexChanging="gvManagement_NotesView_PageIndexChanging" Style="word-wrap: normal;
-                                                                                    word-break: break-all;">
+                                                                                    OnPageIndexChanging="gvManagement_NotesView_PageIndexChanging" Style="word-wrap: normal; word-break: break-all;">
                                                                                     <Columns>
                                                                                         <asp:TemplateField ItemStyle-VerticalAlign="Top" ItemStyle-Width="12%">
                                                                                             <HeaderTemplate>
@@ -2359,8 +2332,8 @@
                                                                                         <asp:TemplateField HeaderText="Notes">
                                                                                             <ItemStyle Width="45%" />
                                                                                             <ItemTemplate>
-                                                                                                <asp:Label ID="lbtNotes" runat="server" Text='<%# Eval("Note") %>' Style="word-wrap: normal;
-                                                                                                    word-break: break-all;" Width="310px" CssClass="TextClip"></asp:Label>
+                                                                                                <asp:Label ID="lbtNotes" runat="server" Text='<%# Eval("Note") %>' Style="word-wrap: normal; word-break: break-all;"
+                                                                                                    Width="310px" CssClass="TextClip"></asp:Label>
                                                                                             </ItemTemplate>
                                                                                         </asp:TemplateField>
                                                                                     </Columns>
@@ -2393,8 +2366,7 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td colspan="6">
-                                                                &nbsp;
+                                                            <td colspan="6">&nbsp;
                                                             </td>
                                                         </tr>
                                                         <tr runat="server" id="trgridstoreview">
@@ -2526,8 +2498,7 @@
                                                         </td>
                                                     </tr>--%>
                                                         <tr>
-                                                            <td colspan="6">
-                                                                &nbsp;
+                                                            <td colspan="6">&nbsp;
                                                             </td>
                                                         </tr>
                                                         <tr runat="server" id="trgridACIview">
@@ -2585,8 +2556,7 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td colspan="6">
-                                                                &nbsp;
+                                                            <td colspan="6">&nbsp;
                                                             </td>
                                                         </tr>
                                                     </table>
@@ -2597,49 +2567,40 @@
                                                     </div>
                                                     <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                         <tr>
-                                                            <td colspan="6">
-                                                                GM
+                                                            <td colspan="6">GM
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td colspan="6" style="width: 100%;">
                                                                 <table cellpadding="0" cellspacing="0" width="100%" border="0">
                                                                     <tr>
-                                                                        <td align="left" width="20%">
-                                                                            E-Mail To&nbsp;<span id="Span1" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left" width="20%">E-Mail To&nbsp;<span id="Span1" style="color: Red; display: none;" runat="server">*</span>
                                                                         </td>
-                                                                        <td align="center" width="4%">
-                                                                            :
+                                                                        <td align="center" width="4%">:
                                                                         </td>
                                                                         <td align="left" width="26%">
                                                                             <asp:Label runat="server" ID="lblGM_Email_To"></asp:Label>
                                                                         </td>
-                                                                        <td align="left" width="20%">
-                                                                            Last E-Mail Date&nbsp;<span id="Span2" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left" width="20%">Last E-Mail Date&nbsp;<span id="Span2" style="color: Red; display: none;" runat="server">*</span>
                                                                         </td>
-                                                                        <td align="center" width="4%">
-                                                                            :
+                                                                        <td align="center" width="4%">:
                                                                         </td>
                                                                         <td align="left" width="26%">
                                                                             <asp:Label ID="lblGM_Last_Email_Date" runat="server"></asp:Label>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td align="left">
-                                                                            Decision
+                                                                        <td align="left">Decision
                                                                         </td>
-                                                                        <td align="center">
-                                                                            :
+                                                                        <td align="center">:
                                                                         </td>
                                                                         <td align="left">
                                                                             <asp:Label runat="server" ID="lblGM_Decisionview">
                                                                             </asp:Label>
                                                                         </td>
-                                                                        <td align="left">
-                                                                            GM Response Date&nbsp;<span id="Span3" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left">GM Response Date&nbsp;<span id="Span3" style="color: Red; display: none;" runat="server">*</span>
                                                                         </td>
-                                                                        <td align="center">
-                                                                            :
+                                                                        <td align="center">:
                                                                         </td>
                                                                         <td align="left">
                                                                             <asp:Label ID="lblGM_Response_Date" runat="server"></asp:Label>
@@ -2649,49 +2610,40 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td colspan="6">
-                                                                RLCM
+                                                            <td colspan="6">RLCM
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td colspan="6" style="width: 100%;">
                                                                 <table cellpadding="0" cellspacing="0" width="100%" border="0">
                                                                     <tr>
-                                                                        <td align="left" width="20%">
-                                                                            E-Mail To&nbsp;<span id="Span4" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left" width="20%">E-Mail To&nbsp;<span id="Span4" style="color: Red; display: none;" runat="server">*</span>
                                                                         </td>
-                                                                        <td align="center" width="4%">
-                                                                            :
+                                                                        <td align="center" width="4%">:
                                                                         </td>
                                                                         <td align="left" width="26%">
                                                                             <asp:Label runat="server" ID="lblRLCM_Email_To"></asp:Label>
                                                                         </td>
-                                                                        <td align="left" width="20%">
-                                                                            Last E-Mail Date&nbsp;<span id="Span5" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left" width="20%">Last E-Mail Date&nbsp;<span id="Span5" style="color: Red; display: none;" runat="server">*</span>
                                                                         </td>
-                                                                        <td align="center" width="4%">
-                                                                            :
+                                                                        <td align="center" width="4%">:
                                                                         </td>
                                                                         <td align="left" width="26%">
                                                                             <asp:Label ID="lblRLCM_Last_Email_Date" runat="server"></asp:Label>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td align="left">
-                                                                            Decision
+                                                                        <td align="left">Decision
                                                                         </td>
-                                                                        <td align="center">
-                                                                            :
+                                                                        <td align="center">:
                                                                         </td>
                                                                         <td align="left">
                                                                             <asp:Label runat="server" ID="lblRLCM_Decisionview">
                                                                             </asp:Label>
                                                                         </td>
-                                                                        <td align="left">
-                                                                            RLCM Response Date&nbsp;<span id="Span6" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left">RLCM Response Date&nbsp;<span id="Span6" style="color: Red; display: none;" runat="server">*</span>
                                                                         </td>
-                                                                        <td align="center">
-                                                                            :
+                                                                        <td align="center">:
                                                                         </td>
                                                                         <td align="left">
                                                                             <asp:Label ID="lblRLCM_Response_Date" runat="server"></asp:Label>
@@ -2701,49 +2653,40 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td colspan="6">
-                                                                NAPM
+                                                            <td colspan="6">NAPM
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td colspan="6" style="width: 100%;">
                                                                 <table cellpadding="0" cellspacing="0" width="100%" border="0">
                                                                     <tr>
-                                                                        <td align="left" width="20%">
-                                                                            E-Mail To&nbsp;<span id="Span7" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left" width="20%">E-Mail To&nbsp;<span id="Span7" style="color: Red; display: none;" runat="server">*</span>
                                                                         </td>
-                                                                        <td align="center" width="4%">
-                                                                            :
+                                                                        <td align="center" width="4%">:
                                                                         </td>
                                                                         <td align="left" width="26%">
                                                                             <asp:Label runat="server" ID="lblNAPM_Email_To"></asp:Label>
                                                                         </td>
-                                                                        <td align="left" width="20%">
-                                                                            Last E-Mail Date&nbsp;<span id="Span8" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left" width="20%">Last E-Mail Date&nbsp;<span id="Span8" style="color: Red; display: none;" runat="server">*</span>
                                                                         </td>
-                                                                        <td align="center" width="4%">
-                                                                            :
+                                                                        <td align="center" width="4%">:
                                                                         </td>
                                                                         <td align="left" width="26%">
                                                                             <asp:Label ID="lblNAPM_Last_Email_Date" runat="server"></asp:Label>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td align="left">
-                                                                            Decision
+                                                                        <td align="left">Decision
                                                                         </td>
-                                                                        <td align="center">
-                                                                            :
+                                                                        <td align="center">:
                                                                         </td>
                                                                         <td align="left">
                                                                             <asp:Label runat="server" ID="lblNAPM_DecisionView">
                                                                             </asp:Label>
                                                                         </td>
-                                                                        <td align="left">
-                                                                            NAPM Response Date&nbsp;<span id="Span9" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left">NAPM Response Date&nbsp;<span id="Span9" style="color: Red; display: none;" runat="server">*</span>
                                                                         </td>
-                                                                        <td align="center">
-                                                                            :
+                                                                        <td align="center">:
                                                                         </td>
                                                                         <td align="left">
                                                                             <asp:Label ID="lblNAPM_Response_Date" runat="server"></asp:Label>
@@ -2753,49 +2696,40 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td colspan="6">
-                                                                DRM
+                                                            <td colspan="6">DRM
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td colspan="6" style="width: 100%;">
                                                                 <table cellpadding="0" cellspacing="0" width="100%" border="0">
                                                                     <tr>
-                                                                        <td align="left" width="20%">
-                                                                            E-Mail To&nbsp;<span id="Span10" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left" width="20%">E-Mail To&nbsp;<span id="Span10" style="color: Red; display: none;" runat="server">*</span>
                                                                         </td>
-                                                                        <td align="center" width="4%">
-                                                                            :
+                                                                        <td align="center" width="4%">:
                                                                         </td>
                                                                         <td align="left" width="26%">
                                                                             <asp:Label runat="server" ID="lblDRM_Email_To"></asp:Label>
                                                                         </td>
-                                                                        <td align="left" width="20%">
-                                                                            Last E-Mail Date&nbsp;<span id="Span11" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left" width="20%">Last E-Mail Date&nbsp;<span id="Span11" style="color: Red; display: none;" runat="server">*</span>
                                                                         </td>
-                                                                        <td align="center" width="4%">
-                                                                            :
+                                                                        <td align="center" width="4%">:
                                                                         </td>
                                                                         <td align="left" width="26%">
                                                                             <asp:Label ID="lblDRM_Last_Email_Date" runat="server"></asp:Label>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td align="left">
-                                                                            Decision
+                                                                        <td align="left">Decision
                                                                         </td>
-                                                                        <td align="center">
-                                                                            :
+                                                                        <td align="center">:
                                                                         </td>
                                                                         <td align="left">
                                                                             <asp:Label runat="server" ID="lblDRM_Decisionview">
                                                                             </asp:Label>
                                                                         </td>
-                                                                        <td align="left">
-                                                                            DRM Response Date&nbsp;<span id="Span12" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left">DRM Response Date&nbsp;<span id="Span12" style="color: Red; display: none;" runat="server">*</span>
                                                                         </td>
-                                                                        <td align="center">
-                                                                            :
+                                                                        <td align="center">:
                                                                         </td>
                                                                         <td align="left">
                                                                             <asp:Label ID="lblDRM_Response_Date" runat="server"></asp:Label>
@@ -2805,11 +2739,9 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td align="left" width="20%" valign="top">
-                                                                Comments&nbsp;<span id="Span13" style="color: Red; display: none;" runat="server">*</span>
+                                                            <td align="left" width="20%" valign="top">Comments&nbsp;<span id="Span13" style="color: Red; display: none;" runat="server">*</span>
                                                             </td>
-                                                            <td align="center" width="4%" valign="top">
-                                                                :
+                                                            <td align="center" width="4%" valign="top">:
                                                             </td>
                                                             <td colspan="4" valign="top">
                                                                 <uc:ctrlMultiLineTextBox ID="lblComments" runat="server" ControlType="Label" />
@@ -2818,21 +2750,21 @@
                                                     </table>
                                                 </asp:Panel>
                                                 <asp:Panel ID="pnl3View" runat="server" Style="display: block;" Width="100%">
-                                                 <div class="bandHeaderRow">
-                                                    Project Cost
-                                                </div>
-                                                <table border="0" cellpadding="3" cellspacing="1" width="100%">
-                                                    <tr>
-                                                        <td align="left" valign="top" width="15%">Project Cost Grid<br />
-                                                        </td>
-                                                        <td align="center" valign="top" width="2%">:
-                                                        </td>
-                                                        <td align="left" valign="top" colspan="4">
-                                                            <asp:GridView ID="gvProjectCostView" runat="server" Width="100%" AutoGenerateColumns="false"
-                                                                OnRowCommand="gvProjectCost_RowCommand" OnRowDataBound="gvProjectCost_OnRowDataBound"
-                                                                ShowFooter="true">
-                                                                <Columns>
-                                                                    <%--<asp:TemplateField HeaderText="Project Number">
+                                                    <div class="bandHeaderRow">
+                                                        Project Cost
+                                                    </div>
+                                                    <table border="0" cellpadding="3" cellspacing="1" width="100%">
+                                                        <tr>
+                                                            <td align="left" valign="top" width="15%">Project Cost Grid<br />
+                                                            </td>
+                                                            <td align="center" valign="top" width="2%">:
+                                                            </td>
+                                                            <td align="left" valign="top" colspan="4">
+                                                                <asp:GridView ID="gvProjectCostView" runat="server" Width="100%" AutoGenerateColumns="false"
+                                                                    OnRowCommand="gvProjectCost_RowCommand" OnRowDataBound="gvProjectCost_OnRowDataBound"
+                                                                    ShowFooter="true">
+                                                                    <Columns>
+                                                                        <%--<asp:TemplateField HeaderText="Project Number">
                                                                         <ItemStyle Width="15%" />
                                                                         <ItemTemplate>
                                                                             <asp:LinkButton ID="lnkProject_Number" runat="server" CommandName="EditProjectCost"
@@ -2848,62 +2780,62 @@
                                                                                 Text='<%# Eval("Project_Type")%>'></asp:LinkButton>
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>--%>
-                                                                    <asp:TemplateField HeaderText="Project Phase">
-                                                                        <ItemStyle Width="15%" />
-                                                                        <ItemTemplate>
-                                                                            <asp:LinkButton ID="lnkProject_Phase" runat="server" CommandName="EditProjectCost"
-                                                                                CommandArgument='<%# Eval("PK_ACIManagement_ProjectCost") +";" + Eval("FK_Management") %>'
-                                                                                Text='<%# Eval("Project_Phase") %>'></asp:LinkButton>
-                                                                        </ItemTemplate>
-                                                                        <FooterTemplate>
-                                                                            <asp:Label ID="lblTotal" Text="Total" runat="server" Font-Bold="true" />
-                                                                        </FooterTemplate>
-                                                                    </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="Budget($)">
-                                                                        <ItemStyle Width="15%" />
-                                                                        <ItemTemplate>
-                                                                            <asp:LinkButton ID="lnkbudget" runat="server" CommandName="EditProjectCost" CommandArgument='<%# Eval("PK_ACIManagement_ProjectCost") +";" + Eval("FK_Management") %>'
-                                                                                Text='<%# string.Format("{0:C2}",Eval("Budget")) %>'></asp:LinkButton>
-                                                                        </ItemTemplate>
-                                                                        <FooterTemplate>
-                                                                            <asp:Label ID="lblBudgetSum" runat="server" />
-                                                                        </FooterTemplate>
-                                                                    </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="Estimated Cost($)">
-                                                                        <ItemStyle Width="15%" />
-                                                                        <ItemTemplate>
-                                                                            <asp:LinkButton ID="lnkEstimated_Cost" runat="server" CommandName="EditProjectCost"
-                                                                                CommandArgument='<%# Eval("PK_ACIManagement_ProjectCost") +";" + Eval("FK_Management") %>'
-                                                                                Text='<%# string.Format("{0:C2}",Eval("Estimated_Cost")) %>'></asp:LinkButton>
-                                                                        </ItemTemplate>
-                                                                        <FooterTemplate>
-                                                                            <asp:Label ID="lblEstimatedCostSum" runat="server" />
-                                                                        </FooterTemplate>
-                                                                    </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="Actual Cost($)">
-                                                                        <ItemStyle Width="15%" />
-                                                                        <ItemTemplate>
-                                                                            <asp:LinkButton ID="lnkActualCost" runat="server" CommandName="EditProjectCost" CommandArgument='<%# Eval("PK_ACIManagement_ProjectCost") +";" + Eval("FK_Management") %>'
-                                                                                Text='<%# string.Format("{0:C2}",Eval("Actual_Cost")) %>'></asp:LinkButton>
-                                                                        </ItemTemplate>
-                                                                        <FooterTemplate>
-                                                                            <asp:Label ID="lblActualCostSum" runat="server" />
-                                                                        </FooterTemplate>
-                                                                    </asp:TemplateField>
-                                                                </Columns>
-                                                                <EmptyDataTemplate>
-                                                                    <table width="100%">
-                                                                        <tr>
-                                                                            <td align="center">
-                                                                                <asp:Label ID="lblMsg" runat="server" SkinID="Message" Text="No Records Found."></asp:Label>
-                                                                            </td>
-                                                                        </tr>
-                                                                    </table>
-                                                                </EmptyDataTemplate>
-                                                            </asp:GridView>
-                                                        </td>
-                                                    </tr>
-                                                   <%-- <tr>
+                                                                        <asp:TemplateField HeaderText="Project Phase">
+                                                                            <ItemStyle Width="15%" />
+                                                                            <ItemTemplate>
+                                                                                <asp:LinkButton ID="lnkProject_Phase" runat="server" CommandName="EditProjectCost"
+                                                                                    CommandArgument='<%# Eval("PK_ACIManagement_ProjectCost") +";" + Eval("FK_Management") %>'
+                                                                                    Text='<%# Eval("Project_Phase") %>'></asp:LinkButton>
+                                                                            </ItemTemplate>
+                                                                            <FooterTemplate>
+                                                                                <asp:Label ID="lblTotal" Text="Total" runat="server" Font-Bold="true" />
+                                                                            </FooterTemplate>
+                                                                        </asp:TemplateField>
+                                                                        <asp:TemplateField HeaderText="Budget($)">
+                                                                            <ItemStyle Width="15%" />
+                                                                            <ItemTemplate>
+                                                                                <asp:LinkButton ID="lnkbudget" runat="server" CommandName="EditProjectCost" CommandArgument='<%# Eval("PK_ACIManagement_ProjectCost") +";" + Eval("FK_Management") %>'
+                                                                                    Text='<%# string.Format("{0:C2}",Eval("Budget")) %>'></asp:LinkButton>
+                                                                            </ItemTemplate>
+                                                                            <FooterTemplate>
+                                                                                <asp:Label ID="lblBudgetSum" runat="server" />
+                                                                            </FooterTemplate>
+                                                                        </asp:TemplateField>
+                                                                        <asp:TemplateField HeaderText="Estimated Cost($)">
+                                                                            <ItemStyle Width="15%" />
+                                                                            <ItemTemplate>
+                                                                                <asp:LinkButton ID="lnkEstimated_Cost" runat="server" CommandName="EditProjectCost"
+                                                                                    CommandArgument='<%# Eval("PK_ACIManagement_ProjectCost") +";" + Eval("FK_Management") %>'
+                                                                                    Text='<%# string.Format("{0:C2}",Eval("Estimated_Cost")) %>'></asp:LinkButton>
+                                                                            </ItemTemplate>
+                                                                            <FooterTemplate>
+                                                                                <asp:Label ID="lblEstimatedCostSum" runat="server" />
+                                                                            </FooterTemplate>
+                                                                        </asp:TemplateField>
+                                                                        <asp:TemplateField HeaderText="Actual Cost($)">
+                                                                            <ItemStyle Width="15%" />
+                                                                            <ItemTemplate>
+                                                                                <asp:LinkButton ID="lnkActualCost" runat="server" CommandName="EditProjectCost" CommandArgument='<%# Eval("PK_ACIManagement_ProjectCost") +";" + Eval("FK_Management") %>'
+                                                                                    Text='<%# string.Format("{0:C2}",Eval("Actual_Cost")) %>'></asp:LinkButton>
+                                                                            </ItemTemplate>
+                                                                            <FooterTemplate>
+                                                                                <asp:Label ID="lblActualCostSum" runat="server" />
+                                                                            </FooterTemplate>
+                                                                        </asp:TemplateField>
+                                                                    </Columns>
+                                                                    <EmptyDataTemplate>
+                                                                        <table width="100%">
+                                                                            <tr>
+                                                                                <td align="center">
+                                                                                    <asp:Label ID="lblMsg" runat="server" SkinID="Message" Text="No Records Found."></asp:Label>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </EmptyDataTemplate>
+                                                                </asp:GridView>
+                                                            </td>
+                                                        </tr>
+                                                        <%-- <tr>
                                                         <td align="left" valign="top">Include Companion Project(s) in Project Cost Grid
                                                         </td>
                                                         <td align="center" valign="top">:
@@ -2912,7 +2844,7 @@
                                                             <asp:CheckBox ID="chkIncludeCompProjectView" runat="server" AutoPostBack="true" OnCheckedChanged="chkIncludeCompProject_OnCheckedChanged" />
                                                         </td>
                                                     </tr>--%>
-                                                     <tr>
+                                                        <tr>
                                                             <td valign="top" style="width: auto">Invoice Grid
                                                             </td>
                                                             <td align="center" valign="top" style="width: 3%">&nbsp;:
@@ -2960,21 +2892,21 @@
                                                             <td>&nbsp;
                                                             </td>
                                                         </tr>
-                                                </table>
+                                                    </table>
                                                 </asp:Panel>
-                                                 <asp:Panel ID="pnl4View" runat="server" Style="display: block;" Width="100%">
-                                                     <div class="bandHeaderRow">
+                                                <asp:Panel ID="pnl4View" runat="server" Style="display: block;" Width="100%">
+                                                    <div class="bandHeaderRow">
                                                         Attachment
                                                     </div>
                                                     <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                         <tr>
                                                             <td>
-                                                               <uc:Attachment ID="ucAttachmentView" runat="server" Attachment_Table="Management" MajorCoverage="Management"/>
+                                                                <uc:Attachment ID="ucAttachmentView" runat="server" Attachment_Table="Management" MajorCoverage="Management" />
                                                             </td>
                                                         </tr>
-                                                          
+
                                                     </table>
-                                                 </asp:Panel>
+                                                </asp:Panel>
                                             </div>
                                         </td>
                                     </tr>
@@ -2982,8 +2914,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>
-                                &nbsp;
+                            <td>&nbsp;
                             </td>
                         </tr>
                         <tr>
@@ -2991,8 +2922,8 @@
                                 <asp:Button ID="btnPreviousStep" ToolTip="Previous Step" runat="server" Text="Previous Step"
                                     CausesValidation="false" OnClientClick="return  onPreviousStep();" />
                                 &nbsp; &nbsp;
-                                <asp:Button ID="btnSave" runat="server" Text="Save" CausesValidation="true" ValidationGroup="vsErrorGroup"
-                                    OnClick="btnSave_Click" ToolTip="Save" OnClientClick="javascript:return SetApprovalSubmissionOnSaveButton();"/>
+                                <asp:Button ID="btnSave" runat="server" Text="Save" CausesValidation="false" ValidationGroup="vsErrorGroup"
+                                    OnClick="btnSave_Click" ToolTip="Save" OnClientClick="SetApprovalSubmissionOnSaveButton();" UseSubmitBehavior="false" />
                                 <asp:Button ID="btnEdit" runat="server" Text=" Edit " CausesValidation="false" OnClick="btnEdit_Click"
                                     Visible="false" />
                                 &nbsp; &nbsp;
@@ -3010,10 +2941,10 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>
-                                &nbsp;
+                            <td>&nbsp;
                             </td>
-                        </tr></table>
+                        </tr>
+                    </table>
                 </td>
             </tr>
         </table>

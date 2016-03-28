@@ -5757,6 +5757,24 @@ public class ComboHelper
         }
     }
 
+    public static void FillMaintenanceStatusList(ListBox[] LstBox, bool booladdSelectAsFirstElement)
+    {
+        DataSet dsData = ERIMS.DAL.LU_Maintenance_Status.SelectAll();
+        foreach (ListBox lstBox in LstBox)
+        {
+            lstBox.Items.Clear();
+            lstBox.DataTextField = "Fld_Desc";
+            lstBox.DataValueField = "PK_LU_Maintenance_Status";
+            lstBox.DataSource = dsData;
+            lstBox.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                lstBox.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
 
     /// <summary>
     /// Used to Bind Contractor Type DropDown
@@ -6496,6 +6514,30 @@ public class ComboHelper
             ddlToFill.DataBind();
             //check require to add "-- select --" at first item of dropdown.
             if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Used to bind Approval Submission dropdown of ACI Management screen
+    /// </summary>
+    /// <param name="dropDownList"></param>
+    /// <param name="p"></param>
+    public static void FillMaintenanceStatus(DropDownList[] dropDownList, bool p)
+    {
+        DataSet dsData = LU_Maintenance_Status.SelectAll();
+        dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y'";
+        foreach (DropDownList ddlToFill in dropDownList)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Fld_Desc";
+            ddlToFill.DataValueField = "PK_LU_Maintenance_Status";
+            ddlToFill.DataSource = dsData.Tables[0].DefaultView;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (p)
             {
                 ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
             }

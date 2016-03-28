@@ -148,6 +148,7 @@ public partial class Management_Management : clsBasePage
                 btnManagementNoteView.Visible = btnManagementPrint.Visible = btnManagementSpecificNote.Visible = ctrlPageSonicNotes.Visible = false;
 
                 btnResendManagementAbstract.Visible = false;
+                txtDate_Entered.Text = DateTime.Now.ToString("MM/dd/yyyy");
             }
 
             BindProjectCostGrid();
@@ -171,10 +172,11 @@ public partial class Management_Management : clsBasePage
         ComboHelper.FillWork_Completed((new DropDownList[] { drpFK_Work_Completed }), true);
         ComboHelper.FillRecord_Type((new DropDownList[] { drpFK_Record_Type }), true);
         ComboHelper.FillApproval_Submission((new DropDownList[] { drpFK_LU_Approval_Submission }), true);
-        
+        ComboHelper.FillMaintenanceStatus((new DropDownList[] { drpMaintenanceStatus }), true);
         //ComboHelper.FillLU_Region(new DropDownList[] { drpRegion }, true);
         //ComboHelper.FillState(new DropDownList[] { drpState }, true);
         //ComboHelper.FillLU_Camera_Type(new DropDownList[] { drpCameraType }, true);
+
     }
 
     /// <summary>
@@ -214,10 +216,10 @@ public partial class Management_Management : clsBasePage
         //else
         //    objRecord.FK_LU_Camera_Type = null;
 
-        if (!string.IsNullOrEmpty(Convert.ToString(rblTask_Complete.SelectedValue)))
-            objRecord.Task_Complete = Convert.ToBoolean(Convert.ToInt32(rblTask_Complete.SelectedValue));
-        else
-            objRecord.Task_Complete = null;
+        //if (!string.IsNullOrEmpty(Convert.ToString(rblTask_Complete.SelectedValue)))
+        //    objRecord.Task_Complete = Convert.ToBoolean(Convert.ToInt32(rblTask_Complete.SelectedValue));
+        //else
+        //    objRecord.Task_Complete = null;
 
 
         //set value of Client Issue
@@ -251,10 +253,18 @@ public partial class Management_Management : clsBasePage
         else
             objRecord.FK_LU_Record_Type = null;
 
-        //if (drpFK_LU_Approval_Submission.SelectedIndex > 0)
-        objRecord.FK_LU_Approval_Submission = clsGeneral.GetDecimal(hdnApprovalSubmission.Value); //Convert.ToDecimal(drpFK_LU_Approval_Submission.SelectedValue);
-        //else
-            //objRecord.FK_LU_Approval_Submission = null;
+        objRecord.No_Approval_Needed = chkNoApprovalNeeded.Checked;
+        objRecord.Approval_Needed = chkApprovalNeeded.Checked;
+
+        if (chkNoApprovalNeeded.Checked)
+            objRecord.FK_LU_Approval_Submission = Convert.ToDecimal(drpFK_LU_Approval_Submission.Items.FindByText("Yes").Value);
+        else 
+            objRecord.FK_LU_Approval_Submission = Convert.ToDecimal(hdnApprovalSubmission.Value);
+
+        if (!string.IsNullOrEmpty(Convert.ToString(rdbRPMApproval.SelectedValue)))
+            objRecord.RPM_Approval = Convert.ToBoolean(Convert.ToInt32(rdbRPMApproval.SelectedValue));
+        else
+            objRecord.RPM_Approval = null;
 
         objRecord.Work_To_Complete_Other = txtWork_To_Complete_Other.Text;
 
@@ -264,9 +274,9 @@ public partial class Management_Management : clsBasePage
             objRecord.Work_Completed_By = null;
 
         objRecord.Service_Repair_Cost = clsGeneral.GetDecimalNullableValue(txtService_Repair_Cost);
-        objRecord.Record_Type_Other = txtRecord_Type_Other.Text;
+        //objRecord.Record_Type_Other = txtRecord_Type_Other.Text;
         objRecord.Job = txtJob.Text;
-        objRecord.Order = txtOrder.Text;
+        //objRecord.Order = txtOrder.Text;
         objRecord.Order_Date = clsGeneral.FormatNullDateToStore(txtOrderDate.Text);
         objRecord.Requested_By = txtRequestedBy.Text;
         objRecord.Created_By = txtCreatedBy.Text;
@@ -320,6 +330,8 @@ public partial class Management_Management : clsBasePage
         else
             objRecord.DRM_Decision = null;
 
+        objRecord.FK_LU_Maintenance_Status = Convert.ToDecimal(drpMaintenanceStatus.SelectedValue.ToString());
+
         objRecord.Comment = txtComments.Text;
         //**************Approval Screen Fields Ends********************//
 
@@ -367,10 +379,10 @@ public partial class Management_Management : clsBasePage
             ctrlRecommendation.Text = objRecord.Recommendation != null ? Convert.ToString(objRecord.Recommendation) : "";
 
 
-            if (!string.IsNullOrEmpty(Convert.ToString(objRecord.Task_Complete)))
-                rblTask_Complete.SelectedValue = Convert.ToString(Convert.ToDecimal(objRecord.Task_Complete));
-            else
-                rblTask_Complete.ClearSelection();
+            //if (!string.IsNullOrEmpty(Convert.ToString(objRecord.Task_Complete)))
+            //    rblTask_Complete.SelectedValue = Convert.ToString(Convert.ToDecimal(objRecord.Task_Complete));
+            //else
+            //    rblTask_Complete.ClearSelection();
 
             //if (objRecord.FK_LU_Location != null) drpLocation.SelectedValue = Convert.ToString(objRecord.FK_LU_Location);
             clsGeneral.SetDropdownValue(drpLocation, objRecord.FK_LU_Location, true);
@@ -382,6 +394,7 @@ public partial class Management_Management : clsBasePage
 
             clsGeneral.SetDropdownValue(drpFK_Record_Type, objRecord.FK_LU_Record_Type, true);
             clsGeneral.SetDropdownValue(drpFK_LU_Approval_Submission, objRecord.FK_LU_Approval_Submission, true);
+                        clsGeneral.SetDropdownValue(drpMaintenanceStatus, objRecord.FK_LU_Maintenance_Status, true);
 
             txtWork_To_Complete_Other.Text = objRecord.Work_To_Complete_Other;
 
@@ -391,12 +404,49 @@ public partial class Management_Management : clsBasePage
                 rdoWork_Completed_By.ClearSelection();
 
             txtService_Repair_Cost.Text = clsGeneral.GetStringValue(objRecord.Service_Repair_Cost);
-            txtRecord_Type_Other.Text = objRecord.Record_Type_Other;
+            //txtRecord_Type_Other.Text = objRecord.Record_Type_Other;
             txtJob.Text = objRecord.Job;
-            txtOrder.Text = objRecord.Order;
+            //txtOrder.Text = objRecord.Order;
             txtOrderDate.Text = clsGeneral.FormatDBNullDateToDisplay(objRecord.Order_Date);
             txtRequestedBy.Text = objRecord.Requested_By;
             txtCreatedBy.Text = objRecord.Created_By;
+
+            if (objRecord.No_Approval_Needed.HasValue && objRecord.No_Approval_Needed.Value)
+            {
+                trApprovals.Style.Add("display", "none");
+                chkNoApprovalNeeded.Checked = true;
+                showHideOriginalService(true);
+            }
+            else
+            {
+                trApprovals.Style.Add("display", "block");
+                chkNoApprovalNeeded.Checked = false;
+                showHideOriginalService(false);
+            }
+
+            if (objRecord.Approval_Needed.HasValue && objRecord.Approval_Needed.Value)
+            {
+                chkApprovalNeeded.Checked = true;
+                chkNoApprovalNeeded.Enabled = false;
+                showHideRepairEstimate(true);
+            }
+            else
+            {
+                chkApprovalNeeded.Checked = false;
+                showHideRepairEstimate(false);
+            }
+
+            // Logic for setting RPM row and radio button visible and set to its value
+            if (objRecord.RPM_Approval.HasValue)
+            {
+                rdbRPMApproval.Items.FindByValue("1").Selected = true;
+            }
+
+            ListItem lst = drpFK_Work_Completed.Items.FindByValue(objRecord.FK_LU_Work_Completed.ToString());
+            if (lst != null && lst.Text.ToLower().Contains("add new"))
+                trRPMApproval.Style.Add("display", "block");
+            else
+                trRPMApproval.Style.Add("display", "none");
 
             txtPreviousContractAmount.Text = clsGeneral.GetStringValue(objRecord.Previous_Contract_Amount );
             txtRevisedContractAmount.Text =  clsGeneral.GetStringValue(objRecord.Revised_Contract_Amount);
@@ -531,6 +581,8 @@ public partial class Management_Management : clsBasePage
             else
                 lblLocation.Text = "";
 
+            lblFK_LU_Maintenance_Status.Text = objRecord.FK_LU_Maintenance_Status.HasValue ? new LU_Maintenance_Status(objRecord.FK_LU_Maintenance_Status.Value).Fld_Desc : "";
+
             //if (objRecord.FK_LU_State != null)
             //    lblState.Text = new LU_State((decimal)objRecord.FK_LU_State).Fld_Desc;
             //else
@@ -541,18 +593,18 @@ public partial class Management_Management : clsBasePage
             //else
             //    lblRegion.Text = "";
 
-            switch (objRecord.Task_Complete)
-            {
-                case true:
-                    lblTask_Complete.Text = "Yes";
-                    break;
-                case false:
-                    lblTask_Complete.Text = "No";
-                    break;
-                default:
-                    lblTask_Complete.Text = "";
-                    break;
-            }
+            //switch (objRecord.Task_Complete)
+            //{
+            //    case true:
+            //        lblTask_Complete.Text = "Yes";
+            //        break;
+            //    case false:
+            //        lblTask_Complete.Text = "No";
+            //        break;
+            //    default:
+            //        lblTask_Complete.Text = "";
+            //        break;
+            //}
 
             //if (objRecord.FK_LU_Camera_Type != null)
             //    lblCameraType.Text = new LU_Camera_Type((decimal)objRecord.FK_LU_Camera_Type).Fld_Desc;
@@ -612,9 +664,9 @@ public partial class Management_Management : clsBasePage
             }
 
             lblService_Repair_Cost.Text = clsGeneral.GetStringValue(objRecord.Service_Repair_Cost);
-            lblRecord_Type_Other.Text = objRecord.Record_Type_Other;
+            //lblRecord_Type_Other.Text = objRecord.Record_Type_Other;
             lblJob.Text = objRecord.Job;
-            lblOrder.Text = objRecord.Order;
+            //lblOrder.Text = objRecord.Order;
             lblOrderDate.Text = clsGeneral.FormatDBNullDateToDisplay(objRecord.Order_Date);
             lblRequestedBy.Text = objRecord.Requested_By;
             lblCreatedBy.Text = objRecord.Created_By;
@@ -712,6 +764,34 @@ public partial class Management_Management : clsBasePage
             BindManagementNoteGridView(ctrlPageSonicNotes.CurrentPage, ctrlPageSonicNotes.PageSize);
         }
 
+    }
+
+    protected void btnClear_Click(object sender, EventArgs e)
+    {
+        Button btnClear = (Button)sender;
+        switch (btnClear.CommandArgument.ToString().ToUpper())
+        {
+            case "GM":
+                rdoGM_Decision.ClearSelection();
+                txtGM_Response_Date.Text = string.Empty;
+                break;
+            case "RLCM":
+                rdoRLCM_Decision.ClearSelection();
+                txtRLCM_Response_Date.Text = string.Empty;
+                break;
+            case "NAPM":
+                rdoNAPM_Decision.ClearSelection();
+                txtNAPM_Response_Date.Text = string.Empty;
+                break;
+            case "DRM":
+                rdoDRM_Decision.ClearSelection();
+                txtDRM_Response_Date.Text = string.Empty;
+                break;
+            default:
+                break;
+
+        }
+        SaveRecord();
     }
 
     /// <summary>
@@ -997,33 +1077,48 @@ public partial class Management_Management : clsBasePage
                 strBody = strBody.Replace("[WorkToBeCompletedBy]", string.Empty);
             }
 
-            if (!DBNull.Value.Equals(dtManagementDetail.Rows[0]["Task_Complete"]))
+            //if (!DBNull.Value.Equals(dtManagementDetail.Rows[0]["Task_Complete"]))
+            //{
+            //    switch (Convert.ToBoolean(dtManagementDetail.Rows[0]["Task_Complete"]))
+            //    {
+            //        case false:
+            //            strBody = strBody.Replace("[TaskComplete]", "NO");
+            //            break;
+            //        case true:
+            //            strBody = strBody.Replace("[TaskComplete]", "YES");
+            //            break;
+            //        default:
+            //            strBody = strBody.Replace("[TaskComplete]", string.Empty);
+            //            break;
+            //    }
+            //}
+            //else
+            //{
+            //    strBody = strBody.Replace("[TaskComplete]", string.Empty);
+            //}
+
+            if (dtManagementDetail.Rows[0]["No_Approval_Needed"] != DBNull.Value && Convert.ToBoolean(dtManagementDetail.Rows[0]["No_Approval_Needed"]))
             {
-                switch (Convert.ToBoolean(dtManagementDetail.Rows[0]["Task_Complete"]))
-                {
-                    case false:
-                        strBody = strBody.Replace("[TaskComplete]", "NO");
-                        break;
-                    case true:
-                        strBody = strBody.Replace("[TaskComplete]", "YES");
-                        break;
-                    default:
-                        strBody = strBody.Replace("[TaskComplete]", string.Empty);
-                        break;
-                }
+                strBody = strBody.Replace("<label id=\"lblOriginalService\" style=\"display:none\">", "<label id=\"lblOriginalService\">");
+                strBody = strBody.Replace("<label id=\"lblOriginalServiceCol\" style=\"display:none\">", "<label id=\"lblOriginalServiceCol\">");
+                strBody = strBody.Replace("<label id=\"lblOriginalServiceValue\" style=\"display:none\">[PreviousContractAmount]</label>", "<label id=\"lblOriginalServiceValue\">" + string.Format("{0:C2}", dtManagementDetail.Rows[0]["Previous_Contract_Amount"]) + "</label>");
+                strBody = strBody.Replace("<tr class=\"trapproval\">", "<tr style=\"display:none\">");
             }
-            else
+
+            if (dtManagementDetail.Rows[0]["Approval_Needed"] != DBNull.Value && Convert.ToBoolean(dtManagementDetail.Rows[0]["Approval_Needed"]))
             {
-                strBody = strBody.Replace("[TaskComplete]", string.Empty);
+                strBody = strBody.Replace("<label id=\"lblRepairEstimate\" style=\"display:none\">", "<label id=\"lblRepairEstimate\">");
+                strBody = strBody.Replace("<label id=\"lblRepairEstimateCol\" style=\"display:none\">", "<label id=\"lblRepairEstimateCol\">");
+                strBody = strBody.Replace("<label id=\"lblRepairEstimateValue\" style=\"display:none\">[RevisedContractAmount]</label>", "<label id=\"lblRepairEstimateValue\">" + string.Format("{0:C2}", dtManagementDetail.Rows[0]["Revised_Contract_Amount"]) + "</label>");
             }
 
             strBody = strBody.Replace("[Service/RepairCost]", string.Format("{0:C2}", dtManagementDetail.Rows[0]["Service_Repair_Cost"]));
             strBody = strBody.Replace("[CRApproved]", clsGeneral.FormatDBNullDateToDisplay(dtManagementDetail.Rows[0]["CR_Approved"]));
             strBody = strBody.Replace("[RecordType]", Convert.ToString(dtManagementDetail.Rows[0]["RecordType"]));
             strBody = strBody.Replace("[Approval_Submission]", Convert.ToString(dtManagementDetail.Rows[0]["Approval_Submission"]));
-            strBody = strBody.Replace("[RecordTypeOther]", Convert.ToString(dtManagementDetail.Rows[0]["Record_Type_Other"]));
+            //strBody = strBody.Replace("[RecordTypeOther]", Convert.ToString(dtManagementDetail.Rows[0]["Record_Type_Other"]));
             strBody = strBody.Replace("[Job#]", Convert.ToString(dtManagementDetail.Rows[0]["Job"]));
-            strBody = strBody.Replace("[Order#]", Convert.ToString(dtManagementDetail.Rows[0]["Order"]));
+            //strBody = strBody.Replace("[Order#]", Convert.ToString(dtManagementDetail.Rows[0]["Order"]));
             strBody = strBody.Replace("[OrderDate]", clsGeneral.FormatDBNullDateToDisplay(dtManagementDetail.Rows[0]["Order_Date"]));
             strBody = strBody.Replace("[RequestedBy]", Convert.ToString(dtManagementDetail.Rows[0]["Requested_By"]));
             strBody = strBody.Replace("[CreatedBy]", Convert.ToString(dtManagementDetail.Rows[0]["Created_By"]));
@@ -1127,6 +1222,38 @@ public partial class Management_Management : clsBasePage
             else
             {
                 strBody = strBody.Replace("[DRM_Decision]", string.Empty);
+            }
+
+            if (dtManagementDetail.Rows[0]["No_Approval_Needed"] != DBNull.Value)
+            {
+                switch (Convert.ToBoolean(dtManagementDetail.Rows[0]["No_Approval_Needed"]))
+                {
+                    case true:
+                        strBody = strBody.Replace("[No Approval Needed]", "Yes");
+                        break;
+                    case false:
+                        strBody = strBody.Replace("[No Approval Needed]", "No");
+                        break;
+                    default:
+                        strBody = strBody.Replace("[No Approval Needed]", string.Empty);
+                        break;
+                }
+            }
+
+            if (dtManagementDetail.Rows[0]["Approval_Needed"] != DBNull.Value)
+            {
+                switch (Convert.ToBoolean(dtManagementDetail.Rows[0]["Approval_Needed"]))
+                {
+                    case true:
+                        strBody = strBody.Replace("[Approval Needed]", "Yes");
+                        break;
+                    case false:
+                        strBody = strBody.Replace("[Approval Needed]", "No");
+                        break;
+                    default:
+                        strBody = strBody.Replace("[Approval Needed]", string.Empty);
+                        break;
+                }
             }
 
             strBody = strBody.Replace("[DRM_ResponseDate]", clsGeneral.FormatDBNullDateToDisplay(dtManagementDetail.Rows[0]["DRM_Response_Date"]));
@@ -2138,5 +2265,64 @@ public partial class Management_Management : clsBasePage
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
     }
     #endregion
-    
+
+    protected void chkNoApprovalNeeded_CheckedChanged(object sender, EventArgs e)
+    {
+        showHideOriginalService(chkNoApprovalNeeded.Checked);
+    }
+
+
+    protected void chkApprovalNeeded_CheckedChanged(object sender, EventArgs e)
+    {
+        showHideRepairEstimate(chkApprovalNeeded.Checked);
+        hdnApprovalSubmission.Value = "0";
+        drpFK_LU_Approval_Submission.SelectedValue = "0";
+    }
+
+    private void showHideRepairEstimate(bool isVisible)
+    {
+        if (isVisible)
+        {
+            chkNoApprovalNeeded.Enabled = false;
+            chkNoApprovalNeeded.Checked = false;
+            txtRevisedContractAmount.Visible = true;
+            spRepairEstimate.Style.Add("display", "inline-block");
+            lblRepairEstimate.Style.Add("display", "inline-block");
+            lblRepairEstimateCol.Style.Add("display", "inline-block");
+            lblRepairEstimateDollar.Style.Add("display", "inline-block");
+            showHideOriginalService(false);
+        }
+        else
+        {
+            chkNoApprovalNeeded.Enabled = true;
+            txtRevisedContractAmount.Visible = false;
+            txtRevisedContractAmount.Text = string.Empty;
+            spRepairEstimate.Style.Add("display", "none");
+            lblRepairEstimate.Style.Add("display", "none");
+            lblRepairEstimateCol.Style.Add("display", "none");
+            lblRepairEstimateDollar.Style.Add("display", "none");
+        }
+    }
+
+    private void showHideOriginalService(bool isVisible)
+    {
+        if (isVisible)
+        {
+            trApprovals.Style.Add("display", "none");
+            txtPreviousContractAmount.Visible = true;
+            lblOriginalService.Style.Add("display", "inline-block");
+            lblOriginalServiceCol.Style.Add("display", "inline-block");
+            lblOriginalServiceDollar.Style.Add("display", "inline-block");
+            spOriginalService.Style.Add("display", "inline-block");
+        }
+        else
+        {
+            trApprovals.Style.Add("display", "block");
+            txtPreviousContractAmount.Visible = false;
+            spOriginalService.Style.Add("display", "none");
+            lblOriginalService.Style.Add("display", "none");
+            lblOriginalServiceCol.Style.Add("display", "none");
+            lblOriginalServiceDollar.Style.Add("display", "none");
+        }
+    }
 }

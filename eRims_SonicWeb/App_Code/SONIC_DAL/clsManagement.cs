@@ -35,7 +35,7 @@ namespace ERIMS.DAL
 		private DateTime? _Update_Date;
         private decimal? _Location_Code;
         private bool? _Task_Complete;
-        private string _Record_Type_Other;
+        //private string _Record_Type_Other;
         private string _Work_To_Complete_Other;
         private decimal? _FK_LU_Work_Completed;
         private bool? _Work_Completed_By;
@@ -48,7 +48,7 @@ namespace ERIMS.DAL
         private decimal? _Previous_Contract_Amount;
         private decimal? _Revised_Contract_Amount;
         private string _Reason_for_Request;
-        private string _Order;
+        //private string _Order;
         private string _GM_Email_To;
         private bool? _GM_Decision;
         private DateTime? _GM_Last_Email_Date;
@@ -69,6 +69,10 @@ namespace ERIMS.DAL
         private string _Reference_Number;
         private decimal? _FK_LU_Approval_Submission;
         private DateTime? _Date_Entered;
+        private bool? _RPM_Approval;
+        private decimal? _FK_LU_Maintenance_Status;
+        private bool? _No_Approval_Needed;
+        private bool? _Approval_Needed;
 
 		#endregion
 
@@ -275,11 +279,11 @@ namespace ERIMS.DAL
         /// <summary>
         /// Gets or sets the Record_Type_Other value.
         /// </summary>
-        public string Record_Type_Other
-        {
-            get { return _Record_Type_Other; }
-            set { _Record_Type_Other = value; }
-        }
+        //public string Record_Type_Other
+        //{
+        //    get { return _Record_Type_Other; }
+        //    set { _Record_Type_Other = value; }
+        //}
 
         /// <summary>
         /// Gets or sets the Work_To_Complete_Other value.
@@ -392,11 +396,11 @@ namespace ERIMS.DAL
         /// <summary>
         /// Gets or sets the Order value.
         /// </summary>
-        public string Order
-        {
-            get { return _Order; }
-            set { _Order = value; }
-        }
+        //public string Order
+        //{
+        //    get { return _Order; }
+        //    set { _Order = value; }
+        //}
 
         /// <summary>
         /// Gets or sets the GM_Email_To value.
@@ -578,6 +582,42 @@ namespace ERIMS.DAL
             set { _Date_Entered = value; }
         }
 
+        /// <summary>
+        /// gets or sets RPM approval value
+        /// </summary>
+        public bool? RPM_Approval
+        {
+            get { return _RPM_Approval; }
+            set { _RPM_Approval = value; }
+        }
+
+        /// <summary>
+        /// gets or sets FK_LU_Maintenance_Status
+        /// </summary>
+        public decimal? FK_LU_Maintenance_Status
+        {
+            get { return _FK_LU_Maintenance_Status; }
+            set { _FK_LU_Maintenance_Status = value; }
+        }
+
+        /// <summary>
+        /// gets or sets No approval Needed value
+        /// </summary>
+        public bool? No_Approval_Needed
+        {
+            get { return _No_Approval_Needed; }
+            set { _No_Approval_Needed = value; }
+        }
+
+        /// <summary>
+        /// gets or sets Approval Needed value
+        /// </summary>
+        public bool? Approval_Needed
+        {
+            get { return _Approval_Needed; }
+            set { _Approval_Needed = value; }
+        }
+
 		#endregion
 
 		#region Default Constructors
@@ -726,10 +766,10 @@ namespace ERIMS.DAL
                 else
                     this._Task_Complete = (bool?)drManagement["Task_Complete"];
 
-                if (drManagement["Record_Type_Other"] == DBNull.Value)
-                    this._Record_Type_Other = null;
-                else
-                    this._Record_Type_Other = (string)drManagement["Record_Type_Other"];
+                //if (drManagement["Record_Type_Other"] == DBNull.Value)
+                //    this._Record_Type_Other = null;
+                //else
+                //    this._Record_Type_Other = (string)drManagement["Record_Type_Other"];
 
                 if (drManagement["Work_To_Complete_Other"] == DBNull.Value)
                     this._Work_To_Complete_Other = null;
@@ -791,10 +831,10 @@ namespace ERIMS.DAL
                 else
                     this._Reason_for_Request = (string)drManagement["Reason_for_Request"];
 
-                if (drManagement["Order"] == DBNull.Value)
-                    this._Order = null;
-                else
-                    this._Order = (string)drManagement["Order"];
+                //if (drManagement["Order"] == DBNull.Value)
+                //    this._Order = null;
+                //else
+                //    this._Order = (string)drManagement["Order"];
 
                 if (drManagement["GM_Email_To"] == DBNull.Value)
                     this._GM_Email_To = null;
@@ -895,6 +935,26 @@ namespace ERIMS.DAL
                     this._Date_Entered = null;
                 else
                     this._Date_Entered = (DateTime?)drManagement["Date_Entered"];
+
+                if (drManagement["RPM_Approval"] == DBNull.Value)
+                    this._RPM_Approval = null;
+                else
+                    this._RPM_Approval = (bool?)drManagement["RPM_Approval"];
+
+                if (drManagement["FK_LU_Maintenance_Status"] == DBNull.Value)
+                    this._FK_LU_Maintenance_Status = null;
+                else
+                    this._FK_LU_Maintenance_Status = (decimal?)drManagement["FK_LU_Maintenance_Status"];
+
+                if (drManagement["No_Approval_Needed"] == DBNull.Value)
+                    this._No_Approval_Needed = null;
+                else
+                    this._No_Approval_Needed = (bool?)drManagement["No_Approval_Needed"];
+
+                if (drManagement["Approval_Needed"] == DBNull.Value)
+                    this._Approval_Needed = null;
+                else
+                    this._Approval_Needed = (bool?)drManagement["Approval_Needed"];
 		}
 
 		#endregion
@@ -981,10 +1041,10 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "Task_Complete", DbType.Boolean, this._Task_Complete);
 
-            if (string.IsNullOrEmpty(this._Record_Type_Other))
-                db.AddInParameter(dbCommand, "Record_Type_Other", DbType.String, DBNull.Value);
-            else
-                db.AddInParameter(dbCommand, "Record_Type_Other", DbType.String, this._Record_Type_Other);
+            //if (string.IsNullOrEmpty(this._Record_Type_Other))
+            //    db.AddInParameter(dbCommand, "Record_Type_Other", DbType.String, DBNull.Value);
+            //else
+            //    db.AddInParameter(dbCommand, "Record_Type_Other", DbType.String, this._Record_Type_Other);
 
             if (string.IsNullOrEmpty(this._Work_To_Complete_Other))
                 db.AddInParameter(dbCommand, "Work_To_Complete_Other", DbType.String, DBNull.Value);
@@ -1025,10 +1085,10 @@ namespace ERIMS.DAL
             else
                 db.AddInParameter(dbCommand, "Reason_for_Request", DbType.String, this._Reason_for_Request);
 
-            if (string.IsNullOrEmpty(this._Order))
-                db.AddInParameter(dbCommand, "order", DbType.String, DBNull.Value);
-            else
-                db.AddInParameter(dbCommand, "order", DbType.String, this._Order);
+            //if (string.IsNullOrEmpty(this._Order))
+            //    db.AddInParameter(dbCommand, "order", DbType.String, DBNull.Value);
+            //else
+            //    db.AddInParameter(dbCommand, "order", DbType.String, this._Order);
 
             if (string.IsNullOrEmpty(this._GM_Email_To))
                 db.AddInParameter(dbCommand, "GM_Email_To", DbType.String, DBNull.Value);
@@ -1080,6 +1140,14 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Comment", DbType.String, this._Comment);
 
             db.AddInParameter(dbCommand, "FK_LU_Approval_Submission", DbType.Decimal, this._FK_LU_Approval_Submission);
+
+            db.AddInParameter(dbCommand, "FK_LU_Maintenance_Status", DbType.Decimal, this._FK_LU_Maintenance_Status);
+
+            db.AddInParameter(dbCommand, "RPM_Approval", DbType.Boolean, this._RPM_Approval);
+
+            db.AddInParameter(dbCommand, "Approval_Needed", DbType.Boolean, this._Approval_Needed);
+
+            db.AddInParameter(dbCommand, "No_Approval_Needed", DbType.Boolean, this._No_Approval_Needed);
 
 			// Execute the query and return the new identity value
 			int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -1196,10 +1264,10 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "Task_Complete", DbType.Boolean, this._Task_Complete);
 
-            if (string.IsNullOrEmpty(this._Record_Type_Other))
-                db.AddInParameter(dbCommand, "Record_Type_Other", DbType.String, DBNull.Value);
-            else
-                db.AddInParameter(dbCommand, "Record_Type_Other", DbType.String, this._Record_Type_Other);
+            //if (string.IsNullOrEmpty(this._Record_Type_Other))
+            //    db.AddInParameter(dbCommand, "Record_Type_Other", DbType.String, DBNull.Value);
+            //else
+            //    db.AddInParameter(dbCommand, "Record_Type_Other", DbType.String, this._Record_Type_Other);
 
             if (string.IsNullOrEmpty(this._Work_To_Complete_Other))
                 db.AddInParameter(dbCommand, "Work_To_Complete_Other", DbType.String, DBNull.Value);
@@ -1240,10 +1308,10 @@ namespace ERIMS.DAL
             else
                 db.AddInParameter(dbCommand, "Reason_for_Request", DbType.String, this._Reason_for_Request);
 
-            if (string.IsNullOrEmpty(this._Order))
-                db.AddInParameter(dbCommand, "Order", DbType.String, DBNull.Value);
-            else
-                db.AddInParameter(dbCommand, "Order", DbType.String, this._Order);
+            //if (string.IsNullOrEmpty(this._Order))
+            //    db.AddInParameter(dbCommand, "Order", DbType.String, DBNull.Value);
+            //else
+            //    db.AddInParameter(dbCommand, "Order", DbType.String, this._Order);
 
             if (string.IsNullOrEmpty(this._GM_Email_To))
                 db.AddInParameter(dbCommand, "GM_Email_To", DbType.String, DBNull.Value);
@@ -1296,6 +1364,14 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "FK_LU_Approval_Submission", DbType.Decimal, this._FK_LU_Approval_Submission);
 
+            db.AddInParameter(dbCommand, "FK_LU_Maintenance_Status", DbType.Decimal, this._FK_LU_Maintenance_Status);
+
+            db.AddInParameter(dbCommand, "RPM_Approval", DbType.Boolean, this._RPM_Approval);
+
+            db.AddInParameter(dbCommand, "Approval_Needed", DbType.Boolean, this._Approval_Needed);
+
+            db.AddInParameter(dbCommand, "No_Approval_Needed", DbType.Boolean, this._No_Approval_Needed);
+
 			db.ExecuteNonQuery(dbCommand);
 		}
 
@@ -1313,7 +1389,7 @@ namespace ERIMS.DAL
 		}
 
         public static DataSet ManagementSearch(decimal? FK_LU_Location, decimal? FK_LU_Work_Completed, string Work_To_Complete_Other, decimal? FK_LU_Record_Type, string Record_Type_Other, string Created_By, string Job, string Order, DateTime? Date_Scheduled_From, DateTime? Date_Scheduled_To,
-            DateTime? Date_Complete_From, DateTime? Date_Complete_To, DateTime? CR_Approved_From, DateTime? CR_Approved_To, decimal? Location_Code, bool? Work_Completed_By, bool? Task_Complete, string strOrderBy, string strOrder, int intPageNo, int intPageSize, string ReferenceNumber, decimal? FK_LU_Approval_Submission)
+            DateTime? Date_Complete_From, DateTime? Date_Complete_To, DateTime? CR_Approved_From, DateTime? CR_Approved_To, decimal? Location_Code, bool? Work_Completed_By, decimal? decFK_LU_Maintenance_Status, string strOrderBy, string strOrder, int intPageNo, int intPageSize, string ReferenceNumber, decimal? FK_LU_Approval_Submission)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("ManagementSearch");
@@ -1340,19 +1416,20 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "strOrder", DbType.String, strOrder);
             db.AddInParameter(dbCommand, "intPageNo", DbType.Int32, intPageNo);
             db.AddInParameter(dbCommand, "intPageSize", DbType.Int32, intPageSize);
-            db.AddInParameter(dbCommand, "Task_Complete", DbType.Boolean, Task_Complete);
+            db.AddInParameter(dbCommand, "Task_Complete", DbType.Boolean, null);
             db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Int32, Convert.ToInt32(clsSession.UserID));
 
             db.AddInParameter(dbCommand, "FK_LU_Work_Completed", DbType.Decimal, FK_LU_Work_Completed);
             db.AddInParameter(dbCommand, "FK_LU_Record_Type", DbType.Decimal, FK_LU_Record_Type);
             db.AddInParameter(dbCommand, "Work_To_Complete_Other", DbType.String, Work_To_Complete_Other);
-            db.AddInParameter(dbCommand, "Record_Type_Other", DbType.String, Record_Type_Other);
+            //db.AddInParameter(dbCommand, "Record_Type_Other", DbType.String, Record_Type_Other);
             db.AddInParameter(dbCommand, "Created_By", DbType.String, Created_By);
             db.AddInParameter(dbCommand, "Job", DbType.String, Job);
-            db.AddInParameter(dbCommand, "Order", DbType.String, Order);
+            //db.AddInParameter(dbCommand, "Order", DbType.String, Order);
             db.AddInParameter(dbCommand, "Work_Completed_By", DbType.Boolean, Work_Completed_By);
             db.AddInParameter(dbCommand, "ReferenceNumber", DbType.String, ReferenceNumber);
             db.AddInParameter(dbCommand, "FK_LU_Approval_Submission", DbType.Decimal, FK_LU_Approval_Submission);
+            db.AddInParameter(dbCommand, "FK_LU_Maintenance_Status", DbType.Decimal, decFK_LU_Maintenance_Status);
 
             return db.ExecuteDataSet(dbCommand);
         }

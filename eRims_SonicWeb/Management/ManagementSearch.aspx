@@ -183,12 +183,13 @@
                                     <asp:ListItem Text="Sonic" Value="0"></asp:ListItem>
                                 </asp:RadioButtonList>
                             </td>
-                            <td align="left" valign="top">Task Complete?
+                            <td align="left" valign="top">Status
                             </td>
                             <td align="center" valign="top">:
                             </td>
                             <td align="left" valign="top">
-                                <asp:RadioButtonList ID="rdbTaskComplete" runat="server" SkinID="YesNoTypeNullSelection" />
+                                <%--<asp:RadioButtonList ID="rdbTaskComplete" runat="server" SkinID="YesNoTypeNullSelection" />--%>
+                                <asp:DropDownList runat="server" ID="drpFK_LU_Maintenance_Status" Width="205px" SkinID="dropGen"></asp:DropDownList>
                             </td>
                         </tr>
                          <tr>
@@ -466,7 +467,14 @@
                                                 SortExpression="Reference_Number">
                                                 <ItemStyle Width="150px" />
                                                 <ItemTemplate>
-                                                    <%# Eval("Reference_Number")%>
+                                                    <asp:LinkButton Text='<%# Eval("Reference_Number")%>' ID="lnkReferenceNo" CommandName="EditManagement" CommandArgument='<%#Eval("PK_Management_ID")%>' ToolTip='<%# Eval("Reason_For_Request")%>'  runat="server" />
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Date Entered" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left"
+                                                SortExpression="Date_Entered">
+                                                <ItemStyle Width="150px" />
+                                                <ItemTemplate>
+                                                    <%# Eval("Date_Entered")%>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="DBA" HeaderStyle-HorizontalAlign="Left"
@@ -497,13 +505,13 @@
                                                     <%# clsGeneral.FormatDBNullDateToDisplay(Eval("Date_Scheduled"))%>
                                                 </ItemTemplate>
                                             </asp:TemplateField>--%>
-                                            <asp:TemplateField HeaderText="Order #" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left"
+                                            <%--<asp:TemplateField HeaderText="Order #" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left"
                                                 SortExpression="[Order]">
                                                 <ItemStyle Width="110px" />
                                                 <ItemTemplate>
                                                     <%# Eval("Order")%>
                                                 </ItemTemplate>
-                                            </asp:TemplateField>
+                                            </asp:TemplateField>--%>
                                             <%--<asp:TemplateField HeaderText="Task Complete" HeaderStyle-HorizontalAlign="Left"
                                                 ItemStyle-HorizontalAlign="Left" SortExpression="Task_Complete">
                                                 <ItemStyle Width="110px" />
