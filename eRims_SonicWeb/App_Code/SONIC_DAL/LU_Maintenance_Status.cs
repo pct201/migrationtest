@@ -162,7 +162,7 @@ namespace ERIMS.DAL
 		/// <summary>
 		/// Updates a record in the LU_Maintenance_Status table.
 		/// </summary>
-		public void Update()
+		public int Update()
 		{
 			Database db = DatabaseFactory.CreateDatabase();
 			DbCommand dbCommand = db.GetStoredProcCommand("LU_Maintenance_StatusUpdate");
@@ -180,7 +180,7 @@ namespace ERIMS.DAL
 			else
 				db.AddInParameter(dbCommand, "Active", DbType.String, this._Active);
 
-			db.ExecuteNonQuery(dbCommand);
+			return db.ExecuteNonQuery(dbCommand);
 		}
 
 		/// <summary>
