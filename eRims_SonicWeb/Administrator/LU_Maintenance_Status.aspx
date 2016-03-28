@@ -26,7 +26,7 @@
                     </tr>
                     <tr>
                         <td class="bandHeaderRow" align="left" colspan="4">
-                            Administrator :: Record Type
+                            Administrator :: Maintenance Status
 
                         </td>
                     </tr>
