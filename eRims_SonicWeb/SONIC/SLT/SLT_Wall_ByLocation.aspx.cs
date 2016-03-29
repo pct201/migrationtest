@@ -135,15 +135,36 @@ public partial class SONIC_SLT_SLT_Wall_ByLocation : clsBasePage
     /// <param name="PageSize"></param>
     private void BindPosts(int PageNumber, int PageSize)
     {
-        string strLastName = Convert.ToString(txtPosterLastName.Text.Trim().Replace("'", "''"));
-        string strFirstName = Convert.ToString(txtPosterFirstName.Text.Trim().Replace("'", "''"));
-        DateTime? dtPostDateFrom = clsGeneral.FormatNullDateToStore(txtDatePostFrom.Text);
-        DateTime? dtPostDateTo = clsGeneral.FormatNullDateToStore(txtDatePostTo.Text);
-        string strPostText = Convert.ToString(txtPostText.Text.Trim().Replace("'", "''"));
-        string strTopic = Convert.ToString(txtTopic.Text.Trim()).Replace("'", "''");
+        DataSet dsPosts;
 
-        DataSet dsPosts = clsWall_By_Location.SearchWallPostsByLocation(PageNumber, PageSize, strLastName, strFirstName, dtPostDateFrom, dtPostDateTo, strPostText, strTopic,
-                            clsGeneral.GetDecimal( Encryption.Decrypt(Request.QueryString["PK_LU_Location_ID"])));
+        if (IsUserRLCM || IsUserInAdministrativeGroup)
+        {
+            string strLastName = Convert.ToString(txtPoster_Last_Name.Text.Trim().Replace("'", "''"));
+            string strFirstName = Convert.ToString(txtPoster_First_Name.Text.Trim().Replace("'", "''"));
+            DateTime? dtPostDateFrom = clsGeneral.FormatNullDateToStore(txtDate_Of_Post_From.Text);
+            DateTime? dtPostDateTo = clsGeneral.FormatNullDateToStore(txtDate_Of_Post_To.Text);
+            string strPostText = Convert.ToString(txt_Post_Text.Text.Trim().Replace("'", "''"));
+            string strTopic = Convert.ToString(txt_Topic.Text.Trim()).Replace("'", "''");
+            string strFilter_By_Region = ddlRegion.SelectedIndex > 0 ? ddlRegion.SelectedValue : string.Empty;
+            string strFilter_By_Market = ddlMarket.SelectedIndex > 0 ? ddlMarket.SelectedValue : string.Empty;
+            string strPostDateFrom = Convert.ToString(dtPostDateFrom);
+            string strPostDateTo = Convert.ToString(dtPostDateTo);
+
+            dsPosts = clsWall_By_Location.SearchWallPostsByLocationAdminRLCM(PageNumber, PageSize, strLastName, strFirstName, strPostDateFrom, strPostDateTo, strPostText, strTopic,
+            strFilter_By_Region, strFilter_By_Market);
+        }
+        else
+        {
+            string strLastName = Convert.ToString(txtPosterLastName.Text.Trim().Replace("'", "''"));
+            string strFirstName = Convert.ToString(txtPosterFirstName.Text.Trim().Replace("'", "''"));
+            DateTime? dtPostDateFrom = clsGeneral.FormatNullDateToStore(txtDatePostFrom.Text);
+            DateTime? dtPostDateTo = clsGeneral.FormatNullDateToStore(txtDatePostTo.Text);
+            string strPostText = Convert.ToString(txtPostText.Text.Trim().Replace("'", "''"));
+            string strTopic = Convert.ToString(txtTopic.Text.Trim()).Replace("'", "''");
+
+            dsPosts = clsWall_By_Location.SearchWallPostsByLocation(PageNumber, PageSize, strLastName, strFirstName, dtPostDateFrom, dtPostDateTo, strPostText, strTopic,
+                          clsGeneral.GetDecimal(Encryption.Decrypt(Request.QueryString["PK_LU_Location_ID"])));
+        }
 
         //// set values for paging control,so it shows values as needed.
         ctrlPageWallPost.TotalRecords = (dsPosts.Tables.Count >= 3) ? Convert.ToInt32(dsPosts.Tables[1].Rows[0][0]) : 0;
@@ -189,6 +210,15 @@ public partial class SONIC_SLT_SLT_Wall_ByLocation : clsBasePage
         }
         else
             Regional = string.Empty;
+
+        ddlRegion.DataSource = LU_Location.GetRegionListByUser(Convert.ToDecimal(clsSession.UserID)).Tables[0];
+        ddlRegion.DataTextField = "region";
+        ddlRegion.DataValueField = "region";
+        ddlRegion.DataBind();
+        ddlRegion.Items.Insert(0, new ListItem("--All Regions--", ""));
+
+        ComboHelper.FillMarket(new DropDownList[] { ddlMarket }, true);
+
         //DataTable dtData = ERIMS.DAL.LU_Location.SelectAll_SLT(CurrentEmployee, Regional.ToString().TrimEnd(Convert.ToChar(","))).Tables[0];
         //dtData.DefaultView.RowFilter = " Active = 'Y' AND Show_On_Dashboard= 'Y' ";
         //dtData.DefaultView.Sort = "dba";
@@ -253,7 +283,14 @@ public partial class SONIC_SLT_SLT_Wall_ByLocation : clsBasePage
     /// <param name="e"></param>
     protected void btnSearch_Click(object sender, EventArgs e)
     {
-        dvSearch.Visible = true;
+        if (IsUserInAdministrativeGroup || IsUserRLCM)
+        {
+            dvSearchRLCM.Visible = true;
+        }
+        else
+        {
+          dvSearch.Visible = true;
+        }
         dvThreads.Visible = false;
 
         rptPosts.DataSource = null;
@@ -265,6 +302,15 @@ public partial class SONIC_SLT_SLT_Wall_ByLocation : clsBasePage
         txtPosterLastName.Text = "";
         txtPostText.Text = "";
         txtTopic.Text = "";
+        txt_Post_Text.Text = "";
+        txtDate_Of_Post_From.Text = "";
+        txtDate_Of_Post_To.Text = "";
+        txtPoster_First_Name.Text = "";
+        txtPoster_Last_Name.Text = "";
+        txt_Post_Text.Text = "";
+
+        ddlRegion.ClearSelection();
+        ddlMarket.ClearSelection();
     }
 
     /// <summary>
@@ -295,17 +341,18 @@ public partial class SONIC_SLT_SLT_Wall_ByLocation : clsBasePage
     protected void btnSearchResult_Click(object sender, EventArgs e)
     {
         dvSearch.Visible = false;
+        dvSearchRLCM.Visible = false;
         dvThreads.Visible = true;
 
         ctrlPageWallPost.setDrpRecordsValue();
         BindPosts(1, 10);
     }
 
-    
+
     #endregion
 
     #region "Other Events"
-    
+
     /// <summary>
     /// Implement event for Paging control when clicking on Go button
     /// </summary>
@@ -497,52 +544,52 @@ public partial class SONIC_SLT_SLT_Wall_ByLocation : clsBasePage
             }
 
             ///set the radio buttons and Bind inner grid
-           // RadioButtonList rdbThredTypeComment = (RadioButtonList)e.Item.FindControl("rdbThredTypeComment");
+            // RadioButtonList rdbThredTypeComment = (RadioButtonList)e.Item.FindControl("rdbThredTypeComment");
             //rdbThredTypeComment.SelectedValue = rdbThredType.SelectedValue;
             Repeater rptPostsComments = (Repeater)e.Item.FindControl("rptPostsComments");
             //Label lblShowThread = (Label)e.Item.FindControl("lblShowThread");
 
             //if (rdbThredType.SelectedIndex == 0)
             //{
-                ///Select the records by FK wall
+            ///Select the records by FK wall
             dtComments.DefaultView.RowFilter = "FK_Wall_By_Location=" + _PK_Wall_By_Location;
-                //dtComments.DefaultView.Sort = "Update_Date " + Convert.ToString(rdbCommentDateOrder.SelectedItem.Text);
-                rptPostsComments.DataSource = dtComments.DefaultView;
-                rptPostsComments.DataBind();
-                rptPostsComments.Visible = true;
+            //dtComments.DefaultView.Sort = "Update_Date " + Convert.ToString(rdbCommentDateOrder.SelectedItem.Text);
+            rptPostsComments.DataSource = dtComments.DefaultView;
+            rptPostsComments.DataBind();
+            rptPostsComments.Visible = true;
 
-                ///Check data table row count
-                //if (dtComments.DefaultView.Count > 0)
-                //{
-                   // lblShowThread.Visible = true;
-                    //rdbThredTypeComment.Visible = true;
-                //}
-                //else
-                //{
-                    ///set inner comment repeater visible false
-                    //rdbThredTypeComment.Visible = false;
-                    //lblShowThread.Visible = false;
-               // }
+            ///Check data table row count
+            //if (dtComments.DefaultView.Count > 0)
+            //{
+            // lblShowThread.Visible = true;
+            //rdbThredTypeComment.Visible = true;
             //}
             //else
             //{
-                ///if Sub comment not found then bind the inner repeater with null
-                //rptPostsComments.DataSource = null;
-                //rptPostsComments.DataBind();
-                //rptPostsComments.Visible = false;
+            ///set inner comment repeater visible false
+            //rdbThredTypeComment.Visible = false;
+            //lblShowThread.Visible = false;
+            // }
+            //}
+            //else
+            //{
+            ///if Sub comment not found then bind the inner repeater with null
+            //rptPostsComments.DataSource = null;
+            //rptPostsComments.DataBind();
+            //rptPostsComments.Visible = false;
 
-                ///set row filter
-                //dtComments.DefaultView.RowFilter = "FK_Wall_By_Location=" + _PK_Wall_By_Location;
-                //if (dtComments.DefaultView.Count > 0)
-                //{
-                //    lblShowThread.Visible = true;
-                //    rdbThredTypeComment.Visible = true;
-                //}
-                //else
-                //{
-                //    rdbThredTypeComment.Visible = false;
-                //    lblShowThread.Visible = false;
-                //}
+            ///set row filter
+            //dtComments.DefaultView.RowFilter = "FK_Wall_By_Location=" + _PK_Wall_By_Location;
+            //if (dtComments.DefaultView.Count > 0)
+            //{
+            //    lblShowThread.Visible = true;
+            //    rdbThredTypeComment.Visible = true;
+            //}
+            //else
+            //{
+            //    rdbThredTypeComment.Visible = false;
+            //    lblShowThread.Visible = false;
+            //}
             //}
 
             ///set the Div height based on message length

@@ -166,10 +166,12 @@
                                             <tr>
                                                 <td align="left" style="color: Gray; padding-left: 5px;">
                                                     &nbsp;Posted By:
-                                                    <%# Eval("First_Name") + ", " + Eval("Last_Name")%>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;On:&nbsp;<%#clsGeneral.FormatDBNullDateTimeToMilitaryDateTime(Eval("Update_Date"))%></td>
+                                                    <%# Eval("First_Name") + ", " + Eval("Last_Name")%>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;On:&nbsp;<%#clsGeneral.FormatDBNullDateTimeToMilitaryDateTime(Eval("Update_Date"))%>
+                                                </td>
+                                                <td align="right">  <%# Eval("Total_Value") %> &nbsp;&nbsp; &nbsp;</td>
                                             </tr>
                                             <tr>
-                                                <td align="left" style="padding-left: 5px;">
+                                                <td align="left" style="padding-left: 5px;" colspan="2">
                                                     <table cellpadding="3" cellspacing="1" width="98%" id="tblNotes" runat="server">
                                                         <tr style="height: 20px;">
                                                             <td align="left" width="90%" style="font-weight: bold;word-wrap: normal; word-break: break-all;">
@@ -196,7 +198,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td align="right">
+                                                <td align="right" colspan="2">
                                                     <table width="100%" cellpadding="2" cellspacing="0" border="0">
                                                         <tr>
                                                             <td align="left" width="60%">
@@ -224,7 +226,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td align="center" style="border-bottom: solid 3px #808080; height: 5px;">
+                                                <td align="center" style="border-bottom: solid 3px #808080; height: 5px;" colspan="2">
                                                     <asp:Repeater ID="rptPostsComments" runat="server" OnItemDataBound="rptPostsComments_ItemDataBound">
                                                         <ItemTemplate>
                                                             <table width="95%" cellpadding="4" cellspacing="1" border="0" style="font-size: 11px;
@@ -455,6 +457,167 @@
                         <tr>
                             <td align="center" colspan="6">
                                 <asp:Button ID="btnSearchResult" runat="server" Text="Search" SkinID="btnGen" OnClick="btnSearchResult_Click"
+                                    CausesValidation="true" ValidationGroup="vsErrorGroup" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="100%" class="Spacer" style="height: 15px;" colspan="6">
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td width="100%" class="Spacer" style="height: 15px;">
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="dvSearchRLCM" runat="server" visible="false">
+        <table cellpadding="1" cellspacing="0" width="100%" align="center">
+            <tr>
+                <td>
+                    &nbsp;
+                </td>
+            </tr>
+            <tr>
+                <td class="ghc" align="center">
+                    Wall Search 
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <table cellpadding="5" cellspacing="0" border="0" width="70%">
+                        <tr>
+                            <td colspan="3">
+                                &nbsp;
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left">
+                                Region
+                            </td>
+                            <td align="center" width="5%">
+                                :
+                            </td>
+                            <td align="left">
+                                 <asp:DropDownList ID="ddlRegion" runat="server" SkinID="default" Width="175px"></asp:DropDownList>
+                            </td>
+                            <td align="left">
+                                Market
+                            </td>
+                            <td>
+                                :
+                            </td>
+                            <td align="left">
+                                <asp:DropDownList ID="ddlMarket" runat="server" SkinID="default" Width="175px" >
+                                </asp:DropDownList>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left" width="15%">
+                                Poster Last Name
+                            </td>
+                            <td align="center" width="5%">
+                                :
+                            </td>
+                            <td align="left">
+                                <asp:TextBox ID="txtPoster_Last_Name" runat="server" Width="170px" MaxLength="50"></asp:TextBox>
+                            </td>
+                            <td align="left">
+                                Poster First Name
+                            </td>
+                            <td align="center" width="5%">
+                                :
+                            </td>
+                            <td align="left" colspan="4">
+                                <asp:TextBox ID="txtPoster_First_Name" runat="server" Width="170px" MaxLength="50"></asp:TextBox>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left" width="15%" valign="top">
+                                Date of Post From
+                            </td>
+                            <td align="center" width="5%" valign="top">
+                                :
+                            </td>
+                            <td align="left">
+                                <asp:TextBox ID="txtDate_Of_Post_From" runat="server" Width="180px" SkinID="txtDate"
+                                    MaxLength="10"></asp:TextBox>
+                                <img onclick="return showCalendar('<%= txtDate_Of_Post_From.ClientID %>', 'mm/dd/y');"
+                                    onmouseover="javascript:this.style.cursor='hand';" alt="" src="../../Images/iconPicDate.gif"
+                                    align="middle" id="img3" />
+                              
+                                <cc1:maskededitextender ID="MaskedEditExtender3" runat="server" AcceptNegative="Left"
+                                    DisplayMoney="Left" Mask="99/99/9999" MaskType="Date" MessageValidatorTip="true"
+                                    OnFocusCssClass="MaskedEditFocus" OnInvalidCssClass="MaskedEditError" TargetControlID="txtDate_Of_Post_From"
+                                    CultureName="en-US" AutoComplete="true" AutoCompleteValue="05/23/1964">
+                                </cc1:maskededitextender>
+                                <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txtDate_Of_Post_From"
+                                    ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"
+                                    ErrorMessage=" Date of Post From is Not Valid Date" Display="none" ValidationGroup="vsErrorGroup"
+                                    SetFocusOnError="true">
+                                </asp:RegularExpressionValidator>
+                            </td>
+                            <td align="left" width="14%" valign="top">
+                                Date of Post To
+                            </td>
+                            <td align="center" width="2%" valign="top">
+                                :
+                            </td>
+                            <td align="left">
+                                <asp:TextBox ID="txtDate_Of_Post_To" runat="server" Width="180px" SkinID="txtDate"
+                                    MaxLength="10"></asp:TextBox>
+                                <img onclick="return showCalendar('<%= txtDate_Of_Post_To.ClientID %>', 'mm/dd/y');"
+                                    onmouseover="javascript:this.style.cursor='hand';" alt="" src="../../Images/iconPicDate.gif"
+                                    align="middle" id="img4" />
+                                <cc1:maskededitextender ID="MaskedEditExtender4" runat="server" AcceptNegative="Left"
+                                    DisplayMoney="Left" Mask="99/99/9999" MaskType="Date" MessageValidatorTip="true"
+                                    OnFocusCssClass="MaskedEditFocus" OnInvalidCssClass="MaskedEditError" TargetControlID="txtDate_Of_Post_To"
+                                    CultureName="en-US" AutoComplete="true" AutoCompleteValue="05/23/1964">
+                                </cc1:maskededitextender>
+                                <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ControlToValidate="txtDate_Of_Post_To"
+                                    ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"
+                                    ErrorMessage="  Date of Post To is Not Valid Date" Display="none" ValidationGroup="vsErrorGroup"
+                                    SetFocusOnError="true">
+                                </asp:RegularExpressionValidator>
+                                <asp:CompareValidator ID="CompareValidator1" runat="server" ControlToValidate="txtDate_Of_Post_To"
+                                    ValidationGroup="vsErrorGroup" ErrorMessage="Date of Post From must be Less than or equal to Date of Post To"
+                                    Type="Date" Operator="GreaterThanEqual" ControlToCompare="txtDate_Of_Post_From" Display="none">
+                                </asp:CompareValidator>
+                            </td>
+                        </tr>
+                         <tr>
+                            <td align="left" valign="top">
+                                Topic
+                            </td>
+                            <td align="center" width="5%" valign="top">
+                                :
+                            </td>
+                            <td align="left" colspan="4">
+                                <asp:TextBox ID="txt_Topic" runat="server" MaxLength="250"
+                                    Width="520px"></asp:TextBox>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left" valign="top">
+                                Post Text
+                            </td>
+                            <td align="center" width="5%" valign="top">
+                                :
+                            </td>
+                            <td align="left" colspan="4">
+                                <asp:TextBox ID="txt_Post_Text" TextMode="MultiLine" Rows="4" runat="server" MaxLength="4000"
+                                    Width="520px"></asp:TextBox>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="100%" class="Spacer" style="height: 15px;" colspan="6">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" colspan="6">
+                                <asp:Button ID="btnSearch_Result" runat="server" Text="Search" SkinID="btnGen" OnClick="btnSearchResult_Click"
                                     CausesValidation="true" ValidationGroup="vsErrorGroup" />
                             </td>
                         </tr>
