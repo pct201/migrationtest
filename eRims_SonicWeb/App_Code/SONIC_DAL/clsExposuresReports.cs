@@ -120,19 +120,19 @@ public class clsExposuresReports
         return db.ExecuteDataSet(dbCommand);
     }
 	////change Reverted for sonic u training. ticket #3503/////
-    //public static DataSet GetSafetyTrainingReport(string strRegion, string strMarket, int intYear, string strInterval)
-    //{
-    //    Database db = DatabaseFactory.CreateDatabase();
-    //    DbCommand dbCommand = db.GetStoredProcCommand("DealershipDashBoardReport_New");
-    //    db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
-    //    db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
-    //    db.AddInParameter(dbCommand, "Year", DbType.Int32, intYear);
-    //    db.AddInParameter(dbCommand, "strInterval", DbType.String, strInterval);
-    //    db.AddInParameter(dbCommand, "Pk_Security_ID", DbType.Decimal, Convert.ToDecimal(clsSession.UserID));
+    public static DataSet GetSafetyTrainingReport(string strRegion, string strMarket, int intYear, string strInterval)
+    {
+        Database db = DatabaseFactory.CreateDatabase();
+        DbCommand dbCommand = db.GetStoredProcCommand("DealershipDashBoardReport_New");
+        db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+        db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
+        db.AddInParameter(dbCommand, "Year", DbType.Int32, intYear);
+        db.AddInParameter(dbCommand, "strInterval", DbType.String, strInterval);
+        db.AddInParameter(dbCommand, "Pk_Security_ID", DbType.Decimal, Convert.ToDecimal(clsSession.UserID));
 
-    //    dbCommand.CommandTimeout = 10000;
-    //    return db.ExecuteDataSet(dbCommand);
-    //}
+        dbCommand.CommandTimeout = 10000;
+        return db.ExecuteDataSet(dbCommand);
+    }
 
     public static DataSet GetRegionList()
     {
@@ -187,17 +187,17 @@ public class clsExposuresReports
     }   
 
     ////change Reverted for sonic u training. ticket #3503/////
-    //public static DataSet GetSafetyTrainingReportByRegionLocation(int intYear, string strRegion)
-    //{
-    //    Database db = DatabaseFactory.CreateDatabase();
-    //    DbCommand dbCommand = db.GetStoredProcCommand("DealershipDetailsbyRegionLocation_New");
-    //    db.AddInParameter(dbCommand, "Year", DbType.Int32, intYear);
-    //    db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
-        
-    //    //db.AddInParameter(dbCommand, "Pk_Security_ID", DbType.Decimal, Convert.ToDecimal(clsSession.UserID));
-    //    dbCommand.CommandTimeout = 10000;
-    //    return db.ExecuteDataSet(dbCommand);
-    //}
+    public static DataSet GetSafetyTrainingReportByRegionLocation(int intYear, string strRegion)
+    {
+        Database db = DatabaseFactory.CreateDatabase();
+        DbCommand dbCommand = db.GetStoredProcCommand("DealershipDetailsbyRegionLocation_New");
+        db.AddInParameter(dbCommand, "Year", DbType.Int32, intYear);
+        db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+
+        //db.AddInParameter(dbCommand, "Pk_Security_ID", DbType.Decimal, Convert.ToDecimal(clsSession.UserID));
+        dbCommand.CommandTimeout = 10000;
+        return db.ExecuteDataSet(dbCommand);
+    }
 
     public static DataSet GetACI_Key_Contact_Report(string strDBA, string strJob_Titles)
     {

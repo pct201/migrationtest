@@ -570,15 +570,15 @@ namespace ERIMS.DAL
         }
 
         ////change Reverted for sonic u training. ticket #3503/////
-        //public static DataSet SelectSignedupEmployeeByLocation(int Year, string DBA, string Sonic_Location_Code)
-        //{
-        //   Database db = DatabaseFactory.CreateDatabase();
-        //    DbCommand dbCommand = db.GetStoredProcCommand("EmployeesSignedByLocation");
-        //    db.AddInParameter(dbCommand, "@Year", DbType.Int32, Year);
-        //    db.AddInParameter(dbCommand, "@DBA", DbType.String, DBA);
-        //    db.AddInParameter(dbCommand, "@Sonic_Location_Code", DbType.String, Sonic_Location_Code);            
-        //    return db.ExecuteDataSet(dbCommand);
-        //}
+        public static DataSet SelectSignedupEmployeeByLocation(int Year, string DBA, string Sonic_Location_Code)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("EmployeesSignedByLocation_New");
+            db.AddInParameter(dbCommand, "@Year", DbType.Int32, Year);
+            db.AddInParameter(dbCommand, "@DBA", DbType.String, DBA);
+            db.AddInParameter(dbCommand, "@Sonic_Location_Code", DbType.String, Sonic_Location_Code);
+            return db.ExecuteDataSet(dbCommand);
+        }
 
         /// <summary>
         /// Selects  from the SLT_Members table by a FK_SLT_Meeting.

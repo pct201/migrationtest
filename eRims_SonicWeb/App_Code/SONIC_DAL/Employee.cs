@@ -55,6 +55,7 @@ namespace ERIMS.DAL
         private decimal? _FK_Cost_Center;
         private string _Email;
         private string _Department;
+        private DateTime? _Last_Hire_Date;
 
         #endregion
 
@@ -448,6 +449,14 @@ namespace ERIMS.DAL
             set { _Department = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the Last_Hire_Date value.
+        /// </summary>
+        public DateTime? Last_Hire_Date
+        {
+            get { return _Last_Hire_Date; }
+            set { _Last_Hire_Date = value; }
+        }
 
         #endregion
 
@@ -503,7 +512,7 @@ namespace ERIMS.DAL
             this._FK_Cost_Center = null;
             this._Email = null;
             this._Department = null;
-
+            this._Last_Hire_Date = null;
         }
 
         /// <summary> 
@@ -730,6 +739,11 @@ namespace ERIMS.DAL
                 else
                     this._Department = (string)drEmployee["Department"];
 
+                if (drEmployee["Last_Date_Of_Hire"] == DBNull.Value)
+                    this._Last_Hire_Date = null;
+                else
+                    this._Last_Hire_Date = (DateTime?)drEmployee["Last_Date_Of_Hire"];
+
             }
             else
             {
@@ -776,6 +790,7 @@ namespace ERIMS.DAL
                 this._FK_Cost_Center = null;
                 this._Email = null;
                 this._Department = null;
+                this._Last_Hire_Date = null;
             }
 
         }
@@ -836,6 +851,7 @@ namespace ERIMS.DAL
                 this._FK_Cost_Center = drEmployee["FK_Cost_Center"] != DBNull.Value ? Convert.ToDecimal(drEmployee["FK_Cost_Center"]) : 0;
                 this._Email = Convert.ToString(drEmployee["Email"]);
                 this._Department = Convert.ToString(drEmployee["Department"]);
+                this._Last_Hire_Date = drEmployee["Last_Date_Of_Hire"] != DBNull.Value ? Convert.ToDateTime(drEmployee["Last_Date_Of_Hire"]) : (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue;
 
             }
 
@@ -885,6 +901,7 @@ namespace ERIMS.DAL
                 this._FK_Cost_Center = -1;
                 this._Email = "";
                 this._Department = "";
+                this._Last_Hire_Date = null;
 
             }
 
@@ -1071,6 +1088,8 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Department", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Department", DbType.String, this._Department);
+
+            db.AddInParameter(dbCommand, "Last_Date_Of_Hire", DbType.DateTime, this._Last_Hire_Date);
 
             // Execute the query and return the new identity value
             decimal returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -1311,6 +1330,9 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Department", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Department", DbType.String, this._Department);
+
+            db.AddInParameter(dbCommand, "Last_Date_Of_Hire", DbType.DateTime, this._Last_Hire_Date);
+
             db.ExecuteNonQuery(dbCommand);
         }
 

@@ -560,6 +560,22 @@
                                 <asp:DropDownList ID="ddlBankNumber" runat="server" Width="170px" SkinID="ddlSONIC">
                                 </asp:DropDownList>
                             </td>
+                            <td align="left">
+                                Last Date of Hire
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left">
+                                <asp:TextBox ID="txtLast_Date_Of_Hire" runat="server" Width="170px" SkinID="txtDate" MaxLength="10"></asp:TextBox>
+                                <img alt="Last Date of Hire" onclick="return showCalendar('<%= txtLast_Date_Of_Hire.ClientID %>', 'mm/dd/y');"
+                                    onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
+                                    align="middle" id="img0" /><br />
+                                <asp:RegularExpressionValidator ID="rfvLast_Date_of_Hire" runat="server" ControlToValidate="txtLast_Date_Of_Hire"
+                                    ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$"
+                                    ErrorMessage="Last Date of Hire is Not Valid Date." Display="none" SetFocusOnError="true">
+                                </asp:RegularExpressionValidator>
+                            </td>
                         </tr>
                         <tr>
                             <td>
@@ -989,6 +1005,16 @@
                             </td>
                             <td>
                                 <asp:Label ID="lblBankNumber" runat="server"></asp:Label>
+                            </td>
+                            <td align="left">
+                                Last Date of Hire
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left">
+                                <asp:Label ID="lblLast_date_of_hire" runat="server" SkinID="lblDate"></asp:Label>
+                                <br />
                             </td>
                         </tr>
                         <tr>

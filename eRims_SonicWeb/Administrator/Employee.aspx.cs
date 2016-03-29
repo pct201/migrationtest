@@ -125,6 +125,9 @@ public partial class Administrator_Employee : clsBasePage
         if (!string.IsNullOrEmpty(txtDate_of_Hire.Text.Trim()))
             objEmployee.Hire_Date = Convert.ToDateTime(txtDate_of_Hire.Text);
 
+        if (!string.IsNullOrEmpty(txtLast_Date_Of_Hire.Text.Trim()))
+            objEmployee.Last_Hire_Date = Convert.ToDateTime(txtLast_Date_Of_Hire.Text);
+
         if (!string.IsNullOrEmpty(txtDate_Of_Birth.Text.Trim()))
             objEmployee.Date_Of_Birth = Convert.ToDateTime(txtDate_Of_Birth.Text);
 
@@ -250,6 +253,7 @@ public partial class Administrator_Employee : clsBasePage
         lblDrivers_License_Expires.Text = clsGeneral.FormatDBNullDateToDisplay(objEmployee.Drivers_License_Expires);
         lblDrivers_License_Issued.Text = clsGeneral.FormatDBNullDateToDisplay(objEmployee.Drivers_License_Issued);
         lblDate_of_Hire.Text = clsGeneral.FormatDBNullDateToDisplay(objEmployee.Hire_Date);
+        lblLast_date_of_hire.Text = clsGeneral.FormatDBNullDateToDisplay(objEmployee.Last_Hire_Date);
         lblDate_Of_Birth.Text = clsGeneral.FormatDBNullDateToDisplay(objEmployee.Date_Of_Birth);
         lblDate_of_Death.Text = clsGeneral.FormatDBNullDateToDisplay(objEmployee.Date_Of_Death);
 
@@ -324,6 +328,7 @@ public partial class Administrator_Employee : clsBasePage
         txtDrivers_License_Expires.Text = clsGeneral.FormatDBNullDateToDisplay(objEmployee.Drivers_License_Expires);
         txtDrivers_License_Issued.Text = clsGeneral.FormatDBNullDateToDisplay(objEmployee.Drivers_License_Issued);
         txtDate_of_Hire.Text = clsGeneral.FormatDBNullDateToDisplay(objEmployee.Hire_Date);
+        txtLast_Date_Of_Hire.Text = clsGeneral.FormatDBNullDateToDisplay(objEmployee.Last_Hire_Date);
         txtDate_Of_Birth.Text = clsGeneral.FormatDBNullDateToDisplay(objEmployee.Date_Of_Birth);
         txtDate_of_Death.Text = clsGeneral.FormatDBNullDateToDisplay(objEmployee.Date_Of_Death);
         txtActive_Inactive_Leave.Text = Convert.ToString(objEmployee.Active_Inactive_Leave);

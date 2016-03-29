@@ -81,7 +81,7 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
         gvTraining.DataSource = dsSearchResult.Tables[0];
         gvTraining.DataBind();
 
-        lblAssociate.Text =ddlAssociate.SelectedIndex > 0 ? ddlAssociate.SelectedItem.Text : string.Empty;
+        lblLocation.Text = ddlLocation.SelectedIndex > 0 ? ddlLocation.SelectedItem.Text : string.Empty;
         lblYear.Text = Convert.ToString(year);
         lblQuarter.Text = Convert.ToString(Qaurter);
     }

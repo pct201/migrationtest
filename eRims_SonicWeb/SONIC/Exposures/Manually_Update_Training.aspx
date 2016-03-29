@@ -132,12 +132,12 @@
             </table>
             <table cellpadding="3" cellspacing="1" border="0" width="96%">
                 <tr>
-                    <td align="left" valign="top">Associate
+                    <td align="left" valign="top">Location
                     </td>
                     <td align="center" valign="top">:
                     </td>
                     <td align="left" colspan="4" valign="top">
-                        <asp:Label ID="lblAssociate" runat="server"></asp:Label>
+                        <asp:Label ID="lblLocation" runat="server"></asp:Label>
                     </td>
                 </tr>
                 <tr>
