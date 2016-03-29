@@ -71,6 +71,11 @@
             }
 
         }
+        
+        $(document).ready(function () {
+            ddlChangeValidator();
+        });
+
     </script>
     <link href="<%=AppConfig.SiteURL%>greybox/gb_styles.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="<%=AppConfig.SiteURL%>greybox/AJS.js"></script>
