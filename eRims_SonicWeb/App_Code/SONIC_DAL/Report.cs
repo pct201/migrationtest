@@ -929,7 +929,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Year", DbType.Int32, intYear);
             db.AddInParameter(dbCommand, "strInterval", DbType.String, strInterval);
             db.AddInParameter(dbCommand, "Pk_Security_ID", DbType.Decimal, Convert.ToDecimal(clsSession.UserID));
-
+            dbCommand.CommandTimeout = 100000;
             return db.ExecuteDataSet(dbCommand);
         }
 
