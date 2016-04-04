@@ -74,7 +74,7 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
                     {
                         hdnPanel.Value = "2";
                         hdnPanelSpaire.Value = "1";
-                        
+
                     }
                     else
                     {
@@ -113,7 +113,7 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
                 }
             }
 
-            
+
             SetValidations();
 
             // store the location id in session
@@ -311,18 +311,19 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
 
     private void SaveBuildings()
     {
-        Facility_Construction_PM_Buildings facility_Construction_PM_Buildings;
+
 
         for (int i = 0; i < cblBuildingList.Items.Count; i++)
         {
             if (cblBuildingList.Items[i].Selected)
             {
-                facility_Construction_PM_Buildings = new Facility_Construction_PM_Buildings();
+                Facility_Construction_PM_Buildings facility_Construction_PM_Buildings = new Facility_Construction_PM_Buildings();
                 facility_Construction_PM_Buildings.FK_Facility_Construction_PM = ConstructionProjectId;
                 facility_Construction_PM_Buildings.FK_Building = Convert.ToDecimal(cblBuildingList.Items[i].Value);
                 facility_Construction_PM_Buildings.Insert();
             }
         }
+
     }
 
     private void DeleteBuildings()
@@ -437,29 +438,60 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
         facility_Construction_Project.UpdatedBy = clsSession.UserID;
         facility_Construction_Project.UpdatedDate = DateTime.Now;
 
-        if (ConstructionProjectId > 0)
+        string selectedBuildings = "";
+        for (int i = 0; i < cblBuildingList.Items.Count; i++)
         {
-            facility_Construction_Project.PK_Facility_construction_Project = ConstructionProjectId;
-            facility_Construction_Project.Update();
-            DeleteBuildings();
-            SaveBuildings();
+            if (cblBuildingList.Items[i].Selected)
+            {
+                selectedBuildings += cblBuildingList.Items[i].Value.ToString() + ",";
+            }
+        }
+
+        if (!string.IsNullOrEmpty(selectedBuildings))
+        {
+            DataTable dtAssignedBuildings = Facility_Construction_PM_Buildings.SelectAssignedProjectsByBuilding(selectedBuildings.Substring(0, selectedBuildings.LastIndexOf(",")), ConstructionProjectId > 0 ? ConstructionProjectId : 0).Tables[0];
+
+            if (dtAssignedBuildings != null && dtAssignedBuildings.Rows.Count > 0)
+            {
+                string associatedBuildings = string.Empty;
+                foreach (DataRow dr in dtAssignedBuildings.Rows)
+                {
+                    associatedBuildings +=  " " + Convert.ToString(dr["Building_Number"]) + " is already tied to this "+ HttpUtility.UrlEncode(Convert.ToString(dr["Title"]).Replace("'", "")) +" project. \\n";
+                }
+
+                Page.ClientScript.RegisterStartupScript(this.GetType(), "Message", "javascript:alert('" + associatedBuildings + "');", true);
+            }
+            else
+            {
+                if (ConstructionProjectId > 0)
+                {
+                    facility_Construction_Project.PK_Facility_construction_Project = ConstructionProjectId;
+                    facility_Construction_Project.Update();
+                    DeleteBuildings();
+                    SaveBuildings();
+                }
+                else
+                {
+                    ConstructionProjectId = facility_Construction_Project.Insert();
+                    SaveBuildings();
+                    SaveBuildingImprovement();
+                    Session["ConstructionProjectId"] = ConstructionProjectId;
+                }
+
+                Session.Remove("IsEditable");
+                hdnPanelSpaire.Value = "0";
+                BindBuildings();
+                FillConstructionProjectDetail();
+                hdnPanel.Value = "1";
+                btnReturnto_View_Mode.Visible = false;
+                btnEdit.Visible = true;
+                btnAuditTrail.Visible = true;
+            }
         }
         else
         {
-            ConstructionProjectId = facility_Construction_Project.Insert();
-            SaveBuildings();
-            SaveBuildingImprovement();
-            Session["ConstructionProjectId"] = ConstructionProjectId;
+            Page.ClientScript.RegisterStartupScript(this.GetType(), "Message", "javascript:alert('Please select atlest one building to tie up with this project.');", true);
         }
-
-        Session.Remove("IsEditable");
-        hdnPanelSpaire.Value = "0";
-        BindBuildings();
-        FillConstructionProjectDetail();
-        hdnPanel.Value = "1";
-        btnReturnto_View_Mode.Visible = false;
-        btnEdit.Visible = true;
-        btnAuditTrail.Visible = true;
     }
 
     protected void btnEdit_Click(object sender, EventArgs e)
