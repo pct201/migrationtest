@@ -535,6 +535,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "xml", DbType.Xml, xml);
             db.AddInParameter(dbCommand, "xmlUpdate", DbType.Xml, xmlUpdate);
 
+            dbCommand.CommandTimeout = 10000;
             db.ExecuteNonQuery(dbCommand);
         }
 

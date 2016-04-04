@@ -251,10 +251,10 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
                     }
                 }
             }
-            catch
+            catch(Exception ex)
             {
                 divVOCData.Visible = false;
-                Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "alert('Selected file can not be imported');", true);
+                Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "alert('" + ex.Message+ "');", true);
             }
             finally
             {
