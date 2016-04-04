@@ -11,7 +11,7 @@
             </td>
         </tr>
         <tr>
-            <td width="100%" class="ghc" colspan="2">VOC Emissions .CSV Import
+            <td width="100%" class="ghc" colspan="2">VOC Emissions Import
             </td>
         </tr>
         <tr>
@@ -25,7 +25,27 @@
         <tr>
             <td>
                 <table cellspacing="0" cellpadding="0" width="100%">
+                    <tr >
+                        <td width="10%"></td>
+                        <td align="left" width="10%">File Type&nbsp;<span id="Span5" style="color: Red;" runat="server">*</span>
+                        </td>
+                        <td width="4%" align="center">:
+                        </td>
+                        <td>
+                            <asp:DropDownList ID="ddlFileType" Width="175px" runat="server" SkinID="dropGen" OnSelectedIndexChanged="ddlFileType_SelectedIndexChanged" AutoPostBack="true">
+                                <asp:ListItem Text=" -- Select --" Value="0"></asp:ListItem>
+                                <asp:ListItem Text="Skyline .CSV File" Value="1"></asp:ListItem>
+                                <asp:ListItem Text="SingleSource Excel File" Value="2"></asp:ListItem>
+                            </asp:DropDownList>
+                            <asp:RequiredFieldValidator ControlToValidate="ddlFileType" ID="RequiredFieldValidator1" Display="None"
+                                ValidationGroup="vsErrorGroup" ErrorMessage="Please select File Type" InitialValue="0" runat="server"> </asp:RequiredFieldValidator>
+                        </td>
+                    </tr>
                     <tr>
+                        <td>&nbsp;
+                        </td>
+                    </tr>
+                    <tr runat="server" id="trFileType">
                         <td width="10%"></td>
                         <td align="left" width="10%">Location&nbsp;<span id="Span1" style="color: Red; display: none;" runat="server">*</span>
                         </td>
@@ -35,7 +55,7 @@
                             <asp:DropDownList ID="ddlLocation" Width="175px" runat="server" SkinID="dropGen"></asp:DropDownList>
                         </td>
                     </tr>
-                    <tr>
+                    <tr runat="server" id="tr">
                         <td>&nbsp;
                         </td>
                     </tr>

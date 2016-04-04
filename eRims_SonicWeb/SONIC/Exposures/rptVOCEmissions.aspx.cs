@@ -130,24 +130,36 @@ public partial class UserAccessRequest_rptVOCEmissions : clsBasePage
 
     private System.Text.StringBuilder GenerateVOCReport()
     {
-        int startYear, endYear, startMonth, endMonth;
+        int startYear, endYear, startMonth, endMonth,countSelected;
         // decimal location = Convert.ToDecimal(lstLocation.SelectedValue);
         startYear = Convert.ToDateTime(txtStartDate.Text).Year;
         endYear = Convert.ToDateTime(txtEndDate.Text).Year;
         startMonth = Convert.ToDateTime(txtStartDate.Text).Month;
         endMonth = Convert.ToDateTime(txtEndDate.Text).Month;
+        countSelected = 0;
 
         string strlocation = string.Empty;
+        string strLocationFilter = string.Empty;
 
         // get selected location
         foreach (ListItem li in lstLocation.Items)
         {
             if (li.Selected)
+            { 
                 strlocation = strlocation + "" + li.Value + ",";
+                strLocationFilter = strLocationFilter + " " + li.Text + ",";
+                countSelected++;
+            }
         }
         strlocation = strlocation.TrimEnd(',');
+        strLocationFilter = strLocationFilter.TrimEnd(',');
 
         Convert.ToDecimal(lstLocation.SelectedValue);
+
+        if(lstLocation.Items.Count == countSelected)
+        {
+            strLocationFilter = "All Locations";
+        }
 
         DataSet dsReport = clsNewUserApprovedDeniedReport.GetVOCReport(startYear, endYear, startMonth, endMonth, strlocation);
 
@@ -173,6 +185,7 @@ public partial class UserAccessRequest_rptVOCEmissions : clsBasePage
             sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:8.5pt'><td align='left' style='font-size:9pt'  colspan='5'><b> Filter Conditions :  </b></td></tr>");
             sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:8.5pt'><td align='left' style='font-size:9pt'  colspan='5'><b>Start Date: </b>" + txtStartDate.Text + "</td></tr>");
             sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:8.5pt'><td align='left' style='font-size:9pt'  colspan='5'><b>End Date: </b>" + txtEndDate.Text + "</td></tr>");
+            sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:8.5pt'><td align='left' style='font-size:9pt'  colspan='5'><b>Locations: </b>" + strLocationFilter + "</td></tr>");
             sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:8.5pt'><td align='left' style='font-size:9pt'  colspan='5'><b> Report Columns :  </b></td></tr>");
             sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:8.5pt'>");
             sbRecorords.Append("<td class='cols_' width='12.5%'>Product Part Number</td>");

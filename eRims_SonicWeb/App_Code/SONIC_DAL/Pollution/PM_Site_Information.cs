@@ -561,5 +561,24 @@ namespace ERIMS.DAL
 
             return db.ExecuteDataSet(dbCommand);
         }
+
+        /// <summary>
+        /// Get Pk of EPM_Identification For Insert data in EPM_Attachment from Attachment of PM_Site_Info
+        /// </summary>
+        /// <param name="FK_Building"></param>
+        /// <returns></returns>
+        public static int SelectByLocationAndBuilding(decimal FK_LU_Location , decimal  FK_Building_ID)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("PM_Site_InformationSelectByLocationAndBuilding");
+
+            db.AddInParameter(dbCommand, "FK_LU_Location", DbType.Decimal, FK_LU_Location);
+            db.AddInParameter(dbCommand, "FK_Building_ID", DbType.Decimal, FK_Building_ID);
+
+            int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
+
+            return returnValue;
+        }
+
     }
 }

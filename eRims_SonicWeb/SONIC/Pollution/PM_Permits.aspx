@@ -651,7 +651,7 @@
                                                                                     CommandArgument='<%# Eval("PK_PM_Permits_VOC_Emissions")%>'></asp:LinkButton>
                                                                             </ItemTemplate>
                                                                         </asp:TemplateField>
-                                                                        <asp:TemplateField HeaderText="Item Number">
+                                                                        <asp:TemplateField HeaderText="Part Number">
                                                                             <ItemStyle Width="20%" />
                                                                             <ItemTemplate>
                                                                                 <asp:LinkButton ID="lnkPart_Number" runat="server" Text='<%#Eval("Part_Number")%>' CommandName="ViewVOCDetail"
@@ -695,7 +695,7 @@
                                                                 <br />
                                                                 <asp:LinkButton ID="lnkAddNew" OnClick="lnkAdd_Click" runat="server" Text="Add"></asp:LinkButton>
                                                                 <%--<asp:LinkButton ID="lnkCancel" OnClick="lnkCancel_Click" runat="server" Text="Cancel"></asp:LinkButton>--%>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                <asp:LinkButton ID="lnkImport" OnClick="lnkImport_Click" runat="server" Text="VOC Emission Import"></asp:LinkButton>
+                                                                <asp:LinkButton ID="lnkImport" OnClick="lnkImport_Click" runat="server" Text="VOC Emissions Import"></asp:LinkButton>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -749,7 +749,7 @@
                                                                 <asp:DropDownList ID="drpPaintCategory" Width="170px" runat="server" SkinID="dropGen">
                                                                 </asp:DropDownList>
                                                             </td>
-                                                            <td align="left" valign="top">Item Number&nbsp;<span id="Span14" style="color: Red; display: none;" runat="server">*</span>
+                                                            <td align="left" valign="top">Part Number&nbsp;<span id="Span14" style="color: Red; display: none;" runat="server">*</span>
                                                             </td>
                                                             <td align="center" valign="top">:
                                                             </td>
@@ -847,7 +847,7 @@
                                                             <td align="left" valign="top">
                                                                 <asp:Label ID="lblPaintCategory" runat="server"></asp:Label>
                                                             </td>
-                                                            <td align="left" valign="top">Item Number&nbsp;<span id="Span22" style="color: Red; display: none;"
+                                                            <td align="left" valign="top">Part Number&nbsp;<span id="Span22" style="color: Red; display: none;"
                                                                 runat="server">*</span>
                                                             </td>
                                                             <td align="center" valign="top">:

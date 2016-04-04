@@ -326,11 +326,12 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
                     }
 
                     dtVOC.Rows.Add("0", "0", category + " Sub Total", CurrentYear, GetMonthString(CurrentMonth), totalGallons, totalVOC_Emissions, SubTotalText, "", 0);
-
+                    
                     if (dtCategoryGrandTotal != null && dtCategoryGrandTotal.Rows.Count > 0)
                     {
                         DataRow[] drCategoryGrandTotal = dtCategoryGrandTotal.Select("Category = '" + category + "'");
-                        dtVOC.Rows.Add("0", "0", category + " Grand Total", CurrentYear, "", clsGeneral.GetDecimal(drCategoryGrandTotal[0]["Gallons"]), clsGeneral.GetDecimal(drCategoryGrandTotal[0]["VOC_Emmisions"]), "", "", 0);
+                        dtVOC.Rows.Add("0", "0", category + " Grand Total (Year to Date) ", CurrentYear, "", clsGeneral.GetDecimal(drCategoryGrandTotal[0]["Gallons"]), clsGeneral.GetDecimal(drCategoryGrandTotal[0]["VOC_Emmisions"]), "", "", 0);
+                        dtVOC.Rows.Add("0", "0", "&nbsp;", null, "&nbsp;", null, null, "&nbsp;", "&nbsp;", 0);
                     }
                 }
             }
@@ -345,7 +346,7 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
 
             if (dtVOCEmission != null && dtVOCEmission.Rows.Count > 0)
             {
-                dtVOC.Rows.Add("0", "0", " Grand Total", CurrentYear, "", clsGeneral.GetDecimal(dtGrandTotal.Rows[0]["Gallons"]), clsGeneral.GetDecimal(dtGrandTotal.Rows[0]["VOC_Emmisions"]), "", "", 0);
+                dtVOC.Rows.Add("0", "0", " Grand Total (Year to Date)", CurrentYear, "", clsGeneral.GetDecimal(dtGrandTotal.Rows[0]["Gallons"]), clsGeneral.GetDecimal(dtGrandTotal.Rows[0]["VOC_Emmisions"]), "", "", 0);
             }
         }
 
@@ -580,6 +581,7 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
             ddlMonth.SelectedIndex = 0;
             ddlYear.SelectedIndex = 0;
             drpPaintCategory.SelectedIndex = 0;
+           
             pnlVOCEdit.Visible = true;
         }
     }
@@ -737,7 +739,7 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
             {
                 if (recordData > 0)
                 {
-                    ScriptManager.RegisterStartupScript(this, Page.GetType(), DateTime.Now.ToString(), "javascript:alert('VOC Details already exists for entered Item Number.');", true);
+                    ScriptManager.RegisterStartupScript(this, Page.GetType(), DateTime.Now.ToString(), "javascript:alert('VOC Details already exists for entered Part Number.');", true);
                 }
                 else
                 {
@@ -761,7 +763,7 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
                 }
                 else
                 {
-                    ScriptManager.RegisterStartupScript(this, Page.GetType(), DateTime.Now.ToString(), "javascript:alert('VOC Details already exists for entered Item Number.');", true);
+                    ScriptManager.RegisterStartupScript(this, Page.GetType(), DateTime.Now.ToString(), "javascript:alert('VOC Details already exists for entered Part Number.');", true);
                 }
             }
         }
@@ -889,7 +891,7 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
                 case "Year": strCtrlsIDsVOC += ddlYear.ClientID + ","; strMessagesVOC += "Please enter [VOC]/Year" + ","; Span12.Style["display"] = "inline-block"; break;
                 case "Month": strCtrlsIDsVOC += ddlMonth.ClientID + ","; strMessagesVOC += "Please enter [VOC]/Month" + ","; Span11.Style["display"] = "inline-block"; break;
                 case "Paint Category": strCtrlsIDsVOC += drpPaintCategory.ClientID + ","; strMessagesVOC += "Please enter [VOC]/Paint Category" + ","; Span13.Style["display"] = "inline-block"; break;
-                case "Item Number": strCtrlsIDsVOC += txtItemNumber.ClientID + ","; strMessagesVOC += "Please enter [VOC]/Item Number" + ","; Span14.Style["display"] = "inline-block"; break;
+                case "Item Number": strCtrlsIDsVOC += txtItemNumber.ClientID + ","; strMessagesVOC += "Please enter [VOC]/Part Number" + ","; Span14.Style["display"] = "inline-block"; break;
                 case "Unit": strCtrlsIDsVOC += txtUnit.ClientID + ","; strMessagesVOC += "Please enter [VOC]/Unit" + ","; Span15.Style["display"] = "inline-block"; break;
                 case "Quantity": strCtrlsIDsVOC += txtQuantity.ClientID + ","; strMessagesVOC += "Please enter [VOC]/Quantity" + ","; Span16.Style["display"] = "inline-block"; break;
                 case "Gallons": strCtrlsIDsVOC += txtGallons.ClientID + ","; strMessagesVOC += "Please enter [VOC]/Gallons" + ","; Span17.Style["display"] = "inline-block"; break;
@@ -935,6 +937,7 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
                 ((LinkButton)e.Row.FindControl("lnkPart_Number")).Enabled = false;
                 ((LinkButton)e.Row.FindControl("lnkGallons")).Enabled = false;
                 ((LinkButton)e.Row.FindControl("lnkVOC_Emissions")).Enabled = false;
+                e.Row.Font.Bold = true;
             }
         }
     }

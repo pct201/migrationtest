@@ -548,7 +548,7 @@ namespace ERIMS.DAL
         /// <param name="Year"></param>
         /// <param name="Update_Date"></param>
         /// <param name="Updated_By"></param>
-        public static void UpdateSubTotal(string SubTotal_Text, decimal FK_LU_VOC_Category, decimal FK_PM_Permits, int Month, int Year, string Update_Date, string Updated_By)
+        public static void UpdateSubTotal(string SubTotal_Text, decimal FK_LU_VOC_Category, decimal FK_PM_Permits, int Month, int Year, string Update_Date, string Updated_By,bool IsXLSX)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("PM_Permits_VOC_EmissionsUpdateSubTotal");
@@ -560,6 +560,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Year", DbType.Int16, Year);
             db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, Update_Date);
             db.AddInParameter(dbCommand, "Updated_By", DbType.String, Updated_By);
+            db.AddInParameter(dbCommand, "IsXlsx", DbType.Boolean, IsXLSX);
 
             db.ExecuteNonQuery(dbCommand);
         }

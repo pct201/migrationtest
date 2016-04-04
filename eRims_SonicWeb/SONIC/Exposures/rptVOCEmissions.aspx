@@ -20,6 +20,18 @@
             }
         }
 
+        function openWindowSchedule(PK_ReportID) {
+
+            var schedulePopUp = '';
+            var obj = '';
+            if (PK_ReportID == 72) {
+                schedulePopUp = "ScheduleRptVOCEmissions.aspx?PK_ReportID=" + PK_ReportID;
+                obj = window.open(schedulePopUp, null, 'width=800,height=500,left=' + (window.screen.width - 800) / 2 + ',top=' + (window.screen.height - 500) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
+            }
+
+            obj.focus();
+        }
+
     </script>
     <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
         HeaderText="Verify the following fields:" BorderWidth="1" BorderColor="DimGray"
@@ -100,7 +112,9 @@
                             <asp:Button runat="server" ID="btnShowReport" Text="Show Report" OnClick="btnShowReport_Click" ValidationGroup="vsErrorGroup" />
                             &nbsp;&nbsp;
                             <asp:Button ID="btnClearCriteria" runat="server" Text="Clear Criteria" ToolTip="Clear All"
-                                OnClick="btnClearCriteria_Click" CausesValidation="false" />                            
+                                OnClick="btnClearCriteria_Click" CausesValidation="false" />  
+                             &nbsp;&nbsp;
+                            <asp:Button ID="btnSchedule" runat="server" Text="Schedule"  CausesValidation="false" OnClientClick="javascript : return openWindowSchedule('72');"  />                       
                         </td>
                     </tr>
                     <tr>
