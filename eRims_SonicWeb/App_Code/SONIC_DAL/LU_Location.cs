@@ -1040,6 +1040,23 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
+      /// <summary>
+      /// get dataset by location and phone number
+      /// </summary>
+      /// <param name="location"></param>
+      /// <param name="phoneNumber"></param>
+      /// <returns></returns>
+        public static DataSet SelectByPhoneNumberAndLocation(string location, string phoneNumber)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("LU_Location_MappingSelectPK");
+
+            db.AddInParameter(dbCommand, "Building_Location_Conjuction", DbType.String, location);
+            db.AddInParameter(dbCommand, "Phone_Number", DbType.String, phoneNumber);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
         #endregion
     }
 }
