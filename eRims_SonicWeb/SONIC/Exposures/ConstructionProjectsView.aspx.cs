@@ -309,10 +309,11 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
         ddProjectType.Items.Insert(0, new ListItem("--select--", "0"));
     }
 
+    /// <summary>
+    /// Method to Save Building With Associated Project
+    /// </summary>
     private void SaveBuildings()
     {
-
-
         for (int i = 0; i < cblBuildingList.Items.Count; i++)
         {
             if (cblBuildingList.Items[i].Selected)
@@ -326,6 +327,9 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
 
     }
 
+    /// <summary>
+    /// Method to Delete Building With Associated Project
+    /// </summary>
     private void DeleteBuildings()
     {
         Facility_Construction_PM_Buildings.DeleteBuildingsByConstructionProjectId(ConstructionProjectId);
