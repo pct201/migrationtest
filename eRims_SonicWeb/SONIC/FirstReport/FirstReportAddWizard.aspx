@@ -203,7 +203,7 @@
                                         <tr>
                                             <td>
                                                 Does the incident involve damage to property (i.e. building, associate tools, contents,
-                                                business interruption) owned, leased, or managed by Sonic Automotive?</td>
+                                                business interruption) owned, leased, or managed by Sonic Automotive (does NOT include vehicles)?</td>
                                             <td>
                                                 <asp:RadioButtonList runat="server" ID="rdoProperty_Claim" SkinID="YesNoType" Enabled="true">
                                                 </asp:RadioButtonList></td>
