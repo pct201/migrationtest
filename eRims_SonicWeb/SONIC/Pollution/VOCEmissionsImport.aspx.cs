@@ -60,6 +60,18 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
         }
     }
 
+    /// <summary>
+    /// Denotes Permit Type
+    /// </summary>
+    public decimal Permit_Type
+    {
+        get { return Convert.ToInt32(ViewState["Permit_Type"]); }
+        set
+        {
+            ViewState["Permit_Type"] = value;
+        }
+    }
+
     #endregion
 
     #region "Page Event"
@@ -81,6 +93,7 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
             PK_PM_Permits = clsGeneral.GetQueryStringID(Request.QueryString["id"]);
             FK_PM_Site_Information = clsGeneral.GetQueryStringID(Request.QueryString["fid"]);
             FK_LU_Location = clsGeneral.GetQueryStringID(Request.QueryString["loc"]);
+            Permit_Type = Convert.ToDecimal(Request.QueryString["type"]);
             if (FK_LU_Location > 0)
             {
                 Session["ExposureLocation"] = FK_LU_Location;
@@ -380,7 +393,7 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
                                                         {
                                                             PM_Permits objPM_Permits = new PM_Permits();
                                                             objPM_Permits.FK_PM_Site_Information = PK_PM_Site_Information;
-                                                            objPM_Permits.FK_Permit_Type = 1;
+                                                            objPM_Permits.FK_Permit_Type = Permit_Type;
                                                             objPM_Permits.Updated_By = clsSession.UserID;
                                                             objPM_Permits.Update_Date = DateTime.Now;
                                                             PK_PM_Permit_ID = objPM_Permits.Insert();
@@ -396,7 +409,7 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
                                                             {
                                                                 PM_Permits objPM_Permits = new PM_Permits();
                                                                 objPM_Permits.FK_PM_Site_Information = PK_PM_Site_Information;
-                                                                objPM_Permits.FK_Permit_Type = 1;
+                                                                objPM_Permits.FK_Permit_Type = Permit_Type;
                                                                 objPM_Permits.Updated_By = clsSession.UserID;
                                                                 objPM_Permits.Update_Date = DateTime.Now;
                                                                 PK_PM_Permit_ID = objPM_Permits.Insert();
