@@ -251,10 +251,10 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
                     }
                 }
             }
-            catch(Exception ex)
+            catch
             {
                 divVOCData.Visible = false;
-                Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "alert('" + ex.Message+ "');", true);
+                Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "alert('Selected File can not be Imported.');", true);
             }
             finally
             {
@@ -265,6 +265,7 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
         else if ((fpFile.FileName.ToLower().Trim().EndsWith(".xlsx") || fpFile.FileName.ToLower().Trim().EndsWith(".xls")) && (ddlFileType.SelectedIndex == 2))
         {
             string filename = string.Empty, categoriIds = string.Empty, subTotalText = string.Empty, pkIds = string.Empty;
+            decimal fk_LU_Location_ID;
             string strUploadedFile = clsGeneral.UploadFile(fpFile, AppConfig.strGeneralDocument, Session.SessionID, false, false);
             try
             {
@@ -360,9 +361,9 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
                                     else
                                     {
                                         DataTable dt = LU_Location.SelectByPhoneNumberAndLocation(Location, Phone_Number).Tables[0];
-                                        FK_LU_Location = clsGeneral.GetDecimal(dt.Rows[0][0]);
+                                        fk_LU_Location_ID = clsGeneral.GetDecimal(dt.Rows[0][0]);
 
-                                        if (FK_LU_Location > 0)
+                                        if (fk_LU_Location_ID > 0)
                                         {
                                             FK_Building_ID = clsGeneral.GetDecimal(dt.Rows[0][1]);
 
@@ -370,7 +371,7 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
                                             {
                                                 decimal PK_PM_Site_Information;
 
-                                                PK_PM_Site_Information = PM_Site_Information.SelectByLocationAndBuilding(FK_LU_Location, FK_Building_ID);
+                                                PK_PM_Site_Information = PM_Site_Information.SelectByLocationAndBuilding(fk_LU_Location_ID, FK_Building_ID);
 
                                                 if (PK_PM_Site_Information > 0)
                                                 {
@@ -384,7 +385,7 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
                                                 else
                                                 {
                                                     PM_Site_Information objPM_Site_Information = new PM_Site_Information();
-                                                    objPM_Site_Information.FK_LU_Location = FK_LU_Location;
+                                                    objPM_Site_Information.FK_LU_Location = fk_LU_Location_ID;
                                                     objPM_Site_Information.FK_Building = FK_Building_ID;
                                                     PK_PM_Site_Information = objPM_Site_Information.Insert();
 
@@ -441,20 +442,19 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
                                             countPKId++;
                                         }
                                     }
-                                 }
-
-                                divVOCData.Visible = false;
-                                Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "alert('File Imported Successfully');", true);
+                                }
                             }
                         }
                     }
+                    divVOCData.Visible = false;
+                    Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "alert('File Imported Successfully');", true);
                 }
             }
 
-            catch (Exception ex)
+            catch 
             {
                 divVOCData.Visible = false;
-                Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "alert('" + ex.Message + "');", true);
+                Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "alert('Selected File can not be Imported.');", true);
             }
             finally
             {
@@ -559,5 +559,5 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
 
     #endregion
 
-   
+
 }
