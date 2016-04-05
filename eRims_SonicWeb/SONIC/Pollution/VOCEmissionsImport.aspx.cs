@@ -342,65 +342,70 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
                                     VOCEmissions = Convert.ToDecimal(dtResult.Rows[i][column + 1]);
                                 }
 
-                                PK_PM_Permit_ID = PM_Permits.SelectByLocationAndPhoneNumber(Location, Phone_Number);
+                                DataTable dtPermits = PM_Permits.SelectByLocationAndPhoneNumber(Location, Phone_Number).Tables[0];
 
-                                if (PK_PM_Permit_ID == 1)
-                                { }
-                                else
+                                if (dtPermits != null && dtFinalResult.Rows.Count > 0)
                                 {
-                                    if (PK_PM_Permit_ID > 0)
+                                    foreach (DataRow drPermits in dtPermits.Rows)
                                     {
-                                        if (i == 6)
+                                        PK_PM_Permit_ID = Convert.ToInt64(drPermits["PK_PM_Permits"]);
+                                        if (PK_PM_Permit_ID != -2)
                                         {
-                                            pkIds += PK_PM_Permit_ID + ",";
-                                        }
-
-                                        dtFinalResult.Rows.Add(fK_LU_VOC_Category, Gallons, VOCEmissions, Location, Phone_Number);
-                                        strFinal += "<Section><FK_PM_Permits>" + PK_PM_Permit_ID + "</FK_PM_Permits><Year>" + year + "</Year><Month>" + month + "</Month><Paint_Category>" + fK_LU_VOC_Category + "</Paint_Category><Part_Number>" + null + "</Part_Number><Unit>" + null + "</Unit><Quantity>" + null + "</Quantity><Gallons>" + clsGeneral.GetDecimal(Gallons) + "</Gallons><VOC_Emissions>" + clsGeneral.GetDecimal(VOCEmissions) + "</VOC_Emissions><Updated_By>" + clsSession.UserID + "</Updated_By></Section>";
-                                    }
-                                    else
-                                    {
-                                        DataTable dt = LU_Location.SelectByPhoneNumberAndLocation(Location, Phone_Number).Tables[0];
-                                        fk_LU_Location_ID = clsGeneral.GetDecimal(dt.Rows[0][0]);
-
-                                        if (fk_LU_Location_ID > 0)
-                                        {
-                                            FK_Building_ID = clsGeneral.GetDecimal(dt.Rows[0][1]);
-
-                                            if (FK_Building_ID > 0)
+                                            if (PK_PM_Permit_ID > 0)
                                             {
-                                                decimal PK_PM_Site_Information;
-
-                                                PK_PM_Site_Information = PM_Site_Information.SelectByLocationAndBuilding(fk_LU_Location_ID, FK_Building_ID);
-
-                                                if (PK_PM_Site_Information > 0)
+                                                if (i == 6)
                                                 {
-                                                    PM_Permits objPM_Permits = new PM_Permits();
-                                                    objPM_Permits.FK_PM_Site_Information = PK_PM_Site_Information;
-                                                    objPM_Permits.FK_Permit_Type = 1;
-                                                    objPM_Permits.Updated_By = clsSession.UserID;
-                                                    objPM_Permits.Update_Date = DateTime.Now;
-                                                    PK_PM_Permit_ID = objPM_Permits.Insert();
+                                                    pkIds += PK_PM_Permit_ID + ",";
                                                 }
-                                                else
-                                                {
-                                                    PM_Site_Information objPM_Site_Information = new PM_Site_Information();
-                                                    objPM_Site_Information.FK_LU_Location = fk_LU_Location_ID;
-                                                    objPM_Site_Information.FK_Building = FK_Building_ID;
-                                                    PK_PM_Site_Information = objPM_Site_Information.Insert();
 
-                                                    if (PK_PM_Site_Information > 0)
+                                                dtFinalResult.Rows.Add(fK_LU_VOC_Category, Gallons, VOCEmissions, Location, Phone_Number);
+                                                strFinal += "<Section><FK_PM_Permits>" + PK_PM_Permit_ID + "</FK_PM_Permits><Year>" + year + "</Year><Month>" + month + "</Month><Paint_Category>" + fK_LU_VOC_Category + "</Paint_Category><Part_Number>" + null + "</Part_Number><Unit>" + null + "</Unit><Quantity>" + null + "</Quantity><Gallons>" + clsGeneral.GetDecimal(Gallons) + "</Gallons><VOC_Emissions>" + clsGeneral.GetDecimal(VOCEmissions) + "</VOC_Emissions><Updated_By>" + clsSession.UserID + "</Updated_By></Section>";
+                                            }
+                                            else
+                                            {
+                                                DataTable dt = LU_Location.SelectByPhoneNumberAndLocation(Location, Phone_Number).Tables[0];
+                                                fk_LU_Location_ID = clsGeneral.GetDecimal(dt.Rows[0][0]);
+
+                                                if (fk_LU_Location_ID > 0)
+                                                {
+                                                    FK_Building_ID = clsGeneral.GetDecimal(dt.Rows[0][1]);
+
+                                                    if (FK_Building_ID > 0)
                                                     {
-                                                        PM_Permits objPM_Permits = new PM_Permits();
-                                                        objPM_Permits.FK_PM_Site_Information = PK_PM_Site_Information;
-                                                        objPM_Permits.FK_Permit_Type = 1;
-                                                        objPM_Permits.Updated_By = clsSession.UserID;
-                                                        objPM_Permits.Update_Date = DateTime.Now;
-                                                        PK_PM_Permit_ID = objPM_Permits.Insert();
+                                                        decimal PK_PM_Site_Information;
+
+                                                        PK_PM_Site_Information = PM_Site_Information.SelectByLocationAndBuilding(fk_LU_Location_ID, FK_Building_ID);
+
+                                                        if (PK_PM_Site_Information > 0)
+                                                        {
+                                                            PM_Permits objPM_Permits = new PM_Permits();
+                                                            objPM_Permits.FK_PM_Site_Information = PK_PM_Site_Information;
+                                                            objPM_Permits.FK_Permit_Type = 1;
+                                                            objPM_Permits.Updated_By = clsSession.UserID;
+                                                            objPM_Permits.Update_Date = DateTime.Now;
+                                                            PK_PM_Permit_ID = objPM_Permits.Insert();
+                                                        }
+                                                        else
+                                                        {
+                                                            PM_Site_Information objPM_Site_Information = new PM_Site_Information();
+                                                            objPM_Site_Information.FK_LU_Location = fk_LU_Location_ID;
+                                                            objPM_Site_Information.FK_Building = FK_Building_ID;
+                                                            PK_PM_Site_Information = objPM_Site_Information.Insert();
+
+                                                            if (PK_PM_Site_Information > 0)
+                                                            {
+                                                                PM_Permits objPM_Permits = new PM_Permits();
+                                                                objPM_Permits.FK_PM_Site_Information = PK_PM_Site_Information;
+                                                                objPM_Permits.FK_Permit_Type = 1;
+                                                                objPM_Permits.Updated_By = clsSession.UserID;
+                                                                objPM_Permits.Update_Date = DateTime.Now;
+                                                                PK_PM_Permit_ID = objPM_Permits.Insert();
+                                                            }
+                                                        }
+
+                                                        strFinal += "<Section><FK_PM_Permits>" + PK_PM_Permit_ID + "</FK_PM_Permits><Year>" + year + "</Year><Month>" + month + "</Month><Paint_Category>" + fK_LU_VOC_Category + "</Paint_Category><Part_Number>" + null + "</Part_Number><Unit>" + null + "</Unit><Quantity>" + null + "</Quantity><Gallons>" + clsGeneral.GetDecimal(Gallons) + "</Gallons><VOC_Emissions>" + clsGeneral.GetDecimal(VOCEmissions) + "</VOC_Emissions><Updated_By>" + clsSession.UserID + "</Updated_By></Section>";
                                                     }
                                                 }
-
-                                                strFinal += "<Section><FK_PM_Permits>" + PK_PM_Permit_ID + "</FK_PM_Permits><Year>" + year + "</Year><Month>" + month + "</Month><Paint_Category>" + fK_LU_VOC_Category + "</Paint_Category><Part_Number>" + null + "</Part_Number><Unit>" + null + "</Unit><Quantity>" + null + "</Quantity><Gallons>" + clsGeneral.GetDecimal(Gallons) + "</Gallons><VOC_Emissions>" + clsGeneral.GetDecimal(VOCEmissions) + "</VOC_Emissions><Updated_By>" + clsSession.UserID + "</Updated_By></Section>";
                                             }
                                         }
                                     }
@@ -451,7 +456,7 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
                 }
             }
 
-            catch 
+            catch
             {
                 divVOCData.Visible = false;
                 Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "alert('Selected File can not be Imported.');", true);

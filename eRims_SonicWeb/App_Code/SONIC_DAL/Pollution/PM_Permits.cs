@@ -503,7 +503,7 @@ namespace ERIMS.DAL
         /// </summary>
         /// <param name="pK_PM_SI_Utility_Provider"></param>
         /// <returns></returns>
-        public static int SelectByLocationAndPhoneNumber(string location, string phone_Number)
+        public static DataSet SelectByLocationAndPhoneNumber(string location, string phone_Number)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("PM_Permits_SelectByLoactionAndPhoneNumber");
@@ -511,8 +511,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Location", DbType.String, location);
             db.AddInParameter(dbCommand, "Phone_Number", DbType.String, phone_Number);
 
-            int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
-            return returnValue;
+            return db.ExecuteDataSet(dbCommand);
         }
 	}
 }
