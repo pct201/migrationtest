@@ -13,9 +13,9 @@ public partial class DashBoard_EmployeeDetails : System.Web.UI.Page
             ViewState["PreviousPage"] = Request.UrlReferrer;//Saves the Previous page url in ViewState
             if (Request.QueryString["AssociateStatus"] != null)
             {
-                if (Request.QueryString["AssociateStatus"].ToString() == "AssociateToTrain")
+                if (Request.QueryString["AssociateStatus"].ToString() == "'AssociateToTrain'")
                     gvEmployeeDetail.Columns[2].Visible = false;
-                else if(Request.QueryString["AssociateStatus"].ToString() == "AssociateTrained")
+                else if(Request.QueryString["AssociateStatus"].ToString() == "'AssociateTrained'")
                     gvEmployeeDetail.Columns[2].Visible = true;
             }
 
