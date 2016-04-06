@@ -582,7 +582,8 @@ public partial class Management_Management : clsBasePage
                 lblLocation.Text = "";
 
             lblFK_LU_Maintenance_Status.Text = objRecord.FK_LU_Maintenance_Status.HasValue ? new LU_Maintenance_Status(objRecord.FK_LU_Maintenance_Status.Value).Fld_Desc : "";
-
+            if (objRecord.No_Approval_Needed != null) chkNoAppovalNeededView.Checked = objRecord.No_Approval_Needed.Value;
+            if (objRecord.Approval_Needed != null) chkApprovalNeededView.Checked = objRecord.Approval_Needed.Value;
             //if (objRecord.FK_LU_State != null)
             //    lblState.Text = new LU_State((decimal)objRecord.FK_LU_State).Fld_Desc;
             //else
@@ -1096,7 +1097,7 @@ public partial class Management_Management : clsBasePage
             //{
             //    strBody = strBody.Replace("[TaskComplete]", string.Empty);
             //}
-
+            strBody = strBody.Replace("[Status]", Convert.ToString(dtManagementDetail.Rows[0]["Maintenance_Status"]));
             if (dtManagementDetail.Rows[0]["No_Approval_Needed"] != DBNull.Value && Convert.ToBoolean(dtManagementDetail.Rows[0]["No_Approval_Needed"]))
             {
                 strBody = strBody.Replace("<label id=\"lblOriginalService\" style=\"display:none\">", "<label id=\"lblOriginalService\">");
@@ -1116,6 +1117,7 @@ public partial class Management_Management : clsBasePage
             strBody = strBody.Replace("[CRApproved]", clsGeneral.FormatDBNullDateToDisplay(dtManagementDetail.Rows[0]["CR_Approved"]));
             strBody = strBody.Replace("[RecordType]", Convert.ToString(dtManagementDetail.Rows[0]["RecordType"]));
             strBody = strBody.Replace("[Approval_Submission]", Convert.ToString(dtManagementDetail.Rows[0]["Approval_Submission"]));
+            
             //strBody = strBody.Replace("[RecordTypeOther]", Convert.ToString(dtManagementDetail.Rows[0]["Record_Type_Other"]));
             strBody = strBody.Replace("[Job#]", Convert.ToString(dtManagementDetail.Rows[0]["Job"]));
             //strBody = strBody.Replace("[Order#]", Convert.ToString(dtManagementDetail.Rows[0]["Order"]));
@@ -1229,15 +1231,19 @@ public partial class Management_Management : clsBasePage
                 switch (Convert.ToBoolean(dtManagementDetail.Rows[0]["No_Approval_Needed"]))
                 {
                     case true:
-                        strBody = strBody.Replace("[No Approval Needed]", "Yes");
+                        strBody = strBody.Replace("[NoApprovalNeeded]", "&#9745;");
                         break;
                     case false:
-                        strBody = strBody.Replace("[No Approval Needed]", "No");
+                        strBody = strBody.Replace("[NoApprovalNeeded]", "&#9744;");
                         break;
                     default:
-                        strBody = strBody.Replace("[No Approval Needed]", string.Empty);
+                        strBody = strBody.Replace("[NoApprovalNeeded]", "&#9744;");
                         break;
                 }
+            }
+            else
+            {
+                strBody = strBody.Replace("[NoApprovalNeeded]", "&#9744;");
             }
 
             if (dtManagementDetail.Rows[0]["Approval_Needed"] != DBNull.Value)
@@ -1245,15 +1251,19 @@ public partial class Management_Management : clsBasePage
                 switch (Convert.ToBoolean(dtManagementDetail.Rows[0]["Approval_Needed"]))
                 {
                     case true:
-                        strBody = strBody.Replace("[Approval Needed]", "Yes");
+                        strBody = strBody.Replace("[ApprovalNeeded]", "&#9745;");
                         break;
                     case false:
-                        strBody = strBody.Replace("[Approval Needed]", "No");
+                        strBody = strBody.Replace("[ApprovalNeeded]", "&#9744;");
                         break;
                     default:
-                        strBody = strBody.Replace("[Approval Needed]", string.Empty);
+                        strBody = strBody.Replace("[ApprovalNeeded]", "&#9744;");
                         break;
                 }
+            }
+            else
+            {
+                strBody = strBody.Replace("[ApprovalNeeded]", "&#9744;");
             }
 
             strBody = strBody.Replace("[DRM_ResponseDate]", clsGeneral.FormatDBNullDateToDisplay(dtManagementDetail.Rows[0]["DRM_Response_Date"]));
@@ -2284,13 +2294,13 @@ public partial class Management_Management : clsBasePage
         if (isVisible)
         {
             chkNoApprovalNeeded.Enabled = false;
-            chkNoApprovalNeeded.Checked = false;
+            //chkNoApprovalNeeded.Checked = false;
             txtRevisedContractAmount.Visible = true;
             spRepairEstimate.Style.Add("display", "inline-block");
             lblRepairEstimate.Style.Add("display", "inline-block");
             lblRepairEstimateCol.Style.Add("display", "inline-block");
             lblRepairEstimateDollar.Style.Add("display", "inline-block");
-            showHideOriginalService(false);
+            //showHideOriginalService(false);
         }
         else
         {

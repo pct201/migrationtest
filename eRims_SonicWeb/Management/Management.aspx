@@ -862,6 +862,24 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
+                                                            <td align="left" valign="top"><label runat="server" id="lblOriginalService" style="display:none"> Original Service Estimate<span class="mf" id="spOriginalService" runat="server"  style="display:none">*</span></label>
+                                                            </td>
+                                                            <td align="center" valign="top"><label runat="server" id="lblOriginalServiceCol" style="display:none">:</label> 
+                                                            </td>
+                                                            <td align="left" valign="top"><label runat="server" id="lblOriginalServiceDollar" style="display:none">$</label> 
+                                                                <asp:TextBox ID="txtPreviousContractAmount" autocomplete="off" onpaste="return false;" OnBlur="CheckNumericVal(this,20);" Visible="false"
+                                                                runat="server" Width="165px" onkeypress="javascript:return FormatNumber(event,this.id,12,false,true);" Enabled="false" />
+                                                            </td>
+                                                            <td align="left" valign="top"><label runat="server" id="lblRepairEstimate" style="display:none"> Repair and Estimate Amount<span class="mf" id="spRepairEstimate" runat="server" style="display:none">*</span></label>
+                                                            </td>
+                                                            <td align="center" valign="top"><label runat="server" id="lblRepairEstimateCol" style="display:none">:</label> 
+                                                            </td>
+                                                            <td align="left" valign="top"><label runat="server" id="lblRepairEstimateDollar" style="display:none">$</label> 
+                                                                <asp:TextBox ID="txtRevisedContractAmount" autocomplete="off" onpaste="return false;" OnBlur="CheckNumericVal(this,20);"  Visible="false"
+                                                                runat="server" Width="165px" onkeypress="javascript:return FormatNumber(event,this.id,12,false,true);" Enabled="false" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
                                                             <td>Total Repair Cost
                                                             </td>
                                                             <td>:
@@ -1007,24 +1025,7 @@
                                                                     ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
                                                             </td>
                                                         </tr>
-                                                        <tr>
-                                                            <td align="left" valign="top"><label runat="server" id="lblOriginalService" style="display:none"> Original Service Estimate<span class="mf" id="spOriginalService" runat="server"  style="display:none">*</span></label>
-                                                            </td>
-                                                            <td align="center" valign="top"><label runat="server" id="lblOriginalServiceCol" style="display:none">:</label> 
-                                                            </td>
-                                                            <td align="left" valign="top"><label runat="server" id="lblOriginalServiceDollar" style="display:none">$</label> 
-                                                                <asp:TextBox ID="txtPreviousContractAmount" autocomplete="off" onpaste="return false;" OnBlur="CheckNumericVal(this,20);" Visible="false"
-                                                                runat="server" Width="165px" onkeypress="javascript:return FormatNumber(event,this.id,12,false,true);" Enabled="false" />
-                                                            </td>
-                                                            <td align="left" valign="top"><label runat="server" id="lblRepairEstimate" style="display:none"> Repair and Estimate Amount<span class="mf" id="spRepairEstimate" runat="server" style="display:none">*</span></label>
-                                                            </td>
-                                                            <td align="center" valign="top"><label runat="server" id="lblRepairEstimateCol" style="display:none">:</label> 
-                                                            </td>
-                                                            <td align="left" valign="top"><label runat="server" id="lblRepairEstimateDollar" style="display:none">$</label> 
-                                                                <asp:TextBox ID="txtRevisedContractAmount" autocomplete="off" onpaste="return false;" OnBlur="CheckNumericVal(this,20);"  Visible="false"
-                                                                runat="server" Width="165px" onkeypress="javascript:return FormatNumber(event,this.id,12,false,true);" Enabled="false" />
-                                                            </td>
-                                                        </tr>
+                                                        
                                                         <%--  <tr>
                                                         <td align="left" valign="top">Cost
                                                         </td>
@@ -2142,6 +2143,36 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
+                                                            <td align="left" valign="top">No Approval Needed<br />
+                                                                (Repair Est. Under $1000)</td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:CheckBox runat="server" ID="chkNoAppovalNeededView" Enabled="false"/>
+                                                            </td>
+                                                            <td align="left" valign="top">Approval Needed<br />
+                                                                (Repair Est. Exceed $1000)</td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:CheckBox runat="server" ID="chkApprovalNeededView" Enabled="false" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" valign="top">Original Service Estimate
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">$<asp:Label ID="lblPreviousContractAmount" runat="server" />
+                                                            </td>
+                                                            <td align="left" valign="top">Repair and Estimate Amount
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">$<asp:Label ID="lblRevisedContractAmount" runat="server" Width="165px" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
                                                             <td>Total Repair Cost
                                                             </td>
                                                             <td>:
@@ -2209,6 +2240,15 @@
                                                             <td align="left" valign="top">
                                                                 <asp:Label ID="lblJob" runat="server"></asp:Label>
                                                             </td>
+                                                             <td align="left" valign="top">Order Date
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:Label ID="lblOrderDate" runat="server" />
+                                                            </td>
+                                                        </tr>
+                                                     <%--   <tr>
                                                             <td align="left" valign="top">Other
                                                             </td>
                                                             <td align="center" valign="top">:
@@ -2216,16 +2256,7 @@
                                                             <td align="left" valign="top">
                                                                 <asp:Label ID="lblRecord_Type_Other" MaxLength="30" runat="server"></asp:Label>
                                                             </td>
-
-                                                        </tr>
-                                                        <tr>
-                                                            <td align="left" valign="top">Order Date
-                                                            </td>
-                                                            <td align="center" valign="top">:
-                                                            </td>
-                                                            <td align="left" valign="top">
-                                                                <asp:Label ID="lblOrderDate" runat="server" />
-                                                            </td>
+                                                           
                                                             <td align="left" valign="top">Order #
                                                             </td>
                                                             <td align="center" valign="top">:
@@ -2233,7 +2264,7 @@
                                                             <td align="left" valign="top">
                                                                 <asp:Label ID="lblOrder" runat="server"></asp:Label>
                                                             </td>
-                                                        </tr>
+                                                        </tr>--%>
                                                         <tr>
                                                             <td align="left" valign="top">Requested By
                                                             </td>
@@ -2250,20 +2281,7 @@
                                                                 <asp:Label ID="lblCreatedBy" runat="server" Width="170px"></asp:Label>
                                                             </td>
                                                         </tr>
-                                                        <tr>
-                                                            <td align="left" valign="top">Original Service Estimate
-                                                            </td>
-                                                            <td align="center" valign="top">:
-                                                            </td>
-                                                            <td align="left" valign="top">$<asp:Label ID="lblPreviousContractAmount" runat="server" />
-                                                            </td>
-                                                            <td align="left" valign="top">Repair and Estimate Amount
-                                                            </td>
-                                                            <td align="center" valign="top">:
-                                                            </td>
-                                                            <td align="left" valign="top">$<asp:Label ID="lblRevisedContractAmount" runat="server" Width="165px" />
-                                                            </td>
-                                                        </tr>
+                                                        
                                                         <tr>
                                                             <td align="left" valign="top">Reason for Request
                                                             </td>
