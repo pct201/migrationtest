@@ -311,8 +311,7 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
                     excelReader.IsFirstRowAsColumnNames = false;
 
                     // DataSet - The result of each spreadsheet will be created in the result.Tables
-                    DataSet resultExcel = excelReader.AsDataSet();
-                    DataTable dtResult = resultExcel.Tables[0];
+                    DataTable dtResult = excelReader.AsDataSet().Tables[0];
 
                     // Free resources (IExcelDataReader is IDisposable)
                     excelReader.Close();
@@ -328,10 +327,8 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
 
                     for (int i = 6; i < dtResult.Rows.Count; i++)
                     {
-                        string paintCategory = string.Empty;
-                        paintCategory = Convert.ToString(dtResult.Rows[i][0]);
-                        Int64 fK_LU_VOC_Category;
-                        fK_LU_VOC_Category = clsLU_VOC_Category.SelectPKByCategory(paintCategory);
+                        string paintCategory = Convert.ToString(dtResult.Rows[i][0]);
+                        Int64 fK_LU_VOC_Category = clsLU_VOC_Category.SelectPKByCategory(paintCategory);
 
                         if (fK_LU_VOC_Category > 0)
                         {
@@ -357,7 +354,7 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
 
                                 DataTable dtPermits = PM_Permits.SelectByLocationAndPhoneNumber(Location, Phone_Number).Tables[0];
 
-                                if (dtPermits != null && dtFinalResult.Rows.Count > 0)
+                                if (dtPermits != null && dtPermits.Rows.Count > 0)
                                 {
                                     foreach (DataRow drPermits in dtPermits.Rows)
                                     {
@@ -385,9 +382,7 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
 
                                                     if (FK_Building_ID > 0)
                                                     {
-                                                        decimal PK_PM_Site_Information;
-
-                                                        PK_PM_Site_Information = PM_Site_Information.SelectByLocationAndBuilding(fk_LU_Location_ID, FK_Building_ID);
+                                                        decimal PK_PM_Site_Information = PM_Site_Information.SelectByLocationAndBuilding(fk_LU_Location_ID, FK_Building_ID);
 
                                                         if (PK_PM_Site_Information > 0)
                                                         {
@@ -440,7 +435,7 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
                                     {
                                         if (!string.IsNullOrEmpty(pkId))
                                         {
-                                            decimal pkID = Convert.ToDecimal(pkPermitId[countPKId]);
+                                           // decimal pkID = Convert.ToDecimal(pkPermitId[countPKId]);
 
                                             if (!string.IsNullOrEmpty(categoriIds) && categoriIds.Contains(","))
                                             {
@@ -452,7 +447,7 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
                                                 {
                                                     if (!string.IsNullOrEmpty(voc_categoryId))
                                                     {
-                                                        clsPM_Permits_VOC_Emissions.UpdateSubTotal(subTotalTextData[count], Convert.ToInt32(voc_categoryId), pkID, month, year, Convert.ToString(DateTime.Now), Convert.ToString(clsSession.UserID), true);
+                                                        clsPM_Permits_VOC_Emissions.UpdateSubTotal(subTotalTextData[count], Convert.ToInt32(voc_categoryId), Convert.ToDecimal(pkId), month, year, Convert.ToString(DateTime.Now), Convert.ToString(clsSession.UserID), true);
                                                         count++;
                                                     }
                                                 }
