@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Default.master" CodeFile="ClaimSummary.aspx.cs" Inherits="SONIC_Sedgwick_ClaimSummary" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" ValidateRequest="false" MasterPageFile="~/Default.master" CodeFile="ClaimSummary.aspx.cs" Inherits="SONIC_Sedgwick_ClaimSummary" %>
 
 <%@ Register Src="~/Controls/Notes/Notes.ascx" TagName="ctrlMultiLineTextBox" TagPrefix="uc" %>
 <%@ Register Src="~/Controls/NotesWithSpellCheck/Notes.ascx" TagName="ctrlMultiLineTextBoxWithSpellCheck"
