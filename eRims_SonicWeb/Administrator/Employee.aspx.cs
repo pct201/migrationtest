@@ -299,32 +299,127 @@ public partial class Administrator_Employee : clsBasePage
 
         Employee objEmployee = new Employee(PK_Employee_ID);
 
-        txtEmployeeID.Text = Convert.ToString(objEmployee.Employee_Id).Trim();
-        txtFirstName.Text = Convert.ToString(objEmployee.First_Name).Trim();
-        txtLastName.Text = Convert.ToString(objEmployee.Last_Name).Trim();
-        txtMIddleName.Text = Convert.ToString(objEmployee.Middle_Name).Trim();
+        if (objEmployee.Employee_Id != null)
+            txtEmployeeID.Text = Convert.ToString(objEmployee.Employee_Id.Trim());
+        else
+            txtEmployeeID.Text = Convert.ToString(objEmployee.Employee_Id);
+        
+        if (objEmployee.First_Name != null)
+            txtFirstName.Text = Convert.ToString(objEmployee.First_Name.Trim());
+        else
+            txtFirstName.Text = Convert.ToString(objEmployee.First_Name);
+       
+        if (objEmployee.Last_Name != null)
+            txtLastName.Text = Convert.ToString(objEmployee.Last_Name.Trim());
+        else
+            txtLastName.Text = Convert.ToString(objEmployee.Last_Name);
+      
+        if (objEmployee.Middle_Name != null)
+            txtMIddleName.Text = Convert.ToString(objEmployee.Middle_Name.Trim());
+        else
+            txtMIddleName.Text = Convert.ToString(objEmployee.Middle_Name);
+    
         rblGender.SelectedIndex = objEmployee.Sex == "F" ? 1 : 0;
 
-        txtAddress_1.Text = Convert.ToString(objEmployee.Employee_Address_1).Trim();
-        txtAddress_2.Text = Convert.ToString(objEmployee.Employee_Address_2).Trim();
-        txtCity.Text = Convert.ToString(objEmployee.Employee_City).Trim();
-        txtZip_code.Text = Convert.ToString(objEmployee.Employee_Zip_Code).Trim();
-        txtHome_Phone.Text = Convert.ToString(objEmployee.Employee_Home_Phone).Trim();
-        txtCell_phone.Text = Convert.ToString(objEmployee.Employee_Cell_Phone).Trim();
-        txtSocial_Security_Number.Text = Convert.ToString(objEmployee.Social_Security_Number).Trim();
-        txtDriver_License_Class.Text = Convert.ToString(objEmployee.Drivers_License_Class).Trim();
-        txtDriver_License_Number.Text = Convert.ToString(objEmployee.Drivers_License_Number).Trim();
-        txtDriver_License_Type.Text = Convert.ToString(objEmployee.Drivers_License_Type).Trim();
-        txtDrivers_License_Endorsements.Text = Convert.ToString(objEmployee.Drivers_License_Endorsements).Trim();
-        txtDrivers_License_Restrictions.Text = Convert.ToString(objEmployee.Drivers_License_Restrictions).Trim();
-        txtDepartment.Text = Convert.ToString(objEmployee.Department).Trim();
-        txtemail.Text = Convert.ToString(objEmployee.Email).Trim();
-        txtInactive.Text = Convert.ToString(objEmployee.Inactive).Trim();
-        txtJob_Title.Text = Convert.ToString(objEmployee.Job_Title).Trim();
-        txtOccupation_description.Text = Convert.ToString(objEmployee.Occupation_Description).Trim();
-        txtSalary_Frequency.Text = Convert.ToString(objEmployee.Frequency).Trim();
-        txtSupervisor_Name.Text = Convert.ToString(objEmployee.Supervisor).Trim();
-        txtWork_Phone.Text = Convert.ToString(objEmployee.Work_Phone).Trim();
+        if (objEmployee.Employee_Address_1 != null)
+            txtAddress_1.Text = Convert.ToString(objEmployee.Employee_Address_1.Trim());
+        else
+            txtAddress_1.Text = Convert.ToString(objEmployee.Employee_Address_1);
+
+        if (objEmployee.Employee_Address_2 != null)
+            txtAddress_2.Text = Convert.ToString(objEmployee.Employee_Address_2.Trim());
+        else
+            txtAddress_2.Text = Convert.ToString(objEmployee.Employee_Address_2);
+
+        if (objEmployee.Employee_City != null)
+            txtCity.Text = Convert.ToString(objEmployee.Employee_City.Trim());
+        else
+            txtCity.Text = Convert.ToString(objEmployee.Employee_City);
+
+        if (objEmployee.Employee_Zip_Code != null)
+            txtZip_code.Text = Convert.ToString(objEmployee.Employee_Zip_Code.Trim());
+        else
+            txtZip_code.Text = Convert.ToString(objEmployee.Employee_Zip_Code);
+
+        if (objEmployee.Employee_Home_Phone != null)
+            txtHome_Phone.Text = Convert.ToString(objEmployee.Employee_Home_Phone.Trim());
+        else
+            txtHome_Phone.Text = Convert.ToString(objEmployee.Employee_Home_Phone);
+
+        if (objEmployee.Employee_Cell_Phone != null)
+            txtCell_phone.Text = Convert.ToString(objEmployee.Employee_Cell_Phone.Trim());
+        else
+            txtCell_phone.Text = Convert.ToString(objEmployee.Employee_Cell_Phone);
+
+        if (objEmployee.Social_Security_Number != null)
+            txtSocial_Security_Number.Text = Convert.ToString(objEmployee.Social_Security_Number.Trim());
+        else
+            txtSocial_Security_Number.Text = Convert.ToString(objEmployee.Social_Security_Number);
+
+        if (objEmployee.Drivers_License_Class != null)
+            txtDriver_License_Class.Text = Convert.ToString(objEmployee.Drivers_License_Class.Trim());
+        else
+            txtDriver_License_Class.Text = Convert.ToString(objEmployee.Drivers_License_Class);
+
+        if (objEmployee.Drivers_License_Number != null)
+            txtDriver_License_Number.Text = Convert.ToString(objEmployee.Drivers_License_Number.Trim());
+        else
+            txtDriver_License_Number.Text = Convert.ToString(objEmployee.Drivers_License_Number);
+
+        if (objEmployee.Drivers_License_Type != null)
+            txtDriver_License_Type.Text = Convert.ToString(objEmployee.Drivers_License_Type.Trim());
+        else
+            txtDriver_License_Type.Text = Convert.ToString(objEmployee.Drivers_License_Type);
+
+        if (objEmployee.Drivers_License_Endorsements != null)
+            txtDrivers_License_Endorsements.Text = Convert.ToString(objEmployee.Drivers_License_Endorsements.Trim());
+        else
+            txtDrivers_License_Endorsements.Text = Convert.ToString(objEmployee.Drivers_License_Endorsements);
+
+        if (objEmployee.Drivers_License_Restrictions != null)
+            txtDrivers_License_Restrictions.Text = Convert.ToString(objEmployee.Drivers_License_Restrictions.Trim());
+        else
+            txtDrivers_License_Restrictions.Text = Convert.ToString(objEmployee.Drivers_License_Restrictions);
+
+        if (objEmployee.Department != null)
+            txtDepartment.Text = Convert.ToString(objEmployee.Department.Trim());
+        else
+            txtDepartment.Text = Convert.ToString(objEmployee.Department);
+
+        if (objEmployee.Email != null)
+            txtemail.Text = Convert.ToString(objEmployee.Email.Trim());
+        else
+            txtemail.Text = Convert.ToString(objEmployee.Email);
+
+        if (objEmployee.Inactive != null)
+            txtInactive.Text = Convert.ToString(objEmployee.Inactive.Trim());
+        else
+            txtInactive.Text = Convert.ToString(objEmployee.Inactive);
+
+        if (objEmployee.Job_Title != null)
+            txtJob_Title.Text = Convert.ToString(objEmployee.Job_Title.Trim());
+        else
+            txtJob_Title.Text = Convert.ToString(objEmployee.Job_Title);
+
+        if (objEmployee.Occupation_Description != null)
+            txtOccupation_description.Text = Convert.ToString(objEmployee.Occupation_Description.Trim());
+        else
+            txtOccupation_description.Text = Convert.ToString(objEmployee.Occupation_Description);
+
+        if (objEmployee.Frequency != null)
+            txtSalary_Frequency.Text = Convert.ToString(objEmployee.Frequency.Trim());
+        else
+            txtSalary_Frequency.Text = Convert.ToString(objEmployee.Frequency);
+
+        if (objEmployee.Supervisor != null)
+            txtSupervisor_Name.Text = Convert.ToString(objEmployee.Supervisor.Trim());
+        else
+            txtSupervisor_Name.Text = Convert.ToString(objEmployee.Supervisor);
+
+        if (objEmployee.Work_Phone != null)
+            txtWork_Phone.Text = Convert.ToString(objEmployee.Work_Phone.Trim());
+        else
+            txtWork_Phone.Text = Convert.ToString(objEmployee.Work_Phone);
 
         txtDrivers_License_Expires.Text = clsGeneral.FormatDBNullDateToDisplay(objEmployee.Drivers_License_Expires);
         txtDrivers_License_Issued.Text = clsGeneral.FormatDBNullDateToDisplay(objEmployee.Drivers_License_Issued);
