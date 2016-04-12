@@ -885,7 +885,7 @@ namespace ERIMS_Sonic_ReportScheduler
 
             if (dtLEDTo != null)
                 db.AddInParameter(dbCommand, "LED_To", DbType.DateTime, dtLEDTo);
-            
+
             if (!string.IsNullOrEmpty(strLocation_Status))
                 db.AddInParameter(dbCommand, "Location_Status", DbType.String, strLocation_Status);
 
@@ -1303,7 +1303,7 @@ namespace ERIMS_Sonic_ReportScheduler
             db.AddInParameter(dbCommand, "PK_IDs", DbType.String, strPolicyTypes);
 
             DataSet ds = db.ExecuteDataSet(dbCommand);
-            if (ds.Tables[0].Rows.Count > 0)
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 return Convert.ToString(ds.Tables[0].Rows[0][0]);
             else
                 return "";
@@ -1318,7 +1318,7 @@ namespace ERIMS_Sonic_ReportScheduler
             db.AddInParameter(dbCommand, "PK_IDs", DbType.String, strProgramIDs);
 
             DataSet ds = db.ExecuteDataSet(dbCommand);
-            if (ds.Tables[0].Rows.Count > 0)
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 return Convert.ToString(ds.Tables[0].Rows[0][0]);
             else
                 return "";
@@ -1427,7 +1427,7 @@ namespace ERIMS_Sonic_ReportScheduler
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("SafertyFirstAwardReport");
 
-            db.AddInParameter(dbCommand, "Pk_Security_ID", DbType.Decimal,FK_Security_Id);
+            db.AddInParameter(dbCommand, "Pk_Security_ID", DbType.Decimal, FK_Security_Id);
             db.AddInParameter(dbCommand, "Regions", DbType.String, strRegion);
             db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
             db.AddInParameter(dbCommand, "Year", DbType.Int32, Year);

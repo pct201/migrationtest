@@ -44,6 +44,8 @@ namespace ERIMS_Sonic_ReportScheduler
             }
         }
 
+        private bool isGrid = false;
+
         #endregion
 
         #region Private enum Variable
@@ -136,14 +138,20 @@ namespace ERIMS_Sonic_ReportScheduler
                     _bAllowMailSending = false;
 
                 //Check send mail status for today
+                if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + @"temp\"))
+                    Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"temp\");
+
                 if (flgSendEmail && _bAllowMailSending)
                 {
                     EventLog.WriteEntry("Total No of Database Connection String Found : " + ConfigurationManager.ConnectionStrings.Count.ToString());
                     for (int i = 1; i < ConfigurationManager.ConnectionStrings.Count; i++)
                     {
-                        Report.strConn = ConfigurationManager.ConnectionStrings[i].ConnectionString;
-                        //Send report for the schedule date
-                        SendReports();
+                        if (!string.IsNullOrEmpty(ConfigurationManager.ConnectionStrings[i].ConnectionString))
+                        {
+                            Report.strConn = ConfigurationManager.ConnectionStrings[i].ConnectionString;
+                            //Send report for the schedule date
+                            SendReports();
+                        }
                     }
                     flgSendEmail = false;
                 }
@@ -403,7 +411,7 @@ namespace ERIMS_Sonic_ReportScheduler
             catch (Exception ex)
             {
                 //write exception to event log
-                EventLog.WriteEntry("Error Occurred while sending eRIMS_Sonic Scheduled Reports on " + dtSchduleDate.ToString() + ", " + ex.Message);
+                EventLog.WriteEntry("Error Occurred while sending eRIMS_Sonic Scheduled Reports on " + dtSchduleDate.ToString() + ", " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
 
@@ -1086,7 +1094,7 @@ namespace ERIMS_Sonic_ReportScheduler
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("ERROR in Financial Summary, " + ex.Message);
+                EventLog.WriteEntry("ERROR in Financial Summary, " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
 
@@ -1188,7 +1196,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<td style='width: 16%;' align='right'>Expense</td>");
                         strHTML.Append("<td style='width: 16%;' align='right'>Total</td>");
                         strHTML.Append("<td style='width: 16%;' align='center'>Claim Count</td></tr>");
-                        strHTML.Append("</tr></table>");
+                        strHTML.Append("</table>");
                         strHTML.Append("</td></tr></table>");
                         strHTML.Append("</td></tr></table>");
                         strHTML.Append("</td></tr></table>");
@@ -1212,18 +1220,18 @@ namespace ERIMS_Sonic_ReportScheduler
                             foreach (DataRow drYear in dtYears.Rows)
                             {
                                 //Add Header for Sub Report (Year wise)
-                                strHTML.Append("<tr><td width='100%' align='left'>");
+                                strHTML.Append("<tr><td width='100%' align='left' colspan='6'>");
                                 strHTML.Append("<span style='color: Chocolate; font-weight: bold;'>Accident Year - " + drYear["AccidentYear"].ToString() + "</span>");
-                                strHTML.Append("</td></tr><tr><td align='left'>");
-                                strHTML.Append("<table cellspacing='0' cellpadding='0' align='Left' border='1' style='width: 100%;border-collapse: collapse;'>");
+                                strHTML.Append("</td></tr>");
+                                //strHTML.Append("<tr><td align='left'><table cellspacing='0' cellpadding='0' align='Left' border='1' style='width: 100%;border-collapse: collapse;'>");
                                 DataRow[] drRegions = dtRegionTotal.Select("AccidentYear='" + drYear["AccidentYear"].ToString() + "'");
 
                                 #region " List Regions "
                                 foreach (DataRow drRegion in drRegions)
                                 {
-                                    strHTML.Append("<tr><td align='left' style='width: 100%;'><table cellpadding='0' cellspacing='0' width='100%'>");
-                                    strHTML.Append("<tr><td width='100%' align='left'><b>Region - " + drRegion["Region"].ToString() + "</span></b></td></tr>");
-                                    strHTML.Append("<tr><td align='Left'><table style='width: 100%;' border='1' align='left' cellpadding='4' cellspacing='0'>");
+                                    //strHTML.Append("<tr><td align='left' style='width: 100%;'><table cellpadding='0' cellspacing='0' width='100%'>");
+                                    strHTML.Append("<tr><td width='100%' align='left' colspan='6'><b>Region - " + drRegion["Region"].ToString() + "</b></td></tr>");
+                                    //strHTML.Append("<tr><td align='Left'><table style='width: 100%;' border='1' align='left' cellpadding='4' cellspacing='0'>");
                                     DataRow[] drDetails = dtDetails.Select("AccidentYear='" + drYear["AccidentYear"].ToString() + "' and Region='" + drRegion["Region"].ToString() + "'");
 
                                     #region " Print Claim Details "
@@ -1289,12 +1297,12 @@ namespace ERIMS_Sonic_ReportScheduler
                                     strHTML.Append("<td align='right'>" + string.Format("{0:C2}", drRegion["Total_Outstanding"]) + "</td>");
                                     strHTML.Append("<td align='center'>&nbsp;</td>");
                                     strHTML.Append("</tr>");
-                                    strHTML.Append("</table></td></tr></table></td></tr>");
+                                    //strHTML.Append("</table></td></tr></table></td></tr>");
                                     #endregion
                                 }
                                 #endregion
 
-                                strHTML.Append("</table></td></tr>");
+                                //strHTML.Append("</table></td></tr>");
                             }
                             #endregion
 
@@ -1337,7 +1345,7 @@ namespace ERIMS_Sonic_ReportScheduler
                                 strHTML.Append("<td align='center'>&nbsp;</td>");
                                 strHTML.Append("</tr>");
 
-                                strHTML.Append("</tr></table>");
+                                strHTML.Append("</table>");
                                 strHTML.Append("</td></tr></table>");
                                 strHTML.Append("</td></tr></table>");
                                 strHTML.Append("</td></tr></table>");
@@ -1354,13 +1362,15 @@ namespace ERIMS_Sonic_ReportScheduler
                         htmlWrite.WriteLine(strHTML.ToString());
 
                         //Send Mail
+                        isGrid = true;
                         SendMail("Financial Pay Type Summary Report", "FinancialPayTypeSummary.xls", strFirstName, strLastName, strMailFrom, stringWrite, dtRecipients);
+                        isGrid = false;
                     }
                 }
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("ERROR in Financial Pay Type Summary, " + ex.Message);
+                EventLog.WriteEntry("ERROR in Financial Pay Type Summary, " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
 
@@ -1445,7 +1455,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<br />");
                         strHTML.Append("Market        : " + strMarketString);
                         strHTML.Append("<br /><br />");
-                        strHTML.Append("Date Of Loss : From : " + date_of_loss_from.ToString(DateDisplayFormat) + " &nbsp;&nbsp&nbsp;&nbsp; To : " + date_of_loss_to.ToString(DateDisplayFormat));
+                        strHTML.Append("Date Of Loss : From : " + date_of_loss_from.ToString(DateDisplayFormat) + " &nbsp;&nbsp;&nbsp;&nbsp; To : " + date_of_loss_to.ToString(DateDisplayFormat));
                         strHTML.Append("<br /><br />");
 
                         //Add Header HTML
@@ -1483,7 +1493,7 @@ namespace ERIMS_Sonic_ReportScheduler
                                     strHTML.Append("<td align='right' style='width: 14%'>" + String.Format("{0:N0}", drDetail["ClaimCount"]) + "</td>");
                                     strHTML.Append("<td align='right' style='width: 14%'>" + String.Format("{0:N2}", drDetail["ClaimPercent"]) + "</td>");
                                     strHTML.Append("<td align='right' style='width: 18%'>" + String.Format("{0:C2}", drDetail["Incurred"]) + "</td>");
-                                    strHTML.Append("<td align='right' style='width: 14%'>" + String.Format("{0:N2}", drDetail["IncurredPercent"]) + "</td>");
+                                    strHTML.Append("<td align='right' style='width: 14%'>" + String.Format("{0:N2}", drDetail["IncurredPercent"]) + "</td></tr>");
                                 }
                                 //Add Sub Total (Region wise)
                                 strHTML.Append("<tr style='font-weight: bold;background-color: white; color: black;'><td align='left' style='width: 26%;'>Total </td>");
@@ -1524,13 +1534,15 @@ namespace ERIMS_Sonic_ReportScheduler
                         htmlWrite.WriteLine(strHTML.ToString());
 
                         //Send Mail
+                        isGrid = true;
                         SendMail("Reported to Employer Lag Summary Report", "EmployerLagSummaryReport.xls", strFirstName, strLastName, strMailFrom, stringWrite, dtRecipients);
+                        isGrid = false;
                     }
                 }
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("ERROR in Lag Summary : 3, " + ex.Message);
+                EventLog.WriteEntry("ERROR in Lag Summary : 3, " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
 
@@ -1615,7 +1627,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<br />");
                         strHTML.Append("Market        : " + strMarketString);
                         strHTML.Append("<br /><br />");
-                        strHTML.Append("Date Of Loss : From : " + date_of_loss_from.ToString(DateDisplayFormat) + " &nbsp;&nbsp&nbsp;&nbsp; To : " + date_of_loss_to.ToString(DateDisplayFormat));
+                        strHTML.Append("Date Of Loss : From : " + date_of_loss_from.ToString(DateDisplayFormat) + " &nbsp;&nbsp;&nbsp;&nbsp; To : " + date_of_loss_to.ToString(DateDisplayFormat));
                         strHTML.Append("<br /><br />");
 
                         //Add Header HTML
@@ -1653,7 +1665,7 @@ namespace ERIMS_Sonic_ReportScheduler
                                     strHTML.Append("<td align='right' style='width: 14%'>" + String.Format("{0:N0}", drDetail["ClaimCount"]) + "</td>");
                                     strHTML.Append("<td align='right' style='width: 14%'>" + String.Format("{0:N2}", drDetail["ClaimPercent"]) + "</td>");
                                     strHTML.Append("<td align='right' style='width: 18%'>" + String.Format("{0:C2}", drDetail["Incurred"]) + "</td>");
-                                    strHTML.Append("<td align='right' style='width: 14%'>" + String.Format("{0:N2}", drDetail["IncurredPercent"]) + "</td>");
+                                    strHTML.Append("<td align='right' style='width: 14%'>" + String.Format("{0:N2}", drDetail["IncurredPercent"]) + "</td></tr>");
                                 }
                                 //Add Sub Total (Region wise)
                                 strHTML.Append("<tr style='font-weight: bold;background-color: white; color: black;'><td align='left' style='width: 26%;'>Total </td>");
@@ -1692,13 +1704,15 @@ namespace ERIMS_Sonic_ReportScheduler
                         htmlWrite.WriteLine(strHTML.ToString());
 
                         //Send Mail
+                        isGrid = true;
                         SendMail("Reported to Insurer Lag Summary Report", "InsurerLagSummaryReport.xls", strFirstName, strLastName, strMailFrom, stringWrite, dtRecipients);
+                        isGrid = false;
                     }
                 }
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("ERROR in Lag Summary : 4, " + ex.Message);
+                EventLog.WriteEntry("ERROR in Lag Summary : 4, " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
 
@@ -1783,7 +1797,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<br />");
                         strHTML.Append("Market        : " + strMarketString);
                         strHTML.Append("<br /><br />");
-                        strHTML.Append("Date Of Loss : From : " + date_of_loss_from.ToString(DateDisplayFormat) + " &nbsp;&nbsp&nbsp;&nbsp; To : " + date_of_loss_to.ToString(DateDisplayFormat));
+                        strHTML.Append("Date Of Loss : From : " + date_of_loss_from.ToString(DateDisplayFormat) + " &nbsp;&nbsp;&nbsp;&nbsp; To : " + date_of_loss_to.ToString(DateDisplayFormat));
                         strHTML.Append("<br /><br />");
 
                         //Add Header HTML
@@ -1821,7 +1835,7 @@ namespace ERIMS_Sonic_ReportScheduler
                                     strHTML.Append("<td align='right' style='width: 14%'>" + String.Format("{0:N0}", drDetail["ClaimCount"]) + "</td>");
                                     strHTML.Append("<td align='right' style='width: 14%'>" + String.Format("{0:N2}", drDetail["ClaimPercent"]) + "</td>");
                                     strHTML.Append("<td align='right' style='width: 18%'>" + String.Format("{0:C2}", drDetail["Incurred"]) + "</td>");
-                                    strHTML.Append("<td align='right' style='width: 14%'>" + String.Format("{0:N2}", drDetail["IncurredPercent"]) + "</td>");
+                                    strHTML.Append("<td align='right' style='width: 14%'>" + String.Format("{0:N2}", drDetail["IncurredPercent"]) + "</td></tr>");
                                 }
                                 //Add Sub Total (Region wise)
                                 strHTML.Append("<tr style='font-weight: bold;background-color: white; color: black;'><td align='left' style='width: 26%;'>Total </td>");
@@ -1860,13 +1874,15 @@ namespace ERIMS_Sonic_ReportScheduler
                         htmlWrite.WriteLine(strHTML.ToString());
 
                         //Send Mail
+                        isGrid = true;
                         SendMail("Reported to Completion Lag Summary Report", "CompletionLagSummaryReport.xls", strFirstName, strLastName, strMailFrom, stringWrite, dtRecipients);
+                        isGrid = false;
                     }
                 }
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("ERROR in Lag Summary : 5, " + ex.Message);
+                EventLog.WriteEntry("ERROR in Lag Summary : 5, " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
 
@@ -1932,7 +1948,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<br /><br />");
                         strHTML.Append("Claim Types :" + GetClaimTypeString(strClaim_Type));
                         strHTML.Append("<br />");
-                        strHTML.Append("Date Of Accident : From : " + date_of_loss_from.ToString(DateDisplayFormat) + " &nbsp;&nbsp&nbsp;&nbsp; To :" + date_of_loss_to.ToString(DateDisplayFormat));
+                        strHTML.Append("Date Of Accident : From : " + date_of_loss_from.ToString(DateDisplayFormat) + " &nbsp;&nbsp;&nbsp;&nbsp; To :" + date_of_loss_to.ToString(DateDisplayFormat));
                         strHTML.Append("<br /><br />");
 
                         //Add Header HTML
@@ -2012,7 +2028,7 @@ namespace ERIMS_Sonic_ReportScheduler
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("ERROR in Frequency Severity Report, " + ex.Message);
+                EventLog.WriteEntry("ERROR in Frequency Severity Report, " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
 
@@ -2076,7 +2092,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<b>Report Filters </b>");
                         strHTML.Append("<br /><br />");
                         strHTML.Append("<br />");
-                        strHTML.Append("Date Of Accident : From : " + date_of_loss_from.ToString(DateDisplayFormat) + " &nbsp;&nbsp&nbsp;&nbsp; To :" + date_of_loss_to.ToString(DateDisplayFormat));
+                        strHTML.Append("Date Of Accident : From : " + date_of_loss_from.ToString(DateDisplayFormat) + " &nbsp;&nbsp;&nbsp;&nbsp; To :" + date_of_loss_to.ToString(DateDisplayFormat));
                         strHTML.Append("<br /><br />");
 
                         //Add Header HTML
@@ -2150,13 +2166,15 @@ namespace ERIMS_Sonic_ReportScheduler
                         htmlWrite.WriteLine(strHTML.ToString());
 
                         //Send Mail
+                        isGrid = true;
                         SendMail("WC Cause Analysis Report", "WCCauseAnalysis.xls", strFirstName, strLastName, strMailFrom, stringWrite, dtRecipients);
+                        isGrid = false;
                     }
                 }
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("ERROR in Frequency Severity Report, " + ex.Message);
+                EventLog.WriteEntry("ERROR in Frequency Severity Report, " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
 
@@ -2226,16 +2244,16 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<br /><br />");
                         strHTML.Append("Claim Types :" + GetClaimTypeString(strClaim_Type));
                         strHTML.Append("<br />");
-                        strHTML.Append("Accident Date Range " + rangeCount.ToString() + " : From : " + Convert.ToDateTime(dtFilter.Rows[0]["From_Date_Of_Loss1"]).ToString(DateDisplayFormat) + " &nbsp;&nbsp;&nbsp&nbsp; TO : " + Convert.ToDateTime(dtFilter.Rows[0]["To_Date_Of_Loss1"]).ToString(DateDisplayFormat) + " &nbsp;&nbsp&nbsp;&nbsp; Limit : " + String.Format("{0:f}", dtFilter.Rows[0]["limit1"]));
+                        strHTML.Append("Accident Date Range " + rangeCount.ToString() + " : From : " + Convert.ToDateTime(dtFilter.Rows[0]["From_Date_Of_Loss1"]).ToString(DateDisplayFormat) + " &nbsp;&nbsp;&nbsp;&nbsp; TO : " + Convert.ToDateTime(dtFilter.Rows[0]["To_Date_Of_Loss1"]).ToString(DateDisplayFormat) + " &nbsp;&nbsp;&nbsp;&nbsp; Limit : " + String.Format("{0:f}", dtFilter.Rows[0]["limit1"]));
                         if (Convert.ToDateTime(dtFilter.Rows[0]["From_Date_Of_Loss2"]) != Convert.ToDateTime(System.Data.SqlTypes.SqlDateTime.MinValue.ToString()))
                         {
                             rangeCount++;
-                            strHTML.Append("<br />Accident Date Range " + rangeCount.ToString() + " : From : " + Convert.ToDateTime(dtFilter.Rows[0]["From_Date_Of_Loss2"]).ToString(DateDisplayFormat) + " &nbsp;&nbsp&nbsp;&nbsp; TO : " + Convert.ToDateTime(dtFilter.Rows[0]["To_Date_Of_Loss2"]).ToString(DateDisplayFormat) + "  &nbsp;&nbsp;&nbsp&nbsp; Limit : " + String.Format("{0:f}", dtFilter.Rows[0]["limit2"]));
+                            strHTML.Append("<br />Accident Date Range " + rangeCount.ToString() + " : From : " + Convert.ToDateTime(dtFilter.Rows[0]["From_Date_Of_Loss2"]).ToString(DateDisplayFormat) + " &nbsp;&nbsp;&nbsp;&nbsp; TO : " + Convert.ToDateTime(dtFilter.Rows[0]["To_Date_Of_Loss2"]).ToString(DateDisplayFormat) + "  &nbsp;&nbsp;&nbsp;&nbsp; Limit : " + String.Format("{0:f}", dtFilter.Rows[0]["limit2"]));
                         }
                         if (Convert.ToDateTime(dtFilter.Rows[0]["From_Date_Of_Loss3"]) != Convert.ToDateTime(System.Data.SqlTypes.SqlDateTime.MinValue.ToString()))
                         {
                             rangeCount++;
-                            strHTML.Append("<br />Accident Date Range " + rangeCount.ToString() + " : From : " + Convert.ToDateTime(dtFilter.Rows[0]["From_Date_Of_Loss3"]).ToString(DateDisplayFormat) + " &nbsp;&nbsp;&nbsp&nbsp; TO : " + Convert.ToDateTime(dtFilter.Rows[0]["To_Date_Of_Loss3"]).ToString(DateDisplayFormat) + " &nbsp;&nbsp;&nbsp&nbsp; Limit : " + String.Format("{0:f}", dtFilter.Rows[0]["limit3"]));
+                            strHTML.Append("<br />Accident Date Range " + rangeCount.ToString() + " : From : " + Convert.ToDateTime(dtFilter.Rows[0]["From_Date_Of_Loss3"]).ToString(DateDisplayFormat) + " &nbsp;&nbsp;&nbsp;&nbsp; TO : " + Convert.ToDateTime(dtFilter.Rows[0]["To_Date_Of_Loss3"]).ToString(DateDisplayFormat) + " &nbsp;&nbsp;&nbsp;&nbsp; Limit : " + String.Format("{0:f}", dtFilter.Rows[0]["limit3"]));
                         }
                         strHTML.Append("<br /><br />");
 
@@ -2281,12 +2299,12 @@ namespace ERIMS_Sonic_ReportScheduler
                             {
                                 DataRow drTotal = dtGrandTotal.Rows[0];
                                 strHTML.Append("<table style='font-weight: bold;' cellpadding='0' cellspacing='0' width='100%' border='0'><tr><td>");
-                                strHTML.Append("<table style='font-weight: bold;' cellpadding='0' cellspacing='0' width='100%' border='1' style='font-weight: bold;background-color: #507CD1; color: #FFFFFF;'>");
+                                strHTML.Append("<table cellpadding='0' cellspacing='0' width='100%' border='1' style='font-weight: bold;background-color: #507CD1; color: #FFFFFF;'>");
                                 strHTML.Append("<tr><td style='width: 20%;' align='left'>Report Grand Total</td>");
                                 strHTML.Append("<td style='width: 15%; align='right'>" + String.Format("{0:N0}", drTotal["TotalClaimCount"]) + "</td>");
                                 strHTML.Append("<td style='width: 20%;' align='right'>" + String.Format("{0:C2}", drTotal["TotalIncurred"]) + "</td>");
                                 strHTML.Append("<td style='width: 20%;' align='right'>" + String.Format("{0:C2}", drTotal["TotalLimitedIncurred"]) + "</td>");
-                                strHTML.Append("<td style='width: 15%;' align='right'>" + String.Format("{0:C2}", drTotal["TotalExcess"]) + "</td></tr>");
+                                strHTML.Append("<td style='width: 15%;' align='right'>" + String.Format("{0:C2}", drTotal["TotalExcess"]) + "</td></tr></table>");
                                 strHTML.Append("</td></tr></table>");
                             }
                             #endregion
@@ -2302,13 +2320,15 @@ namespace ERIMS_Sonic_ReportScheduler
                         htmlWrite.WriteLine(strHTML.ToString());
 
                         //Send Mail
+                        isGrid = true;
                         SendMail("Loss Limitation Report", "LossLimitation.xls", strFirstName, strLastName, strMailFrom, stringWrite, dtRecipients);
+                        isGrid = false;
                     }
                 }
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("ERROR in Loss Limitation Report, " + ex.Message);
+                EventLog.WriteEntry("ERROR in Loss Limitation Report, " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
 
@@ -2406,9 +2426,12 @@ namespace ERIMS_Sonic_ReportScheduler
                             foreach (DataRow drYear in dtYearTotals.Rows)
                             {
                                 //Add Header for Sub Report (Year wise)
+                                strHTML.Append("<tr><td><table border='1'>");
                                 strHTML.Append("<tr><td width='100%' align='left' colspan='5'>");
                                 strHTML.Append("<span style='color: Chocolate; font-weight: bold;'>Year - " + drYear["AccidentYear"].ToString() + "</span>");
-                                strHTML.Append("</td></tr><tr><td align='left' colspan='5'>");
+                                strHTML.Append("</td></tr>");
+                                strHTML.Append("</table></td></tr>");
+                                strHTML.Append("<tr><td align='left'>");
                                 strHTML.Append("<table cellspacing='0' cellpadding='0' align='Left' border='1' style='width: 100%;border-collapse: collapse;'>");
                                 DataRow[] drClaimTotals = dtClaimTotals.Select("AccidentYear='" + drYear["AccidentYear"].ToString() + "'");
                                 #region " List Claim Types for Accident Year "
@@ -2417,7 +2440,7 @@ namespace ERIMS_Sonic_ReportScheduler
                                 {
                                     strHTML.Append("<tr><td align='left' style='width: 100%;' colspan='5'><table cellpadding='0' cellspacing='0' width='100%'>");
                                     strHTML.Append("<tr><td width='100%' align='left' colspan='5'><b>Claim Type - " + drClaimTotal["Claim_Type"].ToString() + "</b></td></tr>");
-                                    strHTML.Append("<tr><td align='Left' colspan='5'><table style='width: 100%;' border='1' align='left' cellpadding='4' cellspacing='0'>");
+                                    strHTML.Append("<tr><td align='Left'><table style='width: 100%;' border='1' align='left' cellpadding='4' cellspacing='0'>");
                                     DataRow[] drDetails = dtDetails.Select("AccidentYear='" + drYear["AccidentYear"].ToString() + "' and Claim_Type = '" + drClaimTotal["Claim_Type"].ToString() + "'");
 
                                     if (drDetails.Length > 0)
@@ -2445,12 +2468,14 @@ namespace ERIMS_Sonic_ReportScheduler
                                         DataRow drTotal = drTotals[0];
 
                                         // print sub totals for Accident Year
+                                        strHTML.Append("<tr><td><table>");
                                         strHTML.Append("<tr style='color: Black; font-weight: bold;'>");
                                         strHTML.Append("<td align='left' style='width: 50%;'>Total Claim Type : " + drTotal["Claim_Type"].ToString() + "</td>");
                                         strHTML.Append("<td align='right' >" + String.Format("{0:N0}", drTotal["ClaimCount"]) + "</td>");
                                         strHTML.Append("<td align='right' style='width: 12%;'>100.00</td>");
                                         strHTML.Append("<td align='right' style='width: 16%;'>" + string.Format("{0:C2}", drTotal["TotalIncurred"]) + "</td>");
                                         strHTML.Append("<td align='right' style='width: 10%'>100.00</td>");
+                                        strHTML.Append("</tr><table></td>");
                                         strHTML.Append("</tr>");
                                         #endregion
                                     }
@@ -2514,7 +2539,7 @@ namespace ERIMS_Sonic_ReportScheduler
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("ERROR in Loss Stratification Report, " + ex.Message);
+                EventLog.WriteEntry("ERROR in Loss Stratification Report, " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
 
@@ -2576,9 +2601,9 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<br /><br />");
                         strHTML.Append("<b>Report Filters </b>");
                         strHTML.Append("<br /><br />");
-                        strHTML.Append("Comparison Dates :  First : " + date_of_compare_first.ToString(DateDisplayFormat) + " &nbsp;&nbsp&nbsp;&nbsp;  Second : " + date_of_compare_second.ToString(DateDisplayFormat));
+                        strHTML.Append("Comparison Dates :  First : " + date_of_compare_first.ToString(DateDisplayFormat) + " &nbsp;&nbsp;&nbsp;&nbsp;  Second : " + date_of_compare_second.ToString(DateDisplayFormat));
                         strHTML.Append("<br />");
-                        strHTML.Append("Accident Date : From : " + date_of_loss_from.ToString(DateDisplayFormat) + " &nbsp;&nbsp&nbsp;&nbsp; To : " + date_of_loss_to.ToString(DateDisplayFormat));
+                        strHTML.Append("Accident Date : From : " + date_of_loss_from.ToString(DateDisplayFormat) + " &nbsp;&nbsp;&nbsp;&nbsp; To : " + date_of_loss_to.ToString(DateDisplayFormat));
                         strHTML.Append("<br />");
                         strHTML.Append("Claim Types :" + GetClaimTypeString(strClaim_Type));
                         strHTML.Append("<br /><br />");
@@ -2629,7 +2654,7 @@ namespace ERIMS_Sonic_ReportScheduler
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("ERROR in Details Point In time Report, " + ex.Message);
+                EventLog.WriteEntry("ERROR in Details Point In time Report, " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
 
@@ -2714,7 +2739,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<br />");
                         strHTML.Append("Market        : " + strMarketString);
                         strHTML.Append("<br /><br />");
-                        strHTML.Append("Date Of Loss : From : " + date_of_loss_from.ToString(DateDisplayFormat) + " &nbsp;&nbsp&nbsp;&nbsp; To : " + date_of_loss_to.ToString(DateDisplayFormat));
+                        strHTML.Append("Date Of Loss : From : " + date_of_loss_from.ToString(DateDisplayFormat) + " &nbsp;&nbsp;&nbsp;&nbsp; To : " + date_of_loss_to.ToString(DateDisplayFormat));
                         strHTML.Append("<br /><br />");
 
                         //Add Header HTML
@@ -2753,7 +2778,7 @@ namespace ERIMS_Sonic_ReportScheduler
                                     strHTML.Append("<td align='right' style='width: 14%'>" + String.Format("{0:N0}", drDetail["ClaimCount"]) + "</td>");
                                     strHTML.Append("<td align='right' style='width: 14%'>" + String.Format("{0:N2}", drDetail["ClaimPercent"]) + "</td>");
                                     strHTML.Append("<td align='right' style='width: 18%'>" + String.Format("{0:C2}", drDetail["Incurred"]) + "</td>");
-                                    strHTML.Append("<td align='right' style='width: 14%'>" + String.Format("{0:N2}", drDetail["IncurredPercent"]) + "</td>");
+                                    strHTML.Append("<td align='right' style='width: 14%'>" + String.Format("{0:N2}", drDetail["IncurredPercent"]) + "</td></tr>");
                                 }
                                 //Add Sub Total (Region wise)
                                 strHTML.Append("<tr style='font-weight: bold;background-color: white; color: black;'><td align='left' style='width: 26%;'>Total </td>");
@@ -2794,13 +2819,15 @@ namespace ERIMS_Sonic_ReportScheduler
                         htmlWrite.WriteLine(strHTML.ToString());
 
                         //Send Mail
+                        isGrid = true;
                         SendMail("Reported to TPA Lag Summary Report", "TPALagSummaryReport.xls", strFirstName, strLastName, strMailFrom, stringWrite, dtRecipients);
+                        isGrid = false;
                     }
                 }
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("ERROR in Lag Summary : 11, " + ex.Message);
+                EventLog.WriteEntry("ERROR in Lag Summary : 11, " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
 
@@ -2861,7 +2888,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<br /><br />");
                         strHTML.Append("<b>Report Filters </b>");
                         strHTML.Append("<br /><br />");
-                        strHTML.Append("Comparison Dates :  First : " + date_of_compare_first.ToString(DateDisplayFormat) + " &nbsp;&nbsp&nbsp;&nbsp; Second : " + date_of_compare_second.ToString(DateDisplayFormat));
+                        strHTML.Append("Comparison Dates :  First : " + date_of_compare_first.ToString(DateDisplayFormat) + " &nbsp;&nbsp;&nbsp;&nbsp; Second : " + date_of_compare_second.ToString(DateDisplayFormat));
                         strHTML.Append("<br />");
                         strHTML.Append("Accident Year    :" + strPolicy_Year.Trim(new char[] { ',', '|', ' ' }));
                         strHTML.Append("<br />");
@@ -2893,7 +2920,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         foreach (DataRow drYear in dtYears.Rows)
                         {
                             //Add Header for Sub Report (Year wise)
-                            strHTML.Append("<tr><td style='font-weight:bold;'>Accident Year - " + drYear["AccidentYear"].ToString() + "</td></tr><tr><td align='left'>");
+                            strHTML.Append("<tr><td><table><tr><td style='font-weight:bold;'>Accident Year - " + drYear["AccidentYear"].ToString() + "</td></tr></table><td></tr><tr><td align='left'>");
                             DataRow[] drDetails = dtDetails.Select("AccidentYear = '" + drYear["AccidentYear"].ToString() + "'");
 
 
@@ -2991,13 +3018,15 @@ namespace ERIMS_Sonic_ReportScheduler
                         htmlWrite.WriteLine(strHTML.ToString());
 
                         //Send Mail
+                        isGrid = true;
                         SendMail("Point-in-Time Summary Report", "PITSummaryReport.xls", strFirstName, strLastName, strMailFrom, stringWrite, dtRecipients);
+                        isGrid = false;
                     }
                 }
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("ERROR in Summary Point-in-Time Comparison Report, " + ex.Message);
+                EventLog.WriteEntry("ERROR in Summary Point-in-Time Comparison Report, " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
 
@@ -3125,7 +3154,7 @@ namespace ERIMS_Sonic_ReportScheduler
                                                     " <td style='width:10%' align='right'> " + String.Format("{0:C2}", Convert.ToDouble(drDetail["Incurred_3"])) + "</td>" +
                                                     " <td style='width:8%' align='right'> " + String.Format("{0:f}", Convert.ToDouble(drDetail["FinChgPd2Inc_3"])) + "</td>" +
                                                     " <td style='width:8%' align='right'> " + String.Format("{0:N0}", Convert.ToDouble(drDetail["ClaimCount_3"])) + "</td>" +
-                                                    " <td style='width:8%' align='right'> " + String.Format("{0:f}", Convert.ToDouble(drDetail["FinChgPd2Cnt_3"])) + "</td>");
+                                                    " <td style='width:8%' align='right'> " + String.Format("{0:f}", Convert.ToDouble(drDetail["FinChgPd2Cnt_3"])) + "</td></tr>");
                                 }
                                 #endregion
 
@@ -3150,7 +3179,7 @@ namespace ERIMS_Sonic_ReportScheduler
                             if (dtGrandTotal.Rows.Count > 0)
                             {
                                 DataRow drTotal = dtGrandTotal.Rows[0];
-                                strHTML.Append("<table style='font-weight: bold;' cellpadding='0' cellspacing='0' width='100%' border='0'><tr><td>");
+                                strHTML.Append("<tr><td>");
                                 strHTML.Append("<table style='font-weight: bold;' cellpadding='0' cellspacing='0' width='100%' border='1' style='font-weight: bold;background-color: #507CD1; color: #FFFFFF;'><tr>");
                                 strHTML.Append(" <td style='width:14%' align='left'>Report Grand Totals</td>");
                                 strHTML.Append(" <td style='width:10%' align='right'> " + String.Format("{0:C2}", Convert.ToDouble(drTotal["Incurred_1"])) + "</td>" +
@@ -3177,13 +3206,15 @@ namespace ERIMS_Sonic_ReportScheduler
                         htmlWrite.WriteLine(strHTML.ToString());
 
                         //Send Mail
+                        isGrid = true;
                         SendMail("Three Points in Time Summary Report", "ThreePITSummaryReport.xls", strFirstName, strLastName, strMailFrom, stringWrite, dtRecipients);
+                        isGrid = false;
                     }
                 }
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("ERROR in Three Point-in-Time Summary Report, " + ex.Message);
+                EventLog.WriteEntry("ERROR in Three Point-in-Time Summary Report, " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
 
@@ -3501,7 +3532,7 @@ namespace ERIMS_Sonic_ReportScheduler
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("ERROR in Bordereau Report, " + ex.Message);
+                EventLog.WriteEntry("ERROR in Bordereau Report, " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
 
@@ -3685,7 +3716,8 @@ namespace ERIMS_Sonic_ReportScheduler
                         else
                         {
                             //Add No record found line for year
-                            strHTML.Append("<tr><td align='left' colspan='8'>No Record Found!</td></tr>");
+                            strHTML.Append("<table style='width: 1400px;' border='1' align='left' cellpadding='4' cellspacing='0'>");
+                            strHTML.Append("<tr><td align='left' colspan='8'>No Record Found!</td></tr></table>");
                         }
 
                         strHTML.Append("</div>");
@@ -3702,7 +3734,7 @@ namespace ERIMS_Sonic_ReportScheduler
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("ERROR in Claim Notification Bordereau Report , " + ex.Message);
+                EventLog.WriteEntry("ERROR in Claim Notification Bordereau Report , " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
 
@@ -3795,13 +3827,13 @@ namespace ERIMS_Sonic_ReportScheduler
                         //Add Header HTML
                         strHTML.Append("<div style=\"overflow-x:scroll;overflow-y:hidden;width:1750px;\">");
                         strHTML.Append("<table cellpadding='4' cellspacing='0' style='font-weight: bold;font-family:Calibri;' width='1750px' border='1'><tr>");
-                        strHTML.Append("<td style='width: 150px;' align='left'>Region</td>");
-                        strHTML.Append("<td style='width: 250px;' align='left'>Store</td>");
-                        strHTML.Append("<td style='width: 150px;' align='left'>Date Claim Opened</td>");
-                        strHTML.Append("<td style='width: 150px;' align='left'>Complainant/Plaintiff</td>");
-                        strHTML.Append("<td style='width: 150px;' align='left'>Defense Attorney</td>");
-                        strHTML.Append("<td style='width: 450px;' align='left'>Claim Description</td>");
-                        strHTML.Append("<td style='width: 450px;' align='left'>Claim Status/Comments</td>");
+                        strHTML.Append("<th style='width: 150px;' align='left'>Region</th>");
+                        strHTML.Append("<th style='width: 250px;' align='left'>Store</th>");
+                        strHTML.Append("<th style='width: 150px;' align='left'>Date Claim Opened</th>");
+                        strHTML.Append("<th style='width: 150px;' align='left'>Complainant/Plaintiff</th>");
+                        strHTML.Append("<th style='width: 150px;' align='left'>Defense Attorney</th>");
+                        strHTML.Append("<th style='width: 450px;' align='left'>Claim Description</th>");
+                        strHTML.Append("<th style='width: 450px;' align='left'>Claim Status/Comments</th>");
                         strHTML.Append("</tr></table>");
                         #endregion
 
@@ -3814,8 +3846,8 @@ namespace ERIMS_Sonic_ReportScheduler
                             strHTML.Append("<table style='width: 1750px;' border='1' align='left' cellpadding='4' cellspacing='0'>");
                             foreach (DataRow drRegion in dtRegion.Rows)
                             {
-                                strHTML.Append("<tr><td colspan='7'>");
-                                strHTML.Append("<table style='width: 1750px;font-family:Calibri;' border='1' align='left' cellpadding='4' cellspacing='0'>");
+                                //strHTML.Append("<tr><td colspan='7'>");
+                                //strHTML.Append("<table style='width: 1750px;font-family:Calibri;' border='1' align='left' cellpadding='4' cellspacing='0'>");
                                 DataRow[] drDataByRegion = dtReportData.Select("Region='" + drRegion["Region"].ToString() + "'");
                                 foreach (DataRow drData in drDataByRegion)
                                 {
@@ -3851,8 +3883,8 @@ namespace ERIMS_Sonic_ReportScheduler
                                 strHTML.Append("<td style='width: 450px;' align='left'>&nbsp;</td>");
                                 strHTML.Append("<td style='width: 450px;' align='left'>&nbsp;</td>");
                                 strHTML.Append("</tr>");
-                                strHTML.Append("</table>");
-                                strHTML.Append("</td></tr>");
+                                //strHTML.Append("</table>");
+                                //strHTML.Append("</td></tr>");
                             }
                             strHTML.Append("<tr style='background-color:#507cd1;font-family:Calibri;color:White;'>");
                             strHTML.Append("<td style='width: 150px;' align='left'><b>Grand Total</b></td>");
@@ -3864,8 +3896,8 @@ namespace ERIMS_Sonic_ReportScheduler
                             strHTML.Append("<td style='width: 450px;' align='left'>&nbsp;</td>");
                             strHTML.Append("</tr>");
                             strHTML.Append("</table>");
-                            strHTML.Append("</td></tr>");
-                            strHTML.Append("</table>");
+                            //strHTML.Append("</td></tr>");
+                            //strHTML.Append("</table>");
                         }
                         else
                         {
@@ -3887,7 +3919,7 @@ namespace ERIMS_Sonic_ReportScheduler
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("ERROR in EPLI Pending Investigation and Litigation Summary Report , " + ex.Message);
+                EventLog.WriteEntry("ERROR in EPLI Pending Investigation and Litigation Summary Report , " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
 
@@ -3939,10 +3971,11 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("Recurring Period : " + drReportSchedule["Recurring_Period"]).ToString();
                         strHTML.Append("<br />");
                         strHTML.Append("Recurring Date : " + dtSchduleDate.ToString(DateDisplayFormat));
-
+                        strHTML.Append("<br />");
                         //Add Header HTML
                         strHTML.Append("<div style=\"overflow-x:scroll;overflow-y:hidden;width:1200px;\">");
                         strHTML.Append("<table cellpadding='4' cellspacing='0' style='font-weight: bold;font-family:Calibri;' width='3150px' border='1'><tr>");
+                        strHTML.Append("<td><table><tr>");
                         strHTML.Append("<td style='width: 150px;' align='left'>Type of Allegation</td>");
                         strHTML.Append("<td style='width: 250px;' align='left'>Claim Description</td>");
                         strHTML.Append("<td style='width: 100px;' align='left'>Carrier</td>");
@@ -3963,7 +3996,8 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<td style='width: 250px;' align='left'>Location dba</td>");
                         strHTML.Append("<td style='width: 250px;' align='left'>Entity</td>");
                         strHTML.Append("<td style='width: 200px;' align='left'>Defense Attorney</td>");
-                        strHTML.Append("</tr></table>");
+                        strHTML.Append("</tr></table></td>");
+                        strHTML.Append("</tr>");
                         #endregion
 
                         DataTable dtReportData = dsReport.Tables[0];
@@ -3972,13 +4006,14 @@ namespace ERIMS_Sonic_ReportScheduler
                         if (dtRegion.Rows.Count > 0)
                         {
                             //Add Report Data Table 
-                            strHTML.Append("<table style='width: 3150px;' border='1' align='left' cellpadding='4' cellspacing='0'>");
+                            //strHTML.Append("<table style='width: 3150px;' border='1' align='left' cellpadding='4' cellspacing='0'>");
                             foreach (DataRow drRegion in dtRegion.Rows)
                             {
-                                strHTML.Append("<tr><td colspan='16' style='font-family:Calibri;'><b>");
+                                strHTML.Append("<tr align='left' valign='top'><td><table width='100%' cellpadding='0' cellspacing='0' border='0'>");
+                                strHTML.Append("<tr><td colspan='19' style='font-family:Calibri;'><b>");
                                 strHTML.Append(drRegion["Region"].ToString());
                                 strHTML.Append("</b></td></tr>");
-                                strHTML.Append("<tr><td colspan='16'>");
+                                strHTML.Append("<tr><td>");
                                 strHTML.Append("<table style='width: 3150px;font-family:Calibri;' border='1' align='left' cellpadding='4' cellspacing='0'>");
                                 DataRow[] drDataByRegion = dtReportData.Select("Region='" + drRegion["Region"].ToString() + "'");
                                 foreach (DataRow drData in drDataByRegion)
@@ -4061,6 +4096,8 @@ namespace ERIMS_Sonic_ReportScheduler
                                 strHTML.Append("</tr>");
                                 strHTML.Append("</table>");
                                 strHTML.Append("</td></tr>");
+                                strHTML.Append("</table>");
+                                strHTML.Append("</td></tr>");
                             }
                             strHTML.Append("<tr style='background-color:#507cd1;font-family:Calibri;color:White;'>");
                             strHTML.Append("<td style='width: 150px;' align='left'><b>Grand Total</b></td>");
@@ -4079,15 +4116,18 @@ namespace ERIMS_Sonic_ReportScheduler
                             strHTML.Append("<td style='width: 200px;' align='left'>&nbsp;</td>");
                             strHTML.Append("<td style='width: 250px;' align='left'>&nbsp;</td>");
                             strHTML.Append("<td style='width: 200px;' align='left'>&nbsp;</td>");
+                            strHTML.Append("<td style='width: 200px;' align='left'>&nbsp;</td>");
+                            strHTML.Append("<td style='width: 200px;' align='left'>&nbsp;</td>");
+                            strHTML.Append("<td style='width: 200px;' align='left'>&nbsp;</td>");
                             strHTML.Append("</tr>");
-                            strHTML.Append("</table>");
-                            strHTML.Append("</td></tr>");
+                            //strHTML.Append("</table>");
+                            //strHTML.Append("</td></tr>");
                             strHTML.Append("</table>");
                         }
                         else
                         {
                             //Add No record found line for year
-                            strHTML.Append("<tr><td align='left' colspan='16'>No Record Found!</td></tr>");
+                            strHTML.Append("<tr><td align='left' colspan='19'>No Record Found!</td></tr>");
                         }
 
                         strHTML.Append("</div>");
@@ -4096,15 +4136,16 @@ namespace ERIMS_Sonic_ReportScheduler
                         htmlWrite.WriteLine(strHTML.ToString());
 
                         //Send Mail
+                        //isGrid = true;
                         SendMail("FINPRO Immediately Reportable Claims Report", "ImmediatelyReportableClaimsReport.xls", strFirstName, strLastName, strMailFrom, stringWrite, dtRecipients);
-
+                        //isGrid = false;
 
                     }
                 }
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("ERROR in Immediately Reportable Claims Report, " + ex.Message);
+                EventLog.WriteEntry("ERROR in Immediately Reportable Claims Report, " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
 
@@ -4286,7 +4327,7 @@ namespace ERIMS_Sonic_ReportScheduler
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("ERROR in Network Call Summary Report, " + ex.Message);
+                EventLog.WriteEntry("ERROR in Network Call Summary Report, " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
 
@@ -4476,7 +4517,7 @@ namespace ERIMS_Sonic_ReportScheduler
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("ERROR in WC Allocation Detail Report, " + ex.Message);
+                EventLog.WriteEntry("ERROR in WC Allocation Detail Report, " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
 
@@ -4634,7 +4675,7 @@ namespace ERIMS_Sonic_ReportScheduler
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("ERROR in WC Allocation Detail Report, " + ex.Message);
+                EventLog.WriteEntry("ERROR in WC Allocation Detail Report, " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
 
@@ -4837,7 +4878,7 @@ namespace ERIMS_Sonic_ReportScheduler
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("ERROR in WC Allocation Location Report, " + ex.Message);
+                EventLog.WriteEntry("ERROR in WC Allocation Location Report, " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
 
@@ -5247,7 +5288,7 @@ namespace ERIMS_Sonic_ReportScheduler
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("ERROR in WC Allocation Monthly Detail Report, " + ex.Message);
+                EventLog.WriteEntry("ERROR in WC Allocation Monthly Detail Report, " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
 
@@ -5326,28 +5367,28 @@ namespace ERIMS_Sonic_ReportScheduler
                         //Add Header HTML
                         strHTML.Append("<table cellpadding='4' cellspacing='0' style='font-weight: bold;font-family:Calibri;' width='100%' border='1'>");
                         strHTML.Append("<tr>");
-                        strHTML.Append("<td  align='left' valign='top'>Location</td>");
-                        strHTML.Append("<td  align='left' valign='top'>Location<br/>Code</td>");
-                        strHTML.Append("<td  align='left' valign='top'>Region</td>");
+                        strHTML.Append("<th  align='left' valign='top'>Location</th>");
+                        strHTML.Append("<th  align='left' valign='top'>Location<br/>Code</th>");
+                        strHTML.Append("<th  align='left' valign='top'>Region</th>");
                         if (strRun_Report_By == "Market")
-                            strHTML.Append("<td  align='left' valign='top'>Market</td>");
-                        strHTML.Append("<td  align='right' valign='top'>JAN'" + Year.ToString().Substring(2, 2) + "</td>");
-                        strHTML.Append("<td  align='right' valign='top'>FEB'" + Year.ToString().Substring(2, 2) + "</td>");
-                        strHTML.Append("<td  align='right' valign='top'>MAR'" + Year.ToString().Substring(2, 2) + "</td>");
-                        strHTML.Append("<td  align='right' valign='top'>APR'" + Year.ToString().Substring(2, 2) + "</td>");
-                        strHTML.Append("<td  align='right' valign='top'>MAY'" + Year.ToString().Substring(2, 2) + "</td>");
-                        strHTML.Append("<td  align='right' valign='top'>JUN'" + Year.ToString().Substring(2, 2) + "</td>");
-                        strHTML.Append("<td  align='right' valign='top'>JUL'" + Year.ToString().Substring(2, 2) + "</td>");
-                        strHTML.Append("<td  align='right' valign='top'>AUG'" + Year.ToString().Substring(2, 2) + "</td>");
-                        strHTML.Append("<td  align='right' valign='top'>SEP'" + Year.ToString().Substring(2, 2) + "</td>");
-                        strHTML.Append("<td  align='right' valign='top'>OCT'" + Year.ToString().Substring(2, 2) + "</td>");
-                        strHTML.Append("<td  align='right' valign='top'>NOV'" + Year.ToString().Substring(2, 2) + "</td>");
-                        strHTML.Append("<td  align='right' valign='top'>DEC'" + Year.ToString().Substring(2, 2) + "</td>");
-                        strHTML.Append("<td  align='right' valign='top'>JAN'" + string.Format("{0:D2}", Convert.ToInt32(Year.ToString().Substring(2, 2)) + 1) + "</td>");
-                        strHTML.Append("<td  align='right' valign='top'>FEB'" + string.Format("{0:D2}", Convert.ToInt32(Year.ToString().Substring(2, 2)) + 1) + "</td>");
-                        strHTML.Append("<td  align='right' valign='top'>MAR'" + string.Format("{0:D2}", Convert.ToInt32(Year.ToString().Substring(2, 2)) + 1) + "</td>");
-                        strHTML.Append("<td  align='right' valign='top'>Total Count'" + Year.ToString().Substring(2, 2) + "</td>");
-                        strHTML.Append("</tr></table>");
+                            strHTML.Append("<th  align='left' valign='top'>Market</th>");
+                        strHTML.Append("<th  align='right' valign='top'>JAN'" + Year.ToString().Substring(2, 2) + "</th>");
+                        strHTML.Append("<th  align='right' valign='top'>FEB'" + Year.ToString().Substring(2, 2) + "</th>");
+                        strHTML.Append("<th  align='right' valign='top'>MAR'" + Year.ToString().Substring(2, 2) + "</th>");
+                        strHTML.Append("<th  align='right' valign='top'>APR'" + Year.ToString().Substring(2, 2) + "</th>");
+                        strHTML.Append("<th  align='right' valign='top'>MAY'" + Year.ToString().Substring(2, 2) + "</th>");
+                        strHTML.Append("<th  align='right' valign='top'>JUN'" + Year.ToString().Substring(2, 2) + "</th>");
+                        strHTML.Append("<th  align='right' valign='top'>JUL'" + Year.ToString().Substring(2, 2) + "</th>");
+                        strHTML.Append("<th  align='right' valign='top'>AUG'" + Year.ToString().Substring(2, 2) + "</th>");
+                        strHTML.Append("<th  align='right' valign='top'>SEP'" + Year.ToString().Substring(2, 2) + "</th>");
+                        strHTML.Append("<th  align='right' valign='top'>OCT'" + Year.ToString().Substring(2, 2) + "</th>");
+                        strHTML.Append("<th  align='right' valign='top'>NOV'" + Year.ToString().Substring(2, 2) + "</th>");
+                        strHTML.Append("<th  align='right' valign='top'>DEC'" + Year.ToString().Substring(2, 2) + "</th>");
+                        strHTML.Append("<th  align='right' valign='top'>JAN'" + string.Format("{0:D2}", Convert.ToInt32(Year.ToString().Substring(2, 2)) + 1) + "</th>");
+                        strHTML.Append("<th  align='right' valign='top'>FEB'" + string.Format("{0:D2}", Convert.ToInt32(Year.ToString().Substring(2, 2)) + 1) + "</th>");
+                        strHTML.Append("<th  align='right' valign='top'>MAR'" + string.Format("{0:D2}", Convert.ToInt32(Year.ToString().Substring(2, 2)) + 1) + "</th>");
+                        strHTML.Append("<th  align='right' valign='top'>Total Count'" + Year.ToString().Substring(2, 2) + "</th>");
+                        strHTML.Append("</tr>");
                         #endregion
 
                         DataTable dtReportData = dsReport.Tables[0];
@@ -5356,13 +5397,14 @@ namespace ERIMS_Sonic_ReportScheduler
                         if (dtReportData.Rows.Count > 0)
                         {
                             //Add Report Data Table 
-                            strHTML.Append("<table style='width: 100%;' border='1' align='left' cellpadding='4' cellspacing='0'>");
+                            //strHTML.Append("<table style='width: 100%;' border='1' align='left' cellpadding='4' cellspacing='0'>");
                             //foreach (DataRow drRegion in dtRegion.Rows)
                             //{
-                            strHTML.Append("<tr><td colspan='15'>");
-                            strHTML.Append("<table style='width: 100%;font-family:Calibri;' border='1' align='left' cellpadding='4' cellspacing='0'>");
+                            //strHTML.Append("<tr><td colspan='15'>");
+                            //strHTML.Append("<table style='width: 100%;font-family:Calibri;' border='1' align='left' cellpadding='4' cellspacing='0'>");
                             foreach (DataRow drData in dtReportData.Rows)
                             {
+                                strHTML.Append("<tr>");
                                 strHTML.Append("<td  align='left' valign='top'>" + drData["dba"] + "</td>");
                                 strHTML.Append("<td  align='left' valign='top'>" + drData["sonic_location_code"] + "</td>");
                                 strHTML.Append("<td  align='left' valign='top'>" + drData["Region"] + "</td>");
@@ -5408,12 +5450,12 @@ namespace ERIMS_Sonic_ReportScheduler
                             strHTML.Append("<td align='right' valign='top'>$ " + string.Format("{0:N2}", dtTotal.Rows[0]["Next_MAR"]) + "</td>");
                             strHTML.Append("<td align='right' valign='top'>$ " + string.Format("{0:N2}", dtTotal.Rows[0]["Total"]) + "</td>");
                             strHTML.Append("</tr>");
-                            strHTML.Append("</table>");
-                            strHTML.Append("</td></tr>");
+                            //strHTML.Append("</table>");
+                            //strHTML.Append("</td></tr>");
                             //}
                             strHTML.Append("</table>");
-                            strHTML.Append("</td></tr>");
-                            strHTML.Append("</table>");
+                            //strHTML.Append("</td></tr>");
+                            //strHTML.Append("</table>");
                         }
                         else
                         {
@@ -5434,7 +5476,7 @@ namespace ERIMS_Sonic_ReportScheduler
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("ERROR in WC Monthly Allocation Summary Report, " + ex.Message);
+                EventLog.WriteEntry("ERROR in WC Monthly Allocation Summary Report, " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
 
@@ -5648,7 +5690,7 @@ namespace ERIMS_Sonic_ReportScheduler
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("ERROR in Purchase Serice Contract Detail Report, " + ex.Message);
+                EventLog.WriteEntry("ERROR in Purchase Serice Contract Detail Report, " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
 
@@ -5883,7 +5925,7 @@ namespace ERIMS_Sonic_ReportScheduler
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("ERROR in Lease/Rental Agreement Detail Report, " + ex.Message);
+                EventLog.WriteEntry("ERROR in Lease/Rental Agreement Detail Report, " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
 
@@ -6109,7 +6151,7 @@ namespace ERIMS_Sonic_ReportScheduler
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("ERROR in Purchase Asset Detail Report, " + ex.Message);
+                EventLog.WriteEntry("ERROR in Purchase Asset Detail Report, " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
 
@@ -7543,7 +7585,7 @@ namespace ERIMS_Sonic_ReportScheduler
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("ERROR in Leases With Security Deposits Report, " + ex.Message);
+                EventLog.WriteEntry("ERROR in Leases With Security Deposits Report, " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
 
@@ -7769,7 +7811,7 @@ namespace ERIMS_Sonic_ReportScheduler
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("ERROR in Landlord Report, " + ex.Message);
+                EventLog.WriteEntry("ERROR in Landlord Report, " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
 
@@ -7982,7 +8024,7 @@ namespace ERIMS_Sonic_ReportScheduler
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("ERROR in Maintenance and Repair Items Report, " + ex.Message);
+                EventLog.WriteEntry("ERROR in Maintenance and Repair Items Report, " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
 
@@ -8311,19 +8353,19 @@ namespace ERIMS_Sonic_ReportScheduler
 
                         //Sub Header
                         strHTML.Append("<tr style='font-weight:bold;  color : White;' align='center'>");
-                        strHTML.Append("<td colspan='15' style='background: #993300;'>LOCATION/ADDRESS INFORMATION</td>");
-                        strHTML.Append("<td colspan='10' style='background: #000000;'>OCCUPANCY</td>");
-                        strHTML.Append("<td colspan='7' style='background: #008000;'>FINANCIAL INFORMATION</td>");
+                        strHTML.Append("<td colspan='15' style='background-color: #993300;'>LOCATION/ADDRESS INFORMATION</td>");
+                        strHTML.Append("<td colspan='10' style='background-color: #000000;'>OCCUPANCY</td>");
+                        strHTML.Append("<td colspan='7' style='background-color: #008000;'>FINANCIAL INFORMATION</td>");
                         strHTML.Append("<td colspan='12' style='background-color: #9999FF; color: #FFFFFF'>FIRE INSPECTION COMPANY</td>");
-                        strHTML.Append("<td colspan='13' style='background: #000084;'>SECURITY GUARD SERVICES</td>");
-                        strHTML.Append("<td colspan='13' style='background: #FF6500;'>INTRUSION ALARM SERVICES</td>");
-                        strHTML.Append("<td colspan='2' style='background: #840084;'>FENCE</td>");
-                        strHTML.Append("<td colspan='3' style='background: #31CFCF;'>GENERATOR</td>");
-                        strHTML.Append("<td colspan='2' style='background: #ff0000;'>FIRE DEPARTMENT</td>");
-                        strHTML.Append("<td colspan='4' style='background: #ffff00;'></td>");
-                        strHTML.Append("<td colspan='6' style='background: #31309C;'>CONSTRUCTION OF FLOORS (Yes to all apply)</td>");
-                        strHTML.Append("<td colspan='6' style='background: #ff0000;'>CONSTRUCTION OF EXTERIOR WALLS (Yes to all apply)</td>");
-                        strHTML.Append("<td colspan='3' style='background: #008284;'>MISC INFORMAION</td>");
+                        strHTML.Append("<td colspan='13' style='background-color: #000084;'>SECURITY GUARD SERVICES</td>");
+                        strHTML.Append("<td colspan='13' style='background-color: #FF6500;'>INTRUSION ALARM SERVICES</td>");
+                        strHTML.Append("<td colspan='2' style='background-color: #840084;'>FENCE</td>");
+                        strHTML.Append("<td colspan='3' style='background-color: #31CFCF;'>GENERATOR</td>");
+                        strHTML.Append("<td colspan='2' style='background-color: #ff0000;'>FIRE DEPARTMENT</td>");
+                        strHTML.Append("<td colspan='4' style='background-color: #ffff00;'></td>");
+                        strHTML.Append("<td colspan='6' style='background-color: #31309C;'>CONSTRUCTION OF FLOORS (Yes to all apply)</td>");
+                        strHTML.Append("<td colspan='6' style='background-color: #ff0000;'>CONSTRUCTION OF EXTERIOR WALLS (Yes to all apply)</td>");
+                        strHTML.Append("<td colspan='3' style='background-color: #008284;'>MISC INFORMAION</td>");
                         strHTML.Append("</tr>");
 
                         strHTML.Append("<tr valign='bottom' align='left' style='font-weight: bold'>");
@@ -8744,12 +8786,15 @@ namespace ERIMS_Sonic_ReportScheduler
                         //strHTML.Append("<tr><td align='left'>");
                         strHTML.Append("<table width='2035px' cellpadding='0' cellspacing='0' border='1'>");
                         strHTML.Append("<tr style='font-weight: bold;'>");
+                        strHTML.Append("<td><table><tr>");
                         strHTML.Append("<td align='left' colspan='2'>Sonic Automotive</td>");
                         strHTML.Append("<td align='center' colspan='3'>Lease Report</td>");
                         strHTML.Append("<td align='right' colspan='6'>" + FormatDBNullDateToDisplay(DateTime.Now) + " </td>");
+                        strHTML.Append("</tr></table></td>");
                         strHTML.Append("</tr>");
 
                         strHTML.Append("<tr style='font-weight: bold;'>");
+                        strHTML.Append("<td><table><tr>");
                         strHTML.Append("<td align='left' style='width: 180px'>Location</td>");
                         strHTML.Append("<td align='left' style='width: 560px'>");
                         strHTML.Append("<table width='100%' cellpadding='0' cellspacing='0' border='1' style='font-weight: bold;'>");
@@ -8769,9 +8814,10 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<td align='left' style='width: 180px'>Renewals</td>");
                         strHTML.Append("<td align='left' style='width: 180px'>Rent Details</td>");
                         strHTML.Append("<td align='left' style='width: 180px'>Rent Adjustments</td>");
-
+                        strHTML.Append("</tr></table></td>");
 
                         strHTML.Append("</tr>");
+
                         //strHTML.Append("</table>");
                         //strHTML.Append("</td></tr>");
                         //strHTML.Append("</table>");
@@ -8799,6 +8845,7 @@ namespace ERIMS_Sonic_ReportScheduler
                             {
 
                                 strHTML.Append("<tr>");
+                                strHTML.Append("<td><table border='1'><tr>");
                                 strHTML.Append("<td align='left' valign='top' style='width: 180px'>" + Convert.ToString(drDetail["DBA"]) + "</td>");
                                 strHTML.Append("<td align='left' valign='top' style='width: 560px'>");
                                 decimal _PK_RE_Information = Convert.ToDecimal(drDetail["PK_RE_Information"]);
@@ -8836,7 +8883,7 @@ namespace ERIMS_Sonic_ReportScheduler
                                 strHTML.Append("<td align='left' valign='top' style='width: 180px'>" + Convert.ToString(drDetail["Renewals"]) + "</td>");
                                 strHTML.Append("<td align='left' valign='top' style='width: 180px'>" + Convert.ToString(drDetail["Rent_Details"]) + "</td>");
                                 strHTML.Append("<td align='left' valign='top' style='width: 180px'>" + Convert.ToString(drDetail["Rent_Adjustments"]) + "</td>");
-
+                                strHTML.Append("</tr></table></td>");
                                 strHTML.Append(" </tr>");
                             }
                             //}
@@ -8848,11 +8895,14 @@ namespace ERIMS_Sonic_ReportScheduler
                             //Footer Row
                             //strHTML.Append("<tr align='left'><td align='left'>");
                             //strHTML.Append("<table width='1675px' cellpadding='0' cellspacing='0' border='0'>");
-                            //strHTML.Append("<tr><td align='left'>");
-                            //strHTML.Append("<table width='1675px' cellpadding='4' cellspacing='0' border='1' style='font-weight: bold;background-color: #507CD1; color: White;'>");
+                            strHTML.Append("<tr><td align='left'>");
+                            strHTML.Append("<table border='1'><tr><td>");
+                            strHTML.Append("<table width='1675px' cellpadding='4' cellspacing='0' border='1' style='font-weight: bold;background-color: #507CD1; color: White;'>");
                             strHTML.Append("<tr style='font-weight: bold;background-color: #507CD1; color: White;'>");
                             strHTML.Append("<td align='left' style='width: 180px'>Report Grand Totals</td>");
                             strHTML.Append("<td align='left' style='width: 560px'>" + Convert.ToString(dtDetails.Rows.Count) + " </td>");
+                            strHTML.Append("<td align='left' style='width: 100px'>&nbsp;</td>");
+                            strHTML.Append("<td align='left' style='width: 100px'>&nbsp;</td>");
                             strHTML.Append("<td align='left' style='width: 100px'>&nbsp;</td>");
                             strHTML.Append("<td align='left' style='width: 100px'>&nbsp;</td>");
                             strHTML.Append("<td align='left' style='width: 100px'>&nbsp;</td>");
@@ -8864,8 +8914,9 @@ namespace ERIMS_Sonic_ReportScheduler
                             strHTML.Append("<td align='left' style='width: 180px'>&nbsp;</td>");
                             strHTML.Append("</tr>");
                             strHTML.Append("</table>");
-                            //strHTML.Append("</td></tr>");
-                            //strHTML.Append("</table>");
+                            strHTML.Append("</td></tr></table>");
+                            strHTML.Append("</td></tr>");
+                            strHTML.Append("</table>");
                             //strHTML.Append("</td></tr>");
                         }
                         else
@@ -8874,7 +8925,7 @@ namespace ERIMS_Sonic_ReportScheduler
                             strHTML.Append("</td></tr>");
                         }
 
-                        strHTML.Append("</table>");
+                        //strHTML.Append("</table>");
                         #endregion
 
                         //Write HTML in to HtmlWriter
@@ -8887,7 +8938,7 @@ namespace ERIMS_Sonic_ReportScheduler
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("ERROR in Lease Report, " + ex.Message);
+                EventLog.WriteEntry("ERROR in Lease Report, " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
 
@@ -9001,11 +9052,14 @@ namespace ERIMS_Sonic_ReportScheduler
 
                         strHTML.Append("<table border='1'>");
                         strHTML.Append("<tr style='font-weight: bold' valign='bottom' align='left'>");
+                        strHTML.Append("<td><table><tr>");
                         strHTML.Append("<td align='left' colspan='2'>Sonic Automotive</td>");
                         strHTML.Append("<td align='center' colspan='5'>Master Dealership </td>");
                         strHTML.Append("<td align='right' colspan='5'>" + FormatDBNullDateToDisplay(DateTime.Now) + "&nbsp;</td>");
+                        strHTML.Append("</tr></table></td>");
                         strHTML.Append("</tr>");
                         strHTML.Append("<tr valign='bottom' align='left' style='font-weight: bold'>");
+                        strHTML.Append("<td><table><tr>");
                         strHTML.Append("<td>Location  </td>");
                         strHTML.Append("<td align='left' style='width: 360px'>");
                         strHTML.Append("<table width='100%' cellpadding='0' cellspacing='0' border='1' style='font-weight: bold;'>");
@@ -9025,6 +9079,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<td  align='center'>Monthly Rent </td>");
                         strHTML.Append("<td>Subtenant </td>");
                         strHTML.Append("<td align='center'>Subtenant Monthly Rent </td>");
+                        strHTML.Append("</tr></table></td>");
                         strHTML.Append("</tr>");
 
                         // set Location Table 
@@ -9054,22 +9109,23 @@ namespace ERIMS_Sonic_ReportScheduler
                             foreach (DataRow drReport in dtReportDetail.Rows)
                             {
                                 strHTML.Append("<tr valign='top' align='left'>");
+
+                                strHTML.Append("<td><table border='1'><tr>");
                                 strHTML.Append("<td> " + Convert.ToString(drReport["DBA"]) + " </td>");
                                 strHTML.Append("<td align='left' valign='top' style='width: 360px'>");
                                 decimal _PK_RE_Information = Convert.ToDecimal(drReport["PK_RE_Information"]);
                                 DataTable dtBuilding = Report.SelectByFK_RE_Information(_PK_RE_Information).Tables[0];
                                 if (dtBuilding.Rows.Count > 0)
                                 {
+                                    strHTML.Append("<table cellspacing='0' cellpadding='0' align='Left' border='1' style='width: 100%; border-collapse: collapse;'>");
                                     foreach (DataRow drBuilding in dtBuilding.Rows)
                                     {
-
-                                        strHTML.Append("<table cellspacing='0' cellpadding='0' align='Left' border='1' style='width: 100%; border-collapse: collapse;'>");
                                         strHTML.Append("<tr>");
                                         strHTML.Append("<td align='left' valign='top' style='width:30%'>" + Convert.ToString(drBuilding["Building_Number"]) + "</td>");
                                         strHTML.Append("<td align='left' valign='top' style='width:70%'>" + (drBuilding["Address"]) + "</td>");
                                         strHTML.Append("</tr>");
-                                        strHTML.Append("</table>");
                                     }
+                                    strHTML.Append("</table>");
                                 }
                                 else
                                 {
@@ -9091,6 +9147,7 @@ namespace ERIMS_Sonic_ReportScheduler
                                 strHTML.Append("<td align='right'> " + string.Format("{0:N0}", drReport["MonthlyRent"]) + " </td>");
                                 strHTML.Append("<td> " + Convert.ToString(drReport["Subtenant"]) + " </td>");
                                 strHTML.Append("<td align='right'> " + string.Format("{0:N0}", drReport["SubtenantMonthlyRent"]) + " </td>");
+                                strHTML.Append("</tr></table></td>");
                                 strHTML.Append("</tr>");
                             }
 
@@ -9112,12 +9169,14 @@ namespace ERIMS_Sonic_ReportScheduler
                         //}
 
                         // print Grand Total for Whole Report
-                        strHTML.Append("<tr valign='top' align='left' style='font-weight: bold; background-color: #507CD1;color: White;'>");
+                        strHTML.Append("<tr><td><table><tr>");
+                        strHTML.Append("<td><table><tr valign='top' align='left' style='font-weight: bold; background-color: #507CD1;color: White;'>");
                         strHTML.Append("<td> Grand Total </td>");
                         strHTML.Append("<td>" + dsResult.Tables[0].Rows.Count.ToString() + "</td>");
-                        strHTML.Append("<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>");
+                        strHTML.Append("<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>");
                         strHTML.Append("<td align='right'> " + string.Format("{0:N0}", dsResult.Tables[0].Compute("SUM(MonthlyRent)", "")) + " </td>");
                         strHTML.Append("<td>&nbsp;</td><td align='right'> " + string.Format("{0:N0}", dsResult.Tables[0].Compute("SUM(SubtenantMonthlyRent)", "")) + " </td>");
+                        strHTML.Append("</tr></table></td></tr></table></td>");
                         strHTML.Append("</tr>");
 
                         //}
@@ -9141,6 +9200,7 @@ namespace ERIMS_Sonic_ReportScheduler
         // Report 40
         private void BindLandlordInfoReport(DataRow drReportSchedule)
         {
+            try
             {
                 decimal pK_Schedule_ID = Convert.ToDecimal(drReportSchedule["PK_Schedule"]);
                 decimal Fk_RecipientList = Convert.ToDecimal(drReportSchedule["Fk_RecipientList"]);
@@ -9246,10 +9306,13 @@ namespace ERIMS_Sonic_ReportScheduler
 
                         strHTML.Append("<table border='1'>");
                         strHTML.Append("<tr style='font-weight: bold' valign='bottom' align='left'>");
+                        strHTML.Append("<td><table><tr>");
                         strHTML.Append("<td align='left' colspan='2'>Sonic Automotive</td>");
                         strHTML.Append("<td align='center' colspan='7'>Landlord Report</td>");
                         strHTML.Append("<td align='right' colspan='6'>" + DateTime.Now.ToString() + "</td>");
-                        strHTML.Append("</tr>");
+                        strHTML.Append("</tr></table></td></tr>");
+
+                        strHTML.Append("<tr><td><table cellpadding='0' cellspacing='0' width='100%' style='font-weight: bold;' border='1'>");
                         strHTML.Append("<tr valign='bottom' align='left' style='font-weight: bold'>");
                         strHTML.Append("<td> Location</td>");
                         strHTML.Append("<td align='left' style='width: 400px'>");
@@ -9274,7 +9337,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<td> Zip</td>");
                         strHTML.Append("<td> Phone</td>");
                         strHTML.Append("</tr>");
-
+                        strHTML.Append("</table></td></tr>");
                         // set Location Table 
                         // DataTable dtLocation = dsResult.Tables[0];
 
@@ -9302,6 +9365,7 @@ namespace ERIMS_Sonic_ReportScheduler
                             // display record for Location
                             foreach (DataRow drReport in dtReportDetail.Rows)
                             {
+                                strHTML.Append("<tr><td><table cellpadding='0' cellspacing='0' width='100%' border='1'>");
                                 strHTML.Append("<tr valign='top' align='left'>");
                                 strHTML.Append("<td> " + Convert.ToString(drReport["DBA"]) + " </td>");
                                 strHTML.Append("<td align='left' valign='top' style='width: 400px'>");
@@ -9309,16 +9373,15 @@ namespace ERIMS_Sonic_ReportScheduler
                                 DataTable dtBuilding = Report.SelectByFK_RE_Information(_PK_RE_Information).Tables[0];
                                 if (dtBuilding.Rows.Count > 0)
                                 {
+                                    strHTML.Append("<table cellspacing='0' cellpadding='0' align='Left' border='1' style='width: 100%; border-collapse: collapse;'>");
                                     foreach (DataRow drBuilding in dtBuilding.Rows)
                                     {
-
-                                        strHTML.Append("<table cellspacing='0' cellpadding='0' align='Left' border='1' style='width: 100%; border-collapse: collapse;'>");
                                         strHTML.Append("<tr>");
                                         strHTML.Append("<td align='left' valign='top' style='width:30%'>" + Convert.ToString(drBuilding["Building_Number"]) + "</td>");
                                         strHTML.Append("<td align='left' valign='top' style='width:70%'>" + (drBuilding["Address"]) + "</td>");
                                         strHTML.Append("</tr>");
-                                        strHTML.Append("</table>");
                                     }
+                                    strHTML.Append("</table>");
                                 }
                                 else
                                 {
@@ -9344,6 +9407,7 @@ namespace ERIMS_Sonic_ReportScheduler
                                 strHTML.Append("<td> " + Convert.ToString(drReport["Landlord_Zip"]) + " </td>");
                                 strHTML.Append("<td> " + Convert.ToString(drReport["Landlord_Telephone"]) + " </td>");
                                 strHTML.Append("</tr>");
+                                strHTML.Append("</table></td></tr>");
                             }
 
                             //// print Sub Total by Location
@@ -9364,7 +9428,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<tr valign='top' align='left' style='font-weight: bold; background-color: #507CD1;color: White;'>");
                         strHTML.Append("<td> Grand Total </td>");
                         strHTML.Append("<td>" + dsResult.Tables[0].Rows.Count.ToString() + "</td>");
-                        strHTML.Append("<td colspan='13'>&nbsp; </td> ");
+                        strHTML.Append("<td colspan='14'>&nbsp; </td> ");
                         strHTML.Append("</tr>");
 
                         //}
@@ -9378,6 +9442,10 @@ namespace ERIMS_Sonic_ReportScheduler
                         SendMail("Landlord Report", "LandlordReport.xls", strFirstName, strLastName, strMailFrom, stringWrite, dtRecipients);
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                EventLog.WriteEntry("ERROR in Landlord Info Report, " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
 
@@ -9518,7 +9586,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         // print Sub Total by Location
                         strHTML.Append("<tr valign='top' align='left' style='font-weight: bold;'>");
                         strHTML.Append("<td>Total</td>");
-                        strHTML.Append("<td> <td> <td> <td> <td><td><td><td> <td><td><td><td><td><td></td>");
+                        strHTML.Append("<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>");
                         strHTML.Append("<td align='right'>" + string.Format("{0:N2}", dtPolicy.Compute("SUM(Annual_Premium)", "")) + "</td>");
                         strHTML.Append("<td align='right'>" + string.Format("{0:N2}", dtPolicy.Compute("SUM(Surplus_Lines_Fees)", "")) + "</td>");
                         strHTML.Append("<td align='right'>" + string.Format("{0:N2}", dtPolicy.Compute("SUM(Total)", "")) + "</td>");
@@ -10121,7 +10189,7 @@ namespace ERIMS_Sonic_ReportScheduler
                                 strHTML.Append("<tr align='left' >");
                                 strHTML.Append("<td  align='left'>" + Convert.ToString(drRecords["Description"]) + "</td>");
                             }
-
+                            //strHTML.Append("<tr align='left' >");
                             strHTML.Append("<td  align='left'>" + string.Format(Convert.ToBoolean(drRecords["ShowDecimalPoint"]) == true ? "{0:N1}" : "{0:N0}", drRecords["JAN"]) + "</td>");
                             strHTML.Append("<td  align='left'>" + string.Format(Convert.ToBoolean(drRecords["ShowDecimalPoint"]) == true ? "{0:N1}" : "{0:N0}", drRecords["FEB"]) + "</td>");
                             strHTML.Append("<td  align='left'>" + string.Format(Convert.ToBoolean(drRecords["ShowDecimalPoint"]) == true ? "{0:N1}" : "{0:N0}", drRecords["MAR"]) + "</td>");
@@ -10140,15 +10208,15 @@ namespace ERIMS_Sonic_ReportScheduler
                             else
                                 strHTML.Append("<td  align='left'>" + string.Format(Convert.ToBoolean(drRecords["ShowDecimalPoint"]) == true ? "{0:N1}" : "{0:N0}", drRecords["Total"]) + "</td>");
 
-                            if (drReport.Length > 1) strHTML.Append("</tr>");
+                            strHTML.Append("</tr>");
                         }
                         if (i < dtRecordType.Rows.Count - 1)
-                            strHTML.Append("<tr align='left'><td colspan='14'>&nbsp;</td>");
+                            strHTML.Append("<tr align='left'><td colspan='14'>&nbsp;</td></tr>");
                     }
 
                     //strHTML.Append("<tr><td colspan='14' >&nbsp;</td></tr>");
                     strHTML.Append("</table>");
-                    strHTML.Append("</table>");
+                    strHTML.Append("</td></tr></table>");
                 }
                 else
                 {
@@ -10162,7 +10230,9 @@ namespace ERIMS_Sonic_ReportScheduler
                 //Write HTML in to HtmlWriter
                 htmlWrite.WriteLine(strHTML.ToString());
                 //Send Mail
+                isGrid = true;
                 SendMail("Customer Relations Incident Summary Report", "CustomerRelationsIncidentSummaryReport.xls", strFirstName, strLastName, strMailFrom, stringWrite, dtRecipients);
+                isGrid = false;
             }
         }
 
@@ -10215,8 +10285,8 @@ namespace ERIMS_Sonic_ReportScheduler
 
                 //Add Report Filter Criteria 
                 strHTML.Append("<br /><br /><table> <tr> <td colspan='14'>");
-                strHTML.Append("<b>Report Filters </b>");
-                strHTML.Append("<br /><tr> <td colspan='14'>");
+                strHTML.Append("<b>Report Filters </b></td></tr>");
+                strHTML.Append("<tr> <td colspan='14'>");
                 strHTML.Append("Year   : " + strYear);
                 strHTML.Append("</td> </tr>");
                 strHTML.Append("<tr> <td colspan='14'><table cellspacing='0' cellpadding='0' width='100%'><tr><td colspan='14'>");
@@ -10294,15 +10364,15 @@ namespace ERIMS_Sonic_ReportScheduler
                             strHTML.Append("<td  align='left'>" + string.Format("{0:N0}", drRecords["DEC"]) + "</td>");
                             strHTML.Append("<td  align='left'>" + string.Format("{0:N0}", drRecords["Total"]) + "</td>");
 
-                            if (drReport.Length > 1) strHTML.Append("</tr>");
+                            strHTML.Append("</tr>");
                         }
 
                         if (i < dtRecordType.Rows.Count - 1)
-                            strHTML.Append("<tr align='left'><td colspan='14'>&nbsp;</td>");
+                            strHTML.Append("<tr align='left'><td colspan='14'>&nbsp;</td></tr>");
                     }
 
                     //strHTML.Append("<tr><td colspan='14' >&nbsp;</td></tr>");
-                    strHTML.Append("</table>");
+                    strHTML.Append("</table></td></tr>");
                     strHTML.Append("</table>");
                 }
                 else
@@ -10317,7 +10387,9 @@ namespace ERIMS_Sonic_ReportScheduler
                 //Write HTML in to HtmlWriter
                 htmlWrite.WriteLine(strHTML.ToString());
                 //Send Mail
+                isGrid = true;
                 SendMail("Non-Customer Inquiry Summary", "NonCustomerInquirySummary.xls", strFirstName, strLastName, strMailFrom, stringWrite, dtRecipients);
+                isGrid = false;
             }
         }
 
@@ -10371,7 +10443,7 @@ namespace ERIMS_Sonic_ReportScheduler
 
                 //Add Report Filter Criteria 
                 strHTML.Append("<br /><br /><table> <tr> <td colspan='7'>");
-                strHTML.Append("<b>Report Filters </b>");
+                strHTML.Append("<b>Report Filters </b></td></tr>");
                 strHTML.Append("<br /><tr> <td colspan='7'>");
                 strHTML.Append("Time Period Begin   : " + FormatDateToDisplay(dtBegin));
                 strHTML.Append("</td> </tr>");
@@ -10437,11 +10509,12 @@ namespace ERIMS_Sonic_ReportScheduler
                             else
                                 strHTML.Append("<td align='left'>" + string.Format("{0:N0}", drRecords[j]) + "</td>");
                         }
+                        strHTML.Append("</tr>");
                     }
 
                     //strHTML.Append("<tr><td colspan='14' class='cols_'>&nbsp;</td></tr>");
                     strHTML.Append("</table>");
-                    strHTML.Append("</table>");
+                    strHTML.Append("</td></tr></table>");
                 }
                 else
                 {
@@ -10635,15 +10708,18 @@ namespace ERIMS_Sonic_ReportScheduler
                         //Header Row
                         //strHTML.Append("<tr align='left'><td align='left'>");
                         //strHTML.Append("<table width='1625px' cellpadding='0' cellspacing='0' border='0'>");
-                        //strHTML.Append("<tr><td align='left'>");
-                        //strHTML.Append("<table width='1625px' cellpadding='0' cellspacing='0' border='1' style='font-weight: bold;'>");
+                        strHTML.Append("<tr><td align='left'>");
+                        strHTML.Append("<table width='1625px' cellpadding='0' cellspacing='0' border='1' style='font-weight: bold;'>");
                         strHTML.Append("<tr style='font-weight: bold;'>");
                         strHTML.Append("<td align='left' colspan='2'>Sonic Automotive</td>");
                         strHTML.Append("<td align='center' colspan='3'>Critical Dates Report</td>");
                         strHTML.Append("<td align='right' colspan='4'>" + FormatDBNullDateToDisplay(DateTime.Now) + " </td>");
                         strHTML.Append("</tr>");
+                        strHTML.Append("</table></td></tr>");
 
                         strHTML.Append("<tr style='font-weight: bold;'>");
+                        strHTML.Append("<td><table><tr>");
+
                         strHTML.Append("<td align='left' style='width: 100px'>LED</td>");
                         strHTML.Append("<td align='left' style='width: 180px'>Location</td>");
                         strHTML.Append("<td align='left' style='width: 560px'>");
@@ -10662,9 +10738,9 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<td align='right' style='width: 100px'>Monthly Rent</td>");
                         strHTML.Append("<td align='left' style='width: 180px'>Renewals</td>");
                         strHTML.Append("</tr>");
+                        strHTML.Append("</table>");
+                        strHTML.Append("</td></tr>");
 
-                        //strHTML.Append("</table>");
-                        //strHTML.Append("</td></tr>");
                         //strHTML.Append("</table>");
                         //strHTML.Append("</td></tr>");
 
@@ -10687,6 +10763,8 @@ namespace ERIMS_Sonic_ReportScheduler
                             // DataRow[] drDetails = dtDetails.Select("DBA='" + dr["DBA"] + "'");
                             foreach (DataRow drDetail in dtLocation.Rows)
                             {
+                                strHTML.Append("<tr><td>");
+                                strHTML.Append("<table cellpadding='4' cellspacing='0' border='1'>");
                                 strHTML.Append("<tr>");
                                 strHTML.Append("<td valign='top' align='left' style='width: 100px'>" + FormatDBNullDateToDisplay(drDetail["LED"]) + "</td>");
                                 strHTML.Append("<td valign='top' align='left' style='width: 180px'>" + Convert.ToString(drDetail["DBA"]) + "</td>");
@@ -10727,6 +10805,8 @@ namespace ERIMS_Sonic_ReportScheduler
 
 
                                 strHTML.Append(" </tr>");
+                                strHTML.Append(" </table>");
+                                strHTML.Append("</td></tr>");
                             }
                             //}
                             //strHTML.Append("</table>");
@@ -10735,10 +10815,11 @@ namespace ERIMS_Sonic_ReportScheduler
                             //strHTML.Append("</td></tr>");
 
                             //Footer Row
-                            //strHTML.Append("<tr align='left'><td align='left'>");
-                            //strHTML.Append(" <table width='1625px' cellpadding='0' cellspacing='0' border='0'>");
+                            strHTML.Append("<tr align='left'><td align='left'>");
+                            strHTML.Append(" <table width='1625px' cellpadding='0' cellspacing='0' border='0'>");
                             //strHTML.Append("<tr><td align='left'>");
-                            //strHTML.Append("<table width='1625px' cellpadding='4' cellspacing='0' border='1' style='font-weight: bold;background-color: #507CD1; color: White;'>");
+                            strHTML.Append("<tr><td>");
+                            strHTML.Append("<table width='1625px' cellpadding='4' cellspacing='0' border='1' style='font-weight: bold;background-color: #507CD1; color: White;'>");
                             strHTML.Append("<tr style='font-weight: bold;'>");
                             strHTML.Append("<td align='left' style='width: 100px'>Report Grand Totals</td>");
                             strHTML.Append("<td align='left' style='width: 180px'>" + Convert.ToString(dtDetails.Rows.Count) + " </td>");
@@ -10747,13 +10828,16 @@ namespace ERIMS_Sonic_ReportScheduler
                             strHTML.Append("<td align='left' style='width: 100px'>&nbsp;</td>");
                             strHTML.Append("<td align='left' style='width: 100px'>&nbsp;</td>");
                             strHTML.Append("<td align='left' style='width: 100px'>&nbsp;</td>");
+                            strHTML.Append("<td align='left' style='width: 100px'>&nbsp;</td>");
+                            strHTML.Append("<td align='left' style='width: 100px'>&nbsp;</td>");
                             strHTML.Append("<td align='right' style='width: 100px'>" + string.Format("{0:N2}", dtDetails.Compute("sum(MonthlyRent)", "")) + "</td>");
                             strHTML.Append("<td align='left' style='width: 180px'>&nbsp;</td>");
                             strHTML.Append(" </tr>");
 
-                            //strHTML.Append("</table>");
-                            //strHTML.Append("</td></tr>");
-                            //strHTML.Append("</table>");
+                            strHTML.Append("</table>");
+                            strHTML.Append("</td></tr>");
+                            strHTML.Append("</td></tr>");
+                            strHTML.Append("</table>");
                             //strHTML.Append("</td></tr>");
                         }
                         else
@@ -10775,7 +10859,7 @@ namespace ERIMS_Sonic_ReportScheduler
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("ERROR in Critical Dates Report, " + ex.Message);
+                EventLog.WriteEntry("ERROR in Critical Dates Report, " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
 
@@ -11199,7 +11283,7 @@ namespace ERIMS_Sonic_ReportScheduler
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("ERROR in Sonic Cause Code Reclassification Report , " + ex.Message);
+                EventLog.WriteEntry("ERROR in Sonic Cause Code Reclassification Report , " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
 
 
@@ -11491,7 +11575,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<td align='center' colspan='3'>Landlord Notification Report</td>");
                         strHTML.Append("<td align='right' colspan='4'>" + FormatDBNullDateToDisplay(DateTime.Now) + " </td>");
                         strHTML.Append("</tr>");
-
+                        strHTML.Append("<table width='100%' cellpadding='0' cellspacing='0' border='1' style='font-weight: bold;'>");
                         strHTML.Append("<tr style='font-weight: bold;'>");
                         strHTML.Append("<td align='left' style='width: 100px'>LL Notify Date</td>");
                         strHTML.Append("<td align='left' style='width: 180px'>Location</td>");
@@ -11544,17 +11628,17 @@ namespace ERIMS_Sonic_ReportScheduler
                                 DataTable dtBuilding = Report.SelectByFK_RE_Information(_PK_RE_Information).Tables[0];
                                 if (dtBuilding.Rows.Count > 0)
                                 {
+                                    strHTML.Append("<table cellspacing='0' cellpadding='0' align='Left' border='1' style='width: 100%; border-collapse: collapse;'>");
                                     foreach (DataRow drBuilding in dtBuilding.Rows)
                                     {
-
-                                        strHTML.Append("<table cellspacing='0' cellpadding='0' align='Left' border='1' style='width: 100%; border-collapse: collapse;'>");
                                         strHTML.Append("<tr>");
                                         strHTML.Append("<td align='left' valign='top' style='width:40%'>" + (drBuilding["Address"]) + "</td>");
                                         strHTML.Append("<td align='left' valign='top' style='width:30%'>" + Convert.ToString(drBuilding["Building_Number"]) + "</td>");
                                         strHTML.Append("<td align='left' valign='top' style='width:30%'>" + Convert.ToString(drBuilding["Landlord_Name"]) + "</td>");
                                         strHTML.Append("</tr>");
-                                        strHTML.Append("</table>");
+
                                     }
+                                    strHTML.Append("</table>");
                                 }
                                 else
                                 {
@@ -11597,6 +11681,8 @@ namespace ERIMS_Sonic_ReportScheduler
                             strHTML.Append("<td align='left' style='width: 100px'>&nbsp;</td>");
                             strHTML.Append("<td align='left' style='width: 100px'>&nbsp;</td>");
                             strHTML.Append("<td align='left' style='width: 100px'>&nbsp;</td>");
+                            strHTML.Append("<td align='left' style='width: 100px'>&nbsp;</td>");
+                            strHTML.Append("<td align='left' style='width: 100px'>&nbsp;</td>");
                             strHTML.Append("<td align='right' style='width: 100px'>" + string.Format("{0:N2}", dtDetails.Compute("sum(MonthlyRent)", "")) + "</td>");
                             strHTML.Append("<td align='left' style='width: 180px'>&nbsp;</td>");
 
@@ -11625,7 +11711,7 @@ namespace ERIMS_Sonic_ReportScheduler
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("ERROR in Landlord Notification Report, " + ex.Message);
+                EventLog.WriteEntry("ERROR in Landlord Notification Report, " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
 
@@ -11872,12 +11958,12 @@ namespace ERIMS_Sonic_ReportScheduler
                 strHTML.Append("Recurring Date : " + dtSchduleDate.ToString(DateDisplayFormat));
 
                 //Add Report Filter Criteria 
-                strHTML.Append("<br /><br /><table> <tr> <td>");
+                strHTML.Append("<br /><br /><table> <tr> <td colspan='11'>");
                 strHTML.Append("<b>Report Filters </b>");
-                strHTML.Append("<br /><table> <tr> <td colspan='11'>");
+                strHTML.Append("</td></tr> <tr> <td colspan='11'>");
                 strHTML.Append("Region   : " + strRegion.Replace("'", ""));
                 strHTML.Append("</td> </tr>");
-                strHTML.Append("<br /><table> <tr> <td colspan='11'>");
+                strHTML.Append("<tr> <td colspan='11'>");
                 strHTML.Append("Market        : " + strMarketString);
                 strHTML.Append("</td> </tr>");
                 strHTML.Append("<tr> <td colspan='11'>");
@@ -11903,14 +11989,15 @@ namespace ERIMS_Sonic_ReportScheduler
 
                 #region "Report Grid header"
                 //Top Header
-                strHTML.Append("<table border='1'>");
+                strHTML.Append("<table border='1'><tr><td><table  border='1'>");
                 strHTML.Append("<tr style='font-weight: bold;' valign='bottom' align='left'>");
                 strHTML.Append("<td align='left' >Sonic Automotive</td>");
                 strHTML.Append("<td align='center' colspan='9'>Risk Management Worksheet</td>");
                 strHTML.Append("<td align='right' > " + DateTime.Now.ToString() + " </td>");
-                strHTML.Append("</tr>");
+                strHTML.Append("</tr></table></td></tr>");
 
                 //Sub Header
+                strHTML.Append("<tr><td><table  border='1'>");
                 strHTML.Append("<tr valign='bottom' align='left' style='font-weight: bold'>");
                 strHTML.Append("<td width='120'>Region</td>");
                 strHTML.Append("<td width='150'>Location D/B/A</td>");
@@ -11923,6 +12010,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 strHTML.Append("<td width='100'>Resignation</td>");
                 strHTML.Append("<td width='120' align='right'>Settlement Amount</td>");
                 strHTML.Append("<td width='100'>Who Approved</td>");
+                strHTML.Append("</tr></table></td>");
                 strHTML.Append("</tr>");
 
                 //Check Whether Record Exists or Not
@@ -11930,6 +12018,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 {
                     foreach (DataRow dr in dsResult.Tables[0].Rows)
                     {
+                        strHTML.Append("<tr><td><table border='1'>");
                         strHTML.Append("<tr valign='top' align='left'>");
 
                         strHTML.Append("<td >" + Convert.ToString(dr["Region"]) + "</td>");
@@ -11940,7 +12029,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<td >" + Convert.ToString(dr["Part_of_Body"]) + "</td>");
                         strHTML.Append("<td >" + Convert.ToString(dr["Claim_Status"]) + "</td>");
 
-                        strHTML.Append("<td > <table width='100%' cellpadding='3' cellspacing='2' border='0'>");
+                        strHTML.Append("<td > <table width='100%' cellpadding='3' cellspacing='2' border='1'>");
                         strHTML.Append("<tr><td width='16%' align='left'>&nbsp;</td>");
                         strHTML.Append("<td width='21%' align='right'><b>Indemnity $</b></td>");
                         strHTML.Append("<td width='21%' align='right'><b>Medical $</b></td>");
@@ -11965,6 +12054,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<td >" + Convert.ToString(dr["Resignation"]) + "</td>");
                         strHTML.Append("<td align='right'>" + string.Format("{0:C2}", dr["Settled_Amount"]) + "</td>");
                         strHTML.Append("<td >" + Convert.ToString(dr["Who_Approved"]).Replace("<br/>", " , ") + "</td>");
+                        strHTML.Append("</tr></table></td>");
                         strHTML.Append("</tr>");
                     }
                 }
@@ -12620,7 +12710,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 }
                 catch (Exception ex)
                 {
-                    EventLog.WriteEntry("Error Occurred in FROI Recap Report on " + dtSchduleDate.ToString() + ", " + ex.Message);
+                    EventLog.WriteEntry("Error Occurred in FROI Recap Report on " + dtSchduleDate.ToString() + ", " + ex.Message + ",Stack Trace:" + ex.StackTrace);
                 }
             }
         }
@@ -12711,7 +12801,7 @@ namespace ERIMS_Sonic_ReportScheduler
                                 }
                                 catch (Exception ex)
                                 {
-                                    EventLog.WriteEntry("Error Occurred while sending eRIMS_Sonic Scheduled Reports on " + dtSchduleDate.ToString() + ", " + ex.Message);
+                                    EventLog.WriteEntry("Error Occurred while sending eRIMS_Sonic Scheduled Reports on " + dtSchduleDate.ToString() + ", " + ex.Message + ",Stack Trace:" + ex.StackTrace);
                                 }
                                 finally
                                 {
@@ -12726,7 +12816,8 @@ namespace ERIMS_Sonic_ReportScheduler
 
             catch (Exception ex)
             {
-                EventLog.WriteEntry("Error Occurred while sending eRIMS_Sonic Scheduled Reports on " + dtSchduleDate.ToString() + ", " + ex.Message);
+                //EventLog.WriteEntry("Error Occurred while sending eRIMS_Sonic Scheduled Reports on " + dtSchduleDate.ToString() + ", " + ex.Message);
+                EventLog.WriteEntry("Error Occurred in ACI Adhoc Report on " + dtSchduleDate.ToString() + ", " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
 
@@ -12906,7 +12997,8 @@ namespace ERIMS_Sonic_ReportScheduler
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("Error Occurred while sending eRIMS_Sonic Scheduled Reports on " + dtSchduleDate.ToString() + ", " + ex.Message);
+                //EventLog.WriteEntry("Error Occurred while sending eRIMS_Sonic Scheduled Reports on " + dtSchduleDate.ToString() + ", " + ex.Message);
+                EventLog.WriteEntry("Error Occurred in Safety Training Report on " + dtSchduleDate.ToString() + ", " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
 
@@ -12996,7 +13088,7 @@ namespace ERIMS_Sonic_ReportScheduler
                                 }
                                 catch (Exception ex)
                                 {
-                                    EventLog.WriteEntry("Error Occurred while sending eRIMS_Sonic Scheduled Reports on " + dtSchduleDate.ToString() + ", " + ex.Message);
+                                    EventLog.WriteEntry("Error Occurred while sending eRIMS_Sonic Scheduled Reports on " + dtSchduleDate.ToString() + ", " + ex.Message + ",Stack Trace:" + ex.StackTrace);
                                 }
                                 finally
                                 {
@@ -13011,7 +13103,7 @@ namespace ERIMS_Sonic_ReportScheduler
 
             catch (Exception ex)
             {
-                EventLog.WriteEntry("Error Occurred while sending eRIMS_Sonic Scheduled Reports on " + dtSchduleDate.ToString() + ", " + ex.Message);
+                EventLog.WriteEntry("Error Occurred while sending eRIMS_Sonic Scheduled Reports on " + dtSchduleDate.ToString() + ", " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
 
@@ -13087,7 +13179,7 @@ namespace ERIMS_Sonic_ReportScheduler
                                 }
                                 catch (Exception ex)
                                 {
-                                    EventLog.WriteEntry("Error Occurred while sending eRIMS_Sonic Scheduled Reports on " + dtSchduleDate.ToString() + ", " + ex.Message);
+                                    EventLog.WriteEntry("Error Occurred while sending eRIMS_Sonic Scheduled Reports on " + dtSchduleDate.ToString() + ", " + ex.Message + ",Stack Trace:" + ex.StackTrace);
                                 }
                                 finally
                                 {
@@ -13102,7 +13194,8 @@ namespace ERIMS_Sonic_ReportScheduler
 
             catch (Exception ex)
             {
-                EventLog.WriteEntry("Error Occurred while sending eRIMS_Sonic Scheduled Reports on " + dtSchduleDate.ToString() + ", " + ex.Message);
+                //EventLog.WriteEntry("Error Occurred while sending eRIMS_Sonic Scheduled Reports on " + dtSchduleDate.ToString() + ", " + ex.Message);
+                EventLog.WriteEntry("Error Occurred in Construction AdHoc Report on " + dtSchduleDate.ToString() + ", " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
 
@@ -13458,6 +13551,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 data = data.Trim();
                 HTML2Excel objHtml2Excel = new HTML2Excel(data);
                 outputFiles = Path.GetFullPath(strPath).Replace(".xls", ".xlsx");
+                objHtml2Excel.isGrid = isGrid;
                 blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
             }
 
@@ -13474,7 +13568,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 mail.From = new MailAddress(strMailFrom);
                 mail.Subject = "eRIMS :: " + strReportTitle;
                 memorystream = new MemoryStream(File.ReadAllBytes(outputFiles));
-                Attachment atts = new Attachment(memorystream, strFileNameToSave.Replace(".xls",".xlsx"));
+                Attachment atts = new Attachment(memorystream, strFileNameToSave.Replace(".xls", ".xlsx"));
                 mail.Attachments.Add(atts);
 
                 SmtpClient mSmtpClient = new SmtpClient();
@@ -13488,20 +13582,20 @@ namespace ERIMS_Sonic_ReportScheduler
                         mail.Body += "<br /> This is system generated message. Please do not reply.";
                         mail.IsBodyHtml = true;
                         mail.To.Add(new MailAddress(dtRecipients.Rows[i]["Email"].ToString()));
-                        mSmtpClient.Send(mail);
+                        //mSmtpClient.Send(mail);
                         mail.To.Clear();
                     }
                 }
                 catch (Exception ex)
                 {
-                    EventLog.WriteEntry("Error in Sending Mail for " + strReportTitle + ", " + ex.Message);
+                    EventLog.WriteEntry("Error in Sending Mail for " + strReportTitle + ", " + ex.Message + ",Stack Trace:" + ex.StackTrace);
                 }
                 atts.Dispose();
 
-                if (File.Exists(strPath))
-                    File.Delete(strPath);
-                if (File.Exists(outputFiles))
-                    File.Delete(outputFiles);
+                //if (File.Exists(strPath))
+                //    File.Delete(strPath);
+                //if (File.Exists(outputFiles))
+                //    File.Delete(outputFiles);
             }
             else
             {
@@ -13534,6 +13628,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 data = data.Trim();
                 HTML2Excel objHtml2Excel = new HTML2Excel(data);
                 outputFiles = Path.GetFullPath(strFilePath).Replace(".xls", ".xlsx");
+                objHtml2Excel.isGrid = isGrid;
                 blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
             }
 
@@ -13562,14 +13657,14 @@ namespace ERIMS_Sonic_ReportScheduler
                         mail.Body += "<br /><br /> This is system generated message. Please do not reply.";
                         mail.IsBodyHtml = true;
                         mail.To.Add(new MailAddress(dtRecipientMails.Rows[i]["Email"].ToString()));
-                        mSmtpClient.Send(mail);
+                        //mSmtpClient.Send(mail);
                         mail.To.Clear();
                     }
                 }
 
                 catch (Exception ex)
                 {
-                    EventLog.WriteEntry("Error in Sending Mail for " + strReportTitle + ", " + ex.Message);
+                    EventLog.WriteEntry("Error in Sending Mail for " + strReportTitle + ", " + ex.Message + ",Stack Trace:" + ex.StackTrace);
                 }
                 att.Dispose();
             }
@@ -13635,13 +13730,13 @@ namespace ERIMS_Sonic_ReportScheduler
                         mail.Body += "<br /> This is system generated message. Please do not reply.";
                         mail.IsBodyHtml = true;
                         mail.To.Add(new MailAddress(dtRecipients.Rows[i]["Email"].ToString()));
-                        mSmtpClient.Send(mail);
+                        //mSmtpClient.Send(mail);
                         mail.To.Clear();
                     }
                 }
                 catch (Exception ex)
                 {
-                    EventLog.WriteEntry("Error in Sending Mail for " + strReportTitle + ", " + ex.Message);
+                    EventLog.WriteEntry("Error in Sending Mail for " + strReportTitle + ", " + ex.Message + ",Stack Trace:" + ex.StackTrace);
                 }
                 atts.Dispose();
 
@@ -15060,7 +15155,7 @@ namespace ERIMS_Sonic_ReportScheduler
             catch (Exception ex)
             {
                 //EventLog.WriteEntry("ERROR in Ad Hoc Report Writer , " + ex.Message);
-                EventLog.WriteEntry("ERROR in ACI Ad Hoc Report Writer , " + ex.Message);
+                EventLog.WriteEntry("ERROR in ACI Ad Hoc Report Writer , " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
             finally
             {
@@ -16102,7 +16197,7 @@ namespace ERIMS_Sonic_ReportScheduler
             catch (Exception ex)
             {
                 //EventLog.WriteEntry("ERROR in Ad Hoc Report Writer , " + ex.Message);
-                EventLog.WriteEntry("ERROR in ACI Management Ad Hoc Report Writer , " + ex.Message);
+                EventLog.WriteEntry("ERROR in ACI Management Ad Hoc Report Writer , " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
             finally
             {
@@ -17921,7 +18016,7 @@ namespace ERIMS_Sonic_ReportScheduler
             catch (Exception ex)
             {
                 //EventLog.WriteEntry("ERROR in Ad Hoc Report Writer , " + ex.Message);
-                EventLog.WriteEntry("ERROR in Construction Ad Hoc Report Writer , " + ex.Message);
+                EventLog.WriteEntry("ERROR in Construction Ad Hoc Report Writer , " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
             finally
             {
