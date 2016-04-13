@@ -4252,7 +4252,7 @@
                                                                         :
                                                                     </td>
                                                                     <td align="left" valign="top">
-                                                                        <uc:ctrlMultiLineTextBox ID="txtOtherRepairs" runat="server" Width="200"  MaxLength="255"/>
+                                                                        <uc:ctrlMultiLineTextBox ID="txtOtherRepairs" runat="server" Width="200"  MaxLength="500"/>
                                                                     </td>
                                                                       <td align="left" valign="top">
                                                                         Maintenance Notes&nbsp;<span id="Span162" style="color: Red; display: none;" runat="server">*</span>
@@ -4261,7 +4261,7 @@
                                                                         :
                                                                     </td>
                                                                     <td align="left" valign="top" >
-                                                                        <uc:ctrlMultiLineTextBox ID="txtMaintenanceNotes" runat="server" Width="200" MaxLength="255" />
+                                                                        <uc:ctrlMultiLineTextBox ID="txtMaintenanceNotes" runat="server" Width="200" MaxLength="500" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
