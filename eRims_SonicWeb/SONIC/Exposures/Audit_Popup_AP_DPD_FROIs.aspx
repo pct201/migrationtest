@@ -184,6 +184,9 @@
                                     <span style="display: inline-block; width: 100px;">Vandalism</span>
                                 </th>
                                 <th class="cols">
+                                    <span style="display: inline-block; width: 100px;">Lock Box Stolen/Removed</span>
+                                </th>
+                                <th class="cols">
                                     <span style="display: inline-block; width: 100px;">Updated By</span>
                                 </th>
                                 <th class="cols">
@@ -504,7 +507,12 @@
                                     <asp:Label ID="lblVandalism" runat="server" Text='<%#clsGeneral.FormatYesNoToDisplay(Eval("Vandalism"))%>' Width="100px" ></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-
+                             <asp:TemplateField HeaderText="Lock Box Stolen/Removed">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblLock_Box_Stolen_Removed" runat="server" Text='<%#clsGeneral.FormatYesNoToDisplay(Eval("Lock_Box_Stolen_Removed"))%>' Width="100px" ></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
                             <asp:TemplateField HeaderText="Updated_By">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>

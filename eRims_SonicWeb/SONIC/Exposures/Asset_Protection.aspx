@@ -2495,8 +2495,7 @@ function SetRiskCategory() {
                                                 </table>
                                                 <table border="0" cellpadding="3" cellspacing="1" width="100%">
                                                     <div class="bandHeaderRow">
-                                                        <caption>
-                                                            Investigation</caption>
+                                                            Investigation
                                                     </div>
                                                     <tr>
                                                         <td align="left" width="22%" colspan="2"></td>
@@ -2612,6 +2611,11 @@ function SetRiskCategory() {
                                                                     <td valign="top">
                                                                         <asp:CheckBox ID="chkVandalism" Text="Vandalism" runat="server" />
                                                                     </td>
+                                                                    <td valign="top">
+                                                                        <asp:CheckBox ID="chkLockBox" Text="Lock Box Stolen/Removed" runat="server" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
                                                                     <td valign="top">
                                                                         <asp:CheckBox ID="chkOther_Describe" Text="Other - Describe" runat="server" />
                                                                     </td>
@@ -7177,7 +7181,12 @@ function SetRiskCategory() {
                                                                         <asp:CheckBox ID="chkVandalismView" Text="Vandalism" runat="server" Enabled="false" />
                                                                     </td>
                                                                     <td valign="top">
-                                                                        <asp:CheckBox ID="chkOther_DescribeView" Text="Other - Describe" runat="server" Enabled="false" />
+                                                                        <asp:CheckBox ID="chkLockBoxView" Text="Lock Box Stolen/Removed" runat="server" Enabled="false" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                          <asp:CheckBox ID="chkOther_DescribeView" Text="Other - Describe" runat="server" Enabled="false" />
                                                                     </td>
                                                                 </tr>
                                                             </table>

@@ -59,6 +59,7 @@ namespace ERIMS.DAL
         private string _Police_Case_Number;
         private string _Investigating_Police_Department;
         private string _Vandalism;
+        private string _Lock_Box_Stolen_Removed;
 
         #endregion
 
@@ -478,7 +479,14 @@ namespace ERIMS.DAL
             set { _Vandalism = value; }
         }
 
-
+        /// <summary>
+        /// Gets or sets the Lock_Box_Stolen_Removed value.
+        /// </summary>
+        public string Lock_Box_Stolen_Removed
+        {
+            get { return _Lock_Box_Stolen_Removed; }
+            set { _Lock_Box_Stolen_Removed = value; }
+        }
 
         #endregion
 
@@ -964,6 +972,11 @@ namespace ERIMS.DAL
             else
                 db.AddInParameter(dbCommand, "Vandalism", DbType.String, this._Vandalism);
 
+            if (string.IsNullOrEmpty(this._Lock_Box_Stolen_Removed))
+                db.AddInParameter(dbCommand, "Lock_Box_Stolen_Removed", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Lock_Box_Stolen_Removed", DbType.String, this._Lock_Box_Stolen_Removed);
+
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
 
@@ -1207,6 +1220,11 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Vandalism", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Vandalism", DbType.String, this._Vandalism);
+
+            if (string.IsNullOrEmpty(this._Lock_Box_Stolen_Removed))
+                db.AddInParameter(dbCommand, "Lock_Box_Stolen_Removed", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Lock_Box_Stolen_Removed", DbType.String, this._Lock_Box_Stolen_Removed);
 
             db.ExecuteNonQuery(dbCommand);
         }

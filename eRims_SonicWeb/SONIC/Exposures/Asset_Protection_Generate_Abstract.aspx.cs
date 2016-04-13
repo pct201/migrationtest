@@ -2410,6 +2410,11 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
                 }
                 else { htFindAndReplace.Add("[Other_Describe]", ImgUnchecked); }
 
+                if (Convert.ToString(dtDPD_FROIs_Detail.Rows[0]["Lock_Box_Stolen_Removed"]) == "Y")
+                {
+                    htFindAndReplace.Add("[Lock_Box_Stolen_Removed]", ImgChecked);
+                }
+                else { htFindAndReplace.Add("[Lock_Box_Stolen_Removed]", ImgUnchecked); }
 
                 //htFindAndReplace.Add("[Investigation_Finding_Other_Description]", dtDPD_FROIs_Detail.Rows[0]["Investigation_Finding_Other_Description"].ToString());
                 //string str = dtDPD_FROIs_Detail.Rows[0]["Investigation_Finding_Other_Description"].ToString().Replace(" ", "&nbsp;").Replace(Environment.NewLine, "<br />");

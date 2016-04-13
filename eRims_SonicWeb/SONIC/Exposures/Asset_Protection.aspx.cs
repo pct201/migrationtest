@@ -1195,7 +1195,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
 
             chkWeather_Related_DamageLoss.Checked = dtDPD_FROIs_Detail.Rows[0]["Weather_Related_Damage_and_or_Loss"].ToString() == "Y" ? true : false;
             chkOther_Describe.Checked = dtDPD_FROIs_Detail.Rows[0]["Other_Describe"].ToString() == "Y" ? true : false;
-
+           
             txtInvestigation_Finding_Other_Description.Text = dtDPD_FROIs_Detail.Rows[0]["Investigation_Finding_Other_Description"].ToString() != "" ? dtDPD_FROIs_Detail.Rows[0]["Investigation_Finding_Other_Description"].ToString() : "";
             txtRoot_Cause.Text = dtDPD_FROIs_Detail.Rows[0]["Root_Cause"].ToString() != "" ? dtDPD_FROIs_Detail.Rows[0]["Root_Cause"].ToString() : "";
             txtIncident_Prevention.Text = dtDPD_FROIs_Detail.Rows[0]["Incident_Prevention"].ToString() != "" ? dtDPD_FROIs_Detail.Rows[0]["Incident_Prevention"].ToString() : "";
@@ -1214,6 +1214,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             txtPoliceCaseNumber.Text = dtDPD_FROIs_Detail.Rows[0]["Police_Case_Number"].ToString() != "" ? dtDPD_FROIs_Detail.Rows[0]["Police_Case_Number"].ToString() : "";
             txtInvestigatingPoliceDepartment.Text = dtDPD_FROIs_Detail.Rows[0]["Investigating_Police_Department"].ToString() != "" ? dtDPD_FROIs_Detail.Rows[0]["Investigating_Police_Department"].ToString() : "";
             chkVandalism.Checked = dtDPD_FROIs_Detail.Rows[0]["Vandalism"].ToString() == "Y" ? true : false;
+            chkLockBox.Checked = Convert.ToString(dtDPD_FROIs_Detail.Rows[0]["Lock_Box_Stolen_Removed"]) == "Y" ? true : false;
 
             if (!string.IsNullOrEmpty(AP_DPD_FROIs_CommandArgs))
             {
@@ -1342,8 +1343,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             lblPoliceCaseNumber.Text = dtDPD_FROIs_Detail.Rows[0]["Police_Case_Number"].ToString() != "" ? dtDPD_FROIs_Detail.Rows[0]["Police_Case_Number"].ToString() : "";
             lblInvestigatingPoliceDepartment.Text = dtDPD_FROIs_Detail.Rows[0]["Investigating_Police_Department"].ToString() != "" ? dtDPD_FROIs_Detail.Rows[0]["Investigating_Police_Department"].ToString() : "";
             chkVandalismView.Checked = dtDPD_FROIs_Detail.Rows[0]["Vandalism"].ToString() == "Y" ? true : false;
-
-
+            chkLockBoxView.Checked = Convert.ToString(dtDPD_FROIs_Detail.Rows[0]["Lock_Box_Stolen_Removed"]) == "Y" ? true : false;
             if (PK_AP_DPD_FROIs > 0)
             {
                 ctrlAPNotes_DPDView.Location_ID = Convert.ToInt32(LocationID);
@@ -3613,6 +3613,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         if (txtPoliceCaseNumber.Text != "") ObjAP_DPD_FROIs.Police_Case_Number = txtPoliceCaseNumber.Text;
 
         ObjAP_DPD_FROIs.Vandalism = chkVandalism.Checked ? "Y" : "N";
+        ObjAP_DPD_FROIs.Lock_Box_Stolen_Removed = chkLockBox.Checked ? "Y" : "N";
 
         if (txtInvestigation_Finding_Other_Description.Text != "") ObjAP_DPD_FROIs.Investigation_Finding_Other_Description = txtInvestigation_Finding_Other_Description.Text;
         else ObjAP_DPD_FROIs.Investigation_Finding_Other_Description = "";
