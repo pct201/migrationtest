@@ -10,7 +10,6 @@ namespace ERIMS.DAL
     /// </summary>
     public sealed class Building_Improvements
     {
-
         #region Private variables used to hold the property values
 
         private decimal? _PK_Building_Improvements;
@@ -61,6 +60,8 @@ namespace ERIMS.DAL
         private string _Additional_Replace;
         private string _Other_comments;
         private decimal? _FK_Building;
+        private decimal? _FK_LU_Facility_Project_Type;
+
         #endregion
 
         #region Public Property
@@ -305,10 +306,22 @@ namespace ERIMS.DAL
             set { _Other_comments = value; }
         }
 
+        /// <summary>
+        /// Gets or sets FK_Building value.
+        /// </summary>
         public decimal? FK_Building
         {
             get { return _FK_Building; }
             set { _FK_Building = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets FK_LU_Facility_Project_Type value.
+        /// </summary>
+        public decimal? FK_LU_Facility_Project_Type
+        {
+            get { return _FK_LU_Facility_Project_Type; }
+            set { _FK_LU_Facility_Project_Type = value; }
         }
 
         #endregion
@@ -596,6 +609,11 @@ namespace ERIMS.DAL
                 else
                     this._FK_Building = Convert.ToDecimal(drBuilding_Improvements["FK_Building"]);
 
+                if (drBuilding_Improvements["FK_LU_Facility_Project_Type"] == DBNull.Value)
+                    this._FK_LU_Facility_Project_Type = null;
+                else
+                    this._FK_LU_Facility_Project_Type = Convert.ToDecimal(drBuilding_Improvements["FK_LU_Facility_Project_Type"]);
+
             }
             else
             {
@@ -645,8 +663,9 @@ namespace ERIMS.DAL
                 this.Roof_Improvement_Details = null;
                 this._Additional_Replace = null;
                 this._Other_comments = null;
+                this._FK_Building = null;
+                this._FK_LU_Facility_Project_Type = null;
             }
-
         }
 
         #endregion
@@ -659,7 +678,6 @@ namespace ERIMS.DAL
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("Building_ImprovementsInsert");
-
 
             db.AddInParameter(dbCommand, "FK_Property_Cope", DbType.Decimal, this._FK_Property_Cope);
 
@@ -810,12 +828,12 @@ namespace ERIMS.DAL
             else
                 db.AddInParameter(dbCommand, "Other_comments", DbType.String, this._Other_comments);
 
-            db.AddInParameter(dbCommand, "FK_Building", DbType.String, this._FK_Building.HasValue ? this._FK_Building.Value : 0);
+            db.AddInParameter(dbCommand, "FK_Building", DbType.Decimal, this._FK_Building.HasValue ? this._FK_Building.Value : 0);
+
+            db.AddInParameter(dbCommand, "FK_LU_Facility_Project_Type", DbType.Decimal, this._FK_LU_Facility_Project_Type.HasValue ? this._FK_LU_Facility_Project_Type.Value : 0);
 
             // Execute the query and return the new identity value
-            int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
-
-            return returnValue;
+            return Convert.ToInt32(db.ExecuteScalar(dbCommand));
         } 
 
         /// <summary>
@@ -826,9 +844,7 @@ namespace ERIMS.DAL
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("Building_ImprovementsSelectByPK");
-
             db.AddInParameter(dbCommand, "PK_Building_Improvements", DbType.Decimal, pK_Building_Improvements);
-
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -1004,9 +1020,10 @@ namespace ERIMS.DAL
             else
                 db.AddInParameter(dbCommand, "Other_comments", DbType.String, this._Other_comments);
 
-            db.AddInParameter(dbCommand, "FK_Building", DbType.String, this._FK_Building.HasValue ? this._FK_Building.Value : 0);
+            db.AddInParameter(dbCommand, "FK_Building", DbType.Decimal, this._FK_Building.HasValue ? this._FK_Building.Value : 0);
+            db.AddInParameter(dbCommand, "FK_LU_Facility_Project_Type", DbType.Decimal, this._FK_LU_Facility_Project_Type.HasValue ? this._FK_LU_Facility_Project_Type.Value : 0);
 
-            int i = db.ExecuteNonQuery(dbCommand);
+            db.ExecuteNonQuery(dbCommand);
         }
 
         /// <summary>
@@ -1022,6 +1039,11 @@ namespace ERIMS.DAL
             db.ExecuteNonQuery(dbCommand);
         }
 
+        /// <summary>
+        /// Method to select records by Building ID Foreign Key
+        /// </summary>
+        /// <param name="fk_Building"></param>
+        /// <returns></returns>
         public static DataSet SelectByFK(decimal fk_Building)
         {
             Database db = DatabaseFactory.CreateDatabase();
@@ -1032,6 +1054,11 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
+        /// <summary>
+        /// Method to Select Records By Property Cope Foreign Key
+        /// </summary>
+        /// <param name="FK_Property_Cope"></param>
+        /// <returns></returns>
         public static DataSet SelectByFK_Property_Cope(decimal FK_Property_Cope)
         {
             Database db = DatabaseFactory.CreateDatabase();
@@ -1042,6 +1069,11 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
+        /// <summary>
+        /// Method to Select Building By Building_Improvements Foreign Key Id
+        /// </summary>
+        /// <param name="FK_Building_Improvements"></param>
+        /// <returns></returns>
         public static DataSet SelectBuildingByFK_Building_Improvements(decimal FK_Building_Improvements)
         {
             Database db = DatabaseFactory.CreateDatabase();
@@ -1051,7 +1083,5 @@ namespace ERIMS.DAL
 
             return db.ExecuteDataSet(dbCommand);
         }
-
-
     }
 }

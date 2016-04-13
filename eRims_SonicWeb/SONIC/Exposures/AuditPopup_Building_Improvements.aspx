@@ -184,7 +184,9 @@
                                     <th class="cols">
                                         <span style="display: inline-block; width: 160px;">Additional_Replace</span>
                                     </th>
-
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 250px;">FK_LU_Facility_Project_Type</span>
+                                    </th>
                                 </tr>
                             </tbody>
                         </table>
@@ -465,9 +467,15 @@
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Additional_Replace">
-                                    <ItemStyle CssClass="cols" Width="140px" />
+                                    <ItemStyle CssClass="cols" Width="160px" />
                                     <ItemTemplate>
-                                        <asp:Label ID="lblAdditional_Replace" runat="server" Text='<%#Eval("Additional_Replace")%>' Width="140px"></asp:Label>
+                                        <asp:Label ID="lblAdditional_Replace" runat="server" Text='<%#Eval("Additional_Replace")%>' Width="160px"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="FK_LU_Facility_Project_Type">
+                                    <ItemStyle CssClass="cols" Width="230px" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblFK_LU_Facility_Project_Type" runat="server" Text='<%#Eval("FK_LU_Facility_Project_Type")%>' Width="230px"></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>

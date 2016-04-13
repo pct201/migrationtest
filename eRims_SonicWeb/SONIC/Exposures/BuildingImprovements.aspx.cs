@@ -115,6 +115,7 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
                 if (decimal.TryParse(Encryption.Decrypt(Request.QueryString["FK_Property_Cope"]), out decFK)) FK_Property_Cope = decFK;
             }
 
+            BindProjectType();
             // if opertaion flag is set
             if (StrOperation != string.Empty)
             {
@@ -145,6 +146,7 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
                         BindDetailsForEdit();
                     }
                 }
+
                 BindProjectNotesGrid();
             }
             else
@@ -173,6 +175,7 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
             //ucCtrlExposureInfo.SetRMLocationCode((int)FK_Property_Cope);
         }
     }
+
     #endregion
 
     #region Methods
@@ -194,7 +197,6 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
 
         if (PK_Building_Improvements > 0)
         {
-
             //DataTable dtBuildings = Building_Improvements.SelectBuildingByFK_Building_Improvements(PK_Building_Improvements).Tables[0];
             //if (dtBuildings != null && dtBuildings.Rows.Count > 0)
             //{
@@ -288,6 +290,7 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
             txtAdditionalReplace.Text = objBuilding_Improvements.Additional_Replace;
             hdnItem_7.Value = objBuilding_Improvements.Item_7;
             hdnOtherComments.Value = objBuilding_Improvements.Other_comments;
+            ddlProjectType.SelectedValue = Convert.ToString(objBuilding_Improvements.FK_LU_Facility_Project_Type);
         }
         //txtService_Capacity_Increase.Text = objBuilding_Improvements.Service_Capacity_Increase;
 
@@ -295,7 +298,6 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
         // calculate and display total square footage field
 
     }
-
 
     /// <summary>
     /// Binds Page Controls for view mode
@@ -394,6 +396,7 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
         lblAdditionalReplace.Text = objBuilding_Improvements.Additional_Replace;
         hdnItem_7.Value = objBuilding_Improvements.Item_7;
         hdnOtherComments.Value = objBuilding_Improvements.Other_comments;
+        lblProjectType.Text = (objBuilding_Improvements.FK_LU_Facility_Project_Type.HasValue && objBuilding_Improvements.FK_LU_Facility_Project_Type.Value > 0) ? new LU_Facility_Project_Type(objBuilding_Improvements.FK_LU_Facility_Project_Type.Value).Type_Description : string.Empty;        
 
         // set values in labels using object variables
         //lblImprovement_Description.Text = objBuilding_Improvements.Improvement_Description;
@@ -442,6 +445,20 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
         }
 
     }
+
+    /// <summary>
+    /// Bind Facility Construction Project Types
+    /// </summary>
+    private void BindProjectType()
+    {
+        ddlProjectType.DataSource = LU_Facility_Project_Type.SelectAll("Y");  // "Y" for Active, "N" for InActive, and "" for All
+        ddlProjectType.DataTextField = "Type_Description";
+        ddlProjectType.DataValueField = "PK_LU_Facility_Project_Type";
+        ddlProjectType.DataBind();
+          
+        ddlProjectType.Items.Insert(0, new ListItem("--select--", "0"));
+    }
+
     #endregion
 
     #region Control Events
@@ -476,7 +493,7 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
         objBuilding_Improvements.Start_Date = clsGeneral.FormatNullDateToStore(txtProject_Start_Date.Text);
         objBuilding_Improvements.Target_Completion_Date = clsGeneral.FormatNullDateToStore(txtTarget_Completion_Date.Text);
         objBuilding_Improvements.Completion_Date = clsGeneral.FormatNullDateToStore(txtActual_Completion_Date.Text);
-
+        objBuilding_Improvements.FK_LU_Facility_Project_Type = Convert.ToDecimal(ddlProjectType.SelectedValue);
 
         // get values from page controls
         objBuilding_Improvements.Improvement_Description = txtProjectImprovementDescription.Text.Trim();
@@ -508,15 +525,8 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
 
         objBuilding_Improvements.Budget_SubTotal_1 = clsGeneral.GetDecimalNullableValue(txtSubtotal1);
         objBuilding_Improvements.Budget_SubTotal_2 = clsGeneral.GetDecimalNullableValue(txtSubtotal2);
-
-        objBuilding_Improvements.Budget_Total = clsGeneral.GetDecimalNullableValue(txtTotalCost);
-
-        
-
-        objBuilding_Improvements.Updated_By = clsSession.UserID;
+        objBuilding_Improvements.Budget_Total = clsGeneral.GetDecimalNullableValue(txtTotalCost);objBuilding_Improvements.Updated_By = clsSession.UserID;
         objBuilding_Improvements.Updated_Date = DateTime.Now;
-
-
         objBuilding_Improvements.Item_1 = txtItem_1.Text;
         objBuilding_Improvements.Item_2 = txtItem_2.Text;
         objBuilding_Improvements.Item_3 = txtItem_3.Text;
@@ -635,9 +645,11 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
     {
         Response.Redirect(Request.RawUrl.Replace("op=view", "op=edit"));
     }
+
     #endregion
 
     #region Dynamic Validations
+
     /// <summary>
     /// Set all Validations
     /// </summary>
@@ -670,7 +682,7 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
                 case "Sales": strCtrlsIDs += txtSales.ClientID + ","; strMessages += "Please enter Sales " + ","; Span18.Style["display"] = "inline-block"; MenuAsterisk1.Style["display"] = "inline-block"; break;
                 case "Parts": strCtrlsIDs += txtPart.ClientID + ","; strMessages += "Please enter Parts " + ","; Span20.Style["display"] = "inline-block"; MenuAsterisk1.Style["display"] = "inline-block"; break;
                 case "Other": strCtrlsIDs += txtOther.ClientID + ","; strMessages += "Please enter Other " + ","; Span22.Style["display"] = "inline-block"; MenuAsterisk1.Style["display"] = "inline-block"; break;
-                case "Service Lane": strCtrlsIDs += txtServiceLane.ClientID + ","; strMessages += "Please enter Other " + ","; Span19.Style["display"] = "inline-block"; MenuAsterisk1.Style["display"] = "inline-block"; break;
+                case "Service Lane": strCtrlsIDs += txtServiceLane.ClientID + ","; strMessages += "Please enter Service Lane " + ","; Span19.Style["display"] = "inline-block"; MenuAsterisk1.Style["display"] = "inline-block"; break;
                 case "Service Department": strCtrlsIDs += txtServiceDepartment.ClientID + ","; strMessages += "Please enter Service Department " + ","; Span21.Style["display"] = "inline-block"; MenuAsterisk1.Style["display"] = "inline-block"; break;
                 case "Construction": strCtrlsIDs += txtConstruction.ClientID + ","; strMessages += "Please enter Construction " + ","; Span23.Style["display"] = "inline-block"; MenuAsterisk1.Style["display"] = "inline-block"; break;
                 case "Land": strCtrlsIDs += txtLand.ClientID + ","; strMessages += "Please enter Land " + ","; Span25.Style["display"] = "inline-block"; MenuAsterisk1.Style["display"] = "inline-block"; break;
@@ -679,6 +691,7 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
                 case "Furniture": strCtrlsIDs += txtFurniture.ClientID + ","; strMessages += "Please enter Furniture " + ","; Span26.Style["display"] = "inline-block"; MenuAsterisk1.Style["display"] = "inline-block"; break;
                 case "Equipment": strCtrlsIDs += txtEquipment.ClientID + ","; strMessages += "Please enter Equipment " + ","; Span28.Style["display"] = "inline-block"; MenuAsterisk1.Style["display"] = "inline-block"; break;
                 case "Signage": strCtrlsIDs += txtSignage.ClientID + ","; strMessages += "Please enter Signage " + ","; Span30.Style["display"] = "inline-block"; MenuAsterisk1.Style["display"] = "inline-block"; break;
+                case "Project Type": strCtrlsIDs += ddlProjectType.ClientID + ","; strMessages += "Please select Project Type " + ","; Span4.Style["display"] = "inline-block"; MenuAsterisk1.Style["display"] = "inline-block"; break;
 
                 //case "Improvements Grid - Improvement Description": strCtrlsIDs += txtProjectImprovementDescription.ClientID + ","; strMessages += "Please enter Improvements Grid - Improvement Description" + ","; Span1.Style["display"] = "inline-block"; MenuAsterisk1.Style["display"] = "inline-block"; break;
                 //case "Improvements Grid - Revised Square Footage Sales": strCtrlsIDs += txtRevised_Square_Footage_Sales.ClientID + ","; strMessages += "Please enter Improvements Grid - Revised Square Footage Sales" + ","; Span3.Style["display"] = "inline-block"; MenuAsterisk1.Style["display"] = "inline-block"; break;
@@ -699,6 +712,7 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
         hdnControlIDs.Value = strCtrlsIDs;
         hdnErrorMsgs.Value = strMessages;
     }
+
     #endregion
 
 }

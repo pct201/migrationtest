@@ -19,8 +19,6 @@
     <script type="text/javascript" language="javascript" src="../../JavaScript/Validator.js"></script>
 
     <script type="text/javascript">
-
-
         function SetMenuStyle(index) {
             var i;
             for (i = 1; i <= 1; i++) {
@@ -383,9 +381,13 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top"></td>
-                                                        <td align="center" valign="top"></td>
-                                                        <td align="left" valign="top"></td>
+                                                        <td align="left" valign="top">Project Type&nbsp;<span id="Span4" style="color: Red; display: none;" runat="server">*</span>
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top" width="28%">
+                                                            <asp:DropDownList ID="ddlProjectType" runat="server"></asp:DropDownList>
+                                                        </td>
                                                         <td align="left" valign="top">Target Completion Date &nbsp;<span id="Span13" style="color: Red; display: none;" runat="server">*</span>
                                                         </td>
                                                         <td align="center" valign="top">:
@@ -902,10 +904,14 @@
                                                             <asp:Label ID="lblProjectStartDate" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
-                                                    <tr>
-                                                        <td align="left" valign="top"></td>
-                                                        <td align="center" valign="top"></td>
-                                                        <td align="left" valign="top"></td>
+                                                    <tr>                                                        
+                                                        <td align="left" valign="top">Project Type&nbsp;
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top" width="28%">
+                                                            <asp:Label ID="lblProjectType" runat="server"></asp:Label>
+                                                        </td>
                                                         <td align="left" valign="top">Target Completion Date &nbsp;<span id="Span36" style="color: Red; display: none;" runat="server">*</span>
                                                         </td>
                                                         <td align="center" valign="top">:

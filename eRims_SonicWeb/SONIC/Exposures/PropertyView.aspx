@@ -4197,6 +4197,13 @@ function ShowAuditPopUp(url) {
                                                                                         CommandArgument='<%#Eval("PK_Building_Improvements")%>' CommandName="ShowDetails" />
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
+                                                                            <asp:TemplateField HeaderText="Project Type" SortExpression="Type_Description">
+                                                                                <ItemStyle Width="15%" />
+                                                                                <ItemTemplate>
+                                                                                    <asp:LinkButton ID="lnkProjectType" runat="server" Text='<%#Eval("Type_Description")%>'
+                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements")%>' CommandName="ShowDetails" />
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>
                                                                             <asp:TemplateField HeaderText="Project Description" SortExpression="Project_Description">
                                                                                 <ItemStyle Width="35%" />
                                                                                 <ItemTemplate>

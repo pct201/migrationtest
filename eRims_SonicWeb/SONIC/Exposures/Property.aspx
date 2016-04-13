@@ -275,219 +275,219 @@ function ValidateFieldsBuildInfo(sender, args) {
 function ValidateFieldsOwnership(sender, args) {
     var msg = '';
     var ctrlIDs = document.getElementById('<%=hdnControlIDsOwnership.ClientID%>').value.split(',');
-            var Messages = document.getElementById('<%=hdnErrorMsgsOwnership.ClientID%>').value.split(',');
-            var focusCtrlID = "";
-            if (document.getElementById('<%=hdnControlIDsOwnership.ClientID%>').value != "") {
-                var i = 0;
-                for (i = 0; i < ctrlIDs.length; i++) {
-                    var bEmpty = false;
-                    var ctrl = document.getElementById(ctrlIDs[i]);
-                    switch (ctrl.type) {
-                        case "textarea":
-                        case "text":
-                            if (ctrl.value == '') bEmpty = true; break;
-                        case "select-one": if (ctrl.selectedIndex == 0) bEmpty = true; break;
-                        case "select-multiple": if (ctrl.selectedIndex == -1) bEmpty = true; break;
-                    }
-                    if (bEmpty && focusCtrlID == "") focusCtrlID = ctrlIDs[i];
-                    if (bEmpty) msg += (msg.length > 0 ? "- " : "") + Messages[i] + "\n";
-                }
-                if (msg.length > 0) {
-                    //sender.errormessage = msg;
-                    sender.errormessage = msg;
-                    args.IsValid = false;
-                }
-                else
-                    args.IsValid = true;
+    var Messages = document.getElementById('<%=hdnErrorMsgsOwnership.ClientID%>').value.split(',');
+    var focusCtrlID = "";
+    if (document.getElementById('<%=hdnControlIDsOwnership.ClientID%>').value != "") {
+        var i = 0;
+        for (i = 0; i < ctrlIDs.length; i++) {
+            var bEmpty = false;
+            var ctrl = document.getElementById(ctrlIDs[i]);
+            switch (ctrl.type) {
+                case "textarea":
+                case "text":
+                    if (ctrl.value == '') bEmpty = true; break;
+                case "select-one": if (ctrl.selectedIndex == 0) bEmpty = true; break;
+                case "select-multiple": if (ctrl.selectedIndex == -1) bEmpty = true; break;
             }
-            else {
-                args.IsValid = true;
-            }
+            if (bEmpty && focusCtrlID == "") focusCtrlID = ctrlIDs[i];
+            if (bEmpty) msg += (msg.length > 0 ? "- " : "") + Messages[i] + "\n";
         }
-
-
-        function ValidateFieldsPropertyCondition(sender, args) {
-            var msg = '';
-            var ctrlIDs = document.getElementById('<%=hdnControlIDsPCA.ClientID%>').value.split(',');
-            var Messages = document.getElementById('<%=hdnErrorMsgsPCA.ClientID%>').value.split(',');
-            var focusCtrlID = "";
-            if (document.getElementById('<%=hdnControlIDsPCA.ClientID%>').value != "") {
-                var i = 0;
-                for (i = 0; i < ctrlIDs.length; i++) {
-                    var bEmpty = false;
-                    var ctrl = document.getElementById(ctrlIDs[i]);
-                    switch (ctrl.type) {
-                        case "textarea":
-                        case "text":
-                            if (ctrl.value == '') bEmpty = true; break;
-                        case "select-one": if (ctrl.selectedIndex == 0) bEmpty = true; break;
-                        case "select-multiple": if (ctrl.selectedIndex == -1) bEmpty = true; break;
-                    }
-                    if (bEmpty && focusCtrlID == "") focusCtrlID = ctrlIDs[i];
-                    if (bEmpty) msg += (msg.length > 0 ? "- " : "") + Messages[i] + "\n";
-                }
-                if (msg.length > 0) {
-                    //sender.errormessage = msg;
-                    sender.errormessage = msg;
-                    args.IsValid = false;
-                }
-                else
-                    args.IsValid = true;
-            }
-            else {
-                args.IsValid = true;
-            }
+        if (msg.length > 0) {
+            //sender.errormessage = msg;
+            sender.errormessage = msg;
+            args.IsValid = false;
         }
+        else
+            args.IsValid = true;
+    }
+    else {
+        args.IsValid = true;
+    }
+}
 
-        function ValidateFieldsConcernNote(sender, args) {
-            var msg = '';
-            var ctrlIDs = document.getElementById('<%=hdnControlIDsConcernNote.ClientID%>').value.split(',');
-            var Messages = document.getElementById('<%=hdnErrorMsgsConcernNote.ClientID%>').value.split(',');
-            var focusCtrlID = "";
-            if (document.getElementById('<%=hdnControlIDsConcernNote.ClientID%>').value != "") {
-                var i = 0;
-                for (i = 0; i < ctrlIDs.length; i++) {
-                    var bEmpty = false;
-                    var ctrl = document.getElementById(ctrlIDs[i]);
-                    switch (ctrl.type) {
-                        case "textarea":
-                        case "text":
-                            if (ctrl.value == '') bEmpty = true; break;
-                        case "select-one": if (ctrl.selectedIndex == 0) bEmpty = true; break;
-                        case "select-multiple": if (ctrl.selectedIndex == -1) bEmpty = true; break;
-                    }
-                    if (bEmpty && focusCtrlID == "") focusCtrlID = ctrlIDs[i];
-                    if (bEmpty) msg += (msg.length > 0 ? "- " : "") + Messages[i] + "\n";
-                }
-                if (msg.length > 0) {
-                    //sender.errormessage = msg;
-                    sender.errormessage = msg;
-                    args.IsValid = false;
-                }
-                else
-                    args.IsValid = true;
+
+function ValidateFieldsPropertyCondition(sender, args) {
+    var msg = '';
+    var ctrlIDs = document.getElementById('<%=hdnControlIDsPCA.ClientID%>').value.split(',');
+    var Messages = document.getElementById('<%=hdnErrorMsgsPCA.ClientID%>').value.split(',');
+    var focusCtrlID = "";
+    if (document.getElementById('<%=hdnControlIDsPCA.ClientID%>').value != "") {
+        var i = 0;
+        for (i = 0; i < ctrlIDs.length; i++) {
+            var bEmpty = false;
+            var ctrl = document.getElementById(ctrlIDs[i]);
+            switch (ctrl.type) {
+                case "textarea":
+                case "text":
+                    if (ctrl.value == '') bEmpty = true; break;
+                case "select-one": if (ctrl.selectedIndex == 0) bEmpty = true; break;
+                case "select-multiple": if (ctrl.selectedIndex == -1) bEmpty = true; break;
             }
-            else {
-                args.IsValid = true;
-            }
+            if (bEmpty && focusCtrlID == "") focusCtrlID = ctrlIDs[i];
+            if (bEmpty) msg += (msg.length > 0 ? "- " : "") + Messages[i] + "\n";
         }
-
-        function ValidateFieldsContact(sender, args) {
-            var msg = '';
-            var ctrlIDs = document.getElementById('<%=hdnControlIDsContact.ClientID%>').value.split(',');
-            var Messages = document.getElementById('<%=hdnErrorMsgsContact.ClientID%>').value.split(',');
-            var focusCtrlID = "";
-            if (document.getElementById('<%=hdnControlIDsContact.ClientID%>').value != "") {
-                var i = 0;
-                for (i = 0; i < ctrlIDs.length; i++) {
-                    var bEmpty = false;
-                    var ctrl = document.getElementById(ctrlIDs[i]);
-                    switch (ctrl.type) {
-                        case "textarea":
-                        case "text":
-                            if (ctrl.value == '') bEmpty = true; break;
-                        case "select-one": if (ctrl.selectedIndex == 0) bEmpty = true; break;
-                        case "select-multiple": if (ctrl.selectedIndex == -1) bEmpty = true; break;
-                    }
-                    if (bEmpty && focusCtrlID == "") focusCtrlID = ctrlIDs[i];
-                    if (bEmpty) msg += (msg.length > 0 ? "- " : "") + Messages[i] + "\n";
-                }
-                if (msg.length > 0) {
-                    //sender.errormessage = msg;
-                    sender.errormessage = msg;
-                    args.IsValid = false;
-                }
-                else
-                    args.IsValid = true;
-            }
-            else {
-                args.IsValid = true;
-            }
+        if (msg.length > 0) {
+            //sender.errormessage = msg;
+            sender.errormessage = msg;
+            args.IsValid = false;
         }
+        else
+            args.IsValid = true;
+    }
+    else {
+        args.IsValid = true;
+    }
+}
 
-        function ConfirmProceed(pgURL) {
-            var bConfirm = confirm("The contact details will not be saved until a building information is selected or saved. Are you sure to proceed?");
-            if (bConfirm) {
-                window.location.href = pgURL;
+function ValidateFieldsConcernNote(sender, args) {
+    var msg = '';
+    var ctrlIDs = document.getElementById('<%=hdnControlIDsConcernNote.ClientID%>').value.split(',');
+    var Messages = document.getElementById('<%=hdnErrorMsgsConcernNote.ClientID%>').value.split(',');
+    var focusCtrlID = "";
+    if (document.getElementById('<%=hdnControlIDsConcernNote.ClientID%>').value != "") {
+        var i = 0;
+        for (i = 0; i < ctrlIDs.length; i++) {
+            var bEmpty = false;
+            var ctrl = document.getElementById(ctrlIDs[i]);
+            switch (ctrl.type) {
+                case "textarea":
+                case "text":
+                    if (ctrl.value == '') bEmpty = true; break;
+                case "select-one": if (ctrl.selectedIndex == 0) bEmpty = true; break;
+                case "select-multiple": if (ctrl.selectedIndex == -1) bEmpty = true; break;
             }
-            else
-                ShowPanel(5);
-
+            if (bEmpty && focusCtrlID == "") focusCtrlID = ctrlIDs[i];
+            if (bEmpty) msg += (msg.length > 0 ? "- " : "") + Messages[i] + "\n";
         }
-
-        function MainBuildingAlert(pgURL) {
-             alert("Another building at this location already has been designated as the Main building. If you wish to designate this building as the Main building for the location, please uncheck the Occupancy Main checkbox for the other building at this location, save it and return to this building to check the Occupancy Main checkbox to designate this building as the Main building at the location.");
-                window.location.href = pgURL;
+        if (msg.length > 0) {
+            //sender.errormessage = msg;
+            sender.errormessage = msg;
+            args.IsValid = false;
         }
+        else
+            args.IsValid = true;
+    }
+    else {
+        args.IsValid = true;
+    }
+}
 
-        function ValidateFieldsST(sender, args) {
-            var msg = '';
-            var ctrlIDs = document.getElementById('<%=hdnControlIDsST.ClientID%>').value.split(',');
-            var Messages = document.getElementById('<%=hdnErrorMsgsST.ClientID%>').value.split(',');
-            var focusCtrlID = "";
-            if (document.getElementById('<%=hdnControlIDsST.ClientID%>').value != "") {
-                var i = 0;
-                for (i = 0; i < ctrlIDs.length; i++) {
-                    var bEmpty = false;
-                    var ctrl = document.getElementById(ctrlIDs[i]);
-                    switch (ctrl.type) {
-                        case "textarea":
-                        case "text":
-                            if (ctrl.value == '') bEmpty = true; break;
-                        case "select-one": if (ctrl.selectedIndex == 0) bEmpty = true; break;
-                        case "select-multiple": if (ctrl.selectedIndex == -1) bEmpty = true; break;
-                    }
-                    if (bEmpty && focusCtrlID == "") focusCtrlID = ctrlIDs[i];
-                    if (bEmpty) msg += (msg.length > 0 ? "- " : "") + Messages[i] + (i == ctrlIDs.length - 1 ? "" : "\n");
-                }
-                if (msg.length > 0) {
-                    //sender.errormessage = msg;
-                    sender.errormessage = msg;
-                    args.IsValid = false;
-                }
-                else
-                    args.IsValid = true;
+function ValidateFieldsContact(sender, args) {
+    var msg = '';
+    var ctrlIDs = document.getElementById('<%=hdnControlIDsContact.ClientID%>').value.split(',');
+    var Messages = document.getElementById('<%=hdnErrorMsgsContact.ClientID%>').value.split(',');
+    var focusCtrlID = "";
+    if (document.getElementById('<%=hdnControlIDsContact.ClientID%>').value != "") {
+        var i = 0;
+        for (i = 0; i < ctrlIDs.length; i++) {
+            var bEmpty = false;
+            var ctrl = document.getElementById(ctrlIDs[i]);
+            switch (ctrl.type) {
+                case "textarea":
+                case "text":
+                    if (ctrl.value == '') bEmpty = true; break;
+                case "select-one": if (ctrl.selectedIndex == 0) bEmpty = true; break;
+                case "select-multiple": if (ctrl.selectedIndex == -1) bEmpty = true; break;
             }
-            else {
-                args.IsValid = true;
-            }
+            if (bEmpty && focusCtrlID == "") focusCtrlID = ctrlIDs[i];
+            if (bEmpty) msg += (msg.length > 0 ? "- " : "") + Messages[i] + "\n";
         }
-
-        function ValidateFieldsAdditionalInsured(sender, args) {
-            var msg = '';
-            var ctrlIDs = document.getElementById('<%=hdnControlIDsAI.ClientID%>').value.split(',');
-            var Messages = document.getElementById('<%=hdnErrorMsgsAI.ClientID%>').value.split(',');
-            var focusCtrlID = "";
-            if (document.getElementById('<%=hdnControlIDsAI.ClientID%>').value != "") {
-                var i = 0;
-                for (i = 0; i < ctrlIDs.length; i++) {
-                    var bEmpty = false;
-                    var ctrl = document.getElementById(ctrlIDs[i]);
-                    switch (ctrl.type) {
-                        case "textarea":
-                        case "text":
-                            if (ctrl.value == '') bEmpty = true; break;
-                        case "select-one": if (ctrl.selectedIndex == 0) bEmpty = true; break;
-                        case "select-multiple": if (ctrl.selectedIndex == -1) bEmpty = true; break;
-                    }
-                    if (bEmpty && focusCtrlID == "") focusCtrlID = ctrlIDs[i];
-                    if (bEmpty) msg += (msg.length > 0 ? "- " : "") + Messages[i] + "\n";
-                }
-                if (msg.length > 0) {
-                    sender.errormessage = msg;
-                    args.IsValid = false;
-                }
-                else
-                    args.IsValid = true;
-            }
-            else {
-                args.IsValid = true;
-            }
+        if (msg.length > 0) {
+            //sender.errormessage = msg;
+            sender.errormessage = msg;
+            args.IsValid = false;
         }
+        else
+            args.IsValid = true;
+    }
+    else {
+        args.IsValid = true;
+    }
+}
 
-        function ValidateFieldsLossPayee(sender, args) {
-            var msg = '';
-            var ctrlIDs = document.getElementById('<%=hdnControlIDsLossPayee.ClientID%>').value.split(',');
+function ConfirmProceed(pgURL) {
+    var bConfirm = confirm("The contact details will not be saved until a building information is selected or saved. Are you sure to proceed?");
+    if (bConfirm) {
+        window.location.href = pgURL;
+    }
+    else
+        ShowPanel(5);
+
+}
+
+function MainBuildingAlert(pgURL) {
+    alert("Another building at this location already has been designated as the Main building. If you wish to designate this building as the Main building for the location, please uncheck the Occupancy Main checkbox for the other building at this location, save it and return to this building to check the Occupancy Main checkbox to designate this building as the Main building at the location.");
+    window.location.href = pgURL;
+}
+
+function ValidateFieldsST(sender, args) {
+    var msg = '';
+    var ctrlIDs = document.getElementById('<%=hdnControlIDsST.ClientID%>').value.split(',');
+    var Messages = document.getElementById('<%=hdnErrorMsgsST.ClientID%>').value.split(',');
+    var focusCtrlID = "";
+    if (document.getElementById('<%=hdnControlIDsST.ClientID%>').value != "") {
+        var i = 0;
+        for (i = 0; i < ctrlIDs.length; i++) {
+            var bEmpty = false;
+            var ctrl = document.getElementById(ctrlIDs[i]);
+            switch (ctrl.type) {
+                case "textarea":
+                case "text":
+                    if (ctrl.value == '') bEmpty = true; break;
+                case "select-one": if (ctrl.selectedIndex == 0) bEmpty = true; break;
+                case "select-multiple": if (ctrl.selectedIndex == -1) bEmpty = true; break;
+            }
+            if (bEmpty && focusCtrlID == "") focusCtrlID = ctrlIDs[i];
+            if (bEmpty) msg += (msg.length > 0 ? "- " : "") + Messages[i] + (i == ctrlIDs.length - 1 ? "" : "\n");
+        }
+        if (msg.length > 0) {
+            //sender.errormessage = msg;
+            sender.errormessage = msg;
+            args.IsValid = false;
+        }
+        else
+            args.IsValid = true;
+    }
+    else {
+        args.IsValid = true;
+    }
+}
+
+function ValidateFieldsAdditionalInsured(sender, args) {
+    var msg = '';
+    var ctrlIDs = document.getElementById('<%=hdnControlIDsAI.ClientID%>').value.split(',');
+    var Messages = document.getElementById('<%=hdnErrorMsgsAI.ClientID%>').value.split(',');
+    var focusCtrlID = "";
+    if (document.getElementById('<%=hdnControlIDsAI.ClientID%>').value != "") {
+        var i = 0;
+        for (i = 0; i < ctrlIDs.length; i++) {
+            var bEmpty = false;
+            var ctrl = document.getElementById(ctrlIDs[i]);
+            switch (ctrl.type) {
+                case "textarea":
+                case "text":
+                    if (ctrl.value == '') bEmpty = true; break;
+                case "select-one": if (ctrl.selectedIndex == 0) bEmpty = true; break;
+                case "select-multiple": if (ctrl.selectedIndex == -1) bEmpty = true; break;
+            }
+            if (bEmpty && focusCtrlID == "") focusCtrlID = ctrlIDs[i];
+            if (bEmpty) msg += (msg.length > 0 ? "- " : "") + Messages[i] + "\n";
+        }
+        if (msg.length > 0) {
+            sender.errormessage = msg;
+            args.IsValid = false;
+        }
+        else
+            args.IsValid = true;
+    }
+    else {
+        args.IsValid = true;
+    }
+}
+
+function ValidateFieldsLossPayee(sender, args) {
+    var msg = '';
+    var ctrlIDs = document.getElementById('<%=hdnControlIDsLossPayee.ClientID%>').value.split(',');
             var Messages = document.getElementById('<%=hdnErrorMsgsLossPayee.ClientID%>').value.split(',');
             var focusCtrlID = "";
             if (document.getElementById('<%=hdnControlIDsLossPayee.ClientID%>').value != "") {
@@ -1115,7 +1115,7 @@ function ValidateFieldsOwnership(sender, args) {
                                                                 </td>
                                                             </tr>--%>
                                                             <!-- Commented above Section for ticket #3132 -->
-							<%--
+                                                            <%--
                                                             <tr>
                                                                 <td align="left" valign="top">Inventory Level
                                                                 </td>
@@ -1132,7 +1132,7 @@ function ValidateFieldsOwnership(sender, args) {
                                                                     <asp:Label ID="lblCalculated" runat="server" Width="170px" ReadOnly="true"></asp:Label>
                                                                 </td>
                                                             </tr>
-							--%>
+                                                            --%>
                                                             <tr>
                                                                 <td align="left" valign="top">Saba Training Grid
                                                                     <br />
@@ -1392,7 +1392,7 @@ function ValidateFieldsOwnership(sender, args) {
                                                                                         Text="Add New" />
                                                                                 </td>
                                                                             </tr>
-                                                                        </table> 
+                                                                        </table>
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -2058,7 +2058,7 @@ function ValidateFieldsOwnership(sender, args) {
                                                                                         </tr>
                                                                                         <tr id="trItem26" runat="server">
                                                                                             <td align="left" colspan="6" id="tdItem26" runat="server">
-                                                                                                <asp:Label runat="server" ID="lblIndex26" style="float:left"></asp:Label>
+                                                                                                <asp:Label runat="server" ID="lblIndex26" Style="float: left"></asp:Label>
                                                                                                 <div style="margin-left: 40px">
                                                                                                     <asp:Label runat="server" ID="lblItem26"></asp:Label><br />
                                                                                                     <asp:TextBox runat="server" ID="txtItem26" Visible="false" MaxLength="250"></asp:TextBox>
@@ -2073,7 +2073,7 @@ function ValidateFieldsOwnership(sender, args) {
                                                                                         </tr>
                                                                                         <tr id="trItem27" runat="server">
                                                                                             <td align="left" colspan="6" id="tdItem27" runat="server">
-                                                                                                <asp:Label runat="server" ID="lblIndex27" style="float:left"></asp:Label>
+                                                                                                <asp:Label runat="server" ID="lblIndex27" Style="float: left"></asp:Label>
                                                                                                 <div style="margin-left: 40px">
                                                                                                     <asp:Label runat="server" ID="lblItem27"></asp:Label><br />
                                                                                                     <asp:TextBox runat="server" ID="txtItem27" Visible="false" MaxLength="250"></asp:TextBox>
@@ -2088,9 +2088,9 @@ function ValidateFieldsOwnership(sender, args) {
                                                                                         </tr>
                                                                                         <tr id="trItem28" runat="server">
                                                                                             <td align="left" colspan="6">
-                                                                                                <asp:Label runat="server" ID="lblIndex28" style="float:left"></asp:Label>
+                                                                                                <asp:Label runat="server" ID="lblIndex28" Style="float: left"></asp:Label>
                                                                                                 <div style="margin-left: 40px">
-                                                                                                <asp:Label runat="server" ID="lblItem28"></asp:Label>
+                                                                                                    <asp:Label runat="server" ID="lblItem28"></asp:Label>
                                                                                                 </div>
                                                                                             </td>
                                                                                             <td colspan="2">
@@ -2102,7 +2102,7 @@ function ValidateFieldsOwnership(sender, args) {
                                                                                         </tr>
                                                                                         <tr id="trItem29" runat="server">
                                                                                             <td align="left" colspan="6">
-                                                                                                <asp:Label runat="server" ID="lblIndex29" style="float:left"></asp:Label>
+                                                                                                <asp:Label runat="server" ID="lblIndex29" Style="float: left"></asp:Label>
                                                                                                 <div style="margin-left: 40px">
                                                                                                     <asp:Label runat="server" ID="lblItem29"></asp:Label>
                                                                                                 </div>
@@ -2116,7 +2116,7 @@ function ValidateFieldsOwnership(sender, args) {
                                                                                         </tr>
                                                                                         <tr id="trItem30" runat="server">
                                                                                             <td align="left" colspan="6" id="tdItem30" runat="server">
-                                                                                                <asp:Label runat="server" ID="lblIndex30" style="float:left"></asp:Label>
+                                                                                                <asp:Label runat="server" ID="lblIndex30" Style="float: left"></asp:Label>
                                                                                                 <div style="margin-left: 40px">
                                                                                                     <asp:Label runat="server" ID="lblItem30"></asp:Label><br />
                                                                                                     <asp:TextBox runat="server" ID="txtItem30" Visible="false" MaxLength="20" onkeypress="return FormatInteger(event);" onpaste="return false;"></asp:TextBox>
@@ -2131,7 +2131,7 @@ function ValidateFieldsOwnership(sender, args) {
                                                                                         </tr>
                                                                                         <tr id="trItem32" runat="server">
                                                                                             <td align="left" colspan="6">
-                                                                                                <asp:Label runat="server" ID="lblIndex32" style="float:left"></asp:Label>
+                                                                                                <asp:Label runat="server" ID="lblIndex32" Style="float: left"></asp:Label>
                                                                                                 <div style="margin-left: 40px">
                                                                                                     <asp:Label runat="server" ID="lblItem32"></asp:Label>
                                                                                                 </div>
@@ -2145,7 +2145,7 @@ function ValidateFieldsOwnership(sender, args) {
                                                                                         </tr>
                                                                                         <tr id="trItem33" runat="server">
                                                                                             <td align="left" colspan="6">
-                                                                                                <asp:Label runat="server" ID="lblIndex33" style="float:left"></asp:Label>
+                                                                                                <asp:Label runat="server" ID="lblIndex33" Style="float: left"></asp:Label>
                                                                                                 <div style="margin-left: 40px">
                                                                                                     <asp:Label runat="server" ID="lblItem33"></asp:Label>
                                                                                                 </div>
@@ -3315,466 +3315,466 @@ function ValidateFieldsOwnership(sender, args) {
                                                                             <tr>
                                                                                 <td class="Spacer" style="height: 8px;"></td>
                                                                             </tr>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="center" colspan="6">
-                                                                    <table cellpadding="0" cellspacing="0" border="0" width="100%">
-                                                                        <tr>
-                                                                            <td align="left" valign="top" style="width: 19%">
-                                                                                <asp:Label ID="Label68" runat="server" Text="Number of Bays"></asp:Label>
-                                                                                &nbsp;<span id="Span86" style="color: Red; display: none;" runat="server">*</span>
-                                                                            </td>
-                                                                            <td align="center" valign="top" style="width: 4%">
-                                                                                <asp:Label ID="Label69" runat="server" Text=":" Width="31px"></asp:Label>
-                                                                            </td>
-                                                                            <td align="left" style="width: 27%; padding-left: 3px" valign="top">
-                                                                                <asp:TextBox ID="txtNumberOfBays" runat="server" onpaste="return false" Width="170px" onkeypress="return FormatNumber(event,this.id,9,true);" />
-                                                                            </td>
-                                                                            <td align="left" valign="top" style="width: 17%; padding-left: 9px;">
-                                                                                <asp:Label ID="Label23" runat="server" Text="Number of Lifts"></asp:Label>
-                                                                                &nbsp;<span id="Span87" style="color: Red; display: none;" runat="server">*</span>
-                                                                            </td>
-                                                                            <td align="center" valign="top" style="width: 4%; padding-left: 1px">
-                                                                                <asp:Label ID="Label55" runat="server" Text=":" Width="31px"></asp:Label>
-                                                                            </td>
-                                                                            <td align="left" style="width: 29%; padding-left: 5px" valign="top">
-                                                                                <asp:TextBox ID="txtNumberOfLifts" runat="server" onpaste="return false" SkinID="txtDisabled" Width="172px"
-                                                                                    ReadOnly="true" onkeypress="return FormatNumber(event,this.id,9,true);" />
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td align="left" valign="top" style="width: 18%">
-                                                                                <asp:Label ID="Label70" runat="server" Text="Number of Prep Areas"></asp:Label>&nbsp;<span id="Span88" style="color: Red; display: none;" runat="server">*</span>
-                                                                            </td>
-                                                                            <td align="center" valign="top" style="width: 4%">
-                                                                                <asp:Label ID="Label71" runat="server" Text=":" Width="31px"></asp:Label>
-                                                                            </td>
-                                                                            <td align="left" style="width: 28%; padding-left: 3px" valign="top">
-                                                                                <asp:TextBox ID="txtNumberOfPrepAreas" runat="server" SkinID="txtDisabled" ReadOnly="true" Width="172px"
-                                                                                    onpaste="return false" onkeypress="return FormatNumber(event,this.id,9,true);" />
-                                                                            </td>
-                                                                            <td align="left" valign="top" style="width: 17%; padding-left: 9px;">
-                                                                                <asp:Label ID="Label24" runat="server" Text=" Number of Car Wash Stations "></asp:Label>
-                                                                                &nbsp; <span id="Span89" style="color: Red; display: none;" runat="server">*</span>
-                                                                            </td>
-                                                                            <td align="center" valign="top" style="width: 4%; padding-left: 1px">
-                                                                                <asp:Label ID="Label56" runat="server" Text=":" Width="31px"></asp:Label>
-                                                                            </td>
-                                                                            <td align="left" style="width: 29%; padding-left: 5px" valign="top">
-                                                                                <asp:TextBox ID="txtNumberOfCarWashStations" runat="server" onpaste="return false" Width="170px"
-                                                                                    onkeypress="return FormatNumber(event,this.id,9,true);" />
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td align="left" valign="top">
-                                                                                <asp:Label ID="Label72" runat="server" Text="Number of Paint Booths"></asp:Label>&nbsp;<span id="Span22" style="color: Red; display: none;"
-                                                                                    runat="server">*</span>
-                                                                            </td>
-                                                                            <td align="center" valign="top">
-                                                                                <asp:Label ID="Label73" runat="server" Text=":" Width="31px"></asp:Label>
-                                                                            </td>
-                                                                            <td align="left" style="width: 28%; padding-left: 3px" valign="top">
-                                                                                <asp:TextBox runat="server" ID="txtNumber_of_Paint_Booths" SkinID="txtDisabled" Width="172px"
-                                                                                    ReadOnly="true" onpaste="return false" onkeypress="return FormatNumber(event,this.id,9,true);"></asp:TextBox>
-                                                                            </td>
-                                                                            <td colspan="3"></td>
-                                                                        </tr>
-                                                                    </table>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="Spacer" style="height: 8px;"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="left" colspan="6">
-                                                                    <b>Improvements</b>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="Spacer" style="height: 8px;"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="left" colspan="6">
-                                                                    <b>Exposure</b>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="Spacer" style="height: 8px;"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="left" valign="top">Tier 1 County
-                                                                </td>
-                                                                <td align="center" valign="top">:
-                                                                </td>
-                                                                <td align="left" colspan="4">
-                                                                    <asp:RadioButtonList runat="server" ID="rdoTier_1_County" SkinID="YesNoTypeNullSelection">
-                                                                    </asp:RadioButtonList>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="left" valign="top">Earthquake Zone/Fault Line
-                                                                </td>
-                                                                <td align="center" valign="top">:
-                                                                </td>
-                                                                <td align="left" colspan="4">
-                                                                    <asp:RadioButtonList runat="server" ID="rdoEarthquake_Zone_Fault_Line" SkinID="YesNoTypeNullSelection">
-                                                                    </asp:RadioButtonList>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="left" valign="top">Neighboring Buildings within 100 ft.
-                                                                </td>
-                                                                <td align="center" valign="top">:
-                                                                </td>
-                                                                <td align="left" valign="top">
-                                                                    <asp:RadioButtonList runat="server" ID="rdoNeighboring_Buildings_within_100_ft" SkinID="YesNoTypeNullSelection"
-                                                                        onclick="ShowHideNeighbouringOccupancy()">
-                                                                    </asp:RadioButtonList>
-                                                                </td>
-                                                                <td colspan="3">
-                                                                    <table cellpadding="0" cellspacing="0" width="100%" id="tblNeighboringOccupancy" style="display: none;" runat="server">
-                                                                        <tr>
-                                                                            <td align="left" valign="top" width="17%">
-                                                                                <asp:Label ID="lbl98" runat="server" Text="Occupancy"></asp:Label>
-                                                                                &nbsp;<span id="Span90" style="color: Red; display: none;" runat="server">*</span>
-                                                                            </td>
-                                                                            <td align="center" valign="top" width="4%">
-                                                                                <asp:Label ID="Label74" runat="server" Text=":" Width="31px"></asp:Label>
-                                                                            </td>
-                                                                            <td align="left" valign="top" width="29%" style="padding-left: 7px;">
-                                                                                <asp:TextBox runat="server" ID="txtNeighbor_Occupancy" Width="170px" MaxLength="50"></asp:TextBox>
-                                                                            </td>
-                                                                        </tr>
-                                                                    </table>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="left" valign="top">Distance from body of water<br />
-                                                                    (creek, river, ocean)&nbsp;<span id="Span91" style="color: Red; display: none;" runat="server">*</span>
-                                                                </td>
-                                                                <td align="center" valign="top">:
-                                                                </td>
-                                                                <td align="left" valign="top">
-                                                                    <asp:DropDownList runat="server" ID="ddlDistance_from_body_of_water" SkinID="ddlExposure">
-                                                                        <asp:ListItem Value="" Text="--SELECT--"></asp:ListItem>
-                                                                        <asp:ListItem Value="<1 MIles" Text="<1 MIles"></asp:ListItem>
-                                                                        <asp:ListItem Value="1-5 Miles" Text="1-5 Miles"></asp:ListItem>
-                                                                        <asp:ListItem Value="5-10 Miles" Text="5-10 Miles"></asp:ListItem>
-                                                                        <asp:ListItem Value=">10 Miles" Text=">10 Miles"></asp:ListItem>
-                                                                    </asp:DropDownList>
-                                                                </td>
-                                                                <td align="left" valign="top">&nbsp;
-                                                                </td>
-                                                                <td align="left" valign="top">&nbsp;
-                                                                </td>
-                                                                <td align="left" valign="top">&nbsp;
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="left" valign="top">Prior Flood History
-                                                                </td>
-                                                                <td align="center" valign="top">:
-                                                                </td>
-                                                                <td align="left" valign="top">
-                                                                    <asp:RadioButtonList runat="server" ID="rdoPrior_Flood_History" SkinID="YesNoTypeNullSelection"
-                                                                        onClick="checkFloodHistory();">
-                                                                    </asp:RadioButtonList>
-                                                                </td>
-                                                                <td align="left" valign="top">&nbsp;
-                                                                </td>
-                                                                <td align="left" valign="top">&nbsp;
-                                                                </td>
-                                                                <td align="left" valign="top">&nbsp;
-                                                                </td>
-                                                            </tr>
-                                                            <tr runat="server" id="trFloodHistory" style="display: none;">
-                                                                <td align="left" valign="top">Describe&nbsp;<span id="Span92" style="color: Red; display: none;" runat="server">*</span>
-                                                                </td>
-                                                                <td align="center" valign="top">:
-                                                                </td>
-                                                                <td align="left" colspan="4" valign="top">
-                                                                    <uc:ctrlMultiLineTextBox ControlType="TextBox" ID="txtFlood_History_Descr" runat="server" />
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="left" valign="top">Lowest finish floor elevation<br />
-                                                                    (above sea level)&nbsp;<span id="Span93" style="color: Red; display: none;" runat="server">*</span>
-                                                                </td>
-                                                                <td align="center" valign="top">:
-                                                                </td>
-                                                                <td align="left" valign="top">
-                                                                    <asp:TextBox runat="server" ID="txtLowest_finish_floor_elevation" Width="170px" onpaste="return false"
-                                                                        onkeypress="return FormatNumber(event,this.id,9,true);"></asp:TextBox>
-                                                                </td>
-                                                                <td align="left" valign="top">&nbsp;
-                                                                </td>
-                                                                <td align="left" valign="top">&nbsp;
-                                                                </td>
-                                                                <td align="left" valign="top">&nbsp;
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="left" valign="top">Property Damage Losses in the Past 5 years
-                                                                </td>
-                                                                <td align="center" valign="top">:
-                                                                </td>
-                                                                <td align="left" valign="top">
-                                                                    <asp:RadioButtonList runat="server" ID="rdoProperty_Damage_Losses_in_the_Past_5_years"
-                                                                        SkinID="YesNoTypeNullSelection" onClick="checkPropertyDamageLoss();">
-                                                                    </asp:RadioButtonList>
-                                                                </td>
-                                                                <td align="left" valign="top">&nbsp;
-                                                                </td>
-                                                                <td align="left" valign="top">&nbsp;
-                                                                </td>
-                                                                <td align="left" valign="top">&nbsp;
-                                                                </td>
-                                                            </tr>
-                                                            <tr runat="server" id="trPropertyDamageLoss" style="display: none;">
-                                                                <td align="left" valign="top">Describe&nbsp;<span id="Span94" style="color: Red; display: none;" runat="server">*</span>
-                                                                </td>
-                                                                <td align="center" valign="top">:
-                                                                </td>
-                                                                <td align="left" colspan="4" valign="top">
-                                                                    <uc:ctrlMultiLineTextBox ControlType="TextBox" ID="txtProperty_Loss_Descr" runat="server" />
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="left" valign="top">Flood Zone&nbsp;<span id="Span95" style="color: Red; display: none;" runat="server">*</span>
-                                                                </td>
-                                                                <td align="center" valign="top">:
-                                                                </td>
-                                                                <td align="left" colspan="4">
-                                                                    <asp:TextBox ID="txtFloodZone" runat="server" Width="170px" MaxLength="50"></asp:TextBox>
-                                                                    <%-- <asp:DropDownList runat="server" ID="ddlFlood_Zone" SkinID="ddlExposure">
+                                                                            <%--</tr>--%>
+                                                                            <tr>
+                                                                                <td align="center" colspan="6">
+                                                                                    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                                                        <tr>
+                                                                                            <td align="left" valign="top" style="width: 19%">
+                                                                                                <asp:Label ID="Label68" runat="server" Text="Number of Bays"></asp:Label>
+                                                                                                &nbsp;<span id="Span86" style="color: Red; display: none;" runat="server">*</span>
+                                                                                            </td>
+                                                                                            <td align="center" valign="top" style="width: 4%">
+                                                                                                <asp:Label ID="Label69" runat="server" Text=":" Width="31px"></asp:Label>
+                                                                                            </td>
+                                                                                            <td align="left" style="width: 27%; padding-left: 3px" valign="top">
+                                                                                                <asp:TextBox ID="txtNumberOfBays" runat="server" onpaste="return false" Width="170px" onkeypress="return FormatNumber(event,this.id,9,true);" />
+                                                                                            </td>
+                                                                                            <td align="left" valign="top" style="width: 17%; padding-left: 9px;">
+                                                                                                <asp:Label ID="Label23" runat="server" Text="Number of Lifts"></asp:Label>
+                                                                                                &nbsp;<span id="Span87" style="color: Red; display: none;" runat="server">*</span>
+                                                                                            </td>
+                                                                                            <td align="center" valign="top" style="width: 4%; padding-left: 1px">
+                                                                                                <asp:Label ID="Label55" runat="server" Text=":" Width="31px"></asp:Label>
+                                                                                            </td>
+                                                                                            <td align="left" style="width: 29%; padding-left: 5px" valign="top">
+                                                                                                <asp:TextBox ID="txtNumberOfLifts" runat="server" onpaste="return false" SkinID="txtDisabled" Width="172px"
+                                                                                                    ReadOnly="true" onkeypress="return FormatNumber(event,this.id,9,true);" />
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td align="left" valign="top" style="width: 18%">
+                                                                                                <asp:Label ID="Label70" runat="server" Text="Number of Prep Areas"></asp:Label>&nbsp;<span id="Span88" style="color: Red; display: none;" runat="server">*</span>
+                                                                                            </td>
+                                                                                            <td align="center" valign="top" style="width: 4%">
+                                                                                                <asp:Label ID="Label71" runat="server" Text=":" Width="31px"></asp:Label>
+                                                                                            </td>
+                                                                                            <td align="left" style="width: 28%; padding-left: 3px" valign="top">
+                                                                                                <asp:TextBox ID="txtNumberOfPrepAreas" runat="server" SkinID="txtDisabled" ReadOnly="true" Width="172px"
+                                                                                                    onpaste="return false" onkeypress="return FormatNumber(event,this.id,9,true);" />
+                                                                                            </td>
+                                                                                            <td align="left" valign="top" style="width: 17%; padding-left: 9px;">
+                                                                                                <asp:Label ID="Label24" runat="server" Text=" Number of Car Wash Stations "></asp:Label>
+                                                                                                &nbsp; <span id="Span89" style="color: Red; display: none;" runat="server">*</span>
+                                                                                            </td>
+                                                                                            <td align="center" valign="top" style="width: 4%; padding-left: 1px">
+                                                                                                <asp:Label ID="Label56" runat="server" Text=":" Width="31px"></asp:Label>
+                                                                                            </td>
+                                                                                            <td align="left" style="width: 29%; padding-left: 5px" valign="top">
+                                                                                                <asp:TextBox ID="txtNumberOfCarWashStations" runat="server" onpaste="return false" Width="170px"
+                                                                                                    onkeypress="return FormatNumber(event,this.id,9,true);" />
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td align="left" valign="top">
+                                                                                                <asp:Label ID="Label72" runat="server" Text="Number of Paint Booths"></asp:Label>&nbsp;<span id="Span22" style="color: Red; display: none;"
+                                                                                                    runat="server">*</span>
+                                                                                            </td>
+                                                                                            <td align="center" valign="top">
+                                                                                                <asp:Label ID="Label73" runat="server" Text=":" Width="31px"></asp:Label>
+                                                                                            </td>
+                                                                                            <td align="left" style="width: 28%; padding-left: 3px" valign="top">
+                                                                                                <asp:TextBox runat="server" ID="txtNumber_of_Paint_Booths" SkinID="txtDisabled" Width="172px"
+                                                                                                    ReadOnly="true" onpaste="return false" onkeypress="return FormatNumber(event,this.id,9,true);"></asp:TextBox>
+                                                                                            </td>
+                                                                                            <td colspan="3"></td>
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="Spacer" style="height: 8px;"></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td align="left" colspan="6">
+                                                                                    <b>Improvements</b>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="Spacer" style="height: 8px;"></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td align="left" colspan="6">
+                                                                                    <b>Exposure</b>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="Spacer" style="height: 8px;"></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td align="left" valign="top">Tier 1 County
+                                                                                </td>
+                                                                                <td align="center" valign="top">:
+                                                                                </td>
+                                                                                <td align="left" colspan="4">
+                                                                                    <asp:RadioButtonList runat="server" ID="rdoTier_1_County" SkinID="YesNoTypeNullSelection">
+                                                                                    </asp:RadioButtonList>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td align="left" valign="top">Earthquake Zone/Fault Line
+                                                                                </td>
+                                                                                <td align="center" valign="top">:
+                                                                                </td>
+                                                                                <td align="left" colspan="4">
+                                                                                    <asp:RadioButtonList runat="server" ID="rdoEarthquake_Zone_Fault_Line" SkinID="YesNoTypeNullSelection">
+                                                                                    </asp:RadioButtonList>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td align="left" valign="top">Neighboring Buildings within 100 ft.
+                                                                                </td>
+                                                                                <td align="center" valign="top">:
+                                                                                </td>
+                                                                                <td align="left" valign="top">
+                                                                                    <asp:RadioButtonList runat="server" ID="rdoNeighboring_Buildings_within_100_ft" SkinID="YesNoTypeNullSelection"
+                                                                                        onclick="ShowHideNeighbouringOccupancy()">
+                                                                                    </asp:RadioButtonList>
+                                                                                </td>
+                                                                                <td colspan="3">
+                                                                                    <table cellpadding="0" cellspacing="0" width="100%" id="tblNeighboringOccupancy" style="display: none;" runat="server">
+                                                                                        <tr>
+                                                                                            <td align="left" valign="top" width="17%">
+                                                                                                <asp:Label ID="lbl98" runat="server" Text="Occupancy"></asp:Label>
+                                                                                                &nbsp;<span id="Span90" style="color: Red; display: none;" runat="server">*</span>
+                                                                                            </td>
+                                                                                            <td align="center" valign="top" width="4%">
+                                                                                                <asp:Label ID="Label74" runat="server" Text=":" Width="31px"></asp:Label>
+                                                                                            </td>
+                                                                                            <td align="left" valign="top" width="29%" style="padding-left: 7px;">
+                                                                                                <asp:TextBox runat="server" ID="txtNeighbor_Occupancy" Width="170px" MaxLength="50"></asp:TextBox>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td align="left" valign="top">Distance from body of water<br />
+                                                                                    (creek, river, ocean)&nbsp;<span id="Span91" style="color: Red; display: none;" runat="server">*</span>
+                                                                                </td>
+                                                                                <td align="center" valign="top">:
+                                                                                </td>
+                                                                                <td align="left" valign="top">
+                                                                                    <asp:DropDownList runat="server" ID="ddlDistance_from_body_of_water" SkinID="ddlExposure">
+                                                                                        <asp:ListItem Value="" Text="--SELECT--"></asp:ListItem>
+                                                                                        <asp:ListItem Value="<1 MIles" Text="<1 MIles"></asp:ListItem>
+                                                                                        <asp:ListItem Value="1-5 Miles" Text="1-5 Miles"></asp:ListItem>
+                                                                                        <asp:ListItem Value="5-10 Miles" Text="5-10 Miles"></asp:ListItem>
+                                                                                        <asp:ListItem Value=">10 Miles" Text=">10 Miles"></asp:ListItem>
+                                                                                    </asp:DropDownList>
+                                                                                </td>
+                                                                                <td align="left" valign="top">&nbsp;
+                                                                                </td>
+                                                                                <td align="left" valign="top">&nbsp;
+                                                                                </td>
+                                                                                <td align="left" valign="top">&nbsp;
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td align="left" valign="top">Prior Flood History
+                                                                                </td>
+                                                                                <td align="center" valign="top">:
+                                                                                </td>
+                                                                                <td align="left" valign="top">
+                                                                                    <asp:RadioButtonList runat="server" ID="rdoPrior_Flood_History" SkinID="YesNoTypeNullSelection"
+                                                                                        onClick="checkFloodHistory();">
+                                                                                    </asp:RadioButtonList>
+                                                                                </td>
+                                                                                <td align="left" valign="top">&nbsp;
+                                                                                </td>
+                                                                                <td align="left" valign="top">&nbsp;
+                                                                                </td>
+                                                                                <td align="left" valign="top">&nbsp;
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr runat="server" id="trFloodHistory" style="display: none;">
+                                                                                <td align="left" valign="top">Describe&nbsp;<span id="Span92" style="color: Red; display: none;" runat="server">*</span>
+                                                                                </td>
+                                                                                <td align="center" valign="top">:
+                                                                                </td>
+                                                                                <td align="left" colspan="4" valign="top">
+                                                                                    <uc:ctrlMultiLineTextBox ControlType="TextBox" ID="txtFlood_History_Descr" runat="server" />
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td align="left" valign="top">Lowest finish floor elevation<br />
+                                                                                    (above sea level)&nbsp;<span id="Span93" style="color: Red; display: none;" runat="server">*</span>
+                                                                                </td>
+                                                                                <td align="center" valign="top">:
+                                                                                </td>
+                                                                                <td align="left" valign="top">
+                                                                                    <asp:TextBox runat="server" ID="txtLowest_finish_floor_elevation" Width="170px" onpaste="return false"
+                                                                                        onkeypress="return FormatNumber(event,this.id,9,true);"></asp:TextBox>
+                                                                                </td>
+                                                                                <td align="left" valign="top">&nbsp;
+                                                                                </td>
+                                                                                <td align="left" valign="top">&nbsp;
+                                                                                </td>
+                                                                                <td align="left" valign="top">&nbsp;
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td align="left" valign="top">Property Damage Losses in the Past 5 years
+                                                                                </td>
+                                                                                <td align="center" valign="top">:
+                                                                                </td>
+                                                                                <td align="left" valign="top">
+                                                                                    <asp:RadioButtonList runat="server" ID="rdoProperty_Damage_Losses_in_the_Past_5_years"
+                                                                                        SkinID="YesNoTypeNullSelection" onClick="checkPropertyDamageLoss();">
+                                                                                    </asp:RadioButtonList>
+                                                                                </td>
+                                                                                <td align="left" valign="top">&nbsp;
+                                                                                </td>
+                                                                                <td align="left" valign="top">&nbsp;
+                                                                                </td>
+                                                                                <td align="left" valign="top">&nbsp;
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr runat="server" id="trPropertyDamageLoss" style="display: none;">
+                                                                                <td align="left" valign="top">Describe&nbsp;<span id="Span94" style="color: Red; display: none;" runat="server">*</span>
+                                                                                </td>
+                                                                                <td align="center" valign="top">:
+                                                                                </td>
+                                                                                <td align="left" colspan="4" valign="top">
+                                                                                    <uc:ctrlMultiLineTextBox ControlType="TextBox" ID="txtProperty_Loss_Descr" runat="server" />
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td align="left" valign="top">Flood Zone&nbsp;<span id="Span95" style="color: Red; display: none;" runat="server">*</span>
+                                                                                </td>
+                                                                                <td align="center" valign="top">:
+                                                                                </td>
+                                                                                <td align="left" colspan="4">
+                                                                                    <asp:TextBox ID="txtFloodZone" runat="server" Width="170px" MaxLength="50"></asp:TextBox>
+                                                                                    <%-- <asp:DropDownList runat="server" ID="ddlFlood_Zone" SkinID="ddlExposure">
                                                                                     </asp:DropDownList>--%>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="left" valign="top">National Flood Policy
-                                                                </td>
-                                                                <td align="center" valign="top">:
-                                                                </td>
-                                                                <td align="left" colspan="4">
-                                                                    <asp:RadioButtonList runat="server" ID="rdoNational_Flood_Policy" SkinID="YesNoTypeNullSelection"
-                                                                        onClick="checkNational_Flood_Policy();">
-                                                                    </asp:RadioButtonList>
-                                                                </td>
-                                                            </tr>
-                                                            <tr runat="server" id="trNational_Flood_Policy" style="display: none;">
-                                                                <td align="center" colspan="6">
-                                                                    <table cellpadding="0" cellspacing="0" border="0">
-                                                                        <tr>
-                                                                            <td align="left" style="width: 18%">
-                                                                                <asp:Label ID="Label99" runat="server" Text="Carrier" Width="146px"></asp:Label>
-                                                                                &nbsp;<span id="Span96" style="color: Red; display: none;" runat="server">*</span>
-                                                                            </td>
-                                                                            <td align="center" style="width: 4%">
-                                                                                <asp:Label ID="Label17" runat="server" Text=":" Width="31px"></asp:Label>
-                                                                            </td>
-                                                                            <td align="left" style="width: 28%; padding-left: 3px">
-                                                                                <asp:TextBox runat="server" ID="txtFlood_Carrier" Width="170px" MaxLength="50"></asp:TextBox>
-                                                                            </td>
-                                                                            <td align="left" style="width: 18%; padding-left: 9px;">
-                                                                                <asp:Label ID="Label21" runat="server" Text="Policy Inception Date"></asp:Label>
-                                                                                &nbsp;<span id="Span97" style="color: Red; display: none;" runat="server">*</span>
-                                                                            </td>
-                                                                            <td align="center" style="width: 4%">
-                                                                                <asp:Label ID="Label22" runat="server" Text=":" Width="31px"></asp:Label>
-                                                                            </td>
-                                                                            <td align="left" style="width: 28%; padding-left: 5px">
-                                                                                <asp:TextBox runat="server" ID="txtFlood_Policy_Inception_Date" Width="170px" SkinID="txtDate"></asp:TextBox>
-                                                                                <img alt="Flood Policy Inception Date" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtFlood_Policy_Inception_Date', 'mm/dd/y');"
-                                                                                    onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
-                                                                                    align="middle" />
-                                                                                <asp:RangeValidator ID="regFloodInception_Date" ControlToValidate="txtFlood_Policy_Inception_Date"
-                                                                                    MinimumValue="01/01/1753" MaximumValue="12/31/9999" Type="Date" ErrorMessage="National Flood Policy Inception Date is not valid"
-                                                                                    runat="server" SetFocusOnError="true" ValidationGroup="vsErrorBuilding" Display="none" />
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td colspan="6">&nbsp;
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td align="left" style="width: 18%">Policy Number&nbsp;<span id="Span98" style="color: Red; display: none;" runat="server">*</span>
-                                                                            </td>
-                                                                            <td align="center" style="width: 4%">:
-                                                                            </td>
-                                                                            <td align="left" style="width: 28%; padding-left: 3px">
-                                                                                <asp:TextBox runat="server" ID="txtFlood_Policy_Number" Width="170px" MaxLength="50"></asp:TextBox>
-                                                                            </td>
-                                                                            <td align="left" style="width: 18%; padding-left: 9px;">
-                                                                                <asp:Label ID="Label65" runat="server" Text="Policy Expiration Date"></asp:Label>
-                                                                                &nbsp;<span id="Span99" style="color: Red; display: none;"
-                                                                                    runat="server">*</span>
-                                                                            </td>
-                                                                            <td align="center" style="width: 4%">:
-                                                                            </td>
-                                                                            <td align="left" style="width: 28%; padding-left: 5px">
-                                                                                <asp:TextBox runat="server" ID="txtFlood_Policy_Expiration_Date" Width="170px" SkinID="txtDate"></asp:TextBox>
-                                                                                <img alt="Status As of Date" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtFlood_Policy_Expiration_Date', 'mm/dd/y');"
-                                                                                    onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
-                                                                                    align="middle" />
-                                                                                <asp:RangeValidator ID="regFloodExpiration_Date" ControlToValidate="txtFlood_Policy_Expiration_Date"
-                                                                                    MinimumValue="01/01/1753" MaximumValue="12/31/9999" Type="Date" ErrorMessage="National Flood Policy Expiration Date is not valid"
-                                                                                    runat="server" SetFocusOnError="true" ValidationGroup="vsErrorBuilding" Display="none" />
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td colspan="6">&nbsp;
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td align="left" style="width: 18%">Premium&nbsp;<span id="Span100" style="color: Red; display: none;" runat="server">*</span>
-                                                                            </td>
-                                                                            <td align="center" style="width: 4%">:
-                                                                            </td>
-                                                                            <td align="left" style="width: 28%; padding-left: 3px">
-                                                                                <asp:TextBox runat="server" ID="txtFlood_Premium" Width="170px" onpaste="return false"
-                                                                                    onkeypress="return currencyFormat(this,',','.',event);"></asp:TextBox>
-                                                                            </td>
-                                                                            <td align="left" style="width: 18%; padding-left: 9px;">
-                                                                                <asp:Label ID="Label66" runat="server" Text="Deductible"></asp:Label>
-                                                                                &nbsp;<span id="Span101" style="color: Red; display: none;" runat="server">*</span>
-                                                                            </td>
-                                                                            <td align="center" style="width: 4%">:
-                                                                            </td>
-                                                                            <td align="left" style="width: 28%; padding-left: 5px">
-                                                                                <asp:TextBox runat="server" ID="txtFlood_Deductible" Width="170px" onpaste="return false"
-                                                                                    onkeypress="return currencyFormat(this,',','.',event);"></asp:TextBox>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td colspan="6">&nbsp;
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td align="left" style="width: 18%">Policy Limits - Contents&nbsp;<span id="Span102" style="color: Red; display: none;"
-                                                                                runat="server">*</span>
-                                                                            </td>
-                                                                            <td align="center" style="width: 4%">:
-                                                                            </td>
-                                                                            <td align="left" style="width: 28%; padding-left: 3px">
-                                                                                <asp:TextBox runat="server" ID="txtFlood_Polciy_Limits_Contents" Width="170px" onpaste="return false"
-                                                                                    onkeypress="return currencyFormat(this,',','.',event);"></asp:TextBox>
-                                                                            </td>
-                                                                            <td align="left" style="width: 18%; padding-left: 9px;">
-                                                                                <asp:Label ID="Label67" runat="server" Text=" Policy Limits - Building"></asp:Label>
-                                                                                &nbsp;<span id="Span103" style="color: Red; display: none;"
-                                                                                    runat="server">*</span>
-                                                                            </td>
-                                                                            <td align="center" style="width: 4%">:
-                                                                            </td>
-                                                                            <td align="left" style="width: 28%; padding-left: 5px">
-                                                                                <asp:TextBox runat="server" ID="txtFlood_Policy_Limits_Building" Width="170px" onpaste="return false"
-                                                                                    onkeypress="return currencyFormat(this,',','.',event);"></asp:TextBox>
-                                                                            </td>
-                                                                        </tr>
-                                                                    </table>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="Spacer" style="height: 10px;"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="left" colspan="6">
-                                                                    <b>Power Requirements</b>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="Spacer" style="height: 10px;"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="center" colspan="6">
-                                                                    <table cellpadding="0" cellspacing="0" border="0">
-                                                                        <tr>
-                                                                            <td align="left" style="width: 18%">Voltage Security
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td align="left" valign="top">National Flood Policy
+                                                                                </td>
+                                                                                <td align="center" valign="top">:
+                                                                                </td>
+                                                                                <td align="left" colspan="4">
+                                                                                    <asp:RadioButtonList runat="server" ID="rdoNational_Flood_Policy" SkinID="YesNoTypeNullSelection"
+                                                                                        onClick="checkNational_Flood_Policy();">
+                                                                                    </asp:RadioButtonList>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr runat="server" id="trNational_Flood_Policy" style="display: none;">
+                                                                                <td align="center" colspan="6">
+                                                                                    <table cellpadding="0" cellspacing="0" border="0">
+                                                                                        <tr>
+                                                                                            <td align="left" style="width: 18%">
+                                                                                                <asp:Label ID="Label99" runat="server" Text="Carrier" Width="146px"></asp:Label>
+                                                                                                &nbsp;<span id="Span96" style="color: Red; display: none;" runat="server">*</span>
+                                                                                            </td>
+                                                                                            <td align="center" style="width: 4%">
+                                                                                                <asp:Label ID="Label17" runat="server" Text=":" Width="31px"></asp:Label>
+                                                                                            </td>
+                                                                                            <td align="left" style="width: 28%; padding-left: 3px">
+                                                                                                <asp:TextBox runat="server" ID="txtFlood_Carrier" Width="170px" MaxLength="50"></asp:TextBox>
+                                                                                            </td>
+                                                                                            <td align="left" style="width: 18%; padding-left: 9px;">
+                                                                                                <asp:Label ID="Label21" runat="server" Text="Policy Inception Date"></asp:Label>
+                                                                                                &nbsp;<span id="Span97" style="color: Red; display: none;" runat="server">*</span>
+                                                                                            </td>
+                                                                                            <td align="center" style="width: 4%">
+                                                                                                <asp:Label ID="Label22" runat="server" Text=":" Width="31px"></asp:Label>
+                                                                                            </td>
+                                                                                            <td align="left" style="width: 28%; padding-left: 5px">
+                                                                                                <asp:TextBox runat="server" ID="txtFlood_Policy_Inception_Date" Width="170px" SkinID="txtDate"></asp:TextBox>
+                                                                                                <img alt="Flood Policy Inception Date" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtFlood_Policy_Inception_Date', 'mm/dd/y');"
+                                                                                                    onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
+                                                                                                    align="middle" />
+                                                                                                <asp:RangeValidator ID="regFloodInception_Date" ControlToValidate="txtFlood_Policy_Inception_Date"
+                                                                                                    MinimumValue="01/01/1753" MaximumValue="12/31/9999" Type="Date" ErrorMessage="National Flood Policy Inception Date is not valid"
+                                                                                                    runat="server" SetFocusOnError="true" ValidationGroup="vsErrorBuilding" Display="none" />
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td colspan="6">&nbsp;
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td align="left" style="width: 18%">Policy Number&nbsp;<span id="Span98" style="color: Red; display: none;" runat="server">*</span>
+                                                                                            </td>
+                                                                                            <td align="center" style="width: 4%">:
+                                                                                            </td>
+                                                                                            <td align="left" style="width: 28%; padding-left: 3px">
+                                                                                                <asp:TextBox runat="server" ID="txtFlood_Policy_Number" Width="170px" MaxLength="50"></asp:TextBox>
+                                                                                            </td>
+                                                                                            <td align="left" style="width: 18%; padding-left: 9px;">
+                                                                                                <asp:Label ID="Label65" runat="server" Text="Policy Expiration Date"></asp:Label>
+                                                                                                &nbsp;<span id="Span99" style="color: Red; display: none;"
+                                                                                                    runat="server">*</span>
+                                                                                            </td>
+                                                                                            <td align="center" style="width: 4%">:
+                                                                                            </td>
+                                                                                            <td align="left" style="width: 28%; padding-left: 5px">
+                                                                                                <asp:TextBox runat="server" ID="txtFlood_Policy_Expiration_Date" Width="170px" SkinID="txtDate"></asp:TextBox>
+                                                                                                <img alt="Status As of Date" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtFlood_Policy_Expiration_Date', 'mm/dd/y');"
+                                                                                                    onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
+                                                                                                    align="middle" />
+                                                                                                <asp:RangeValidator ID="regFloodExpiration_Date" ControlToValidate="txtFlood_Policy_Expiration_Date"
+                                                                                                    MinimumValue="01/01/1753" MaximumValue="12/31/9999" Type="Date" ErrorMessage="National Flood Policy Expiration Date is not valid"
+                                                                                                    runat="server" SetFocusOnError="true" ValidationGroup="vsErrorBuilding" Display="none" />
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td colspan="6">&nbsp;
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td align="left" style="width: 18%">Premium&nbsp;<span id="Span100" style="color: Red; display: none;" runat="server">*</span>
+                                                                                            </td>
+                                                                                            <td align="center" style="width: 4%">:
+                                                                                            </td>
+                                                                                            <td align="left" style="width: 28%; padding-left: 3px">
+                                                                                                <asp:TextBox runat="server" ID="txtFlood_Premium" Width="170px" onpaste="return false"
+                                                                                                    onkeypress="return currencyFormat(this,',','.',event);"></asp:TextBox>
+                                                                                            </td>
+                                                                                            <td align="left" style="width: 18%; padding-left: 9px;">
+                                                                                                <asp:Label ID="Label66" runat="server" Text="Deductible"></asp:Label>
+                                                                                                &nbsp;<span id="Span101" style="color: Red; display: none;" runat="server">*</span>
+                                                                                            </td>
+                                                                                            <td align="center" style="width: 4%">:
+                                                                                            </td>
+                                                                                            <td align="left" style="width: 28%; padding-left: 5px">
+                                                                                                <asp:TextBox runat="server" ID="txtFlood_Deductible" Width="170px" onpaste="return false"
+                                                                                                    onkeypress="return currencyFormat(this,',','.',event);"></asp:TextBox>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td colspan="6">&nbsp;
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td align="left" style="width: 18%">Policy Limits - Contents&nbsp;<span id="Span102" style="color: Red; display: none;"
+                                                                                                runat="server">*</span>
+                                                                                            </td>
+                                                                                            <td align="center" style="width: 4%">:
+                                                                                            </td>
+                                                                                            <td align="left" style="width: 28%; padding-left: 3px">
+                                                                                                <asp:TextBox runat="server" ID="txtFlood_Polciy_Limits_Contents" Width="170px" onpaste="return false"
+                                                                                                    onkeypress="return currencyFormat(this,',','.',event);"></asp:TextBox>
+                                                                                            </td>
+                                                                                            <td align="left" style="width: 18%; padding-left: 9px;">
+                                                                                                <asp:Label ID="Label67" runat="server" Text=" Policy Limits - Building"></asp:Label>
+                                                                                                &nbsp;<span id="Span103" style="color: Red; display: none;"
+                                                                                                    runat="server">*</span>
+                                                                                            </td>
+                                                                                            <td align="center" style="width: 4%">:
+                                                                                            </td>
+                                                                                            <td align="left" style="width: 28%; padding-left: 5px">
+                                                                                                <asp:TextBox runat="server" ID="txtFlood_Policy_Limits_Building" Width="170px" onpaste="return false"
+                                                                                                    onkeypress="return currencyFormat(this,',','.',event);"></asp:TextBox>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="Spacer" style="height: 10px;"></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td align="left" colspan="6">
+                                                                                    <b>Power Requirements</b>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="Spacer" style="height: 10px;"></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td align="center" colspan="6">
+                                                                                    <table cellpadding="0" cellspacing="0" border="0">
+                                                                                        <tr>
+                                                                                            <td align="left" style="width: 18%">Voltage Security
                                                                                 <span id="spnVoltageSecurity" style="color: Red; display: none;" runat="server">*</span>
-                                                                            </td>
-                                                                            <td align="center" style="width: 4%">
-                                                                                <asp:Label ID="Label76" runat="server" Text=":" Width="31px"></asp:Label>
-                                                                            </td>
-                                                                            <td align="left" style="width: 28%; padding-left: 3px">
-                                                                                <asp:DropDownList runat="server" ID="ddlVoltageSecurity" Width="170px" />
-                                                                            </td>
-                                                                            <td align="left" style="width: 18%; padding-left: 9px;">
-                                                                                <asp:Label ID="lblPhasePower" runat="server" Text="Phase Power"></asp:Label>
-                                                                                &nbsp;<span id="spnPhasePower" style="color: Red; display: none;" runat="server">*</span>
-                                                                            </td>
-                                                                            <td align="center" style="width: 4%">
-                                                                                <asp:Label ID="Label78" runat="server" Text=":" Width="31px"></asp:Label>
-                                                                            </td>
-                                                                            <td align="left" style="width: 28%; padding-left: 3px">
-                                                                                <asp:DropDownList runat="server" ID="ddlPhasePower" Width="170px"></asp:DropDownList>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td height="4"></td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td align="left">Voltage Security, Other&nbsp;<span id="spnVoltageSecurityOther" style="color: Red; display: none;"
-                                                                                runat="server">*</span>
-                                                                            </td>
-                                                                            <td align="center">:
-                                                                            </td>
-                                                                            <td align="left" style="width: 28%; padding-left: 3px">
-                                                                                <asp:TextBox runat="server" ID="txtVoltageSecurityOther" Width="170px" MaxLength="50"></asp:TextBox>
-                                                                            </td>
-                                                                            <td align="left" style="padding-left: 9px;">
-                                                                                <asp:Label ID="lblRequiredCableLength" runat="server" Text="Required Cable Length"></asp:Label>
-                                                                                &nbsp;<span id="spnRequiredCableLength" style="color: Red; display: none;" runat="server">*</span>
-                                                                            </td>
-                                                                            <td align="center">:
-                                                                            </td>
-                                                                            <td align="left" style="width: 28%; padding-left: 3px">
-                                                                                <asp:DropDownList runat="server" ID="ddlRequiredCableLength" Width="170px"></asp:DropDownList>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td align="left">Power Service&nbsp;<span id="spnPowerService" style="color: Red; display: none;" runat="server">*</span>
-                                                                            </td>
-                                                                            <td align="center">:
-                                                                            </td>
-                                                                            <td align="left" style="width: 28%; padding-left: 3px">
-                                                                                <asp:DropDownList runat="server" ID="ddlPowerService" Width="170px"></asp:DropDownList>
-                                                                            </td>
-                                                                            <td align="left" style="padding-left: 9px;">
-                                                                                <asp:Label ID="lblRequiredCableLengthOther" runat="server" Text="Required Cable Length, Other"></asp:Label>
-                                                                                &nbsp;<span id="spnRequiredCableLengthOther" style="color: Red; display: none;" runat="server">*</span>
-                                                                            </td>
-                                                                            <td align="center">:
-                                                                            </td>
-                                                                            <td align="left" style="width: 28%; padding-left: 3px">
-                                                                                <asp:TextBox runat="server" ID="txtRequiredCableLengthOther" Width="170px" MaxLength="50"></asp:TextBox>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td height="4"></td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td align="left">Power Service, Other&nbsp;<span id="spnPowerServiceOther" style="color: Red; display: none;" runat="server">*</span>
-                                                                            </td>
-                                                                            <td align="center">:
-                                                                            </td>
-                                                                            <td align="left" style="width: 28%; padding-left: 3px">
-                                                                                <asp:TextBox runat="server" ID="txtPowerServiceOther" Width="170px" MaxLength="50"></asp:TextBox>
-                                                                            </td>
-                                                                            <td align="left" style="padding-left: 9px;">Total Amperage Required<span id="spnTotalAmperageRequired" style="color: Red; display: none;" runat="server">*</span>
-                                                                            </td>
-                                                                            <td align="center">:
-                                                                            </td>
-                                                                            <td align="left" style="width: 28%; padding-left: 3px">
-                                                                                <asp:TextBox runat="server" ID="txtTotalAmperageRequired" Width="170px" MaxLength="50"></asp:TextBox>
-                                                                            </td>
-                                                                        </tr>
-                                                                    </table>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="Spacer" style="height: 10px;"></td>
-                                                            </tr>
-                                                            <%--<tr>
+                                                                                            </td>
+                                                                                            <td align="center" style="width: 4%">
+                                                                                                <asp:Label ID="Label76" runat="server" Text=":" Width="31px"></asp:Label>
+                                                                                            </td>
+                                                                                            <td align="left" style="width: 28%; padding-left: 3px">
+                                                                                                <asp:DropDownList runat="server" ID="ddlVoltageSecurity" Width="170px" />
+                                                                                            </td>
+                                                                                            <td align="left" style="width: 18%; padding-left: 9px;">
+                                                                                                <asp:Label ID="lblPhasePower" runat="server" Text="Phase Power"></asp:Label>
+                                                                                                &nbsp;<span id="spnPhasePower" style="color: Red; display: none;" runat="server">*</span>
+                                                                                            </td>
+                                                                                            <td align="center" style="width: 4%">
+                                                                                                <asp:Label ID="Label78" runat="server" Text=":" Width="31px"></asp:Label>
+                                                                                            </td>
+                                                                                            <td align="left" style="width: 28%; padding-left: 3px">
+                                                                                                <asp:DropDownList runat="server" ID="ddlPhasePower" Width="170px"></asp:DropDownList>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td height="4"></td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td align="left">Voltage Security, Other&nbsp;<span id="spnVoltageSecurityOther" style="color: Red; display: none;"
+                                                                                                runat="server">*</span>
+                                                                                            </td>
+                                                                                            <td align="center">:
+                                                                                            </td>
+                                                                                            <td align="left" style="width: 28%; padding-left: 3px">
+                                                                                                <asp:TextBox runat="server" ID="txtVoltageSecurityOther" Width="170px" MaxLength="50"></asp:TextBox>
+                                                                                            </td>
+                                                                                            <td align="left" style="padding-left: 9px;">
+                                                                                                <asp:Label ID="lblRequiredCableLength" runat="server" Text="Required Cable Length"></asp:Label>
+                                                                                                &nbsp;<span id="spnRequiredCableLength" style="color: Red; display: none;" runat="server">*</span>
+                                                                                            </td>
+                                                                                            <td align="center">:
+                                                                                            </td>
+                                                                                            <td align="left" style="width: 28%; padding-left: 3px">
+                                                                                                <asp:DropDownList runat="server" ID="ddlRequiredCableLength" Width="170px"></asp:DropDownList>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td align="left">Power Service&nbsp;<span id="spnPowerService" style="color: Red; display: none;" runat="server">*</span>
+                                                                                            </td>
+                                                                                            <td align="center">:
+                                                                                            </td>
+                                                                                            <td align="left" style="width: 28%; padding-left: 3px">
+                                                                                                <asp:DropDownList runat="server" ID="ddlPowerService" Width="170px"></asp:DropDownList>
+                                                                                            </td>
+                                                                                            <td align="left" style="padding-left: 9px;">
+                                                                                                <asp:Label ID="lblRequiredCableLengthOther" runat="server" Text="Required Cable Length, Other"></asp:Label>
+                                                                                                &nbsp;<span id="spnRequiredCableLengthOther" style="color: Red; display: none;" runat="server">*</span>
+                                                                                            </td>
+                                                                                            <td align="center">:
+                                                                                            </td>
+                                                                                            <td align="left" style="width: 28%; padding-left: 3px">
+                                                                                                <asp:TextBox runat="server" ID="txtRequiredCableLengthOther" Width="170px" MaxLength="50"></asp:TextBox>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td height="4"></td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td align="left">Power Service, Other&nbsp;<span id="spnPowerServiceOther" style="color: Red; display: none;" runat="server">*</span>
+                                                                                            </td>
+                                                                                            <td align="center">:
+                                                                                            </td>
+                                                                                            <td align="left" style="width: 28%; padding-left: 3px">
+                                                                                                <asp:TextBox runat="server" ID="txtPowerServiceOther" Width="170px" MaxLength="50"></asp:TextBox>
+                                                                                            </td>
+                                                                                            <td align="left" style="padding-left: 9px;">Total Amperage Required<span id="spnTotalAmperageRequired" style="color: Red; display: none;" runat="server">*</span>
+                                                                                            </td>
+                                                                                            <td align="center">:
+                                                                                            </td>
+                                                                                            <td align="left" style="width: 28%; padding-left: 3px">
+                                                                                                <asp:TextBox runat="server" ID="txtTotalAmperageRequired" Width="170px" MaxLength="50"></asp:TextBox>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="Spacer" style="height: 10px;"></td>
+                                                                            </tr>
+                                                                            <%--<tr>
                                                                 <td align="left" valign="top">
                                                                     <b>GGKL Renewal Information Grid</b><br />
                                                                     <asp:LinkButton ID="lnkAddNewGGKL" runat="server" Text="--Add--" OnClick="lnkAddNewGGKL_Click" />
@@ -3813,95 +3813,95 @@ function ValidateFieldsOwnership(sender, args) {
                                                             <tr>
                                                                 <td class="Spacer" style="height: 10px;"></td>
                                                             </tr>--%>
-                                                            <tr>
-                                                                <td align="left" colspan="6">
-                                                                    <b>Other Building Attachments</b><br />
-                                                                    <i>Click to view detail</i>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="Spacer" style="height: 10px;"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td style="width: 100%;" colspan="6">
-                                                                    <asp:GridView ID="gvBuildingAttachmentDetails" runat="server" Width="100%" OnRowDataBound="gvBuildingAttachmentDetails_RowDataBound"
-                                                                        OnRowCommand="gvBuildingAttachmentDetails_RowCommand" EmptyDataText="Currently there is no attachment<br/>Please add one or more attachment">
-                                                                        <Columns>
-                                                                            <asp:TemplateField HeaderText="File Name">
-                                                                                <ItemStyle Width="35%" />
-                                                                                <ItemTemplate>
-                                                                                    <a id="lnkBuildingAttachFile" runat="server" href="#">
-                                                                                        <%# Eval("FileName").ToString().Substring(12, (Eval("FileName").ToString().Length-1) - 11)%>
-                                                                                    </a>
-                                                                                </ItemTemplate>
-                                                                            </asp:TemplateField>
-                                                                            <asp:TemplateField HeaderText="Type">
-                                                                                <ItemStyle Width="35%" />
-                                                                                <ItemTemplate>
-                                                                                    <%# Eval("Type") %>
-                                                                                </ItemTemplate>
-                                                                            </asp:TemplateField>
-                                                                            <asp:TemplateField HeaderText="Remove">
-                                                                                <ItemStyle Width="30%" />
-                                                                                <ItemTemplate>
-                                                                                    <asp:LinkButton ID="lnkRemoveAttachment" runat="server" Text="Remove" CommandArgument='<%#Eval("PK_Building_Attachments_ID") + ":" + Eval("FileName") %>'
-                                                                                        CommandName="RemoveAttachment" OnClientClick="return ConfirmRemove();" />
-                                                                                </ItemTemplate>
-                                                                            </asp:TemplateField>
-                                                                        </Columns>
-                                                                    </asp:GridView>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="Spacer" style="height: 10px;"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="left" colspan="6">
-                                                                    <a href="javascript:CheckBeforeAddBuildingAttach();">Add New</a>
-                                                                    <input type="hidden" id="hdnBuildingID" runat="server" />
-                                                                </td>
-                                                            </tr>
-                                                            <tr id="trBuildingAttachment" runat="server" style="display: none;">
-                                                                <td align="left" colspan="6">
-                                                                    <uc:ctrlAttachment runat="server" ID="BuildingAttachment" OnFileSelection="Upload_Building_Attachment" />
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="left" colspan="6">Other Building Comments&nbsp;<span id="Span104" style="color: Red; display: none;"
-                                                                    runat="server">*</span>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="left" colspan="6">
-                                                                    <uc:ctrlMultiLineTextBox runat="server" ID="txtComments" ControlType="textbox" />
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td colspan="6" width="100%" align="center">
-                                                                    <table>
-                                                                        <tr>
-                                                                            <td align="right">
-                                                                                <asp:Button runat="server" ID="btnBuildingInformationSave" Text="Save & Next" OnClick="btnBuildingInformationSave_Click"
-                                                                                    CausesValidation="true" ValidationGroup="vsErrorBuilding" />&nbsp;
-                                                                            </td>
-                                                                            <td>
-                                                                                <asp:Button ID="btnViewAuditBuilding" runat="server" Text="View Audit Trail" OnClientClick="javascript:return AuditPopUp('Building');"
-                                                                                    Visible="false" />
-                                                                            </td>
-                                                                            <td align="center">
-                                                                                <asp:Button ID="btnOwnerShip" runat="server" Text="Ownership Details" OnClick="btnBuildingInformationSave_Click"
-                                                                                    CausesValidation="true" ValidationGroup="vsErrorBuilding" />
-                                                                            </td>
-                                                                            <td align="center">
-                                                                                <asp:Button ID="btnShowChangeBuildingLocationScreen" runat="server" Text="Change Building Location" OnClick="btnBuildingInformationSave_Click"
-                                                                                    CausesValidation="true" ValidationGroup="vsErrorBuilding" style="display:none;"/>
-                                                                            </td>
-                                                                        </tr>
-                                                                    </table>
-                                                                </td>
-                                                            </tr>
-                                                        </table>
-                                                        </div>
+                                                                            <tr>
+                                                                                <td align="left" colspan="6">
+                                                                                    <b>Other Building Attachments</b><br />
+                                                                                    <i>Click to view detail</i>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="Spacer" style="height: 10px;"></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td style="width: 100%;" colspan="6">
+                                                                                    <asp:GridView ID="gvBuildingAttachmentDetails" runat="server" Width="100%" OnRowDataBound="gvBuildingAttachmentDetails_RowDataBound"
+                                                                                        OnRowCommand="gvBuildingAttachmentDetails_RowCommand" EmptyDataText="Currently there is no attachment<br/>Please add one or more attachment">
+                                                                                        <Columns>
+                                                                                            <asp:TemplateField HeaderText="File Name">
+                                                                                                <ItemStyle Width="35%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <a id="lnkBuildingAttachFile" runat="server" href="#">
+                                                                                                        <%# Eval("FileName").ToString().Substring(12, (Eval("FileName").ToString().Length-1) - 11)%>
+                                                                                                    </a>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                            <asp:TemplateField HeaderText="Type">
+                                                                                                <ItemStyle Width="35%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <%# Eval("Type") %>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                            <asp:TemplateField HeaderText="Remove">
+                                                                                                <ItemStyle Width="30%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <asp:LinkButton ID="lnkRemoveAttachment" runat="server" Text="Remove" CommandArgument='<%#Eval("PK_Building_Attachments_ID") + ":" + Eval("FileName") %>'
+                                                                                                        CommandName="RemoveAttachment" OnClientClick="return ConfirmRemove();" />
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                        </Columns>
+                                                                                    </asp:GridView>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="Spacer" style="height: 10px;"></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td align="left" colspan="6">
+                                                                                    <a href="javascript:CheckBeforeAddBuildingAttach();">Add New</a>
+                                                                                    <input type="hidden" id="hdnBuildingID" runat="server" />
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr id="trBuildingAttachment" runat="server" style="display: none;">
+                                                                                <td align="left" colspan="6">
+                                                                                    <uc:ctrlAttachment runat="server" ID="BuildingAttachment" OnFileSelection="Upload_Building_Attachment" />
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td align="left" colspan="6">Other Building Comments&nbsp;<span id="Span104" style="color: Red; display: none;"
+                                                                                    runat="server">*</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td align="left" colspan="6">
+                                                                                    <uc:ctrlMultiLineTextBox runat="server" ID="txtComments" ControlType="textbox" />
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td colspan="6" width="100%" align="center">
+                                                                                    <table>
+                                                                                        <tr>
+                                                                                            <td align="right">
+                                                                                                <asp:Button runat="server" ID="btnBuildingInformationSave" Text="Save & Next" OnClick="btnBuildingInformationSave_Click"
+                                                                                                    CausesValidation="true" ValidationGroup="vsErrorBuilding" />&nbsp;
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <asp:Button ID="btnViewAuditBuilding" runat="server" Text="View Audit Trail" OnClientClick="javascript:return AuditPopUp('Building');"
+                                                                                                    Visible="false" />
+                                                                                            </td>
+                                                                                            <td align="center">
+                                                                                                <asp:Button ID="btnOwnerShip" runat="server" Text="Ownership Details" OnClick="btnBuildingInformationSave_Click"
+                                                                                                    CausesValidation="true" ValidationGroup="vsErrorBuilding" />
+                                                                                            </td>
+                                                                                            <td align="center">
+                                                                                                <asp:Button ID="btnShowChangeBuildingLocationScreen" runat="server" Text="Change Building Location" OnClick="btnBuildingInformationSave_Click"
+                                                                                                    CausesValidation="true" ValidationGroup="vsErrorBuilding" Style="display: none;" />
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -3909,32 +3909,36 @@ function ValidateFieldsOwnership(sender, args) {
                                                                     <div id="dvChangeBuilding" runat="server" style="display: none;">
                                                                         <table cellpadding="2" cellspacing="0" width="100%">
                                                                             <tr>
-                                                                                <td>
-                                                                                    Existing Location Number
+                                                                                <td>Existing Location Number
                                                                                 </td>
-                                                                                <td width="2%">
-                                                                                    :
+                                                                                <td width="2%">:
                                                                                 </td>
                                                                                 <td>
-                                                                                    <asp:TextBox ID="txtExistingLocation" runat="server"  autocomplete="off" SkinID="txtDisabled"></asp:TextBox>
+                                                                                    <asp:TextBox ID="txtExistingLocation" runat="server" autocomplete="off" SkinID="txtDisabled"></asp:TextBox>
                                                                                 </td>
-                                                                                  <td>
-                                                                                    Existing Building Number
+                                                                                <%--<td>New Location Number
+                                                                                    <span id="Span120" style="color: Red;" runat="server">*</span>
                                                                                 </td>
-                                                                                <td width="2%">
-                                                                                    :
+                                                                                <td width="2%">:
+                                                                                </td>
+                                                                                <td>
+                                                                                    <asp:DropDownList ID="drpLocation" runat="server" SkinID="propertyBuilding"></asp:DropDownList>
+                                                                                    <asp:RequiredFieldValidator ID="rfvdrpLocation" runat="server" ControlToValidate="drpLocation"
+                                                                                        InitialValue="0" Display="None" ValidationGroup="vsErrorBuildingInfo" ErrorMessage="Please select New Location Number"></asp:RequiredFieldValidator>
+                                                                                </td>      --%>                                                                          
+                                                                                <%--<td>Existing Building Number
+                                                                                </td>
+                                                                                <td width="2%">:
                                                                                 </td>
                                                                                 <td>
                                                                                     <asp:TextBox ID="txtExistingBuilding" runat="server" autocomplete="off" SkinID="txtDisabled"></asp:TextBox>
-                                                                                </td>
+                                                                                </td>--%>
                                                                             </tr>
                                                                             <tr>
-                                                                                <td>
-                                                                                    New Location Number
+                                                                                <td>New Location Number
                                                                                     <span id="Span120" style="color: Red;" runat="server">*</span>
                                                                                 </td>
-                                                                                <td width="2%">
-                                                                                    :
+                                                                                <td width="2%">:
                                                                                 </td>
                                                                                 <td>
                                                                                     <asp:DropDownList ID="drpLocation" runat="server" SkinID="propertyBuilding" ></asp:DropDownList>
@@ -3942,18 +3946,173 @@ function ValidateFieldsOwnership(sender, args) {
                                                                                         InitialValue="0" Display="None" ValidationGroup="vsErrorBuildingInfo" ErrorMessage="Please select New Location Number"></asp:RequiredFieldValidator>
                                                                                 </td>
                                                                             </tr>
-                                                                             <tr>
+                                                                            <tr runat="server" visible="false" id="trBuildings">
+                                                                                <td>Building&nbsp;<span id="spnBuilding" style="color: Red; display: none;"
+                                                                                    runat="server">*</span>
+                                                                                </td>
+                                                                                <td width="2%">:
+                                                                                </td>
+                                                                                <td colspan="4">
+                                                                                    <asp:CheckBoxList ID="cblBuildingList" runat="server" RepeatDirection="Vertical"
+                                                                                        RepeatLayout="Flow" RepeatColumns="1" OnSelectedIndexChanged="cblBuildingList_SelectedIndexChanged" AutoPostBack="true">
+                                                                                    </asp:CheckBoxList>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="Spacer" style="height: 8px;" colspan="6"></td>
+                                                                            </tr>
+                                                                            <tr runat="server" visible="false" id="trProjectDetails">
+                                                                                <td align="left" valign="top">Construction Project
+                                                                                </td>
+                                                                                <td align="center" valign="top">:
+                                                                                </td>
+                                                                                <td align="left" valign="top" colspan="4">
+                                                                                    <asp:GridView ID="gvProjectList" runat="server" Width="100%" EmptyDataText="No Record Found" AllowSorting="false" HeaderStyle-VerticalAlign="Top">
+                                                                                        <Columns>
+                                                                                            <asp:TemplateField HeaderText="Project Number" SortExpression="Project_Number">
+                                                                                                <ItemStyle Width="10%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <span style="word-break: break-all; word-wrap: normal; display: inline-block;"><%# Eval("Project_Number") %></span>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                            <asp:TemplateField HeaderText="Title" SortExpression="Title">
+                                                                                                <ItemStyle Width="15%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <span style="word-break: break-all; word-wrap: normal; display: inline-block;"><%# Eval("Title") %></span>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                            <asp:TemplateField HeaderText="Building" SortExpression="Building_Number">
+                                                                                                <ItemStyle Width="10%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <span style="word-break: break-all; word-wrap: normal; display: inline-block;"><%# DBNull.Value.Equals(Eval("Building_Number")) ? "" : Convert.ToString(Eval("Building_Number")).Trim(',') %></span>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                            <asp:TemplateField HeaderText="Project Type" SortExpression="Type_Description">
+                                                                                                <ItemStyle Width="15%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <span style="word-break: break-all; word-wrap: normal; display: inline-block;"><%# Eval("Type_Description") %></span>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                        </Columns>
+                                                                                    </asp:GridView>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="Spacer" style="height: 8px;" colspan="6"></td>
+                                                                            </tr>
+                                                                            <tr runat="server" visible="false" id="trBuildingImprovementsDetails">
+                                                                                <td align="left" valign="top">Building Improvements
+                                                                                </td>
+                                                                                <td align="center" valign="top">:
+                                                                                </td>
+                                                                                <td align="left" valign="top" colspan="4">
+                                                                                    <asp:GridView ID="gvImprovementDetails" runat="server" Width="100%" EmptyDataText="No Record Found">
+                                                                                        <Columns>
+                                                                                            <asp:TemplateField HeaderText="Building" SortExpression="Building_Number">
+                                                                                                <ItemStyle Width="10%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <span><%#Eval("Building_Number")%></span>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                            <asp:TemplateField HeaderText="Project Number" SortExpression="Project_Number">
+                                                                                                <ItemStyle Width="10%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <span><%#Eval("Project_Number")%></span>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                            <asp:TemplateField HeaderText="Project Type" SortExpression="Type_Description">
+                                                                                                <ItemStyle Width="10%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <span><%#Eval("Type_Description")%></span>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                            <asp:TemplateField HeaderText="Project Description" SortExpression="Project_Description">
+                                                                                                <ItemStyle Width="15%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <span><%#Eval("Project_Description")%></span>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                            <asp:TemplateField HeaderText="Start Date" SortExpression="Start_Date">
+                                                                                                <ItemStyle Width="10%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <span><%#clsGeneral.FormatDBNullDateToDisplay(Eval("Start_Date"))%></span>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                            <asp:TemplateField HeaderText="Target Date" SortExpression="Target_Completion_Date">
+                                                                                                <ItemStyle Width="10%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <span><%#clsGeneral.FormatDBNullDateToDisplay(Eval("Target_Completion_Date"))%></span>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                        </Columns>
+                                                                                    </asp:GridView>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="Spacer" style="height: 8px;" colspan="6"></td>
+                                                                            </tr>
+                                                                            <tr runat="server" visible="false" id="trEPMDetails">
+                                                                                <td align="left" valign="top">EPM
+                                                                                </td>
+                                                                                <td align="center" valign="top">:
+                                                                                </td>
+                                                                                <td align="left" valign="top" colspan="4">
+                                                                                    <asp:GridView ID="gvEPM" runat="server" Width="100%" AutoGenerateColumns="False">
+                                                                                        <Columns>
+                                                                                            <asp:TemplateField HeaderText="Project Number" SortExpression="Project_Number">
+                                                                                                <ItemStyle Width="10%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <span><%# Eval("Project_Number") %></span>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                            <asp:TemplateField HeaderText="Building(s)" SortExpression="Buildings">
+                                                                                                <ItemStyle Width="10%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <span><%# Convert.ToString(Eval("Buildings")).Replace(",","</br>")%></span>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                            <asp:TemplateField HeaderText="Building Description" SortExpression="BuildingDetails">
+                                                                                                <ItemStyle Width="20%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <span><%# Eval("BuildingDetails")%></span>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                            <asp:TemplateField HeaderText="Project Type" SortExpression="Project_Type">
+                                                                                                <ItemStyle Width="10%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <span><%# Eval("Project_Type") %></span>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                            <asp:TemplateField HeaderText="Status" SortExpression="Project_Status">
+                                                                                                <ItemStyle Width="10%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <span><%# string.Format("{0:C2}",Eval("Project_Status")) %></span>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                        </Columns>
+                                                                                        <EmptyDataTemplate>
+                                                                                            <table width="100%">
+                                                                                                <tr>
+                                                                                                    <td align="center">
+                                                                                                        <asp:Label ID="lblMsg" runat="server" SkinID="Message" Text="No records found."></asp:Label>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            </table>
+                                                                                        </EmptyDataTemplate>
+                                                                                        <HeaderStyle VerticalAlign="Top" />
+                                                                                    </asp:GridView>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
                                                                                 <td class="Spacer" style="height: 8px;" colspan="6"></td>
                                                                             </tr>
                                                                             <tr>
                                                                                 <td align="center" colspan="6">
                                                                                     <asp:Button runat="server" ID="btnConfirmBuildingInfo" Text="Confirm" OnClick="btnConfirmBuildingInfo_Click"
-                                                                                        CausesValidation="true" OnClientClick="javascript:return ValidateBuildingInfo();" />&nbsp;&nbsp;
-                                                                                             
+                                                                                        CausesValidation="true" OnClientClick="javascript:return ValidateBuildingInfo();" Enabled="false" />&nbsp;&nbsp;                                                                                             
                                                                                     <asp:Button ID="btnCancelBuildingInfo" runat="server" Text="Cancel" OnClick="btnCancelBuildingInfo_Click" />
                                                                                 </td>
                                                                             </tr>
-                                                                           
                                                                         </table>
                                                                     </div>
                                                                 </td>
@@ -5058,6 +5217,13 @@ function ValidateFieldsOwnership(sender, args) {
                                                                                         CommandArgument='<%#Eval("PK_Building_Improvements")%>' CommandName="ShowDetails" />
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
+                                                                            <asp:TemplateField HeaderText="Project Type" SortExpression="Type_Description">
+                                                                                <ItemStyle Width="15%" />
+                                                                                <ItemTemplate>
+                                                                                    <asp:LinkButton ID="lnkProjectType" runat="server" Text='<%#Eval("Type_Description")%>'
+                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements")%>' CommandName="ShowDetails" />
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>
                                                                             <asp:TemplateField HeaderText="Project Description" SortExpression="Project_Description">
                                                                                 <ItemStyle Width="35%" />
                                                                                 <ItemTemplate>
@@ -5358,14 +5524,14 @@ function ValidateFieldsOwnership(sender, args) {
                                                                         Text="Add New" CausesValidation="false" />
                                                                 </td>
                                                             </tr>
-                                                             <tr>
+                                                            <tr>
                                                                 <td class="Spacer" style="height: 10px;"></td>
                                                             </tr>
                                                             <tr>
                                                                 <td align="left" colspan="6">
                                                                     <b>Fire Alarm Monitoring Company</b>
                                                                 </td>
-                                                            </tr>                                                            
+                                                            </tr>
                                                             <tr>
                                                                 <td align="center" colspan="6">
                                                                     <table cellpadding="0" cellspacing="0" border="0">
@@ -5427,7 +5593,7 @@ function ValidateFieldsOwnership(sender, args) {
                                                                             <td align="center">:
                                                                             </td>
                                                                             <td align="left" style="width: 28%; padding-left: 3px">
-                                                                                <asp:TextBox runat="server" ID="txtZipCode" Width="170px" MaxLength="10" onKeyPress="javascript:return FormatZipCode(event,this.id);" ></asp:TextBox>
+                                                                                <asp:TextBox runat="server" ID="txtZipCode" Width="170px" MaxLength="10" onKeyPress="javascript:return FormatZipCode(event,this.id);"></asp:TextBox>
                                                                                 <asp:RegularExpressionValidator ID="RegularExpressionValidator6" runat="server" ErrorMessage="Please Enter Zip Code in xxxxx-xxxx format."
                                                                                     ValidationGroup="vsErrorContact" SetFocusOnError="true" ControlToValidate="txtZipCode"
                                                                                     ValidationExpression="\b[0-9]{5}-[0-9]{4}\b|\b[0-9]{5}\b" Display="none" Enabled="true" />
@@ -5988,34 +6154,34 @@ function OpenOrRemoveCOI(bChecked, type) {
         }
         if (type == 'EQ') {
             document.getElementById('<%=lnkCOI_EQ.ClientID%>').innerHTML = "Add";
-                    document.getElementById('<%=hdnCOI_EQ_Date.ClientID%>').value = "";
-                    document.getElementById('<%=lblCOI_EQ_Date.ClientID%>').innerHTML = '';
-                }
-                if (type == 'Waiver') {
-                    document.getElementById('<%=lnkCOI_Waiver.ClientID%>').innerHTML = "Add";
-                    document.getElementById('<%=hdnCOI_Waiver_Date.ClientID%>').value = "";
-                    document.getElementById('<%=lblCOI_Waiver_Date.ClientID%>').innerHTML = '';
-                }
-            }
-            else {
-                var popUpTitle = 'Attach Sub-Tenant Certificate of Insurance';
-                var PopUpURL = '<%=AppConfig.SiteURL%>SONIC/Exposures/PropertyAddCOI.aspx';
-                if (type == 'WC')
-                    GB_showCenter(popUpTitle, PopUpURL + '?lnk=<%=lnkCOI_WC.ClientID%>&hdn=<%=hdnCOI_WC.ClientID%>&chk=<%=chkWCTenant.ClientID%>&dtID=<%=lblCOI_WC_Date.ClientID%>', 300, 500);
-                else if (type == 'EL')
-                    GB_showCenter(popUpTitle, PopUpURL + '?lnk=<%=lnkCOI_EL.ClientID%>&hdn=<%=hdnCOI_EL.ClientID%>&chk=<%=chkELTenant.ClientID%>&dtID=<%=lblCOI_EL_Date.ClientID%>', 300, 500);
-                else if (type == 'GL')
-                    GB_showCenter(popUpTitle, PopUpURL + '?lnk=<%=lnkCOI_GL.ClientID%>&hdn=<%=hdnCOI_GL.ClientID%>&chk=<%=chkGLTenant.ClientID%>&dtID=<%=lblCOI_GL_Date.ClientID%>', 300, 500);
-                else if (type == 'Pollution')
-                    GB_showCenter(popUpTitle, PopUpURL + '?lnk=<%=lnkCOI_Pollution.ClientID%>&hdn=<%=hdnCOI_Pollution.ClientID%>&chk=<%=chkPollutionTenant.ClientID%>&dtID=<%=lblCOI_Pollution_Date.ClientID%>', 300, 500);
-                else if (type == 'Property')
-                    GB_showCenter(popUpTitle, PopUpURL + '?lnk=<%=lnkCOI_Property.ClientID%>&hdn=<%=hdnCOI_Property.ClientID%>&chk=<%=chkPropertyTenant.ClientID%>&dtID=<%=lblCOI_Property_Date.ClientID%>', 300, 500);
-                else if (type == 'Flood')
-                    GB_showCenter(popUpTitle, PopUpURL + '?lnk=<%=lnkCOI_Flood.ClientID%>&hdn=<%=hdnCOI_Flood.ClientID%>&chk=<%=chkFloodTenant.ClientID%>&dtID=<%=lblCOI_Flood_Date.ClientID%>', 300, 500);
-                else if (type == 'EQ')
-                    GB_showCenter(popUpTitle, PopUpURL + '?lnk=<%=lnkCOI_EQ.ClientID%>&hdn=<%=hdnCOI_EQ.ClientID%>&chk=<%=chkEQTenant.ClientID%>&dtID=<%=lblCOI_EQ_Date.ClientID%>', 300, 500);
-                else if (type == 'Waiver')
-                    GB_showCenter(popUpTitle, PopUpURL + '?lnk=<%=lnkCOI_Waiver.ClientID%>&hdn=<%=hdnCOI_Waiver.ClientID%>&chk=<%=chkWaiverTenant.ClientID%>&dtID=<%=lblCOI_Waiver_Date.ClientID%>', 300, 500);
+            document.getElementById('<%=hdnCOI_EQ_Date.ClientID%>').value = "";
+            document.getElementById('<%=lblCOI_EQ_Date.ClientID%>').innerHTML = '';
+        }
+        if (type == 'Waiver') {
+            document.getElementById('<%=lnkCOI_Waiver.ClientID%>').innerHTML = "Add";
+            document.getElementById('<%=hdnCOI_Waiver_Date.ClientID%>').value = "";
+            document.getElementById('<%=lblCOI_Waiver_Date.ClientID%>').innerHTML = '';
+        }
+    }
+    else {
+        var popUpTitle = 'Attach Sub-Tenant Certificate of Insurance';
+        var PopUpURL = '<%=AppConfig.SiteURL%>SONIC/Exposures/PropertyAddCOI.aspx';
+        if (type == 'WC')
+            GB_showCenter(popUpTitle, PopUpURL + '?lnk=<%=lnkCOI_WC.ClientID%>&hdn=<%=hdnCOI_WC.ClientID%>&chk=<%=chkWCTenant.ClientID%>&dtID=<%=lblCOI_WC_Date.ClientID%>', 300, 500);
+        else if (type == 'EL')
+            GB_showCenter(popUpTitle, PopUpURL + '?lnk=<%=lnkCOI_EL.ClientID%>&hdn=<%=hdnCOI_EL.ClientID%>&chk=<%=chkELTenant.ClientID%>&dtID=<%=lblCOI_EL_Date.ClientID%>', 300, 500);
+        else if (type == 'GL')
+            GB_showCenter(popUpTitle, PopUpURL + '?lnk=<%=lnkCOI_GL.ClientID%>&hdn=<%=hdnCOI_GL.ClientID%>&chk=<%=chkGLTenant.ClientID%>&dtID=<%=lblCOI_GL_Date.ClientID%>', 300, 500);
+        else if (type == 'Pollution')
+            GB_showCenter(popUpTitle, PopUpURL + '?lnk=<%=lnkCOI_Pollution.ClientID%>&hdn=<%=hdnCOI_Pollution.ClientID%>&chk=<%=chkPollutionTenant.ClientID%>&dtID=<%=lblCOI_Pollution_Date.ClientID%>', 300, 500);
+        else if (type == 'Property')
+            GB_showCenter(popUpTitle, PopUpURL + '?lnk=<%=lnkCOI_Property.ClientID%>&hdn=<%=hdnCOI_Property.ClientID%>&chk=<%=chkPropertyTenant.ClientID%>&dtID=<%=lblCOI_Property_Date.ClientID%>', 300, 500);
+        else if (type == 'Flood')
+            GB_showCenter(popUpTitle, PopUpURL + '?lnk=<%=lnkCOI_Flood.ClientID%>&hdn=<%=hdnCOI_Flood.ClientID%>&chk=<%=chkFloodTenant.ClientID%>&dtID=<%=lblCOI_Flood_Date.ClientID%>', 300, 500);
+        else if (type == 'EQ')
+            GB_showCenter(popUpTitle, PopUpURL + '?lnk=<%=lnkCOI_EQ.ClientID%>&hdn=<%=hdnCOI_EQ.ClientID%>&chk=<%=chkEQTenant.ClientID%>&dtID=<%=lblCOI_EQ_Date.ClientID%>', 300, 500);
+        else if (type == 'Waiver')
+            GB_showCenter(popUpTitle, PopUpURL + '?lnk=<%=lnkCOI_Waiver.ClientID%>&hdn=<%=hdnCOI_Waiver.ClientID%>&chk=<%=chkWaiverTenant.ClientID%>&dtID=<%=lblCOI_Waiver_Date.ClientID%>', 300, 500);
 
 }
 }
@@ -6029,8 +6195,8 @@ function ShowHideLeaseAttachment() {
     document.getElementById('<%=trLeaseAttachment.ClientID%>').style.display = "";
 }
 
- function CheckBeforeAddBuildingAttach() {
-            var PK = document.getElementById('<%=hdnBuildingID.ClientID%>').value;
+function CheckBeforeAddBuildingAttach() {
+    var PK = document.getElementById('<%=hdnBuildingID.ClientID%>').value;
     if (PK > 0)
         ShowHideBuildingAttachment();
     else {
@@ -6086,14 +6252,14 @@ function ShowHideLimits(bChecked, type) {
         document.getElementById('<%=tblGLLimit.ClientID%>').style.display = bChecked ? "" : "none";
     else if (type == 'Pollution')
         document.getElementById('<%=tblPollutionLimit.ClientID%>').style.display = bChecked ? "" : "none";
-            else if (type == 'Property')
-                document.getElementById('<%=tblPropertyLimit.ClientID%>').style.display = bChecked ? "" : "none";
-            else if (type == 'Flood')
-                document.getElementById('<%=tblFloodLimit.ClientID%>').style.display = bChecked ? "" : "none";
-            else if (type == 'EQ')
-                document.getElementById('<%=tblEQLimit.ClientID%>').style.display = bChecked ? "" : "none";
-            else if (type == 'Waiver')
-                document.getElementById('<%=tblWaiverLimit.ClientID%>').style.display = bChecked ? "" : "none";
+    else if (type == 'Property')
+        document.getElementById('<%=tblPropertyLimit.ClientID%>').style.display = bChecked ? "" : "none";
+    else if (type == 'Flood')
+        document.getElementById('<%=tblFloodLimit.ClientID%>').style.display = bChecked ? "" : "none";
+    else if (type == 'EQ')
+        document.getElementById('<%=tblEQLimit.ClientID%>').style.display = bChecked ? "" : "none";
+    else if (type == 'Waiver')
+        document.getElementById('<%=tblWaiverLimit.ClientID%>').style.display = bChecked ? "" : "none";
 
 }
 

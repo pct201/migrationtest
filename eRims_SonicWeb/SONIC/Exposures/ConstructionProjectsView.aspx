@@ -292,7 +292,7 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top" width="20%">Project Title
+                                                        <td align="left" valign="top" width="20%">Project Title&nbsp;<span id="spnTitle" style="color: Red; display: none;" runat="server">*</span>
                                                         </td>
                                                         <td align="center" valign="top" width="4%">:
                                                         </td>

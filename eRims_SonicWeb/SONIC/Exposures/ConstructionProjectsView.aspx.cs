@@ -390,111 +390,124 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
     /// <param name="e">Event Argument</param>
     protected void btnSave_Click(object sender, EventArgs e)
     {
-        Facility_Construction_Project facility_Construction_Project = new Facility_Construction_Project();
-
-        if (!string.IsNullOrEmpty(txtEstimatedEndDate.Text.Trim()))
+        int checkProjectNumberExists = 0;
+        if (!string.IsNullOrEmpty(txtProjectNumber.Text))
         {
-            facility_Construction_Project.Estimated_Completion_Date = Convert.ToDateTime(txtEstimatedEndDate.Text.Trim());
+            checkProjectNumberExists = Facility_Construction_Project.CheckProjectNumberAlreadyExists(ConstructionProjectId > 0 ? ConstructionProjectId : 0, txtProjectNumber.Text.Trim());            
+        }
+
+        if (checkProjectNumberExists > 0)
+        {
+            Page.ClientScript.RegisterStartupScript(this.GetType(), "Message", "javascript:alert('Project number is already existed so please create another project number.');", true);
         }
         else
         {
-            facility_Construction_Project.Estimated_Completion_Date = null;
-        }
+            Facility_Construction_Project facility_Construction_Project = new Facility_Construction_Project();
 
-        if (!string.IsNullOrEmpty(txtEstimatedStartDate.Text.Trim()))
-        {
-            facility_Construction_Project.Estimated_Start_Date = Convert.ToDateTime(txtEstimatedStartDate.Text.Trim());
-        }
-        else
-        {
-            facility_Construction_Project.Estimated_Start_Date = null;
-        }
-
-        if (!string.IsNullOrEmpty(txtProjectNumber.Text.Trim()))
-        {
-            facility_Construction_Project.Project_Number = Convert.ToString(txtProjectNumber.Text.Trim());
-        }
-        else
-        {
-            facility_Construction_Project.Project_Number = null;
-        }
-
-        if (!string.IsNullOrEmpty(txtProjectDescription.Text.Trim()))
-        {
-            facility_Construction_Project.Project_Description = Convert.ToString(txtProjectDescription.Text.Trim());
-        }
-        else
-        {
-            facility_Construction_Project.Project_Description = null;
-        }
-
-        if (!string.IsNullOrEmpty(txtTitle.Text.Trim()))
-        {
-            facility_Construction_Project.Title = Convert.ToString(txtTitle.Text.Trim());
-        }
-        else
-        {
-            facility_Construction_Project.Title = null;
-        }
-
-        facility_Construction_Project.FK_Location = LocationID;
-        facility_Construction_Project.FK_LU_Facility_Project_Type = Convert.ToDecimal(ddProjectType.SelectedValue);
-        facility_Construction_Project.UpdatedBy = clsSession.UserID;
-        facility_Construction_Project.UpdatedDate = DateTime.Now;
-
-        string selectedBuildings = "";
-        for (int i = 0; i < cblBuildingList.Items.Count; i++)
-        {
-            if (cblBuildingList.Items[i].Selected)
+            if (!string.IsNullOrEmpty(txtEstimatedEndDate.Text.Trim()))
             {
-                selectedBuildings += cblBuildingList.Items[i].Value.ToString() + ",";
-            }
-        }
-
-        if (!string.IsNullOrEmpty(selectedBuildings))
-        {
-            DataTable dtAssignedBuildings = Facility_Construction_PM_Buildings.SelectAssignedProjectsByBuilding(selectedBuildings.Substring(0, selectedBuildings.LastIndexOf(",")), ConstructionProjectId > 0 ? ConstructionProjectId : 0).Tables[0];
-
-            if (dtAssignedBuildings != null && dtAssignedBuildings.Rows.Count > 0)
-            {
-                string associatedBuildings = string.Empty;
-                foreach (DataRow dr in dtAssignedBuildings.Rows)
-                {
-                    associatedBuildings +=  " " + Convert.ToString(dr["Building_Number"]) + " is already tied to this "+ HttpUtility.UrlEncode(Convert.ToString(dr["Title"]).Replace("'", "")) +" project. \\n";
-                }
-
-                Page.ClientScript.RegisterStartupScript(this.GetType(), "Message", "javascript:alert('" + associatedBuildings + "');", true);
+                facility_Construction_Project.Estimated_Completion_Date = Convert.ToDateTime(txtEstimatedEndDate.Text.Trim());
             }
             else
             {
-                if (ConstructionProjectId > 0)
+                facility_Construction_Project.Estimated_Completion_Date = null;
+            }
+
+            if (!string.IsNullOrEmpty(txtEstimatedStartDate.Text.Trim()))
+            {
+                facility_Construction_Project.Estimated_Start_Date = Convert.ToDateTime(txtEstimatedStartDate.Text.Trim());
+            }
+            else
+            {
+                facility_Construction_Project.Estimated_Start_Date = null;
+            }
+
+            if (!string.IsNullOrEmpty(txtProjectNumber.Text.Trim()))
+            {
+                facility_Construction_Project.Project_Number = Convert.ToString(txtProjectNumber.Text.Trim());
+            }
+            else
+            {
+                facility_Construction_Project.Project_Number = null;
+            }
+
+            if (!string.IsNullOrEmpty(txtProjectDescription.Text.Trim()))
+            {
+                facility_Construction_Project.Project_Description = Convert.ToString(txtProjectDescription.Text.Trim());
+            }
+            else
+            {
+                facility_Construction_Project.Project_Description = null;
+            }
+
+            if (!string.IsNullOrEmpty(txtTitle.Text.Trim()))
+            {
+                facility_Construction_Project.Title = Convert.ToString(txtTitle.Text.Trim());
+            }
+            else
+            {
+                facility_Construction_Project.Title = null;
+            }
+
+            facility_Construction_Project.FK_Location = LocationID;
+            facility_Construction_Project.FK_LU_Facility_Project_Type = Convert.ToDecimal(ddProjectType.SelectedValue);
+            facility_Construction_Project.UpdatedBy = clsSession.UserID;
+            facility_Construction_Project.UpdatedDate = DateTime.Now;
+
+            string selectedBuildings = "";
+            for (int i = 0; i < cblBuildingList.Items.Count; i++)
+            {
+                if (cblBuildingList.Items[i].Selected)
                 {
-                    facility_Construction_Project.PK_Facility_construction_Project = ConstructionProjectId;
-                    facility_Construction_Project.Update();
-                    DeleteBuildings();
-                    SaveBuildings();
+                    selectedBuildings += cblBuildingList.Items[i].Value.ToString() + ",";
+                }
+            }
+
+            if (!string.IsNullOrEmpty(selectedBuildings))
+            {
+                DataTable dtAssignedBuildings = Facility_Construction_PM_Buildings.SelectAssignedProjectsByBuilding(selectedBuildings.Substring(0, selectedBuildings.LastIndexOf(",")), ConstructionProjectId > 0 ? ConstructionProjectId : 0).Tables[0];
+
+                if (dtAssignedBuildings != null && dtAssignedBuildings.Rows.Count > 0)
+                {
+                    string associatedBuildings = string.Empty;
+                    foreach (DataRow dr in dtAssignedBuildings.Rows)
+                    {
+                        associatedBuildings += " " + Convert.ToString(dr["Building_Number"]) + " is already tied to " + HttpUtility.UrlEncode(Convert.ToString(dr["Project_Number"]).Replace("'", "")) + " project. \\n";
+                    }
+
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "Message", "javascript:alert('" + associatedBuildings + "');", true);
                 }
                 else
                 {
-                    ConstructionProjectId = facility_Construction_Project.Insert();
-                    SaveBuildings();
-                    SaveBuildingImprovement();
-                    Session["ConstructionProjectId"] = ConstructionProjectId;
-                }
+                    if (ConstructionProjectId > 0)
+                    {
+                        facility_Construction_Project.PK_Facility_construction_Project = ConstructionProjectId;
+                        facility_Construction_Project.Update();
+                        DeleteBuildings();
+                        SaveBuildings();
+                    }
+                    else
+                    {
+                        ConstructionProjectId = facility_Construction_Project.Insert();
+                        SaveBuildings();
+                        SaveBuildingImprovement();
+                        Session["ConstructionProjectId"] = ConstructionProjectId;
+                    }
 
-                Session.Remove("IsEditable");
-                hdnPanelSpaire.Value = "0";
-                BindBuildings();
-                FillConstructionProjectDetail();
-                hdnPanel.Value = "1";
-                btnReturnto_View_Mode.Visible = false;
-                btnEdit.Visible = true;
-                btnAuditTrail.Visible = true;
+                    Session.Remove("IsEditable");
+                    hdnPanelSpaire.Value = "0";
+                    BindBuildings();
+                    FillConstructionProjectDetail();
+                    hdnPanel.Value = "1";
+                    btnReturnto_View_Mode.Visible = false;
+                    btnEdit.Visible = true;
+                    btnAuditTrail.Visible = true;
+                }
             }
-        }
-        else
-        {
-            Page.ClientScript.RegisterStartupScript(this.GetType(), "Message", "javascript:alert('Please select atlest one building to tie up with this project.');", true);
+            else
+            {
+                Page.ClientScript.RegisterStartupScript(this.GetType(), "Message", "javascript:alert('Please select atlest one building to tie up with this project.');", true);
+            }
         }
     }
 
@@ -592,6 +605,12 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
                     strMessages += "Please enter Project Description" + ",";
                     spnProjectDescription.Style["display"] = "inline-block";
                     break;
+                case "Project Title":
+                    strCtrlsIDs += txtTitle.ClientID + ",";
+                    strMessages += "Please enter Project Title" + ",";
+                    spnTitle.Style["display"] = "inline-block";
+                    break;
+
             }
             #endregion
         }

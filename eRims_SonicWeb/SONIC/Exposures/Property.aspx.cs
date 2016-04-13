@@ -758,7 +758,7 @@ public partial class Exposures_Property : clsBasePage
                 ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:window.scrollTo(0, 0);ShowPanel(" + (rdoOwnership.SelectedIndex == -1 ? "4" : "3") + ");", true); //seLocationBuildingNumber('" + strLocationCode + "');
             }
         }
-        
+
         if (objBuilding.Ownership == "ThirdParty" || objBuilding.Ownership == "ThirdPartySublease")
         {
             trgvSubLease.Style["Display"] = "";
@@ -772,7 +772,7 @@ public partial class Exposures_Property : clsBasePage
             trAddNewLease.Style["Display"] = "none";
         }
 
-        
+        BindBuildingsOnLocationSelections(FK_LU_Location_ID);
     }
 
     /// <summary>
@@ -1306,7 +1306,16 @@ public partial class Exposures_Property : clsBasePage
         dvBuildingGrid.Style["display"] = "";
         dvBuilding.Style["display"] = "none";
 
-        Building.ChangeBuilding_Location(Convert.ToInt32(txtExistingLocation.Text), Convert.ToInt32(drpLocation.SelectedValue), txtExistingBuilding.Text);
+        for (int i = 0; i < cblBuildingList.Items.Count; i++)
+        {
+            if (cblBuildingList.Items[i].Selected)
+            {
+                string[] splitBuildingText = cblBuildingList.Items[i].Text.Split('-');
+                string buildingNumber = splitBuildingText[0] + "-" + splitBuildingText[1].TrimEnd();
+                Building.ChangeBuilding_Location(Convert.ToInt32(txtExistingLocation.Text), Convert.ToInt32(drpLocation.SelectedValue), buildingNumber);
+            }
+        }
+        
         BindGridBuilding();
         BindBuildingImprovementGrid();
     }
@@ -1374,7 +1383,7 @@ public partial class Exposures_Property : clsBasePage
     protected void lnkAddNewImprovement_Click(object sender, EventArgs e)
     {
         Response.Redirect("BuildingImprovements.aspx?FK_Property_Cope=" + Encryption.Encrypt(PK_Property_Cope_ID.ToString()) + "&op=add");
-    }
+    }   
 
     #endregion
 
@@ -1719,7 +1728,6 @@ public partial class Exposures_Property : clsBasePage
         txtSubleaseFax.Text = "";
         txtSubleaseEmail.Text = "";
     }
-
 
     private void BindSabaDetailForEdit()
     {
@@ -2377,8 +2385,8 @@ public partial class Exposures_Property : clsBasePage
         #endregion
 
         string strLocationCode = ucCtrlExposureInfo.Int_Location_Code.ToString() + ", Building Number " + objBuilding.Building_Number;
-        if (!string.IsNullOrEmpty(objBuilding.Building_Number))
-            txtExistingBuilding.Text = objBuilding.Building_Number;//Change Building Location screen field
+        //if (!string.IsNullOrEmpty(objBuilding.Building_Number))
+        //    txtExistingBuilding.Text = objBuilding.Building_Number;//Change Building Location screen field
 
         // set Building FK for building and lease attachment
         BuildingAttachment.FK_Building_ID = PK_Building_ID;
@@ -2396,6 +2404,13 @@ public partial class Exposures_Property : clsBasePage
         PK_Property_Contact_ID = Property_Contact.SelectPKByBuilding_ID(PK_Building_ID);
         BindContactsDetails();
         ucCtrlExposureInfo.SetRMLocationCode(PK_Building_ID);
+        DataTable dtLocation = LU_Location.SelectByPK(FK_LU_Location_ID).Tables[0];
+
+        if (dtLocation != null && dtLocation.Rows.Count > 0 && !string.IsNullOrEmpty(Convert.ToString(dtLocation.Rows[0]["Sonic_Location_Code"])) && Convert.ToInt32(dtLocation.Rows[0]["Sonic_Location_Code"]) != 503)
+        {
+            btnShowChangeBuildingLocationScreen.Style["display"] = "none";
+        }
+
         //ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "", "javascript:seLocationBuildingNumber('" + strLocationCode + "');", true);
     }
 
@@ -3210,6 +3225,29 @@ public partial class Exposures_Property : clsBasePage
         trSabaTrainingYear.Style["display"] = "";
         trSabaTrainingQuarter.Style["display"] = "";
     }
+
+    /// <summary>
+    /// bind Building data in radio button list
+    /// </summary>
+    private void BindBuildingsOnLocationSelections(Int32 fk_Location_Id)
+    {
+        cblBuildingList.ClearSelection();
+        trBuildings.Visible = false;
+        //trRelatedBuildingDetailsLink.Visible = false;
+        trProjectDetails.Visible = trBuildingImprovementsDetails.Visible = trEPMDetails.Visible = false;
+        if (fk_Location_Id > 0)
+        {
+            DataTable dtBuilding = Building.BuildingByFKLocation(fk_Location_Id).Tables[0];
+
+            cblBuildingList.DataSource = dtBuilding;
+            cblBuildingList.DataTextField = "Building_Occupacy";
+            cblBuildingList.DataValueField = "PK_Building_ID";
+            cblBuildingList.DataBind();
+            trBuildings.Visible = true;
+            //trRelatedBuildingDetailsLink.Visible = true;
+        }
+    }
+
     #endregion
 
     #region "GRIDS BINDING"
@@ -3590,7 +3628,7 @@ public partial class Exposures_Property : clsBasePage
                         if (i % 2 == 1)
                         {
                             tc.Width = "27%";
-                            tc.Style.Add("padding-left", "3px");                            
+                            tc.Style.Add("padding-left", "3px");
                         }
                         else
                         {
@@ -3926,6 +3964,7 @@ public partial class Exposures_Property : clsBasePage
     #endregion
 
     #region Dynamic Validations
+
     /// <summary>
     /// Set all Validations
     /// </summary>
@@ -4469,18 +4508,106 @@ public partial class Exposures_Property : clsBasePage
         hdnErrorMsgsST.Value = strMessagesST;
     }
 
-
     #endregion
 
-
+    /// <summary>
+    /// Event For Radio Item Selected Index Change
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void rdoItem_SelectedIndexChanged(object sender, EventArgs e)
     {
         RadioButtonList rdo = sender as RadioButtonList;
         TextBox txtBox = tblInsuranceCopeQuestionnaire.FindControl("txtItem" + rdo.ID.Substring(rdo.ID.Length - 2)) as TextBox;
         txtBox.Visible = rdo.SelectedValue == "Y" ? true : false;
         txtBox.Text = "";
-    }
+    }    
 
-  
+    /// <summary>
+    /// Building List CheckBox List selected Index Changed
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void cblBuildingList_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        string selectedBuildings = string.Empty;
+        trProjectDetails.Visible = false;
+        trBuildingImprovementsDetails.Visible = false;
+        trEPMDetails.Visible = false;
+        btnConfirmBuildingInfo.Enabled = false;
+
+        for (int i = 0; i < cblBuildingList.Items.Count; i++)
+        {
+            if (cblBuildingList.Items[i].Selected && cblBuildingList.Items[i].Enabled)
+            {
+                selectedBuildings += cblBuildingList.Items[i].Value + ",";
+            }
+            else
+            {
+                cblBuildingList.Items[i].Enabled = true;
+                cblBuildingList.Items[i].Selected = false;
+            }
+        }
+
+        if (!string.IsNullOrEmpty(selectedBuildings))
+        {
+            DataSet dsBuildingsRelatedData = Building.GetDetailsRelatedToBuildingCheckedByUser(selectedBuildings.Substring(0, selectedBuildings.LastIndexOf(",")));
+            DataTable dtProjectData = dsBuildingsRelatedData.Tables[0];
+            DataTable dtBuildingImprovementData = dsBuildingsRelatedData.Tables[1];
+            DataTable dtEPMData = dsBuildingsRelatedData.Tables[2];
+
+            gvProjectList.DataSource = dtProjectData;
+            gvProjectList.DataBind();
+
+            gvImprovementDetails.DataSource = dtBuildingImprovementData;
+            gvImprovementDetails.DataBind();
+
+            gvEPM.DataSource = dtEPMData;
+            gvEPM.DataBind();
+
+            string associatedProject = string.Empty;
+
+            if (dtProjectData != null && dtProjectData.Rows.Count > 0)
+            {
+                DataRow[] drUnSelectedItem = dtProjectData.Select("PK_Building_ID NOT IN (" + selectedBuildings.Substring(0, selectedBuildings.LastIndexOf(",")) + ")");
+                DataRow[] drSelectedItems = dtProjectData.Select("PK_Building_ID IN (" + selectedBuildings.Substring(0, selectedBuildings.LastIndexOf(",")) + ")");
+
+                if (drUnSelectedItem.Length > 0)
+                {
+                    foreach (DataRow drItem in drUnSelectedItem)
+                    {
+                        if (cblBuildingList.Items.FindByValue(Convert.ToString(drItem["PK_Building_ID"])) != null)
+                        {
+                            cblBuildingList.Items.FindByValue(Convert.ToString(drItem["PK_Building_ID"])).Selected = true;
+                            cblBuildingList.Items.FindByValue(Convert.ToString(drItem["PK_Building_ID"])).Enabled = false;
+                        }
+                    }
+
+                    foreach (DataRow drSelectedItem in drSelectedItems)
+                    {
+                        DataRow[] drAssociatedItems = dtProjectData.Select("Project_Number = '" + Convert.ToString(drSelectedItem["Project_Number"]) + "' AND PK_Building_ID NOT IN (" + selectedBuildings.Substring(0, selectedBuildings.LastIndexOf(",")) + ")");
+                        if (drAssociatedItems.Length > 0)
+                        {
+                            foreach (DataRow drAssociatedItem in drAssociatedItems)
+                            {
+                                associatedProject += "Project " + Convert.ToString(drSelectedItem["Project_Number"]) + " tied to " + "Building " + Convert.ToString(drSelectedItem["Building_Number"]) + " is also tied to building " + Convert.ToString(drAssociatedItem["Building_Number"]) + "\\n";
+                            }
+                        }
+                    }
+                }
+            }
+
+            trProjectDetails.Visible = true;
+            trBuildingImprovementsDetails.Visible = true;
+            trEPMDetails.Visible = true;
+
+            if (!string.IsNullOrEmpty(associatedProject))
+            {
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "message", "javascript: alert('" + associatedProject + "');", true);
+            }
+
+            btnConfirmBuildingInfo.Enabled = true;
+        }
+    }
 }
 

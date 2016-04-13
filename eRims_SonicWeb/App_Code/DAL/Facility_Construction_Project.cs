@@ -448,5 +448,22 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "@OrderBy", DbType.String, strOrderBy);
             return db.ExecuteDataSet(dbCommand);
         }
+
+        /// <summary>
+        /// Method to check Project Number Text Already Exists or not for Current Project
+        /// </summary>
+        /// <param name="pK_Facility_construction_Project"></param>
+        /// <param name="project_Number"></param>
+        /// <returns></returns>
+        public static int CheckProjectNumberAlreadyExists(decimal pK_Facility_construction_Project, string project_Number)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Facility_Construction_ProjectCheckProjectNumberExists");
+
+            db.AddInParameter(dbCommand, "PK_Facility_construction_Project", DbType.Decimal, pK_Facility_construction_Project);
+            db.AddInParameter(dbCommand, "Project_Number", DbType.String, project_Number);
+
+            return (int)db.ExecuteScalar(dbCommand);
+        }
     }
 }

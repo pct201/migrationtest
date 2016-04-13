@@ -3505,6 +3505,22 @@ namespace ERIMS.DAL
 
             return db.ExecuteDataSet(dbCommand);
         }
+
+        /// <summary>
+        /// Method to Get Building Details In provided building ids
+        /// </summary>
+        /// <param name="pK_Building_Ids"></param>
+        /// <returns></returns>
+        public static DataSet GetDetailsRelatedToBuildingCheckedByUser(string pK_Building_Ids)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("BuildingSelectReletedProjectAndBuildingDetails");
+
+            db.AddInParameter(dbCommand, "PK_Building_Ids", DbType.String, pK_Building_Ids);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
         #endregion
     }
 }
