@@ -1057,6 +1057,23 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
+        public static DataSet GetActiveRegionList()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("GetActive_RegionList");
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        public static DataSet SelectByRegionandMarket(string Regional, string MarketPKs)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("ActiveLocationByRegoin");
+            db.AddInParameter(dbCommand, "Regional", DbType.String, Regional);
+            db.AddInParameter(dbCommand, "MarketPKs", DbType.String, MarketPKs);
+            return db.ExecuteDataSet(dbCommand);
+        }
+
         #endregion
     }
 }

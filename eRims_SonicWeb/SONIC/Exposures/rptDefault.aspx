@@ -54,6 +54,7 @@
                             <ItemStyle Width="30%" HorizontalAlign="left" />
                             <ItemTemplate>
                                 <asp:Label runat="server" ID="lblPrimaryID" Text='<%# Eval("PK_ReportID") %>' Visible="false"></asp:Label>
+                                <asp:Label runat="server" ID="lblReportName" Text='<%# Eval("Report_Name") %>' Visible="false"></asp:Label>
                                 <a target="_blank" runat="server" href="javascript:Void();" id="rptLink">
                                     <%# Eval("Report_Name") %>
                                 </a>

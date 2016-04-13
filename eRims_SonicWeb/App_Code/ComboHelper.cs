@@ -178,6 +178,79 @@ public class ComboHelper
     }
 
     /// <summary>
+    /// used to bind market by region
+    /// </summary>
+    /// <param name="listboxes"></param>
+    /// <param name="intID"></param>
+    /// <param name="booladdSelectAsFirstElement"></param>
+    /// <param name="Regional"></param>
+    public static void FillMarketByRegion(ListBox[] listboxes, int intID, bool booladdSelectAsFirstElement, string Regional)
+    {
+        DataTable dtData = ERIMS.DAL.clsLU_Market.SelectByRegion( Regional.ToString().TrimEnd(Convert.ToChar(","))).Tables[0];
+        
+        dtData.DefaultView.RowFilter = " Active = 'Y' ";
+        dtData.DefaultView.Sort = "Market";
+        dtData = dtData.DefaultView.ToTable();
+        foreach (ListBox ddlToFill in listboxes)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Market";
+            ddlToFill.DataValueField = "PK_LU_Market";
+            ddlToFill.DataSource = dtData;
+            //ddlToFill.Style.Add("font-size", "x-small");
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+            //check id greater 0 than find the value in dropdown list. if find than select the item.
+            if (intID > 0)
+            {
+                ListItem lst = new ListItem();
+                lst = ddlToFill.Items.FindByValue(intID.ToString());
+                if (lst != null)
+                {
+                    lst.Selected = true;
+                }
+            }
+        }
+    }
+
+    public static void FillActiveLocationByRegionMarket(ListBox[] dropDowns, int intID, bool booladdSelectAsFirstElement, string Regional, string MarketPKs)
+    {
+        DataTable dtData = ERIMS.DAL.LU_Location.SelectByRegionandMarket(Regional.ToString().TrimEnd(Convert.ToChar(",")), MarketPKs.ToString().TrimEnd(Convert.ToChar(","))).Tables[0];
+        dtData.DefaultView.RowFilter = " Active = 'Y' ";
+        dtData.DefaultView.Sort = "Sonic_Location_Code";
+        dtData = dtData.DefaultView.ToTable();
+        foreach (ListBox ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "dba1";
+            ddlToFill.DataValueField = "PK_LU_Location_ID";
+            ddlToFill.DataSource = dtData;
+            //ddlToFill.Style.Add("font-size", "x-small");
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+            //check id greater 0 than find the value in dropdown list. if find than select the item.
+            if (intID > 0)
+            {
+                ListItem lst = new ListItem();
+                lst = ddlToFill.Items.FindByValue(intID.ToString());
+                if (lst != null)
+                {
+                    lst.Selected = true;
+                }
+            }
+        }
+    }
+
+
+    /// <summary>
     /// Used to Bind SONIC dba DropDown
     /// </summary>
     /// <param name="dropDowns">Dropdown Lists</param>
@@ -1953,13 +2026,36 @@ public class ComboHelper
     }
 
     /// <summary>
-    /// Used tp bind Region from Lu_Location Table
+    /// Used to bind Region from Lu_Location Table
     /// </summary>
     /// <param name="dropDowns">Dropdown Lists</param>
     /// <param name="addSelectAsFirstElement">Require to add "--Select--" as a first element of dropdown</param>
     public static void FillRegionListBox(ListBox[] LstBox, bool booladdSelectAsFirstElement)
     {
         DataSet dsData = ERIMS.DAL.LU_Location.GetRegionList();
+        foreach (ListBox lstToFill in LstBox)
+        {
+            lstToFill.Items.Clear();
+            lstToFill.DataTextField = "region";
+            lstToFill.DataValueField = "region";
+            lstToFill.DataSource = dsData;
+            lstToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                lstToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Used to bind Region which are active and show on dashboard from Lu_Location Table
+    /// </summary>
+    /// <param name="dropDowns">Dropdown Lists</param>
+    /// <param name="addSelectAsFirstElement">Require to add "--Select--" as a first element of dropdown</param>
+    public static void FillActiveRegionListBox(ListBox[] LstBox, bool booladdSelectAsFirstElement)
+    {
+        DataSet dsData = ERIMS.DAL.LU_Location.GetActiveRegionList();
         foreach (ListBox lstToFill in LstBox)
         {
             lstToFill.Items.Clear();

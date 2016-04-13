@@ -40,7 +40,7 @@ public partial class SONIC_Exposures_rptDefault : clsBasePage
     {
         Int32 Report_ID = Convert.ToInt32((sender as Button).CommandArgument);
         Page.ClientScript.RegisterStartupScript(this.GetType(), "Popup", "javascript:openWindowSchedule(" + Report_ID + ");", true);
-    } 
+    }
 
     #endregion
 
@@ -52,6 +52,7 @@ public partial class SONIC_Exposures_rptDefault : clsBasePage
             HtmlAnchor rptLink = (HtmlAnchor)e.Row.FindControl("rptLink");
             Button btnSchedule = (Button)e.Row.FindControl("btnSchedule");
             Int32 Report_ID = Convert.ToInt32(((Label)e.Row.FindControl("lblPrimaryID")).Text);
+            String strReportName = Convert.ToString(((Label)e.Row.FindControl("lblReportName")).Text);
             if (Report_ID == 37)
                 rptLink.HRef = "rptPropertyStatementofValues.aspx";
             if (Report_ID == 42)
@@ -73,11 +74,23 @@ public partial class SONIC_Exposures_rptDefault : clsBasePage
             {
                 rptLink.HRef = "rptACI_Key_Contact_Report.aspx";
             }
-            if (Report_ID == 72)
+
+            switch (strReportName)
             {
-                rptLink.HRef = "rptRepairAndMaintanance.aspx";
-                btnSchedule.Visible = false;
+                case "Repairs and Maintenance Report":
+                    rptLink.HRef = "rptRepairAndMaintanance.aspx";
+                    btnSchedule.Visible = false;
+                    break;
+                case "Early Warning Recipients Report":
+                    rptLink.HRef = "rptEarlyWarningRecipients.aspx";
+                    btnSchedule.Visible = false;
+                    break;
+                case "Early Warning Recipients Terminations Report":
+                    rptLink.HRef = "rptEarlyWarningRecipientsTerminations.aspx";
+                    btnSchedule.Visible = false;
+                    break;
             }
+
         }
     }
     #endregion

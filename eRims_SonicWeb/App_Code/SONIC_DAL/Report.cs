@@ -1040,5 +1040,65 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
+        /// <summary>
+        /// Get "Early Alert Recipients Report"
+        /// </summary>
+        /// <param name="strRegion"></param>
+        /// <param name="strMarket"></param>
+        /// <param name="strLocation"></param>
+        /// <returns></returns>
+        public static DataSet getrptEarlyAlertRecipients(string strRegion, string strMarket, string strLocation)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("GetEarlyAlertRecipientsReport");
+
+            if (!string.IsNullOrEmpty(strRegion))
+                db.AddInParameter(dbCommand, "Regional", DbType.String, strRegion);
+            else
+                db.AddInParameter(dbCommand, "Regional", DbType.String, DBNull.Value);
+
+            if (!string.IsNullOrEmpty(strMarket))
+                db.AddInParameter(dbCommand, "MarketPKs", DbType.String, strMarket);
+            else
+                db.AddInParameter(dbCommand, "MarketPKs", DbType.String, DBNull.Value);
+
+            if (!string.IsNullOrEmpty(strLocation))
+                db.AddInParameter(dbCommand, "LocationPKs", DbType.String, strLocation);
+            else
+                db.AddInParameter(dbCommand, "LocationPKs", DbType.String, DBNull.Value);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        /// <summary>
+        /// Get "Early Alert Recipients Terminations Report"
+        /// </summary>
+        /// <param name="strRegion"></param>
+        /// <param name="strMarket"></param>
+        /// <param name="strLocation"></param>
+        /// <returns></returns>
+        public static DataSet getrptEarlyAlertRecipientsTerminations(string strRegion, string strMarket, string strLocation)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("GetEarlyAlertRecipientsTerminationsReport");
+
+            if (!string.IsNullOrEmpty(strRegion))
+                db.AddInParameter(dbCommand, "Regional", DbType.String, strRegion);
+            else
+                db.AddInParameter(dbCommand, "Regional", DbType.String, DBNull.Value);
+
+            if (!string.IsNullOrEmpty(strMarket))
+                db.AddInParameter(dbCommand, "MarketPKs", DbType.String, strMarket);
+            else
+                db.AddInParameter(dbCommand, "MarketPKs", DbType.String, DBNull.Value);
+
+            if (!string.IsNullOrEmpty(strLocation))
+                db.AddInParameter(dbCommand, "LocationPKs", DbType.String, strLocation);
+            else
+                db.AddInParameter(dbCommand, "LocationPKs", DbType.String, DBNull.Value);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
     }
 }

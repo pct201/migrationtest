@@ -203,5 +203,18 @@ namespace ERIMS.DAL
 
 			db.ExecuteNonQuery(dbCommand);
 		}
+
+        /// <summary>
+        /// Select Market By LU_Location Region
+        /// </summary>
+        /// <param name="Regional"></param>
+        /// <returns></returns>
+        public static DataSet SelectByRegion(string Regional)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("LU_Market_SelectByRegoin");
+            db.AddInParameter(dbCommand, "Regional", DbType.String, Regional);
+            return db.ExecuteDataSet(dbCommand);
+        }
 	}
 }
