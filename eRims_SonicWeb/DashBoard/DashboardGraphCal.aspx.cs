@@ -85,7 +85,7 @@ public partial class DashboardGraphCal : clsBasePage
             // Set Lable
             for (int i = 0; i < dtResult1.Rows.Count; i++)
             {
-                strXML.AppendFormat("<set label='{0}' value='{1}' link='{2}' color='{3}' />", dtResult1.Rows[i][0].ToString(), dtResult1.Rows[i][1].ToString(), Server.UrlEncode("JavaScript:OpenPopup(\"" + dtResult1.Rows[i][0].ToString() + "\",\"" + Year.ToString() + "\",\"3\"," + Convert.ToString(_decAvg) + ");"),Charts.GetColorCodeFromScore(Convert.ToDecimal(dtResult1.Rows[i]["Score"])));
+                strXML.AppendFormat("<set label='{0}' value='{1}' link='{2}' color='{3}' />", Convert.ToString(dtResult1.Rows[i][0]), Convert.ToString(dtResult1.Rows[i][1]), Server.UrlEncode("JavaScript:OpenPopup(\"" + Convert.ToString(dtResult1.Rows[i][0]) + "\",\"" + Convert.ToString(Year) + "\",\"3\"," + Convert.ToString(_decAvg) + ");"),Charts.GetColorCodeFromScore(Convert.ToDecimal(dtResult1.Rows[i]["Score"])));
             }
 
             GetTreadLineStyle(strXML, _decAvg);
@@ -239,7 +239,7 @@ public partial class DashboardGraphCal : clsBasePage
         // Set Label
         for (int i = 0; i < dtRegion.Rows.Count; i++)
         {
-            strChartXML.AppendFormat("<set label='{0}' value='{1}' link='{2}' color='{3}' />", dtRegion.Rows[i][0].ToString(), dtRegion.Rows[i][1].ToString(), Server.UrlEncode("JavaScript:OpenPopup(\"" + dtRegion.Rows[i][0].ToString() + "\",\"" + Year.ToString() + "\",\"1\"," + Convert.ToString(_devAvg) + ");"), Charts.GetColorCodeFromScoreAggregate(Convert.ToDecimal(dtRegion.Rows[i]["Score"])));
+            strChartXML.AppendFormat("<set label='{0}' value='{1}' link='{2}' color='{3}' />", Convert.ToString(dtRegion.Rows[i][0]), Convert.ToString(dtRegion.Rows[i][1]), Server.UrlEncode("JavaScript:OpenPopup(\"" + Convert.ToString(dtRegion.Rows[i][0]) + "\",\"" + Year.ToString() + "\",\"1\"," + Convert.ToString(_devAvg) + ");"), Charts.GetColorCodeFromScoreAggregate(Convert.ToDecimal(dtRegion.Rows[i]["Score"])));
         }
 
         // set Tread Lines
@@ -309,7 +309,7 @@ public partial class DashboardGraphCal : clsBasePage
         // Set Lable
         for (int i = 0; i < dtResult.Rows.Count; i++)
         {
-            strChartXML.AppendFormat("<set label='{0}' value='{1}' link='{2}' color='{3}' />", dtResult.Rows[i][0].ToString(), dtResult.Rows[i][1].ToString(), Server.UrlEncode("JavaScript:OpenPopup(\"" + dtResult.Rows[i][0].ToString() + "\",\"" + Year.ToString() + "\",\"2\"," + Convert.ToString(_decAvg) + ");"),Charts.GetColorCodeFromScore(Convert.ToDecimal(dtResult.Rows[i]["Score"])));
+            strChartXML.AppendFormat("<set label='{0}' value='{1}' link='{2}' color='{3}' />", Convert.ToString(dtResult.Rows[i][0]), Convert.ToString(dtResult.Rows[i][1]), Server.UrlEncode("JavaScript:OpenPopup(\"" + Convert.ToString(dtResult.Rows[i][0]) + "\",\"" + Year.ToString() + "\",\"2\"," + Convert.ToString(_decAvg) + ");"),Charts.GetColorCodeFromScore(Convert.ToDecimal(dtResult.Rows[i]["Score"])));
         }
 
         GetTreadLineStyle(strChartXML, _decAvg);
@@ -356,8 +356,8 @@ public partial class DashboardGraphCal : clsBasePage
         // Set Lable
         for (int i = 0; i < dtResult.Rows.Count; i++)
         {
-            strLink = Server.UrlEncode("JavaScript:OpenPopup(\"" + dtResult.Rows[i]["region"].ToString() + "\",\"" + Year.ToString() + "\",\"4\"," + Convert.ToString(_decAvg) + ");");
-            strChartXML.AppendFormat("<set label='{0}' value='{1}' link='{2}' color='{3}' />", dtResult.Rows[i]["Region"].ToString(), dtResult.Rows[i]["Score"].ToString(), strLink, Charts.GetColorCodeFromScore(Convert.ToDecimal(dtResult.Rows[i]["Score"])));
+            strLink = Server.UrlEncode("JavaScript:OpenPopup(\"" + Convert.ToString(dtResult.Rows[i]["region"]) + "\",\"" + Year.ToString() + "\",\"4\"," + Convert.ToString(_decAvg) + ");");
+            strChartXML.AppendFormat("<set label='{0}' value='{1}' link='{2}' color='{3}' />", Convert.ToString(dtResult.Rows[i]["Region"]), Convert.ToString(dtResult.Rows[i]["Score"]), strLink, Charts.GetColorCodeFromScore(Convert.ToDecimal(dtResult.Rows[i]["Score"])));
         }
 
         GetTreadLineStyle(strChartXML, _decAvg);
@@ -407,7 +407,7 @@ public partial class DashboardGraphCal : clsBasePage
         // Set Lable
         for (int i = 0; i < dtResult.Rows.Count; i++)
         {
-            strChartXML.AppendFormat("<set label='{0}' value='{1}' link='{2}' color='{3}' />", dtResult.Rows[i][0].ToString(), dtResult.Rows[i][1].ToString(), Server.UrlEncode("JavaScript:OpenPopup(\"" + dtResult.Rows[i][0].ToString() + "\",\"" + Year.ToString() + "\",\"7\"," + Convert.ToString(_decAvg) + ");"), Charts.GetColorCodeFromScore_SLT(Convert.ToDecimal(dtResult.Rows[i]["Score"])));
+            strChartXML.AppendFormat("<set label='{0}' value='{1}' link='{2}' color='{3}' />", Convert.ToString(dtResult.Rows[i][0]), Convert.ToString(dtResult.Rows[i][1]), Server.UrlEncode("JavaScript:OpenPopup(\"" + Convert.ToString(dtResult.Rows[i][0]) + "\",\"" + Convert.ToString(Year) + "\",\"7\"," + Convert.ToString(_decAvg) + ");"), Charts.GetColorCodeFromScore_SLT(Convert.ToDecimal(dtResult.Rows[i]["Score"])));
         }
 
         GetTreadLineStyle_SLT(strChartXML, _decAvg);
@@ -454,8 +454,8 @@ public partial class DashboardGraphCal : clsBasePage
         // Set Lable
         for (int i = 0; i < dtResult.Rows.Count; i++)
         {
-            strLink = Server.UrlEncode("JavaScript:OpenPopup(\"" + dtResult.Rows[i]["region"].ToString() + "\",\"" + Year.ToString() + "\",\"6\"," + Convert.ToString(_decAvg) + ");");
-            strChartXML.AppendFormat("<set label='{0}' value='{1}' link='{2}' color='{3}' />", dtResult.Rows[i]["Region"].ToString(), dtResult.Rows[i]["Score"].ToString(), strLink, Charts.GetColorCodeFromScore(Convert.ToDecimal(dtResult.Rows[i]["Score"])));
+            strLink = Server.UrlEncode("JavaScript:OpenPopup(\"" + Convert.ToString(dtResult.Rows[i]["region"]) + "\",\"" + Convert.ToString(Year) + "\",\"6\"," + Convert.ToString(_decAvg) + ");");
+            strChartXML.AppendFormat("<set label='{0}' value='{1}' link='{2}' color='{3}' />", Convert.ToString(dtResult.Rows[i]["Region"]), Convert.ToString(dtResult.Rows[i]["Score"]), strLink, Charts.GetColorCodeFromScore(Convert.ToDecimal(dtResult.Rows[i]["Score"])));
         }
 
         GetTreadLineStyle(strChartXML, _decAvg);
@@ -501,8 +501,8 @@ public partial class DashboardGraphCal : clsBasePage
         // Set Lable
         for (int i = 0; i < dtResult.Rows.Count; i++)
         {
-            strLink = Server.UrlEncode("JavaScript:OpenPopup(\"" + dtResult.Rows[i]["region"].ToString() + "\",\"" + Year.ToString() + "\",\"5\"," + Convert.ToString(_decAvg) + ");");
-            strChartXML.AppendFormat("<set label='{0}' value='{1}' link='{2}' color='{3}' />", dtResult.Rows[i]["Region"].ToString(), dtResult.Rows[i]["Score"].ToString(), strLink, Charts.GetColorCodeFromScore(Convert.ToDecimal(dtResult.Rows[i]["Score"])));
+            strLink = Server.UrlEncode("JavaScript:OpenPopup(\"" + Convert.ToString(dtResult.Rows[i]["region"]) + "\",\"" + Convert.ToString(Year) + "\",\"5\"," + Convert.ToString(_decAvg) + ");");
+            strChartXML.AppendFormat("<set label='{0}' value='{1}' link='{2}' color='{3}' />", Convert.ToString(dtResult.Rows[i]["Region"]), Convert.ToString(dtResult.Rows[i]["Score"]), strLink, Charts.GetColorCodeFromScore(Convert.ToDecimal(dtResult.Rows[i]["Score"])));
         }
 
         GetTreadLineStyle(strChartXML, _decAvg);
