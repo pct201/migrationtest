@@ -222,7 +222,7 @@ public class Business_RuleHelper
         else if (string.Compare(strType, "FK_LU_Meeting_Quality", true) == 0)
         {
             strSQL = string.Empty;
-            strSQL = "CASE " + strTable_Name + "." + strField_Name + " WHEN '1' THEN 'Spectator' WHEN '2' THEN 'Water boy' WHEN '3' THEN 'Second String' WHEN '4' THEN 'Starter' WHEN '5' THEN 'All Pro' END";
+            strSQL = "CASE " + strTable_Name + "." + strField_Name + " WHEN '1' THEN '" + Charts.Tin_Label + "' WHEN '2' THEN '" + Charts.Bronze_Label + "' WHEN '3' THEN '" + Charts.Silver_Label + "' WHEN '4' THEN '" + Charts.Gold_Label + "' WHEN '5' THEN '" + Charts.Platinum_Label + "' END";
         }
         else if (string.Compare(strType, "Coverage_Form", true) == 0)
         {
@@ -787,11 +787,11 @@ public class Business_RuleHelper
         else if (string.Compare(strType, "Investigative_Quality", true) == 0)
         {
             List<ListItem> liItem = new List<ListItem>();
-            liItem.Add(new ListItem("All Pro", "All Pro"));
-            liItem.Add(new ListItem("Starter", "Starter"));
-            liItem.Add(new ListItem("Second String", "Second String"));
-            liItem.Add(new ListItem("Water boy", "Water boy"));
-            liItem.Add(new ListItem("Spectator", "Spectator"));
+            liItem.Add(new ListItem(Charts.Platinum_Label, Charts.Platinum_Label));
+            liItem.Add(new ListItem(Charts.Gold_Label, Charts.Gold_Label));
+            liItem.Add(new ListItem(Charts.Silver_Label, Charts.Silver_Label));
+            liItem.Add(new ListItem(Charts.Bronze_Label, Charts.Bronze_Label));
+            liItem.Add(new ListItem(Charts.Tin_Label, Charts.Tin_Label));
             foreach (ListBox ddlToFill in dropDowns)
             {
                 ddlToFill.Items.Clear();
@@ -819,11 +819,11 @@ public class Business_RuleHelper
         else if (string.Compare(strType, "FK_LU_Meeting_Quality", true) == 0)
         {
             List<ListItem> liItem = new List<ListItem>();
-            liItem.Add(new ListItem("Spectator", "1"));
-            liItem.Add(new ListItem("Water boy", "2"));
-            liItem.Add(new ListItem("Second String", "3"));
-            liItem.Add(new ListItem("Starter", "4"));
-            liItem.Add(new ListItem("All Pro", "5")); 
+            liItem.Add(new ListItem(Charts.Tin_Label, "1"));
+            liItem.Add(new ListItem(Charts.Bronze_Label, "2"));
+            liItem.Add(new ListItem(Charts.Silver_Label, "3"));
+            liItem.Add(new ListItem(Charts.Gold_Label, "4"));
+            liItem.Add(new ListItem(Charts.Platinum_Label, "5")); 
             foreach (ListBox ddlToFill in dropDowns)
             {
                 ddlToFill.Items.Clear();
@@ -1545,11 +1545,11 @@ public class Business_RuleHelper
         else if (string.Compare(strType, "Investigative_Quality", true) == 0)
         {
             List<ListItem> liItem = new List<ListItem>();
-            liItem.Add(new ListItem("All Pro", "All Pro"));
-            liItem.Add(new ListItem("Starter", "Starter"));
-            liItem.Add(new ListItem("Second String", "Second String"));
-            liItem.Add(new ListItem("Water boy", "Water boy"));
-            liItem.Add(new ListItem("Spectator", "Spectator"));
+            liItem.Add(new ListItem(Charts.Platinum_Label, Charts.Platinum_Label));
+            liItem.Add(new ListItem(Charts.Gold_Label, Charts.Gold_Label));
+            liItem.Add(new ListItem(Charts.Silver_Label, Charts.Silver_Label));
+            liItem.Add(new ListItem(Charts.Bronze_Label, Charts.Bronze_Label));
+            liItem.Add(new ListItem(Charts.Tin_Label, Charts.Tin_Label));
             foreach (DropDownList ddlToFill in dropDowns)
             {
                 ddlToFill.Items.Clear();
@@ -1577,11 +1577,11 @@ public class Business_RuleHelper
         else if (string.Compare(strType, "FK_LU_Meeting_Quality", true) == 0)
         {
             List<ListItem> liItem = new List<ListItem>();
-            liItem.Add(new ListItem("Spectator", "1"));
-            liItem.Add(new ListItem("Water boy", "2"));
-            liItem.Add(new ListItem("Second String", "3"));
-            liItem.Add(new ListItem("Starter", "4"));
-            liItem.Add(new ListItem("All Pro", "5"));
+            liItem.Add(new ListItem(Charts.Tin_Label, "1"));
+            liItem.Add(new ListItem(Charts.Bronze_Label, "2"));
+            liItem.Add(new ListItem(Charts.Silver_Label, "3"));
+            liItem.Add(new ListItem(Charts.Gold_Label, "4"));
+            liItem.Add(new ListItem(Charts.Platinum_Label, "5"));
             foreach (DropDownList ddlToFill in dropDowns)
             {
                 ddlToFill.Items.Clear();

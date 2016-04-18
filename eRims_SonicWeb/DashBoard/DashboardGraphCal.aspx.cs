@@ -61,8 +61,11 @@ public partial class DashboardGraphCal : clsBasePage
             dtResult1.Rows.Add(drCal);
 
             dtResult1.DefaultView.RowFilter = "Region not in ('NCA','SCA')";
-            dtResult1.DefaultView.Sort = "Region";
-            dtResult1 = dtResult1.DefaultView.ToTable();
+            //dtResult1.DefaultView.Sort = "Region";
+            //dtResult1 = dtResult1.DefaultView.ToTable();
+            DataView dvRegion = dtResult1.DefaultView;
+            dvRegion.Sort = "Score DESC, Region ASC";
+            dtResult1 = dvRegion.ToTable();
 
             if (ds.Tables.Count > 1)
             {
@@ -77,19 +80,19 @@ public partial class DashboardGraphCal : clsBasePage
             else
                 strHeader = "Sonic University Training Scorecard";
             // Set Chart property 
-            strXML.Append("<chart caption='" + strHeader + "' xAxisName='Region' yAxisName='Level'  useRoundEdges='1' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='34' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
+            strXML.Append("<chart caption='" + strHeader + "' xAxisName='Region' plotGradientColor='' yAxisName='Level'  useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='34' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='0' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
 
             // Set Lable
             for (int i = 0; i < dtResult1.Rows.Count; i++)
             {
-                strXML.AppendFormat("<set label='{0}' value='{1}' link='{2}'/>", dtResult1.Rows[i][0].ToString(), dtResult1.Rows[i][1].ToString(), Server.UrlEncode("JavaScript:OpenPopup(\"" + dtResult1.Rows[i][0].ToString() + "\",\"" + Year.ToString() + "\",\"3\"," + Convert.ToString(_decAvg) + ");"));
+                strXML.AppendFormat("<set label='{0}' value='{1}' link='{2}' color='{3}' />", dtResult1.Rows[i][0].ToString(), dtResult1.Rows[i][1].ToString(), Server.UrlEncode("JavaScript:OpenPopup(\"" + dtResult1.Rows[i][0].ToString() + "\",\"" + Year.ToString() + "\",\"3\"," + Convert.ToString(_decAvg) + ");"),Charts.GetColorCodeFromScore(Convert.ToDecimal(dtResult1.Rows[i]["Score"])));
             }
 
             GetTreadLineStyle(strXML, _decAvg);
             strXML.Append("</chart>");
         }
         // Generate Chart
-        return InfoSoftGlobal.FusionCharts.RenderChart(AppConfig.SiteURL + "FusionCharts/Column3D.swf?ChartNoDataText=No data to display for: Saba Training Scoreboard By Region", "", strXML.ToString(), "SabaTrainingByRegion", "490", "400", false, true);
+        return InfoSoftGlobal.FusionCharts.RenderChart(AppConfig.SiteURL + "FusionCharts/Bar2D.swf?ChartNoDataText=No data to display for: Saba Training Scoreboard By Region", "", strXML.ToString(), "SabaTrainingByRegion", "490", "400", false, true);
     }
 
     /// <summary>
@@ -162,27 +165,27 @@ public partial class DashboardGraphCal : clsBasePage
 
             //if (_intScore > 189 && _intScore <= 200)
             //{
-            //    dtRegion.Rows[_iRow][2] = "All Pro";
+            //    dtRegion.Rows[_iRow][2] = "Platinum";
             //    dtRegion.Rows[_iRow][1] = _intScore;
             //}
             //else if (_intScore > 179 && _intScore <= 189)
             //{
-            //    dtRegion.Rows[_iRow][2] = "Starter";
+            //    dtRegion.Rows[_iRow][2] = "Gold";
             //    dtRegion.Rows[_iRow][1] = _intScore;
             //}
             //else if (_intScore > 159 && _intScore <= 179)
             //{
-            //    dtRegion.Rows[_iRow][2] = "Second String";
+            //    dtRegion.Rows[_iRow][2] = "Silver";
             //    dtRegion.Rows[_iRow][1] = _intScore;
             //}
             //else if (_intScore > 139 && _intScore <= 159)
             //{
-            //    dtRegion.Rows[_iRow][2] = "Water boy";
+            //    dtRegion.Rows[_iRow][2] = "Bronze";
             //    dtRegion.Rows[_iRow][1] = _intScore;
             //}
             //else if (_intScore >= 0 && _intScore <= 139)
             //{
-            //    dtRegion.Rows[_iRow][2] = "Spectator";
+            //    dtRegion.Rows[_iRow][2] = "Tin";
             //    dtRegion.Rows[_iRow][1] = _intScore;
             //}
 
@@ -191,30 +194,34 @@ public partial class DashboardGraphCal : clsBasePage
 
             if (_intScore > 94.5M && _intScore <= 100)
             {
-                dtRegion.Rows[_iRow][2] = "All Pro";
+                dtRegion.Rows[_iRow][2] = Charts.Platinum_Label;
                 dtRegion.Rows[_iRow][1] = _intScore;
             }
             else if (_intScore > 89.5m && _intScore <= 94.5m)
             {
-                dtRegion.Rows[_iRow][2] = "Starter";
+                dtRegion.Rows[_iRow][2] = Charts.Gold_Label;
                 dtRegion.Rows[_iRow][1] = _intScore;
             }
             else if (_intScore > 79.5m && _intScore <= 89.5m)
             {
-                dtRegion.Rows[_iRow][2] = "Second String";
+                dtRegion.Rows[_iRow][2] =  Charts.Silver_Label;
                 dtRegion.Rows[_iRow][1] = _intScore;
             }
             else if (_intScore > 69.5m && _intScore <= 79.5m)
             {
-                dtRegion.Rows[_iRow][2] = "Water boy";
+                dtRegion.Rows[_iRow][2] = Charts.Bronze_Label;
                 dtRegion.Rows[_iRow][1] = _intScore;
             }
             else if (_intScore >= 0 && _intScore <= 69.5m)
             {
-                dtRegion.Rows[_iRow][2] = "Spectator";
+                dtRegion.Rows[_iRow][2] = "Tin";
                 dtRegion.Rows[_iRow][1] = _intScore;
             }
         }
+
+        DataView dvRegion = dtRegion.DefaultView;
+        dvRegion.Sort = "Score DESC, Region ASC";
+        dtRegion = dvRegion.ToTable();
 
         string strHeader = "";
         if (dtRegion.Rows.Count > 1)
@@ -223,7 +230,7 @@ public partial class DashboardGraphCal : clsBasePage
             strHeader = "Aggregate Performance";
 
         // Set Chart property 
-        strChartXML.Append("<chart caption='" + strHeader + "' xAxisName='Region' yAxisName='Level' useRoundEdges='1' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='120' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
+        strChartXML.Append("<chart caption='" + strHeader + "'  plotGradientColor='' xAxisName='Region' yAxisName='Level' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='120' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='0' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
 
         decimal _devAvg = 0;
         //decimal.TryParse(Convert.ToString(dtAverage.Compute("AVG(Score)", "")), out _devAvg);
@@ -232,17 +239,18 @@ public partial class DashboardGraphCal : clsBasePage
         // Set Label
         for (int i = 0; i < dtRegion.Rows.Count; i++)
         {
-            strChartXML.AppendFormat("<set label='{0}' value='{1}' link='{2}'/>", dtRegion.Rows[i][0].ToString(), dtRegion.Rows[i][1].ToString(), Server.UrlEncode("JavaScript:OpenPopup(\"" + dtRegion.Rows[i][0].ToString() + "\",\"" + Year.ToString() + "\",\"1\"," + Convert.ToString(_devAvg) + ");"));
+            strChartXML.AppendFormat("<set label='{0}' value='{1}' link='{2}' color='{3}' />", dtRegion.Rows[i][0].ToString(), dtRegion.Rows[i][1].ToString(), Server.UrlEncode("JavaScript:OpenPopup(\"" + dtRegion.Rows[i][0].ToString() + "\",\"" + Year.ToString() + "\",\"1\"," + Convert.ToString(_devAvg) + ");"), Charts.GetColorCodeFromScoreAggregate(Convert.ToDecimal(dtRegion.Rows[i]["Score"])));
         }
 
         // set Tread Lines
         strChartXML.Append("<trendLines>");
-        strChartXML.Append("<line startValue='69.5' color='49563A' displayvalue='Spectator' /> ");
-        strChartXML.Append("<line startValue='79.5' color='49563A' displayvalue='Water boy' /> ");
-        strChartXML.Append("<line startValue='89.5' color='49563A' displayvalue='Second String' /> ");
-        strChartXML.Append("<line startValue='94.5' color='49563A' displayvalue='Starter' /> ");
-        strChartXML.Append("<line startValue='100' color='49563A' displayvalue='All Pro' /> ");
-        strChartXML.Append("<line startValue='" + string.Format("{0:N2}", _devAvg) + "' color='FF0000' displayvalue='Company Average' valueOnRight='1' thickness='2' /> ");
+        strChartXML.Append("<line startValue='69.5' color='49563A' displayvalue='" + Charts.Tin_Label + "' /> ");
+        strChartXML.Append("<line startValue='79.5' color='49563A' displayvalue='" + Charts.Bronze_Label + "' /> ");
+        strChartXML.Append("<line startValue='89.5' color='49563A' displayvalue='" + Charts.Silver_Label + "' /> ");
+        strChartXML.Append("<line startValue='94.5' color='49563A' displayvalue='" + Charts.Gold_Label + "' /> ");
+        strChartXML.Append("<line startValue='100' color='49563A' displayvalue='" + Charts.Platinum_Label + "' /> ");
+        //strChartXML.Append("<line startValue='" + string.Format("{0:N2}", _devAvg) + "' color='FF0000' displayvalue='Company Average' valueOnRight='1' thickness='2' /> ");
+        strChartXML.Append("<line startValue='95'  color='FF0000' displayvalue='Cross The Line' valueOnRight='1' thickness='2' /> ");
 
         strChartXML.Append("</trendLines>");
 
@@ -259,7 +267,7 @@ public partial class DashboardGraphCal : clsBasePage
         strChartXML.Append("</styles>");
 
         strChartXML.Append("</chart>");
-        return InfoSoftGlobal.FusionCharts.RenderChart(AppConfig.SiteURL + "FusionCharts/Column3D.swf?ChartNoDataText=No data to display for: Aggregate Performance By Region", "", strChartXML.ToString(), "AggregatePerformanceByRegion", "490", "400", false, true);
+        return InfoSoftGlobal.FusionCharts.RenderChart(AppConfig.SiteURL + "FusionCharts/Bar2D.swf?ChartNoDataText=No data to display for: Aggregate Performance By Region", "", strChartXML.ToString(), "AggregatePerformanceByRegion", "490", "400", false, true);
     }
 
     /// <summary>
@@ -278,7 +286,7 @@ public partial class DashboardGraphCal : clsBasePage
         dtResult.Rows.Add(drCal);
 
         dtResult.DefaultView.RowFilter = "Region not in ('NCA','SCA')";
-        dtResult.DefaultView.Sort = "Region";
+        dtResult.DefaultView.Sort = "Score DESC, Region ASC";
         dtResult = dtResult.DefaultView.ToTable();
 
         decimal _decAvg = 0;
@@ -296,12 +304,12 @@ public partial class DashboardGraphCal : clsBasePage
             strHeader = "Facility Inspection";
 
         // Set Chart property 
-        strChartXML.Append("<chart caption='" + strHeader + "' xAxisName='Region' yAxisName='Level' useRoundEdges='1' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='34' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
+        strChartXML.Append("<chart caption='" + strHeader + "' plotGradientColor='' xAxisName='Region' yAxisName='Level' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='34' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='0' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
 
         // Set Lable
         for (int i = 0; i < dtResult.Rows.Count; i++)
         {
-            strChartXML.AppendFormat("<set label='{0}' value='{1}' link='{2}'/>", dtResult.Rows[i][0].ToString(), dtResult.Rows[i][1].ToString(), Server.UrlEncode("JavaScript:OpenPopup(\"" + dtResult.Rows[i][0].ToString() + "\",\"" + Year.ToString() + "\",\"2\"," + Convert.ToString(_decAvg) + ");"));
+            strChartXML.AppendFormat("<set label='{0}' value='{1}' link='{2}' color='{3}' />", dtResult.Rows[i][0].ToString(), dtResult.Rows[i][1].ToString(), Server.UrlEncode("JavaScript:OpenPopup(\"" + dtResult.Rows[i][0].ToString() + "\",\"" + Year.ToString() + "\",\"2\"," + Convert.ToString(_decAvg) + ");"),Charts.GetColorCodeFromScore(Convert.ToDecimal(dtResult.Rows[i]["Score"])));
         }
 
         GetTreadLineStyle(strChartXML, _decAvg);
@@ -309,7 +317,7 @@ public partial class DashboardGraphCal : clsBasePage
         strChartXML.Append("</chart>");
 
         // Generate Chart
-        return InfoSoftGlobal.FusionCharts.RenderChart(AppConfig.SiteURL + "FusionCharts/Column3D.swf?ChartNoDataText=No data to display for: Facility Inspection By Region", "", strChartXML.ToString(), "FacilityInspectionByRegion", "490", "400", false, true);
+        return InfoSoftGlobal.FusionCharts.RenderChart(AppConfig.SiteURL + "FusionCharts/Bar2D.swf?ChartNoDataText=No data to display for: Facility Inspection By Region", "", strChartXML.ToString(), "FacilityInspectionByRegion", "490", "400", false, true);
     }
 
     /// <summary>
@@ -330,7 +338,7 @@ public partial class DashboardGraphCal : clsBasePage
         dtResult.Rows.Add(drCal);
 
         dtResult.DefaultView.RowFilter = "Region not in ('NCA','SCA')";
-        dtResult.DefaultView.Sort = "Region";
+        dtResult.DefaultView.Sort = "Score DESC, Region ASC";
         dtResult = dtResult.DefaultView.ToTable();
         if (dsResult.Tables.Count > 1)
         {
@@ -343,13 +351,13 @@ public partial class DashboardGraphCal : clsBasePage
         else
             strHeader = "Incident Investigation";
         // Set Chart property 
-        strChartXML.Append("<chart caption='" + strHeader + "' xAxisName='Region' yAxisName='Level' useRoundEdges='1' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='34' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
+        strChartXML.Append("<chart caption='" + strHeader + "'  plotGradientColor='' xAxisName='Region' yAxisName='Level' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='34' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='0' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
 
         // Set Lable
         for (int i = 0; i < dtResult.Rows.Count; i++)
         {
             strLink = Server.UrlEncode("JavaScript:OpenPopup(\"" + dtResult.Rows[i]["region"].ToString() + "\",\"" + Year.ToString() + "\",\"4\"," + Convert.ToString(_decAvg) + ");");
-            strChartXML.AppendFormat("<set label='{0}' value='{1}' link='{2}'/>", dtResult.Rows[i]["Region"].ToString(), dtResult.Rows[i]["Score"].ToString(), strLink);
+            strChartXML.AppendFormat("<set label='{0}' value='{1}' link='{2}' color='{3}' />", dtResult.Rows[i]["Region"].ToString(), dtResult.Rows[i]["Score"].ToString(), strLink, Charts.GetColorCodeFromScore(Convert.ToDecimal(dtResult.Rows[i]["Score"])));
         }
 
         GetTreadLineStyle(strChartXML, _decAvg);
@@ -357,7 +365,7 @@ public partial class DashboardGraphCal : clsBasePage
         strChartXML.Append("</chart>");
 
         // Generate Chart
-        return InfoSoftGlobal.FusionCharts.RenderChart(AppConfig.SiteURL + "FusionCharts/Column3D.swf?ChartNoDataText=No data to display for: Incident Investigation By Region", "", strChartXML.ToString(), "IncidentInvestigationByRegion", "490", "400", false, true);
+        return InfoSoftGlobal.FusionCharts.RenderChart(AppConfig.SiteURL + "FusionCharts/Bar2D.swf?ChartNoDataText=No data to display for: Incident Investigation By Region", "", strChartXML.ToString(), "IncidentInvestigationByRegion", "490", "400", false, true);
     }
 
     /// <summary>
@@ -376,7 +384,7 @@ public partial class DashboardGraphCal : clsBasePage
         dtResult.Rows.Add(drCal);
 
         dtResult.DefaultView.RowFilter = "Region not in ('NCA','SCA')";
-        dtResult.DefaultView.Sort = "Region";
+        dtResult.DefaultView.Sort = "Score DESC, Region ASC";
         dtResult = dtResult.DefaultView.ToTable();
 
         decimal _decAvg = 0;
@@ -394,12 +402,12 @@ public partial class DashboardGraphCal : clsBasePage
             strHeader = "Safety Leadership Team";
 
         // Set Chart property 
-        strChartXML.Append("<chart caption='" + strHeader + "' xAxisName='Region' yAxisName='Level' useRoundEdges='1' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='70' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
+        strChartXML.Append("<chart caption='" + strHeader + "' plotGradientColor=''  xAxisName='Region' yAxisName='Level' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='70' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='0' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
 
         // Set Lable
         for (int i = 0; i < dtResult.Rows.Count; i++)
         {
-            strChartXML.AppendFormat("<set label='{0}' value='{1}' link='{2}'/>", dtResult.Rows[i][0].ToString(), dtResult.Rows[i][1].ToString(), Server.UrlEncode("JavaScript:OpenPopup(\"" + dtResult.Rows[i][0].ToString() + "\",\"" + Year.ToString() + "\",\"7\"," + Convert.ToString(_decAvg) + ");"));
+            strChartXML.AppendFormat("<set label='{0}' value='{1}' link='{2}' color='{3}' />", dtResult.Rows[i][0].ToString(), dtResult.Rows[i][1].ToString(), Server.UrlEncode("JavaScript:OpenPopup(\"" + dtResult.Rows[i][0].ToString() + "\",\"" + Year.ToString() + "\",\"7\"," + Convert.ToString(_decAvg) + ");"), Charts.GetColorCodeFromScore_SLT(Convert.ToDecimal(dtResult.Rows[i]["Score"])));
         }
 
         GetTreadLineStyle_SLT(strChartXML, _decAvg);
@@ -407,7 +415,7 @@ public partial class DashboardGraphCal : clsBasePage
         strChartXML.Append("</chart>");
 
         // Generate Chart
-        return InfoSoftGlobal.FusionCharts.RenderChart(AppConfig.SiteURL + "FusionCharts/Column3D.swf?ChartNoDataText=No data to display for: Safety Leadership Team By Region", "", strChartXML.ToString(), "SafetyLeadershipTeamByRegion", "490", "400", false, true);
+        return InfoSoftGlobal.FusionCharts.RenderChart(AppConfig.SiteURL + "FusionCharts/Bar2D.swf?ChartNoDataText=No data to display for: Safety Leadership Team By Region", "", strChartXML.ToString(), "SafetyLeadershipTeamByRegion", "490", "400", false, true);
     }
     /// <summary>
     /// Generate Facility Inspection By Region Chart
@@ -426,7 +434,7 @@ public partial class DashboardGraphCal : clsBasePage
         dtResult.Rows.Add(drCal);
 
         dtResult.DefaultView.RowFilter = "Region not in ('NCA','SCA')";
-        dtResult.DefaultView.Sort = "Region";
+        dtResult.DefaultView.Sort = "Score DESC, Region ASC";
         dtResult = dtResult.DefaultView.ToTable();
         if (dsResult.Tables.Count > 1)
         {
@@ -441,20 +449,20 @@ public partial class DashboardGraphCal : clsBasePage
             strHeader = "Incident Reduction";
 
         // Set Chart property 
-        strChartXML.Append("<chart caption='" + strHeader + "' xAxisName='Region' yAxisName='Level'  useRoundEdges='1' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='34' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10' >");
+        strChartXML.Append("<chart caption='" + strHeader + "' xAxisName='Region' plotGradientColor='' yAxisName='Level'  useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='34' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='0' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10' >");
 
         // Set Lable
         for (int i = 0; i < dtResult.Rows.Count; i++)
         {
             strLink = Server.UrlEncode("JavaScript:OpenPopup(\"" + dtResult.Rows[i]["region"].ToString() + "\",\"" + Year.ToString() + "\",\"6\"," + Convert.ToString(_decAvg) + ");");
-            strChartXML.AppendFormat("<set label='{0}' value='{1}' link='{2}'/>", dtResult.Rows[i]["Region"].ToString(), dtResult.Rows[i]["Score"].ToString(), strLink);
+            strChartXML.AppendFormat("<set label='{0}' value='{1}' link='{2}' color='{3}' />", dtResult.Rows[i]["Region"].ToString(), dtResult.Rows[i]["Score"].ToString(), strLink, Charts.GetColorCodeFromScore(Convert.ToDecimal(dtResult.Rows[i]["Score"])));
         }
 
         GetTreadLineStyle(strChartXML, _decAvg);
         strChartXML.Append("</chart>");
 
         // Generate Chart
-        return InfoSoftGlobal.FusionCharts.RenderChart(AppConfig.SiteURL + "FusionCharts/Column3D.swf?ChartNoDataText=No data to display for: Incident Reduction By Region", "", strChartXML.ToString(), "IncidentReductionByRegion", "490", "400", false, true);
+        return InfoSoftGlobal.FusionCharts.RenderChart(AppConfig.SiteURL + "FusionCharts/Bar2D.swf?ChartNoDataText=No data to display for: Incident Reduction By Region", "", strChartXML.ToString(), "IncidentReductionByRegion", "490", "400", false, true);
     }
 
     /// <summary>
@@ -475,7 +483,7 @@ public partial class DashboardGraphCal : clsBasePage
         dtResult.Rows.Add(drCal);
 
         dtResult.DefaultView.RowFilter = "Region not in ('NCA','SCA')";
-        dtResult.DefaultView.Sort = "Region";
+        dtResult.DefaultView.Sort = "Score DESC, Region ASC";
         dtResult = dtResult.DefaultView.ToTable();
         if (dsResult.Tables.Count > 1)
         {
@@ -488,13 +496,13 @@ public partial class DashboardGraphCal : clsBasePage
         else
             strHeader = "Workers’ Compensation Claims Management";
         // Set Chart property 
-        strChartXML.Append("<chart caption='" + strHeader + "' xAxisName='Region' yAxisName='Level'  useRoundEdges='1' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='34' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
+        strChartXML.Append("<chart caption='" + strHeader + "' xAxisName='Region' plotGradientColor='' yAxisName='Level'  useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='34' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='0' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
 
         // Set Lable
         for (int i = 0; i < dtResult.Rows.Count; i++)
         {
             strLink = Server.UrlEncode("JavaScript:OpenPopup(\"" + dtResult.Rows[i]["region"].ToString() + "\",\"" + Year.ToString() + "\",\"5\"," + Convert.ToString(_decAvg) + ");");
-            strChartXML.AppendFormat("<set label='{0}' value='{1}' link='{2}'/>", dtResult.Rows[i]["Region"].ToString(), dtResult.Rows[i]["Score"].ToString(), strLink);
+            strChartXML.AppendFormat("<set label='{0}' value='{1}' link='{2}' color='{3}' />", dtResult.Rows[i]["Region"].ToString(), dtResult.Rows[i]["Score"].ToString(), strLink, Charts.GetColorCodeFromScore(Convert.ToDecimal(dtResult.Rows[i]["Score"])));
         }
 
         GetTreadLineStyle(strChartXML, _decAvg);
@@ -502,7 +510,7 @@ public partial class DashboardGraphCal : clsBasePage
         strChartXML.Append("</chart>");
 
         // Generate Chart
-        return InfoSoftGlobal.FusionCharts.RenderChart(AppConfig.SiteURL + "FusionCharts/Column3D.swf?ChartNoDataText=No data to display for: Workers’ Compensation Claims Management By Region", "", strChartXML.ToString(), "WCClaimMgmtByRegion", "490", "400", false, true);
+        return InfoSoftGlobal.FusionCharts.RenderChart(AppConfig.SiteURL + "FusionCharts/Bar2D.swf?ChartNoDataText=No data to display for: Workers’ Compensation Claims Management By Region", "", strChartXML.ToString(), "WCClaimMgmtByRegion", "490", "400", false, true);
     }
 
     /// <summary>
@@ -514,12 +522,14 @@ public partial class DashboardGraphCal : clsBasePage
     {
         // set Tread Lines
         strChartXML.Append("<trendLines>");
-        strChartXML.Append("<line startValue='4' color='49563A' displayvalue='Spectator' /> ");
-        strChartXML.Append("<line startValue='10' color='49563A' displayvalue='Water boy' /> ");
-        strChartXML.Append("<line startValue='16' color='49563A' displayvalue='Second String' /> ");
-        strChartXML.Append("<line startValue='22' color='49563A' displayvalue='Starter' /> ");
-        strChartXML.Append("<line startValue='28' color='49563A' displayvalue='All Pro' /> ");
-        strChartXML.Append("<line startValue='" + string.Format("{0:N2}", Average) + "' color='FF0000' displayvalue='Company Average' valueOnRight='1' thickness='2' /> ");
+        strChartXML.Append("<line startValue='4' color='49563A' displayvalue='Tin' /> ");
+        strChartXML.Append("<line startValue='10' color='49563A' displayvalue='Bronze' /> ");
+        strChartXML.Append("<line startValue='16' color='49563A' displayvalue='Silver' /> ");
+        strChartXML.Append("<line startValue='22' color='49563A' displayvalue='Gold' /> ");
+        strChartXML.Append("<line startValue='28' color='49563A' displayvalue='Platinum' /> ");
+        //strChartXML.Append("<line startValue='" + string.Format("{0:N2}", Average) + "' color='FF0000' displayvalue='Company Average' valueOnRight='1' thickness='2' /> ");
+
+        strChartXML.Append("<line startValue='26.6' color='FF0000' displayvalue='Cross The Line' valueOnRight='1' thickness='2'  /> ");
 
         strChartXML.Append("</trendLines>");
 
@@ -545,12 +555,13 @@ public partial class DashboardGraphCal : clsBasePage
     {
         // set Tread Lines
         strChartXML.Append("<trendLines>");
-        strChartXML.Append("<line startValue='23' color='49563A' displayvalue='Spectator' /> ");
-        strChartXML.Append("<line startValue='35' color='49563A' displayvalue='Water boy' /> ");
-        strChartXML.Append("<line startValue='47' color='49563A' displayvalue='Second String' /> ");
-        strChartXML.Append("<line startValue='59' color='49563A' displayvalue='Starter' /> ");
-        strChartXML.Append("<line startValue='60' color='49563A' displayvalue='All Pro' /> ");
-        strChartXML.Append("<line startValue='" + string.Format("{0:N2}", Average) + "' color='FF0000' displayvalue='Company Average' valueOnRight='1' thickness='2' /> ");
+        strChartXML.Append("<line startValue='23' color='49563A' displayvalue='" + Charts.Tin_Label + "' /> ");
+        strChartXML.Append("<line startValue='35' color='49563A' displayvalue='" + Charts.Bronze_Label + "' /> ");
+        strChartXML.Append("<line startValue='47' color='49563A' displayvalue='" + Charts.Silver_Label + "' /> ");
+        strChartXML.Append("<line startValue='59' color='49563A' displayvalue='" + Charts.Gold_Label + "' /> ");
+        strChartXML.Append("<line startValue='60' color='49563A' displayvalue='" + Charts.Platinum_Label + "' /> ");
+        //strChartXML.Append("<line startValue='" + string.Format("{0:N2}", Average) + "' color='FF0000' displayvalue='Company Average' valueOnRight='1' thickness='2' /> ");
+        strChartXML.Append("<line startValue='57' color='FF0000' displayvalue='Cross The Line' valueOnRight='1' thickness='2' /> ");
         strChartXML.Append("</trendLines>");
 
         // set Style for Chart objects
@@ -588,7 +599,7 @@ public partial class DashboardGraphCal : clsBasePage
         dtResult.Rows.Add(drCal);
 
         dtResult.DefaultView.RowFilter = "Region not in ('NCA','SCA')";
-        dtResult.DefaultView.Sort = "Region";
+        dtResult.DefaultView.Sort = "Score DESC, Region ASC";
         dtResult = dtResult.DefaultView.ToTable();
     }
 

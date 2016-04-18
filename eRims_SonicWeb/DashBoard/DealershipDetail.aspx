@@ -74,7 +74,7 @@
                     <td align="left" valign="top">Total</td>
                     <td align="center" valign="top">:</td>
                     <td align="left" valign="top">
-                        <asp:Label ID="lblScoreTotal" runat="server" />&nbsp;out of possible 200</td>
+                        <asp:Label ID="lblScoreTotal" runat="server" />&nbsp;out of possible 100</td>
                 </tr>
                 <tr>
                     <td>&nbsp;
@@ -361,7 +361,7 @@
                     <td align="center" style="width: 5%">:
                     </td>
                     <td style="width: 55%">
-                        <asp:Label ID="lblRedPerformance" runat="server" Text="All Pro"></asp:Label>
+                        <asp:Label ID="lblRedPerformance" runat="server" Text="Platinum"></asp:Label>
                     </td>
                 </tr>
             </table>

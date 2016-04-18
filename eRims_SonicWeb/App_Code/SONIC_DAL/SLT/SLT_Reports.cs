@@ -77,11 +77,11 @@ public class SLT_Reports : System.Web.UI.Page
         if (objSLT_Meeting_Schedule.SLT_Score != null)
         {
             Score = (int)objSLT_Meeting_Schedule.SLT_Score;
-            if (Score >= 0 && Score <= 23) Score_Desc = "Spectator";
-            else if (Score >= 24 && Score <= 35) Score_Desc = "Water boy";
-            else if (Score >= 36 && Score <= 47) Score_Desc = "Second String";
-            else if (Score >= 48 && Score <= 59) Score_Desc = "Starter";
-            else if (Score >= 60) Score_Desc = "All Pro";
+            if (Score >= 0 && Score <= 23) Score_Desc = Charts.Tin_Label;
+            else if (Score >= 24 && Score <= 35) Score_Desc = Charts.Bronze_Label;
+            else if (Score >= 36 && Score <= 47) Score_Desc = Charts.Silver_Label;
+            else if (Score >= 48 && Score <= 59) Score_Desc = Charts.Gold_Label;
+            else if (Score >= 60) Score_Desc = Charts.Platinum_Label;
             else Score_Desc = "";
         }
         strBody = strBody.Replace("[Location_Dba]", objLU_Location.dba);
@@ -299,15 +299,15 @@ public class SLT_Reports : System.Web.UI.Page
                 int Score = Convert.ToInt32(dtReport.Rows[0]["Score"]);
                 switch (Score)
                 {
-                    case 4: strBody = strBody.Replace("[CM_Score]", "Spectator"); break;
-                    case 10: strBody = strBody.Replace("[CM_Score]", "Water boy"); break;
-                    case 16: strBody = strBody.Replace("[CM_Score]", "Second String"); break;
-                    case 22: strBody = strBody.Replace("[CM_Score]", "Starter"); break;
-                    case 28: strBody = strBody.Replace("[CM_Score]", "All Pro"); break;
+                    case 4: strBody = strBody.Replace("[CM_Score]", Charts.Tin_Label); break;
+                    case 10: strBody = strBody.Replace("[CM_Score]", Charts.Bronze_Label); break;
+                    case 16: strBody = strBody.Replace("[CM_Score]", Charts.Silver_Label); break;
+                    case 22: strBody = strBody.Replace("[CM_Score]", Charts.Gold_Label); break;
+                    case 28: strBody = strBody.Replace("[CM_Score]", Charts.Platinum_Label); break;
                 }
             }
             else
-                strBody = strBody.Replace("[CM_Score]", "All Pro");
+                strBody = strBody.Replace("[CM_Score]", Charts.Platinum_Label);
             strBody = strBody.Replace("[Claim_management_Info]", getCliamManagementDetails(Incident_Year, Incident_Month));
             //SLT_Claims_Management objSLT_Claims_Management = new SLT_Claims_Management(PK_SLT_Meeting,0,true);
             //strBody = strBody.Replace("[Lag_Explaination]", objSLT_Claims_Management.Lag_Explaination != null ? objSLT_Claims_Management.Lag_Explaination : "");
@@ -600,15 +600,15 @@ public class SLT_Reports : System.Web.UI.Page
                 int Score = Convert.ToInt32(dtReport.Rows[0]["Score"]);
                 switch (Score)
                 {
-                    case 4: strBody = strBody.Replace("[CM_Score]", "Spectator"); break;
-                    case 10: strBody = strBody.Replace("[CM_Score]", "Water boy"); break;
-                    case 16: strBody = strBody.Replace("[CM_Score]", "Second String"); break;
-                    case 22: strBody = strBody.Replace("[CM_Score]", "Starter"); break;
-                    case 28: strBody = strBody.Replace("[CM_Score]", "All Pro"); break;
+                    case 4: strBody = strBody.Replace("[CM_Score]", Charts.Tin_Label); break;
+                    case 10: strBody = strBody.Replace("[CM_Score]", Charts.Bronze_Label); break;
+                    case 16: strBody = strBody.Replace("[CM_Score]", Charts.Silver_Label); break;
+                    case 22: strBody = strBody.Replace("[CM_Score]", Charts.Gold_Label); break;
+                    case 28: strBody = strBody.Replace("[CM_Score]", Charts.Platinum_Label); break;
                 }
             }
             else
-                strBody = strBody.Replace("[CM_Score]", "All Pro");
+                strBody = strBody.Replace("[CM_Score]", Charts.Platinum_Label);
             strBody = strBody.Replace("[Claim_management_Info]", getCliamManagementDetails(Incident_Year, Incident_Month));
             //SLT_Claims_Management objSLT_Claims_Management = new SLT_Claims_Management(PK_SLT_Meeting,0,true);
             //strBody = strBody.Replace("[Lag_Explaination]", objSLT_Claims_Management.Lag_Explaination != null ? objSLT_Claims_Management.Lag_Explaination : "");
@@ -893,15 +893,15 @@ public class SLT_Reports : System.Web.UI.Page
                 int Score = Convert.ToInt32(dtReport.Rows[0]["Score"]);
                 switch (Score)
                 {
-                    case 4: htFindAndReplace.Add("[CM_Score]", "Spectator"); break;
-                    case 10: htFindAndReplace.Add("[CM_Score]", "Water boy"); break;
-                    case 16: htFindAndReplace.Add("[CM_Score]", "Second String"); break;
-                    case 22: htFindAndReplace.Add("[CM_Score]", "Starter"); break;
-                    case 28: htFindAndReplace.Add("[CM_Score]", "All Pro"); break;
+                    case 4: htFindAndReplace.Add("[CM_Score]", Charts.Tin_Label); break;
+                    case 10: htFindAndReplace.Add("[CM_Score]", Charts.Bronze_Label); break;
+                    case 16: htFindAndReplace.Add("[CM_Score]", Charts.Silver_Label); break;
+                    case 22: htFindAndReplace.Add("[CM_Score]", Charts.Gold_Label); break;
+                    case 28: htFindAndReplace.Add("[CM_Score]", Charts.Platinum_Label); break;
                 }
             }
             else
-                htFindAndReplace.Add("[CM_Score]", "All Pro");
+                htFindAndReplace.Add("[CM_Score]", "Platinum");
             htFindAndReplace.Add("[Claim_management_Info]", getCliamManagementDetails(Incident_Year, Incident_Month));
             //SLT_Claims_Management objSLT_Claims_Management = new SLT_Claims_Management(PK_SLT_Meeting,0,true);
             //htFindAndReplace.Add("[Lag_Explaination]", objSLT_Claims_Management.Lag_Explaination != null ? objSLT_Claims_Management.Lag_Explaination : "");
@@ -1197,15 +1197,15 @@ public class SLT_Reports : System.Web.UI.Page
         //        int Score = Convert.ToInt32(dtReport.Rows[0]["Score"]);
         //        switch (Score)
         //        {
-        //            case 4: strBody = strBody.Replace("[CM_Score]", "Spectator"); break;
-        //            case 10: strBody = strBody.Replace("[CM_Score]", "Water boy"); break;
-        //            case 16: strBody = strBody.Replace("[CM_Score]", "Second String"); break;
-        //            case 22: strBody = strBody.Replace("[CM_Score]", "Starter"); break;
-        //            case 28: strBody = strBody.Replace("[CM_Score]", "All Pro"); break;
+        //            case 4: strBody = strBody.Replace("[CM_Score]", "Tin"); break;
+        //            case 10: strBody = strBody.Replace("[CM_Score]", "Bronze"); break;
+        //            case 16: strBody = strBody.Replace("[CM_Score]", "Silver"); break;
+        //            case 22: strBody = strBody.Replace("[CM_Score]", "Gold"); break;
+        //            case 28: strBody = strBody.Replace("[CM_Score]", "Platinum"); break;
         //        }
         //    }
         //    else
-        //        strBody = strBody.Replace("[CM_Score]", "All Pro");
+        //        strBody = strBody.Replace("[CM_Score]", "Platinum");
         //    strBody = strBody.Replace("[Claim_management_Info]", getCliamManagementDetails(Incident_Year, Incident_Month));
         //    #endregion
         //} 

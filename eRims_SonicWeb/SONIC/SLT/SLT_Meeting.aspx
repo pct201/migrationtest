@@ -3638,11 +3638,11 @@ function DisableButton() {
                                                         <td align="left" width="28%" valign="top">
                                                             <asp:DropDownList ID="drpFK_LU_Meeting_Quality" Width="175px" runat="server" SkinID="dropGen">
                                                                 <asp:ListItem Text="--Select--" Value="0"></asp:ListItem>
-                                                                <asp:ListItem Text="Spectator" Value="1"></asp:ListItem>
-                                                                <asp:ListItem Text="Water boy" Value="2"></asp:ListItem>
-                                                                <asp:ListItem Text="Second String" Value="3"></asp:ListItem>
-                                                                <asp:ListItem Text="Starter" Value="4"></asp:ListItem>
-                                                                <asp:ListItem Text="All Pro" Value="5"></asp:ListItem>
+                                                                <asp:ListItem Text="Tin" Value="1"></asp:ListItem>
+                                                                <asp:ListItem Text="Bronze" Value="2"></asp:ListItem>
+                                                                <asp:ListItem Text="Silver" Value="3"></asp:ListItem>
+                                                                <asp:ListItem Text="Gold" Value="4"></asp:ListItem>
+                                                                <asp:ListItem Text="Platinum" Value="5"></asp:ListItem>
                                                             </asp:DropDownList>
                                                         </td>
                                                         <td align="left" width="18%" valign="top">Lag Time

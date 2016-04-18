@@ -195,10 +195,10 @@ public partial class DashBoardGraphACI : clsBasePage
     {
         // set Tread Lines
         strChartXML.Append("<trendLines>");
-        strChartXML.Append("<line startValue='70' color='49563A' displayvalue='Water boy (70-79.99%)' /> ");
-        strChartXML.Append("<line startValue='80' color='49563A' displayvalue='Second String (80-89.99%)' /> ");
-        strChartXML.Append("<line startValue='90' color='49563A' displayvalue='Starter (90-94.99%)' /> ");
-        strChartXML.Append("<line startValue='95' color='49563A' displayvalue='All Pro (95-100%)' /> ");
+        strChartXML.Append("<line startValue='70' color='49563A' displayvalue='Bronze (70-79.99%)' /> ");
+        strChartXML.Append("<line startValue='80' color='49563A' displayvalue='Silver (80-89.99%)' /> ");
+        strChartXML.Append("<line startValue='90' color='49563A' displayvalue='Gold (90-94.99%)' /> ");
+        strChartXML.Append("<line startValue='95' color='49563A' displayvalue='Platinum (95-100%)' /> ");
         strChartXML.Append("<line startValue='" + string.Format("{0:N2}", Average) + "' color='FF0000' displayvalue='' valueOnRight='1' thickness='2' /> ");
         strChartXML.Append("</trendLines>");
 

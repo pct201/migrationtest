@@ -484,7 +484,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         if (dtDetail.Rows.Count > 0)
             strDealerShip = string.Format("{0:N1}", dtDetail.Rows[0]["Performance_Level"]);
         else
-            strDealerShip = "All Pro";
+            strDealerShip = "Platinum";
         if (StrOperation == "view")
             lblDealerShip_View.Text = strDealerShip; // view mode
         else
@@ -2333,11 +2333,11 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                 int Score = Convert.ToInt32(dtReport.Rows[0]["Score"]);
                 switch (Score)
                 {
-                    case 4: lblDealershipScore.Text = "Spectator"; break;
-                    case 10: lblDealershipScore.Text = "Water boy"; break;
-                    case 16: lblDealershipScore.Text = "Second String"; break;
-                    case 22: lblDealershipScore.Text = "Starter"; break;
-                    case 28: lblDealershipScore.Text = "All Pro"; break;
+                    case 4: lblDealershipScore.Text = Charts.Tin_Label; break;
+                    case 10: lblDealershipScore.Text = Charts.Bronze_Label; break;
+                    case 16: lblDealershipScore.Text = Charts.Silver_Label; break;
+                    case 22: lblDealershipScore.Text = Charts.Gold_Label; break;
+                    case 28: lblDealershipScore.Text = Charts.Platinum_Label; break;
                 }
             }
             else
@@ -2363,11 +2363,11 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                 int Score = Convert.ToInt32(dtReport.Rows[0]["Score"]);
                 switch (Score)
                 {
-                    case 4: lblDealershipview.Text = "Spectator"; break;
-                    case 10: lblDealershipview.Text = "Water boy"; break;
-                    case 16: lblDealershipview.Text = "Second String"; break;
-                    case 22: lblDealershipview.Text = "Starter"; break;
-                    case 28: lblDealershipview.Text = "All Pro"; break;
+                    case 4: lblDealershipview.Text = Charts.Tin_Label; break;
+                    case 10: lblDealershipview.Text = Charts.Bronze_Label; break;
+                    case 16: lblDealershipview.Text = Charts.Silver_Label; break;
+                    case 22: lblDealershipview.Text = Charts.Gold_Label; break;
+                    case 28: lblDealershipview.Text = Charts.Platinum_Label; break;
                 }
             }
             else
@@ -2472,7 +2472,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                     lblTrainingQ4.Text = "0";
                 }
 
-                DataRow[] result5 = dsDetail.Tables[1].Select("PerformanceLevel In ('All Pro','Starter', 'Second String', 'Water boy', 'Spectator')");
+                DataRow[] result5 = dsDetail.Tables[1].Select("PerformanceLevel In ('"+ Charts.Platinum_Label +"','"+ Charts.Gold_Label +"', '"+ Charts.Silver_Label +"', '"+ Charts.Bronze_Label +"', '"+ Charts.Tin_Label +"')");
                 if (result5.Length > 0)
                 {
                     if (string.IsNullOrEmpty(result5[0]["PerformanceLevel"].ToString()))
@@ -2541,7 +2541,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                         lblTrainingQ4View.Text = string.Format("{0:0.0#}", result4[0]["Percentage"]) + "%";
                 }
 
-                DataRow[] result5 = dsDetail.Tables[1].Select("PerformanceLevel In ('All Pro','Starter', 'Second String', 'Water boy', 'Spectator')");
+                DataRow[] result5 = dsDetail.Tables[1].Select("PerformanceLevel In ('" + Charts.Platinum_Label + "','" + Charts.Gold_Label + "', '" + Charts.Silver_Label + "', '" + Charts.Bronze_Label + "', '" + Charts.Tin_Label + "')");
 
                 if (result5.Length > 0)
                 {
@@ -2820,11 +2820,11 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                     {
                         switch (Convert.ToInt32(objSLT_Meeting_Schedule.FK_LU_Meeting_Quality))
                         {
-                            case 1: lblFK_LU_Meeting_Quality.Text = "Spectator"; break;
-                            case 2: lblFK_LU_Meeting_Quality.Text = "Water boy"; break;
-                            case 3: lblFK_LU_Meeting_Quality.Text = "Second String"; break;
-                            case 4: lblFK_LU_Meeting_Quality.Text = "Starter"; break;
-                            case 5: lblFK_LU_Meeting_Quality.Text = "All Pro"; break;
+                            case 1: lblFK_LU_Meeting_Quality.Text = Charts.Tin_Label; break;
+                            case 2: lblFK_LU_Meeting_Quality.Text = Charts.Bronze_Label; break;
+                            case 3: lblFK_LU_Meeting_Quality.Text = Charts.Silver_Label; break;
+                            case 4: lblFK_LU_Meeting_Quality.Text = Charts.Gold_Label; break;
+                            case 5: lblFK_LU_Meeting_Quality.Text = Charts.Platinum_Label; break;
                         }
                     }
                     else
@@ -2841,11 +2841,11 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                 {
                     switch (Convert.ToInt32(objSLT_Meeting_Schedule.FK_LU_Meeting_Quality))
                     {
-                        case 1: lblFK_LU_Meeting_Quality.Text = "Spectator"; break;
-                        case 2: lblFK_LU_Meeting_Quality.Text = "Water boy"; break;
-                        case 3: lblFK_LU_Meeting_Quality.Text = "Second String"; break;
-                        case 4: lblFK_LU_Meeting_Quality.Text = "Starter"; break;
-                        case 5: lblFK_LU_Meeting_Quality.Text = "All Pro"; break;
+                        case 1: lblFK_LU_Meeting_Quality.Text = Charts.Tin_Label; break;
+                        case 2: lblFK_LU_Meeting_Quality.Text = Charts.Bronze_Label; break;
+                        case 3: lblFK_LU_Meeting_Quality.Text = Charts.Silver_Label; break;
+                        case 4: lblFK_LU_Meeting_Quality.Text = Charts.Gold_Label; break;
+                        case 5: lblFK_LU_Meeting_Quality.Text = Charts.Platinum_Label; break;
                     }
                 }
                 else

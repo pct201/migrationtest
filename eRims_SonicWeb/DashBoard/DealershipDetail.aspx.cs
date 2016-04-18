@@ -144,9 +144,9 @@ public partial class DealershipDetail : System.Web.UI.Page
             dtAggreage.Rows[1][1] = 28;
 
         if (dsResult.Tables[1] != null && dsResult.Tables[1].Rows.Count > 0)
-            dtAggreage.Rows[1][2] = dsResult.Tables[1].Rows[0][1] != DBNull.Value ? dsResult.Tables[1].Rows[0][1] : "All Pro";            
+            dtAggreage.Rows[1][2] = dsResult.Tables[1].Rows[0][1] != DBNull.Value ? dsResult.Tables[1].Rows[0][1] : "Platinum";            
         else
-            dtAggreage.Rows[1][2] = "All Pro";
+            dtAggreage.Rows[1][2] = "Platinum";
         //MergeColumn(ref dtAggreage, dsResult.Tables[0], 2);
         if (dsResult.Tables[1] != null && dsResult.Tables[1].Rows.Count > 1)
         dtAverage.Rows.Add(dtAverage.NewRow()[0] = (dsResult.Tables[1].Rows[1][0] != DBNull.Value ? dsResult.Tables[1].Rows[1][0] : 0));
@@ -177,7 +177,8 @@ public partial class DealershipDetail : System.Web.UI.Page
         lblScoreIncidentReduction.Text = Convert.ToString(dtAggreage.Rows[4][1]) + " (" + Convert.ToString(dtAggreage.Rows[4][2]) + ")";
         lblScoreSLT.Text = Convert.ToString(dtAggreage.Rows[5][1]) + " (" + Convert.ToString(dtAggreage.Rows[5][2]) + ")";
 
-        object objSum = dtAggreage.Compute("SUM(Score)", "");
+        object objSum = dtAggreage.Compute("(SUM(Score)/200)*100", "");
+        //object objSum = dtAggreage.Compute("SUM(Score)", "");
 
         lblScoreTotal.Text = string.Format("{0:N2}", objSum);
 
@@ -198,45 +199,45 @@ public partial class DealershipDetail : System.Web.UI.Page
             score = _intScore;
             //if (_intScore > 189 && _intScore <= 200)
             //{
-            //    strResult = "All Pro";
+            //    strResult = "Platinum";
             //}
             //else if (_intScore > 179 && _intScore <= 189)
             //{
-            //    strResult = "Starter";
+            //    strResult = "Gold";
             //}
             //else if (_intScore > 159 && _intScore <= 179)
             //{
-            //    strResult = "Second String";
+            //    strResult = "Silver";
             //}
             //else if (_intScore > 139 && _intScore <= 159)
             //{
-            //    strResult = "Water boy";
+            //    strResult = "Bronze";
             //}
             //else if (_intScore >= 0 && _intScore <= 139)
             //{
-            //    strResult = "Spectator";
+            //    strResult = "Tin";
             //}            
 
             ////
             if (_intScore > 94.5m && _intScore <= 100)
             {
-                strResult = "All Pro";
+                strResult = "Platinum";
             }
             else if (_intScore > 89.5m && _intScore <= 94.5m)
             {
-                strResult = "Starter";
+                strResult = "Gold";
             }
             else if (_intScore > 79.5m && _intScore <= 89.5m)
             {
-                strResult = "Second String";
+                strResult = "Silver";
             }
             else if (_intScore > 69.5m && _intScore <= 79.5m)
             {
-                strResult = "Water boy";
+                strResult = "Bronze";
             }
             else if (_intScore >= 0 && _intScore <= 69.5m)
             {
-                strResult = "Spectator";
+                strResult = "Tin";
             }            
         }
 
@@ -274,12 +275,12 @@ public partial class DealershipDetail : System.Web.UI.Page
         string strLevel = "";
         switch (intScore)
         {
-            case 4: strLevel = "Spectator"; break;
-            case 10: strLevel = "Water boy"; break;
-            case 16: strLevel = "Second String"; break;
-            case 22: strLevel = "Starter"; break;
-            case 28: strLevel = "All Pro"; break;
-            default: strLevel = "All Pro"; break;
+            case 4: strLevel = "Tin"; break;
+            case 10: strLevel = "Bronze"; break;
+            case 16: strLevel = "Silver"; break;
+            case 22: strLevel = "Gold"; break;
+            case 28: strLevel = "Platinum"; break;
+            default: strLevel = "Platinum"; break;
         }
         return strLevel;
     }
@@ -289,15 +290,15 @@ public partial class DealershipDetail : System.Web.UI.Page
         string strLevel = "";
 
         if(intScore >= 0 && intScore <= 23)
-            strLevel = "Spectator";
+            strLevel = "Tin";
         if (intScore > 23 && intScore <= 35)
-            strLevel = "Water boy";
+            strLevel = "Bronze";
         if (intScore > 35 && intScore <= 47)
-            strLevel = "Second String";
+            strLevel = "Silver";
         if (intScore > 47 && intScore <= 59)
-            strLevel = "Starter";
+            strLevel = "Gold";
         if (intScore > 59 && intScore <= 60)
-            strLevel = "All Pro";
+            strLevel = "Platinum";
         return strLevel;
     }
 
@@ -323,7 +324,7 @@ public partial class DealershipDetail : System.Web.UI.Page
         }
         else
         {
-            lblIIPerLevel.Text = "All Pro";
+            lblIIPerLevel.Text = "Platinum";
             lblNoofInvestigations.Text = "0";
             AvgInvestigation.Text = "28.0";
         }
@@ -407,10 +408,10 @@ public partial class DealershipDetail : System.Web.UI.Page
 
             if (result1.Length > 0)
             {
-                if (string.IsNullOrEmpty(result1[0]["NumberofEmployees"].ToString()))
+                if (string.IsNullOrEmpty(result1[0]["AssociateToTrain"].ToString()))
                     lblSabaNumberEmployees1.Text = "0";
                 else
-                    lblSabaNumberEmployees1.Text = string.Format("{0:N0}", result1[0]["NumberofEmployees"]);
+                    lblSabaNumberEmployees1.Text = string.Format("{0:N0}", result1[0]["AssociateToTrain"]);
             }
             else
             {
@@ -421,10 +422,10 @@ public partial class DealershipDetail : System.Web.UI.Page
 
             if (result2.Length > 0)
             {
-                if (string.IsNullOrEmpty(result2[0]["NumberofEmployees"].ToString()))
+                if (string.IsNullOrEmpty(result2[0]["AssociateToTrain"].ToString()))
                     lblSabaNumberEmployees2.Text = "0";
                 else
-                    lblSabaNumberEmployees2.Text = string.Format("{0:N0}", result2[0]["NumberofEmployees"]);
+                    lblSabaNumberEmployees2.Text = string.Format("{0:N0}", result2[0]["AssociateToTrain"]);
             }
             else
             {
@@ -435,10 +436,10 @@ public partial class DealershipDetail : System.Web.UI.Page
 
             if (result3.Length > 0)
             {
-                if (string.IsNullOrEmpty(result3[0]["NumberofEmployees"].ToString()))
+                if (string.IsNullOrEmpty(result3[0]["AssociateToTrain"].ToString()))
                     lblSabaNumberEmployees3.Text = "0";
                 else
-                    lblSabaNumberEmployees3.Text = string.Format("{0:N0}", result3[0]["NumberofEmployees"]);
+                    lblSabaNumberEmployees3.Text = string.Format("{0:N0}", result3[0]["AssociateToTrain"]);
             }
             else
             {
@@ -449,10 +450,10 @@ public partial class DealershipDetail : System.Web.UI.Page
 
             if (result4.Length > 0)
             {
-                if (string.IsNullOrEmpty(result4[0]["NumberofEmployees"].ToString()))
+                if (string.IsNullOrEmpty(result4[0]["AssociateToTrain"].ToString()))
                     lblSabaNumberEmployees4.Text = "0";
                 else
-                    lblSabaNumberEmployees4.Text = string.Format("{0:N0}", result4[0]["NumberofEmployees"]);
+                    lblSabaNumberEmployees4.Text = string.Format("{0:N0}", result4[0]["AssociateToTrain"]);
             }
             else
             {
@@ -578,24 +579,24 @@ public partial class DealershipDetail : System.Web.UI.Page
                 lblSabaPercentTrained4.Text = "100%";
             }
 
-            DataRow[] result5 = dsDetail.Tables[1].Select("PerformanceLevel In ('All Pro','Starter', 'Second String', 'Water boy', 'Spectator')");
+            DataRow[] result5 = dsDetail.Tables[1].Select("PerformanceLevel In ('Platinum','Gold', 'Silver', 'Bronze', 'Tin')");
 
             if (result5.Length > 0)
             {
                 if (string.IsNullOrEmpty(result5[0]["PerformanceLevel"].ToString()))
-                    lblSabaPerformance.Text = "All Pro";
+                    lblSabaPerformance.Text = "Platinum";
                 else
                     lblSabaPerformance.Text = result5[0]["PerformanceLevel"].ToString();
 
             }
             else
             {
-                lblSabaPerformance.Text = "All Pro";
+                lblSabaPerformance.Text = "Platinum";
             }
         }
         else
         {
-            lblSabaPerformance.Text = "All Pro";
+            lblSabaPerformance.Text = "Platinum";
         }
     }
 
@@ -629,7 +630,7 @@ public partial class DealershipDetail : System.Web.UI.Page
                     lblRedS02.Text = string.Format("{0:N0}", dsDetail.Tables[0].Rows[0]["Cause_CountS02"]);
 
                 if (dsDetail.Tables[1].Rows[0]["Score"] == DBNull.Value)
-                    lblRedPerformance.Text = "All Pro";
+                    lblRedPerformance.Text = "Platinum";
                 else
                     lblRedPerformance.Text = string.Format("{0}", dsDetail.Tables[1].Rows[0]["Score"]);
             }
@@ -653,11 +654,11 @@ public partial class DealershipDetail : System.Web.UI.Page
         {
             switch (Convert.ToInt32(Request.QueryString["Level"]))
             {
-                case 4: lblPerformanceLevelWC.Text = "Spectator"; break;
-                case 10: lblPerformanceLevelWC.Text = "Water boy"; break;
-                case 16: lblPerformanceLevelWC.Text = "Second String"; break;
-                case 22: lblPerformanceLevelWC.Text = "Starter"; break;
-                case 28: lblPerformanceLevelWC.Text = "All Pro"; break;
+                case 4: lblPerformanceLevelWC.Text = "Tin"; break;
+                case 10: lblPerformanceLevelWC.Text = "Bronze"; break;
+                case 16: lblPerformanceLevelWC.Text = "Silver"; break;
+                case 22: lblPerformanceLevelWC.Text = "Gold"; break;
+                case 28: lblPerformanceLevelWC.Text = "Platinum"; break;
             }
         }
 

@@ -1145,7 +1145,7 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
                     }
                     else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "department")
                     {
-                        ComboHelper.Fill_DepartmentAdHoc(new ListBox[] { lst_F },0, false);
+                        ComboHelper.Fill_DepartmentAdHoc(new ListBox[] { lst_F }, 0, false);
                     }
                     else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "nature of injury")
                     {
@@ -1192,11 +1192,11 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
                     else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "investigative quality")
                     {
                         lst_F.Items.Clear();
-                        lst_F.Items.Add(new ListItem("All Pro", "All Pro"));
-                        lst_F.Items.Add(new ListItem("Starter", "Starter"));
-                        lst_F.Items.Add(new ListItem("Second String", "Second String"));
-                        lst_F.Items.Add(new ListItem("Water boy", "Water boy"));
-                        lst_F.Items.Add(new ListItem("Spectator", "Spectator"));
+                        lst_F.Items.Add(new ListItem(Charts.Platinum_Label, Charts.Platinum_Label));
+                        lst_F.Items.Add(new ListItem(Charts.Gold_Label, Charts.Gold_Label));
+                        lst_F.Items.Add(new ListItem(Charts.Silver_Label, Charts.Silver_Label));
+                        lst_F.Items.Add(new ListItem(Charts.Bronze_Label, Charts.Bronze_Label));
+                        lst_F.Items.Add(new ListItem(Charts.Tin_Label, Charts.Tin_Label));
                     }
                     else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "legal entity")
                     {
@@ -1218,7 +1218,7 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
                     {
                         ComboHelper.FillBuildingLocationStatus(new ListBox[] { lst_F }, false);
                     }
-                  
+
                     else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "location f/k/a")
                     {
                         ComboHelper.FillLocationfkaList(new ListBox[] { lst_F }, 0, false);
@@ -1260,7 +1260,7 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
                     }
                     else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "what is the cause of this incident?")
                     {
-                        ComboHelper.FillFocusAreaCauseCode(new ListBox[]{lst_F} , false);
+                        ComboHelper.FillFocusAreaCauseCode(new ListBox[] { lst_F }, false);
                     }
                     else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "classify the incident")
                     {

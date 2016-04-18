@@ -1153,11 +1153,11 @@ public partial class SLT_AdHocReportWriter : clsBasePage
                     else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "Review Quality".ToLower())
                     {
                         lst_F.Items.Clear();
-                        lst_F.Items.Add(new ListItem("Spectator", "1"));
-                        lst_F.Items.Add(new ListItem("Water boy", "2"));
-                        lst_F.Items.Add(new ListItem("Second String", "3"));
-                        lst_F.Items.Add(new ListItem("Starter", "4"));
-                        lst_F.Items.Add(new ListItem("All Pro", "5"));
+                        lst_F.Items.Add(new ListItem(Charts.Tin_Label, "1"));
+                        lst_F.Items.Add(new ListItem(Charts.Bronze_Label, "2"));
+                        lst_F.Items.Add(new ListItem(Charts.Silver_Label, "3"));
+                        lst_F.Items.Add(new ListItem(Charts.Gold_Label, "4"));
+                        lst_F.Items.Add(new ListItem(Charts.Platinum_Label, "5"));
                     }
                     else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "safety walk question - b. departments observed")
                     {
@@ -2722,11 +2722,11 @@ public partial class SLT_AdHocReportWriter : clsBasePage
         else if (Convert.ToString(Field_Header).ToLower().Trim() == "Review Quality".ToLower())
         {
             lst_F.Items.Clear();
-            lst_F.Items.Add(new ListItem("Spectator", "1"));
-            lst_F.Items.Add(new ListItem("Water boy", "2"));
-            lst_F.Items.Add(new ListItem("Second String", "3"));
-            lst_F.Items.Add(new ListItem("Starter", "4"));
-            lst_F.Items.Add(new ListItem("All Pro", "5"));
+            lst_F.Items.Add(new ListItem(Charts.Tin_Label, "1"));
+            lst_F.Items.Add(new ListItem(Charts.Bronze_Label, "2"));
+            lst_F.Items.Add(new ListItem(Charts.Silver_Label, "3"));
+            lst_F.Items.Add(new ListItem(Charts.Gold_Label, "4"));
+            lst_F.Items.Add(new ListItem(Charts.Platinum_Label, "5"));
         }
         else if (Convert.ToString(Field_Header).ToLower().Trim() == "location state")
         {

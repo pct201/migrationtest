@@ -11,6 +11,18 @@ using System.Data.Common;
 /// </summary>
 public class Charts
 {
+     public static string Platinum ="A5A5A5";
+    public static string Gold = "FBE297";
+    public static string Silver = "D7D7D7";
+    public static string Bronze = "FCBF03";
+    public static string Tin = "7E6000";
+    public static string White = "FFFFFF";
+    public static string Platinum_Label = "Platinum";
+    public static string Gold_Label = "Gold";
+    public static string Silver_Label = "Silver";
+    public static string Bronze_Label = "Bronze";
+    public static string Tin_Label = "Tin";
+    
     public Charts()
     {
         //
@@ -515,5 +527,116 @@ public class Charts
         db.AddInParameter(dbCommand, "Rlcms", DbType.String, Rlcms);
 
         return db.ExecuteDataSet(dbCommand);
+    }
+
+    public static string GetColorCodeFromCategory(string catgory)
+    {
+        string color = string.Empty;
+        switch (catgory.ToUpper())
+        {
+            case "PLATINUM":
+                color = Platinum;
+                break;
+            case "GOLD":
+                color = Gold;
+                break;
+            case "SILVER":
+                color = Silver;
+                break;
+            case "BRONZE":
+                color = Bronze;
+                break;
+            case "TIN":
+                color = Tin;
+                break;
+        }
+        return color;
+    }
+
+    public static string GetColorCodeFromScore(decimal _intScore)
+    {
+        string color = string.Empty;
+        if (_intScore >= 28)
+        {
+            color = Platinum;
+        }
+        else if (_intScore >= 22 && _intScore < 28)
+        {
+            color = Gold;
+        }
+        else if (_intScore >= 16 && _intScore < 22)
+        {
+            color = Silver;
+        }
+        else if (_intScore >= 10 && _intScore < 16)
+        {
+            color = Bronze;
+        }
+        else if (_intScore >= 4 && _intScore < 10)
+        {
+            color = Tin;
+        }
+        else if (_intScore >= 0 && _intScore < 4)
+        {
+            color = White;
+        }
+        return color;
+    }
+
+    public static string GetColorCodeFromScore_SLT(decimal _intScore)
+    {
+        string color = string.Empty;
+        if (_intScore >= 60)
+        {
+            color = Platinum;
+        }
+        else if (_intScore >= 59 && _intScore < 60)
+        {
+            color = Gold;
+        }
+        else if (_intScore >= 47 && _intScore < 59)
+        {
+            color = Silver;
+        }
+        else if (_intScore >= 35 && _intScore < 47)
+        {
+            color = Bronze;
+        }
+        else if (_intScore >= 23 && _intScore < 35)
+        {
+            color = Tin;
+        }
+        else if (_intScore >= 0 && _intScore < 23)
+        {
+            color = White;
+        }
+        return color;
+    }
+
+    public static string GetColorCodeFromScoreAggregate(decimal _intScore)
+    {
+        string color = string.Empty;
+        if (_intScore > 94.5M && _intScore <= 100)
+        {
+            color = Platinum;
+        }
+        else if (_intScore > 89.5m && _intScore <= 94.5m)
+        {
+            color = Gold;
+        }
+        else if (_intScore > 79.5m && _intScore <= 89.5m)
+        {
+            color = Silver;
+        }
+        else if (_intScore > 69.5m && _intScore <= 79.5m)
+        {
+            color = Bronze;
+        }
+        else if (_intScore >= 0 && _intScore <= 69.5m)
+        {
+            color = Tin;
+        }
+        
+        return color;
     }
 }

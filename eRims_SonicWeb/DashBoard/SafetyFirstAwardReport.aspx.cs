@@ -90,36 +90,36 @@ public partial class DashBoard_SafetyFirstAwardReport : clsBasePage
 
             if (decTotalScore > 189 && decTotalScore <= 200)
             {
-                lblResultingScore.Text = decTotalScore.ToString() + " (All Pro)";
-                lblFinal_ScoreCard.Text = (decTotalScore / 200) * 100 + " (All Pro)";
+                lblResultingScore.Text = decTotalScore.ToString() + " ("+ Charts.Platinum_Label +")";
+                lblFinal_ScoreCard.Text = (decTotalScore / 200) * 100 + " (" + Charts.Platinum_Label + ")";
                 tdResult.BgColor = "green";
                 tdScoreCard.BgColor = "green";
             }
             else if (decTotalScore > 179 && decTotalScore <= 189)
             {
-                lblResultingScore.Text = decTotalScore.ToString() + " (Starter)";
-                lblFinal_ScoreCard.Text = (decTotalScore / 200) * 100 + " (Starter)";
+                lblResultingScore.Text = decTotalScore.ToString() + " (" + Charts.Gold_Label + ")";
+                lblFinal_ScoreCard.Text = (decTotalScore / 200) * 100 + " (" + Charts.Gold_Label + ")";
                 tdResult.BgColor = "blue";
                 tdScoreCard.BgColor = "blue";
             }
             else if (decTotalScore > 159 && decTotalScore <= 179)
             {
-                lblResultingScore.Text = decTotalScore.ToString() + " (Second String)";
-                lblFinal_ScoreCard.Text = (decTotalScore / 200) * 100 + " (Second String)";
+                lblResultingScore.Text = decTotalScore.ToString() + " (" + Charts.Silver_Label + ")";
+                lblFinal_ScoreCard.Text = (decTotalScore / 200) * 100 + " (" + Charts.Silver_Label + ")";
                 tdResult.BgColor = "yellow";
                 tdScoreCard.BgColor = "Yellow";
             }
             else if (decTotalScore > 139 && decTotalScore <= 159)
             {
-                lblResultingScore.Text = decTotalScore.ToString() + " (Water boy)";
-                lblFinal_ScoreCard.Text = (decTotalScore / 200) * 100 + " (Water boy)";
+                lblResultingScore.Text = decTotalScore.ToString() + " (" + Charts.Bronze_Label + ")";
+                lblFinal_ScoreCard.Text = (decTotalScore / 200) * 100 + " (" + Charts.Bronze_Label + ")";
                 tdResult.BgColor = "orange";
                 tdScoreCard.BgColor = "orange";
             }
             else if (decTotalScore >= 0 && decTotalScore <= 139)
             {
-                lblResultingScore.Text = decTotalScore.ToString() + " (Spectator)";
-                lblFinal_ScoreCard.Text = (decTotalScore / 200) * 100 + " (Spectator)";
+                lblResultingScore.Text = decTotalScore.ToString() + " (" + Charts.Tin_Label + ")";
+                lblFinal_ScoreCard.Text = (decTotalScore / 200) * 100 + " (" + Charts.Tin_Label + ")";
                 tdResult.BgColor = "red";
                 tdScoreCard.BgColor = "red";
             }

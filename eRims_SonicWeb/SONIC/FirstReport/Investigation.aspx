@@ -1749,11 +1749,11 @@
                                                                 <td align="left">
                                                                     <asp:DropDownList ID="drpInvestigative" runat="server" SkinID="dropGen" Width="170px" Enabled="false">
                                                                         <asp:ListItem Text="--Select--" Value="" />
-                                                                        <asp:ListItem Text="All Pro" Value="All Pro" />
-                                                                        <asp:ListItem Text="Starter" Value="Starter" />
-                                                                        <asp:ListItem Text="Second String" Value="Second String" />
-                                                                        <asp:ListItem Text="Water boy" Value="Water boy" />
-                                                                        <asp:ListItem Text="Spectator" Value="Spectator" />
+                                                                        <asp:ListItem Text="Platinum" Value="Platinum" />
+                                                                        <asp:ListItem Text="Gold" Value="Gold" />
+                                                                        <asp:ListItem Text="Silver" Value="Silver" />
+                                                                        <asp:ListItem Text="Bronze" Value="Bronze" />
+                                                                        <asp:ListItem Text="Tin" Value="Tin" />
                                                                     </asp:DropDownList>
                                                                 </td>
                                                             </tr>
@@ -3161,19 +3161,19 @@
                 case 1:
                 case 2:
                 default:
-                    $('#<%=drpInvestigative.ClientID %>').val('Spectator')
+                    $('#<%=drpInvestigative.ClientID %>').val('Tin')
                     break;
                 case 3:
-                    $('#<%=drpInvestigative.ClientID %>').val('Water boy')
+                    $('#<%=drpInvestigative.ClientID %>').val('Bronze')
                     break;
                 case 4:
-                    $('#<%=drpInvestigative.ClientID %>').val('Second String')
+                    $('#<%=drpInvestigative.ClientID %>').val('Silver')
                     break;
                 case 5:
-                    $('#<%=drpInvestigative.ClientID %>').val('Starter')
+                    $('#<%=drpInvestigative.ClientID %>').val('Gold')
                     break;
                 case 6:
-                    $('#<%=drpInvestigative.ClientID %>').val('All Pro')
+                    $('#<%=drpInvestigative.ClientID %>').val('Platinum')
                     break;
             }
         }

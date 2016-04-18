@@ -390,23 +390,23 @@ public partial class SONIC_Exposures_rptFacilityInspectionReport : clsBasePage
         {
             if (objValue.ToString() == "1")
             {
-                return "Spectator";
+                return Charts.Tin_Label;
             }
             else if (objValue.ToString() == "2")
             {
-                return "Water boy";
+                return Charts.Bronze_Label;
             }
             else if (objValue.ToString() == "3")
             {
-                return "Second String";
+                return Charts.Silver_Label;
             }
             else if (objValue.ToString() == "4")
             {
-                return "Starter";
+                return Charts.Gold_Label;
             }
             else if (objValue.ToString() == "5")
             {
-                return "All Pro";
+                return Charts.Platinum_Label;
             }
             else
                 return "";
