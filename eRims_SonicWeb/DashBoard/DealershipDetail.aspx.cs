@@ -408,10 +408,10 @@ public partial class DealershipDetail : System.Web.UI.Page
 
             if (result1.Length > 0)
             {
-                if (string.IsNullOrEmpty(result1[0]["AssociateToTrain"].ToString()))
+                if (string.IsNullOrEmpty(result1[0]["NumberofEmployees"].ToString()))
                     lblSabaNumberEmployees1.Text = "0";
                 else
-                    lblSabaNumberEmployees1.Text = string.Format("{0:N0}", result1[0]["AssociateToTrain"]);
+                    lblSabaNumberEmployees1.Text = string.Format("{0:N0}", result1[0]["NumberofEmployees"]);
             }
             else
             {
@@ -422,10 +422,10 @@ public partial class DealershipDetail : System.Web.UI.Page
 
             if (result2.Length > 0)
             {
-                if (string.IsNullOrEmpty(result2[0]["AssociateToTrain"].ToString()))
+                if (string.IsNullOrEmpty(result2[0]["NumberofEmployees"].ToString()))
                     lblSabaNumberEmployees2.Text = "0";
                 else
-                    lblSabaNumberEmployees2.Text = string.Format("{0:N0}", result2[0]["AssociateToTrain"]);
+                    lblSabaNumberEmployees2.Text = string.Format("{0:N0}", result2[0]["NumberofEmployees"]);
             }
             else
             {
@@ -436,10 +436,10 @@ public partial class DealershipDetail : System.Web.UI.Page
 
             if (result3.Length > 0)
             {
-                if (string.IsNullOrEmpty(result3[0]["AssociateToTrain"].ToString()))
+                if (string.IsNullOrEmpty(result3[0]["NumberofEmployees"].ToString()))
                     lblSabaNumberEmployees3.Text = "0";
                 else
-                    lblSabaNumberEmployees3.Text = string.Format("{0:N0}", result3[0]["AssociateToTrain"]);
+                    lblSabaNumberEmployees3.Text = string.Format("{0:N0}", result3[0]["NumberofEmployees"]);
             }
             else
             {
@@ -450,10 +450,10 @@ public partial class DealershipDetail : System.Web.UI.Page
 
             if (result4.Length > 0)
             {
-                if (string.IsNullOrEmpty(result4[0]["AssociateToTrain"].ToString()))
+                if (string.IsNullOrEmpty(result4[0]["NumberofEmployees"].ToString()))
                     lblSabaNumberEmployees4.Text = "0";
                 else
-                    lblSabaNumberEmployees4.Text = string.Format("{0:N0}", result4[0]["AssociateToTrain"]);
+                    lblSabaNumberEmployees4.Text = string.Format("{0:N0}", result4[0]["NumberofEmployees"]);
             }
             else
             {
