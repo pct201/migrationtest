@@ -467,6 +467,8 @@ public partial class ScorecardByLocation : System.Web.UI.Page
         string strReg = (Region == "Western Region") ? "NCA" : Region;
         DataSet dsReport = Charts.GetWCClaimMgmtByLocation(Year, strReg);
         DataTable dtReport = dsReport.Tables[0];
+        dtReport.DefaultView.Sort = "Score DESC, dba ASC";
+        dtReport = dtReport.DefaultView.ToTable();
 
         if (dsReport.Tables.Count > 1)
             Average = decimal.Parse(Convert.ToString(dsReport.Tables[1].Rows[0][0]));
