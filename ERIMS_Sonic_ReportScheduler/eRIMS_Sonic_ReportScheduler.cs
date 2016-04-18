@@ -12263,15 +12263,15 @@ namespace ERIMS_Sonic_ReportScheduler
             int TotalScore = 0;
             int.TryParse(Convert.ToString(strscore), out TotalScore);
             if (TotalScore >= 25)
-                strTotalAggregateScore = "All Pro";
+                strTotalAggregateScore = "Platinum";
             else if (TotalScore >= 20 && TotalScore < 25)
-                strTotalAggregateScore = "Starter";
+                strTotalAggregateScore = "Gold";
             else if (TotalScore >= 15 && TotalScore < 20)
-                strTotalAggregateScore = "Second String";
+                strTotalAggregateScore = "Silver";
             else if (TotalScore >= 10 && TotalScore < 15)
-                strTotalAggregateScore = "Water boy";
+                strTotalAggregateScore = "Bronze";
             else if (TotalScore < 10)
-                strTotalAggregateScore = "Spectator";
+                strTotalAggregateScore = "Tin";
             return strTotalAggregateScore;
         }
 
@@ -12281,15 +12281,15 @@ namespace ERIMS_Sonic_ReportScheduler
             double decTotalScore = 0;
             double.TryParse(Convert.ToString(strscore), out decTotalScore);
             if (decTotalScore >= 5)
-                strResultingScore = "All Pro";
+                strResultingScore = "Platinum";
             else if (decTotalScore >= 4 && decTotalScore < 5)
-                strResultingScore = "Starter";
+                strResultingScore = "Gold";
             else if (decTotalScore >= 3 && decTotalScore < 4)
-                strResultingScore = "Second String";
+                strResultingScore = "Silver";
             else if (decTotalScore >= 2 && decTotalScore < 3)
-                strResultingScore = "Water boy";
+                strResultingScore = "Bronze";
             else if (decTotalScore < 2)
-                strResultingScore = "Spectator";
+                strResultingScore = "Tin";
             return strResultingScore;
         }
 
@@ -13582,7 +13582,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         mail.Body += "<br /> This is system generated message. Please do not reply.";
                         mail.IsBodyHtml = true;
                         mail.To.Add(new MailAddress(dtRecipients.Rows[i]["Email"].ToString()));
-                        //mSmtpClient.Send(mail);
+                        mSmtpClient.Send(mail);
                         mail.To.Clear();
                     }
                 }
@@ -13657,7 +13657,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         mail.Body += "<br /><br /> This is system generated message. Please do not reply.";
                         mail.IsBodyHtml = true;
                         mail.To.Add(new MailAddress(dtRecipientMails.Rows[i]["Email"].ToString()));
-                        //mSmtpClient.Send(mail);
+                        mSmtpClient.Send(mail);
                         mail.To.Clear();
                     }
                 }
@@ -13730,7 +13730,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         mail.Body += "<br /> This is system generated message. Please do not reply.";
                         mail.IsBodyHtml = true;
                         mail.To.Add(new MailAddress(dtRecipients.Rows[i]["Email"].ToString()));
-                        //mSmtpClient.Send(mail);
+                        mSmtpClient.Send(mail);
                         mail.To.Clear();
                     }
                 }
@@ -13896,23 +13896,23 @@ namespace ERIMS_Sonic_ReportScheduler
             {
                 if (objValue.ToString() == "1")
                 {
-                    return "Spectator";
+                    return "Tin";
                 }
                 else if (objValue.ToString() == "2")
                 {
-                    return "Water boy";
+                    return "Bronze";
                 }
                 else if (objValue.ToString() == "3")
                 {
-                    return "Second String";
+                    return "Silver";
                 }
                 else if (objValue.ToString() == "4")
                 {
-                    return "Starter";
+                    return "Gold";
                 }
                 else if (objValue.ToString() == "5")
                 {
-                    return "All Pro";
+                    return "Platinum";
                 }
                 else
                     return "";
