@@ -195,7 +195,7 @@ public partial class DealershipDetail : System.Web.UI.Page
         if (objSum != null)
         {
             decimal _intScore = Convert.ToDecimal(objSum);
-            _intScore = (_intScore / 200) * 100;
+            //_intScore = (_intScore / 200) * 100;
             score = _intScore;
             //if (_intScore > 189 && _intScore <= 200)
             //{
