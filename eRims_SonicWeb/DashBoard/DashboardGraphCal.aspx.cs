@@ -250,7 +250,7 @@ public partial class DashboardGraphCal : clsBasePage
         strChartXML.Append("<line startValue='94.5' color='49563A' displayvalue='" + Charts.Gold_Label + "' /> ");
         strChartXML.Append("<line startValue='100' color='49563A' displayvalue='" + Charts.Platinum_Label + "' /> ");
         //strChartXML.Append("<line startValue='" + string.Format("{0:N2}", _devAvg) + "' color='FF0000' displayvalue='Company Average' valueOnRight='1' thickness='2' /> ");
-        strChartXML.Append("<line startValue='95'  color='FF0000' displayvalue='Cross The Line' valueOnRight='1' thickness='2' /> ");
+        strChartXML.Append("<line startValue='95'  color='FF0000' displayvalue='{br}Cross The Line' valueOnRight='1' thickness='2' /> ");
 
         strChartXML.Append("</trendLines>");
 
@@ -529,7 +529,7 @@ public partial class DashboardGraphCal : clsBasePage
         strChartXML.Append("<line startValue='28' color='49563A' displayvalue='Platinum' /> ");
         //strChartXML.Append("<line startValue='" + string.Format("{0:N2}", Average) + "' color='FF0000' displayvalue='Company Average' valueOnRight='1' thickness='2' /> ");
 
-        strChartXML.Append("<line startValue='26.6' color='FF0000' displayvalue='Cross The Line' valueOnRight='1' thickness='2'  /> ");
+        strChartXML.Append("<line startValue='26.6' color='FF0000' displayvalue='{br}Cross The Line' valueOnRight='1' thickness='2'  /> ");
 
         strChartXML.Append("</trendLines>");
 
@@ -561,7 +561,7 @@ public partial class DashboardGraphCal : clsBasePage
         strChartXML.Append("<line startValue='59' color='49563A' displayvalue='" + Charts.Gold_Label + "' /> ");
         strChartXML.Append("<line startValue='60' color='49563A' displayvalue='" + Charts.Platinum_Label + "' /> ");
         //strChartXML.Append("<line startValue='" + string.Format("{0:N2}", Average) + "' color='FF0000' displayvalue='Company Average' valueOnRight='1' thickness='2' /> ");
-        strChartXML.Append("<line startValue='57' color='FF0000' displayvalue='Cross The Line' valueOnRight='1' thickness='2' /> ");
+        strChartXML.Append("<line startValue='57' color='FF0000' displayvalue='{br}Cross The Line' valueOnRight='1' thickness='2' /> ");
         strChartXML.Append("</trendLines>");
 
         // set Style for Chart objects

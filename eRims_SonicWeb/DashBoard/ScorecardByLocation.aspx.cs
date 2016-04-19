@@ -525,7 +525,7 @@ public partial class ScorecardByLocation : System.Web.UI.Page
         strChartXML.Append("<line startValue='22' color='666666' displayvalue='" + Charts.Gold_Label + "' /> ");
         strChartXML.Append("<line startValue='28' color='666666' displayvalue='"+ Charts.Platinum_Label +"' /> ");
 
-        strChartXML.Append("<line startValue='26.6' color='619a61' displayvalue='Cross The Line' valueOnRight='1' thickness='2' /> ");
+        strChartXML.Append("<line startValue='26.6' color='619a61' displayvalue='{br}Cross The Line' valueOnRight='1' thickness='2' /> ");
 
         //if (Average != 0 && decCompAverage > 0 && (Math.Abs(Average - decCompAverage) <= 0.20M))
         //{
@@ -573,7 +573,7 @@ public partial class ScorecardByLocation : System.Web.UI.Page
         strChartXML.Append("<line startValue='89.5' color='666666' displayvalue='" + Charts.Silver_Label + "' /> ");
         strChartXML.Append("<line startValue='94.5' color='666666' displayvalue='" + Charts.Gold_Label + "' /> ");
         strChartXML.Append("<line startValue='100' color='666666' displayvalue='" + Charts.Platinum_Label + "' /> ");
-        strChartXML.Append("<line startValue='95' color='619a61' displayvalue='Cross The Line' valueOnRight='1' thickness='2' /> ");
+        strChartXML.Append("<line startValue='95' color='619a61' displayvalue='{br}Cross The Line' valueOnRight='1' thickness='2' /> ");
 
         //if (Average != 0 && decCompAverage > 0 && (Math.Abs(Average - decCompAverage) <= 0.75M))
         //{
@@ -622,7 +622,7 @@ public partial class ScorecardByLocation : System.Web.UI.Page
         strChartXML.Append("<line startValue='59' color='666666' displayvalue='" + Charts.Gold_Label + "' /> ");
         strChartXML.Append("<line startValue='60' color='666666' displayvalue='" + Charts.Platinum_Label + "' /> ");
 
-        strChartXML.Append("<line startValue='57' color='619a61' displayvalue='Cross The Line' valueOnRight='1' thickness='2' /> ");
+        strChartXML.Append("<line startValue='57' color='619a61' displayvalue='{br}Cross The Line' valueOnRight='1' thickness='2' /> ");
 
         //if (Average != 0 && decCompAverage > 0 && (Math.Abs(Average - decCompAverage) <= 0.20M))
         //{
