@@ -118,12 +118,11 @@ public partial class DashboardGraph : clsBasePage
             // Set Chart property 
             strXML.Append("<chart caption='" + strHeader + "' plotGradientColor='' xAxisName='Region' yAxisName='Level'  useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='34' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='0' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
 
-            // Set Lable
+            // Set Label
             for (int i = 0; i < dtResult1.Rows.Count; i++)
             {
                 strXML.AppendFormat("<set label='{0}' value='{1}' link='{2}' color='{3}' />", dtResult1.Rows[i][0].ToString(), dtResult1.Rows[i][1].ToString(), Server.UrlEncode("JavaScript:OpenPopup(\"" + dtResult1.Rows[i][0].ToString() + "\",\"" + Year.ToString() + "\",\"3\"," + Convert.ToString(_decAvg) + ");"), Charts.GetColorCodeFromScore(Convert.ToDecimal(dtResult1.Rows[i]["Score"])));
             }
-            strXML.Append("<vLine label='test' />");
 
             GetTreadLineStyle(strXML, _decAvg);
             strXML.Append("</chart>");
@@ -252,7 +251,7 @@ public partial class DashboardGraph : clsBasePage
         ////decimal.TryParse(Convert.ToString(dtAverage.Compute("AVG(Score)", "")), out _devAvg);
         //decimal.TryParse(Convert.ToString(dtRegion.Compute("AVG(Score)", "")), out _devAvg);
 
-        //// Set Lable
+        //// Set Label
         //for (int i = 0; i < dtRegion.Rows.Count; i++)
         //{
         //    strChartXML.AppendFormat("<set label='{0}' value='{1}' link='{2}'/>", dtRegion.Rows[i][0].ToString(), dtRegion.Rows[i][1].ToString(), Server.UrlEncode("JavaScript:OpenPopup(\"" + dtRegion.Rows[i][0].ToString() + "\",\"" + Year.ToString() + "\",\"1\"," + Convert.ToString(_devAvg) + ");"));
@@ -285,34 +284,38 @@ public partial class DashboardGraph : clsBasePage
 
         // Set Chart property 
         strChartXML.Append("<chart labelDisplay='ROTATE' caption='" + strHeader + "' plotGradientColor='' xAxisName='Region' yAxisName='Level' showValues='0' " +
-            "formatNumberScale='0' showBorder='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='120' useRoundEdges='0' " +
+            "formatNumberScale='0' showBorder='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='102' useRoundEdges='0' " +
             "baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
 
         decimal _devAvg = 0;
         //decimal.TryParse(Convert.ToString(dtAverage.Compute("AVG(Score)", "")), out _devAvg);
         decimal.TryParse(Convert.ToString(dtRegion.Compute("AVG(Score)", "")), out _devAvg);
 
-        // Set Lable
+        // Set Label
         for (int i = 0; i < dtRegion.Rows.Count; i++)
         {
             strChartXML.AppendFormat("<set label='{0}' value='{1}' link='{2}' color='{3}' />", dtRegion.Rows[i][0].ToString(), dtRegion.Rows[i][1].ToString(), Server.UrlEncode("JavaScript:OpenPopup(\"" + dtRegion.Rows[i][0].ToString() + "\",\"" + Year.ToString() + "\",\"1\"," + Convert.ToString(_devAvg) + ");"), Charts.GetColorCodeFromCategory(dtRegion.Rows[i][2].ToString()));
-            //strChartXML.Append("<vLine label='test' />");
         }
-        
 
         // set Tread Lines
         strChartXML.Append("<trendLines>");
         strChartXML.Append("<line startValue='69.5' showOnTop='0' color='49563A' displayvalue='" + Charts.Tin_Label + "' /> ");
         strChartXML.Append("<line startValue='79.5' color='49563A' displayvalue='" + Charts.Bronze_Label + "' /> ");
         strChartXML.Append("<line startValue='89.5' color='49563A' displayvalue='" + Charts.Silver_Label + "' /> ");
-        strChartXML.Append("<line startValue='94.5' color='49563A' displayvalue='" + Charts.Gold_Label + "' /> ");
+        //strChartXML.Append("<line startValue='94.5' color='49563A' displayvalue='" + Charts.Gold_Label + "' /> ");
         strChartXML.Append("<line startValue='100' color='49563A' displayvalue='" + Charts.Platinum_Label + "' /> ");
         //strChartXML.Append("<line startValue='" + string.Format("{0:N2}", _devAvg) + "' color='FF0000' displayvalue='Company Average' valueOnRight='1' thickness='2' /> ");
         strChartXML.Append("<line startValue='95' color='FF0000' displayvalue='{br}Cross The Line' valueOnRight='1' thickness='2' /> ");
-
         strChartXML.Append("</trendLines>");
 
-        // set Style for Chart objects
+        strChartXML.Append("<annotations showBelow='0'>" +
+		                        "<annotationgroup id='infobar'>"+
+                                "<annotation id='high-line' type='line' x='$canvasStartX+341' y='$canvasStartY' toy='$canvasEndY' color='49563A' dashed='0' thickness='1' />" +
+                                "<annotation id='label' type='text' text='" + Charts.Gold_Label + "' fillcolor='#000000' rotate='90' x='$canvasStartX+341' y='$canvasStartY -10' />" +
+                                "</annotationgroup>" +
+	                        "</annotations>");
+
+       //set Style for Chart objects
         strChartXML.Append("<styles>");
         strChartXML.Append("<definition>");
         strChartXML.Append("<style type='font' name='CaptionFont' color='666666' size='12'/>");
@@ -356,7 +359,7 @@ public partial class DashboardGraph : clsBasePage
         // Set Chart property 
         strChartXML.Append("<chart caption='" + strHeader + "' plotGradientColor='' xAxisName='Region' yAxisName='Level' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='34' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='0' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
 
-        // Set Lable
+        // Set Label
         for (int i = 0; i < dtResult.Rows.Count; i++)
         {
             strChartXML.AppendFormat("<set label='{0}' value='{1}' link='{2}' color='{3}' />", dtResult.Rows[i][0].ToString(), dtResult.Rows[i][1].ToString(), Server.UrlEncode("JavaScript:OpenPopup(\"" + dtResult.Rows[i][0].ToString() + "\",\"" + Year.ToString() + "\",\"2\"," + Convert.ToString(_decAvg) + ");"), Charts.GetColorCodeFromScore(Convert.ToDecimal(dtResult.Rows[i]["Score"])));
@@ -576,11 +579,18 @@ public partial class DashboardGraph : clsBasePage
         strChartXML.Append("<line startValue='23' valueOnRight='1' color='49563A' displayvalue='" + Charts.Tin_Label + "' /> ");
         strChartXML.Append("<line startValue='35' color='49563A' displayvalue='" + Charts.Bronze_Label + "' /> ");
         strChartXML.Append("<line startValue='47' color='49563A' displayvalue='" + Charts.Silver_Label + "' /> ");
-        strChartXML.Append("<line startValue='59' color='49563A' displayvalue='" + Charts.Gold_Label + "' /> ");
+        //strChartXML.Append("<line startValue='59' color='49563A' displayvalue='" + Charts.Gold_Label + "' /> ");
         strChartXML.Append("<line startValue='60' color='49563A' displayvalue='" + Charts.Platinum_Label + "' /> ");
         //strChartXML.Append("<line startValue='" + string.Format("{0:N2}", Average) + "' color='FF0000' displayvalue='Company Average' valueOnRight='1' thickness='2' /> ");
         strChartXML.Append("<line startValue='57' color='FF0000' displayvalue='{br}Cross The Line' valueOnRight='1' thickness='2' /> ");
         strChartXML.Append("</trendLines>");
+
+        strChartXML.Append("<annotations showBelow='0'>" +
+                              "<annotationgroup id='infobar'>" +
+                              "<annotation id='high-line' type='line' x='$canvasStartX+302.6' y='$canvasStartY' toy='$canvasEndY' color='49563A' dashed='0' thickness='1' />" +
+                              "<annotation id='label' type='text' text='" + Charts.Gold_Label + "' fillcolor='#000000' rotate='90' x='$canvasStartX+302.6' y='$canvasStartY -10' />" +
+                              "</annotationgroup>" +
+                          "</annotations>");
 
         // set Style for Chart objects
         strChartXML.Append("<styles>");

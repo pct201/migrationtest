@@ -237,15 +237,15 @@ public partial class ScorecardByLocation : System.Web.UI.Page
 
         // for new version
         string strWidth = dtRegion.Rows.Count > 25 ? "950" : "800";
-        strChartXML.Append("<chart caption='Aggregate Performance for Region " + Region + "' plotGradientColor='' xAxisName='Location' yAxisName='Level' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='120' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
+        strChartXML.Append("<chart caption='Aggregate Performance for Region " + Region + "' plotGradientColor='' xAxisName='Location' yAxisName='Level' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='102' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
 
         // Set Label
         for (int i = 0; i < dtRegion.Rows.Count; i++)
         {
             //strlink = Server.UrlEncode("JavaScript:OpenPopupForAggreage(\"" + Region + "\",\"" + dtRegion.Rows[i]["DBA"].ToString() + "\",\"" + dtRegion.Rows[i]["Sonic_Location_Code"].ToString() + "\",\"" + Year.ToString() + "\",\"1\");").Replace("'", "%26apos;");            
             //strChartXML.AppendFormat("<set label='{0}' value='{1}' link='{2}'/>", Server.UrlEncode(dtRegion.Rows[i][0].ToString()).Replace("'", "%26apos;"), dtRegion.Rows[i][2].ToString(), strlink);            
-            strlink = Server.UrlEncode("JavaScript:OpenPopupForAggreage(\"" + dtRegion.Rows[i]["Region"].ToString() + "\",\"" + dtRegion.Rows[i]["DBA"].ToString() + "\",\"" + dtRegion.Rows[i]["Sonic_Location_Code"].ToString() + "\",\"" + Year.ToString() + "\",\"1\");").Replace("'", "%26apos;");
-            strChartXML.AppendFormat("<set label='{0}' value='{1}' link='{2}' color='{3}'/>", dtRegion.Rows[i][0].ToString().Replace("'", "&apos;"), dtRegion.Rows[i][3].ToString(), strlink, Charts.GetColorCodeFromScoreAggregate(Convert.ToDecimal(dtRegion.Rows[i]["Score"])));
+            strlink = Server.UrlEncode("JavaScript:OpenPopupForAggreage(\"" + dtRegion.Rows[i]["Region"].ToString() + "\",\"" + dtRegion.Rows[i]["DBA"].ToString().Replace("'", "") + "\",\"" + dtRegion.Rows[i]["Sonic_Location_Code"].ToString() + "\",\"" + Year.ToString() + "\",\"1\");").Replace("'", "%26apos;");
+            strChartXML.AppendFormat("<set label='{0}' value='{1}' link='{2}' color='{3}'/>", dtRegion.Rows[i][0].ToString().Replace("'", ""), dtRegion.Rows[i][3].ToString(), strlink, Charts.GetColorCodeFromScoreAggregate(Convert.ToDecimal(dtRegion.Rows[i]["Score"])));
         }
 
         Average = 0;
@@ -619,7 +619,7 @@ public partial class ScorecardByLocation : System.Web.UI.Page
         strChartXML.Append("<line startValue='23' color='666666' displayvalue='" + Charts.Tin_Label + "' /> ");
         strChartXML.Append("<line startValue='35' color='666666' displayvalue='" + Charts.Bronze_Label + "' /> ");
         strChartXML.Append("<line startValue='47' color='666666' displayvalue='" + Charts.Silver_Label + "' /> ");
-        strChartXML.Append("<line startValue='59' color='666666' displayvalue='" + Charts.Gold_Label + "' /> ");
+        //strChartXML.Append("<line startValue='59' color='666666' displayvalue='" + Charts.Gold_Label + "' /> ");
         strChartXML.Append("<line startValue='60' color='666666' displayvalue='" + Charts.Platinum_Label + "' /> ");
 
         strChartXML.Append("<line startValue='57' color='619a61' displayvalue='{br}Cross The Line' valueOnRight='1' thickness='2' /> ");
@@ -637,6 +637,13 @@ public partial class ScorecardByLocation : System.Web.UI.Page
         //}
 
         strChartXML.Append("</trendLines>");
+
+        strChartXML.Append("<annotations showBelow='0'>" +
+                            "<annotationgroup id='infobar'>" +
+                            "<annotation id='high-line' type='line' x='$canvasStartX+500' y='$canvasStartY' toy='$canvasEndY' color='666666' dashed='0' thickness='1' />" +
+                            "<annotation id='label' type='text' text='" + Charts.Gold_Label + "' fillcolor='#000000' rotate='90' x='$canvasStartX+500' y='$canvasStartY -10' />" +
+                            "</annotationgroup>" +
+                        "</annotations>");
 
         // set Style for Chart objects
         strChartXML.Append("<styles>");
