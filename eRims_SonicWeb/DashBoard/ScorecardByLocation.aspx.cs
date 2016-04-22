@@ -237,7 +237,7 @@ public partial class ScorecardByLocation : System.Web.UI.Page
 
         // for new version
         string strWidth = dtRegion.Rows.Count > 25 ? "950" : "800";
-        strChartXML.Append("<chart caption='Aggregate Performance for Region " + Region + "' plotGradientColor='' xAxisName='Location' yAxisName='Level' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='102' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
+        strChartXML.Append("<chart caption='Aggregate Performance for Region " + Region + "' plotGradientColor='' xAxisName='Location' yAxisName='Level' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='50' yAxisMaxValue='102' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
 
         // Set Label
         for (int i = 0; i < dtRegion.Rows.Count; i++)
