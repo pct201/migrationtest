@@ -9,7 +9,7 @@
     <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/Calendar.js"></script>
     <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/Calendar_new.js"></script>
     <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/calendar-en.js"></script>
-    <script language="Javascript" src="<%=AppConfig.SiteURL%>FusionCharts/FusionCharts.js"
+    <script language="Javascript" src="<%=AppConfig.SiteURL%>FusionCharts_New/FusionCharts.js"
         type="text/javascript"></script>
     <script language="javascript" type="text/javascript">
         function OpenPopup(region, Year, MapID, CompAvg) {

@@ -119,12 +119,12 @@ public partial class ScorecardByLocation : System.Web.UI.Page
         //---------------------------------
         dsResult = Charts.GetIncidentInvestigationByLocation(Year, strReg);
         MergeColumn(ref dtResult, dsResult.Tables[0]);
-        dtAverage.Rows.Add(dtAverage.NewRow()[0] = (dsResult.Tables[1].Rows[0][0] != DBNull.Value ? dsResult.Tables[1].Rows[0][0] : 0));
+        if (dsResult.Tables[1].Rows.Count > 0) dtAverage.Rows.Add(dtAverage.NewRow()[0] = (dsResult.Tables[1].Rows[0][0] != DBNull.Value ? dsResult.Tables[1].Rows[0][0] : 0));
         if (Region == "Western Region")
         {
             dsSCA = Charts.GetIncidentInvestigationByLocation(Year, "SCA");
             MergeColumn(ref dtResult, dsSCA.Tables[0]);
-            dtAverage.Rows.Add(dtAverage.NewRow()[0] = (dsSCA.Tables[1].Rows[0][0] != DBNull.Value ? dsSCA.Tables[1].Rows[0][0] : 0));
+            if (dsSCA.Tables[1].Rows.Count > 0) dtAverage.Rows.Add(dtAverage.NewRow()[0] = (dsSCA.Tables[1].Rows[0][0] != DBNull.Value ? dsSCA.Tables[1].Rows[0][0] : 0));
         }
         //---------------------------------
         dsResult = Charts.GetIncidentReductionByLocation(Year, strReg);

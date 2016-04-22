@@ -4,7 +4,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <script language="Javascript" src="<%=AppConfig.SiteURL%>FusionCharts/default.js"
         type="text/javascript"></script>
-    <script language="Javascript" src="<%=AppConfig.SiteURL%>FusionCharts/FusionCharts.js"
+    <script language="Javascript" src="<%=AppConfig.SiteURL%>FusionCharts_New/FusionCharts.js"
         type="text/javascript"></script>
     <script language="javascript" type="text/javascript">
         function OpenPopup(region, Year, MapID, CompAvg) {
