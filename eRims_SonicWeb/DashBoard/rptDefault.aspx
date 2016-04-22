@@ -1,5 +1,5 @@
 <%@ Page Language="C#" MasterPageFile="~/Default.master" AutoEventWireup="true" CodeFile="rptDefault.aspx.cs"
-    Inherits="SONIC_ClaimInfo_rptDefault" Title="eRIMS Sonic :: Claim Reports" %>
+    Inherits="SONIC_ClaimInfo_rptDefault" Title="eRIMS Sonic :: Dashboard Reports" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
 
@@ -10,7 +10,7 @@
       
         $(document).ready(function(){
             $('#<%= gvReports.ClientID %> > tbody > tr > td > input[type="button"]').each(function(){
-                if($(this).attr('onclick') == "return openWindowSchedule('66');" || $(this).attr('onclick') == "return openWindowSchedule('70');"){
+                if($(this).attr('onclick') == "return openWindowSchedule('66    ');"){
                     $(this).hide();
                 }
             });
@@ -45,12 +45,7 @@
             else if (PK_ReportID == 54) {
                 schedulePopUp = "ScheduleRptSafetyFirstAward.aspx?PK_ReportID=" + PK_ReportID;
                 obj = window.open(schedulePopUp, null, 'width=800,height=500,left=' + (window.screen.width - 800) / 2 + ',top=' + (window.screen.height - 500) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
-            }
-
-            else if (PK_ReportID == 64) {
-                schedulePopUp = "SchedulerRptSafetyTraining.aspx?PK_ReportID=" + PK_ReportID;
-                obj = window.open(schedulePopUp, null, 'width=800,height=500,left=' + (window.screen.width - 800) / 2 + ',top=' + (window.screen.height - 500) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
-            }
+            }            
             
             obj.focus();
         }
@@ -85,7 +80,7 @@
                         <asp:TemplateField>
                             <ItemStyle Width="12%" HorizontalAlign="Center"></ItemStyle>
                             <ItemTemplate>
-                                <input type="button" value="Schedule" title="Schedule Report" class="btn" onclick="return openWindowSchedule('<%# Eval("PK_ReportID") %>');" />
+                                <input type="button" value="Schedule" title="Schedule Report" class="btn" onclick="return openWindowSchedule('<%# Eval("PK_ReportID") %>    ');" />
                             </ItemTemplate>
                         </asp:TemplateField>
                     </Columns>
