@@ -230,7 +230,7 @@ public partial class DashboardGraphCal : clsBasePage
             strHeader = "Aggregate Performance";
 
         // Set Chart property 
-        strChartXML.Append("<chart caption='" + strHeader + "'  plotGradientColor='' xAxisName='Region' yAxisName='Level' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='102' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='0' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
+        strChartXML.Append("<chart caption='" + strHeader + "'  plotGradientColor='' xAxisName='Region' yAxisName='Level' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='50' yAxisMaxValue='102' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='0' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
 
         decimal _devAvg = 0;
         //decimal.TryParse(Convert.ToString(dtAverage.Compute("AVG(Score)", "")), out _devAvg);
@@ -247,19 +247,19 @@ public partial class DashboardGraphCal : clsBasePage
         strChartXML.Append("<line startValue='69.5' color='49563A' displayvalue='" + Charts.Tin_Label + "' /> ");
         strChartXML.Append("<line startValue='79.5' color='49563A' displayvalue='" + Charts.Bronze_Label + "' /> ");
         strChartXML.Append("<line startValue='89.5' color='49563A' displayvalue='" + Charts.Silver_Label + "' /> ");
-        //strChartXML.Append("<line startValue='94.5' color='49563A' displayvalue='" + Charts.Gold_Label + "' /> ");
+        strChartXML.Append("<line startValue='94.5' color='49563A' displayvalue='" + Charts.Gold_Label + "' /> ");
         strChartXML.Append("<line startValue='100' color='49563A' displayvalue='" + Charts.Platinum_Label + "' /> ");
         //strChartXML.Append("<line startValue='" + string.Format("{0:N2}", _devAvg) + "' color='FF0000' displayvalue='Company Average' valueOnRight='1' thickness='2' /> ");
         strChartXML.Append("<line startValue='95'  color='FF0000' displayvalue='{br}Cross The Line' valueOnRight='1' thickness='2' /> ");
 
         strChartXML.Append("</trendLines>");
 
-        strChartXML.Append("<annotations showBelow='0'>" +
-                              "<annotationgroup id='infobar'>" +
-                              "<annotation id='high-line' type='line' x='$canvasStartX+314' y='$canvasStartY' toy='$canvasEndY' color='49563A' dashed='0' thickness='1' />" +
-                              "<annotation id='label' type='text' text='" + Charts.Gold_Label + "' fillcolor='#000000' rotate='90' x='$canvasStartX+314' y='$canvasStartY -10' />" +
-                              "</annotationgroup>" +
-                          "</annotations>");
+        //strChartXML.Append("<annotations showBelow='0'>" +
+        //                      "<annotationgroup id='infobar'>" +
+        //                      "<annotation id='high-line' type='line' x='$canvasStartX+314' y='$canvasStartY' toy='$canvasEndY' color='49563A' dashed='0' thickness='1' />" +
+        //                      "<annotation id='label' type='text' text='" + Charts.Gold_Label + "' fillcolor='#000000' rotate='90' x='$canvasStartX+314' y='$canvasStartY -10' />" +
+        //                      "</annotationgroup>" +
+        //                  "</annotations>");
 
         // set Style for Chart objects
         strChartXML.Append("<styles>");
@@ -565,18 +565,18 @@ public partial class DashboardGraphCal : clsBasePage
         strChartXML.Append("<line startValue='23' color='49563A' displayvalue='" + Charts.Tin_Label + "' /> ");
         strChartXML.Append("<line startValue='35' color='49563A' displayvalue='" + Charts.Bronze_Label + "' /> ");
         strChartXML.Append("<line startValue='47' color='49563A' displayvalue='" + Charts.Silver_Label + "' /> ");
-        //strChartXML.Append("<line startValue='59' color='49563A' displayvalue='" + Charts.Gold_Label + "' /> ");
+        strChartXML.Append("<line startValue='59' color='49563A' displayvalue='{br}" + Charts.Gold_Label + "' /> ");
         strChartXML.Append("<line startValue='60' color='49563A' displayvalue='" + Charts.Platinum_Label + "' /> ");
         //strChartXML.Append("<line startValue='" + string.Format("{0:N2}", Average) + "' color='FF0000' displayvalue='Company Average' valueOnRight='1' thickness='2' /> ");
-        strChartXML.Append("<line startValue='57' color='FF0000' displayvalue='{br}Cross The Line' valueOnRight='1' thickness='2' /> ");
+        strChartXML.Append("<line startValue='57' color='FF0000' displayvalue='{br}{br}Cross The Line' valueOnRight='1' thickness='2' /> ");
         strChartXML.Append("</trendLines>");
 
-        strChartXML.Append("<annotations showBelow='0'>" +
-                              "<annotationgroup id='infobar'>" +
-                              "<annotation id='high-line' type='line' x='$canvasStartX+288' y='$canvasStartY' toy='$canvasEndY' color='49563A' dashed='0' thickness='1' />" +
-                              "<annotation id='label' type='text' text='" + Charts.Gold_Label + "' fillcolor='#000000' rotate='90' x='$canvasStartX+288' y='$canvasStartY -10' />" +
-                              "</annotationgroup>" +
-                          "</annotations>");
+        //strChartXML.Append("<annotations showBelow='0'>" +
+        //                      "<annotationgroup id='infobar'>" +
+        //                      "<annotation id='high-line' type='line' x='$canvasStartX+288' y='$canvasStartY' toy='$canvasEndY' color='49563A' dashed='0' thickness='1' />" +
+        //                      "<annotation id='label' type='text' text='" + Charts.Gold_Label + "' fillcolor='#000000' rotate='90' x='$canvasStartX+288' y='$canvasStartY -10' />" +
+        //                      "</annotationgroup>" +
+        //                  "</annotations>");
 
         // set Style for Chart objects
         strChartXML.Append("<styles>");

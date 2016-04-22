@@ -619,10 +619,10 @@ public partial class ScorecardByLocation : System.Web.UI.Page
         strChartXML.Append("<line startValue='23' color='666666' displayvalue='" + Charts.Tin_Label + "' /> ");
         strChartXML.Append("<line startValue='35' color='666666' displayvalue='" + Charts.Bronze_Label + "' /> ");
         strChartXML.Append("<line startValue='47' color='666666' displayvalue='" + Charts.Silver_Label + "' /> ");
-        //strChartXML.Append("<line startValue='59' color='666666' displayvalue='" + Charts.Gold_Label + "' /> ");
+        strChartXML.Append("<line startValue='59' color='666666' displayvalue='{br}" + Charts.Gold_Label + "' /> ");
         strChartXML.Append("<line startValue='60' color='666666' displayvalue='" + Charts.Platinum_Label + "' /> ");
 
-        strChartXML.Append("<line startValue='57' color='619a61' displayvalue='{br}Cross The Line' valueOnRight='1' thickness='2' /> ");
+        strChartXML.Append("<line startValue='57' color='619a61' displayvalue='{br}{br}Cross The Line' valueOnRight='1' thickness='2' /> ");
 
         //if (Average != 0 && decCompAverage > 0 && (Math.Abs(Average - decCompAverage) <= 0.20M))
         //{
@@ -638,12 +638,12 @@ public partial class ScorecardByLocation : System.Web.UI.Page
 
         strChartXML.Append("</trendLines>");
 
-        strChartXML.Append("<annotations showBelow='0'>" +
-                            "<annotationgroup id='infobar'>" +
-                            "<annotation id='high-line' type='line' x='$canvasStartX+500' y='$canvasStartY' toy='$canvasEndY' color='666666' dashed='0' thickness='1' />" +
-                            "<annotation id='label' type='text' text='" + Charts.Gold_Label + "' fillcolor='#000000' rotate='90' x='$canvasStartX+500' y='$canvasStartY -10' />" +
-                            "</annotationgroup>" +
-                        "</annotations>");
+        //strChartXML.Append("<annotations showBelow='0'>" +
+        //                    "<annotationgroup id='infobar'>" +
+        //                    "<annotation id='high-line' type='line' x='$canvasStartX+500' y='$canvasStartY' toy='$canvasEndY' color='666666' dashed='0' thickness='1' />" +
+        //                    "<annotation id='label' type='text' text='" + Charts.Gold_Label + "' fillcolor='#000000' rotate='90' x='$canvasStartX+500' y='$canvasStartY -10' />" +
+        //                    "</annotationgroup>" +
+        //                "</annotations>");
 
         // set Style for Chart objects
         strChartXML.Append("<styles>");
