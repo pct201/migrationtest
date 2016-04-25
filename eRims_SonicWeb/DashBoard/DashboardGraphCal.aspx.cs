@@ -555,21 +555,14 @@ public partial class DashboardGraphCal : clsBasePage
     {
         // set Tread Lines
         strChartXML.Append("<trendLines>");
-        strChartXML.Append("<line startValue='23' color='49563A' displayvalue='" + Charts.Tin_Label + "' /> ");
-        strChartXML.Append("<line startValue='35' color='49563A' displayvalue='" + Charts.Bronze_Label + "' /> ");
-        strChartXML.Append("<line startValue='47' color='49563A' displayvalue='" + Charts.Silver_Label + "' /> ");
-        strChartXML.Append("<line startValue='59' color='49563A' displayvalue='{br}" + Charts.Gold_Label + "' /> ");
+        strChartXML.Append("<line startValue='13' color='49563A' displayvalue='" + Charts.Tin_Label + "' /> ");
+        strChartXML.Append("<line startValue='25' color='49563A' displayvalue='" + Charts.Bronze_Label + "' /> ");
+        strChartXML.Append("<line startValue='37' color='49563A' displayvalue='" + Charts.Silver_Label + "' /> ");
+        strChartXML.Append("<line startValue='49' color='49563A' displayvalue='" + Charts.Gold_Label + "' /> ");
         strChartXML.Append("<line startValue='60' color='49563A' displayvalue='" + Charts.Platinum_Label + "' /> ");
         //strChartXML.Append("<line startValue='" + string.Format("{0:N2}", Average) + "' color='FF0000' displayvalue='Company Average' valueOnRight='1' thickness='2' /> ");
-        strChartXML.Append("<line startValue='57' color='FF0000' displayvalue='{br}{br}Cross The Line' valueOnRight='1' thickness='2' /> ");
+        strChartXML.Append("<line startValue='57' color='FF0000' displayvalue='{br}Cross The Line' valueOnRight='1' thickness='2' /> ");
         strChartXML.Append("</trendLines>");
-
-        //strChartXML.Append("<annotations showBelow='0'>" +
-        //                      "<annotationgroup id='infobar'>" +
-        //                      "<annotation id='high-line' type='line' x='$canvasStartX+288' y='$canvasStartY' toy='$canvasEndY' color='49563A' dashed='0' thickness='1' />" +
-        //                      "<annotation id='label' type='text' text='" + Charts.Gold_Label + "' fillcolor='#000000' rotate='90' x='$canvasStartX+288' y='$canvasStartY -10' />" +
-        //                      "</annotationgroup>" +
-        //                  "</annotations>");
 
         // set Style for Chart objects
         strChartXML.Append("<styles>");
