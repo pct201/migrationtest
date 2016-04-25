@@ -813,10 +813,10 @@ function DisableButton() {
                                             </tr>
                                             <tr>
                                                 <td align="right" valign="top">
-                                                    <!--
+                                                   <!--
                                                      <img id="imgBTSecurityWalk" runat="server" alt="" src="~/Images/SLT_Menu_Icon.JPG" height="12" />
                                                        -->
-                                                     &nbsp;
+                                                     &nbsp;  
                                                 </td>
                                                 <td align="left" valign="top">
                                                     <span id="Menu15" onclick="javascript:ShowPanel(15);" class="LeftMenuStatic">BT Security Walk</span>
@@ -1356,8 +1356,7 @@ function DisableButton() {
                                                                 OnClick="lnkAddMeeting_Click" />
                                                         </td>
                                                     </tr>
-													<%--change Reverted for sonic u training. ticket #3503--%>
-                                                    <%--<tr>
+                                                    <tr>
                                                         <td><b>Employee Details who Signed up for Training but have not completed yet :</b></td>
                                                     </tr>
                                                     <tr>
@@ -1401,7 +1400,7 @@ function DisableButton() {
                                                                 </EmptyDataTemplate>
                                                             </asp:GridView>
                                                         </td>
-                                                    </tr>--%>
+                                                    </tr>
                                                 </table>
                                             </asp:Panel>
                                             <asp:Panel ID="pnl3" runat="server" Style="display: none;" Height="460px">
@@ -3081,8 +3080,7 @@ function DisableButton() {
                                                         <td colspan="6">&nbsp;
                                                         </td>
                                                     </tr>
-                                                    <%-- change Reverted for sonic u training. ticket #3503 --%>
-                                                   <%-- <tr>
+                                                    <tr>
                                                         <td colspan="6">
                                                             <asp:LinkButton ID="lnkAssociateSafetyCertificationTraining" Text="Associate Safety Certification Training" OnClientClick="OpenPopup(); return false;" runat="server"></asp:LinkButton><br />
                                                             <i>Click to view details</i>
@@ -3094,7 +3092,7 @@ function DisableButton() {
                                                             <i>Click to view details</i>
                                                         </td>
                                                     </tr>
-                                                    <tr>--%>
+                                                    <tr>
                                                         <td colspan="6" align="left">
                                                             <b>SABA Weekly Training Report Attachments</b><br />
                                                             <i>Click to view details</i>

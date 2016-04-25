@@ -265,6 +265,22 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         set { ViewState["IsUserRLCM"] = value; }
     }
 
+    private int _Quarter;
+
+    public int Quarter
+    {
+        get { return _Quarter; }
+        set { _Quarter = value; }
+    }
+
+    private string _AssociateStatus;
+
+    public string AssociateStatus
+    {
+        get { return _AssociateStatus; }
+        set { _AssociateStatus = value; }
+    }
+
     private string SortBy_Meeting
     {
         get { return (!clsGeneral.IsNull(ViewState["SortBy_Meeting"]) ? ViewState["SortBy_Meeting"].ToString() : "Scheduled_Meeting_Date"); }//Actual_Meeting_Date
@@ -391,7 +407,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                     // Bind Controls
                     BindDetailsForEdit();
                     SetValidations();
-                    
+                    BindEmployeeGrid();
                     //if (App_Access != AccessType.Administrative_Access && UserAccessType != AccessType.Administrative_Access)
                     //{
                     //    gvMeeting.Columns[gvMeeting.Columns.Count - 1].Visible = false;
@@ -612,33 +628,33 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         {
             gvSLT_Members.DataSource = dtSlt_members;
             gvSLT_Members.DataBind();
-			tr_Sltmembers.Style.Add("display", "");
+            tr_Sltmembers.Style.Add("display", "");
             tr_SltmembersADD.Style.Add("display", "none");
         }
         else
         {
             gvSLT_membersView.DataSource = dtSlt_members;
             gvSLT_membersView.DataBind();
-			tr_Sltmembers_View.Visible = true;
+            tr_Sltmembers_View.Visible = true;
             tr_SltmembersBYYear_View.Visible = false;
         }
     }
-	
-	private void BindSLTMemberHistoryGrid()
+
+    private void BindSLTMemberHistoryGrid()
     {
         DataTable dtSlt_members = SLT_Members.SLT_MembersSelectByFK_SLT_Meeting(PK_SLT_Meeting).Tables[0];
         if (StrOperation != "view")
         {
             gvSLT_Members.DataSource = dtSlt_members;//view all members from all dates
             gvSLT_Members.DataBind();
-			tr_Sltmembers.Style.Add("display", "");
+            tr_Sltmembers.Style.Add("display", "");
             tr_SltmembersADD.Style.Add("display", "none");
         }
         else
         {
             gvSLT_membersView.DataSource = dtSlt_members;
             gvSLT_membersView.DataBind();
-			tr_Sltmembers_View.Visible = true;
+            tr_Sltmembers_View.Visible = true;
             tr_SltmembersBYYear_View.Visible = false;
         }
     }
@@ -1051,7 +1067,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         ddlYearIncident.Items.Clear();
         drpYearInspection.Items.Clear();
         drpMeeting_AgendaYear.Items.Clear();
-        
+        ddlEmployeeSignedupYear.Items.Clear();
 
         for (int i = DateTime.Now.Year; i >= 2007; i--)
         {
@@ -1060,7 +1076,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             ddlYearIncident.Items.Add(new ListItem(i.ToString(), i.ToString())); // fill Year In ddl fro Incident Review Grid
             drpYearInspection.Items.Add(new ListItem(i.ToString(), i.ToString()));
             drpMeeting_AgendaYear.Items.Add(new ListItem(i.ToString(), i.ToString()));
-            
+            ddlEmployeeSignedupYear.Items.Add(new ListItem(i.ToString(), i.ToString()));
             //ddlYear_Claim_Management.Items.Add(new ListItem(i.ToString(), i.ToString()));
         }
         ddlYearIncident.SelectedValue = DateTime.Now.Year.ToString();
@@ -1282,7 +1298,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
     }
     #endregion
     #region "SLT_Safty_Walk"
-	private void BindSaftyWalkGrid()
+    private void BindSaftyWalkGrid()
     {
         DataSet dsSlt_members = SLT_Members.SLT_MembersSelectByFk(PK_SLT_Meeting, 0, PK_SLT_Meeting_Schedule);
         DataTable dtSlt_members = null;
@@ -2391,48 +2407,154 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         string DBA = objLU_Location.dba;
         if (StrOperation != "view" && meetingIsEditable == true)
         {
-            strRegion = ""; // drpLocationStatus.SelectedIndex > 0 ? drpLocationStatus.SelectedValue : "";
-            intYear = Convert.ToInt32(drpTrainingYear.SelectedValue);
-            DataSet dsDetailTraining = Charts.GetSabaTrainingDetail(intYear, DBA, Sonic_Location_Code);
-            if (dsDetailTraining.Tables[0].Rows.Count > 0)
+            if (drpTrainingYear.SelectedIndex >= 0)
+                intYear = Convert.ToInt32(drpTrainingYear.SelectedValue);
+            DataSet dsDetail = Charts.GetSabaTrainingDetail2(Convert.ToInt32(intYear), DBA, Sonic_Location_Code, 0, null,true);
+            DataTable dtResult = dsDetail.Tables[1];
+
+            ViewState["jYear"] = intYear;
+            ViewState["jSLC"] = Convert.ToString(objLU_Location.Sonic_Location_Code);
+            ViewState["jMapId"] = 3;
+            ViewState["jDBA"] = Convert.ToString(objLU_Location.dba);
+
+
+            if (dsDetail.Tables[1] != null && dsDetail.Tables[1].Rows.Count > 0)
             {
-                lblTrainingScore.Text = Convert.ToString(dsDetailTraining.Tables[0].Rows[0]["Score"]);
+                DataRow[] result1 = dsDetail.Tables[0].Select("AssociateQuarter = '1'");
+                if (result1.Length > 0)
+                {
+                    if (string.IsNullOrEmpty(result1[0]["Percentage"].ToString()))
+                        lblTrainingQ1.Text = "0";
+                    else
+                        lblTrainingQ1.Text = string.Format("{0:0.0#}", result1[0]["Percentage"]) + "%";
+                }
+                else
+                {
+                    lblTrainingQ1.Text = "0";
+                }
+
+                DataRow[] result2 = dsDetail.Tables[0].Select("AssociateQuarter = '2'");
+                if (result2.Length > 0)
+                {
+                    if (string.IsNullOrEmpty(result2[0]["Percentage"].ToString()))
+                        lblTrainingQ2.Text = "0";
+                    else
+                        lblTrainingQ2.Text = string.Format("{0:0.0#}", result2[0]["Percentage"]) + "%";
+                }
+                else
+                {
+                    lblTrainingQ2.Text = "0";
+                }
+
+                DataRow[] result3 = dsDetail.Tables[0].Select("AssociateQuarter = '3'");
+                if (result3.Length > 0)
+                {
+                    if (string.IsNullOrEmpty(result3[0]["Percentage"].ToString()))
+                        lblTrainingQ3.Text = "0";
+                    else
+                        lblTrainingQ3.Text = string.Format("{0:0.0#}", result3[0]["Percentage"]) + "%";
+                }
+                else
+                {
+                    lblTrainingQ3.Text = "0";
+                }
+
+                DataRow[] result4 = dsDetail.Tables[0].Select("AssociateQuarter = '4'");
+                if (result4.Length > 0)
+                {
+                    if (string.IsNullOrEmpty(result4[0]["Percentage"].ToString()))
+                        lblTrainingQ4.Text = "0";
+                    else
+                        lblTrainingQ4.Text = string.Format("{0:0.0#}", result4[0]["Percentage"]) + "%";
+                }
+                else
+                {
+                    lblTrainingQ4.Text = "0";
+                }
+
+                DataRow[] result5 = dsDetail.Tables[1].Select("PerformanceLevel In ('"+ Charts.Platinum_Label +"','"+ Charts.Gold_Label +"', '"+ Charts.Silver_Label +"', '"+ Charts.Bronze_Label +"', '"+ Charts.Tin_Label +"')");
+                if (result5.Length > 0)
+                {
+                    if (string.IsNullOrEmpty(result5[0]["PerformanceLevel"].ToString()))
+                        lblTrainingScore.Text = "0";
+                    else
+                        lblTrainingScore.Text = result5[0]["PerformanceLevel"].ToString();
+
+                }
+                else
+                {
+                    lblTrainingScore.Text = "";
+                }
+
             }
-            else
-                lblTrainingScore.Text = "Platinum";
-        }
-        else
-        {
-            strRegion = ""; // drpLocationStatusView.SelectedIndex > 0 ? drpLocationStatusView.SelectedValue : "";
-            intYear = Convert.ToInt32(drpTrainingYearView.SelectedValue);
-            DataSet dsDetailTraining = Charts.GetSabaTrainingDetail(intYear, DBA, Sonic_Location_Code);
-            if (dsDetailTraining.Tables[0].Rows.Count > 0)
-            {
-                lblTrainingScoreView.Text = Convert.ToString(dsDetailTraining.Tables[0].Rows[0]["Score"]);
-            }
-            else
-                lblTrainingScoreView.Text = "Platinum";
         }
 
-        DataTable dtResult = SLT_Training.SelectQuarterResults(FK_LU_Location_ID, intYear).Tables[0];
-        DataRow[] drQ1 = dtResult.Select("Quarter = 'Q1'");
-        DataRow[] drQ2 = dtResult.Select("Quarter = 'Q2'");
-        DataRow[] drQ3 = dtResult.Select("Quarter = 'Q3'");
-        DataRow[] drQ4 = dtResult.Select("Quarter = 'Q4'");
-        if (StrOperation != "view" && meetingIsEditable == true)
-        {
-            lblTrainingQ1.Text = Convert.ToString(drQ1[0][1]) + "%";
-            lblTrainingQ2.Text = Convert.ToString(drQ2[0][1]) + "%";
-            lblTrainingQ3.Text = Convert.ToString(drQ3[0][1]) + "%";
-            lblTrainingQ4.Text = Convert.ToString(drQ4[0][1]) + "%";
-        }
         else
         {
-            lblTrainingQ1View.Text = Convert.ToString(drQ1[0][1]) + "%";
-            lblTrainingQ2View.Text = Convert.ToString(drQ2[0][1]) + "%";
-            lblTrainingQ3View.Text = Convert.ToString(drQ3[0][1]) + "%";
-            lblTrainingQ4View.Text = Convert.ToString(drQ4[0][1]) + "%";
+            if (drpTrainingYearView.SelectedIndex >= 0)
+                intYear = Convert.ToInt32(drpTrainingYearView.SelectedValue);
+            //DataSet dsDetail = Charts.GetSabaTrainingDetail1(Convert.ToInt32(intYear), DBA, Sonic_Location_Code, 0, null);
+            DataSet dsDetail = Charts.GetSabaTrainingDetail2(Convert.ToInt32(intYear), DBA, Sonic_Location_Code, 0, null,true);
+            //DataSet dsDetail = Charts.GetSabaTrainingDetail(Convert.ToInt32(intYear), DBA, Sonic_Location_Code);
+
+            DataTable dtResult = dsDetail.Tables[0];
+
+            if (dsDetail.Tables[0] != null && dsDetail.Tables[0].Rows.Count > 0)
+            {
+                DataRow[] result1 = dsDetail.Tables[0].Select("AssociateQuarter = '1'");
+
+                if (result1.Length > 0)
+                {
+                    if (string.IsNullOrEmpty(result1[0]["Percentage"].ToString()))
+                        lblTrainingQ1View.Text = "0";
+                    else
+                        lblTrainingQ1View.Text = string.Format("{0:0.0#}", result1[0]["Percentage"]) + "%";
+                }
+
+                DataRow[] result2 = dsDetail.Tables[0].Select("AssociateQuarter = '2'");
+
+                if (result2.Length > 0)
+                {
+                    if (string.IsNullOrEmpty(result2[0]["Percentage"].ToString()))
+                        lblTrainingQ2View.Text = "0";
+                    else
+                        lblTrainingQ2View.Text = string.Format("{0:0.0#}", result2[0]["Percentage"]) + "%";
+                }
+
+                DataRow[] result3 = dsDetail.Tables[0].Select("AssociateQuarter = '3'");
+
+                if (result3.Length > 0)
+                {
+                    if (string.IsNullOrEmpty(result3[0]["Percentage"].ToString()))
+                        lblTrainingQ3View.Text = "0";
+                    else
+                        lblTrainingQ3View.Text = string.Format("{0:0.0#}", result3[0]["Percentage"]) + "%";
+                }
+
+                DataRow[] result4 = dsDetail.Tables[0].Select("AssociateQuarter = '4'");
+
+                if (result4.Length > 0)
+                {
+                    if (string.IsNullOrEmpty(result4[0]["Percentage"].ToString()))
+                        lblTrainingQ4View.Text = "0";
+                    else
+                        lblTrainingQ4View.Text = string.Format("{0:0.0#}", result4[0]["Percentage"]) + "%";
+                }
+
+                DataRow[] result5 = dsDetail.Tables[1].Select("PerformanceLevel In ('" + Charts.Platinum_Label + "','" + Charts.Gold_Label + "', '" + Charts.Silver_Label + "', '" + Charts.Bronze_Label + "', '" + Charts.Tin_Label + "')");
+
+                if (result5.Length > 0)
+                {
+                    if (string.IsNullOrEmpty(result5[0]["PerformanceLevel"].ToString()))
+                        lblTrainingScoreView.Text = "0";
+                    else
+                        lblTrainingScoreView.Text = result5[0]["PerformanceLevel"].ToString();
+
+                }
+
+            }
         }
+
     }
 
 
@@ -4474,6 +4596,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             BindSLTMemberHistoryGrid();
         else
             BindSLTMemberGrid();
+        
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
     }
     /// <summary>
@@ -4865,22 +4988,15 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                 {
                     lnkDelete.Visible = true;
                 }
-
-
                 //= true;
             }
-
             else
             {
-
                 LinkButton lnkDelete = (LinkButton)e.Row.Cells[gvMeeting.Columns.Count - 1].FindControl("lnkDelete");
                 if (lnkDelete != null)
                 {
-
                     lnkDelete.Visible = false;
                 }
-
-
             }
         }
         //else if (e.Row.RowType == DataControlRowType.Header)
@@ -5719,8 +5835,6 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             // get the file name value from binder
             string strFileName = DataBinder.Eval(e.Row.DataItem, "Attachment_Name").ToString();
             //strFileName = AppConfig.strSLT_SafetyWalkDocPath + strFileName;
-
-            // set click attribute to open file on clicking the link
             if(File.Exists(clsGeneral.GetAttachmentDocPath(clsGeneral.SLT_TablesNames[(int)clsGeneral.SLT_Tables.SLT_Safety_Walk]) + strFileName))
                 lnkSaftywalkAttachFile.Attributes.Add("onclick", "javascript:window.open('../../Download.aspx?fname=" + Encryption.Encrypt(strFileName) + "&SLT=safetywalk');");
             else
@@ -6581,7 +6695,29 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             txtMember_Email.Text = string.Empty;
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
     }
-    
+    protected void gvEmployeeSignedUp_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        gvEmployeeSignedUp.PageIndex = e.NewPageIndex; //Page new index call
+        BindEmployeeGrid();
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
+    }
+
+    private void BindEmployeeGrid()
+    {
+        LU_Location objLU_Location = new LU_Location(FK_LU_Location_ID);
+        string Sonic_Location_Code = Convert.ToString(objLU_Location.Sonic_Location_Code);
+        string DBA = objLU_Location.dba;
+        DataSet ds = SLT_Members.SelectSignedupEmployeeByLocation(Convert.ToInt32(ddlEmployeeSignedupYear.SelectedValue), DBA, Sonic_Location_Code);
+        if (ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            gvEmployeeSignedUp.DataSource = ds.Tables[0];
+        gvEmployeeSignedUp.DataBind();
+    }
+
+    protected void ddlEmployeeSignedupYear_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        BindEmployeeGrid();
+        Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
+    }
 
     protected void btnViewEmployee_Click(object sender, EventArgs e)
     {
@@ -6596,6 +6732,8 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             btnViewEmployee.Text = "View Associates for Location Only";
         }
         drpFK_Employee_SelectedIndexChanged(null,null);
+
+
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
     }
 }
