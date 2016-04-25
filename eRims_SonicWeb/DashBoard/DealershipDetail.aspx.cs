@@ -218,24 +218,24 @@ public partial class DealershipDetail : System.Web.UI.Page
             //    strResult = "Tin";
             //}            
 
-            ////
-            if (_intScore > 94.5m && _intScore <= 100)
+            //Change as per bug-tracker 3600 #35143..
+            if (_intScore > 84.5m && _intScore <= 100)
             {
                 strResult = "Platinum";
             }
-            else if (_intScore > 89.5m && _intScore <= 94.5m)
+            else if (_intScore > 69.5m && _intScore <= 84.5m)
             {
                 strResult = "Gold";
             }
-            else if (_intScore > 79.5m && _intScore <= 89.5m)
+            else if (_intScore > 49.5m && _intScore <= 69.5m)
             {
                 strResult = "Silver";
             }
-            else if (_intScore > 69.5m && _intScore <= 79.5m)
+            else if (_intScore > 29.5m && _intScore <= 49.5m)
             {
                 strResult = "Bronze";
             }
-            else if (_intScore >= 0 && _intScore <= 69.5m)
+            else if (_intScore >= 0 && _intScore <= 29.5m)
             {
                 strResult = "Tin";
             }            
@@ -285,19 +285,31 @@ public partial class DealershipDetail : System.Web.UI.Page
         return strLevel;
     }
 
-    private string GetPerformanceLevel_SLT(int intScore)
+    private string GetPerformanceLevel_SLT(int intScore)//Change as per bug-tracker 3600 #35143..
     {
         string strLevel = "";
 
-        if(intScore >= 0 && intScore <= 23)
+        //if(intScore >= 0 && intScore <= 13)
+        //    strLevel = "Tin";
+        //if (intScore > 13 && intScore <= 25)
+        //    strLevel = "Bronze";
+        //if (intScore > 25 && intScore <= 37)
+        //    strLevel = "Silver";
+        //if (intScore > 37 && intScore <= 49)
+        //    strLevel = "Gold";
+        //if (intScore > 49 && intScore <= 60)
+        //    strLevel = "Platinum";
+        if (intScore >= 0 && intScore < 13)
+            strLevel = "White";
+        if (intScore >= 13 && intScore < 25)
             strLevel = "Tin";
-        if (intScore > 23 && intScore <= 35)
+        if (intScore >= 25 && intScore < 37)
             strLevel = "Bronze";
-        if (intScore > 35 && intScore <= 47)
+        if (intScore >= 37 && intScore < 49)
             strLevel = "Silver";
-        if (intScore > 47 && intScore <= 59)
+        if (intScore >= 49 && intScore < 60)
             strLevel = "Gold";
-        if (intScore > 59 && intScore <= 60)
+        if (intScore >= 60)
             strLevel = "Platinum";
         return strLevel;
     }

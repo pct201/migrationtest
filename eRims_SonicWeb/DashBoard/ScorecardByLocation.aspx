@@ -23,7 +23,7 @@
 <script language="Javascript" src="<%=AppConfig.SiteURL%>FusionCharts/default.js"
     type="text/javascript"></script>
 
-<script language="Javascript" src="<%=AppConfig.SiteURL%>FusionCharts/FusionCharts.js"
+<script language="Javascript" src="<%=AppConfig.SiteURL%>FusionCharts_New/FusionCharts.js"
     type="text/javascript"></script>
 
 <body>

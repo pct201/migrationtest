@@ -590,23 +590,23 @@ public class Charts
         {
             color = Platinum;
         }
-        else if (_intScore >= 59 && _intScore < 60)
+        else if (_intScore >= 49 && _intScore < 60)
         {
             color = Gold;
         }
-        else if (_intScore >= 47 && _intScore < 59)
+        else if (_intScore >= 37 && _intScore < 49)
         {
             color = Silver;
         }
-        else if (_intScore >= 35 && _intScore < 47)
+        else if (_intScore >= 25 && _intScore < 37)
         {
             color = Bronze;
         }
-        else if (_intScore >= 23 && _intScore < 35)
+        else if (_intScore >= 13 && _intScore < 25)
         {
             color = Tin;
         }
-        else if (_intScore >= 0 && _intScore < 23)
+        else if (_intScore >= 0 && _intScore < 13)
         {
             color = White;
         }
@@ -616,23 +616,23 @@ public class Charts
     public static string GetColorCodeFromScoreAggregate(decimal _intScore)
     {
         string color = string.Empty;
-        if (_intScore > 94.5M && _intScore <= 100)
+        if (_intScore > 84.5M && _intScore <= 100)
         {
             color = Platinum;
         }
-        else if (_intScore > 89.5m && _intScore <= 94.5m)
+        else if (_intScore > 69.5m && _intScore <= 84.5m)
         {
             color = Gold;
         }
-        else if (_intScore > 79.5m && _intScore <= 89.5m)
+        else if (_intScore > 49.5m && _intScore <= 69.5m)
         {
             color = Silver;
         }
-        else if (_intScore > 69.5m && _intScore <= 79.5m)
+        else if (_intScore > 29.5m && _intScore <= 49.5m)
         {
             color = Bronze;
         }
-        else if (_intScore >= 0 && _intScore <= 69.5m)
+        else if (_intScore >= 0 && _intScore <= 29.5m)
         {
             color = Tin;
         }
