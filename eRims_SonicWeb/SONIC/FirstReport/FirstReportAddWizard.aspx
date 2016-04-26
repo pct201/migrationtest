@@ -170,7 +170,7 @@
                                                             <td style="width: 20%">
                                                                 <asp:CheckBox runat="server" ID="chkInventoried_Vehicle" Enabled="true" /></td>
                                                             <td style="width: 55%">
-                                                                Inventoried Vehicle</td>
+                                                                Inventoried Vehicle/Company Owned Vehicle</td>
                                                         </tr>
                                                         <tr>
                                                             <td>
