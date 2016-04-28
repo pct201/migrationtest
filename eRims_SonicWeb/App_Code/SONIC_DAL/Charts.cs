@@ -321,7 +321,7 @@ public class Charts
     public static DataSet RLCMQuarterlyPerformanceReportGrid(decimal pk_Security_ID, string Regions, string Markets, int idState, DateTime FromDate, DateTime ToDate, string Rlcms)
     {
         Database db = DatabaseFactory.CreateDatabase();
-        DbCommand dbCommand = db.GetStoredProcCommand("rptQuarterlyPerformanceSLT");
+        DbCommand dbCommand = db.GetStoredProcCommand("rptQuarterlyPerformanceSLT_New");
 
         dbCommand.CommandTimeout = 1000;
         db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Decimal, pk_Security_ID);
@@ -340,7 +340,7 @@ public class Charts
     public static DataSet RLCMQuarterlyPerformanceReportGrid_ByRLCM(decimal pk_Security_ID, string Regions, string Markets, int idState, DateTime FromDate, DateTime ToDate, string Rlcms)
     {
         Database db = DatabaseFactory.CreateDatabase();
-        DbCommand dbCommand = db.GetStoredProcCommand("rptQuarterlyPerformanceSLT_ByRLCM");
+        DbCommand dbCommand = db.GetStoredProcCommand("rptQuarterlyPerformanceSLT_ByRLCM_New");
 
         dbCommand.CommandTimeout = 1000;
         db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Decimal, pk_Security_ID);
