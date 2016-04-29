@@ -1,5 +1,4 @@
-﻿
-<%@ Page Language="C#" AutoEventWireup="true" CodeFile="DealershipDetail.aspx.cs"
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="DealershipDetail.aspx.cs"
     Inherits="DealershipDetail" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -191,7 +190,7 @@
                     </td>
                     <td align="center" style="width: 5%">:
                     </td>
-                    <td colspan="4">
+                    <td>
                         <asp:Label ID="lblSabaDealerShipName" runat="server"></asp:Label>
                     </td>
                 </tr>
@@ -199,36 +198,22 @@
                     <td>&nbsp;
                     </td>
                 </tr>
-              <%--  <tr>
+                <tr>
                     <td>Date
                     </td>
                     <td align="center" style="width: 5%">:
                     </td>
-                    <td colspan="4">
+                    <td>
                         <asp:Label ID="lblSabaTrainingDate" runat="server" Text=""></asp:Label>
                     </td>
-                </tr>--%>
+                </tr>
                 <tr>
                     <td>Year
                     </td>
                     <td align="center" style="width: 5%">:
                     </td>
-                    <td colspan="4">
+                    <td>
                         <asp:Label ID="lblSabaTrainingYear" runat="server" Text=""></asp:Label>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Quarter
-                    </td>
-                    <td align="center" style="width: 5%">:
-                    </td>
-                    <td >Q1
-                    </td>
-                    <td >Q2
-                    </td>
-                    <td >Q3
-                    </td >
-                    <td >Q4
                     </td>
                 </tr>
                 <tr>
@@ -236,17 +221,8 @@
                     </td>
                     <td align="center" style="width: 5%">:
                     </td>
-                    <td >
-                        <asp:LinkButton ID="lblSabaNumberEmployees1" runat="server" OnClick="lblSabaNumberEmployees_Click" Text="0"></asp:LinkButton>
-                    </td>
-                    <td >
-                        <asp:LinkButton ID="lblSabaNumberEmployees2" runat="server" OnClick="lblSabaNumberEmployees_Click" Text="0"></asp:LinkButton>
-                    </td>
-                    <td >
-                        <asp:LinkButton ID="lblSabaNumberEmployees3" runat="server" OnClick="lblSabaNumberEmployees_Click" Text="0"></asp:LinkButton>
-                    </td>
-                    <td >
-                        <asp:LinkButton ID="lblSabaNumberEmployees4" runat="server" OnClick="lblSabaNumberEmployees_Click" Text="0"></asp:LinkButton>
+                    <td>
+						<asp:Label ID="lblSabaNumberEmployees" runat="server" Text="0"></asp:Label>
                     </td>
                 </tr>
                 <tr>
@@ -254,17 +230,8 @@
                     </td>
                     <td align="center" style="width: 5%">:
                     </td>
-                    <td >
-                        <asp:LinkButton ID="lblSabaEmployeesTrained1" runat="server" OnClick="lblSabaNumberEmployees_Click" Text="0"></asp:LinkButton>
-                    </td>
-                    <td >
-                        <asp:LinkButton ID="lblSabaEmployeesTrained2" runat="server" OnClick="lblSabaNumberEmployees_Click" Text="0"></asp:LinkButton>
-                    </td>
-                    <td >
-                        <asp:LinkButton ID="lblSabaEmployeesTrained3" runat="server" OnClick="lblSabaNumberEmployees_Click" Text="0"></asp:LinkButton>
-                    </td>
-                    <td >
-                        <asp:LinkButton ID="lblSabaEmployeesTrained4" runat="server" OnClick="lblSabaNumberEmployees_Click" Text="0"></asp:LinkButton>
+                    <td>
+                        <asp:Label ID="lblSabaEmployeesTrained" runat="server" Text="0"></asp:Label>
                     </td>
                 </tr>
                 <tr>
@@ -272,17 +239,8 @@
                     </td>
                     <td align="center" style="width: 5%">:
                     </td>
-                    <td >
-                        <asp:Label ID="lblSabaPercentTrained1" runat="server" Text="0"></asp:Label>
-                    </td>
-                    <td >
-                        <asp:Label ID="lblSabaPercentTrained2" runat="server" Text="0"></asp:Label>
-                    </td>
-                    <td >
-                        <asp:Label ID="lblSabaPercentTrained3" runat="server" Text="0"></asp:Label>
-                    </td>
-                    <td >
-                        <asp:Label ID="lblSabaPercentTrained4" runat="server" Text="0"></asp:Label>
+                    <td>
+                        <asp:Label ID="lblSabaPercentTrained" runat="server" Text="0"></asp:Label>
                     </td>
                 </tr>
                 <tr>
@@ -290,12 +248,12 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Aggregate Performance
+                    <td>Performance Level
                     </td>
                     <td align="center" style="width: 5%">:
                     </td>
-                    <td colspan="4">
-                        <asp:Label ID="lblSabaPerformance" runat="server" ></asp:Label>
+                    <td>
+                        <asp:Label ID="lblSabaPerformance" runat="server" Text="Platinum"></asp:Label>
                     </td>
                 </tr>
             </table>
