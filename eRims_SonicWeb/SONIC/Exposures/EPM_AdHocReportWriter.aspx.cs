@@ -1111,7 +1111,7 @@ public partial class EPM_AdHocReportWriter : clsBasePage
             ucToDate.Visible = img2.Visible = txt2.Visible = lbl2.Visible = false;
             lbl2.Text = "";
         }
-        // Set image to display calander Control
+        // Set image to display calendar Control
         img2.Attributes.Add("onclick", "return showCalendar('" + txt2.ClientID + "', 'mm/dd/y','','')");
 
     }
@@ -2777,11 +2777,11 @@ public partial class EPM_AdHocReportWriter : clsBasePage
         else if (Convert.ToString(Field_Header).ToLower().Trim() == "Review Quality".ToLower())
         {
             lst_F.Items.Clear();
-            lst_F.Items.Add(new ListItem("Spectator", "1"));
-            lst_F.Items.Add(new ListItem("Water boy", "2"));
-            lst_F.Items.Add(new ListItem("Second String", "3"));
-            lst_F.Items.Add(new ListItem("Starter", "4"));
-            lst_F.Items.Add(new ListItem("All Pro", "5"));
+            lst_F.Items.Add(new ListItem(Charts.Tin_Label, "1"));
+            lst_F.Items.Add(new ListItem(Charts.Bronze_Label, "2"));
+            lst_F.Items.Add(new ListItem(Charts.Silver_Label, "3"));
+            lst_F.Items.Add(new ListItem(Charts.Gold_Label, "4"));
+            lst_F.Items.Add(new ListItem(Charts.Platinum_Label, "5"));
         }
         else if (Convert.ToString(Field_Header).ToLower().Trim() == "location state")
         {
