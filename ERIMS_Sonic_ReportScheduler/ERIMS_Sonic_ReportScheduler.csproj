@@ -87,6 +87,10 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
+    <Reference Include="wnvhtmlconvert, Version=3.5.3.23522, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\wnvhtmlconvert.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Code\AdHocFilter.cs" />
@@ -121,6 +125,16 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="bin\Debug\ERIMS_Sonic_ReportScheduler.vshost.exe.config" />
+    <None Include="bin\Debug\ERIMS_Sonic_ReportScheduler.vshost.exe.manifest" />
+    <None Include="bin\Debug\temp\BordereauReport012116054724.xls" />
+    <None Include="bin\Debug\temp\BordereauReport012116054724.xlsx" />
+    <None Include="bin\Debug\temp\FinancialPayTypeSummary012216055106.xls" />
+    <None Include="bin\Debug\temp\FinancialPayTypeSummary012216055106.xlsx" />
+    <None Include="bin\Debug\temp\FinancialPayTypeSummary012216055203.xls" />
+    <None Include="bin\Debug\temp\FinancialPayTypeSummary012216055203.xlsx" />
+    <None Include="bin\Debug\temp\FinancialSummary012116054728.xls" />
+    <None Include="bin\Debug\temp\FinancialSummary012116054728.xlsx" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ProjectInstaller.resx">
@@ -159,6 +173,11 @@
     <Content Include="App_Data\AdHocReportFields.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="bin\Debug\ERIMS_Sonic_ReportScheduler.vshost.exe" />
+    <Content Include="bin\Debug\wnvhtmlconvert.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Release\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

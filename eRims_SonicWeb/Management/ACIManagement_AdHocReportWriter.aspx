@@ -794,6 +794,7 @@
                                                             <asp:ListItem Text="Between" Value="B"></asp:ListItem>
                                                             <asp:ListItem Text="On or Before" Value="BF"></asp:ListItem>
                                                             <asp:ListItem Text="On or After" Value="A"></asp:ListItem>
+                                                            <asp:ListItem Text="IS NULL" Value="IN"></asp:ListItem>
                                                         </asp:DropDownList>
                                                     </td>
                                                     <td width="11%" nowrap="nowrap">
@@ -906,6 +907,7 @@
                                                             <asp:ListItem Text="Between" Value="B"></asp:ListItem>
                                                             <asp:ListItem Text="On or Before" Value="BF"></asp:ListItem>
                                                             <asp:ListItem Text="On or After" Value="A"></asp:ListItem>
+                                                            <asp:ListItem Text="IS NULL" Value="IN"></asp:ListItem>
                                                         </asp:DropDownList>
                                                     </td>
                                                     <td width="11%">
@@ -1018,6 +1020,7 @@
                                                             <asp:ListItem Text="Between" Value="B"></asp:ListItem>
                                                             <asp:ListItem Text="On or Before" Value="BF"></asp:ListItem>
                                                             <asp:ListItem Text="On or After" Value="A"></asp:ListItem>
+                                                            <asp:ListItem Text="IS NULL" Value="IN"></asp:ListItem>
                                                         </asp:DropDownList>
                                                     </td>
                                                     <td width="11%">
@@ -1130,6 +1133,7 @@
                                                             <asp:ListItem Text="Between" Value="B"></asp:ListItem>
                                                             <asp:ListItem Text="On or Before" Value="BF"></asp:ListItem>
                                                             <asp:ListItem Text="On or After" Value="A"></asp:ListItem>
+                                                            <asp:ListItem Text="IS NULL" Value="IN"></asp:ListItem>
                                                         </asp:DropDownList>
                                                     </td>
                                                     <td width="11%">
@@ -1242,6 +1246,7 @@
                                                             <asp:ListItem Text="Between" Value="B"></asp:ListItem>
                                                             <asp:ListItem Text="On or Before" Value="BF"></asp:ListItem>
                                                             <asp:ListItem Text="On or After" Value="A"></asp:ListItem>
+                                                            <asp:ListItem Text="IS NULL" Value="IN"></asp:ListItem>
                                                         </asp:DropDownList>
                                                     </td>
                                                     <td width="11%">
@@ -1354,6 +1359,7 @@
                                                             <asp:ListItem Text="Between" Value="B"></asp:ListItem>
                                                             <asp:ListItem Text="On or Before" Value="BF"></asp:ListItem>
                                                             <asp:ListItem Text="On or After" Value="A"></asp:ListItem>
+                                                            <asp:ListItem Text="IS NULL" Value="IN"></asp:ListItem>
                                                         </asp:DropDownList>
                                                     </td>
                                                     <td width="11%">
@@ -1466,6 +1472,7 @@
                                                             <asp:ListItem Text="Between" Value="B"></asp:ListItem>
                                                             <asp:ListItem Text="On or Before" Value="BF"></asp:ListItem>
                                                             <asp:ListItem Text="On or After" Value="A"></asp:ListItem>
+                                                            <asp:ListItem Text="IS NULL" Value="IN"></asp:ListItem>
                                                         </asp:DropDownList>
                                                     </td>
                                                     <td width="11%">
@@ -1578,6 +1585,7 @@
                                                             <asp:ListItem Text="Between" Value="B"></asp:ListItem>
                                                             <asp:ListItem Text="On or Before" Value="BF"></asp:ListItem>
                                                             <asp:ListItem Text="On or After" Value="A"></asp:ListItem>
+                                                            <asp:ListItem Text="IS NULL" Value="IN"></asp:ListItem>
                                                         </asp:DropDownList>
                                                     </td>
                                                     <td width="11%">
@@ -1690,6 +1698,7 @@
                                                             <asp:ListItem Text="Between" Value="B"></asp:ListItem>
                                                             <asp:ListItem Text="On or Before" Value="BF"></asp:ListItem>
                                                             <asp:ListItem Text="On or After" Value="A"></asp:ListItem>
+                                                            <asp:ListItem Text="IS NULL" Value="IN"></asp:ListItem>
                                                         </asp:DropDownList>
                                                     </td>
                                                     <td width="11%">
@@ -1802,6 +1811,7 @@
                                                             <asp:ListItem Text="Between" Value="B"></asp:ListItem>
                                                             <asp:ListItem Text="On or Before" Value="BF"></asp:ListItem>
                                                             <asp:ListItem Text="On or After" Value="A"></asp:ListItem>
+                                                            <asp:ListItem Text="IS NULL" Value="IN"></asp:ListItem>
                                                         </asp:DropDownList>
                                                     </td>
                                                     <td width="11%">

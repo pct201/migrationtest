@@ -1025,17 +1025,17 @@ public partial class Management_ACIManagement_AdHocReportWriter : clsBasePage
             strExport.Append("<tr><td ><b> Second Group By : </b> &nbsp; </td></tr>");
 
         if (drpGroupByThird.SelectedIndex > 0)
-            strExport.Append("<tr><td nowrap='nowrap'><b> Second Group By : </b>" + Convert.ToString(drpGroupByThird.SelectedItem.Text) + " <b>Sorting :</b> " + Convert.ToString(rdblGroupSortByThird.SelectedItem.Text).ToUpper() + " </td></tr>");
+            strExport.Append("<tr><td nowrap='nowrap'><b> Third Group By : </b>" + Convert.ToString(drpGroupByThird.SelectedItem.Text) + " <b>Sorting :</b> " + Convert.ToString(rdblGroupSortByThird.SelectedItem.Text).ToUpper() + " </td></tr>");
         else
             strExport.Append("<tr><td ><b> Third Group By : </b> &nbsp; </td></tr>");
 
         if (drpGroupByFourth.SelectedIndex > 0)
-            strExport.Append("<tr><td nowrap='nowrap'><b> Second Group By : </b>" + Convert.ToString(drpGroupByFourth.SelectedItem.Text) + " <b>Sorting :</b> " + Convert.ToString(rdblGroupSortByFourth.SelectedItem.Text).ToUpper() + " </td></tr>");
+            strExport.Append("<tr><td nowrap='nowrap'><b> Fourth Group By : </b>" + Convert.ToString(drpGroupByFourth.SelectedItem.Text) + " <b>Sorting :</b> " + Convert.ToString(rdblGroupSortByFourth.SelectedItem.Text).ToUpper() + " </td></tr>");
         else
             strExport.Append("<tr><td ><b> Fourth Group By : </b> &nbsp; </td></tr>");
 
         if (drpGroupByFifth.SelectedIndex > 0)
-            strExport.Append("<tr><td nowrap='nowrap'><b> Second Group By : </b>" + Convert.ToString(drpGroupByFifth.SelectedItem.Text) + " <b>Sorting :</b> " + Convert.ToString(rdblGroupSortByFifth.SelectedItem.Text).ToUpper() + " </td></tr>");
+            strExport.Append("<tr><td nowrap='nowrap'><b> Fifth Group By : </b>" + Convert.ToString(drpGroupByFifth.SelectedItem.Text) + " <b>Sorting :</b> " + Convert.ToString(rdblGroupSortByFifth.SelectedItem.Text).ToUpper() + " </td></tr>");
         else
             strExport.Append("<tr><td ><b> Fifth Group By : </b> &nbsp; </td></tr>");
 
@@ -1422,6 +1422,12 @@ public partial class Management_ACIManagement_AdHocReportWriter : clsBasePage
         lbl1.Text = rdbCommon.SelectedItem.Text + " Date:";
         revDateTo.ErrorMessage = strFilterTxt + rdbCommon.SelectedItem.Text + " Date is not valid date";
 
+        txt1.Visible = lbl1.Visible = true;
+        HtmlImage imgdateopenfrom = (HtmlImage)pnl_Container.FindControl("imgDate_Opened_From" + lbl1.ID.Replace("lblDateFrom", ""));
+        imgdateopenfrom.Visible = true;
+        UserControl ctrlucRelativedatefrom = (UserControl)pnl_Container.FindControl("ucRelativeDatesFrom_" + lbl1.ID.Replace("lblDateFrom", ""));
+        ctrlucRelativedatefrom.Visible = true;
+
         if (rdbCommon.SelectedValue == "B")
         {
             img2.Visible = true;
@@ -1430,6 +1436,16 @@ public partial class Management_ACIManagement_AdHocReportWriter : clsBasePage
             lbl1.Text = "Start Date:";
             lbl2.Text = "End Date:";
             revDateTo.ErrorMessage = strFilterTxt + "Start Date is not valid date";
+        }
+        else if (rdbCommon.SelectedValue == "IN")
+        {
+            ucToDate.Visible = img2.Visible = txt2.Visible = lbl2.Visible = false;
+            lbl2.Text = "";
+
+            txt1.Visible = false;
+            lbl1.Visible = false;
+            imgdateopenfrom.Visible = false;
+            ctrlucRelativedatefrom.Visible = false;
         }
         else
         {
@@ -1806,6 +1822,17 @@ public partial class Management_ACIManagement_AdHocReportWriter : clsBasePage
             DtType = AdHocReportHelper.DateCriteria.After;
         else if (cblDateCriteria == "B")
             DtType = AdHocReportHelper.DateCriteria.Between;
+        else if (cblDateCriteria == "IN")
+        {
+            DtType = AdHocReportHelper.DateCriteria.Is_Null;
+            dtFrom = null;
+            dtTo = null;
+            
+            if(IsNotSelected)
+                strWhere = " AND " + strFieldName + " IS NOT NULL";
+            else
+                strWhere = " AND " + strFieldName + " IS NULL";
+        }
 
         if (dtFrom.HasValue)
             strWhere = AdHocReportHelper.GetDateWhereAbsolute(strFieldName, dtFrom, dtTo, DtType, IsNotSelected);
@@ -3247,7 +3274,7 @@ public partial class Management_ACIManagement_AdHocReportWriter : clsBasePage
             if (!string.IsNullOrEmpty(strCriteria))
                 lstAdhoc = new ERIMS.DAL.Management_AdhocReportFields().GetAdHocReportFieldByMultipleID(strCriteria);
 
-            #region "Get Where condtion"
+            #region "Get Where condition"
             //Prior Valuation Date.            
             if (!string.IsNullOrEmpty(txtPriorDate.Text))
                 PVD = clsGeneral.FormatNullDateToStore(txtPriorDate.Text);
@@ -5256,7 +5283,7 @@ public partial class Management_ACIManagement_AdHocReportWriter : clsBasePage
             else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
             {
                 string strConditionType = lstDate.SelectedItem.Value;
-                strWhere = (strConditionType == "O") ? " On " : (strConditionType == "B" ? " Between " : (strConditionType == "BF" ? "On or Before " : "On or  After "));
+                strWhere = (strConditionType == "O") ? " On " : (strConditionType == "B" ? " Between " : (strConditionType == "BF" ? "On or Before " : (strConditionType == "IN" ? " IS NULL " : "On or  After ")));
                 string dtFrom = null, dtTo = null;
                 dtFrom = clsGeneral.FormatDBNullDateToDisplay(txtDate_From.Text);
                 dtTo = clsGeneral.FormatDBNullDateToDisplay(txtDate_To.Text);
@@ -5264,7 +5291,9 @@ public partial class Management_ACIManagement_AdHocReportWriter : clsBasePage
                 if (chkNotCriteria.Checked == true)
                     strWhere = "Not" + strWhere;
 
-                if (strWhere.Trim() != "Between" && strWhere.Trim() != "Not Between")
+                if (strWhere.Trim() != "Between" && strWhere.Trim() != "Not Between" && strConditionType == "IN")
+                    strWhere = "<b>" + strFilterIds + " : </b>" + strWhere ;
+                else if (strWhere.Trim() != "Between" && strWhere.Trim() != "Not Between")
                     strWhere = "<b>" + strFilterIds + " : </b>" + strWhere + "  " + dtFrom;
                 else
                     strWhere = "<b>" + strFilterIds + " : </b>" + strWhere + " " + dtFrom + " And " + dtTo;

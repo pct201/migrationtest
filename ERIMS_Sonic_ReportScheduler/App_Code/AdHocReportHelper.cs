@@ -35,6 +35,7 @@ namespace ERIMS_DAL
             Between = 3,
             WithinBefore = 4,
             WithinAfter = 5,
+            Is_Null = 6
         }
 
         public enum AmountCriteria : int

@@ -15233,7 +15233,7 @@ namespace ERIMS_Sonic_ReportScheduler
                     {
                         string strConditionType = lstFilter[i].ConditionType;
                         lstAdhoc = obj.GetAdHocReportFieldByPk(Convert.ToDecimal(lstFilter[i].FK_Management_AdhocReportFields));
-                        strConditionType = (strConditionType == "O") ? " On " : (strConditionType == "B" ? " Between " : (strConditionType == "BF" ? "On or Before " : "On or After "));
+                        strConditionType = (strConditionType == "O") ? " On " : (strConditionType == "B" ? " Between " : (strConditionType == "BF" ? "On or Before " : (strConditionType == "IN" ? " IS NULL " : "On or After ")));
 
                         string dtFrom = null, dtTo = null;
                         if (string.IsNullOrEmpty(lstFilter[i].FromRelativeCriteria))
@@ -16503,6 +16503,17 @@ namespace ERIMS_Sonic_ReportScheduler
                 DtType = AdHocReportHelper.DateCriteria.After;
             else if (objFilter.ConditionType == "B")
                 DtType = AdHocReportHelper.DateCriteria.Between;
+            else if (objFilter.ConditionType == "IN")
+            {
+                DtType = AdHocReportHelper.DateCriteria.Is_Null;
+                dtFrom = null;
+                dtTo = null;
+
+                if (IsNotSelected)
+                    strWhere = " AND " + strTableName + ".[" + strField + "]" + " IS NOT NULL";
+                else
+                    strWhere = " AND " + strTableName + ".[" + strField + "]" + " IS NULL";
+            }
 
             if (dtFrom.HasValue)
                 strWhere = AdHocReportHelper.GetDateWhereAbsolute(strTableName + ".[" + strField + "]", dtFrom, dtTo, DtType, IsNotSelected);
