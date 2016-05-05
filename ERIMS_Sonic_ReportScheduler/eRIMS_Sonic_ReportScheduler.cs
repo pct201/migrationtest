@@ -11422,8 +11422,15 @@ namespace ERIMS_Sonic_ReportScheduler
 
                     foreach (DataRow drDetail in dsReport.Tables[0].Rows)
                     {
+                        string strTempRegion = string.Empty;
                         strHTML.Append("<tr>");
-                        strHTML.Append("<td align='left' style='width: 200px'>" + Convert.ToString(drDetail["Region"]) + "</td>");
+                        if (Convert.ToString(drDetail["Region"]) == "ZZZZ" && Convert.ToString(drDetail["IS_EchoPark"]) == "1" && Convert.ToString(drDetail["Is_Total"]) == "2")
+                            strTempRegion = "EchoPark Average";
+                        else if (Convert.ToString(drDetail["Region"]) == "ZZZZ" && Convert.ToString(drDetail["Is_Total"]) == "2")
+                            strTempRegion = "Non-EchoPark Average";
+                        else strTempRegion = Convert.ToString(drDetail["Region"]);
+
+                        strHTML.Append("<td align='left' style='width: 200px'>" + strTempRegion + "</td>");
                         strHTML.Append("<td align='left' style='width: 200px'>" + Convert.ToString(drDetail["DBA"]) + "</td>");
                         strHTML.Append("<td align='left' style='width: 150px'>" + Convert.ToString(drDetail["FI_Score"]) + "</td>");
                         strHTML.Append("<td align='left' style='width: 150px'>" + Convert.ToString(drDetail["SUT_Score"]) + "</td>");
