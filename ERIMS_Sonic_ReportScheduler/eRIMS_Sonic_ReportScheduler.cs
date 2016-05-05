@@ -11349,7 +11349,7 @@ namespace ERIMS_Sonic_ReportScheduler
 
                 //Add Report Title and Schedule Date
                 strHTML.Append("<br />");
-                strHTML.Append("<b>Report Title : Safety First Award Report </b>");
+                strHTML.Append("<b>Report Title : Risk Management Playbook Scorecard </b>");
                 strHTML.Append("<br /><br />");
                 strHTML.Append("Schedule Start Date : " + Convert.ToDateTime(drReportSchedule["Scheduled_Date"]).ToString(DateDisplayFormat));
                 strHTML.Append("&nbsp;&nbsp;&nbsp;&nbsp;Schedule End Date : " + Convert.ToDateTime(drReportSchedule["Schedule_End_Date"]).ToString(DateDisplayFormat));
@@ -11386,7 +11386,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 strHTML.Append("<table width='1700px' cellpadding='0' cellspacing='0' border='1' style='font-weight: bold;'>");
                 strHTML.Append("<tr style='font-weight: bold;'>");
                 strHTML.Append("<td align='left' colspan='2'>Sonic Automotive</td>");
-                strHTML.Append("<td align='center' colspan='4'>Safety First Award Report </td>");
+                strHTML.Append("<td align='center' colspan='4'>Risk Management Playbook Scorecard </td>");
                 strHTML.Append("<td align='right' colspan='3'>Valuation Date: " + DateTime.Now.ToString("MM/dd/yyy") + " </td>");
                 strHTML.Append("</tr>");
 
@@ -11399,7 +11399,8 @@ namespace ERIMS_Sonic_ReportScheduler
                 strHTML.Append("<td align='left' style='width: 180px'>W.C. Claims Management Score</td>");
                 strHTML.Append("<td align='left' style='width: 150px'>Incident Reduction Score</td>");
                 strHTML.Append("<td align='left' style='width: 150px'>Total Aggregate Score</td>");
-                strHTML.Append("<td align='left' style='width: 150px'>Resulting Score</td>");
+                //strHTML.Append("<td align='left' style='width: 150px'>Resulting Score</td>");
+                strHTML.Append("<td align='left' style='width: 150px'>Final Playbook Scorecard (100 Point Program)</td>");
                 strHTML.Append("</tr>");
                 strHTML.Append("</table>");
                 strHTML.Append("</td></tr>");
@@ -11431,7 +11432,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<td align='left' style='width: 180px'>" + Convert.ToString(drDetail["WM_Score"]) + "</td>");
                         strHTML.Append("<td align='left' style='width: 150px'>" + Convert.ToString(drDetail["IR_Score"]) + "</td>");
                         strHTML.Append("<td align='left' style='width: 150px'>" + Convert.ToString(drDetail["TotalScore"]) + "</td>");
-                        strHTML.Append("<td align='left' style='width: 150px'>" + ResultingScore(Convert.ToString(drDetail["ResultingScore"])) + "</td>");
+                        strHTML.Append("<td align='left' style='width: 150px'>" + Final_ScoreCard(Convert.ToString(drDetail["ResultingScore"])) + "</td>");
                         strHTML.Append(" </tr>");
                     }
                     strHTML.Append("</table>");
@@ -11451,7 +11452,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 //Write HTML in to HtmlWriter
                 htmlWrite.WriteLine(strHTML.ToString());
                 //Send Mail
-                SendMail("Safety First Award Report", "SafetyFirstAwardReport.xls", strFirstName, strLastName, strMailFrom, stringWrite, dtRecipients);
+                SendMail("Risk Management Playbook Scorecard", "RiskManagementPlaybookScorecard.xls", strFirstName, strLastName, strMailFrom, stringWrite, dtRecipients);
             }
         }
 
@@ -12290,6 +12291,26 @@ namespace ERIMS_Sonic_ReportScheduler
                 strResultingScore = "Bronze";
             else if (decTotalScore < 2)
                 strResultingScore = "Tin";
+            return strResultingScore;
+        }
+
+        private static string Final_ScoreCard(string strscore)
+        {
+            string strResultingScore = "";
+            double decTotalScore = 0;
+            double.TryParse(Convert.ToString(strscore), out decTotalScore);
+
+            if (decTotalScore > 94.5 && decTotalScore <= 100)
+                strResultingScore = decTotalScore + " (Platinum)";
+            else if (decTotalScore > 89.5 && decTotalScore <= 94.5)
+                strResultingScore = decTotalScore + " (Gold)";
+            else if (decTotalScore > 79.5 && decTotalScore <= 89.5)
+                strResultingScore = decTotalScore + " (Silver)";
+            else if (decTotalScore > 69.5 && decTotalScore <= 79.5)
+                strResultingScore = decTotalScore + " (Bronze)";
+            else if (decTotalScore >= 0 && decTotalScore <= 69.5)
+                strResultingScore = decTotalScore + " (Tin)";
+
             return strResultingScore;
         }
 
