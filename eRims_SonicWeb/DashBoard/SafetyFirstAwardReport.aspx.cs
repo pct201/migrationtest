@@ -141,9 +141,9 @@ public partial class DashBoard_SafetyFirstAwardReport : clsBasePage
                 e.Row.Cells[0].Style.Add("color", "black");
                 Label lblRegion = (Label)e.Row.FindControl("lblRegion");
                 if (Convert.ToString(DataBinder.Eval(e.Row.DataItem, "Region")) == "ZZZZ" && IS_EchoPark == 1)
-                    lblRegion.Text = "EchoPark Total";
+                    lblRegion.Text = "EchoPark Average";
                 else
-                    lblRegion.Text = "Non-EchoPark Total";
+                    lblRegion.Text = "Non-EchoPark Average";
 
             }
         }
