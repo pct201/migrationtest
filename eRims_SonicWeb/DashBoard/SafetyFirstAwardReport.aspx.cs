@@ -63,7 +63,7 @@ public partial class DashBoard_SafetyFirstAwardReport : clsBasePage
     {
         gvSafetyFirstAwardReport.GridLines = GridLines.Both;
         // export data to excel from grid view
-        GridViewExportUtil.ExportGrid("Safety First Award Report.xlsx", gvSafetyFirstAwardReport);
+        GridViewExportUtil.ExportGrid("Risk Management Playbook Scorecard.xlsx", gvSafetyFirstAwardReport);
         gvSafetyFirstAwardReport.GridLines = GridLines.None;
     }
 
@@ -77,60 +77,74 @@ public partial class DashBoard_SafetyFirstAwardReport : clsBasePage
         //Check for Item Row
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
-            Label lblResultingScore = (Label)e.Row.FindControl("lblResultingScore");
+            //Label lblResultingScore = (Label)e.Row.FindControl("lblResultingScore");
             Label lblFinal_ScoreCard = (Label)e.Row.FindControl("lblFinal_ScoreCard");
-            HtmlTableCell tdResult = (HtmlTableCell)e.Row.FindControl("tdResult");
+            //HtmlTableCell tdResult = (HtmlTableCell)e.Row.FindControl("tdResult");
             HtmlTableCell tdScoreCard = (HtmlTableCell)e.Row.FindControl("tdScoreCard");
             double decTotalScore = 0;
             double.TryParse(Convert.ToString(DataBinder.Eval(e.Row.DataItem, "ResultingScore")), out decTotalScore);
 
             int Is_Total = 0;
             int.TryParse(Convert.ToString(DataBinder.Eval(e.Row.DataItem, "Is_Total")), out Is_Total);
+            int IS_EchoPark = 0;
+            int.TryParse(Convert.ToString(DataBinder.Eval(e.Row.DataItem, "IS_EchoPark")), out IS_EchoPark);
 
 
-            if (decTotalScore > 189 && decTotalScore <= 200)
+            if (decTotalScore > 94.5 && decTotalScore <= 100)
             {
-                lblResultingScore.Text = decTotalScore.ToString() + " ("+ Charts.Platinum_Label +")";
-                lblFinal_ScoreCard.Text = (decTotalScore / 200) * 100 + " (" + Charts.Platinum_Label + ")";
-                tdResult.BgColor = "green";
-                tdScoreCard.BgColor = "green";
+                //lblResultingScore.Text = decTotalScore.ToString() + " ("+ Charts.Platinum_Label +")";
+                lblFinal_ScoreCard.Text = decTotalScore + " (" + Charts.Platinum_Label + ")";
+                //tdResult.BgColor = Charts.Platinum;// "green";
+                tdScoreCard.BgColor = Charts.Platinum; ;// "green";
             }
-            else if (decTotalScore > 179 && decTotalScore <= 189)
+            else if (decTotalScore > 89.5 && decTotalScore <= 94.5)
             {
-                lblResultingScore.Text = decTotalScore.ToString() + " (" + Charts.Gold_Label + ")";
-                lblFinal_ScoreCard.Text = (decTotalScore / 200) * 100 + " (" + Charts.Gold_Label + ")";
-                tdResult.BgColor = "blue";
-                tdScoreCard.BgColor = "blue";
+                //lblResultingScore.Text = decTotalScore.ToString() + " (" + Charts.Gold_Label + ")";
+                lblFinal_ScoreCard.Text = decTotalScore + " (" + Charts.Gold_Label + ")";
+                //tdResult.BgColor = Charts.Gold;//"blue";
+                tdScoreCard.BgColor = Charts.Gold;//"blue";
             }
-            else if (decTotalScore > 159 && decTotalScore <= 179)
+            else if (decTotalScore > 79.5 && decTotalScore <= 89.5)
             {
-                lblResultingScore.Text = decTotalScore.ToString() + " (" + Charts.Silver_Label + ")";
-                lblFinal_ScoreCard.Text = (decTotalScore / 200) * 100 + " (" + Charts.Silver_Label + ")";
-                tdResult.BgColor = "yellow";
-                tdScoreCard.BgColor = "Yellow";
+                //lblResultingScore.Text = decTotalScore.ToString() + " (" + Charts.Silver_Label + ")";
+                lblFinal_ScoreCard.Text = decTotalScore + " (" + Charts.Silver_Label + ")";
+                //tdResult.BgColor = Charts.Silver;//"yellow";
+                tdScoreCard.BgColor = Charts.Silver;//"Yellow";
             }
-            else if (decTotalScore > 139 && decTotalScore <= 159)
+            else if (decTotalScore > 69.5 && decTotalScore <= 79.5)
             {
-                lblResultingScore.Text = decTotalScore.ToString() + " (" + Charts.Bronze_Label + ")";
-                lblFinal_ScoreCard.Text = (decTotalScore / 200) * 100 + " (" + Charts.Bronze_Label + ")";
-                tdResult.BgColor = "orange";
-                tdScoreCard.BgColor = "orange";
+                //lblResultingScore.Text = decTotalScore.ToString() + " (" + Charts.Bronze_Label + ")";
+                lblFinal_ScoreCard.Text = decTotalScore + " (" + Charts.Bronze_Label + ")";
+                //tdResult.BgColor = Charts.Bronze;//"orange";
+                tdScoreCard.BgColor = Charts.Bronze;//"orange";
             }
-            else if (decTotalScore >= 0 && decTotalScore <= 139)
+            else if (decTotalScore >= 0 && decTotalScore <= 69.5)
             {
-                lblResultingScore.Text = decTotalScore.ToString() + " (" + Charts.Tin_Label + ")";
-                lblFinal_ScoreCard.Text = (decTotalScore / 200) * 100 + " (" + Charts.Tin_Label + ")";
-                tdResult.BgColor = "red";
-                tdScoreCard.BgColor = "red";
+                //lblResultingScore.Text = decTotalScore.ToString() + " (" + Charts.Tin_Label + ")";
+                lblFinal_ScoreCard.Text = decTotalScore + " (" + Charts.Tin_Label + ")";
+                //tdResult.BgColor = Charts.Tin;// "red";
+                tdScoreCard.BgColor = Charts.Tin;//"red";
             }
 
             if (Is_Total == 1)
             {
-                tdResult.BgColor = "blue";
-                tdScoreCard.BgColor = "blue";
+                //tdResult.BgColor = "ADD8E6";
+                tdScoreCard.BgColor = "ADD8E6";
                 //e.Row.Cells[0].BackColor = System.Drawing.Color.Blue;
-                e.Row.Cells[0].Style.Add("background-color", "blue");
-                e.Row.Cells[0].Style.Add("color", "white");
+                e.Row.Cells[0].Style.Add("background-color", "#ADD8E6");
+                e.Row.Cells[0].Style.Add("color", "black");
+            }
+            if (Is_Total == 2)
+            {
+                tdScoreCard.BgColor = "76bdd5";
+                e.Row.Cells[0].Style.Add("background-color", "#76bdd5");
+                e.Row.Cells[0].Style.Add("color", "black");
+                Label lblRegion = (Label)e.Row.FindControl("lblRegion");
+                if (Convert.ToString(DataBinder.Eval(e.Row.DataItem, "Region")) == "ZZZZ" && IS_EchoPark == 1)
+                    lblRegion.Text = "EchoPark Total";
+                else
+                    lblRegion.Text = "Non-EchoPark Total";
+
             }
         }
     }

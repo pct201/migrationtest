@@ -116,7 +116,7 @@ public partial class DashboardGraph : clsBasePage
             else
                 strHeader = "Sonic University Training Scorecard";
             // Set Chart property 
-            strXML.Append("<chart caption='" + strHeader + "' plotGradientColor='' xAxisName='Region' yAxisName='Level'  useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='34' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='0' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
+            strXML.Append("<chart caption='" + strHeader + "' plotGradientColor='' xAxisName='Region' yAxisName='Level' bgColor='#FFFFFF' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='34' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='0' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
 
             // Set Label
             for (int i = 0; i < dtResult1.Rows.Count; i++)
@@ -245,7 +245,7 @@ public partial class DashboardGraph : clsBasePage
             strHeader = "Aggregate Performance";
 
         // Set Chart property 
-        strChartXML.Append("<chart caption='" + strHeader + "' plotGradientColor='' showalternatevgridcolor='0' xAxisName='Region' yAxisName='Level' useRoundEdges='0' showValues='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='102' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='0' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
+        strChartXML.Append("<chart caption='" + strHeader + "' plotGradientColor='' bgColor='#FFFFFF' showalternatevgridcolor='0' xAxisName='Region' yAxisName='Level' useRoundEdges='0' showValues='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='102' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='0' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
         decimal _decAvg = 0;
         //decimal.TryParse(Convert.ToString(dtAverage.Compute("AVG(Score)", "")), out _devAvg);
         decimal.TryParse(Convert.ToString(dtRegion.Compute("AVG(Score)", "")), out _decAvg);
@@ -309,7 +309,7 @@ public partial class DashboardGraph : clsBasePage
             strHeader = "Facility Inspection";
 
         // Set Chart property 
-        strChartXML.Append("<chart caption='" + strHeader + "' plotGradientColor='' xAxisName='Region' yAxisName='Level' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='34' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='0' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
+        strChartXML.Append("<chart caption='" + strHeader + "' plotGradientColor='' bgColor='#FFFFFF' xAxisName='Region' yAxisName='Level' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='34' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='0' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
 
         // Set Label
         for (int i = 0; i < dtResult.Rows.Count; i++)
@@ -349,7 +349,7 @@ public partial class DashboardGraph : clsBasePage
         else
             strHeader = "Incident Investigation";
         // Set Chart property 
-        strChartXML.Append("<chart caption='" + strHeader + "' plotGradientColor='' xAxisName='Region' yAxisName='Level' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='34' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='0' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
+        strChartXML.Append("<chart caption='" + strHeader + "' plotGradientColor='' bgColor='#FFFFFF' xAxisName='Region' yAxisName='Level' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='34' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='0' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
 
         // Set Lable
         for (int i = 0; i < dtResult.Rows.Count; i++)
@@ -391,7 +391,7 @@ public partial class DashboardGraph : clsBasePage
             strHeader = "Safety Leadership Team";
 
         // Set Chart property 
-        strChartXML.Append("<chart caption='" + strHeader + "' showalternatevgridcolor='0'  xAxisName='Region' plotGradientColor='' yAxisName='Level' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='70' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='0' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
+        strChartXML.Append("<chart caption='" + strHeader + "' showalternatevgridcolor='0' bgColor='#FFFFFF' xAxisName='Region' plotGradientColor='' yAxisName='Level' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='70' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='0' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
 
         // Set Label
         for (int i = 0; i < dtResult.Rows.Count; i++)
@@ -431,7 +431,7 @@ public partial class DashboardGraph : clsBasePage
             strHeader = "Incident Reduction";
 
         // Set Chart property 
-        strChartXML.Append("<chart caption='" + strHeader + "' xAxisName='Region' yAxisName='Level' plotGradientColor=''  useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='34' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='0' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10' >");
+        strChartXML.Append("<chart caption='" + strHeader + "' xAxisName='Region' yAxisName='Level' plotGradientColor='' bgColor='#FFFFFF' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='34' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='0' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10' >");
 
         // Set Lable
         for (int i = 0; i < dtResult.Rows.Count; i++)
@@ -471,7 +471,7 @@ public partial class DashboardGraph : clsBasePage
         else
             strHeader = "Workers’ Compensation Claims Management";
         // Set Chart property 
-        strChartXML.Append("<chart caption='" + strHeader + "' xAxisName='Region' yAxisName='Level' plotGradientColor=''  useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='34' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='0' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
+        strChartXML.Append("<chart caption='" + strHeader + "' xAxisName='Region' yAxisName='Level' plotGradientColor='' bgColor='#FFFFFF' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='34' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='0' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
 
         // Set Lable
         for (int i = 0; i < dtResult.Rows.Count; i++)

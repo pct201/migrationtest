@@ -11,11 +11,12 @@ using System.Data.Common;
 /// </summary>
 public class Charts
 {
-     public static string Platinum ="A5A5A5";
-    public static string Gold = "FBE297";
-    public static string Silver = "D7D7D7";
-    public static string Bronze = "FCBF03";
-    public static string Tin = "7E6000";
+    //change as per #Issue 3600 comment 35279
+    public static string Platinum = "90EE90";//Light Green
+    public static string Gold = "ADD8E6";//Light Blue
+    public static string Silver = "FFFF00";//Yellow
+    public static string Bronze = "FFA500";//Orange
+    public static string Tin = "FF0000";//Red
     public static string White = "FFFFFF";
     public static string Platinum_Label = "Platinum";
     public static string Gold_Label = "Gold";

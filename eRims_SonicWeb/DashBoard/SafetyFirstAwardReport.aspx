@@ -9,7 +9,7 @@
         </tr>
         <tr>
             <td align="left" class="ghc" colspan="2">
-                Safety First Award Report
+                Risk Management Playbook Scorecard
             </td>
         </tr>
         <tr>
@@ -103,12 +103,12 @@
                                     <Columns>
                                         <asp:TemplateField>
                                             <HeaderTemplate>
-                                                <table width="1900px" cellpadding="1" cellspacing="0" border="0">
+                                                <table width="1700px" cellpadding="1" cellspacing="0" border="0">
                                                     <tr>
                                                         <td>
                                                             &nbsp;
                                                         </td>
-                                                        <td colspan="9" align="center">
+                                                        <td colspan="8" align="center">
                                                             <b>Risk Management Playbook Scorecard</b>
                                                         </td>
                                                         <td align="right">
@@ -143,9 +143,9 @@
                                                         <td align="center" width="150px">
                                                             Total Aggregate Score
                                                         </td>
-                                                        <td align="center" width="150px">
+                                                        <%--<td align="center" width="150px">
                                                             Resulting Score
-                                                        </td>
+                                                        </td>--%>
                                                         <td align="center" width="150px">
                                                             Final Playbook Scorecard (100 Point Program)
                                                         </td>
@@ -153,10 +153,10 @@
                                                 </table>
                                             </HeaderTemplate>
                                             <ItemTemplate>
-                                                <table width="1900px" cellpadding="1" cellspacing="0" border="0">
+                                                <table width="1700px" cellpadding="1" cellspacing="0" border="0">
                                                     <tr>
                                                         <td align="left" width="200px">
-                                                            <%#Eval("Region")%>
+                                                            <asp:Label ID="lblRegion" runat="server" Text='<%#Eval("Region")%>'></asp:Label>
                                                         </td>
                                                         <td align="left" width="200px">
                                                             <%#Eval("DBA")%>
@@ -182,9 +182,9 @@
                                                         <td align="center" width="150px">
                                                             <asp:Label ID="lblTotalAggregateScore" runat="server" Text='<%#Eval("TotalScore") %>'></asp:Label>
                                                         </td>
-                                                        <td align="center" width="150px" id="tdResult" runat="server">
+                                                       <%-- <td align="center" width="150px" id="tdResult" runat="server">
                                                             <asp:Label ID="lblResultingScore" runat="server" Text=''></asp:Label>
-                                                        </td>
+                                                        </td>--%>
                                                          <td align="center" width="150px" id="tdScoreCard" runat="server">
                                                             <asp:Label ID="lblFinal_ScoreCard" runat="server" Text=''></asp:Label>
                                                         </td>
