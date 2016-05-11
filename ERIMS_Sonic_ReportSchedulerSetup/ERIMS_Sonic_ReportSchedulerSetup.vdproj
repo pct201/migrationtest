@@ -15,38 +15,44 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_051122C42C40910F4C35FC46608B8E4F"
+        "OwnerKey" = "8:_6B378025B57D49B08F628066CB7651D1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_075997ECD76A85808CECEDAE98BED134"
+        "OwnerKey" = "8:_5917C1BEF69F04EBACED97050C95F37F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_075997ECD76A85808CECEDAE98BED134"
+        "OwnerKey" = "8:_6B378025B57D49B08F628066CB7651D1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_075997ECD76A85808CECEDAE98BED134"
+        "OwnerKey" = "8:_051122C42C40910F4C35FC46608B8E4F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_1C11406E2B1B4F869EA21474D227C1C1"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_4F8D866E70D8BA775F9FA1902872EEBC"
-        "OwnerKey" = "8:_50AB31ED18A53A0AC1AA9DF978250246"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_4F8D866E70D8BA775F9FA1902872EEBC"
+        "MsmKey" = "8:_5917C1BEF69F04EBACED97050C95F37F"
         "OwnerKey" = "8:_6B378025B57D49B08F628066CB7651D1"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_4F8D866E70D8BA775F9FA1902872EEBC"
-        "OwnerKey" = "8:_F79C1078145AF2B9911B34B99D7F6E8A"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_50AB31ED18A53A0AC1AA9DF978250246"
-        "OwnerKey" = "8:_6B378025B57D49B08F628066CB7651D1"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_50AB31ED18A53A0AC1AA9DF978250246"
-        "OwnerKey" = "8:_F79C1078145AF2B9911B34B99D7F6E8A"
+        "MsmKey" = "8:_5917C1BEF69F04EBACED97050C95F37F"
+        "OwnerKey" = "8:_051122C42C40910F4C35FC46608B8E4F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -57,38 +63,68 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_951445F1C42B6345F9033881E52B9CBA"
+        "OwnerKey" = "8:_6B378025B57D49B08F628066CB7651D1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9A6FCB0C3D18BCCB534F833F57B27F2E"
+        "OwnerKey" = "8:_6B378025B57D49B08F628066CB7651D1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_B4AAC9115D3B46AABC24002C6BACD9FB"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_F79C1078145AF2B9911B34B99D7F6E8A"
+        "MsmKey" = "8:_C71A39BDF23FEE1329FA912160364F21"
         "OwnerKey" = "8:_6B378025B57D49B08F628066CB7651D1"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_4F8D866E70D8BA775F9FA1902872EEBC"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_6B378025B57D49B08F628066CB7651D1"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_F79C1078145AF2B9911B34B99D7F6E8A"
+        "OwnerKey" = "8:_9A6FCB0C3D18BCCB534F833F57B27F2E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_50AB31ED18A53A0AC1AA9DF978250246"
+        "OwnerKey" = "8:_051122C42C40910F4C35FC46608B8E4F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_5917C1BEF69F04EBACED97050C95F37F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_075997ECD76A85808CECEDAE98BED134"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_C71A39BDF23FEE1329FA912160364F21"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_951445F1C42B6345F9033881E52B9CBA"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -244,7 +280,7 @@
                 {
                 "Name" = "8:.NET Framework"
                 "Message" = "8:[VSDNETMSG]"
-                "FrameworkVersion" = "8:2.0.50727                 "
+                "FrameworkVersion" = "8:2.0.50727                     "
                 "AllowLaterVersions" = "11:FALSE"
                 "InstallUrl" = "8:http://go.microsoft.com/fwlink/?LinkId=76617"
                 }
@@ -252,10 +288,21 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1C11406E2B1B4F869EA21474D227C1C1"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_051122C42C40910F4C35FC46608B8E4F"
             {
-            "SourcePath" = "8:..\\ERIMS_Sonic_ReportScheduler\\App_Data\\ConstructionAdHocReportFields.xml"
-            "TargetName" = "8:ConstructionAdHocReportFields.xml"
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Microsoft.Practices.EnterpriseLibrary.Data, Version=3.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_051122C42C40910F4C35FC46608B8E4F"
+                    {
+                    "Name" = "8:Microsoft.Practices.EnterpriseLibrary.Data.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Microsoft.Practices.EnterpriseLibrary.Data.dll"
+            "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_5010412718C2480FAE8BC8D0350D43E7"
             "Condition" = "8:"
@@ -269,17 +316,17 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_4F8D866E70D8BA775F9FA1902872EEBC"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_075997ECD76A85808CECEDAE98BED134"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:Microsoft.Practices.ObjectBuilder, Version=1.0.51206.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_4F8D866E70D8BA775F9FA1902872EEBC"
+                    "_075997ECD76A85808CECEDAE98BED134"
                     {
                     "Name" = "8:Microsoft.Practices.ObjectBuilder.dll"
                     "Attributes" = "3:512"
@@ -303,20 +350,102 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_50AB31ED18A53A0AC1AA9DF978250246"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1C11406E2B1B4F869EA21474D227C1C1"
+            {
+            "SourcePath" = "8:..\\ERIMS_Sonic_ReportScheduler\\App_Data\\ConstructionAdHocReportFields.xml"
+            "TargetName" = "8:ConstructionAdHocReportFields.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_5010412718C2480FAE8BC8D0350D43E7"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_5917C1BEF69F04EBACED97050C95F37F"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:Microsoft.Practices.EnterpriseLibrary.Common, Version=3.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_50AB31ED18A53A0AC1AA9DF978250246"
+                    "_5917C1BEF69F04EBACED97050C95F37F"
                     {
                     "Name" = "8:Microsoft.Practices.EnterpriseLibrary.Common.dll"
                     "Attributes" = "3:512"
                     }
                 }
             "SourcePath" = "8:Microsoft.Practices.EnterpriseLibrary.Common.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_5010412718C2480FAE8BC8D0350D43E7"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_951445F1C42B6345F9033881E52B9CBA"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:EPPlus, Version=4.0.0.1, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_951445F1C42B6345F9033881E52B9CBA"
+                    {
+                    "Name" = "8:EPPlus.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:EPPlus.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_5010412718C2480FAE8BC8D0350D43E7"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_9A6FCB0C3D18BCCB534F833F57B27F2E"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:wnvhtmlconvert, Version=3.5.3.23522, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_9A6FCB0C3D18BCCB534F833F57B27F2E"
+                    {
+                    "Name" = "8:wnvhtmlconvert.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:wnvhtmlconvert.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_5010412718C2480FAE8BC8D0350D43E7"
@@ -354,20 +483,20 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_F79C1078145AF2B9911B34B99D7F6E8A"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C71A39BDF23FEE1329FA912160364F21"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Microsoft.Practices.EnterpriseLibrary.Data, Version=3.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:HtmlAgilityPack, Version=1.4.6.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_F79C1078145AF2B9911B34B99D7F6E8A"
+                    "_C71A39BDF23FEE1329FA912160364F21"
                     {
-                    "Name" = "8:Microsoft.Practices.EnterpriseLibrary.Data.dll"
+                    "Name" = "8:HtmlAgilityPack.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:Microsoft.Practices.EnterpriseLibrary.Data.dll"
+            "SourcePath" = "8:HtmlAgilityPack.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_5010412718C2480FAE8BC8D0350D43E7"
@@ -442,7 +571,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:ERIMS_Sonic_ReportSchedulerSetup"
         "ProductCode" = "8:{C0E62953-DBB8-4870-8D56-6C5CF184E824}"
-        "PackageCode" = "8:{93241CAE-499A-4F19-B7A6-21402882D452}"
+        "PackageCode" = "8:{FBA6BCC7-FBC6-4172-ACF6-1225E0DDD5B6}"
         "UpgradeCode" = "8:{97C30599-D11B-4AC6-B3AC-55CC5156D9D0}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
