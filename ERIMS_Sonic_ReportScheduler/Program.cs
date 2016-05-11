@@ -36,8 +36,8 @@ namespace ERIMS_Sonic_ReportScheduler
             //It will kick off the service start point, but never kill it.
 
             //Shut down the debugger to exit
-            eRIMS_Sonic_ReportScheduler service = new eRIMS_Sonic_ReportScheduler();
-            service.OnStart();
+            //eRIMS_Sonic_ReportScheduler service = new eRIMS_Sonic_ReportScheduler();
+            //service.OnStart();
             //System.Threading.Thread.Sleep(System.Threading.Timeout.Infinite);
 
         }
