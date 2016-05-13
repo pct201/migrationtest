@@ -648,14 +648,17 @@ function CheckScheduleidForRLCM() {
 }
 
 function CheckPoints(type, txt) {
-    value = parseInt(txt.value);
-    if ((type == 1 || type == 2 || type == 3) && value > 1) {
-        alert('Please enter either 0 or 1');
+    value = parseFloat(txt.value);
+    
+    if ((type == 1 || type == 2 || type == 3) && !(value == 0 || value == 0.5 || isNaN(value))) {
+        alert('Please enter either 0 or 0.5');
         txt.focus();
+        
     }
-    else if (type == 4 && value > 2) {
-        alert('Please enter value between 0 and 2');
+    else if (type == 4 && !(value == 1 || value == 0.5 || value == 0 || isNaN(value))) {
+        alert('Please enter either 0, 0.5 or 1');
         txt.focus();
+        
     }
 }
 
@@ -3692,14 +3695,14 @@ function DisableButton() {
                                                         </td>
                                                         <td align="center" width="4%" valign="top">:
                                                         </td>
-                                                        <td align="left" width="28%" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1
+                                                        <td align="left" width="28%" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.5
                                                         </td>
                                                         <td align="left" width="18%" valign="top">
                                                             <asp:Label runat="server" ID="lblMeeting_Participation"></asp:Label>
                                                         </td>
                                                         <td align="center" width="4%" valign="top"></td>
                                                         <td align="left" width="28%" valign="top">
-                                                            <asp:TextBox ID="txtMeetingPoints" runat="server" Width="50px" MaxLength="1" onkeypress="return FormatInteger(event);"
+                                                            <asp:TextBox ID="txtMeetingPoints" runat="server" Width="50px" MaxLength="3" onkeypress="return FormatNumber(event,this.id,3,false);"
                                                                 onblur="CheckPoints(1, this);" />
                                                         </td>
                                                     </tr>
@@ -3711,14 +3714,14 @@ function DisableButton() {
                                                         </td>
                                                         <td align="center" width="4%" valign="top">:
                                                         </td>
-                                                        <td align="left" width="28%" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1
+                                                        <td align="left" width="28%" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.5
                                                         </td>
                                                         <td align="left" width="18%" valign="top">
                                                             <asp:Label runat="server" ID="lblSaftey_Walk_Participated"></asp:Label>
                                                         </td>
                                                         <td align="center" width="4%" valign="top"></td>
                                                         <td align="left" width="28%" valign="top">
-                                                            <asp:TextBox ID="txtSafetyWalkPoints" runat="server" Width="50px" MaxLength="1" onkeypress="return FormatInteger(event);"
+                                                            <asp:TextBox ID="txtSafetyWalkPoints" runat="server" Width="50px" MaxLength="3" onkeypress="return FormatNumber(event,this.id,3,false);"
                                                                 onblur="CheckPoints(2, this);" />
                                                         </td>
                                                     </tr>
@@ -3730,15 +3733,15 @@ function DisableButton() {
                                                         </td>
                                                         <td align="center" width="4%" valign="top">:
                                                         </td>
-                                                        <td align="left" width="28%" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1
+                                                        <td align="left" width="28%" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.5
                                                         </td>
                                                         <td align="left" width="18%" valign="top">
                                                             <asp:Label runat="server" ID="lblIncident_Review_Conducted"></asp:Label>
                                                         </td>
                                                         <td align="center" width="4%" valign="top"></td>
                                                         <td align="left" width="28%" valign="top">
-                                                            <asp:TextBox ID="txtIncidentReviewPoints" runat="server" Width="50px" MaxLength="1"
-                                                                onkeypress="return FormatInteger(event);" onblur="CheckPoints(3, this);" />
+                                                            <asp:TextBox ID="txtIncidentReviewPoints" runat="server" Width="50px" MaxLength="3"
+                                                                onkeypress="return FormatNumber(event,this.id,3,false);" onblur="CheckPoints(3, this);" />
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -3749,18 +3752,17 @@ function DisableButton() {
                                                         </td>
                                                         <td align="center" width="4%" valign="top">:
                                                         </td>
-                                                        <td align="left" width="28%" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2
+                                                        <td align="left" width="28%" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1
                                                         </td>
                                                         <td align="left" width="18%" valign="top">
                                                             <asp:Label runat="server" ID="lblQuality_Review"></asp:Label>
                                                         </td>
                                                         <td align="center" width="4%" valign="top"></td>
                                                         <td align="left" width="28%" valign="top">
-                                                            <asp:TextBox ID="txtQualityReviewPoints" runat="server" Width="50px" MaxLength="1"
-                                                                onkeypress="return FormatInteger(event);" onblur="CheckPoints(4, this);" />
+                                                            <asp:TextBox ID="txtQualityReviewPoints" runat="server" Width="50px" MaxLength="3"
+                                                                onkeypress="return FormatNumber(event,this.id,3,false);" onblur="CheckPoints(4, this);" />
                                                         </td>
                                                     </tr>
-                                                    
                                                     
                                                     <tr>
                                                         <td colspan="6">
@@ -7034,7 +7036,7 @@ function DisableButton() {
                                                     </td>
                                                     <td align="center" width="4%" valign="top">:
                                                     </td>
-                                                    <td align="left" width="28%" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1
+                                                    <td align="left" width="28%" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.5
                                                     </td>
                                                     <td align="left" width="18%" valign="top">
                                                         <asp:Label runat="server" ID="lbl_Meeting_Participated_View"></asp:Label>
@@ -7052,7 +7054,7 @@ function DisableButton() {
                                                     </td>
                                                     <td align="center" width="4%" valign="top">:
                                                     </td>
-                                                    <td align="left" width="28%" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1
+                                                    <td align="left" width="28%" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.5
                                                     </td>
                                                     <td align="left" width="18%" valign="top">
                                                         <asp:Label runat="server" ID="lblSaftey_walk_Participated_View"></asp:Label>
@@ -7070,7 +7072,7 @@ function DisableButton() {
                                                     </td>
                                                     <td align="center" width="4%" valign="top">:
                                                     </td>
-                                                    <td align="left" width="28%" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1
+                                                    <td align="left" width="28%" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.5
                                                     </td>
                                                     <td align="left" width="18%" valign="top">
                                                         <asp:Label runat="server" ID="lblIncident_Review_Conducted_View"></asp:Label>
@@ -7088,7 +7090,7 @@ function DisableButton() {
                                                     </td>
                                                     <td align="center" width="4%" valign="top">:
                                                     </td>
-                                                    <td align="left" width="28%" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1,2
+                                                    <td align="left" width="28%" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.5,1
                                                     </td>
                                                     <td align="left" width="18%" valign="top">
                                                         <asp:Label runat="server" ID="lbl_Quality_Review_View"></asp:Label>

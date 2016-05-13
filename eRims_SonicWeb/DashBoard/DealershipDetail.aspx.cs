@@ -147,7 +147,7 @@ public partial class DealershipDetail : System.Web.UI.Page
         lblScoreIncidentReduction.Text = Convert.ToString(dtAggreage.Rows[4][1]) + " (" + Convert.ToString(dtAggreage.Rows[4][2]) + ")";
         lblScoreSLT.Text = Convert.ToString(dtAggreage.Rows[5][1]) + " (" + Convert.ToString(dtAggreage.Rows[5][2]) + ")";
 
-        object objSum = dtAggreage.Compute("(SUM(Score)/200)*100", "");
+        object objSum = dtAggreage.Compute("(SUM(Score))", "");
         //object objSum = dtAggreage.Compute("SUM(Score)", "");
 
         lblScoreTotal.Text = string.Format("{0:N2}", objSum);
@@ -234,7 +234,7 @@ public partial class DealershipDetail : System.Web.UI.Page
             }
             dtBase.Rows[intRow][1] = dtDestination.Rows[0]["Score"];
             if(GraphType == 6)
-                dtBase.Rows[intRow][2] = GetPerformanceLevel_SLT(Convert.ToInt32(dtDestination.Rows[0]["Score"]));
+                dtBase.Rows[intRow][2] = GetPerformanceLevel_SLT(Convert.ToDecimal(dtDestination.Rows[0]["Score"]));
             else
                 dtBase.Rows[intRow][2] = GetPerformanceLevel(Convert.ToInt32(dtDestination.Rows[0]["Score"]));
         }
@@ -255,7 +255,7 @@ public partial class DealershipDetail : System.Web.UI.Page
         return strLevel;
     }
 
-    private string GetPerformanceLevel_SLT(int intScore)//Change as per bug-tracker 3600 #35143..
+    private string GetPerformanceLevel_SLT(decimal intScore)//Change as per bug-tracker 3600 #35143..
     {
         string strLevel = "";
 
@@ -269,17 +269,16 @@ public partial class DealershipDetail : System.Web.UI.Page
         //    strLevel = "Gold";
         //if (intScore > 49 && intScore <= 60)
         //    strLevel = "Platinum";
-        if (intScore >= 0 && intScore < 13)
-            strLevel = "White";
-        if (intScore >= 13 && intScore < 25)
+       
+        if (intScore >= 0 && intScore <= 11.5m)
             strLevel = "Tin";
-        if (intScore >= 25 && intScore < 37)
+        if (intScore > 11.5m && intScore <= 17.5m)
             strLevel = "Bronze";
-        if (intScore >= 37 && intScore < 49)
+        if (intScore > 17.5m && intScore <= 23.5m)
             strLevel = "Silver";
-        if (intScore >= 49 && intScore < 60)
+        if (intScore > 23.5m && intScore < 30)
             strLevel = "Gold";
-        if (intScore >= 60) 
+        if (intScore >= 30) 
             strLevel = "Platinum";
         return strLevel;
     }
@@ -337,7 +336,7 @@ public partial class DealershipDetail : System.Web.UI.Page
     {
         pnlSLT.Visible = true;
         DataSet dsDetail = Charts.GetSLTDetail(Year, DBA, Sonic_Location_Code);
-        int Score = 0;
+        decimal Score = 0;
         if (dsDetail.Tables[0].Rows.Count > 0)
         {
             lblSlt_location.Text = Convert.ToString(dsDetail.Tables[0].Rows[0]["DBA"]);
@@ -465,11 +464,11 @@ public partial class DealershipDetail : System.Web.UI.Page
         {
             switch (Convert.ToInt32(Request.QueryString["Level"]))
             {
-                case 4: lblPerformanceLevelWC.Text = "Tin"; break;
-                case 10: lblPerformanceLevelWC.Text = "Bronze"; break;
-                case 16: lblPerformanceLevelWC.Text = "Silver"; break;
-                case 22: lblPerformanceLevelWC.Text = "Gold"; break;
-                case 28: lblPerformanceLevelWC.Text = "Platinum"; break;
+                case 2: lblPerformanceLevelWC.Text = "Tin"; break;
+                case 5: lblPerformanceLevelWC.Text = "Bronze"; break;
+                case 8: lblPerformanceLevelWC.Text = "Silver"; break;
+                case 11: lblPerformanceLevelWC.Text = "Gold"; break;
+                case 14: lblPerformanceLevelWC.Text = "Platinum"; break;
             }
         }
 

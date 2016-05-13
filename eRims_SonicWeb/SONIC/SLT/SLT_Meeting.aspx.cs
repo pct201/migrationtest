@@ -3150,12 +3150,12 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
 
 
 
-        int? intMeetingPoints = null, intSafetyWalkPoints = null, intIncidentReviewPoints = null, intQualityReviewPoints = null;
+        decimal? intMeetingPoints = null, intSafetyWalkPoints = null, intIncidentReviewPoints = null, intQualityReviewPoints = null;
 
-        if (!string.IsNullOrEmpty(txtMeetingPoints.Text.Trim())) intMeetingPoints = Convert.ToInt32(txtMeetingPoints.Text);
-        if (!string.IsNullOrEmpty(txtSafetyWalkPoints.Text.Trim())) intSafetyWalkPoints = Convert.ToInt32(txtSafetyWalkPoints.Text);
-        if (!string.IsNullOrEmpty(txtIncidentReviewPoints.Text.Trim())) intIncidentReviewPoints = Convert.ToInt32(txtIncidentReviewPoints.Text);
-        if (!string.IsNullOrEmpty(txtQualityReviewPoints.Text.Trim())) intQualityReviewPoints = Convert.ToInt32(txtQualityReviewPoints.Text);
+        if (!string.IsNullOrEmpty(txtMeetingPoints.Text.Trim())) intMeetingPoints = Convert.ToDecimal(txtMeetingPoints.Text);
+        if (!string.IsNullOrEmpty(txtSafetyWalkPoints.Text.Trim())) intSafetyWalkPoints = Convert.ToDecimal(txtSafetyWalkPoints.Text);
+        if (!string.IsNullOrEmpty(txtIncidentReviewPoints.Text.Trim())) intIncidentReviewPoints = Convert.ToDecimal(txtIncidentReviewPoints.Text);
+        if (!string.IsNullOrEmpty(txtQualityReviewPoints.Text.Trim())) intQualityReviewPoints = Convert.ToDecimal(txtQualityReviewPoints.Text);
         if (txtMeetingPoints.Text != "" || txtSafetyWalkPoints.Text != "" || txtIncidentReviewPoints.Text != "" || txtQualityReviewPoints.Text != "")
         {
             SLT_Meeting.RecalculateScores(PK_SLT_Meeting, PK_SLT_Meeting_Schedule, intMeetingPoints, intSafetyWalkPoints, intIncidentReviewPoints, intQualityReviewPoints);

@@ -557,60 +557,60 @@ public class Charts
     public static string GetColorCodeFromScore(decimal _intScore)
     {
         string color = string.Empty;
-        if (_intScore >= 28)
+        if (_intScore > 11 && _intScore <= 14)
         {
             color = Platinum;
         }
-        else if (_intScore >= 22 && _intScore < 28)
+        else if (_intScore > 8 && _intScore <= 11)
         {
             color = Gold;
         }
-        else if (_intScore >= 16 && _intScore < 22)
+        else if (_intScore > 5 && _intScore <= 8)
         {
             color = Silver;
         }
-        else if (_intScore >= 10 && _intScore < 16)
+        else if (_intScore > 2 && _intScore <= 5)
         {
             color = Bronze;
         }
-        else if (_intScore >= 4 && _intScore < 10)
+        else if (_intScore >= 0 && _intScore <= 2)
         {
             color = Tin;
         }
-        else if (_intScore >= 0 && _intScore < 4)
-        {
-            color = White;
-        }
+        //else if (_intScore >= 0 && _intScore < 4)
+        //{
+        //    color = White;
+        //}
         return color;
     }
 
     public static string GetColorCodeFromScore_SLT(decimal _intScore)
     {
         string color = string.Empty;
-        if (_intScore >= 60)
+        if (_intScore >= 30)
         {
             color = Platinum;
         }
-        else if (_intScore >= 49 && _intScore < 60)
+        else if (_intScore > 23.5m && _intScore < 30)
         {
             color = Gold;
         }
-        else if (_intScore >= 37 && _intScore < 49)
+        else if (_intScore > 17.5m && _intScore <= 23.5m)
         {
             color = Silver;
         }
-        else if (_intScore >= 25 && _intScore < 37)
+        else if (_intScore > 11.5m && _intScore <= 17.5m)
         {
             color = Bronze;
         }
-        else if (_intScore >= 13 && _intScore < 25)
+        else if (_intScore >= 0 && _intScore <= 11.5m)
         {
             color = Tin;
         }
-        else if (_intScore >= 0 && _intScore < 13)
-        {
-            color = White;
-        }
+        //else if (_intScore >= 0 && _intScore < 13)
+        //{
+        //    color = White;
+        //}
         return color;
     }
 

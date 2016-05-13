@@ -29,16 +29,16 @@ namespace ERIMS.DAL
         private decimal? _FK_LU_Meeting_Quality;
         private string _Meeting_Comments;
         private string _UniqueVal;
-        private int? _Full_Participation;
-        private int? _Full_SW_Participation;
-        private int? _Incident_Review;
-        private int? _RLCM_Score;
-        private int? _SLT_Score;
+        private decimal? _Full_Participation;
+        private decimal? _Full_SW_Participation;
+        private decimal? _Incident_Review;
+        private decimal? _RLCM_Score;
+        private decimal? _SLT_Score;
 
-        private int? _Overwrite_Full_Participation;
-        private int? _Overwrite_Full_SW_Participation;
-        private int? _Overwrite_Incident_Review;
-        private int? _Overwrite_RLCM_Score;
+        private decimal? _Overwrite_Full_Participation;
+        private decimal? _Overwrite_Full_SW_Participation;
+        private decimal? _Overwrite_Incident_Review;
+        private decimal? _Overwrite_RLCM_Score;
 
         private DateTime? _Date_Meeting_Minutes_Sent;
         private DateTime? _Date_Scored;
@@ -197,7 +197,7 @@ namespace ERIMS.DAL
         /// <summary>
         /// Gets or Sets the Full_Participation value
         /// </summary>
-        public int? Full_Participation
+        public decimal? Full_Participation
         {
             get { return _Full_Participation; }
             set { _Full_Participation = value; }
@@ -205,7 +205,7 @@ namespace ERIMS.DAL
         /// <summary>
         /// Gets Or sets the Full_SW_Participation value
         /// </summary>
-        public int? Full_SW_Participation
+        public decimal? Full_SW_Participation
         {
             get { return _Full_SW_Participation; }
             set { _Full_SW_Participation = value; }
@@ -213,7 +213,7 @@ namespace ERIMS.DAL
         /// <summary>
         /// Gets or sets Incident_Review value
         /// </summary>
-        public int? Incident_Review
+        public decimal? Incident_Review
         {
             get { return _Incident_Review; }
             set { _Incident_Review = value; }
@@ -221,7 +221,7 @@ namespace ERIMS.DAL
         /// <summary>
         /// Gets or sets RLCM_Score value
         /// </summary>
-        public int? RLCM_Score
+        public decimal? RLCM_Score
         {
             get { return _RLCM_Score; }
             set { _RLCM_Score = value; }
@@ -229,31 +229,31 @@ namespace ERIMS.DAL
         /// <summary>
         /// get or set SLT_Score value
         /// </summary>
-        public int? SLT_Score
+        public decimal? SLT_Score
         {
             get { return _SLT_Score; }
             set { _SLT_Score = value; }
         }
 
-        public int? Overwrite_Full_Participation
+        public decimal? Overwrite_Full_Participation
         {
             get { return _Overwrite_Full_Participation; }
             set { _Overwrite_Full_Participation = value; }
         }
 
-        public int? Overwrite_Full_SW_Participation
+        public decimal? Overwrite_Full_SW_Participation
         {
             get { return _Overwrite_Full_SW_Participation; }
             set { _Overwrite_Full_SW_Participation = value; }
         }
 
-        public int? Overwrite_Incident_Review
+        public decimal? Overwrite_Incident_Review
         {
             get { return _Overwrite_Incident_Review; }
             set { _Overwrite_Incident_Review = value; }
         }
 
-        public int? Overwrite_RLCM_Score
+        public decimal? Overwrite_RLCM_Score
         {
             get { return _Overwrite_RLCM_Score; }
             set { _Overwrite_RLCM_Score = value; }
@@ -437,48 +437,48 @@ namespace ERIMS.DAL
             if (drSLT_Meeting_Schedule["Full_Participation"] == DBNull.Value)
                 this._Full_Participation = null;
             else
-                this._Full_Participation = (int?)drSLT_Meeting_Schedule["Full_Participation"];
+                this._Full_Participation = (decimal?)drSLT_Meeting_Schedule["Full_Participation"];
 
             if (drSLT_Meeting_Schedule["Full_SW_Participation"] == DBNull.Value)
                 this._Full_SW_Participation = null;
             else
-                this._Full_SW_Participation = (int?)drSLT_Meeting_Schedule["Full_SW_Participation"];
+                this._Full_SW_Participation = (decimal?)drSLT_Meeting_Schedule["Full_SW_Participation"];
 
             if (drSLT_Meeting_Schedule["Incident_Review"] == DBNull.Value)
                 this._Incident_Review = null;
             else
-                this._Incident_Review = (int?)drSLT_Meeting_Schedule["Incident_Review"];
+                this._Incident_Review = (decimal?)drSLT_Meeting_Schedule["Incident_Review"];
 
             if (drSLT_Meeting_Schedule["RLCM_Score"] == DBNull.Value)
                 this._RLCM_Score = null;
             else
-                this._RLCM_Score = (int?)drSLT_Meeting_Schedule["RLCM_Score"];
+                this._RLCM_Score = (decimal?)drSLT_Meeting_Schedule["RLCM_Score"];
 
             if (drSLT_Meeting_Schedule["SLT_Score"] == DBNull.Value)
                 this._SLT_Score = null;
             else
-                this._SLT_Score = (int?)drSLT_Meeting_Schedule["SLT_Score"];
+                this._SLT_Score = (decimal?)drSLT_Meeting_Schedule["SLT_Score"];
 
             if (drSLT_Meeting_Schedule["Overwrite_Full_Participation"] == DBNull.Value)
                 this._Overwrite_Full_Participation = null;
             else
-                this._Overwrite_Full_Participation = (int?)drSLT_Meeting_Schedule["Overwrite_Full_Participation"];
+                this._Overwrite_Full_Participation = (decimal?)drSLT_Meeting_Schedule["Overwrite_Full_Participation"];
 
             if (drSLT_Meeting_Schedule["Overwrite_Full_SW_Participation"] == DBNull.Value)
                 this._Overwrite_Full_SW_Participation = null;
             else
-                this._Overwrite_Full_SW_Participation = (int?)drSLT_Meeting_Schedule["Overwrite_Full_SW_Participation"];
+                this._Overwrite_Full_SW_Participation = (decimal?)drSLT_Meeting_Schedule["Overwrite_Full_SW_Participation"];
 
             if (drSLT_Meeting_Schedule["Overwrite_Incident_Review"] == DBNull.Value)
                 this._Overwrite_Incident_Review = null;
             else
-                this._Overwrite_Incident_Review = (int?)drSLT_Meeting_Schedule["Overwrite_Incident_Review"];
+                this._Overwrite_Incident_Review = (decimal?)drSLT_Meeting_Schedule["Overwrite_Incident_Review"];
 
 
             if (drSLT_Meeting_Schedule["Overwrite_RLCM_Score"] == DBNull.Value)
                 this._Overwrite_RLCM_Score = null;
             else
-                this._Overwrite_RLCM_Score = (int?)drSLT_Meeting_Schedule["Overwrite_RLCM_Score"];
+                this._Overwrite_RLCM_Score = (decimal?)drSLT_Meeting_Schedule["Overwrite_RLCM_Score"];
 
             if (drSLT_Meeting_Schedule["Date_Meeting_Minutes_Sent"] == DBNull.Value)
                 this._Date_Meeting_Minutes_Sent = null;
@@ -574,11 +574,11 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "UniqueVal", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "UniqueVal", DbType.String, this._UniqueVal);
-            db.AddInParameter(dbCommand, "Full_Participation", DbType.Int32, this._Full_Participation);
-            db.AddInParameter(dbCommand, "Full_SW_Participation", DbType.Int32, this._Full_SW_Participation);
-            db.AddInParameter(dbCommand, "Incident_Review", DbType.Int32, this._Incident_Review);
-            db.AddInParameter(dbCommand, "RLCM_Score", DbType.Int32, this._RLCM_Score);
-            db.AddInParameter(dbCommand, "SLT_Score", DbType.Int32, this._SLT_Score);
+            db.AddInParameter(dbCommand, "Full_Participation", DbType.Decimal, this._Full_Participation);
+            db.AddInParameter(dbCommand, "Full_SW_Participation", DbType.Decimal, this._Full_SW_Participation);
+            db.AddInParameter(dbCommand, "Incident_Review", DbType.Decimal, this._Incident_Review);
+            db.AddInParameter(dbCommand, "RLCM_Score", DbType.Decimal, this._RLCM_Score);
+            db.AddInParameter(dbCommand, "SLT_Score", DbType.Decimal, this._SLT_Score);
             db.AddInParameter(dbCommand, "Date_Meeting_Minutes_Sent", DbType.DateTime, this._Date_Meeting_Minutes_Sent);
             db.AddInParameter(dbCommand, "Date_Scored", DbType.DateTime, this._Date_Scored);
             if (string.IsNullOrEmpty(this._RLCM_Attended))
@@ -700,11 +700,11 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "UniqueVal", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "UniqueVal", DbType.String, this._UniqueVal);
-            db.AddInParameter(dbCommand, "Full_Participation", DbType.Int32, this._Full_Participation);
-            db.AddInParameter(dbCommand, "Full_SW_Participation", DbType.Int32, this._Full_SW_Participation);
-            db.AddInParameter(dbCommand, "Incident_Review", DbType.Int32, this._Incident_Review);
-            db.AddInParameter(dbCommand, "RLCM_Score", DbType.Int32, this._RLCM_Score);
-            db.AddInParameter(dbCommand, "SLT_Score", DbType.Int32, this._SLT_Score);
+            db.AddInParameter(dbCommand, "Full_Participation", DbType.Decimal, this._Full_Participation);
+            db.AddInParameter(dbCommand, "Full_SW_Participation", DbType.Decimal, this._Full_SW_Participation);
+            db.AddInParameter(dbCommand, "Incident_Review", DbType.Decimal, this._Incident_Review);
+            db.AddInParameter(dbCommand, "RLCM_Score", DbType.Decimal, this._RLCM_Score);
+            db.AddInParameter(dbCommand, "SLT_Score", DbType.Decimal, this._SLT_Score);
             db.AddInParameter(dbCommand, "Date_Meeting_Minutes_Sent", DbType.DateTime, this._Date_Meeting_Minutes_Sent);
             db.AddInParameter(dbCommand, "Date_Scored", DbType.DateTime, this._Date_Scored);
 

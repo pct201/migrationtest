@@ -1752,8 +1752,8 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
 
             Score = Convert.ToDecimal(dt.Rows[i]["PreviousScore"]);
             ToolTip = Convert.ToDecimal(dt.Rows[i]["ToolTip_Previous"]);
-            if (Convert.ToString(dt.Rows[i]["Type"]).ToLower() == "aggregate performance")
-                ToolTip = (ToolTip / 200) * 100;
+            //if (Convert.ToString(dt.Rows[i]["Type"]).ToLower() == "aggregate performance")
+                //ToolTip = (ToolTip / 200) * 100;
             //strLink = Server.UrlEncode("javascript:TotalCasesByMonth(" + i.ToString() + "," + (DateTime.Now.Year - 1).ToString() + ");").Replace("'", "%26apos;").Replace("&", "%26");
             strLink = string.Empty;
             strChartXML.Append("<set value='" + Score.ToString() + "'  link='" + strLink + "' toolText='" + ToolTip.ToString() + "' />");
@@ -1773,8 +1773,8 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
 
             Score = Convert.ToDecimal(dt.Rows[i]["Score"]);
             ToolTip = Convert.ToDecimal(dt.Rows[i]["ToolTip_Current"]);
-            if (Convert.ToString(dt.Rows[i]["Type"]).ToLower() == "aggregate performance")
-                ToolTip = (ToolTip / 200) * 100;
+            //if (Convert.ToString(dt.Rows[i]["Type"]).ToLower() == "aggregate performance")
+             //   ToolTip = (ToolTip / 200) * 100;
             //Color = Convert.ToString(dtSeries1.Rows[i - 1]["Color"]);            
             //strLink = Server.UrlEncode("javascript:TotalCasesByMonth(" + i.ToString() + "," + (DateTime.Now.Year).ToString() + ");").Replace("'", "%26apos;").Replace("&", "%26");
             strLink = string.Empty;
@@ -1826,11 +1826,11 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
     {
         // set Tread Lines
         strChartXML.Append("<trendLines>");
-        strChartXML.Append("<line startValue='4' color='49563A' displayvalue='" + Charts.Tin_Label + "' /> ");
-        strChartXML.Append("<line startValue='10' color='49563A' displayvalue='" + Charts.Bronze_Label + "' /> ");
-        strChartXML.Append("<line startValue='16' color='49563A' displayvalue='" + Charts.Silver_Label + "' /> ");
-        strChartXML.Append("<line startValue='22' color='49563A' displayvalue='" + Charts.Gold_Label + "' /> ");
-        strChartXML.Append("<line startValue='28' color='49563A' displayvalue='" + Charts.Platinum_Label + "' /> ");
+        strChartXML.Append("<line startValue='2' color='49563A' displayvalue='" + Charts.Tin_Label + "' /> ");
+        strChartXML.Append("<line startValue='5' color='49563A' displayvalue='" + Charts.Bronze_Label + "' /> ");
+        strChartXML.Append("<line startValue='8' color='49563A' displayvalue='" + Charts.Silver_Label + "' /> ");
+        strChartXML.Append("<line startValue='11' color='49563A' displayvalue='" + Charts.Gold_Label + "' /> ");
+        strChartXML.Append("<line startValue='14' color='49563A' displayvalue='" + Charts.Platinum_Label + "' /> ");
         //strChartXML.Append("<line startValue='" + string.Format("{0:N2}", Average) + "' color='FF0000' displayvalue='Company Average' valueOnRight='1' thickness='2' /> ");
 
         strChartXML.Append("</trendLines>");

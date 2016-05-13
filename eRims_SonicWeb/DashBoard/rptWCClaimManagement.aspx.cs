@@ -227,7 +227,7 @@ public partial class rptWCClaimManagement : clsBasePage
     /// <summary>
     /// Generate Report HTML based on Report Criteria
     /// </summary>
-    /// <returns>return stringbuilder objects contans report in HTML format</returns>
+    /// <returns>return string-builder objects contains report in HTML format</returns>
     private System.Text.StringBuilder GenerageQuarterlyReport()
     {
         string strReportInterval = "";
@@ -236,7 +236,7 @@ public partial class rptWCClaimManagement : clsBasePage
         // get selected regions
         strRegion = Convert.ToString(drpRegions.SelectedValue);
 
-        string strMarket = "";
+        string strMarket = null;
         // get selected Markets
         if (ddlMarket.SelectedValue != "0")
             strMarket = Convert.ToString(ddlMarket.SelectedValue);
@@ -311,7 +311,7 @@ public partial class rptWCClaimManagement : clsBasePage
     /// <summary>
     /// Generate Report HTML based on Report Criteria
     /// </summary>
-    /// <returns>return stringbuilder objects contans report in HTML format</returns>
+    /// <returns>return string-builder objects contains report in HTML format</returns>
     private System.Text.StringBuilder GenerageAnnaulyReport()
     {
         string strReportInterval = "";
@@ -320,7 +320,7 @@ public partial class rptWCClaimManagement : clsBasePage
         // get selected regions
         strRegion = Convert.ToString(drpRegions.SelectedValue);
 
-        string strMarket = "";
+        string strMarket = null;
         // get selected Markets
         if (ddlMarket.SelectedValue != "0")
             strMarket = Convert.ToString(ddlMarket.SelectedValue);

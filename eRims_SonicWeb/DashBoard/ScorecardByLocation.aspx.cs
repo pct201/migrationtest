@@ -201,7 +201,7 @@ public partial class ScorecardByLocation : System.Web.UI.Page
             //}
 
             ////Change as per bug-tracker #3585,further change as per 3600 #35143..
-            _intScore = (_intScore / 200) * 100;
+            //_intScore = (_intScore / 200) * 100;
 
             if (_intScore > 84.5m && _intScore <= 100)
             {
@@ -283,7 +283,7 @@ public partial class ScorecardByLocation : System.Web.UI.Page
         //strChartXML.Append("<chart caption='Facility Inspection for Region " + Region + "' xAxisName='Location' yAxisName='Level' useRoundEdges='1' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='6' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0'>");
         // for new version
         string strWidth = dsReport.Tables[0].Rows.Count > 25 ? "950" : "800";
-        strChartXML.Append("<chart caption='Facility Inspection for Region " + Region + "' plotGradientColor='' bgColor='#FFFFFF' xAxisName='Location' yAxisName='Level' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='34' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
+        strChartXML.Append("<chart caption='Facility Inspection for Region " + Region + "' plotGradientColor='' bgColor='#FFFFFF' xAxisName='Location' yAxisName='Level' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='17' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
 
         for (int i = 0; i < dtReport.Rows.Count; i++)
         {
@@ -325,7 +325,7 @@ public partial class ScorecardByLocation : System.Web.UI.Page
         }
 
         string strWidth = dsReport.Tables[0].Rows.Count > 25 ? "950" : "800";
-        strChartXML.Append("<chart caption='Safety Leadership Team For Region " + Region + "' showalternatevgridcolor='0' bgColor='#FFFFFF' plotGradientColor='' xAxisName='Location' yAxisName='Level' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='70' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
+        strChartXML.Append("<chart caption='Safety Leadership Team For Region " + Region + "' showalternatevgridcolor='0' bgColor='#FFFFFF' plotGradientColor='' xAxisName='Location' yAxisName='Level' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='35' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
 
         for (int i = 0; i < dtReport.Rows.Count; i++)
         {
@@ -370,7 +370,7 @@ public partial class ScorecardByLocation : System.Web.UI.Page
         //strChartXML.Append("<chart caption='Incident Investigation for Region " + Region + "' xAxisName='Location' yAxisName='Level' useRoundEdges='1' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='6' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0'>");
         // for new version
         string strWidth = dsReport.Tables[0].Rows.Count > 25 ? "950" : "800";
-        strChartXML.Append("<chart caption='Incident Investigation for Region " + Region + "' plotGradientColor='' bgColor='#FFFFFF' xAxisName='Location' yAxisName='Level' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='34' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
+        strChartXML.Append("<chart caption='Incident Investigation for Region " + Region + "' plotGradientColor='' bgColor='#FFFFFF' xAxisName='Location' yAxisName='Level' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='17' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
 
         for (int i = 0; i < dtReport.Rows.Count; i++)
         {
@@ -409,7 +409,7 @@ public partial class ScorecardByLocation : System.Web.UI.Page
         //strChartXML.Append("<chart caption='Sonic University Training Scorecard for Region " + Region + "' xAxisName='Location' yAxisName='Level' useRoundEdges='1' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='6' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0'>");
         // for new version
         string strWidth = dsReport.Tables[0].Rows.Count > 25 ? "950" : "800";
-        strChartXML.Append("<chart caption='Sonic University Training Scorecard for Region " + Region + "' plotGradientColor='' bgColor='#FFFFFF' xAxisName='Location' yAxisName='Level' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='34' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
+        strChartXML.Append("<chart caption='Sonic University Training Scorecard for Region " + Region + "' plotGradientColor='' bgColor='#FFFFFF' xAxisName='Location' yAxisName='Level' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='17' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
 
         for (int i = 0; i < dtReport.Rows.Count; i++)
         {
@@ -448,7 +448,7 @@ public partial class ScorecardByLocation : System.Web.UI.Page
         //strChartXML.Append("<chart caption='Incident Reduction by Region " + Region + "' xAxisName='Location' yAxisName='Level' useRoundEdges='1' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='0' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0'>");
         // for new version
         string strWidth = dsReport.Tables[0].Rows.Count > 25 ? "950" : "800";
-        strChartXML.Append("<chart caption='Incident Reduction by Region " + Region + "' xAxisName='Location' bgColor='#FFFFFF' plotGradientColor='' yAxisName='Level' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='34' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
+        strChartXML.Append("<chart caption='Incident Reduction by Region " + Region + "' xAxisName='Location' bgColor='#FFFFFF' plotGradientColor='' yAxisName='Level' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='17' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
 
         for (int i = 0; i < dtReport.Rows.Count; i++)
         {
@@ -488,7 +488,7 @@ public partial class ScorecardByLocation : System.Web.UI.Page
         //strChartXML.Append("<chart caption='Workers’ Compensation Claims Management For Region " + Region + "' xAxisName='Location' yAxisName='Level' useRoundEdges='1' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='0' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0'>");
         // for new version
         string strWidth = dsReport.Tables[0].Rows.Count > 25 ? "950" : "800";
-        strChartXML.Append("<chart caption='Workers’ Compensation Claims Management For Region " + Region + "' xAxisName='Location' bgColor='#FFFFFF' plotGradientColor='' yAxisName='Level' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='34' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
+        strChartXML.Append("<chart caption='Workers’ Compensation Claims Management For Region " + Region + "' xAxisName='Location' bgColor='#FFFFFF' plotGradientColor='' yAxisName='Level' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='17' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
 
         for (int i = 0; i < dtReport.Rows.Count; i++)
         {
@@ -519,13 +519,13 @@ public partial class ScorecardByLocation : System.Web.UI.Page
 
         // set Tread Lines
         strChartXML.Append("<trendLines>");
-        strChartXML.Append("<line startValue='4' color='666666' displayvalue='" + Charts.Tin_Label + "' /> ");
-        strChartXML.Append("<line startValue='10' color='666666' displayvalue='" + Charts.Bronze_Label + "' /> ");
-        strChartXML.Append("<line startValue='16' color='666666' displayvalue='" + Charts.Silver_Label + "' /> ");
-        strChartXML.Append("<line startValue='22' color='666666' displayvalue='" + Charts.Gold_Label + "' /> ");
-        strChartXML.Append("<line startValue='28' color='666666' displayvalue='"+ Charts.Platinum_Label +"' /> ");
+        strChartXML.Append("<line startValue='2' color='666666' displayvalue='" + Charts.Tin_Label + "' /> ");
+        strChartXML.Append("<line startValue='5' color='666666' displayvalue='" + Charts.Bronze_Label + "' /> ");
+        strChartXML.Append("<line startValue='8' color='666666' displayvalue='" + Charts.Silver_Label + "' /> ");
+        strChartXML.Append("<line startValue='11' color='666666' displayvalue='" + Charts.Gold_Label + "' /> ");
+        strChartXML.Append("<line startValue='14' color='666666' displayvalue='"+ Charts.Platinum_Label +"' /> ");
 
-        strChartXML.Append("<line startValue='26.6' color='FF0000' displayvalue='{br}Cross The Line' valueOnRight='1' thickness='2' /> ");
+        strChartXML.Append("<line startValue='13.3' color='FF0000' displayvalue='{br}Cross The Line' valueOnRight='1' thickness='2' /> ");
 
         //if (Average != 0 && decCompAverage > 0 && (Math.Abs(Average - decCompAverage) <= 0.20M))
         //{
@@ -616,13 +616,13 @@ public partial class ScorecardByLocation : System.Web.UI.Page
 
         // set Tread Lines
         strChartXML.Append("<trendLines>");
-        strChartXML.Append("<line startValue='13' color='666666' displayvalue='" + Charts.Tin_Label + "' /> ");
-        strChartXML.Append("<line startValue='25' color='666666' displayvalue='" + Charts.Bronze_Label + "' /> ");
-        strChartXML.Append("<line startValue='37' color='666666' displayvalue='" + Charts.Silver_Label + "' /> ");
-        strChartXML.Append("<line startValue='49' color='666666' displayvalue='" + Charts.Gold_Label + "' /> ");
-        strChartXML.Append("<line startValue='60' color='666666' displayvalue='" + Charts.Platinum_Label + "' /> ");
+        strChartXML.Append("<line startValue='11.5' color='666666' displayvalue='" + Charts.Tin_Label + "' /> ");
+        strChartXML.Append("<line startValue='17.5' color='666666' displayvalue='" + Charts.Bronze_Label + "' /> ");
+        strChartXML.Append("<line startValue='23.5' color='666666' displayvalue='" + Charts.Silver_Label + "' /> ");
+        strChartXML.Append("<line startValue='29' color='666666' displayvalue='" + Charts.Gold_Label + "' /> ");
+        strChartXML.Append("<line startValue='30' color='666666' displayvalue='{br}       " + Charts.Platinum_Label + "' /> ");
 
-        strChartXML.Append("<line startValue='57' color='FF0000' displayvalue='{br}Cross The Line' valueOnRight='1' thickness='2' /> ");
+        strChartXML.Append("<line startValue='28.5' color='FF0000' displayvalue='{br}{br}Cross The Line' valueOnRight='1' thickness='2' /> ");
 
         //if (Average != 0 && decCompAverage > 0 && (Math.Abs(Average - decCompAverage) <= 0.20M))
         //{

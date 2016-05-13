@@ -248,23 +248,23 @@ namespace ERIMS.DAL
         public static DataSet Get_SLT_Meeting_Scores(decimal FK_LU_Location_ID, decimal PK_SLT_Meeting_Schedule)
         {
             Database db = DatabaseFactory.CreateDatabase();
-            DbCommand dbCommand = db.GetStoredProcCommand("SLT_Meeting_GetScores");
+            DbCommand dbCommand = db.GetStoredProcCommand("SLT_Meeting_GetScores_New");
             db.AddInParameter(dbCommand, "PK_LU_Location_ID", DbType.Decimal, FK_LU_Location_ID);
             db.AddInParameter(dbCommand, "PK_SLT_Meeting_Schedule", DbType.Decimal, PK_SLT_Meeting_Schedule);
             dbCommand.CommandTimeout = 1000;
             return (db.ExecuteDataSet(dbCommand));
         }
 
-        public static void RecalculateScores(decimal FK_SLT_Meeting, decimal PK_SLT_Meeting_Schedule, int? Full_Participation, int? Full_SW_Participation, int? Incident_Review, int? RLCM_Score)
+        public static void RecalculateScores(decimal FK_SLT_Meeting, decimal PK_SLT_Meeting_Schedule, decimal? Full_Participation, decimal? Full_SW_Participation, decimal? Incident_Review, decimal? RLCM_Score)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("SLT_Recalculate_Score");
             db.AddInParameter(dbCommand, "FK_SLT_Meeting", DbType.Decimal, FK_SLT_Meeting);
             db.AddInParameter(dbCommand, "PK_SLT_Meeting_Schedule", DbType.Decimal, PK_SLT_Meeting_Schedule);
-            db.AddInParameter(dbCommand, "Full_Participation", DbType.Int32, Full_Participation);
-            db.AddInParameter(dbCommand, "Full_SW_Participation", DbType.Int32, Full_SW_Participation);
-            db.AddInParameter(dbCommand, "Incident_Review", DbType.Int32, Incident_Review);
-            db.AddInParameter(dbCommand, "RLCM_Score", DbType.Int32, RLCM_Score);
+            db.AddInParameter(dbCommand, "Full_Participation", DbType.Decimal, Full_Participation);
+            db.AddInParameter(dbCommand, "Full_SW_Participation", DbType.Decimal, Full_SW_Participation);
+            db.AddInParameter(dbCommand, "Incident_Review", DbType.Decimal, Incident_Review);
+            db.AddInParameter(dbCommand, "RLCM_Score", DbType.Decimal, RLCM_Score);
             db.ExecuteNonQuery(dbCommand);
         }
 
