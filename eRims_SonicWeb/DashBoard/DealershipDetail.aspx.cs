@@ -365,7 +365,7 @@ public partial class DealershipDetail : System.Web.UI.Page
 
             if (dsDetail.Tables[0].Rows[0]["Score"] != DBNull.Value)
             {
-                Score = Convert.ToInt32(dsDetail.Tables[0].Rows[0]["Score"]);
+                Score = Convert.ToDecimal(dsDetail.Tables[0].Rows[0]["Score"]);
                 lblSLT_Performance.Text =  dsDetail.Tables[0].Rows[0]["Score"].ToString() + " (" + GetPerformanceLevel_SLT(Score) + ")";
             }
         }
