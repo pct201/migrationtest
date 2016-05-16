@@ -137,24 +137,24 @@ public partial class SONIC_SLT_SLT_Wall_ByLocation : clsBasePage
     {
         DataSet dsPosts;
 
-        if (IsUserRLCM || IsUserInAdministrativeGroup)
-        {
-            string strLastName = Convert.ToString(txtPoster_Last_Name.Text.Trim().Replace("'", "''"));
-            string strFirstName = Convert.ToString(txtPoster_First_Name.Text.Trim().Replace("'", "''"));
-            DateTime? dtPostDateFrom = clsGeneral.FormatNullDateToStore(txtDate_Of_Post_From.Text);
-            DateTime? dtPostDateTo = clsGeneral.FormatNullDateToStore(txtDate_Of_Post_To.Text);
-            string strPostText = Convert.ToString(txt_Post_Text.Text.Trim().Replace("'", "''"));
-            string strTopic = Convert.ToString(txt_Topic.Text.Trim()).Replace("'", "''");
-            string strFilter_By_Region = ddlRegion.SelectedIndex > 0 ? ddlRegion.SelectedValue : string.Empty;
-            string strFilter_By_Market = ddlMarket.SelectedIndex > 0 ? ddlMarket.SelectedValue : string.Empty;
-            string strPostDateFrom = Convert.ToString(dtPostDateFrom);
-            string strPostDateTo = Convert.ToString(dtPostDateTo);
+        //if (IsUserRLCM || IsUserInAdministrativeGroup)
+        //{
+        //    string strLastName = Convert.ToString(txtPoster_Last_Name.Text.Trim().Replace("'", "''"));
+        //    string strFirstName = Convert.ToString(txtPoster_First_Name.Text.Trim().Replace("'", "''"));
+        //    DateTime? dtPostDateFrom = clsGeneral.FormatNullDateToStore(txtDate_Of_Post_From.Text);
+        //    DateTime? dtPostDateTo = clsGeneral.FormatNullDateToStore(txtDate_Of_Post_To.Text);
+        //    string strPostText = Convert.ToString(txt_Post_Text.Text.Trim().Replace("'", "''"));
+        //    string strTopic = Convert.ToString(txt_Topic.Text.Trim()).Replace("'", "''");
+        //    string strFilter_By_Region = ddlRegion.SelectedIndex > 0 ? ddlRegion.SelectedValue : string.Empty;
+        //    string strFilter_By_Market = ddlMarket.SelectedIndex > 0 ? ddlMarket.SelectedValue : string.Empty;
+        //    string strPostDateFrom = Convert.ToString(dtPostDateFrom);
+        //    string strPostDateTo = Convert.ToString(dtPostDateTo);
 
-            dsPosts = clsWall_By_Location.SearchWallPostsByLocationAdminRLCM(PageNumber, PageSize, strLastName, strFirstName, strPostDateFrom, strPostDateTo, strPostText, strTopic,
-            strFilter_By_Region, strFilter_By_Market);
-        }
-        else
-        {
+        //    dsPosts = clsWall_By_Location.SearchWallPostsByLocationAdminRLCM(PageNumber, PageSize, strLastName, strFirstName, strPostDateFrom, strPostDateTo, strPostText, strTopic,
+        //    strFilter_By_Region, strFilter_By_Market);
+        //}
+        //else
+        //{
             string strLastName = Convert.ToString(txtPosterLastName.Text.Trim().Replace("'", "''"));
             string strFirstName = Convert.ToString(txtPosterFirstName.Text.Trim().Replace("'", "''"));
             DateTime? dtPostDateFrom = clsGeneral.FormatNullDateToStore(txtDatePostFrom.Text);
@@ -164,7 +164,7 @@ public partial class SONIC_SLT_SLT_Wall_ByLocation : clsBasePage
 
             dsPosts = clsWall_By_Location.SearchWallPostsByLocation(PageNumber, PageSize, strLastName, strFirstName, dtPostDateFrom, dtPostDateTo, strPostText, strTopic,
                           clsGeneral.GetDecimal(Encryption.Decrypt(Request.QueryString["PK_LU_Location_ID"])));
-        }
+        //}
 
         //// set values for paging control,so it shows values as needed.
         ctrlPageWallPost.TotalRecords = (dsPosts.Tables.Count >= 3) ? Convert.ToInt32(dsPosts.Tables[1].Rows[0][0]) : 0;
