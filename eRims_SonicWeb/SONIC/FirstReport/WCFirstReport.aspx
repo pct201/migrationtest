@@ -261,7 +261,7 @@
                     hdnIncidentID = hdnIncidentID + ',' + valClaim;
                 else
                     hdnIncidentID = valClaim;
-                
+
                 document.getElementById('<%=hdnIncidentID.ClientID%>').value = hdnIncidentID;
 
                 if (hdnIncidentErrorMsgs.length > 0 && hdnIncidentErrorMsgs.indexOf(',' + 'Please enter [Incident/Information]/Was the claim Questionable? If Yes Why?') == 0)
@@ -277,8 +277,8 @@
                 document.getElementById('<%=Span17.ClientID%>').style.display = 'none';
 
                 var newhdnIncidentID;
-                if (hdnIncidentID.indexOf(','+ valClaim) > 0)
-                    newhdnIncidentID = hdnIncidentID.replace(','+valClaim, '');
+                if (hdnIncidentID.indexOf(',' + valClaim) > 0)
+                    newhdnIncidentID = hdnIncidentID.replace(',' + valClaim, '');
                 else
                     newhdnIncidentID = hdnIncidentID.replace(valClaim, '');
 
@@ -291,7 +291,7 @@
                     hdnIncidentErrorMsgs = hdnIncidentErrorMsgs.replace('Please enter [Incident/Information]/Was the claim Questionable? If Yes Why?', '');
 
                 document.getElementById('<%=hdnIncidentErrorMsgs.ClientID%>').value = hdnIncidentErrorMsgs;
-                
+
             }
         }
 
@@ -2419,7 +2419,7 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" style="width: 18%" valign="top">Comments/Special Instructor to Adjuster&nbsp;<span id="Span39" style="color: Red; display: none;" runat="server">*</span>
+                                                        <td align="left" style="width: 18%" valign="top">Comments/Special Instructions to Adjuster&nbsp;<span id="Span39" style="color: Red; display: none;" runat="server">*</span>
                                                         </td>
                                                         <td align="center" style="width: 4%" valign="top">:
                                                         </td>
@@ -3777,7 +3777,7 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" style="width: 18%" valign="top">Comments/Special Instructor to Adjuster
+                                                        <td align="left" style="width: 18%" valign="top">Comments/Special Instructions to Adjuster
                                                         </td>
                                                         <td align="center" style="width: 4%" valign="top">:
                                                         </td>
