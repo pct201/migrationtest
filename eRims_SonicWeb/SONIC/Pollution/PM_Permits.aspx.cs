@@ -306,6 +306,8 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
             {
                 Month = Convert.ToInt16(dtEmissions.Rows[0]["Month"]);
                 Year = Convert.ToInt16(dtEmissions.Rows[0]["Year"]);
+                CurrentMonth = Month;
+                CurrentYear = Year;
             }
         }
         else
