@@ -467,6 +467,22 @@ namespace ERIMS.DAL
         }
 
         /// <summary>
+        /// Method To Get VOC Details By FK PermitID
+        /// </summary>
+        /// <param name="FK_PM_Permits"></param>
+        /// <param name="Month"></param>
+        /// <param name="Year"></param>
+        /// <returns></returns>
+        public static DataSet SelectByFKPMPermit(decimal FK_PM_Permits)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("PM_Permits_VOC_EmissionsSelectByFKPMPermit");
+            db.AddInParameter(dbCommand, "FK_PM_Permits", DbType.Decimal, FK_PM_Permits);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        /// <summary>
         /// Insert Events from csv file
         /// </summary>
         /// <param name="FilePath"></param>

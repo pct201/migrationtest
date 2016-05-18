@@ -138,7 +138,7 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
                 lnkCancel.Visible = false;
                 lbl.Visible = false;
                 pnlVOCEdit.Visible = false;
-                BindVOCGrid();
+                BindVOCGrid(1);
             }
 
             if (FK_LU_Location_ID > 0)
@@ -177,7 +177,7 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
                 }
                 pnlVOCEdit.Visible = false;
                 pnlVOCView.Visible = false;
-                BindVOCGrid();
+                BindVOCGrid(0);
                 // bind attachment details to show attachment for current risk profile.
                 BindAttachmentDetails();
             }
@@ -296,9 +296,24 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
     /// <summary>
     /// Bind VOC Grid
     /// </summary>
-    public void BindVOCGrid()
+    public void BindVOCGrid(int CurrentGrid)
     {
-        DataSet dsVOCEmmission = clsPM_Permits_VOC_Emissions.SelectByFKPermit(PK_PM_Permits, CurrentMonth, CurrentYear);
+        int Month=0, Year=0;
+        if (CurrentGrid == 0)
+        {
+            DataTable dtEmissions = clsPM_Permits_VOC_Emissions.SelectByFKPMPermit(PK_PM_Permits).Tables[0];
+            if (dtEmissions != null && dtEmissions.Rows.Count > 0)
+            {
+                Month = Convert.ToInt16(dtEmissions.Rows[0]["Month"]);
+                Year = Convert.ToInt16(dtEmissions.Rows[0]["Year"]);
+            }
+        }
+        else
+        {
+            Month = CurrentMonth;
+            Year = CurrentYear;
+        }
+        DataSet dsVOCEmmission = clsPM_Permits_VOC_Emissions.SelectByFKPermit(PK_PM_Permits, Month, Year);
         DataTable dtVOCEmission = dsVOCEmmission.Tables[0];
         DataTable dtCategoryGrandTotal = dsVOCEmmission.Tables[1];
         DataTable dtGrandTotal = dsVOCEmmission.Tables[2];
@@ -325,12 +340,12 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
                         dtVOC.Rows.Add(drVOCEmission.ItemArray);
                     }
 
-                    dtVOC.Rows.Add("0", "0", category + " Sub Total", CurrentYear, GetMonthString(CurrentMonth), totalGallons, totalVOC_Emissions, SubTotalText, "", 0);
-                    
+                    dtVOC.Rows.Add("0", "0", category + " Sub Total", Year, GetMonthString(Month), totalGallons, totalVOC_Emissions, SubTotalText, "", 0);
+
                     if (dtCategoryGrandTotal != null && dtCategoryGrandTotal.Rows.Count > 0)
                     {
                         DataRow[] drCategoryGrandTotal = dtCategoryGrandTotal.Select("Category = '" + category + "'");
-                        dtVOC.Rows.Add("0", "0", category + " Grand Total (Year to Date) ", CurrentYear, "", clsGeneral.GetDecimal(drCategoryGrandTotal[0]["Gallons"]), clsGeneral.GetDecimal(drCategoryGrandTotal[0]["VOC_Emmisions"]), "", "", 0);
+                        dtVOC.Rows.Add("0", "0", category + " Grand Total (Year to Date) ", Year, "", clsGeneral.GetDecimal(drCategoryGrandTotal[0]["Gallons"]), clsGeneral.GetDecimal(drCategoryGrandTotal[0]["VOC_Emmisions"]), "", "", 0);
                         dtVOC.Rows.Add("0", "0", "&nbsp;", null, "&nbsp;", null, null, "&nbsp;", "&nbsp;", 0);
                     }
                 }
@@ -581,7 +596,7 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
             ddlMonth.SelectedIndex = 0;
             ddlYear.SelectedIndex = 0;
             drpPaintCategory.SelectedIndex = 0;
-           
+
             pnlVOCEdit.Visible = true;
         }
     }
@@ -622,7 +637,7 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
 
             pnlVOCEdit.Visible = false;
             pnlVOCView.Visible = false;
-            BindVOCGrid();
+            BindVOCGrid(0);
         }
 
     }
@@ -668,7 +683,7 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
         }
         pnlVOCEdit.Visible = false;
         pnlVOCView.Visible = false;
-        BindVOCGrid();
+        BindVOCGrid(1);
     }
 
     /// <summary>
@@ -749,7 +764,7 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
                     lnkAddNew.Visible = true;
                 }
 
-                BindVOCGrid();
+                BindVOCGrid(0);
             }
             else
             {
@@ -757,7 +772,7 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
                 {
                     objPM_Permits_VOC_Emissions.Insert();
                     ScriptManager.RegisterStartupScript(this, Page.GetType(), DateTime.Now.ToString(), "javascript:alert('VOC Details Saved successfully.');", true);
-                    BindVOCGrid();
+                    BindVOCGrid(0);
                     pnlVOCEdit.Visible = false;
                     lnkAddNew.Visible = true;
                 }
