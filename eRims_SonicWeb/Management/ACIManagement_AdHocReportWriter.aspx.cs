@@ -1545,7 +1545,7 @@ public partial class Management_ACIManagement_AdHocReportWriter : clsBasePage
                         } 
                         #endregion
                     }
-                    else if(lstAdHoc[0].Field_Header.ToUpper() == "RPM APPROVAL")
+                    else if (lstAdHoc[0].Field_Header.ToUpper() == "RPM APPROVAL" || lstAdHoc[0].Field_Header.ToUpper() == "NO APPROVAL NEEDED" || lstAdHoc[0].Field_Header.ToUpper() == "APPROVAL NEEDED")
                     {
                         ComboHelper.FillTaskComplete(new ListBox[] { lst_F }, false);
                     }
