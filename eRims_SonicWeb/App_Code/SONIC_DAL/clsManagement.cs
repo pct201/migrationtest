@@ -73,6 +73,7 @@ namespace ERIMS.DAL
         private decimal? _FK_LU_Maintenance_Status;
         private bool? _No_Approval_Needed;
         private bool? _Approval_Needed;
+        private decimal? _FK_LU_Work_To_Be_Completed_By;
 
 		#endregion
 
@@ -618,6 +619,15 @@ namespace ERIMS.DAL
             set { _Approval_Needed = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the FK_LU_Work_To_Be_Completed_By value.
+        /// </summary>
+        public decimal? FK_LU_Work_To_Be_Completed_By
+        {
+            get { return _FK_LU_Work_To_Be_Completed_By; }
+            set { _FK_LU_Work_To_Be_Completed_By = value; }
+        }
+
 		#endregion
 
 		#region Default Constructors
@@ -781,10 +791,15 @@ namespace ERIMS.DAL
                 else
                     this._FK_LU_Work_Completed = (decimal?)drManagement["FK_LU_Work_Completed"];
 
-                if (drManagement["Work_Completed_By"] == DBNull.Value)
-                    this._Work_Completed_By = null;
+                if (drManagement["FK_LU_Work_To_Be_Completed_By"] == DBNull.Value)
+                    this._FK_LU_Work_To_Be_Completed_By = null;
                 else
-                    this._Work_Completed_By = (bool?)drManagement["Work_Completed_By"];
+                    this._FK_LU_Work_To_Be_Completed_By = (decimal?)drManagement["FK_LU_Work_To_Be_Completed_By"];
+
+                //if (drManagement["Work_Completed_By"] == DBNull.Value)
+                //    this._Work_Completed_By = null;
+                //else
+                //    this._Work_Completed_By = (bool?)drManagement["Work_Completed_By"];
 
                 if (drManagement["Service_Repair_Cost"] == DBNull.Value)
                     this._Service_Repair_Cost = null;
@@ -1053,7 +1068,9 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "FK_LU_Work_Completed", DbType.Decimal, this._FK_LU_Work_Completed);
 
-            db.AddInParameter(dbCommand, "Work_Completed_By", DbType.Boolean, this._Work_Completed_By);
+            db.AddInParameter(dbCommand, "FK_LU_Work_To_Be_Completed_By", DbType.Decimal, this._FK_LU_Work_To_Be_Completed_By);
+
+            //db.AddInParameter(dbCommand, "Work_Completed_By", DbType.Boolean, this._Work_Completed_By);
 
             db.AddInParameter(dbCommand, "Service_Repair_Cost", DbType.Decimal, this._Service_Repair_Cost);
 
@@ -1276,7 +1293,9 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "FK_LU_Work_Completed", DbType.Decimal, this._FK_LU_Work_Completed);
 
-            db.AddInParameter(dbCommand, "Work_Completed_By", DbType.Boolean, this._Work_Completed_By);
+            db.AddInParameter(dbCommand, "FK_LU_Work_To_Be_Completed_By", DbType.Decimal, this._FK_LU_Work_To_Be_Completed_By);
+
+            //db.AddInParameter(dbCommand, "Work_Completed_By", DbType.Boolean, this._Work_Completed_By);
 
             db.AddInParameter(dbCommand, "Service_Repair_Cost", DbType.Decimal, this._Service_Repair_Cost);
 
@@ -1389,7 +1408,7 @@ namespace ERIMS.DAL
 		}
 
         public static DataSet ManagementSearch(decimal? FK_LU_Location, decimal? FK_LU_Work_Completed, string Work_To_Complete_Other, decimal? FK_LU_Record_Type, string Record_Type_Other, string Created_By, string Job, string Order, DateTime? Date_Scheduled_From, DateTime? Date_Scheduled_To,
-            DateTime? Date_Complete_From, DateTime? Date_Complete_To, DateTime? CR_Approved_From, DateTime? CR_Approved_To, decimal? Location_Code, bool? Work_Completed_By, decimal? decFK_LU_Maintenance_Status, string strOrderBy, string strOrder, int intPageNo, int intPageSize, string ReferenceNumber, decimal? FK_LU_Approval_Submission)
+            DateTime? Date_Complete_From, DateTime? Date_Complete_To, DateTime? CR_Approved_From, DateTime? CR_Approved_To, decimal? Location_Code, decimal? FK_LU_Work_To_Be_Completed_By, decimal? decFK_LU_Maintenance_Status, string strOrderBy, string strOrder, int intPageNo, int intPageSize, string ReferenceNumber, decimal? FK_LU_Approval_Submission)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("ManagementSearch");
@@ -1426,7 +1445,8 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Created_By", DbType.String, Created_By);
             db.AddInParameter(dbCommand, "Job", DbType.String, Job);
             //db.AddInParameter(dbCommand, "Order", DbType.String, Order);
-            db.AddInParameter(dbCommand, "Work_Completed_By", DbType.Boolean, Work_Completed_By);
+            db.AddInParameter(dbCommand, "FK_LU_Work_To_Be_Completed_By", DbType.Decimal, FK_LU_Work_To_Be_Completed_By);
+            //db.AddInParameter(dbCommand, "Work_Completed_By", DbType.Boolean, Work_Completed_By);
             db.AddInParameter(dbCommand, "ReferenceNumber", DbType.String, ReferenceNumber);
             db.AddInParameter(dbCommand, "FK_LU_Approval_Submission", DbType.Decimal, FK_LU_Approval_Submission);
             db.AddInParameter(dbCommand, "FK_LU_Maintenance_Status", DbType.Decimal, decFK_LU_Maintenance_Status);

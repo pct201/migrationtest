@@ -280,7 +280,7 @@
                                 <asp:TemplateField HeaderText="Work Completed By">
                                     <ItemStyle CssClass="cols" />
                                     <ItemTemplate>
-                                        <asp:Label ID="lblWork_Completed_By" runat="server" Text='<%#Convert.ToString(Eval("Work_Completed_By"))=="Y"?"Yes":Convert.ToString(Eval("Work_Completed_By"))=="N"?"No":""%>'
+                                        <asp:Label ID="lblWork_Completed_By" runat="server" Text='<%#Eval("Work_Completed_By")%>'
                                             Width="150px"></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>

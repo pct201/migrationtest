@@ -296,6 +296,7 @@
           <!--<siteMapNode url="Administrator/LU_Approval_Submission.aspx" title="Approval Submission" description="" roles=""></siteMapNode>-->
           <siteMapNode url="Administrator/LU_Record_Type.aspx" title ="Record Type" description="" roles="" />
           <siteMapNode url="Administrator/LU_Work_Completed.aspx" title ="Work Completed" description="" roles="" />
+         <siteMapNode url="Administrator/LU_Work_To_Be_Completed_By.aspx" title ="Work To Be Completed By" description="" roles="" />
         </siteMapNode>
         <siteMapNode url="" title ="Policy" description="" roles="" >
           <siteMapNode url="Administrator/Policy_Type.aspx" title ="Policy Type" description="" roles="" />

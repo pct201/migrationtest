@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using System.Net.Mail;
 
 
+
 public partial class Management_Management : clsBasePage
 {
 
@@ -176,6 +177,7 @@ public partial class Management_Management : clsBasePage
         //ComboHelper.FillLU_Region(new DropDownList[] { drpRegion }, true);
         //ComboHelper.FillState(new DropDownList[] { drpState }, true);
         //ComboHelper.FillLU_Camera_Type(new DropDownList[] { drpCameraType }, true);
+        ComboHelper.FillWork_To_Be_Completed((new DropDownList[] { drpFK_Work_To_Be_Completed_By }), true);
 
     }
 
@@ -268,10 +270,10 @@ public partial class Management_Management : clsBasePage
 
         objRecord.Work_To_Complete_Other = txtWork_To_Complete_Other.Text;
 
-        if (!string.IsNullOrEmpty(Convert.ToString(rdoWork_Completed_By.SelectedValue)))
-            objRecord.Work_Completed_By = Convert.ToBoolean(Convert.ToInt32(rdoWork_Completed_By.SelectedValue));
-        else
-            objRecord.Work_Completed_By = null;
+        //if (!string.IsNullOrEmpty(Convert.ToString(rdoWork_Completed_By.SelectedValue)))
+        //    objRecord.Work_Completed_By = Convert.ToBoolean(Convert.ToInt32(rdoWork_Completed_By.SelectedValue));
+        //else
+        //    objRecord.Work_Completed_By = null;
 
         objRecord.Service_Repair_Cost = clsGeneral.GetDecimalNullableValue(txtService_Repair_Cost);
         //objRecord.Record_Type_Other = txtRecord_Type_Other.Text;
@@ -288,6 +290,11 @@ public partial class Management_Management : clsBasePage
             objRecord.FK_LU_Work_Completed = Convert.ToDecimal(drpFK_Work_Completed.SelectedValue);
         else
             objRecord.FK_LU_Work_Completed = null;
+
+        if (drpFK_Work_To_Be_Completed_By.SelectedIndex > 0)
+            objRecord.FK_LU_Work_To_Be_Completed_By = Convert.ToDecimal(drpFK_Work_To_Be_Completed_By.SelectedValue);
+        else
+            objRecord.FK_LU_Work_To_Be_Completed_By = null;
 
         //**************Approval Screen Fields starts********************//
         objRecord.GM_Email_To = txtGM_Email_To.Text;
@@ -394,14 +401,15 @@ public partial class Management_Management : clsBasePage
 
             clsGeneral.SetDropdownValue(drpFK_Record_Type, objRecord.FK_LU_Record_Type, true);
             clsGeneral.SetDropdownValue(drpFK_LU_Approval_Submission, objRecord.FK_LU_Approval_Submission, true);
-                        clsGeneral.SetDropdownValue(drpMaintenanceStatus, objRecord.FK_LU_Maintenance_Status, true);
+            clsGeneral.SetDropdownValue(drpMaintenanceStatus, objRecord.FK_LU_Maintenance_Status, true);
+            clsGeneral.SetDropdownValue(drpFK_Work_To_Be_Completed_By, objRecord.FK_LU_Work_To_Be_Completed_By, true);
 
             txtWork_To_Complete_Other.Text = objRecord.Work_To_Complete_Other;
 
-            if (!string.IsNullOrEmpty(Convert.ToString(objRecord.Work_Completed_By)))
-                rdoWork_Completed_By.SelectedValue = Convert.ToString(Convert.ToDecimal(objRecord.Work_Completed_By));
-            else
-                rdoWork_Completed_By.ClearSelection();
+            //if (!string.IsNullOrEmpty(Convert.ToString(objRecord.Work_Completed_By)))
+            //    rdoWork_Completed_By.SelectedValue = Convert.ToString(Convert.ToDecimal(objRecord.Work_Completed_By));
+            //else
+            //    rdoWork_Completed_By.ClearSelection();
 
             txtService_Repair_Cost.Text = clsGeneral.GetStringValue(objRecord.Service_Repair_Cost);
             //txtRecord_Type_Other.Text = objRecord.Record_Type_Other;
@@ -651,18 +659,23 @@ public partial class Management_Management : clsBasePage
             else
                 lblWork_To_Complete_Other.Text = string.Empty;
 
-            switch (objRecord.Work_Completed_By)
-            {
-                case true:
-                    lblrdoWork_Completed_By.Text = "ACI";
-                    break;
-                case false:
-                    lblrdoWork_Completed_By.Text = "Sonic";
-                    break;
-                default:
-                    lblrdoWork_Completed_By.Text = "";
-                    break;
-            }
+            //switch (objRecord.Work_Completed_By)
+            //{
+            //    case true:
+            //        lblrdoWork_Completed_By.Text = "ACI";
+            //        break;
+            //    case false:
+            //        lblrdoWork_Completed_By.Text = "Sonic";
+            //        break;
+            //    default:
+            //        lblrdoWork_Completed_By.Text = "";
+            //        break;
+            //}
+
+            if (objRecord.FK_LU_Work_To_Be_Completed_By != null)
+                lblWork_To_Be_Completed_By.Text = new LU_Work_To_Be_Completed_By((decimal)objRecord.FK_LU_Work_To_Be_Completed_By).Fld_Desc;
+            else
+                lblWork_To_Be_Completed_By.Text = string.Empty;
 
             lblService_Repair_Cost.Text = clsGeneral.GetStringValue(objRecord.Service_Repair_Cost);
             //lblRecord_Type_Other.Text = objRecord.Record_Type_Other;
@@ -1057,26 +1070,27 @@ public partial class Management_Management : clsBasePage
             strBody = strBody.Replace("[DateCompleted]", clsGeneral.FormatDBNullDateToDisplay(dtManagementDetail.Rows[0]["Date_Complete"]));
             strBody = strBody.Replace("[WorkToBeCompleted]", Convert.ToString(dtManagementDetail.Rows[0]["WorkToBeCompleted"]));
             strBody = strBody.Replace("[WorkToBeCompletedOther]", Convert.ToString(dtManagementDetail.Rows[0]["Work_To_Complete_Other"]));
+            strBody = strBody.Replace("[WorkToBeCompletedBy]", Convert.ToString(dtManagementDetail.Rows[0]["WorkToBeCompletedBy"]));
 
-            if (!DBNull.Value.Equals(dtManagementDetail.Rows[0]["Work_Completed_By"]))
-            {
-                switch (Convert.ToBoolean(dtManagementDetail.Rows[0]["Work_Completed_By"]))
-                {
-                    case false:
-                        strBody = strBody.Replace("[WorkToBeCompletedBy]", "Sonic");
-                        break;
-                    case true:
-                        strBody = strBody.Replace("[WorkToBeCompletedBy]", "ACI");
-                        break;
-                    default:
-                        strBody = strBody.Replace("[WorkToBeCompletedBy]", string.Empty);
-                        break;
-                }
-            }
-            else
-            {
-                strBody = strBody.Replace("[WorkToBeCompletedBy]", string.Empty);
-            }
+            //if (!DBNull.Value.Equals(dtManagementDetail.Rows[0]["Work_Completed_By"]))
+            //{
+            //    switch (Convert.ToBoolean(dtManagementDetail.Rows[0]["Work_Completed_By"]))
+            //    {
+            //        case false:
+            //            strBody = strBody.Replace("[WorkToBeCompletedBy]", "Sonic");
+            //            break;
+            //        case true:
+            //            strBody = strBody.Replace("[WorkToBeCompletedBy]", "ACI");
+            //            break;
+            //        default:
+            //            strBody = strBody.Replace("[WorkToBeCompletedBy]", string.Empty);
+            //            break;
+            //    }
+            //}
+            //else
+            //{
+            //    strBody = strBody.Replace("[WorkToBeCompletedBy]", string.Empty);
+            //}
 
             //if (!DBNull.Value.Equals(dtManagementDetail.Rows[0]["Task_Complete"]))
             //{

@@ -178,10 +178,11 @@
                             <td align="center" valign="top">:
                             </td>
                             <td align="left" valign="top">
-                                <asp:RadioButtonList ID="rdbWorkToBeCompletedBy" runat="server">
+                               <%-- <asp:RadioButtonList ID="rdbWorkToBeCompletedBy" runat="server">
                                     <asp:ListItem Text="ACI" Value="1"></asp:ListItem>
                                     <asp:ListItem Text="Sonic" Value="0"></asp:ListItem>
-                                </asp:RadioButtonList>
+                                </asp:RadioButtonList>--%>
+                                <asp:DropDownList ID="drpFK_Work_To_Be_Completed_By" runat="server" Width="205px" SkinID="dropGen"></asp:DropDownList>
                             </td>
                             <td align="left" valign="top">Status
                             </td>

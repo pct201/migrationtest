@@ -97,6 +97,7 @@ public partial class Management_ManagementSearch : clsBasePage
         //ComboHelper.FillStatus(drpClient_Issue, true);
         //ComboHelper.FillStatus(drpFacilities_Issue, true);
         ComboHelper.FillMaintenanceStatus((new DropDownList[] { drpFK_LU_Maintenance_Status }), true);
+        ComboHelper.FillWork_To_Be_Completed((new DropDownList[] { drpFK_Work_To_Be_Completed_By }), true);
     }
 
     /// <summary>
@@ -109,7 +110,7 @@ public partial class Management_ManagementSearch : clsBasePage
 
         #region "Variable"
 
-        decimal? decLocation = 0, decRecordType = 0, decLocation_Code = null, decWorkToBeCompleted = 0, decFK_LU_Approval_Submission = 0, decFK_LU_Maintenance_Status = 0;
+        decimal? decLocation = 0, decRecordType = 0, decLocation_Code = null, decWorkToBeCompleted = 0, decFK_LU_Approval_Submission = 0, decFK_LU_Maintenance_Status = 0, decFK_Work_To_Be_Completed_By = 0;
         DateTime? Date_Scheduled_From = null, Date_Scheduled_To = null, Date_Complete_From = null, Date_Complete_To = null, CR_Approved_From = null, CR_Approved_To = null;
         string strOtherWorkType = null, strOtherRecordType = null, strJob = null, strOrder = null, strCreatedBy = null, strReferenceNumber = null; 
 
@@ -146,16 +147,18 @@ public partial class Management_ManagementSearch : clsBasePage
 
         bool? Task_Complete = null, workToBeCompletedBy = null;
 
-        if (!string.IsNullOrEmpty(rdbWorkToBeCompletedBy.SelectedValue))
-        {
-            workToBeCompletedBy = Convert.ToBoolean(Convert.ToInt32(rdbWorkToBeCompletedBy.SelectedValue));
-        }
+        //if (!string.IsNullOrEmpty(rdbWorkToBeCompletedBy.SelectedValue))
+        //{
+        //    workToBeCompletedBy = Convert.ToBoolean(Convert.ToInt32(rdbWorkToBeCompletedBy.SelectedValue));
+        //}
 
         //if (!string.IsNullOrEmpty(rdbTaskComplete.SelectedValue))
         //{
         //    Task_Complete = Convert.ToBoolean(Convert.ToInt32(rdbTaskComplete.SelectedValue));
         //}
         if (!string.IsNullOrEmpty(txtReference_Number.Text)) strReferenceNumber = txtReference_Number.Text.Trim().Replace("'", "''");
+        if (drpFK_Work_To_Be_Completed_By.SelectedIndex > 0) decFK_Work_To_Be_Completed_By = Convert.ToDecimal(drpFK_Work_To_Be_Completed_By.SelectedValue);
+
         #endregion
 
         #region "Bind Grid"
@@ -163,7 +166,7 @@ public partial class Management_ManagementSearch : clsBasePage
         // selects records depending on paging criteria and search values.
         DataSet dsManagement = ERIMS.DAL.clsManagement.ManagementSearch(decLocation, decWorkToBeCompleted, strOtherWorkType,
             decRecordType, strOtherRecordType, strCreatedBy, strJob, strOrder, Date_Scheduled_From, Date_Scheduled_To, Date_Complete_From,
-            Date_Complete_To, CR_Approved_From, CR_Approved_To, decLocation_Code, workToBeCompletedBy, decFK_LU_Maintenance_Status, _SortBy, _SortOrder, PageNumber, PageSize,
+            Date_Complete_To, CR_Approved_From, CR_Approved_To, decLocation_Code, decFK_Work_To_Be_Completed_By, decFK_LU_Maintenance_Status, _SortBy, _SortOrder, PageNumber, PageSize,
             strReferenceNumber, decFK_LU_Approval_Submission);
         DataTable dtManagement = dsManagement.Tables[0];
 
@@ -319,11 +322,12 @@ public partial class Management_ManagementSearch : clsBasePage
         string strJob = Convert.ToString(drCriteria["strJob"]);
         string strOrder = Convert.ToString(drCriteria["strOrder"]);
         string strCreatedBy = Convert.ToString(drCriteria["strCreatedBy"]);
+        decimal? decWorkToBeCompletedBy = Convert.ToDecimal(drCriteria["decWorkToBeCompleted"]);
 
         bool? Task_Complete = null, workToBeCompletedBy = null;
 
-        if (drCriteria["workToBeCompletedBy"] != DBNull.Value)
-            workToBeCompletedBy = Convert.ToBoolean(drCriteria["workToBeCompletedBy"]);
+        //if (drCriteria["workToBeCompletedBy"] != DBNull.Value)
+        //    workToBeCompletedBy = Convert.ToBoolean(drCriteria["workToBeCompletedBy"]);
 
         if (drCriteria["Task_Complete"] != DBNull.Value)
             Task_Complete = Convert.ToBoolean(drCriteria["Task_Complete"]);
@@ -336,7 +340,7 @@ public partial class Management_ManagementSearch : clsBasePage
 
         DataSet dsManagement = ERIMS.DAL.clsManagement.ManagementSearch(decLocation, decWorkToBeCompleted, strOtherWorkType,
             decRecordType, strOtherRecordType, strCreatedBy, strJob, strOrder, Date_Scheduled_From, Date_Scheduled_To, Date_Complete_From, Date_Complete_To, CR_Approved_From,
-            CR_Approved_To, decLocation_Code, workToBeCompletedBy, decFk_LU_Maintenance_Status, _SortBy, _SortOrder, PageNumber, PageSize, strReferenceNumber, decFK_LU_Approval_Submission);
+            CR_Approved_To, decLocation_Code, decWorkToBeCompletedBy, decFk_LU_Maintenance_Status, _SortBy, _SortOrder, PageNumber, PageSize, strReferenceNumber, decFK_LU_Approval_Submission);
 
         // set values for paging control,so it shows values as needed.
         DataTable dtManagement = dsManagement.Tables[0];
@@ -652,7 +656,8 @@ public partial class Management_ManagementSearch : clsBasePage
         // show search filter panel
         pnlSearchResult.Visible = false;
         pnlSearchFilter.Visible = true;
-        rdbWorkToBeCompletedBy.ClearSelection();
+        //rdbWorkToBeCompletedBy.ClearSelection();
+        drpFK_Work_To_Be_Completed_By.SelectedIndex = 0;
         //rdbTaskComplete.ClearSelection();
 
         // Check User Rights
@@ -691,7 +696,7 @@ public partial class Management_ManagementSearch : clsBasePage
 
         //decimal? decState = Convert.ToDecimal(drCriteria["decState"]);
         decimal? decLocation = Convert.ToDecimal(drCriteria["decLocation"]);
-        decimal? decFK_LU_Maintenance_Status = Convert.ToDecimal(drCriteria["FK_LU_Maintenance_Status"]);
+        decimal? decFK_LU_Maintenance_Status = Convert.ToDecimal(drCriteria["decFK_LU_Maintenance_Status"]);
         //decimal? decRegion = Convert.ToDecimal(drCriteria["decRegion"]);
         //decimal? decCameraType = Convert.ToDecimal(drCriteria["decCameraType"]);
         //decimal? decCost = Convert.ToDecimal(drCriteria["decCost"]);
@@ -720,10 +725,12 @@ public partial class Management_ManagementSearch : clsBasePage
         string strOrder = Convert.ToString(drCriteria["strOrder"]);
         string strCreatedBy = Convert.ToString(drCriteria["strCreatedBy"]);
 
-        bool? Task_Complete = null, workToBeCompletedBy = null;
+        bool? Task_Complete = null;
 
-        if (drCriteria["workToBeCompletedBy"] != DBNull.Value)
-            workToBeCompletedBy = Convert.ToBoolean(drCriteria["workToBeCompletedBy"]);
+        //if (drCriteria["workToBeCompletedBy"] != DBNull.Value)
+        //    workToBeCompletedBy = Convert.ToBoolean(drCriteria["workToBeCompletedBy"]);
+
+        decimal? decWorkToBeCompletedBy = Convert.ToDecimal(drCriteria["decWorkToBeCompleted"]);
 
         if (drCriteria["Task_Complete"] != DBNull.Value)
             Task_Complete = Convert.ToBoolean(drCriteria["Task_Complete"]);
@@ -734,7 +741,7 @@ public partial class Management_ManagementSearch : clsBasePage
         // selects records depending on paging criteria and search values.
         DataSet dsManagement = ERIMS.DAL.clsManagement.ManagementSearch(decLocation, decWorkToBeCompleted, strOtherWorkType,
             decRecordType, strOtherRecordType, strCreatedBy, strJob, strOrder, Date_Scheduled_From, Date_Scheduled_To, Date_Complete_From, Date_Complete_To, CR_Approved_From,
-            CR_Approved_To, decLocation_Code, workToBeCompletedBy, decFK_LU_Maintenance_Status, _SortBy, _SortOrder, 1, ctrlPageProperty.TotalRecords, strReferenceNumber, decFK_LU_Approval_Submission);
+            CR_Approved_To, decLocation_Code, decWorkToBeCompletedBy, decFK_LU_Maintenance_Status, _SortBy, _SortOrder, 1, ctrlPageProperty.TotalRecords, strReferenceNumber, decFK_LU_Approval_Submission);
 
         DataTable dtManagement = dsManagement.Tables[0];
         ExportToSpreadsheet(dtManagement, "ManagementSearch.xls");
