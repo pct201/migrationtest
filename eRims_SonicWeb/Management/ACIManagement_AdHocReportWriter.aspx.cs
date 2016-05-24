@@ -1511,7 +1511,7 @@ public partial class Management_ACIManagement_AdHocReportWriter : clsBasePage
                     }
                     else if (lstAdHoc[0].Field_Header == "Work to Be Completed By")
                     {
-                        ComboHelper.FillManagementByWorkCompletedBy(new ListBox[] { lst_F }, false);
+                        ComboHelper.FillWork_Completed_By(new ListBox[] { lst_F },0, false);
                     }
                     else if (lstAdHoc[0].Field_Header == "Task Complete")
                     {
@@ -3293,7 +3293,7 @@ public partial class Management_ACIManagement_AdHocReportWriter : clsBasePage
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter1.Text, Convert.ToInt16(drpText_F1.SelectedItem.Value), chkNotCriteria1.Checked);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                 {
-                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Work to Be Completed By") || lstAdhoc[iSelected].Field_Header.Contains("Task Complete") || lstAdhoc[iSelected].Field_Header.Contains("GM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision") || lstAdhoc[iSelected].Field_Header.Contains("NAPM Decision") || lstAdhoc[iSelected].Field_Header.Contains("DRM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision");
+                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Task Complete") || lstAdhoc[iSelected].Field_Header.Contains("GM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision") || lstAdhoc[iSelected].Field_Header.Contains("NAPM Decision") || lstAdhoc[iSelected].Field_Header.Contains("DRM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision");
                     strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria1.Checked);
                 }
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
@@ -3317,7 +3317,7 @@ public partial class Management_ACIManagement_AdHocReportWriter : clsBasePage
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter2.Text, Convert.ToInt16(drpText_F2.SelectedItem.Value), chkNotCriteria2.Checked);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                 {
-                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Work to Be Completed By") || lstAdhoc[iSelected].Field_Header.Contains("Task Complete") || lstAdhoc[iSelected].Field_Header.Contains("GM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision") || lstAdhoc[iSelected].Field_Header.Contains("NAPM Decision") || lstAdhoc[iSelected].Field_Header.Contains("DRM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision");
+                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Task Complete") || lstAdhoc[iSelected].Field_Header.Contains("GM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision") || lstAdhoc[iSelected].Field_Header.Contains("NAPM Decision") || lstAdhoc[iSelected].Field_Header.Contains("DRM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision");
                     strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F2, bStringVal), chkNotCriteria2.Checked);
                 }
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
@@ -3340,7 +3340,7 @@ public partial class Management_ACIManagement_AdHocReportWriter : clsBasePage
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter3.Text, Convert.ToInt16(drpText_F3.SelectedItem.Value), chkNotCriteria3.Checked);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                 {
-                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Work to Be Completed By") || lstAdhoc[iSelected].Field_Header.Contains("Task Complete") || lstAdhoc[iSelected].Field_Header.Contains("GM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision") || lstAdhoc[iSelected].Field_Header.Contains("NAPM Decision") || lstAdhoc[iSelected].Field_Header.Contains("DRM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision");
+                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Task Complete") || lstAdhoc[iSelected].Field_Header.Contains("GM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision") || lstAdhoc[iSelected].Field_Header.Contains("NAPM Decision") || lstAdhoc[iSelected].Field_Header.Contains("DRM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision");
                     strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F3, bStringVal), chkNotCriteria3.Checked);
                 }
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
@@ -3362,7 +3362,7 @@ public partial class Management_ACIManagement_AdHocReportWriter : clsBasePage
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter4.Text, Convert.ToInt16(drpText_F4.SelectedItem.Value), chkNotCriteria4.Checked);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                 {
-                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Work to Be Completed By") || lstAdhoc[iSelected].Field_Header.Contains("Task Complete") || lstAdhoc[iSelected].Field_Header.Contains("GM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision") || lstAdhoc[iSelected].Field_Header.Contains("NAPM Decision") || lstAdhoc[iSelected].Field_Header.Contains("DRM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision");
+                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Task Complete") || lstAdhoc[iSelected].Field_Header.Contains("GM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision") || lstAdhoc[iSelected].Field_Header.Contains("NAPM Decision") || lstAdhoc[iSelected].Field_Header.Contains("DRM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision");
                     strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F4, bStringVal), chkNotCriteria4.Checked);
                 }
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
@@ -3383,7 +3383,7 @@ public partial class Management_ACIManagement_AdHocReportWriter : clsBasePage
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter5.Text, Convert.ToInt16(drpText_F5.SelectedItem.Value), chkNotCriteria5.Checked);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                 {
-                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Work to Be Completed By") || lstAdhoc[iSelected].Field_Header.Contains("Task Complete") || lstAdhoc[iSelected].Field_Header.Contains("GM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision") || lstAdhoc[iSelected].Field_Header.Contains("NAPM Decision") || lstAdhoc[iSelected].Field_Header.Contains("DRM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision");
+                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Task Complete") || lstAdhoc[iSelected].Field_Header.Contains("GM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision") || lstAdhoc[iSelected].Field_Header.Contains("NAPM Decision") || lstAdhoc[iSelected].Field_Header.Contains("DRM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision");
                     strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F5, bStringVal), chkNotCriteria5.Checked);
                 }
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
@@ -3406,7 +3406,7 @@ public partial class Management_ACIManagement_AdHocReportWriter : clsBasePage
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter6.Text, Convert.ToInt16(drpText_F6.SelectedItem.Value), chkNotCriteria6.Checked);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                 {
-                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Work to Be Completed By") || lstAdhoc[iSelected].Field_Header.Contains("Task Complete") || lstAdhoc[iSelected].Field_Header.Contains("GM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision") || lstAdhoc[iSelected].Field_Header.Contains("NAPM Decision") || lstAdhoc[iSelected].Field_Header.Contains("DRM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision");
+                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Task Complete") || lstAdhoc[iSelected].Field_Header.Contains("GM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision") || lstAdhoc[iSelected].Field_Header.Contains("NAPM Decision") || lstAdhoc[iSelected].Field_Header.Contains("DRM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision");
                     strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F6, bStringVal), chkNotCriteria6.Checked);
                 }
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
@@ -3427,7 +3427,7 @@ public partial class Management_ACIManagement_AdHocReportWriter : clsBasePage
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter7.Text, Convert.ToInt16(drpText_F7.SelectedItem.Value), chkNotCriteria7.Checked);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                 {
-                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Work to Be Completed By") || lstAdhoc[iSelected].Field_Header.Contains("Task Complete") || lstAdhoc[iSelected].Field_Header.Contains("GM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision") || lstAdhoc[iSelected].Field_Header.Contains("NAPM Decision") || lstAdhoc[iSelected].Field_Header.Contains("DRM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision");
+                    bool bStringVal =  lstAdhoc[iSelected].Field_Header.Contains("Task Complete") || lstAdhoc[iSelected].Field_Header.Contains("GM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision") || lstAdhoc[iSelected].Field_Header.Contains("NAPM Decision") || lstAdhoc[iSelected].Field_Header.Contains("DRM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision");
                     strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F7, bStringVal), chkNotCriteria7.Checked);
                 }
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
@@ -3449,7 +3449,7 @@ public partial class Management_ACIManagement_AdHocReportWriter : clsBasePage
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter8.Text, Convert.ToInt16(drpText_F8.SelectedItem.Value), chkNotCriteria8.Checked);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                 {
-                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Work to Be Completed By") || lstAdhoc[iSelected].Field_Header.Contains("Task Complete") || lstAdhoc[iSelected].Field_Header.Contains("GM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision") || lstAdhoc[iSelected].Field_Header.Contains("NAPM Decision") || lstAdhoc[iSelected].Field_Header.Contains("DRM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision");
+                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Task Complete") || lstAdhoc[iSelected].Field_Header.Contains("GM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision") || lstAdhoc[iSelected].Field_Header.Contains("NAPM Decision") || lstAdhoc[iSelected].Field_Header.Contains("DRM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision");
                     strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F8, bStringVal), chkNotCriteria8.Checked);
                 }
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
@@ -3472,7 +3472,7 @@ public partial class Management_ACIManagement_AdHocReportWriter : clsBasePage
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter9.Text, Convert.ToInt16(drpText_F9.SelectedItem.Value), chkNotCriteria9.Checked);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                 {
-                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Work to Be Completed By") || lstAdhoc[iSelected].Field_Header.Contains("Task Complete") || lstAdhoc[iSelected].Field_Header.Contains("GM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision") || lstAdhoc[iSelected].Field_Header.Contains("NAPM Decision") || lstAdhoc[iSelected].Field_Header.Contains("DRM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision");
+                    bool bStringVal =  lstAdhoc[iSelected].Field_Header.Contains("Task Complete") || lstAdhoc[iSelected].Field_Header.Contains("GM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision") || lstAdhoc[iSelected].Field_Header.Contains("NAPM Decision") || lstAdhoc[iSelected].Field_Header.Contains("DRM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision");
                     strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F9, bStringVal), chkNotCriteria9.Checked);
                 }
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
@@ -3494,7 +3494,7 @@ public partial class Management_ACIManagement_AdHocReportWriter : clsBasePage
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter10.Text, Convert.ToInt16(drpText_F10.SelectedItem.Value), chkNotCriteria10.Checked);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                 {
-                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Work to Be Completed By") || lstAdhoc[iSelected].Field_Header.Contains("Task Complete") || lstAdhoc[iSelected].Field_Header.Contains("GM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision") || lstAdhoc[iSelected].Field_Header.Contains("NAPM Decision") || lstAdhoc[iSelected].Field_Header.Contains("DRM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision");
+                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Task Complete") || lstAdhoc[iSelected].Field_Header.Contains("GM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision") || lstAdhoc[iSelected].Field_Header.Contains("NAPM Decision") || lstAdhoc[iSelected].Field_Header.Contains("DRM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision");
                     strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F10, bStringVal), chkNotCriteria10.Checked);
                 }
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
@@ -4917,7 +4917,7 @@ public partial class Management_ACIManagement_AdHocReportWriter : clsBasePage
         }
         else if (Field_Header == "Work to Be Completed By")
         {
-            ComboHelper.FillManagementByWorkCompletedBy(new ListBox[] { lst_F }, false);
+            ComboHelper.FillWork_Completed_By(new ListBox[] { lst_F },0, false);
         }
         else if (Field_Header == "Task Complete")
         {

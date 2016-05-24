@@ -5722,6 +5722,42 @@ public class ComboHelper
     /// <param name="dropDowns"></param>
     /// <param name="intID"></param>
     /// <param name="booladdSelectAsFirstElement"></param>
+    public static void FillWork_Completed_By(ListBox[] dropDowns, int intID, bool booladdSelectAsFirstElement)
+    {
+        DataTable dtData = ERIMS.DAL.LU_Work_To_Be_Completed_By.SelectAll().Tables[0];
+        dtData.DefaultView.RowFilter = "Active = 'Y'";
+        foreach (ListBox ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Fld_Desc";
+            ddlToFill.DataValueField = "PK_LU_Work_To_Be_Completed_By";
+            ddlToFill.DataSource = dtData;
+            //ddlToFill.Style.Add("font-size", "x-small");
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+            //check id greater 0 than find the value in dropdown list. if find than select the item.
+            if (intID > 0)
+            {
+                ListItem lst = new ListItem();
+                lst = ddlToFill.Items.FindByValue(intID.ToString());
+                if (lst != null)
+                {
+                    lst.Selected = true;
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="dropDowns"></param>
+    /// <param name="intID"></param>
+    /// <param name="booladdSelectAsFirstElement"></param>
     public static void FillRecord_Type(ListBox[] dropDowns, int intID, bool booladdSelectAsFirstElement)
     {
         DataTable dtData = ERIMS.DAL.clsLU_Record_Type.SelectAll().Tables[0];
