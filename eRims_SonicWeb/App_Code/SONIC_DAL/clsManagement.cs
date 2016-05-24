@@ -796,10 +796,10 @@ namespace ERIMS.DAL
                 else
                     this._FK_LU_Work_To_Be_Completed_By = (decimal?)drManagement["FK_LU_Work_To_Be_Completed_By"];
 
-                //if (drManagement["Work_Completed_By"] == DBNull.Value)
-                //    this._Work_Completed_By = null;
-                //else
-                //    this._Work_Completed_By = (bool?)drManagement["Work_Completed_By"];
+                if (drManagement["Work_Completed_By"] == DBNull.Value)
+                    this._Work_Completed_By = null;
+                else
+                    this._Work_Completed_By = (bool?)drManagement["Work_Completed_By"];
 
                 if (drManagement["Service_Repair_Cost"] == DBNull.Value)
                     this._Service_Repair_Cost = null;
@@ -1070,7 +1070,7 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "FK_LU_Work_To_Be_Completed_By", DbType.Decimal, this._FK_LU_Work_To_Be_Completed_By);
 
-            //db.AddInParameter(dbCommand, "Work_Completed_By", DbType.Boolean, this._Work_Completed_By);
+            db.AddInParameter(dbCommand, "Work_Completed_By", DbType.Boolean, this._Work_Completed_By);
 
             db.AddInParameter(dbCommand, "Service_Repair_Cost", DbType.Decimal, this._Service_Repair_Cost);
 
@@ -1295,7 +1295,7 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "FK_LU_Work_To_Be_Completed_By", DbType.Decimal, this._FK_LU_Work_To_Be_Completed_By);
 
-            //db.AddInParameter(dbCommand, "Work_Completed_By", DbType.Boolean, this._Work_Completed_By);
+            db.AddInParameter(dbCommand, "Work_Completed_By", DbType.Boolean, this._Work_Completed_By);
 
             db.AddInParameter(dbCommand, "Service_Repair_Cost", DbType.Decimal, this._Service_Repair_Cost);
 
