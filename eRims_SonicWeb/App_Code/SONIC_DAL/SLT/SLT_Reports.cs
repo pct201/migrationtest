@@ -73,15 +73,15 @@ public class SLT_Reports : System.Web.UI.Page
         fsMail.Close();
         LU_Location objLU_Location = new LU_Location(FK_LU_Location_ID);
         string Meeting_Points = "", Safety_Walk_Points = "", Incidents_Review_Points = "", Quality_Review = "", Total_Points = "", Score_Desc = "";
-        int Score = 0;
+        decimal Score = 0;
         if (objSLT_Meeting_Schedule.SLT_Score != null)
         {
-            Score = (int)objSLT_Meeting_Schedule.SLT_Score;
-            if (Score >= 0 && Score <= 23) Score_Desc = Charts.Tin_Label;
-            else if (Score >= 24 && Score <= 35) Score_Desc = Charts.Bronze_Label;
-            else if (Score >= 36 && Score <= 47) Score_Desc = Charts.Silver_Label;
-            else if (Score >= 48 && Score <= 59) Score_Desc = Charts.Gold_Label;
-            else if (Score >= 60) Score_Desc = Charts.Platinum_Label;
+            Score = (decimal)objSLT_Meeting_Schedule.SLT_Score;
+            if (Score >= 0 && Score <= 11.5m) Score_Desc = Charts.Tin_Label;
+            else if (Score > 11.5m && Score <= 17.5m) Score_Desc = Charts.Bronze_Label;
+            else if (Score > 17.5m && Score <= 23.5m) Score_Desc = Charts.Silver_Label;
+            else if (Score > 23.5m && Score < 30) Score_Desc = Charts.Gold_Label;
+            else if (Score >= 30) Score_Desc = Charts.Platinum_Label;
             else Score_Desc = "";
         }
         strBody = strBody.Replace("[Location_Dba]", objLU_Location.dba);
