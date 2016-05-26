@@ -4208,7 +4208,8 @@
                                                                         :
                                                                     </td>
                                                                     <td align="left" valign="top" width="28%">
-                                                                        <asp:DropDownList ID="drpFK_LU_Lease_Instance" Width="175px" SkinID="dropGen" runat="server" AutoPostBack="true" OnSelectedIndexChanged="drpFK_LU_Lease_Instance_SelectedIndexChanged">
+                                                                        <asp:DropDownList ID="drpFK_LU_Lease_Instance" Width="175px" SkinID="dropGen" runat="server" AutoPostBack="true" OnSelectedIndexChanged="drpFK_LU_Lease_Instance_SelectedIndexChanged" 
+                                                                            CausesValidation="false" onchange="Page_BlockSubmit = false;" >
                                                                         </asp:DropDownList>
                                                                     </td>
                                                                 </tr>
