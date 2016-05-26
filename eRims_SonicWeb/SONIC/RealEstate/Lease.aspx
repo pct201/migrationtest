@@ -4200,6 +4200,18 @@
                                                                Lease Maintenance Obligations
                                                             </div>
                                                              <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                                                  <tr>
+                                                                    <td align="left" valign="top" width="18%">
+                                                                       Lease Instance&nbsp;<span id="spanLeaseInstance" style="color: Red; display: none;" runat="server">*</span>
+                                                                    </td>
+                                                                    <td align="center" valign="top" width="4%">
+                                                                        :
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="28%">
+                                                                        <asp:DropDownList ID="drpFK_LU_Lease_Instance" Width="175px" SkinID="dropGen" runat="server" AutoPostBack="true" OnSelectedIndexChanged="drpFK_LU_Lease_Instance_SelectedIndexChanged">
+                                                                        </asp:DropDownList>
+                                                                    </td>
+                                                                </tr>
                                                                 <tr>
                                                                     <td align="left" valign="top">
                                                                         HVAC Repairs&nbsp;<span id="spanHVACRepairs" style="color: Red; display: none;" runat="server">*</span>
@@ -7343,6 +7355,18 @@
                                                                  Lease Maintenance Obligations
                                                             </div>
                                                             <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                                                <tr>
+                                                                    <td align="left" valign="top" width="18%">
+                                                                       Lease Instance
+                                                                    </td>
+                                                                    <td align="center" valign="top" width="4%">
+                                                                        :
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="28%">
+                                                                        <asp:Label ID="lblLeaseInstance" runat="server">
+                                                                        </asp:Label>
+                                                                    </td>
+                                                                </tr>
                                                                 <tr>
                                                                     <td align="left" valign="top" width="18%">
                                                                         HVAC Repairs

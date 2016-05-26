@@ -71,6 +71,7 @@ namespace ERIMS.DAL
         private decimal? _FK_Roof_Repairs;
         private string _Other_Repairs;
         private string _Maintenance_Notes;
+        private decimal? _FK_LU_Lease_Instance_ID;
 
         #endregion
 
@@ -583,6 +584,15 @@ namespace ERIMS.DAL
             set { _Maintenance_Notes = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the FK_LU_Lease_Instance_ID.
+        /// </summary>
+        public decimal? FK_LU_Lease_Instance_ID
+        {
+            get { return _FK_LU_Lease_Instance_ID; }
+            set { _FK_LU_Lease_Instance_ID = value; }
+        }
+
         #endregion
 
         #region Default Constructors
@@ -884,6 +894,11 @@ namespace ERIMS.DAL
                 else
                     this._Maintenance_Notes = (string)drRE_Information["Maintenance_Notes"];
 
+                if (drRE_Information["FK_LU_Lease_Instance_ID"] == DBNull.Value)
+                    this._FK_LU_Lease_Instance_ID = null;
+                else
+                    this._FK_LU_Lease_Instance_ID = (decimal?)drRE_Information["FK_LU_Lease_Instance_ID"];
+
             }
             else
             {
@@ -1177,6 +1192,11 @@ namespace ERIMS.DAL
                     this._Maintenance_Notes = null;
                 else
                     this._Maintenance_Notes = (string)drRE_Information["Maintenance_Notes"];
+
+                if (drRE_Information["FK_LU_Lease_Instance_ID"] == DBNull.Value)
+                    this._FK_LU_Lease_Instance_ID = null;
+                else
+                    this._FK_LU_Lease_Instance_ID = (decimal?)drRE_Information["FK_LU_Lease_Instance_ID"];
             }
             else
             {
@@ -1247,6 +1267,7 @@ namespace ERIMS.DAL
             this._FK_Roof_Repairs = null;
             this._Other_Repairs = null;
             this._Maintenance_Notes = null;
+            this._FK_LU_Lease_Instance_ID = null;
         }
 
         /// <summary>
@@ -1463,6 +1484,8 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Maintenance_Notes", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Maintenance_Notes", DbType.String, this._Maintenance_Notes);
+
+            db.AddInParameter(dbCommand, "FK_LU_Lease_Instance_ID", DbType.Decimal, this._FK_LU_Lease_Instance_ID);
 
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -1709,6 +1732,8 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Maintenance_Notes", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Maintenance_Notes", DbType.String, this._Maintenance_Notes);
+
+            db.AddInParameter(dbCommand, "FK_LU_Lease_Instance_ID", DbType.Decimal, this._FK_LU_Lease_Instance_ID);
 
             db.ExecuteNonQuery(dbCommand);
         }
