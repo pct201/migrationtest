@@ -4696,6 +4696,15 @@ public partial class SONIC_Exposures_Lease : clsBasePage
                 #endregion
             }
         }
+        else
+        {
+            spanHVACRepairs.Style["display"] = "none";
+            spanCapital.Style["display"] = "none";
+            span36.Style["display"] = "none";
+            span160.Style["display"] = "none";
+            Span161.Style["display"] = "none";
+            Span162.Style["display"] = "none";
+        }
 
         #endregion
 
