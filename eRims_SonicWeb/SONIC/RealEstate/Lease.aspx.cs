@@ -4645,6 +4645,9 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         // set menu 1 asterisk display
         MenuAsterisk11.Style["display"] = (dtFields.Select("LeftMenuIndex =8").Length > 0) ? "inline-block" : "none";
 
+        strCtrlsIDs += drpFK_LU_Lease_Instance.ClientID + ",";
+        strMessages += "Please select [Lease Maint Obligation]/Lease Instance" + ",";
+        spanLeaseInstance.Style["display"] = "inline-block";
 
         if ((drpFK_LU_Lease_Instance.SelectedItem.Text).ToUpper() == "BUILDING")
         {
@@ -4859,81 +4862,7 @@ public partial class SONIC_Exposures_Lease : clsBasePage
 
     protected void drpFK_LU_Lease_Instance_SelectedIndexChanged(object sender, EventArgs e)
     {
-        string strCtrlsIDs = "";
-        string strMessages = "";
-
-        if ((drpFK_LU_Lease_Instance.SelectedItem.Text).ToUpper() == "BUILDING")
-        {
-            DataTable dtFields;
-            dtFields = clsScreen_Validators.SelectByScreen(218).Tables[0];
-            dtFields.DefaultView.RowFilter = "IsRequired = '1'";
-            dtFields = dtFields.DefaultView.ToTable();
-            // set menu 1 asterisk display
-            MenuAsterisk11.Style["display"] = (dtFields.Select("LeftMenuIndex =8").Length > 0) ? "inline-block" : "none";
-
-            foreach (DataRow drField in dtFields.Rows)
-            {
-                switch (Convert.ToString(drField["Field_Name"]))
-                {
-                    case "HVAC Repairs":
-                        strCtrlsIDs += drpFK_HVAC_Repairs.ClientID + ",";
-                        strMessages += "Please select [Lease Maint Obligation]/HVAC Repairs" + ",";
-                        spanHVACRepairs.Style["display"] = "inline-block";
-                        break;
-
-                    case "HVAC Capital":
-                        strCtrlsIDs += drpFK_HVAC_Capital.ClientID + ",";
-                        strMessages += "Please select [Lease Maint Obligation]/HVAC Capital" + ",";
-                        spanCapital.Style["display"] = "inline-block";
-                        break;
-
-                    case "Roof Repairs":
-                        strCtrlsIDs += drpFK_Roof_Repairs.ClientID + ",";
-                        strMessages += "Please select [Lease Maint Obligation]/Roof Repairs" + ",";
-                        span36.Style["display"] = "inline-block";
-                        break;
-
-                    case "Roof Capital":
-                        strCtrlsIDs += drpFK_Roof_Capital.ClientID + ",";
-                        strMessages += "Please select [Lease Maint Obligation]/Roof Capital" + ",";
-                        span160.Style["display"] = "inline-block";
-                        break;
-
-                    case "Other Repairs":
-                        strCtrlsIDs += txtOtherRepairs.ClientID + ",";
-                        strMessages += "Please enter [Lease Maint Obligation]/Other Repairs" + ",";
-                        Span161.Style["display"] = "inline-block";
-                        break;
-
-                    case "Maintenance Notes":
-                        strCtrlsIDs += txtMaintenanceNotes.ClientID + ",";
-                        strMessages += "Please enter [Lease Maint Obligation]/Maintenance Notes" + ",";
-                        Span162.Style["display"] = "inline-block";
-                        break;
-                }
-            }
-
-            strCtrlsIDs = strCtrlsIDs.TrimEnd(',');
-            strMessages = strMessages.TrimEnd(',');
-
-            hdnControlIDs.Value = strCtrlsIDs;
-            hdnErrorMsgs.Value = strMessages;
-        }
-        else
-        {
-            spanHVACRepairs.Style["display"] = "none";
-            spanCapital.Style["display"] = "none";
-            span36.Style["display"] = "none";
-            span160.Style["display"] = "none";
-            Span161.Style["display"] = "none";
-            Span162.Style["display"] = "none";
-            strCtrlsIDs = "";
-            strMessages = "";
-            hdnControlIDs.Value = strCtrlsIDs;
-            hdnErrorMsgs.Value = strMessages;
-
-        }
-              
+        SetValidations();
         ShowPanel(11);
 
     }
