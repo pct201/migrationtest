@@ -4645,6 +4645,10 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         // set menu 1 asterisk display
         MenuAsterisk11.Style["display"] = (dtFields.Select("LeftMenuIndex =8").Length > 0) ? "inline-block" : "none";
 
+        strCtrlsIDs += drpFK_LU_Lease_Instance.ClientID + ",";
+        strMessages += "Please select [Lease Maint Obligation]/Lease Instance" + ",";
+        spanLeaseInstance.Style["display"] = "inline-block";
+
         if ((drpFK_LU_Lease_Instance.SelectedItem.Text).ToUpper() == "BUILDING")
         {
 
