@@ -217,7 +217,10 @@
                                 </th> 
                                 <th class="cols">
 	                                <span style="display: inline-block;width:300px;">Maintenance Notes</span>
-                                </th>                                                                
+                                </th>   
+                                 <th class="cols">
+	                                <span style="display: inline-block;width:300px;">Lease Instance</span>
+                                </th>                                                              
                                 <th class="cols">
                                     <span style="display: inline-block; width: 110px;">Updated_By</span>
                                 </th>
@@ -569,6 +572,12 @@
 	                            <ItemStyle CssClass="cols" />
 	                            <ItemTemplate>
 		                            <asp:Label ID="lblMaintenance_Notes" runat="server" Text='<%# Eval("Maintenance_Notes")%>' Width="300px" CssClass="TextClip"></asp:Label>
+	                            </ItemTemplate>
+                            </asp:TemplateField>
+                             <asp:TemplateField HeaderText="Lease Instance" >
+	                            <ItemStyle CssClass="cols" />
+	                            <ItemTemplate>
+		                            <asp:Label ID="lblLease_Instance" runat="server" Text='<%# Eval("Lease_Instance")%>' Width="300px"></asp:Label>
 	                            </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Updated_By">
