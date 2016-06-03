@@ -97,7 +97,7 @@ public partial class Administrator_SabaTrainingImportExport : clsBasePage
         //Export grid with location to excel
         gvSabaTraining.DataSource = dtExport;
         gvSabaTraining.DataBind();
-        GridViewExportUtil.ExportGrid("Saba_Training_Spreadsheet.xls", gvSabaTraining);
+        GridViewExportUtil.ExportGrid("Saba_Training_Spreadsheet.xlsx", gvSabaTraining, true);
     }
 
     /// <summary>
@@ -183,7 +183,7 @@ public partial class Administrator_SabaTrainingImportExport : clsBasePage
                                                     objException = Saba_Training_Exceptions.Invalid_Location;
                                                     AppendLogPolicyException(dr, objException);
                                                 }
-                                                else if (!strLocation.Trim().ToLower().Equals(objLocation.dba.Replace("'","''").Trim().ToLower()))
+                                                else if (!strLocation.Trim().ToLower().Equals(objLocation.dba.Replace("'", "''").Trim().ToLower()))
                                                 {
                                                     objException = Saba_Training_Exceptions.No_Combination_Location_Property_Cope;
                                                     AppendLogPolicyException(dr, objException);
@@ -214,13 +214,13 @@ public partial class Administrator_SabaTrainingImportExport : clsBasePage
                                                 {
                                                     objException = Saba_Training_Exceptions.Blank_Year;
                                                     AppendLogPolicyException(dr, objException);
-                                                }                                                
+                                                }
 
                                                 if (objSabaTraining.Year == null && Convert.ToString(dr["Quarter"]) == "")
                                                 {
                                                     objException = Saba_Training_Exceptions.Blank_Quarter;
                                                     AppendLogPolicyException(dr, objException);
-                                                }                                               
+                                                }
 
                                                 if (objSabaTraining.Number_of_Employees != null && objSabaTraining.Number_Trained != null && (objSabaTraining.Number_of_Employees < objSabaTraining.Number_Trained))
                                                 {
@@ -238,7 +238,7 @@ public partial class Administrator_SabaTrainingImportExport : clsBasePage
                                                 //    objException = Saba_Training_Exceptions.Invalid_Date;
                                                 //    AppendLogPolicyException(dr, objException);
                                                 //}
-                                               
+
                                             }
                                         }
                                         else
@@ -334,12 +334,12 @@ public partial class Administrator_SabaTrainingImportExport : clsBasePage
         #region "Add Saba Training Property Cope data "
         objSabaTraining.PK_Property_COPE_Saba_Training = 0;
         objSabaTraining.FK_Property_COPE = Convert.ToDecimal(dr["PK_Property_COPE_Id"]);
-        
+
         if (Convert.ToString(dr["Number Of Associates To Be Trained In Quarter"]) != "")
         {
             int NumberEmp;
             int.TryParse(Convert.ToString(dr["Number Of Associates To Be Trained In Quarter"]), out NumberEmp);
-            if(NumberEmp >= 0)
+            if (NumberEmp >= 0)
                 objSabaTraining.Number_of_Employees = NumberEmp;
             else
             {
@@ -353,7 +353,7 @@ public partial class Administrator_SabaTrainingImportExport : clsBasePage
             int NumberEmp;
             int.TryParse(Convert.ToString(dr["Number of Associates Trained In Quarter"]), out NumberEmp);
 
-            if(NumberEmp >= 0)
+            if (NumberEmp >= 0)
                 objSabaTraining.Number_Trained = NumberEmp;
             else
             {

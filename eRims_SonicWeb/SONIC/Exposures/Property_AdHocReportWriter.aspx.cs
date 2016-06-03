@@ -89,7 +89,7 @@ public partial class Property_AdHocReportWriter : clsBasePage
         {
         string data = File.ReadAllText(strFilePath);
         data = data.Trim();
-        HTML2Excel objHtml2Excel = new HTML2Excel(data);
+        AdhocHTML2Excel objHtml2Excel = new AdhocHTML2Excel(data);
          outputFiles = Path.GetFullPath(strFilePath) + ".xlsx";
          blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
         }
@@ -134,7 +134,7 @@ public partial class Property_AdHocReportWriter : clsBasePage
         {
             string data = File.ReadAllText(strFilePath);
             data = data.Trim();
-            HTML2Excel objHtml2Excel = new HTML2Excel(data);
+            AdhocHTML2Excel objHtml2Excel = new AdhocHTML2Excel(data);
             outputFiles = Path.GetFullPath(strFilePath) + ".xlsx";
             blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
         }

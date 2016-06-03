@@ -67,7 +67,7 @@ public partial class SONIC_RealEstate_rptCriticalDates : clsBasePage
 
             // create a table cell with the heading text
             TableCell Cell = new TableCell();
-            Cell.Text = "<table width='100%' style='font-weight: bold;' cellspacing=0 cellpadding=4><tr>" +
+            Cell.Text = "<table width='100%' style='font-weight: bold;' cellspacing=0 cellpadding=4><tr style='font-weight: bold;'>" +
                                 "<td colspan='2' align='left' >Sonic Automotive</td>" +
                                 "<td colspan='3' align='center' >Critical Dates Report</td>" +
                                 "<td colspan='4' align='right'>" + clsGeneral.FormatDateToDisplay(DateTime.Now) + " " + strTime + "</td></tr></table>";
@@ -79,7 +79,7 @@ public partial class SONIC_RealEstate_rptCriticalDates : clsBasePage
             ((Table)gvDBA.Controls[0]).Rows.AddAt(0, row);
         }
     }
-     
+
     /// <summary>
     /// handle Export To Excel Link button Click event
     /// </summary>
@@ -89,13 +89,13 @@ public partial class SONIC_RealEstate_rptCriticalDates : clsBasePage
     {
         // show gridlines to be shown in excel
         gvDBA.GridLines = GridLines.Both;
-        ((HtmlTable)gvDBA.HeaderRow.FindControl("tblHeader")).Border = 1;        
+        ((HtmlTable)gvDBA.HeaderRow.FindControl("tblHeader")).Border = 1;
         ((HtmlTable)gvDBA.FooterRow.FindControl("tblFooter")).Border = 1;
-        ((HtmlTable)gvDBA.HeaderRow.FindControl("tblBLHeader")).Border = 1;    
+        ((HtmlTable)gvDBA.HeaderRow.FindControl("tblBLHeader")).Border = 1;
 
         foreach (GridViewRow gRow in gvDBA.Rows)
         {
-            ((HtmlTable)gRow.FindControl("tblDetails")).Border = 1;        
+            ((HtmlTable)gRow.FindControl("tblDetails")).Border = 1;
         }
         foreach (GridViewRow gRow in gvDBA.Rows)
         {
@@ -107,30 +107,31 @@ public partial class SONIC_RealEstate_rptCriticalDates : clsBasePage
 
         if (gvDBA.Rows.Count > 0)
         {
-            string data = GridViewExportUtil.ExportAdHoc_New(this.gvDBA);
-            data = data.Trim();
-            HTML2Excel objHtml2Excel = new HTML2Excel(data);
-            string strPath = AppConfig.SitePath + @"temp\";
-            string fileName = "CriticalDates.xlsx";
-            string outputFiles = Path.GetFullPath(strPath + fileName);
-            bool blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
-            if ((blnHTML2Excel == true) && File.Exists(outputFiles))
-            {
-                try
-                {
-                    HttpContext.Current.Response.Clear();
-                    HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", fileName));
-                    HttpContext.Current.Response.ContentType = "application/ms-excel";
-                    HttpContext.Current.Response.TransmitFile(outputFiles);
-                    HttpContext.Current.Response.Flush();
-                }
-                finally
-                {
-                    if (File.Exists(outputFiles))
-                        File.Delete(outputFiles);
-                    HttpContext.Current.Response.End();
-                }
-            }
+            //string data = GridViewExportUtil.ExportAdHoc_New(this.gvDBA);
+            //data = data.Trim();
+            //HTML2Excel objHtml2Excel = new HTML2Excel(data);
+            //string strPath = AppConfig.SitePath + @"temp\";
+            //string fileName = "CriticalDates.xlsx";
+            //string outputFiles = Path.GetFullPath(strPath + fileName);
+            //bool blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
+            //if ((blnHTML2Excel == true) && File.Exists(outputFiles))
+            //{
+            //    try
+            //    {
+            //        HttpContext.Current.Response.Clear();
+            //        HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", fileName));
+            //        HttpContext.Current.Response.ContentType = "application/ms-excel";
+            //        HttpContext.Current.Response.TransmitFile(outputFiles);
+            //        HttpContext.Current.Response.Flush();
+            //    }
+            //    finally
+            //    {
+            //        if (File.Exists(outputFiles))
+            //            File.Delete(outputFiles);
+            //        HttpContext.Current.Response.End();
+            //    }
+            //}
+            GridViewExportUtil.ExportGrid("CriticalDatesReport.xlsx", gvDBA, false);
         }
 
         // hide gridlines
@@ -138,7 +139,7 @@ public partial class SONIC_RealEstate_rptCriticalDates : clsBasePage
         ((HtmlTable)gvDBA.HeaderRow.FindControl("tblHeader")).Border = 0;
         ((HtmlTable)gvDBA.HeaderRow.FindControl("tblDetails")).Border = 0;
         ((HtmlTable)gvDBA.FooterRow.FindControl("tblFooter")).Border = 0;
-        ((HtmlTable)gvDBA.HeaderRow.FindControl("tblBLHeader")).Border = 0;    
+        ((HtmlTable)gvDBA.HeaderRow.FindControl("tblBLHeader")).Border = 0;
 
         foreach (GridViewRow gRow in gvDBA.Rows)
         {
@@ -209,7 +210,7 @@ public partial class SONIC_RealEstate_rptCriticalDates : clsBasePage
     protected void btnShowReport_Click(object sender, EventArgs e)
     {
         DateTime? dtLCDFrom = null, dtLCDTo = null, dtLEDFrom = null, dtLEDTo = null;
-        string strRegion = string.Empty, strLocationStatus = string.Empty, strMarket = string.Empty;  
+        string strRegion = string.Empty, strLocationStatus = string.Empty, strMarket = string.Empty;
         DataSet dsResult;
 
         if (txtLCDateFrom.Text.Trim() != string.Empty)
@@ -239,7 +240,7 @@ public partial class SONIC_RealEstate_rptCriticalDates : clsBasePage
                 strMarket = strMarket + "'" + li.Value + "',";
         }
         strMarket = strMarket.TrimEnd(',');
-                
+
         strTime = "";
 
         foreach (ListItem li in lstBuildingStatus.Items)

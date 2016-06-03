@@ -113,7 +113,7 @@ public partial class SONIC_ClaimInfo_rptTPALagSummary : clsBasePage
         }
 
         // export data to excel from gridview
-        GridViewExportUtil.ExportGrid("TPALagSummaryReport.xlsx", gvDescription);
+        GridViewExportUtil.ExportGrid("TPALagSummaryReport.xlsx", gvDescription, true);
 
         // reset the settings
         foreach (GridViewRow gvRow in gvDescription.Rows)

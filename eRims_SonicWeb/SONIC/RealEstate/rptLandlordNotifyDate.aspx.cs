@@ -67,7 +67,7 @@ public partial class SONIC_RealEstate_rptLandlordNotifyDate : clsBasePage
 
             // create a table cell with the heading text
             TableCell Cell = new TableCell();
-            Cell.Text = "<table width='100%' style='font-weight: bold;' cellspacing=0 cellpadding=4><tr>" +
+            Cell.Text = "<table width='100%' style='font-weight: bold;' cellspacing=0 cellpadding=4><tr style='font-weight: bold;'>" +
                                 "<td colspan='2' align='left' >Sonic Automotive</td>" +
                                 "<td colspan='3' align='center' >Landlord Notification Report</td>" +
                                 "<td colspan='4' align='right'>" + clsGeneral.FormatDateToDisplay(DateTime.Now) + " " + strTime + "</td></tr></table>";
@@ -103,7 +103,7 @@ public partial class SONIC_RealEstate_rptLandlordNotifyDate : clsBasePage
             gvDetail.GridLines = GridLines.Both;
         }
         // export gridview to excel
-        GridViewExportUtil.ExportGrid("LandlordNotificationReport.xlsx", gvDBA);
+        GridViewExportUtil.ExportGrid("LandlordNotificationReport.xlsx", gvDBA, false);
 
         // hide gridlines
         gvDBA.GridLines = GridLines.None;

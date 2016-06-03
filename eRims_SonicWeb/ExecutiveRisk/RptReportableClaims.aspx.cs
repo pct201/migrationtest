@@ -96,7 +96,7 @@ public partial class ERReports_ReportableClaims : clsBasePage
         }
 
         // export data to excel from gridview
-        GridViewExportUtil.ExportGrid("Immediately_Reportable_Claims.xlsx", gvReport);
+        GridViewExportUtil.ExportGrid("Immediately_Reportable_Claims.xlsx", gvReport, true);
 
         // reset the settings
         gvReport.GridLines = GridLines.None;
@@ -128,7 +128,7 @@ public partial class ERReports_ReportableClaims : clsBasePage
 
             // create a table cell to be added in row
             TableCell Cell = new TableCell();
-            
+            Cell.ColumnSpan = 19;
             // set text for the cell
             if (strTime == "") strTime = string.Format("{0:t}", DateTime.Now);
             string strCellText = "FINPRO Immediately Reportable Claims<br />" + DateTime.Now.ToLongDateString() + " " + strTime + "<br/>";

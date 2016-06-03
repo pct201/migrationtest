@@ -258,7 +258,7 @@ public partial class SONIC_RealEstate_rptLeaseDetailReport : clsBasePage
         }
 
         // export data to excel from gridview
-        GridViewExportUtil.ExportGrid("LeaseDetaiolReport.xls", gvRegion);
+        GridViewExportUtil.ExportGrid("LeaseDetaiolReport.xlsx", gvRegion, true);
 
         // reset the settings
         gvRegion.GridLines = GridLines.None;

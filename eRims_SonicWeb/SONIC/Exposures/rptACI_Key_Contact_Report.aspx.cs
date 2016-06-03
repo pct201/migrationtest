@@ -207,6 +207,7 @@ public partial class SONIC_Exposures_rptACI_Key_Contact_Report : clsBasePage
         foreach (DataColumn column in table.Columns)
         {
             ws.Cells[row, col].Value = column.ColumnName.ToString();
+            ws.Cells[row, col].Style.Font.Bold = true;
             col++;
         }
         col = 1;

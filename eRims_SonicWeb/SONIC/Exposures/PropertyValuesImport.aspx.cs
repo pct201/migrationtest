@@ -45,7 +45,7 @@ public partial class SONIC_Exposures_PropertyValuesImport : clsBasePage
 
         // export data to excel sheet
         //clsGeneral.ExportData(dtPropertyValues, "Propert Values Spreadsheet");
-        GridViewExportUtil.ExportGrid("Propert_Values_Spreadsheet.xls", gvBuilding);
+        GridViewExportUtil.ExportGrid("Propert_Values_Spreadsheet.xls", gvBuilding, true);
     }
 
     /// <summary>

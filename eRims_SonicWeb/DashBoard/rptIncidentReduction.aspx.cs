@@ -85,7 +85,7 @@ public partial class rptIncidentReduction : clsBasePage
     /// <param name="e"></param>
     protected void lbtExportToExcel_Click(object sender, EventArgs e)
     {
-        GridViewExportUtil.ExportGrid("Outside Insurance Coverage Daily Report.xlsx", lblReport);
+        GridViewExportUtil.ExportGrid("Incident Reduction Report.xlsx", lblReport);
     }
     /// <summary>
     /// Back hrom report to Criteria

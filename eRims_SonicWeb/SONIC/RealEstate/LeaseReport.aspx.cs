@@ -67,7 +67,7 @@ public partial class SONIC_RealEstate_LeaseReport : clsBasePage
 
             // create a table cell with the heading text
             TableCell Cell = new TableCell();
-            Cell.Text = "<table width='100%' style='font-weight: bold;' cellspacing=0 cellpadding=4><tr>" +
+            Cell.Text = "<table width='100%' style='font-weight: bold;' cellspacing=0 cellpadding=4><tr style='font-weight: bold;'>" +
                                 "<td colspan='2' align='left' >Sonic Automotive</td>" +
                                 "<td colspan='3' align='center' >Lease Report</td>" +
                                 "<td colspan='6' align='right'>" + clsGeneral.FormatDateToDisplay(DateTime.Now) + " " + strTime + "</td></tr></table>";
@@ -91,7 +91,7 @@ public partial class SONIC_RealEstate_LeaseReport : clsBasePage
         gvDBA.GridLines = GridLines.Both;
         ((HtmlTable)gvDBA.HeaderRow.FindControl("tblHeader")).Border = 1;
         ((HtmlTable)gvDBA.FooterRow.FindControl("tblFooter")).Border = 1;
-        ((HtmlTable)gvDBA.HeaderRow.FindControl("tblBLHeader")).Border = 1;
+        ((HtmlTable)gvDBA.HeaderRow.FindControl("tblBLHeader")).Border = 1;       
 
         foreach (GridViewRow gRow in gvDBA.Rows)
         {
@@ -105,7 +105,7 @@ public partial class SONIC_RealEstate_LeaseReport : clsBasePage
         }
 
         // export gridview to excel
-        GridViewExportUtil.ExportGrid("LeaseReport.xlsx", gvDBA);
+        GridViewExportUtil.ExportGrid("LeaseReport.xlsx", gvDBA, false);
 
         // hide gridlines
         gvDBA.GridLines = GridLines.None;

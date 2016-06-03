@@ -112,7 +112,7 @@ public partial class SONIC_ClaimInfo_rptInsurerLagSummary : clsBasePage
         }
 
         // export data to excel from gridview
-        GridViewExportUtil.ExportGrid("InsurerLagSummaryReport.xlsx", gvDescription);
+        GridViewExportUtil.ExportGrid("InsurerLagSummaryReport.xlsx", gvDescription, true);
 
         // reset the settings
         foreach (GridViewRow gvRow in gvDescription.Rows)

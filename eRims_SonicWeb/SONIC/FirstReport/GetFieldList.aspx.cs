@@ -56,7 +56,7 @@ public partial class Administrator_GetFieldList : System.Web.UI.Page
                 gv.DataSource = dtFinal;
                 gv.DataBind();
 
-                GridViewExportUtil.ExportGrid("FieldList.xls", gv);
+                GridViewExportUtil.ExportGrid("FieldList.xlsx", gv, true);
             }
         }
     }

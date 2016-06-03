@@ -306,9 +306,12 @@ public partial class SONIC_Exposures_rptPropertyStatementofValues : clsBasePage
 
                 for (int i = 0; i < dtTemp.Columns.Count; i++)
                 {
-                    TableCell cell = new TableCell();
-                    cell.Text = dtTemp.Rows[0][i].ToString();
-                    row2.Cells.Add(cell);
+                    if (dtTemp.Columns[i].ColumnName != "PK_RE_Information" && dtTemp.Columns[i].ColumnName != "Legal_Entity")
+                    {
+                        TableCell cell = new TableCell();
+                        cell.Text = dtTemp.Rows[0][i].ToString();
+                        row2.Cells.Add(cell);
+                    }
                 }
 
                 gvDescription1.HeaderRow.Parent.Controls.AddAt(gvDescription1.Rows.Count + 3, row2);
@@ -364,8 +367,8 @@ public partial class SONIC_Exposures_rptPropertyStatementofValues : clsBasePage
 
         // export data to excel from gridview
         string css = " #ctl00_ContentPlaceHolder1_gvDescription_New th {height: 22px;}.HeaderStyle th {vertical-align: bottom;text-align: left;padding-bottom: 3px;padding-left: 3px;height: 22px;}";
-        GridViewExportUtil.ExportGrid("StatementofValuesReport.xls", gvDescription1, css);
-        
+        GridViewExportUtil.ExportGrid("StatementofValuesReport.xlsx", gvDescription1, css);
+
         // reset the settings
         //foreach (GridViewRow gvRow in gvDescription1.Rows)
         //{

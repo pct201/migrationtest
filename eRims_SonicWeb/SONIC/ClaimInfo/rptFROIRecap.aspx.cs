@@ -259,11 +259,11 @@ public partial class SONIC_ClaimInfo_rptFROIRecap : clsBasePage
             #region "Report Title"
 
             strHTML.Append("<br />");
-            strHTML.Append("<b>Report Title : FROI Recapt Report</b>");
+            strHTML.Append("<b>Report Title : FROI Recap Report</b>");
             strHTML.Append("<br /><br />");
 
             //Add Report Filter Criteria 
-            strHTML.Append("<br /><br /><table> <tr> <td>");
+            strHTML.Append("<br /><br />");
             strHTML.Append("<b>Report Filters </b>");
             strHTML.Append("<br /><table> <tr> <td colspan='11'>");
             strHTML.Append("Date   : " + lblDate.Text);
@@ -316,7 +316,7 @@ public partial class SONIC_ClaimInfo_rptFROIRecap : clsBasePage
                         strHTML.Append("<tr><td>&nbsp;</td></tr>");
                         strHTML.Append("<tr><td><b>AL FROI</b></td></tr>");
                         strHTML.Append("<tr><td>&nbsp;</td></tr>");
-                        strHTML.Append("<table>");
+                        strHTML.Append("</table>");
                         //Sub Header
                         strHTML.Append("<table border='1'><tr valign='bottom' align='left' style='font-weight: bold'>");
                         strHTML.Append("<td width='150'>Location</td>");
@@ -362,7 +362,7 @@ public partial class SONIC_ClaimInfo_rptFROIRecap : clsBasePage
                         strHTML.Append("<tr><td>&nbsp;</td></tr>");
                         strHTML.Append("<tr><td><b>DPD FROI</b></td></tr>");
                         strHTML.Append("<tr><td>&nbsp;</td></tr>");
-                        strHTML.Append("<table>");
+                        strHTML.Append("</table>");
                         //Sub Header
 
                         strHTML.Append("<table border='1'><tr valign='bottom' align='left' style='font-weight: bold'>");
@@ -413,7 +413,7 @@ public partial class SONIC_ClaimInfo_rptFROIRecap : clsBasePage
                         strHTML.Append("<tr><td>&nbsp;</td></tr>");
                         strHTML.Append("<tr><td><b>NS FROI</b></td></tr>");
                         strHTML.Append("<tr><td>&nbsp;</td></tr>");
-                        strHTML.Append("<table>");
+                        strHTML.Append("</table>");
                         //Sub Header
 
                         strHTML.Append("<table border='1'><tr valign='bottom' align='left' style='font-weight: bold'>");
@@ -459,7 +459,7 @@ public partial class SONIC_ClaimInfo_rptFROIRecap : clsBasePage
                         strHTML.Append("<tr><td>&nbsp;</td></tr>");
                         strHTML.Append("<tr><td><b>PL FROI</b></td></tr>");
                         strHTML.Append("<tr><td>&nbsp;</td></tr>");
-                        strHTML.Append("<table>");
+                        strHTML.Append("</table>");
                         //Sub Header
                         strHTML.Append("<table border='1'><tr valign='bottom' align='left' style='font-weight: bold'>");
                         strHTML.Append("<td width='150'>Location</td>");
@@ -502,7 +502,7 @@ public partial class SONIC_ClaimInfo_rptFROIRecap : clsBasePage
                         strHTML.Append("<tr><td>&nbsp;</td></tr>");
                         strHTML.Append("<tr><td><b>Property FROI</b></td></tr>");
                         strHTML.Append("<tr><td>&nbsp;</td></tr>");
-                        strHTML.Append("<table>");
+                        strHTML.Append("</table>");
                         //Sub Header
                         strHTML.Append("<table border='1'><tr valign='bottom' align='left' style='font-weight: bold'>");
                         strHTML.Append("<td width='150'>Location</td>");
@@ -549,7 +549,7 @@ public partial class SONIC_ClaimInfo_rptFROIRecap : clsBasePage
                         strHTML.Append("<tr><td>&nbsp;</td></tr>");
                         strHTML.Append("<tr><td><b>WC FROI</b></td></tr>");
                         strHTML.Append("<tr><td>&nbsp;</td></tr>");
-                        strHTML.Append("<table>");
+                        strHTML.Append("</table>");
                         //Sub Header
                         strHTML.Append("<table border='1'><tr valign='bottom' align='left' style='font-weight: bold'>");
                         strHTML.Append("<td width='150'>Location</td>");
@@ -627,7 +627,7 @@ public partial class SONIC_ClaimInfo_rptFROIRecap : clsBasePage
                 try
                 {
                     HttpContext.Current.Response.Clear();
-                    HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename=\"FROI_Recapt_Report.xlsx\""));
+                    HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename=\"FROI_Recap_Report.xlsx\""));
                     HttpContext.Current.Response.ContentType = "application/ms-excel";
                     HttpContext.Current.Response.TransmitFile(outputFiles);
                     HttpContext.Current.Response.Flush();
@@ -636,8 +636,8 @@ public partial class SONIC_ClaimInfo_rptFROIRecap : clsBasePage
                 {
                     if (File.Exists(outputFiles))
                         File.Delete(outputFiles);
-                    if (File.Exists(strPath))
-                       File.Delete(strPath);
+                    //if (File.Exists(strPath))
+                    //   File.Delete(strPath);
                     HttpContext.Current.Response.End();
                 }
             }

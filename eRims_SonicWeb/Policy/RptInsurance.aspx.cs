@@ -124,7 +124,7 @@ public partial class Policy_RptInsurance : System.Web.UI.Page
             ((HtmlTable)gRow.FindControl("tblDetails")).Border = 1;
         }
         // export data to excel from gridview
-        GridViewExportUtil.ExportGrid("InsuranceSchedule.xlsx", gvPolicy);
+        GridViewExportUtil.ExportGrid("InsuranceSchedule.xlsx", gvPolicy, true);
 
         gvPolicy.GridLines = GridLines.None;
         foreach (GridViewRow gRow in gvPolicy.Rows)

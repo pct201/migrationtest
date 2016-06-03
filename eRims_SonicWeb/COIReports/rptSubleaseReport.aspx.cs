@@ -97,7 +97,7 @@ public partial class SONIC_RealEstate_rptSubleaseReport : System.Web.UI.Page
 
         // get report result from database
         dsReport = Report.GetSubLeaseReportCOI(strRegion, strMarket, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo, strStatus);
-                        
+
         // get data tables from dataset
         DataTable dtRegions = dsReport.Tables[0];
 
@@ -113,7 +113,7 @@ public partial class SONIC_RealEstate_rptSubleaseReport : System.Web.UI.Page
 
         // Check if record found or not.
         if (dtRegions.Rows.Count > 0)
-        {            
+        {
             trMessage.Visible = false;
             trGrid.Visible = true;
         }
@@ -145,7 +145,7 @@ public partial class SONIC_RealEstate_rptSubleaseReport : System.Web.UI.Page
         }
 
         // export data to excel from grid view
-        GridViewExportUtil.ExportGrid("SubLeaseReport.xlsx", gvDescription);
+        GridViewExportUtil.ExportGrid("SubLeaseReport.xlsx", gvDescription, false);
 
         // reset the settings
         foreach (GridViewRow gvRow in gvDescription.Rows)

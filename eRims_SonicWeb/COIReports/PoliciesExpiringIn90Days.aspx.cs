@@ -105,7 +105,7 @@ public partial class COIReports_PoliciesExpiringIn90Days : clsBasePage
             while (gvReport.FooterRow.Cells.Count > 2)
                 gvReport.FooterRow.Cells.Remove(gvReport.FooterRow.Cells[2]);
         }
-        GridViewExportUtil.ExportGrid("PoliciesExpiringIn90Days.xlsx", gvReport);
+        GridViewExportUtil.ExportGrid("PoliciesExpiringIn90Days.xlsx", gvReport, true);
         gvReport.GridLines = GridLines.None;
     }
     #endregion

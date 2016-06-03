@@ -30,7 +30,7 @@ public partial class COIReports_PropertySchedule : clsBasePage
     {
         // Export the data into excel spreadsheet
         //GridViewExportUtil.ExportGrid((DataTable)ViewState["dtReport"], "Property Schedule Testing");
-        GridViewExportUtil.ExportGrid("Property Schedule Testing",gvReport);
+        GridViewExportUtil.ExportGrid("Property Schedule Testing", gvReport, true);
     }
 
     private DataTable GetTotals(DataTable dtSource)

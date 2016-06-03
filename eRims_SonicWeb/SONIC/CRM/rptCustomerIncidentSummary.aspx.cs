@@ -55,7 +55,7 @@ public partial class SONIC_CRM_rptCustomerIncidentSummary : clsBasePage
         if (dtReport.Rows.Count > 0)
         {
             sbRecorords.Append("<style type='text/css'></style><table border='0' style='border: black 0.5px solid;border-collapse: collapse;' cellpadding='0' cellspacing='0'  Width='100%px'><tr><td class='cols_' >");
-            sbRecorords.Append("<table style='font-size:8.5pt;font-family:Tahoma' cellpadding='4' cellspacing='0' Width='100%'>");//Sub Table
+            sbRecorords.Append("<table border='0' style='font-size:8.5pt;font-family:Tahoma' cellpadding='4' cellspacing='0' Width='100%'>");//Sub Table
             sbRecorords.Append("<tr style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:11pt;height:25'>"); //Title
             sbRecorords.Append("<td align='center' style='font-size:9pt;' colspan='14' ><b> Customer Relations Incident Summary Report for " + drpYear.SelectedValue + " </b></td>");
             sbRecorords.Append("</tr>");
@@ -132,15 +132,16 @@ public partial class SONIC_CRM_rptCustomerIncidentSummary : clsBasePage
                     else
                         sbRecorords.Append("<td class='cols_' align='left'>" + string.Format(Convert.ToBoolean(drRecords["ShowDecimalPoint"]) == true ? "{0:N1}" : "{0:N0}", drRecords["Total"]) + "</td>");
                     
-                    if (drReport.Length > 1) sbRecorords.Append("</tr>");
+                    //if (drReport.Length > 1) 
+                        sbRecorords.Append("</tr>");
                 }
                 if (i < dtRecordType.Rows.Count - 1)
-                    sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#FFFFFF;font-family:Tahoma;'><td colspan='14'>&nbsp;</td>");
+                    sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#FFFFFF;font-family:Tahoma;'><td colspan='14'>&nbsp;</td></tr>");
             }
 
             //sbRecorords.Append("<tr><td colspan='14' class='cols_'>&nbsp;</td></tr>");
             sbRecorords.Append("</table>");
-            sbRecorords.Append("</table>");
+            sbRecorords.Append("</td></tr></table>");
             trGrid.Visible = true;
         }
         else

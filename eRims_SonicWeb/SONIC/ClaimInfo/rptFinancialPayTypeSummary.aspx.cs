@@ -158,7 +158,7 @@ public partial class SONIC_ClaimInfo_rptFinancialPayTypeSummary : clsBasePage
         }
 
         // export data to excel from gridview
-        GridViewExportUtil.ExportGrid("FinancialPayTypeSummary.xlsx", gvReportOuter);
+        GridViewExportUtil.ExportGrid("FinancialPayTypeSummary.xlsx", gvReportOuter, true);
 
         // reset the settings
         ((HtmlTable)gvReportOuter.HeaderRow.FindControl("tblHeader")).Border = 0;

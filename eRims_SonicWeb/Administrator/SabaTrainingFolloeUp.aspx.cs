@@ -53,7 +53,7 @@ public partial class Administrator_SabaTrainingFolloeUp : System.Web.UI.Page
             DataTable dtSabaTrainingData = clsSession.Tbl_SabaTraining_Not_Imported;
             gvSabaTraining.DataSource = dtSabaTrainingData;
             gvSabaTraining.DataBind();
-            GridViewExportUtil.ExportGrid("SabaTraining_Data_Spreadsheet.xls", gvSabaTraining);
+            GridViewExportUtil.ExportGrid("SabaTraining_Data_Spreadsheet.xlsx", gvSabaTraining,true);
         }
         hdnExcelLinkClicked.Value = "1";
     }

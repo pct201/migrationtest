@@ -86,7 +86,7 @@ public partial class COIReports_NonCompliantByEntity : clsBasePage
             while (gvReport.FooterRow.Cells.Count > 2)
                 gvReport.FooterRow.Cells.Remove(gvReport.FooterRow.Cells[2]);
         }
-        GridViewExportUtil.ExportGrid("NonCompliantByEntity.xlsx", gvReport);
+        GridViewExportUtil.ExportGrid("NonCompliantByEntity.xlsx", gvReport,true);
         gvReport.GridLines = GridLines.None;
     }
     #endregion

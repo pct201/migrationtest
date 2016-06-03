@@ -53,7 +53,7 @@ public partial class SONIC_RealEstate_rptMasterDealership : clsBasePage
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
             //// get details for specific region from datatable having details data
-         
+
             // get the subgrid
             GridView gvReport = (GridView)e.Row.FindControl("gvReport");
             decimal _PK_RE_Information = 0;
@@ -83,7 +83,7 @@ public partial class SONIC_RealEstate_rptMasterDealership : clsBasePage
             {
                 DataRow dr = dtBuilding.NewRow();
                 dr["Building_Number"] = "";
-                dr["Address"] = "";               
+                dr["Address"] = "";
                 dtBuilding.Rows.Add(dr);
                 gvReport.DataSource = dtBuilding;
                 gvReport.DataBind();
@@ -91,7 +91,7 @@ public partial class SONIC_RealEstate_rptMasterDealership : clsBasePage
 
         }
     }
-      
+
 
     /// <summary>
     /// handle grid view row created Event
@@ -106,10 +106,10 @@ public partial class SONIC_RealEstate_rptMasterDealership : clsBasePage
             GridViewRow gRow = new GridViewRow(0, -1, DataControlRowType.Header, DataControlRowState.Normal);
             gRow.Font.Bold = true;
             if (strTime == "") strTime = string.Format("{0:t}", DateTime.Now);
-                      
+
             // create a table cell with the heading text
             TableCell Cell = new TableCell();
-            Cell.Text = "<table width='100%' style='font-weight: bold;' cellspacing=0 cellpadding=4><tr>" +
+            Cell.Text = "<table width='100%' style='font-weight: bold;' cellspacing=0 cellpadding=4><tr style='font-weight: bold;'>" +
                                 "<td colspan='2' align='left' >Sonic Automotive</td>" +
                                 "<td colspan='5' align='center' >Master Dealership List </td>" +
                                 "<td colspan='5' align='right'>" + clsGeneral.FormatDateToDisplay(DateTime.Now) + " " + strTime + "</td></tr></table>";
@@ -128,12 +128,12 @@ public partial class SONIC_RealEstate_rptMasterDealership : clsBasePage
     /// <param name="e"></param>
     protected void lnkExportToExcel_Click(object sender, EventArgs e)
     {
-        
+
         // show gridlines to be shown in excel
         gvReport.GridLines = GridLines.Both;
         ((HtmlTable)gvReport.HeaderRow.FindControl("tblHeader")).Border = 1;
         ((HtmlTable)gvReport.FooterRow.FindControl("tblFooter")).Border = 1;
-        ((HtmlTable)gvReport.HeaderRow.FindControl("tblBLHeader")).Border = 1;    
+        ((HtmlTable)gvReport.HeaderRow.FindControl("tblBLHeader")).Border = 1;
         foreach (GridViewRow gRow in gvReport.Rows)
         {
             ((HtmlTable)gRow.FindControl("tblDetails")).Border = 1;
@@ -144,14 +144,14 @@ public partial class SONIC_RealEstate_rptMasterDealership : clsBasePage
             gvDetail.GridLines = GridLines.Both;
         }
         // export gridview to excel
-        GridViewExportUtil.ExportGrid("MasterDealershipListReport.xlsx", gvReport);
+        GridViewExportUtil.ExportGrid("MasterDealershipListReport.xlsx", gvReport, false);
 
         // hide gridlines
         gvReport.GridLines = GridLines.None;
         ((HtmlTable)gvReport.HeaderRow.FindControl("tblHeader")).Border = 0;
         ((HtmlTable)gvReport.HeaderRow.FindControl("tblDetails")).Border = 0;
         ((HtmlTable)gvReport.FooterRow.FindControl("tblFooter")).Border = 0;
-        ((HtmlTable)gvReport.HeaderRow.FindControl("tblBLHeader")).Border = 0;    
+        ((HtmlTable)gvReport.HeaderRow.FindControl("tblBLHeader")).Border = 0;
         foreach (GridViewRow gRow in gvReport.Rows)
         {
             ((HtmlTable)gRow.FindControl("tblDetails")).Border = 0;

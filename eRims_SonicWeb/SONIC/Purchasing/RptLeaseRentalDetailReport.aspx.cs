@@ -216,7 +216,7 @@ public partial class SONIC_Purchasing_RptLeaseRentalDetailReport : clsBasePage
             Cell.HorizontalAlign = HorizontalAlign.Center;
             Cell.Text = "<table width='100%' cellspacing=0 cellpadding=0><tr><td width='100%'>" +
                             "<table width='100%' style='font-weight: bold;' cellspacing=0 cellpadding=0>" +
-                                "<tr><td align='left' colspan='8'>Sonic Automotive Lease/Rental Agreement Detail </td><td align='right' colspan='3'>" + DateTime.Now + "</td></tr></table>" +
+                                "<tr style='font-weight: bold;' ><td align='left' colspan='8'>Sonic Automotive Lease/Rental Agreement Detail </td><td align='right' colspan='3'>" + DateTime.Now + "</td></tr></table>" +
                             "</td></tr></table>";
             // add cell in row
             gRow.Cells.Add(Cell);
@@ -256,7 +256,7 @@ public partial class SONIC_Purchasing_RptLeaseRentalDetailReport : clsBasePage
         }
 
         // export data to excel from gridview
-        GridViewExportUtil.ExportGrid("LeaseRentalAgreementReport.xlsx", gvRegion);
+        GridViewExportUtil.ExportGrid("LeaseRentalAgreementReport.xlsx", gvRegion, true);
 
         // reset the settings
         gvRegion.GridLines = GridLines.None;

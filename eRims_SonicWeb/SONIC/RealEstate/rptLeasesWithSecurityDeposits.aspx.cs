@@ -134,7 +134,7 @@ public partial class SONIC_RealEstate_rptLeasesWithSecurityDeposits : clsBasePag
         }
 
         // export gridview to excel
-        GridViewExportUtil.ExportGrid("LeasesWithSecurityDeposits.xls", gvDBA);
+        GridViewExportUtil.ExportGrid("LeasesWithSecurityDeposits.xlsx", gvDBA, true);
 
         // hide gridlines
         gvDBA.GridLines = GridLines.None;

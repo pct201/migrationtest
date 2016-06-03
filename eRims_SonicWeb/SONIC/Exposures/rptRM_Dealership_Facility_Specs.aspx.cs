@@ -133,7 +133,8 @@ public partial class SONIC_Exposures_rptRM_Dealership_Facility_Specs : clsBasePa
         strOwnership = GetCommaSeparatedValues(lstOwnership);
         strBrand = GetCommaSeparatedValues(lstBrand);
         // get report data for selected values
-        DataTable dtReport = clsExposuresReports.GetrptRM_Dealership_Facility_Specs(strRegion, strMarket, strStatus, strOwnership, strBrand).Tables[0];
+        DataTable dtReport = clsExposuresReports.GetrptRM_Dealership_Facility_Specs(strRegion, strStatus, strOwnership, strBrand, strMarket).Tables[0];
+                             
         //Add Header HTML
         strHTML.Append("<table  cellpadding='0' cellspacing='0' width='100%' border='1'>");
         strHTML.Append("<tr align='right' valign='bottom' style='font-weight: bold;'>");

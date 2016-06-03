@@ -147,7 +147,7 @@ public partial class COIReports_rptLocationsLeaseandPolicyDates : clsBasePage
         }
 
         // export data to excel from grid view
-        GridViewExportUtil.ExportGrid("LocationsLeaseandPolicyDates.xlsx", gvReport);
+        GridViewExportUtil.ExportGrid_Old("LocationsLeaseandPolicyDates.xls", gvReport);
 
         // reset the settings
         foreach (GridViewRow gvRow in gvReport.Rows)

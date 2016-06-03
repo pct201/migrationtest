@@ -55,7 +55,7 @@ public partial class SONIC_Exposures_rpt_d_b_a_MainReport : clsBasePage
 
 
         // export gridview to excel
-        GridViewExportUtil.ExportGrid("d/b/a Main Report.xlsx", gvMainReport);
+        GridViewExportUtil.ExportGrid("d/b/a Main Report.xlsx", gvMainReport, true);
 
         // hide gridlines
         gvMainReport.GridLines = GridLines.None;

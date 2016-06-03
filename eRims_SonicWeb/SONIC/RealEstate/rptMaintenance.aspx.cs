@@ -132,7 +132,7 @@ public partial class SONIC_RealEstate_rptMaintenance : clsBasePage
         }
 
         // export gridview to excel
-        GridViewExportUtil.ExportGrid("MaintenanceAndRepairItems.xls", gvDBA);
+        GridViewExportUtil.ExportGrid("MaintenanceAndRepairItems.xlsx", gvDBA, true);
 
         // hide gridlines
         gvDBA.GridLines = GridLines.None;

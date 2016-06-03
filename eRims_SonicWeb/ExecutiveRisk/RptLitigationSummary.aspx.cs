@@ -137,7 +137,7 @@ public partial class ERReports_LitigationSummary : clsBasePage
         }
 
         // export data to excel from gridview
-        GridViewExportUtil.ExportGrid("EPLI_Litigation_Summary_Report.xlsx", gvReport);
+        GridViewExportUtil.ExportGrid("EPLI_Litigation_Summary_Report.xlsx", gvReport, true);
 
         // reset the settings
         gvReport.GridLines = GridLines.None;
@@ -169,7 +169,7 @@ public partial class ERReports_LitigationSummary : clsBasePage
 
             // create a table cell to be added in row
             TableCell Cell = new TableCell();
-            
+            Cell.ColumnSpan = 7;
             // set text for the cell
             if (strTime == "") strTime = string.Format("{0:t}", DateTime.Now);
             string strCellText = "FINPRO EPLI Pending Investigation and Litigation Summary Report<br />" + DateTime.Now.ToLongDateString() + " " + strTime + "<br/>";

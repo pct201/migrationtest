@@ -100,7 +100,7 @@ public partial class SONIC_RealEstate_rptLandlord : clsBasePage
         }
 
         // export gridview to excel
-        GridViewExportUtil.ExportGrid("LandlordReport.xls", gvDBA);
+        GridViewExportUtil.ExportGrid("LandlordReport.xlsx", gvDBA, true);
 
         // hide gridlines
         gvDBA.GridLines = GridLines.None;

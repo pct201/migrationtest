@@ -63,7 +63,7 @@ public partial class COIReports_AutoScheTesting : clsBasePage
         //clsGeneral.ExportData((DataTable)ViewState["dtReport1"], "Auto Schedule Testing");
         gvVehicle.GridLines = GridLines.Both;
         gvVehicle.FooterStyle.Font.Bold = true;
-        GridViewExportUtil.ExportGrid("Entity.xls", gvVehicle);
+        GridViewExportUtil.ExportGrid("Entity.xlsx", gvVehicle, true);
         gvVehicle.GridLines = GridLines.None;
     }
 
@@ -78,7 +78,7 @@ public partial class COIReports_AutoScheTesting : clsBasePage
         //clsGeneral.ExportData((DataTable)ViewState["dtReport2"], "Auto Schedule Testing");
         gvDriver.GridLines = GridLines.Both;
         gvDriver.FooterStyle.Font.Bold = true;
-        GridViewExportUtil.ExportGrid("Entity.xls", gvDriver);
+        GridViewExportUtil.ExportGrid("Entity.xls", gvDriver, true);
         gvDriver.GridLines = GridLines.None;
     }
     #endregion

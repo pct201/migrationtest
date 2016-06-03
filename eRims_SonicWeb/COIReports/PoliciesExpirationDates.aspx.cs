@@ -46,7 +46,7 @@ public partial class COIReports_PoliciesExpirationDates : clsBasePage
         System.Text.StringBuilder sbRecorords = new System.Text.StringBuilder("");
         if (dtReport.Rows.Count > 0)
         {
-            sbRecorords.Append("<style type='text/css'></style><table border='0' style='border: black 0.5px solid;border-collapse: collapse;' cellpadding='0' cellspacing='0'  width='2300px'><tr><td class='cols_' style='width:100%'>");
+            sbRecorords.Append("<style type='text/css'></style><table cellpadding='0' cellspacing='0'  width='2300px'><tr><td class='cols_' style='width:100%'>");
             sbRecorords.Append("<table style='font-size:8.5pt;font-family:Tahoma' cellpadding='4' cellspacing='0' width='2300px'>");//Sub Table
             //Title
             sbRecorords.Append("<tr style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:11pt;height:25;width:100%'>");
@@ -56,11 +56,11 @@ public partial class COIReports_PoliciesExpirationDates : clsBasePage
             sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:8.5pt'>");
             for (int j = 1; j <= 10; j++)
             {
-                sbRecorords.Append("<td class='cols_' width='130px' align='left' valign='top'><div style='width:130px;'>" + dtReport.Columns[j].ColumnName + "</div></td>");
+                sbRecorords.Append("<td class='cols_' width='130px' align='left' valign='top'><span style='display: inline-block;width: 130px;'>" + dtReport.Columns[j].ColumnName + "</span></td>");
             }
             for (int j = 11; j <= 22; j++)
             {
-                sbRecorords.Append("<td class='cols_' width='130px' align='left' valign='top'><div style='width:120px;'>" + dtReport.Columns[j].ColumnName + "</div></td>");
+                sbRecorords.Append("<td class='cols_' width='130px' align='left' valign='top'><span style='display: inline-block;width: 120px;'>" + dtReport.Columns[j].ColumnName + "</span></td>");
             } 
             sbRecorords.Append("</tr>");
             //Records
@@ -83,6 +83,7 @@ public partial class COIReports_PoliciesExpirationDates : clsBasePage
                             sbRecorords.Append("<td class='cols_' align='left' valign='top'>" + Convert.ToString(drRecords[j]) + "</td>");
                     }
                 }
+                sbRecorords.Append("</tr>");
             }
             //Footer
             sbRecorords.Append("<tr style='font-weight: bold;background-color:#507cd1;color:White;font-size:11pt;height:25'>");

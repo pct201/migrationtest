@@ -18,48 +18,38 @@
 
     <table width="100%" cellpadding="0" cellspacing="0">
         <tr>
-            <td align="left" class="ghc">
-                Landlord Report
+            <td align="left" class="ghc">Landlord Report
             </td>
         </tr>
         <tr>
-            <td width="100%" class="Spacer" style="height: 10px;">
-            </td>
+            <td width="100%" class="Spacer" style="height: 10px;"></td>
         </tr>
         <tr>
             <td align="center">
                 <table width="77%" align="center" style="text-align: left;" cellpadding="2" cellspacing="3"
                     border="0">
                     <tr valign="top" align="left">
-                        <td>
-                            Region
+                        <td>Region
                         </td>
-                        <td align="right">
-                            :
+                        <td align="right">:
                         </td>
                         <td>
-                            <asp:ListBox ID="ddlRegion" runat="server" SelectionMode="Multiple" Width="100%">
-                            </asp:ListBox>
+                            <asp:ListBox ID="ddlRegion" runat="server" SelectionMode="Multiple" Width="100%"></asp:ListBox>
                         </td>
                     </tr>
                     <tr valign="top" align="left">
-                        <td>
-                            Market
+                        <td>Market
                         </td>
-                        <td align="right">
-                            :
+                        <td align="right">:
                         </td>
                         <td>
-                            <asp:ListBox ID="lstMarket" runat="server" SelectionMode="Multiple" Width="100%">
-                            </asp:ListBox>
+                            <asp:ListBox ID="lstMarket" runat="server" SelectionMode="Multiple" Width="100%"></asp:ListBox>
                         </td>
                     </tr>
                     <tr valign="top" align="left">
-                        <td style="width: 10%;">
-                            LCD From
+                        <td style="width: 10%;">LCD From
                         </td>
-                        <td align="right" style="width: 3%;">
-                            :
+                        <td align="right" style="width: 3%;">:
                         </td>
                         <td style="width: 30%;">
                             <asp:TextBox ID="txtLCDateFrom" runat="server" MaxLength="10" SkinID="txtDate"></asp:TextBox>
@@ -70,11 +60,9 @@
                                 ErrorMessage="LCD From is Not Valid Date." Display="none" SetFocusOnError="true">
                             </asp:RegularExpressionValidator>
                         </td>
-                        <td style="width: 7%;">
-                            &nbsp;&nbsp;&nbsp;To
+                        <td style="width: 7%;">&nbsp;&nbsp;&nbsp;To
                         </td>
-                        <td align="right" style="width: 3%;">
-                            :
+                        <td align="right" style="width: 3%;">:
                         </td>
                         <td style="width: 47%;">
                             <asp:TextBox ID="txtLCDateTo" runat="server" MaxLength="10" SkinID="txtDate"></asp:TextBox>
@@ -90,11 +78,9 @@
                         </td>
                     </tr>
                     <tr valign="top" align="left">
-                        <td>
-                            LED From
+                        <td>LED From
                         </td>
-                        <td align="right">
-                            :
+                        <td align="right">:
                         </td>
                         <td>
                             <asp:TextBox ID="txtLEDateFrom" runat="server" MaxLength="10" SkinID="txtDate"></asp:TextBox>
@@ -105,11 +91,9 @@
                                 ErrorMessage="LED From is Not Valid Date." Display="none" SetFocusOnError="true">
                             </asp:RegularExpressionValidator>
                         </td>
-                        <td>
-                            &nbsp;&nbsp;&nbsp;To
+                        <td>&nbsp;&nbsp;&nbsp;To
                         </td>
-                        <td align="right">
-                            :
+                        <td align="right">:
                         </td>
                         <td>
                             <asp:TextBox ID="txtLEDateTo" runat="server" MaxLength="10" SkinID="txtDate"></asp:TextBox>
@@ -124,12 +108,10 @@
                                 ErrorMessage="LED From Date must be Less Than Or Equal LED To Date." SetFocusOnError="true"></asp:CompareValidator>
                         </td>
                     </tr>
-                     <tr>
-                        <td align="left" valign="top">
-                            Building Status
+                    <tr>
+                        <td align="left" valign="top">Building Status
                         </td>
-                        <td align="right" valign="top">
-                            :
+                        <td align="right" valign="top">:
                         </td>
                         <td align="left" valign="top">
                             <asp:ListBox ID="lstBuildingStatus" runat="server" Width="170px" Rows="4" SelectionMode="Multiple">
@@ -162,22 +144,20 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="Spacer" style="height: 15px;">
-                            </td>
+                            <td class="Spacer" style="height: 15px;"></td>
                         </tr>
                         <tr>
                             <td>
-                                <div runat="server" id="dvReport" style="overflow-x: hidden; overflow-y: hidden;
-                                    text-align: left; width: 997px;">
-                                    
-                                     <asp:GridView ID="gvReport" runat="server" Width="2640px" OnRowDataBound="gvReport_RowDataBound"
+                                <div runat="server" id="dvReport" style="overflow-x: hidden; overflow-y: hidden; text-align: left; width: 997px;">
+
+                                    <asp:GridView ID="gvReport" runat="server" Width="2640px" OnRowDataBound="gvReport_RowDataBound"
                                         OnRowCreated="gvReport_RowCreated" AutoGenerateColumns="false" EnableTheming="false"
-                                        HorizontalAlign="Left"  CellPadding="0" CellSpacing="0" GridLines="None" ShowFooter="true" EmptyDataText="No Record Found"
+                                        HorizontalAlign="Left" CellPadding="0" CellSpacing="0" GridLines="None" ShowFooter="true" EmptyDataText="No Record Found"
                                         CssClass="GridClass" Style="word-wrap: normal; word-break: break-all;">
-                                         <HeaderStyle CssClass="HeaderStyle" />
-                                         <RowStyle CssClass="RowStyle" />
-                                         <AlternatingRowStyle CssClass="AlterRowStyle" />
-                                         <FooterStyle CssClass="FooterStyle" />
+                                        <HeaderStyle CssClass="HeaderStyle" />
+                                        <RowStyle CssClass="RowStyle" />
+                                        <AlternatingRowStyle CssClass="AlterRowStyle" />
+                                        <FooterStyle CssClass="FooterStyle" />
                                         <EmptyDataRowStyle BackColor="#EAEAEA" HorizontalAlign="Center" Height="20px" />
                                         <Columns>
                                             <asp:TemplateField>
@@ -185,61 +165,45 @@
                                                     <table cellpadding="4" cellspacing="0" width="100%" id="tblHeader" runat="server"
                                                         style="font-weight: bold;">
                                                         <tr>
-                                                            <td width="250px" align="left">
-                                                                Location
+                                                            <td width="250px" align="left">Location
                                                             </td>
-                                                             <td width="400px" align="left">
+                                                            <td width="400px" align="left">
                                                                 <table width="100%" cellpadding="4" cellspacing="0" style="font-weight: bold;" id="tblBLHeader"
                                                                     runat="server">
                                                                     <tr>
-                                                                        <td width="30%" align="left">
-                                                                            Building Number
+                                                                        <td width="30%" align="left">Building Number
                                                                         </td>
-                                                                        <td width="70%" align="left">
-                                                                            Building Address
-                                                                        </td>                                                                       
+                                                                        <td width="70%" align="left">Building Address
+                                                                        </td>
                                                                     </tr>
                                                                 </table>
-                                                            </td>                                                           
-                                                            <td width="90px" align="left">
-                                                                City
                                                             </td>
-                                                            <td width="120px" align="left">
-                                                                State
+                                                            <td width="90px" align="left">City
                                                             </td>
-                                                            <td width="85px" align="left">
-                                                                Zip
+                                                            <td width="120px" align="left">State
                                                             </td>
-                                                            <td width="80px" align="left">
-                                                                LCD
+                                                            <td width="85px" align="left">Zip
                                                             </td>
-                                                            <td width="80px" align="left">
-                                                                LED
+                                                            <td width="80px" align="left">LCD
                                                             </td>
-                                                            <td width="380px" align="left">
-                                                                Renewals
+                                                            <td width="80px" align="left">LED
                                                             </td>
-                                                            <td width="150px" align="left">
-                                                               Building Landlord Name
+                                                            <td width="380px" align="left">Renewals
                                                             </td>
-                                                            <td width="150px" align="left">
-                                                                Address 1
+                                                            <td width="150px" align="left">Building Landlord Name
                                                             </td>
-                                                            <td width="150px" align="left">
-                                                                 Address 2
-                                                             </td>
-                                                             <td width="150px" align="left" >
-                                                                  City
-                                                             </td>
-                                                             <td width="120px" align="left">
-                                                                  State
-                                                             </td>
-                                                             <td width="120px" align="left" >
-                                                                  Zip
-                                                             </td>
-                                                             <td width="120px" align="left">
-                                                                  Phone
-                                                              </td>                                                              
+                                                            <td width="150px" align="left">Address 1
+                                                            </td>
+                                                            <td width="150px" align="left">Address 2
+                                                            </td>
+                                                            <td width="150px" align="left">City
+                                                            </td>
+                                                            <td width="120px" align="left">State
+                                                            </td>
+                                                            <td width="120px" align="left">Zip
+                                                            </td>
+                                                            <td width="120px" align="left">Phone
+                                                            </td>
                                                         </tr>
                                                     </table>
                                                 </HeaderTemplate>
@@ -249,7 +213,7 @@
                                                             <td align="left" style="width: 250px" valign="top">
                                                                 <%# Eval("DBA")%>
                                                             </td>
-                                                             <td align="left" style="width: 400px" valign="top">
+                                                            <td align="left" style="width: 400px" valign="top">
                                                                 <asp:GridView ID="gvReport" runat="server" AutoGenerateColumns="False" Width="100%"
                                                                     EmptyDataText="" GridLines="None" EnableTheming="false" CssClass="GridClass"
                                                                     CellPadding="4" ShowHeader="false">
@@ -265,10 +229,10 @@
                                                                             <ItemTemplate>
                                                                                 <%# (Eval("Address")) %>
                                                                             </ItemTemplate>
-                                                                        </asp:TemplateField>                                                                       
+                                                                        </asp:TemplateField>
                                                                     </Columns>
                                                                 </asp:GridView>
-                                                            </td>                                                            
+                                                            </td>
                                                             <td align="left" style="width: 90px" valign="top">
                                                                 <%#Eval("City")%>
                                                             </td>
@@ -291,7 +255,7 @@
                                                                 <%# Eval("Landlord_Name")%>
                                                             </td>
                                                             <td align="left" style="width: 150px" valign="top">
-                                                                 <%# Eval("Landlord_Address_1")%>
+                                                                <%# Eval("Landlord_Address_1")%>
                                                             </td>
                                                             <td align="left" style="width: 150px" valign="top">
                                                                 <%# Eval("Landlord_Address_2")%>
@@ -302,12 +266,12 @@
                                                             <td style="width: 120px;" align="left" valign="top">
                                                                 <%# Eval("Landlord_State")%>
                                                             </td>
-                                                             <td style="width: 120px;" align="left" valign="top">
+                                                            <td style="width: 120px;" align="left" valign="top">
                                                                 <%# Eval("Landlord_Zip")%>
                                                             </td>
-                                                             <td style="width: 120px;" align="left" valign="top">
+                                                            <td style="width: 120px;" align="left" valign="top">
                                                                 <%# Eval("Landlord_Telephone")%>
-                                                            </td>                                                            
+                                                            </td>
                                                         </tr>
                                                     </table>
                                                 </ItemTemplate>
@@ -315,58 +279,51 @@
                                                     <table cellpadding="4" cellspacing="0" width="100%" id="tblFooter" runat="server"
                                                         style="font-weight: bold; background-color: #507cd1; color: White">
                                                         <tr>
-                                                            <td  align="left" style="width: 250px;">
-                                                                Grand Total
+                                                            <td>
+                                                                <table>
+                                                                    <tr>
+                                                                        <td align="left" style="width: 240px;">Grand Total
+                                                                        </td>
+                                                                        <td align="left" style="width: 400px" colspan="2">
+                                                                            <asp:Label ID="lblGrandTotal" runat="server"></asp:Label>
+                                                                        </td>
+                                                                        <td align="left" style="width: 90px;">&nbsp;
+                                                                        </td>
+                                                                        <td align="left" style="width: 120px;">&nbsp;
+                                                                        </td>
+                                                                        <td align="left" style="width: 85px;">&nbsp;
+                                                                        </td>
+                                                                        <td align="left" style="width: 80px;">&nbsp;
+                                                                        </td>
+                                                                        <td align="left" style="width: 80px;">&nbsp;
+                                                                        </td>
+                                                                        <td align="left" style="width: 380px;">&nbsp;
+                                                                        </td>
+                                                                        <td align="left" style="width: 150px;">&nbsp;
+                                                                        </td>
+                                                                        <td align="left" style="width: 150px;">&nbsp;
+                                                                        </td>
+                                                                        <td align="left" style="width: 150px;">&nbsp;
+                                                                        </td>
+                                                                        <td align="left" style="width: 150px;">&nbsp;
+                                                                        </td>
+                                                                        <td align="left" style="width: 120px;">&nbsp;
+                                                                        </td>
+                                                                        <td align="left" style="width: 120px;">&nbsp;
+                                                                        </td>
+                                                                        <td align="left" style="width: 120px;">&nbsp;
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
                                                             </td>
-                                                            <td align="left" style="width: 400px">
-                                                                <asp:Label ID="lblGrandTotal" runat="server"></asp:Label>
-                                                            </td>
-                                                            <td align="left" style="width: 90px;">
-                                                                &nbsp;
-                                                            </td>
-                                                            <td align="left" style="width: 120px;">
-                                                                &nbsp;
-                                                            </td>
-                                                            <td align="left" style="width: 85px;">
-                                                                &nbsp;
-                                                            </td>
-                                                            <td align="left" style="width: 80px;">
-                                                                &nbsp;
-                                                            </td>
-                                                            <td align="left" style="width: 80px;">
-                                                                &nbsp;
-                                                            </td>
-                                                            <td align="left" style="width: 380px;">
-                                                                &nbsp;
-                                                            </td>
-                                                            <td align="left" style="width: 150px;">
-                                                                &nbsp;
-                                                            </td>
-                                                            <td align="left" style="width: 150px;">
-                                                                &nbsp;
-                                                            </td>
-                                                            <td align="left" style="width: 150px;"> 
-                                                                &nbsp;
-                                                            </td>
-                                                            <td align="left" style="width: 150px;">
-                                                                &nbsp;
-                                                            </td>
-                                                            <td align="left" style="width: 120px;">
-                                                                &nbsp;
-                                                            </td>
-                                                             <td align="left" style="width: 120px;">
-                                                                &nbsp;
-                                                            </td>
-                                                             <td align="left" style="width: 120px;">
-                                                                &nbsp;
-                                                            </td>                                                            
                                                         </tr>
+
                                                     </table>
                                                 </FooterTemplate>
                                             </asp:TemplateField>
                                         </Columns>
-                                    </asp:GridView>                  
-                                    
+                                    </asp:GridView>
+
                                 </div>
                             </td>
                         </tr>
@@ -375,8 +332,7 @@
             </td>
         </tr>
         <tr>
-            <td>
-                &nbsp;
+            <td>&nbsp;
             </td>
         </tr>
     </table>

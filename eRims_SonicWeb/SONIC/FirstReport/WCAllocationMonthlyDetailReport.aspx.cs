@@ -60,7 +60,7 @@ public partial class SONIC_FirstReport_WCAllocationMonthlyDetailReport : clsBase
                 GridView gvDetail = (GridView)gRow.FindControl("gvReport");
                 gvDetail.GridLines = GridLines.Both;
             }
-            GridViewExportUtil.ExportGrid("WCAllocationDetailsReport.xlsx", gvRegion);
+            GridViewExportUtil.ExportGrid("WCAllocationDetailsReport.xlsx", gvRegion, true);
 
             //Hide the Grid lines
             gvRegion.GridLines = GridLines.None;
@@ -90,7 +90,7 @@ public partial class SONIC_FirstReport_WCAllocationMonthlyDetailReport : clsBase
 
                 }
             }
-            GridViewExportUtil.ExportGrid("WCAllocationDetailsReport.xls", gvMarketReport);
+            GridViewExportUtil.ExportGrid("WCAllocationDetailsReport.xls", gvMarketReport, true);
 
             //Hide the Grid lines
             gvMarketReport.GridLines = GridLines.None;
@@ -217,7 +217,7 @@ public partial class SONIC_FirstReport_WCAllocationMonthlyDetailReport : clsBase
             Cell.HorizontalAlign = HorizontalAlign.Center;
             Cell.Text = "<table width='100%' cellspacing=0 cellpadding=0><tr><td width='100%'>" +
                             "<table width='100%' style='font-weight: bold;' cellspacing=0 cellpadding=0>" +
-                                "<tr><td width='100%' align='center' colspan='16'>WC Allocation Monthly Detail Report </td></tr></table>" +
+                                "<tr style='font-weight: bold;' ><td width='100%' align='center' colspan='19'>WC Allocation Monthly Detail Report </td></tr></table>" +
                             "</td></tr></table>";
             // add cell in row
             gRow.Cells.Add(Cell);

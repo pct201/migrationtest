@@ -159,11 +159,12 @@ public partial class SONIC_ClaimInfo_rptFinancialSummary : clsBasePage
             {
                 GridView gvDetail = (GridView)row.FindControl("gvDetail");
                 gvDetail.GridLines = GridLines.Both;
+                
             }
         }
 
         // export data to excel from gridview
-        GridViewExportUtil.ExportGrid("FinancialSummary.xlsx", gvReportOuter);
+        GridViewExportUtil.ExportGrid("FinancialSummary.xlsx", gvReportOuter, true);
 
         // reset the settings
         gvReportOuter.GridLines = GridLines.None;

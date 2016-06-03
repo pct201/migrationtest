@@ -136,7 +136,7 @@ public partial class SONIC_FirstReport_RptAllocationYTDChargeReport : clsBasePag
             gvDetail.GridLines = GridLines.Both;
         }
         // export gridview to excel
-        GridViewExportUtil.ExportGrid("WCAllocationYTDChargeReport.xlsx", gvReport);
+        GridViewExportUtil.ExportGrid("WCAllocationYTDChargeReport.xlsx", gvReport, true);
         gvReport.GridLines = GridLines.None;
     }
 

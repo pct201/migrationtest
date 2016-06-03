@@ -167,7 +167,7 @@ public partial class ERReports_Bordereau : clsBasePage
         }
 
         // export data to excel from gridview
-        GridViewExportUtil.ExportGrid("Bordereau_Report.xlsx", gvReport);
+        GridViewExportUtil.ExportGrid("Bordereau_Report.xlsx", gvReport, true);
 
         // reset the settings
         gvReport.GridLines = GridLines.None;
@@ -200,7 +200,7 @@ public partial class ERReports_Bordereau : clsBasePage
 
             // create a table cell to be added in row
             TableCell Cell = new TableCell();
-
+            Cell.ColumnSpan = 26;
             // set text for the cell
             if (strTime == "") strTime = string.Format("{0:t}", DateTime.Now);
             string strCellText = "FINPRO Bordereau Report<br />" + DateTime.Now.ToLongDateString() + " " + strTime + "<br/>";

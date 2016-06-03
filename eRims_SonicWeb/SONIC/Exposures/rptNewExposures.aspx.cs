@@ -118,7 +118,7 @@ public partial class SONIC_Exposures_rptNewExposures : clsBasePage
         }
 
         // export data to excel from gridview
-        GridViewExportUtil.ExportGrid("Third Party Owned and Sonic Leased and Subleased to Third Party.xlsx", gvDescription);
+        GridViewExportUtil.ExportGrid("Third Party Owned and Sonic Leased and Subleased to Third Party.xlsx", gvDescription, true);
 
         // reset the settings
         foreach (GridViewRow gvRow in gvDescription.Rows)

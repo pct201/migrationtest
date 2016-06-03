@@ -137,7 +137,7 @@ public partial class ERReports_Notif_Bordereau : clsBasePage
         }
 
         // export data to excel from gridview
-        GridViewExportUtil.ExportGrid("Claim_Notification_Bordereau_Report.xlsx", gvReport);
+        GridViewExportUtil.ExportGrid("Claim_Notification_Bordereau_Report.xlsx", gvReport, true);
 
         // reset the settings
         gvReport.GridLines = GridLines.None;
@@ -169,7 +169,7 @@ public partial class ERReports_Notif_Bordereau : clsBasePage
 
             // create a table cell to be added in row
             TableCell Cell = new TableCell();
-           
+            Cell.ColumnSpan = 11;
             // set text for the cell
             if (strTime == "") strTime = string.Format("{0:t}", DateTime.Now);
             string strCellText = "FINPRO Claim Notification Bordereau Report<br />" + DateTime.Now.ToLongDateString() + " " + strTime + "<br/>";

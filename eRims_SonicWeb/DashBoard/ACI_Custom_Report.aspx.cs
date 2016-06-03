@@ -110,7 +110,7 @@ public partial class ACI_Custom_Report : clsBasePage
         {
             sbRecorords.Append("<style type='text/css'></style><table border='0' style='border: black 0.5px solid;border-collapse: collapse;' cellpadding='0' cellspacing='0'  Width='100%px'><tr><td class='cols_' >");
 
-            sbRecorords.Append("<table style='padding-left:4px;font-size:8.5pt;font-family:Tahoma' cellpadding='4' cellspacing='0' Width='995px'>");//Sub Table
+            sbRecorords.Append("<table style='border: black 0.5px;padding-left:4px;font-size:8.5pt;font-family:Tahoma' cellpadding='4' cellspacing='0' Width='995px'>");//Sub Table
             sbRecorords.Append("<tr style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:11pt;height:25'>"); //Title
             sbRecorords.Append("<td align='center' class='cols_' style='font-size:9pt;' colspan='14'><b>ACI Event Custom Report</b></td></tr>");
             sbRecorords.Append("<tr style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:11pt;height:25'>");
@@ -184,7 +184,7 @@ public partial class ACI_Custom_Report : clsBasePage
             sbRecorords.Append("</tr>");
             
             //  sbRecorords.Append("<tr><td colspan='7' class='cols_'>&nbsp;</td></tr>");
-            sbRecorords.Append("</table>");
+            sbRecorords.Append("</table></td></tr>");
             //  sbRecorords.Append("</div>");
             sbRecorords.Append("</table>");
             trGrid.Visible = true;

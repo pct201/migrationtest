@@ -45,7 +45,7 @@ public partial class SONIC_FirstReport_WCAllocationDetailReport : clsBasePage
             GridView gvDetail = (GridView)gRow.FindControl("gvReport");
             gvDetail.GridLines = GridLines.Both;
         }
-        GridViewExportUtil.ExportGrid("WCAllocationDetailsReport.xls", gvRegion);
+        GridViewExportUtil.ExportGrid("WCAllocationDetailsReport.xls", gvRegion, true);
 
         //Hide the Grid lines
         gvRegion.GridLines = GridLines.None;

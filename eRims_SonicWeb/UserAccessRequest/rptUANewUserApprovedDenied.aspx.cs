@@ -18,10 +18,10 @@ public partial class UserAccessRequest_UANewUserApprovedDenied : clsBasePage
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!Page.IsPostBack)
-        {          
+        {
         }
     }
-        
+
     #region "Controls Events"
 
     /// <summary>
@@ -80,7 +80,7 @@ public partial class UserAccessRequest_UANewUserApprovedDenied : clsBasePage
 
 
     private System.Text.StringBuilder GenerageNewUserApprovedDeniedReport()
-    {    
+    {
 
         DataSet dsReport = clsNewUserApprovedDeniedReport.GetNewUserApprovedDeniedReport(Convert.ToDateTime(txtDateApprovedDeniedBegin.Text), Convert.ToDateTime(txtDateApprovedDeniedEnd.Text));
 
@@ -96,25 +96,25 @@ public partial class UserAccessRequest_UANewUserApprovedDenied : clsBasePage
         // Check if record found or not.
         if (dtRegions.Rows.Count > 0)
         {
-            sbRecorords.Append("<style type='text/css'></style><table border='0' style='border: black 0.5px solid;border-collapse: collapse;' cellpadding='0' cellspacing='0'  Width='100%px'><tr><td class='cols_' >");
+            sbRecorords.Append("<style type='text/css'></style><table cellpadding='0' cellspacing='0'  Width='100%px'><tr><td class='cols_' >");
 
             sbRecorords.Append("<table style='padding-left:4px;font-size:8.5pt;font-family:Tahoma' cellpadding='4' cellspacing='0' Width='996px'>");
-            sbRecorords.Append("<tr style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:11pt;height:25'>"); 
+            sbRecorords.Append("<tr style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:11pt;height:25'>");
             sbRecorords.Append("<td align='left' style='font-size:9pt'  colspan='8'>New User Approved/Denied Report: " + DateTime.Now.ToString("MM/dd/yyy HH:mm tt") + "</td></tr>");
-            sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:8.5pt'>");
-            sbRecorords.Append("<td ></td>");
-            sbRecorords.Append("<td ></td>");
-            sbRecorords.Append("<td ></td>");
-            sbRecorords.Append("</tr>");
-            sbRecorords.Append("<td align='left' style='font-size:9pt'  colspan='8'><b> Filter Conditions :  </b></td></tr>");
-            sbRecorords.Append("<td align='left' style='font-size:9pt'  colspan='8'><b>Date Approved/Denied Begin: </b>" + txtDateApprovedDeniedBegin.Text + "</td></tr>");
-            sbRecorords.Append("<td align='left' style='font-size:9pt'  colspan='8'><b>New User Approved/Denied Report: </b>" + txtDateApprovedDeniedEnd.Text + "</td></tr>");
             //sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:8.5pt'>");
             //sbRecorords.Append("<td ></td>");
             //sbRecorords.Append("<td ></td>");
             //sbRecorords.Append("<td ></td>");
             //sbRecorords.Append("</tr>");
-            sbRecorords.Append("<td align='left' style='font-size:9pt'  colspan='8'><b> Report Columns :  </b></td></tr>");
+            sbRecorords.Append("<tr><td align='left' style='font-size:9pt'  colspan='8'><b> Filter Conditions :  </b></td></tr>");
+            sbRecorords.Append("<tr><td align='left' style='font-size:9pt'  colspan='8'><b>Date Approved/Denied Begin: </b>" + txtDateApprovedDeniedBegin.Text + "</td></tr>");
+            sbRecorords.Append("<tr><td align='left' style='font-size:9pt'  colspan='8'><b>New User Approved/Denied Report: </b>" + txtDateApprovedDeniedEnd.Text + "</td></tr>");
+            //sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:8.5pt'>");
+            //sbRecorords.Append("<td ></td>");
+            //sbRecorords.Append("<td ></td>");
+            //sbRecorords.Append("<td ></td>");
+            //sbRecorords.Append("</tr>");
+            sbRecorords.Append("<tr><td align='left' style='font-size:9pt'  colspan='8'><b> Report Columns :  </b></td></tr>");
             sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:8.5pt'>");
             sbRecorords.Append("<td class='cols_' width='12.5%'>Last Name</td>");
             sbRecorords.Append("<td class='cols_' width='12.5%'>First Name</td>");
@@ -131,9 +131,9 @@ public partial class UserAccessRequest_UANewUserApprovedDenied : clsBasePage
                 int intRes;
                 int intDiv = System.Math.DivRem(intI3, 2, out intRes);
                 if (intRes == 0)
-                    sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#EAEAEA;font-family:Tahoma;'>");
+                    sbRecorords.Append("<tr border='1' align='left' style='font-size:8pt;background-color:#EAEAEA;font-family:Tahoma;'>");
                 else
-                    sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#FFFFFF;font-family:Tahoma;'>");
+                    sbRecorords.Append("<tr border='1' align='left' style='font-size:8pt;background-color:#FFFFFF;font-family:Tahoma;'>");
 
                 sbRecorords.Append("<td  class='cols_' align='left' style='word-wrap:normal;word-break:break-all'>" + Convert.ToString(drRecords["Last_Name"]) + "</td>");
                 sbRecorords.Append("<td class='cols_' style='word-wrap:normal;word-break:break-all'>" + Convert.ToString(drRecords["First_Name"]) + "</td>");
@@ -148,7 +148,7 @@ public partial class UserAccessRequest_UANewUserApprovedDenied : clsBasePage
             // sbRecorords.Append("<tr><td colspan='7' class='cols_'>&nbsp;</td></tr>");
             sbRecorords.Append("</table>");
             // sbRecorords.Append("</div>");
-            sbRecorords.Append("</table>");
+            sbRecorords.Append("</td></tr></table>");
             trGrid.Visible = true;
         }
         else
@@ -165,4 +165,4 @@ public partial class UserAccessRequest_UANewUserApprovedDenied : clsBasePage
     #endregion
 
 
-    }
+}

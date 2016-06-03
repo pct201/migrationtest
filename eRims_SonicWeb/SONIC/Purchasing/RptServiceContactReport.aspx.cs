@@ -214,10 +214,10 @@ public partial class SONIC_Purchasing_RptServiceContactReport : clsBasePage
             TableCell Cell = new TableCell();
             Cell.HorizontalAlign = HorizontalAlign.Center;
             Cell.Text = "<table width='100%' cellspacing=0 cellpadding=0><tr><td width='100%'>" +
-                            "<table width='100%' style='font-weight: bold;' cellspacing=0 cellpadding=0><tr><td width='100%' colspan='8'>" +
+                            "<table width='100%' style='font-weight: bold;' cellspacing=0 cellpadding=0><tr><td width='100%' >" +
                                 "<table width='100%' cellpadding=4 cellspacing=0 style='font-weight: bold;'>" +
-                                    "<tr><td align='right' style='width:55%'>Service Contract Detail</td>" +
-                                    "<td align='right' style='width:45%'> " + DateTime.Now + "</td></tr></table>" +
+                                    "<tr style='font-weight: bold;'><td align='right' style='width:55%' colspan='4' >Service Contract Detail</td>" +
+                                    "<td align='right' style='width:45%' colspan='4'> " + DateTime.Now + "</td></tr></table>" +
                                 "</td></tr></table>" +
                             "</td></tr></table>";
             // add cell in row
@@ -256,7 +256,7 @@ public partial class SONIC_Purchasing_RptServiceContactReport : clsBasePage
         }
 
         // export data to excel from gridview
-        GridViewExportUtil.ExportGrid("ServiceContract.xlsx", gvRegion);
+        GridViewExportUtil.ExportGrid("ServiceContract.xlsx", gvRegion, true);
 
         // reset the settings
         gvRegion.GridLines = GridLines.None;

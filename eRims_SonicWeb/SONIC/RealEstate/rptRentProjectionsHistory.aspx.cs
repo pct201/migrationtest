@@ -80,7 +80,7 @@ public partial class SONIC_RealEstate_rptRentProjectionsHistory : clsBasePage
             tc.BackColor = System.Drawing.ColorTranslator.FromHtml("#507cd1");
         }
         // export gridview to excel
-        GridViewExportUtil.ExportGrid("LeaseTerm.xls", gvReport);
+        GridViewExportUtil.ExportGrid("LeaseTerm.xlsx", gvReport, true);
         gvReport.GridLines = GridLines.None;
     }
 

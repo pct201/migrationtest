@@ -114,7 +114,7 @@ public partial class SONIC_ClaimInfo_rptCompletionLagSummary : clsBasePage
         }
 
         // export data to excel from gridview
-        GridViewExportUtil.ExportGrid("CompletionLagSummaryReport.xlsx", gvDescription);
+        GridViewExportUtil.ExportGrid("CompletionLagSummaryReport.xlsx", gvDescription, true);
 
         // reset the settings
         foreach (GridViewRow gvRow in gvDescription.Rows)

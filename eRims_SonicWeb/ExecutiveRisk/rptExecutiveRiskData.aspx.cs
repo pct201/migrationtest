@@ -72,7 +72,7 @@ public partial class SONIC_ClaimInfo_rptExecutiveRiskData : clsBasePage
 
         gvSearch.GridLines = GridLines.Both;
         // export grid data into excel sheet
-        GridViewExportUtil.ExportGrid("Executive_Risk_Data_" + DateTime.Now.ToString("MM_dd_yyyy") + ".xlsx", gvSearch);
+        GridViewExportUtil.ExportGrid("Executive_Risk_Data_" + DateTime.Now.ToString("MM_dd_yyyy") + ".xlsx", gvSearch, true);
 
         // reset the grid lines and borders
 

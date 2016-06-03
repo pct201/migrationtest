@@ -69,7 +69,7 @@ public partial class SONIC_ClaimInfo_rptLossLimitation : clsBasePage
         }
 
         // export grid into excel document
-        GridViewExportUtil.ExportGrid("LossLimitationReport.xlsx", gvRegion);
+        GridViewExportUtil.ExportGrid("LossLimitationReport.xlsx", gvRegion, true);
 
         // remove grid lines and table borders
         gvRegion.GridLines = GridLines.None;
@@ -101,19 +101,19 @@ public partial class SONIC_ClaimInfo_rptLossLimitation : clsBasePage
 
         int i = 1;
 
-        lblHeader.Text = "Accident Date Range " + i.ToString() + " : " + txtLossFromDate1.Text + " &nbsp;&nbsp;&nbsp&nbsp; TO : " + txtLossToDate1.Text + " &nbsp;&nbsp&nbsp;&nbsp; Limit : " + txtLimit1.Text;
+        lblHeader.Text = "Accident Date Range " + i.ToString() + " : " + txtLossFromDate1.Text + " &nbsp;&nbsp;&nbsp;&nbsp; TO : " + txtLossToDate1.Text + " &nbsp;&nbsp;&nbsp;&nbsp; Limit : " + txtLimit1.Text;
 
         // if all theee value for Date of loss range is enter then print it.
         if (txtLimit2.Text.Trim() != "" && txtLossFromDate2.Text != "" && txtLossToDate2.Text != "")
         {
             i++;
-            lblHeader.Text = lblHeader.Text + " <br> Accident Date Range " + i.ToString() + " : " + txtLossFromDate2.Text + " &nbsp;&nbsp&nbsp;&nbsp; TO : " + txtLossToDate2.Text + "  &nbsp;&nbsp;&nbsp&nbsp; Limit : " + txtLimit2.Text.Trim();
+            lblHeader.Text = lblHeader.Text + " <br> Accident Date Range " + i.ToString() + " : " + txtLossFromDate2.Text + " &nbsp;&nbsp;&nbsp;&nbsp; TO : " + txtLossToDate2.Text + "  &nbsp;&nbsp;&nbsp;&nbsp; Limit : " + txtLimit2.Text.Trim();
         }
 
         if (txtLimit3.Text.Trim() != "" && txtLossFromDate3.Text != "" && txtLossToDate3.Text != "")
         {
             i++;
-            lblHeader.Text = lblHeader.Text + " <br> Accident Date Range " + i.ToString() + " : " + txtLossFromDate3.Text + " &nbsp;&nbsp;&nbsp&nbsp; TO : " + txtLossToDate3.Text + " &nbsp;&nbsp;&nbsp&nbsp; Limit : " + txtLimit3.Text.Trim();
+            lblHeader.Text = lblHeader.Text + " <br> Accident Date Range " + i.ToString() + " : " + txtLossFromDate3.Text + " &nbsp;&nbsp;&nbsp;&nbsp; TO : " + txtLossToDate3.Text + " &nbsp;&nbsp;&nbsp;&nbsp; Limit : " + txtLimit3.Text.Trim();
         }
 
         lblHeader.Text = lblHeader.Text + " <br> Claim Type : " + _strClaimType.TrimEnd(' ').TrimEnd(',');

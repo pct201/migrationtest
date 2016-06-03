@@ -79,7 +79,7 @@ public partial class COIReports_LocationsByState : clsBasePage
         // Export the data into excel spreadsheet
         // clsGeneral.ExportData((DataTable)ViewState["dtReport"], "Locations by State");
         gvReport.GridLines = GridLines.Both;
-        GridViewExportUtil.ExportGrid("LocationsByState.xlsx", gvReport);
+        GridViewExportUtil.ExportGrid("LocationsByState.xlsx", gvReport, true);
         gvReport.GridLines = GridLines.None;
     }
 

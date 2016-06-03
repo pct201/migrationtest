@@ -126,7 +126,7 @@ public partial class SONIC_Purchasing_RptPurchasingAssetReport : clsBasePage
         }
 
         // export data to excel from gridview
-        GridViewExportUtil.ExportGrid("AssetDetail.xlsx", gvReport);
+        GridViewExportUtil.ExportGrid("AssetDetail.xlsx", gvReport, true);
 
         // reset the settings
         gvReport.GridLines = GridLines.None;
@@ -161,7 +161,7 @@ public partial class SONIC_Purchasing_RptPurchasingAssetReport : clsBasePage
             Cell.Text = "<table width='100%' cellspacing=0 cellpadding=0><tr><td width='100%'>" +
                             "<table width='100%' style='font-weight: bold;' cellspacing=0 cellpadding=0><tr><td width='100%' colspan='8'>" +
                                 "<table width='100%' cellpadding=4 cellspacing=0 style='font-weight: bold;'>" +
-                                    "<tr><td align='left'>Sonic Automotive</td><td align='center' colspan='5'>Asset Detail</td>" +
+                                    "<tr  style='font-weight: bold;'><td align='left'>Sonic Automotive</td><td align='center' colspan='5'>Asset Detail</td>" +
                                     "<td align='right' colspan='2'> " + DateTime.Now + "</td></tr></table>" +
                                 "</td></tr></table>" +
                             "</td></tr></table>";

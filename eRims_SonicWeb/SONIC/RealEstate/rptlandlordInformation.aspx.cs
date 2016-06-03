@@ -53,7 +53,7 @@ public partial class SONIC_RealEstate_rptlandlordInformation : clsBasePage
         // if row type is data row
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
-           
+
             // get the subgrid
             GridView gvReport = (GridView)e.Row.FindControl("gvReport");
             decimal _PK_RE_Information = 0;
@@ -88,7 +88,7 @@ public partial class SONIC_RealEstate_rptlandlordInformation : clsBasePage
                 gvReport.DataSource = dtBuilding;
                 gvReport.DataBind();
             }
-        
+
         }
     }
 
@@ -98,7 +98,7 @@ public partial class SONIC_RealEstate_rptlandlordInformation : clsBasePage
     /// <param name="sender"></param>
     /// <param name="e"></param>
     protected void gvReport_RowCreated(object sender, GridViewRowEventArgs e)
-    {   
+    {
 
         if (e.Row.RowType == DataControlRowType.Header)
         {
@@ -108,7 +108,7 @@ public partial class SONIC_RealEstate_rptlandlordInformation : clsBasePage
             gRow.Font.Bold = true;
             if (strTime == "") strTime = string.Format("{0:t}", DateTime.Now);
             TableCell Cell = new TableCell();
-            Cell.Text = "<table width='100%' style='font-weight: bold;' cellspacing=0 cellpadding=4><tr>" +
+            Cell.Text = "<table width='100%' style='font-weight: bold;' cellspacing=0 cellpadding=4><tr style='font-weight: bold;'>" +
                                 "<td colspan='2' align='left' >Sonic Automotive</td>" +
                                 "<td colspan='7' align='center' >Landlord Report </td>" +
                                 "<td colspan='6' align='right'>" + clsGeneral.FormatDateToDisplay(DateTime.Now) + " " + strTime + "</td></tr></table>";
@@ -131,7 +131,7 @@ public partial class SONIC_RealEstate_rptlandlordInformation : clsBasePage
         gvReport.GridLines = GridLines.Both;
         ((HtmlTable)gvReport.HeaderRow.FindControl("tblHeader")).Border = 1;
         ((HtmlTable)gvReport.FooterRow.FindControl("tblFooter")).Border = 1;
-        ((HtmlTable)gvReport.HeaderRow.FindControl("tblBLHeader")).Border = 1;  
+        ((HtmlTable)gvReport.HeaderRow.FindControl("tblBLHeader")).Border = 1;
         foreach (GridViewRow gRow in gvReport.Rows)
         {
             ((HtmlTable)gRow.FindControl("tblDetails")).Border = 1;
@@ -142,14 +142,14 @@ public partial class SONIC_RealEstate_rptlandlordInformation : clsBasePage
             gvDetail.GridLines = GridLines.Both;
         }
         // export gridview to excel
-        GridViewExportUtil.ExportGrid("LandlordReport.xlsx", gvReport);
+        GridViewExportUtil.ExportGrid("LandlordReport.xlsx", gvReport, false);
 
         // hide gridlines
         gvReport.GridLines = GridLines.None;
         ((HtmlTable)gvReport.HeaderRow.FindControl("tblHeader")).Border = 0;
         ((HtmlTable)gvReport.HeaderRow.FindControl("tblDetails")).Border = 0;
         ((HtmlTable)gvReport.FooterRow.FindControl("tblFooter")).Border = 0;
-        ((HtmlTable)gvReport.HeaderRow.FindControl("tblBLHeader")).Border = 0;    
+        ((HtmlTable)gvReport.HeaderRow.FindControl("tblBLHeader")).Border = 0;
 
         foreach (GridViewRow gRow in gvReport.Rows)
         {
@@ -173,7 +173,7 @@ public partial class SONIC_RealEstate_rptlandlordInformation : clsBasePage
     protected void btnShowReport_Click(object sender, EventArgs e)
     {
         DateTime? dtLCDFrom = null, dtLCDTo = null, dtLEDFrom = null, dtLEDTo = null;
-        string strRegion = string.Empty, strLeaseType = string.Empty, strLocationStatus = string.Empty, strMarket = string.Empty; 
+        string strRegion = string.Empty, strLeaseType = string.Empty, strLocationStatus = string.Empty, strMarket = string.Empty;
         DataSet dsResult;
 
         // set filter Criteria
@@ -204,7 +204,7 @@ public partial class SONIC_RealEstate_rptlandlordInformation : clsBasePage
         }
         strLocationStatus = strLocationStatus.TrimEnd(',');
 
-        foreach(ListItem li in lstMarket.Items)
+        foreach (ListItem li in lstMarket.Items)
         {
             if (li.Selected)
                 strMarket = strMarket + "" + li.Value + ",";
@@ -220,7 +220,7 @@ public partial class SONIC_RealEstate_rptlandlordInformation : clsBasePage
 
         // bind grid view
         gvReport.DataSource = dsResult.Tables[0];
-        gvReport.DataBind(); 
+        gvReport.DataBind();
         dvGrid.Visible = true;
 
         // check any row is found or not.
@@ -258,5 +258,5 @@ public partial class SONIC_RealEstate_rptlandlordInformation : clsBasePage
         return;
     }
 
-    #endregion   
+    #endregion
 }

@@ -138,7 +138,7 @@ public partial class SONIC_RealEstate_rptMonthlyExpenseByLocation : clsBasePage
         }
 
         // export gridview to excel
-        GridViewExportUtil.ExportGrid("MonthlyExpenseByLocation.xls", gvReport);
+        GridViewExportUtil.ExportGrid("MonthlyExpenseByLocation.xlsx", gvReport, true);
         gvReport.GridLines = GridLines.None;
     }
 

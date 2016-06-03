@@ -147,7 +147,7 @@ public partial class SONIC_RealEstate_rptSubspacesByLocation : clsBasePage
                     gvDetail.FooterRow.Cells.Remove(gvDetail.FooterRow.Cells[3]);
         }
         // export gridview to excel
-        GridViewExportUtil.ExportGrid("SubspacesByLocation.xls", gvReport);
+        GridViewExportUtil.ExportGrid("SubspacesByLocation.xlsx", gvReport, true);
         gvReport.GridLines = GridLines.None;
     }
 

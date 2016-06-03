@@ -163,6 +163,7 @@ public partial class SONIC_ClaimInfo_rptRiskManagementWorksheet : clsBasePage
         data = File.ReadAllText(strPath);
         data = data.Trim();
         HTML2Excel objHtml2Excel = new HTML2Excel(data);
+        objHtml2Excel.isGrid = false;
         outputFiles = Path.GetFullPath(strPath) + ".xlsx";
         bool blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
 
@@ -180,8 +181,8 @@ public partial class SONIC_ClaimInfo_rptRiskManagementWorksheet : clsBasePage
             {
                 if (File.Exists(outputFiles))
                     File.Delete(outputFiles);
-                if (File.Exists(strPath))
-                    File.Delete(strPath);
+                //if (File.Exists(strPath))
+                //    File.Delete(strPath);
 
                 HttpContext.Current.Response.End();
             }

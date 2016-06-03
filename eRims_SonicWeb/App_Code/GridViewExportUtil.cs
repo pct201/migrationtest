@@ -270,7 +270,28 @@ public class GridViewExportUtil
         }
     }
 
-    public static void ExportGrid(string fileNameToSave, GridView gvReportGrid)
+    public static void ExportGrid_Old(string fileNameToSave, GridView gvReportGrid)
+    {
+        System.IO.StringWriter stringWrite = new System.IO.StringWriter();
+        System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
+
+        gvReportGrid.RenderControl(htmlWrite);
+
+        MemoryStream memorystream = new MemoryStream();
+        byte[] _bytes = Encoding.UTF8.GetBytes(stringWrite.ToString());
+        memorystream.Write(_bytes, 0, _bytes.Length);
+        memorystream.Seek(0, SeekOrigin.Begin);
+
+        HttpContext.Current.Response.Clear();
+        HttpContext.Current.Response.AddHeader(
+            "content-disposition", string.Format("attachment; filename={0}", fileNameToSave));
+        HttpContext.Current.Response.ContentType = "application/ms-excel";
+
+        HttpContext.Current.Response.Write(stringWrite.ToString());
+        HttpContext.Current.Response.End();
+    }
+
+    public static void ExportGrid(string fileNameToSave, GridView gvReportGrid,bool isGrid)
     {
         try
         {
@@ -300,6 +321,8 @@ public class GridViewExportUtil
             data = File.ReadAllText(strPath);
             data = data.Trim();
             HTML2Excel objHtml2Excel = new HTML2Excel(data);
+            objHtml2Excel.isGrid = isGrid;
+            objHtml2Excel.isUseCSS = false;
             outputFiles = Path.GetFullPath(strPath) + ".xlsx";
             bool blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
 
@@ -309,7 +332,7 @@ public class GridViewExportUtil
                 {
                     HttpContext.Current.Response.Clear();
                     HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename=\"" + fileNameToSave + "\""));
-                    HttpContext.Current.Response.ContentType = "application/ms-excel";
+                    HttpContext.Current.Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
                     HttpContext.Current.Response.TransmitFile(outputFiles);
                     HttpContext.Current.Response.Flush();
                 }
@@ -319,6 +342,26 @@ public class GridViewExportUtil
                         File.Delete(outputFiles);
                     if (File.Exists(strPath))
                         File.Delete(strPath);
+                    HttpContext.Current.Response.End();
+                }
+            }
+            else
+            {
+                try
+                {
+                    fileNameToSave.Replace(".xlsx", ".xls");
+                    HttpContext.Current.Response.Clear();
+                    HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename=\"" + fileNameToSave + "\""));
+                    HttpContext.Current.Response.ContentType = "application/ms-excel";
+                    HttpContext.Current.Response.TransmitFile(strPath);
+                    HttpContext.Current.Response.Flush();
+                }
+                finally
+                {
+                    if (File.Exists(outputFiles))
+                        File.Delete(outputFiles);
+                    //if (File.Exists(strPath))
+                    //    File.Delete(strPath);
                     HttpContext.Current.Response.End();
                 }
             }
@@ -359,6 +402,8 @@ public class GridViewExportUtil
             data = File.ReadAllText(strPath);
             data = data.Trim();
             HTML2Excel objHtml2Excel = new HTML2Excel(data);
+            objHtml2Excel.isGrid = false;
+            objHtml2Excel.isUseCSS = false;
             outputFiles = Path.GetFullPath(strPath) + ".xlsx";
             bool blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
 
@@ -368,7 +413,7 @@ public class GridViewExportUtil
                 {
                     HttpContext.Current.Response.Clear();
                     HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename=\"" + fileNameToSave + "\""));
-                    HttpContext.Current.Response.ContentType = "application/ms-excel";
+                    HttpContext.Current.Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
                     HttpContext.Current.Response.TransmitFile(outputFiles);
                     HttpContext.Current.Response.Flush();
                 }
@@ -416,6 +461,8 @@ public class GridViewExportUtil
             data = File.ReadAllText(strPath);
             data = data.Trim();
             HTML2Excel objHtml2Excel = new HTML2Excel(data);
+            objHtml2Excel.isGrid = true;
+            objHtml2Excel.isUseCSS = false;
             outputFiles = Path.GetFullPath(strPath) + ".xlsx";
             bool blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
 
@@ -424,8 +471,9 @@ public class GridViewExportUtil
                 try
                 {
                     HttpContext.Current.Response.Clear();
+                    //HttpContext.Current.Response.AddHeader("content-disposition", "attachment;  filename=products.xlsx");
                     HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename=\"" + fileNameToSave + "\""));
-                    HttpContext.Current.Response.ContentType = "application/ms-excel";
+                    HttpContext.Current.Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
                     HttpContext.Current.Response.TransmitFile(outputFiles);
                     HttpContext.Current.Response.Flush();
                 }

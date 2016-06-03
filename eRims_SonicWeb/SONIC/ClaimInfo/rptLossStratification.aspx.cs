@@ -128,7 +128,7 @@ public partial class SONIC_ClaimInfo_rptLossStratification : clsBasePage
         }
         
         // export grid data into excel sheet
-        GridViewExportUtil.ExportGrid("LossStratificationReport.xlsx", gvReportYear);
+        GridViewExportUtil.ExportGrid("LossStratificationReport.xlsx", gvReportYear, true);
 
         // reset the grid lines and borders
         ((HtmlTable)gvReportYear.HeaderRow.FindControl("tblHeader")).Border = 0;

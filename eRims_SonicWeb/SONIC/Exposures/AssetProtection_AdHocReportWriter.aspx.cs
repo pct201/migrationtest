@@ -136,8 +136,9 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
         {
             string data = File.ReadAllText(strFilePath);
             data = data.Trim();
-            HTML2Excel objHtml2Excel = new HTML2Excel(data);
+            AdhocHTML2Excel objHtml2Excel = new AdhocHTML2Excel(data);
             outputFiles = Path.GetFullPath(strFilePath) + ".xlsx";
+            //objHtml2Excel.isGrid = false;
             blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
         }
   
@@ -157,8 +158,8 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
             {
                 if (File.Exists(outputFiles))
                     File.Delete(outputFiles);
-                if (File.Exists(strFilePath))
-                    File.Delete(strFilePath);
+                //if (File.Exists(strFilePath))
+                //    File.Delete(strFilePath);
 
                 HttpContext.Current.Response.End();
             }
@@ -181,7 +182,7 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
         {
             string data = File.ReadAllText(strFilePath);
             data = data.Trim();
-            HTML2Excel objHtml2Excel = new HTML2Excel(data);
+            AdhocHTML2Excel objHtml2Excel = new AdhocHTML2Excel(data);
             outputFiles = Path.GetFullPath(strFilePath) + ".xlsx";
             blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
         }
@@ -2834,7 +2835,7 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
                 if (Report_Type == ReportOutputType.ExportAsMail)
                 {
                     sbRecord.Append("<br />");
-                    sbRecord.Append("<b>Report Title : CRM Ad-Hoc Report </b>");
+                    sbRecord.Append("<b>Report Title : Asset Protection Ad-Hoc Report </b>");
                     sbRecord.Append("<br /><br />");
                 }
 
@@ -2889,6 +2890,10 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
                         sw.Write(sbRecord.ToString());
                         sbRecord = new StringBuilder(string.Empty);
                     }
+                }
+                else
+                {
+                    File.Delete(strPath);
                 }
 
                 #region "Item Template"

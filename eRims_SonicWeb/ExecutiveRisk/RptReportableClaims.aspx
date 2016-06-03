@@ -229,17 +229,17 @@
                                                                      <asp:TemplateField>
                                                                         <ItemStyle Width="200px" HorizontalAlign="left" />
                                                                         <ItemTemplate>
-                                                                            <asp:Label ID="lbl13" runat="server" Width="200px" Text='<%#Eval("legal_entity")%>' /></ItemTemplate>
+                                                                            <asp:Label ID="lbl131" runat="server" Width="200px" Text='<%#Eval("legal_entity")%>' /></ItemTemplate>
                                                                     </asp:TemplateField>
                                                                      <asp:TemplateField>
                                                                         <ItemStyle Width="200px" HorizontalAlign="left" />
                                                                         <ItemTemplate>
-                                                                            <asp:Label ID="lbl13" runat="server" Width="200px" Text='<%#Eval("dba")%>' /></ItemTemplate>
+                                                                            <asp:Label ID="lbl132" runat="server" Width="200px" Text='<%#Eval("dba")%>' /></ItemTemplate>
                                                                     </asp:TemplateField>
                                                                     <asp:TemplateField>
                                                                         <ItemStyle Width="200px" HorizontalAlign="left" />
                                                                         <ItemTemplate>
-                                                                            <asp:Label ID="lbl13" runat="server" Width="200px" Text='<%#Eval("Entity")%>' /></ItemTemplate>
+                                                                            <asp:Label ID="lbl133" runat="server" Width="200px" Text='<%#Eval("Entity")%>' /></ItemTemplate>
                                                                     </asp:TemplateField>
                                                                     <asp:TemplateField>
                                                                         <ItemStyle Width="120px" HorizontalAlign="left" />

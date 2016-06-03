@@ -101,7 +101,7 @@ public partial class SONIC_RealEstate_rptRentableAreaByExpirationDate : clsBaseP
         }
 
         // export gridview to excel
-        GridViewExportUtil.ExportGrid("LeaseTerm.xls", gvReport);
+        GridViewExportUtil.ExportGrid("LeaseTerm.xlsx", gvReport, true);
         gvReport.GridLines = GridLines.None;
     }
 

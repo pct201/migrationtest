@@ -97,7 +97,7 @@ public partial class COIReports_Verification : clsBasePage
                 gvReport.FooterRow.Cells.Remove(gvReport.FooterRow.Cells[2]);
         }
         // Export the data into excel spreadsheet
-        GridViewExportUtil.ExportGrid("VerificationOfInsurance.xlsx", gvReport);
+        GridViewExportUtil.ExportGrid("VerificationOfInsurance.xlsx", gvReport, true);
         gvReport.GridLines = GridLines.None;
     }
     #endregion

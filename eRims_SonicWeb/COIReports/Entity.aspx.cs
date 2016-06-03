@@ -107,7 +107,7 @@ public partial class COIReports_Entity : clsBasePage
                 gvReport.FooterRow.Cells.Remove(gvReport.FooterRow.Cells[2]);
         }
 
-        GridViewExportUtil.ExportGrid("Entity.xlsx", gvReport, true);
+        GridViewExportUtil.ExportGrid("Entity.xlsx", gvReport, false);
         gvReport.GridLines = GridLines.None;
     }
     #endregion

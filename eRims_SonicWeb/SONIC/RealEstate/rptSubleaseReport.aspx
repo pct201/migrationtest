@@ -193,7 +193,7 @@
                 <div style="overflow: hidden; width: 997px;" id="dvHeader" runat="server">
                     <table width="2650px" cellpadding="4" cellspacing="0" border="0" style="font-weight: bold;"
                         id="tblHeader" runat="server">
-                        <tr class="HeaderStyle">
+                        <tr class="HeaderStyle" style="font-weight: bold;">
                             <td align="left" colspan="2">
                                 Sonic Automotive
                             </td>

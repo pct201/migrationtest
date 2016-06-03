@@ -63,7 +63,7 @@ public partial class DashBoard_SafetyFirstAwardReport : clsBasePage
     {
         gvSafetyFirstAwardReport.GridLines = GridLines.Both;
         // export data to excel from grid view
-        GridViewExportUtil.ExportGrid("Risk Management Playbook Scorecard.xls", gvSafetyFirstAwardReport);
+        GridViewExportUtil.ExportGrid("Risk Management Playbook Scorecard.xlsx", gvSafetyFirstAwardReport, false);
         gvSafetyFirstAwardReport.GridLines = GridLines.None;
     }
 

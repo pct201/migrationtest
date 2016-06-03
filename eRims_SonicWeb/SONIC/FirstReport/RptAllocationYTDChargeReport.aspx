@@ -343,6 +343,7 @@
                                                                         <td style="width: 125px;"></td>
                                                                         <td style="width: 80px;"></td>
                                                                         <td style="width: 100px;"></td>
+                                                                        <td style="width: 120px;"></td>
                                                                         <td style="width: 120px;" align="Right">
                                                                             <asp:Label ID="lblGInitialCharge" runat="server"></asp:Label>
                                                                         </td>

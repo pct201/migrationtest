@@ -1,7 +1,8 @@
-<%@ Page Language="C#" MasterPageFile="~/Default.master" AutoEventWireup="true" CodeFile="rptLossStratification.aspx.cs" 
-Inherits="SONIC_ClaimInfo_rptLossStratification" Title="eRIMS Sonic :: Loss Limitation Report" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-<asp:ValidationSummary ID="valSummary" runat="server" ShowMessageBox="true" ShowSummary="false" />
+<%@ Page Language="C#" MasterPageFile="~/Default.master" AutoEventWireup="true" CodeFile="rptLossStratification.aspx.cs"
+    Inherits="SONIC_ClaimInfo_rptLossStratification" Title="eRIMS Sonic :: Loss Limitation Report" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <asp:ValidationSummary ID="valSummary" runat="server" ShowMessageBox="true" ShowSummary="false" />
     <asp:HiddenField ID="hdnInnerHtml" runat="server" />
     <table width="100%">
         <tr>
@@ -10,19 +11,16 @@ Inherits="SONIC_ClaimInfo_rptLossStratification" Title="eRIMS Sonic :: Loss Limi
             </td>
         </tr>
         <tr>
-            <td align="left" class="ghc">
-                Loss Stratification Report
+            <td align="left" class="ghc">Loss Stratification Report
             </td>
         </tr>
         <tr>
             <td>
                 <table width="40%" align="center" cellpadding="3" cellspacing="0">
                     <tr>
-                        <td style="width: 30%;" valign="top">
-                            &nbsp; Accident Year <span style="color: Red;">*</span>
+                        <td style="width: 30%;" valign="top">&nbsp; Accident Year <span style="color: Red;">*</span>
                         </td>
-                        <td align="right" style="width: 5%;" valign="top">
-                            :
+                        <td align="right" style="width: 5%;" valign="top">:
                         </td>
                         <td style="width: 65%;">
                             <asp:ListBox ID="lsbPolicyYear" runat="server" SelectionMode="Multiple" Rows="4"
@@ -32,17 +30,15 @@ Inherits="SONIC_ClaimInfo_rptLossStratification" Title="eRIMS Sonic :: Loss Limi
                         </td>
                     </tr>
                     <tr>
-                        <td valign="top">
-                            &nbsp; Claim Type <span style="color: Red;">*</span>
+                        <td valign="top">&nbsp; Claim Type <span style="color: Red;">*</span>
                         </td>
-                        <td align="right" valign="top">
-                            :
+                        <td align="right" valign="top">:
                         </td>
                         <td valign="top">
                             <asp:ListBox ID="lsbClaimType" runat="server" SelectionMode="Multiple" Rows="4" ToolTip="Select Claim Type"
                                 AutoPostBack="false" Width="166px">
                                 <asp:ListItem Value="W" Text="Workers Compensation"></asp:ListItem>
-                                <asp:ListItem Value="A" Text="Auto Loss"></asp:ListItem>                                
+                                <asp:ListItem Value="A" Text="Auto Loss"></asp:ListItem>
                                 <asp:ListItem Value="P" Text="Premises Loss"></asp:ListItem>
                             </asp:ListBox>
                             <asp:RequiredFieldValidator ID="rfvlsbClaimType" runat="server" ErrorMessage="Please Select Claim Type"
@@ -50,10 +46,8 @@ Inherits="SONIC_ClaimInfo_rptLossStratification" Title="eRIMS Sonic :: Loss Limi
                         </td>
                     </tr>
                     <tr>
-                        <td>
-                        </td>
-                        <td>
-                        </td>
+                        <td></td>
+                        <td></td>
                         <td align="left">
                             <asp:Button runat="server" ID="btnShowReport" Text="Show Report" UseSubmitBehavior="true"
                                 OnClick="btnShowReport_Click" />&nbsp;
@@ -86,7 +80,7 @@ Inherits="SONIC_ClaimInfo_rptLossStratification" Title="eRIMS Sonic :: Loss Limi
             <tr>
                 <td width="100%" align="center">
                     <asp:GridView ID="gvReportYear" runat="server" AutoGenerateColumns="false" OnRowDataBound="gvReportYear_RowDataBound"
-                        Width="100%" EnableTheming="false" HorizontalAlign="Left" EmptyDataText="No Record Found" 
+                        Width="100%" EnableTheming="false" HorizontalAlign="Left" EmptyDataText="No Record Found"
                         GridLines="None" ShowFooter="true" CssClass="GridClass">
                         <AlternatingRowStyle BackColor="White" />
                         <HeaderStyle CssClass="HeaderStyle" />
@@ -99,42 +93,24 @@ Inherits="SONIC_ClaimInfo_rptLossStratification" Title="eRIMS Sonic :: Loss Limi
                                 <HeaderTemplate>
                                     <table width="100%" cellpadding="0" cellspacing="0">
                                         <tr>
-                                            <td>
-                                                <table width="100%" cellpadding="0" cellspacing="0">
-                                                    <tr>
-                                                        <td>
-                                                            <table width="100%" cellpadding="0" cellspacing="0">
-                                                                <tr>
-                                                                    <td>
-                                                                        <table width="100%" style="font-weight: bold;" id="tblHeader" runat="server">
-                                                                            <tr>
-                                                                                <td align="center" style="width: 50%;" valign="middle">
-                                                                                    Claim Size (in $)
-                                                                                </td>
-                                                                                <td align="right">
-                                                                                    Number Of Claims
-                                                                                </td>
-                                                                                <td style="width: 12%" align="right">
-                                                                                    Percent To<br />
-                                                                                    Total Claim
-                                                                                </td>
-                                                                                <td style="width: 16%" align="right">
-                                                                                    Total<br />Incurred Dollars
-                                                                                </td>
-                                                                                <td style="width: 10%" align="right">
-                                                                                    Percent To
+                                            <table width="100%" style="font-weight: bold;" id="tblHeader" runat="server">
+                                                <tr>
+                                                    <td align="center" style="width: 50%;" valign="middle">Claim Size (in $)
+                                                    </td>
+                                                    <td align="right">Number Of Claims
+                                                    </td>
+                                                    <td style="width: 12%" align="right">Percent To<br />
+                                                        Total Claim
+                                                    </td>
+                                                    <td style="width: 16%" align="right">Total<br />
+                                                        Incurred Dollars
+                                                    </td>
+                                                    <td style="width: 10%" align="right">Percent To
                                                                                     <br />
-                                                                                    Total Dollar
-                                                                                </td>
-                                                                            </tr>
-                                                                        </table>
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </td>
+                                                        Total Dollar
+                                                    </td>
+                                                </tr>
+                                            </table>
                                         </tr>
                                     </table>
                                 </HeaderTemplate>
@@ -150,7 +126,7 @@ Inherits="SONIC_ClaimInfo_rptLossStratification" Title="eRIMS Sonic :: Loss Limi
                                         </tr>
                                         <tr>
                                             <td>
-                                                <asp:GridView ID="gvReportClaimType" runat="server" AutoGenerateColumns="false" 
+                                                <asp:GridView ID="gvReportClaimType" runat="server" AutoGenerateColumns="false"
                                                     Width="100%" OnRowDataBound="gvReportClaimType_RowDataBound" ShowHeader="False"
                                                     HorizontalAlign="Left" EnableTheming="false" GridLines="None" ShowFooter="true"
                                                     CssClass="GridClass">
@@ -276,14 +252,8 @@ Inherits="SONIC_ClaimInfo_rptLossStratification" Title="eRIMS Sonic :: Loss Limi
                                     <table width="100%" cellpadding="0" cellspacing="0">
                                         <tr>
                                             <td>
-                                                <table width="100%" cellpadding="0" cellspacing="0">
-                                                    <tr>
-                                                        <td>
-                                                            <table width="100%" cellpadding="0" cellspacing="0">
-                                                                <tr>
-                                                                    <td>
-                                                                        <table width="100%" cellpadding="2" cellspacing="2" style="color: White; font-weight: bold;
-                                                                            background-color: #507CD1;" id="tblFooter" runat="server">
+                                                <table width="100%" cellpadding="2" cellspacing="2" style="color: White; font-weight: bold; background-color: #507CD1;"
+                                                                            id="tblFooter" runat="server">
                                                                             <tr>
                                                                                 <td style="width: 50%; padding-left: 5px;" align="left" valign="bottom">
                                                                                     <b>Report Grand Total</b>
@@ -301,13 +271,7 @@ Inherits="SONIC_ClaimInfo_rptLossStratification" Title="eRIMS Sonic :: Loss Limi
                                                                                     <asp:Label ID="lblGrandTotalIncurredPercent" runat="server" Text="100.00"></asp:Label>
                                                                                 </td>
                                                                             </tr>
-                                                                        </table>
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
-                                                        </td>
-                                                    </tr>
-                                                </table>
+                                                                        </table>                                                                 
                                             </td>
                                         </tr>
                                     </table>
@@ -321,12 +285,10 @@ Inherits="SONIC_ClaimInfo_rptLossStratification" Title="eRIMS Sonic :: Loss Limi
     </asp:Panel>
     <table width="100%">
         <tr>
-            <td class="Spacer" style="height: 15px;">
-            </td>
+            <td class="Spacer" style="height: 15px;"></td>
         </tr>
         <tr>
-            <td width="100%" class="Spacer" style="height: 50px;">
-            </td>
+            <td width="100%" class="Spacer" style="height: 50px;"></td>
         </tr>
     </table>
 </asp:Content>

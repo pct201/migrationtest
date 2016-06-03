@@ -97,7 +97,7 @@ public partial class SONIC_ClaimInfo_rptCauseAnalysis : clsBasePage
         }
 
         // export data to excel from gridview
-        GridViewExportUtil.ExportGrid("WCCauseAnalysisReport.xlsx", gvRegions);
+        GridViewExportUtil.ExportGrid("WCCauseAnalysisReport.xlsx", gvRegions, true);
 
         // reset the settings
         foreach (GridViewRow gvRow in gvRegions.Rows)

@@ -34,7 +34,7 @@ public partial class SONIC_RealEstate_rptSubleaseReport : System.Web.UI.Page
             lstLocation.Focus();
         }
         clsGeneral.SetListBoxToolTip(new ListBox[] { lstLocation });
-        
+
     }
     #endregion
 
@@ -60,7 +60,7 @@ public partial class SONIC_RealEstate_rptSubleaseReport : System.Web.UI.Page
     {
 
         DateTime? dtLCDFrom = null, dtLCDTo = null, dtLEDFrom = null, dtLEDTo = null;
-        string strRegion = string.Empty, strLocationStatus = string.Empty, strMarket = string.Empty; 
+        string strRegion = string.Empty, strLocationStatus = string.Empty, strMarket = string.Empty;
         DataSet dsReport;
 
         if (txtLCDateFrom.Text.Trim() != string.Empty)
@@ -102,7 +102,7 @@ public partial class SONIC_RealEstate_rptSubleaseReport : System.Web.UI.Page
         // get report result from database
         dsReport = Report.GetSubLeaseReport(strRegion, strMarket, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo, strStatus);
 
-                
+
         // get data tables from dataset
         DataTable dtRegions = dsReport.Tables[0];
 
@@ -155,7 +155,7 @@ public partial class SONIC_RealEstate_rptSubleaseReport : System.Web.UI.Page
         }
 
         // export data to excel from gridview
-        GridViewExportUtil.ExportGrid("SubLeaseReport.xlsx", gvDescription);
+        GridViewExportUtil.ExportGrid("SubLeaseReport.xlsx", gvDescription, true);
 
         // reset the settings
         foreach (GridViewRow gvRow in gvDescription.Rows)
@@ -216,7 +216,7 @@ public partial class SONIC_RealEstate_rptSubleaseReport : System.Web.UI.Page
     private void BindDropDownList()
     {
         ComboHelper.FillRegionListBox(new ListBox[] { lstLocation }, false);
-       
+
         //Bind Market Dropdown
         ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
     }
