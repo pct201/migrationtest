@@ -234,7 +234,7 @@ public partial class rptIncidentInvestigation : clsBasePage
         strRegion = Convert.ToString(drpRegions.SelectedValue);
         string strMarket = "";
         // get selected Market
-        strRegion = Convert.ToString(ddlMarket.SelectedValue);
+        strMarket = Convert.ToString(ddlMarket.SelectedValue);
         DataSet dsReport = Report.GetIncidentInvestigationReport(strRegion, strMarket, Convert.ToInt32(drpYear.SelectedValue), strReportInterval);
 
         // get data tables from dataset
