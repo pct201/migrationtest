@@ -2897,32 +2897,32 @@ public partial class SONIC_DealershipDetails_AdhocReportWriter : clsBasePage
         strExport.Append("<table style='font-size:10pt;'>");
         strExport.Append("<tr><td>&nbsp;</td></tr>");
         strExport.Append("<tr>");
-        strExport.Append("<td><b>Report Title : Safety Training Ad-Hoc Report</b></td>");
+        strExport.Append("<td colspan='4'><b>Report Title : Safety Training Ad-Hoc Report</b></td>");
         strExport.Append("</tr>");
         strExport.Append("<tr><td>&nbsp;</td></tr>");
         if (drpGroupByFirst.SelectedIndex > 0)
-            strExport.Append("<tr><td nowrap='nowrap'><b> First Group By : </b>" + Convert.ToString(drpGroupByFirst.SelectedItem.Text) + " <b>Sorting :</b> " + Convert.ToString(rdblGroupSortByFirst.SelectedItem.Text).ToUpper() + " </td></tr>");
+            strExport.Append("<tr><td nowrap='nowrap' colspan='4'><b> First Group By : </b>" + Convert.ToString(drpGroupByFirst.SelectedItem.Text) + " <b>Sorting :</b> " + Convert.ToString(rdblGroupSortByFirst.SelectedItem.Text).ToUpper() + " </td></tr>");
         else
             strExport.Append("<tr><td ><b> First Group By : </b> &nbsp; </td></tr>");
 
         if (drpGroupBySecond.SelectedIndex > 0)
-            strExport.Append("<tr><td nowrap='nowrap'><b> Second Group By : </b>" + Convert.ToString(drpGroupBySecond.SelectedItem.Text) + " <b>Sorting :</b> " + Convert.ToString(rdblGroupSortBySecond.SelectedItem.Text).ToUpper() + " </td></tr>");
+            strExport.Append("<tr><td nowrap='nowrap' colspan='4'><b> Second Group By : </b>" + Convert.ToString(drpGroupBySecond.SelectedItem.Text) + " <b>Sorting :</b> " + Convert.ToString(rdblGroupSortBySecond.SelectedItem.Text).ToUpper() + " </td></tr>");
         else
             strExport.Append("<tr><td ><b> Second Group By : </b> &nbsp; </td></tr>");
 
         strExport.Append("<tr><td ></td></tr>");
         if (drpSortingFirst.SelectedIndex > 0)
-            strExport.Append("<tr><td nowrap='nowrap'><b> First Level Sort By : </b>" + Convert.ToString(drpSortingFirst.SelectedItem.Text) + " <b>Sorting :</b> " + Convert.ToString(rdbSort1.SelectedItem.Text).ToUpper() + " </td></tr>");
+            strExport.Append("<tr><td nowrap='nowrap' colspan='4'><b> First Level Sort By : </b>" + Convert.ToString(drpSortingFirst.SelectedItem.Text) + " <b>Sorting :</b> " + Convert.ToString(rdbSort1.SelectedItem.Text).ToUpper() + " </td></tr>");
         else
             strExport.Append("<tr><td ><b> First Level Sort By : </b> &nbsp; </td></tr>");
 
         if (drpSortingSecond.SelectedIndex > 0)
-            strExport.Append("<tr><td nowrap='nowrap'><b> Second Level Sort By : </b>" + Convert.ToString(drpSortingSecond.SelectedItem.Text) + " <b>Sorting :</b> " + Convert.ToString(rdbSort2.SelectedItem.Text).ToUpper() + " </td></tr>");
+            strExport.Append("<tr><td nowrap='nowrap' colspan='4'><b> Second Level Sort By : </b>" + Convert.ToString(drpSortingSecond.SelectedItem.Text) + " <b>Sorting :</b> " + Convert.ToString(rdbSort2.SelectedItem.Text).ToUpper() + " </td></tr>");
         else
             strExport.Append("<tr><td ><b> Second Level Sort By : </b> &nbsp; </td></tr>");
 
         if (drpSortingThird.SelectedIndex > 0)
-            strExport.Append("<tr><td nowrap='nowrap'><b> Third Level Sort By : </b>" + Convert.ToString(drpSortingThird.SelectedItem.Text) + " <b>Sorting :</b> " + Convert.ToString(rdbSort3.SelectedItem.Text).ToUpper() + " </td></tr>");
+            strExport.Append("<tr><td nowrap='nowrap' colspan='4'><b> Third Level Sort By : </b>" + Convert.ToString(drpSortingThird.SelectedItem.Text) + " <b>Sorting :</b> " + Convert.ToString(rdbSort3.SelectedItem.Text).ToUpper() + " </td></tr>");
         else
             strExport.Append("<tr><td ><b> Third Level Sort By : </b> &nbsp; </td></tr>");
 
