@@ -3127,6 +3127,11 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         else
             objSLT_Meeting_Schedule.FK_LU_Meeting_Quality = null;
 
+        if (drpFK_LU_Meeting_Quality.SelectedIndex > 0)
+            objSLT_Meeting_Schedule.Date_Scored = clsGeneral.FormatDateToStore(DateTime.Today.ToString());
+        else
+            objSLT_Meeting_Schedule.Date_Scored = null;
+
         objSLT_Meeting_Schedule.Update_Date = System.DateTime.Now;
         objSLT_Meeting_Schedule.Updated_By = clsSession.UserID;
         //objSLT_Meeting_Schedule.UniqueVal = UniqueVal;
