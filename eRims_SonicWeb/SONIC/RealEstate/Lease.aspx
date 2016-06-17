@@ -228,7 +228,7 @@
             strErrorLess = "Year should be less than or equal to current year.";
 
             var right_now = new Date();
-            var the_year = right_now.getYear();
+            var the_year = right_now.getYear() + 1900;
 
             var y = document.getElementById(x).value;
             if (y.length < 4 && y.length > 0) {
