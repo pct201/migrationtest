@@ -112,6 +112,29 @@
                                                 <td align="left">                                                   
                                                     <a href="#" id="lnkAssName" onclick="OpenAssociateName();" runat="server">Associate Name</a>
                                                 </td>
+						<td>
+							&nbsp;
+						</td>
+						<td>
+							&nbsp;
+						</td>
+						<td>
+							&nbsp;
+						</td>
+                                            </tr>
+                                            <tr>
+                                                <%--<td align="left">
+                                                    Legal Entity 
+                                                </td>
+                                                 <td align="center">
+                                                    :
+                                                </td>
+                                                 <td align="left">
+                                                 <asp:DropDownList runat="server" ID="ddlLegalEntity" AutoPostBack="true" SkinID="dropGen"  Width="250px"
+                                                        OnSelectedIndexChanged="ddlLegalEntity_SelectedIndexChanged">
+                                                    </asp:DropDownList>
+                                                 </td>--%>
+
                                                 <td align="left">
                                                   Date of Incident Start 
                                                 </td>
@@ -127,19 +150,7 @@
                                                         MinimumValue="01/01/1753" MaximumValue="12/31/9999" Type="Date" ErrorMessage="Incident Start Date is not valid."
                                                         runat="server" ValidationGroup="vsErrorGroup" Display="none" />
                                                 </td>
-                                            </tr>
-                                            <tr>
-                                                <%--<td align="left">
-                                                    Legal Entity 
-                                                </td>
-                                                 <td align="center">
-                                                    :
-                                                </td>
-                                                 <td align="left">
-                                                 <asp:DropDownList runat="server" ID="ddlLegalEntity" AutoPostBack="true" SkinID="dropGen"  Width="250px"
-                                                        OnSelectedIndexChanged="ddlLegalEntity_SelectedIndexChanged">
-                                                    </asp:DropDownList>
-                                                 </td>--%>
+
                                                  <td align="left">
                                                     Date of Incident End
                                                 </td>
@@ -265,7 +276,7 @@
             GB_showCenter('Associate Name', '<%=AppConfig.SiteURL%>SONIC/FirstReport/AssociateNamePopup.aspx', 500, 500, ReturnFunc);
         }
         function ReturnFunc() {
-            document.getElementById('<%=HdnEmployeeID.ClientID %>').value = document.getElementById('hdnEmpval').value;        
+            document.getElementById('<%=HdnEmployeeID.ClientID %>').value = document.getElementById('hdnEmpval').value;
         }
     </script>
     <script type="text/javascript" src="<%=AppConfig.SiteURL%>greybox/AJS.js"></script>
