@@ -1135,6 +1135,61 @@ public class SLT_Reports : System.Web.UI.Page
 
         #endregion
 
+       #region "BT Security Walk Open Observation For Next Months"
+
+       StringBuilder sbtblNextMonth = new StringBuilder();
+       DataSet dsBTObservation = clsLU_SLT_BT_Security_Walk_Focus_Area.GetSLTQuestions_OfBTSecurityWalkNextMeeting(objSLT_Meeting_Schedule.FK_SLT_Meeting.Value, objSLT_Meeting_Schedule.PK_SLT_Meeting_Schedule.Value);
+       DataTable dtNextBTMeetingOpenObservation = dsBTObservation.Tables[0];
+
+       if (dtNextBTMeetingOpenObservation.Rows.Count > 0)
+       {
+           string styleHeader = "<span style='font-family: Calibri;'>";
+           sbtblNextMonth.Append("<table cellpadding='0' cellspacing='0' border='0' width='100%' align='center'>");
+           sbtblNextMonth.Append("<tr><th align='left' valign='bottom' width='20%'>" + styleHeader + "Month</span></th>");
+           sbtblNextMonth.Append("<th align='left' valign='bottom' width='30%'>" + styleHeader + "Focus Area</span></th>");
+           sbtblNextMonth.Append("<th align='left' valign='bottom' width='20%'>" + styleHeader + "Date Completed</span></th>");
+           sbtblNextMonth.Append("<th align='center' valign='bottom' width='25%'>" + styleHeader + " Observations Open</span></th></tr>");
+
+           foreach (DataRow dr in dtNextBTMeetingOpenObservation.Rows)
+           {
+               string style = "<span style='font-size: 11pt; font-family: Calibri'>";
+               sbtblNextMonth.Append("<tr><td align='left' valign='top'>" + style + Convert.ToString(dr["Month"]) + "</span></td>");
+               sbtblNextMonth.Append("<td align='left' valign='top'>" + style + Convert.ToString(dr["Focus_Area"]) + "</span></td>");
+               sbtblNextMonth.Append("<td align='left' valign='top'>" + style + clsGeneral.FormatDBNullDateToDisplay(dr["BT_Security_Walk_Comp_Date"]) + "</span></td>");
+               sbtblNextMonth.Append("<td align='center' valign='top'>" + style + Convert.ToString(dr["Observations_Open"]) + "</span></td>");
+               sbtblNextMonth.Append("</tr>");
+           }
+
+           #region Bind Questions
+
+           sbtblNextMonth.Append("<tr><th align='left' valign='bottom' colspan='4'>" + styleHeader + "Questions</th></tr>");
+           DataTable dtNextBTMeetingQuestionOfOpenObservation = dsBTObservation.Tables[1];
+           sbtblNextMonth.Append("<tr><td colspan='4'><table cellpadding='0' cellspacing='0' border='0' width='100%' align='center'>");
+
+           foreach (DataRow drQue in dtNextBTMeetingQuestionOfOpenObservation.Rows)
+           {
+               string style = "<span style='font-size: 11pt; font-family: Calibri'>";
+               sbtblNextMonth.Append("<tr><td align='left' valign='top' style='width:5%;'>" + style + Convert.ToString(drQue["Sort_Order"]) + ". &nbsp;</span></td>");
+               sbtblNextMonth.Append("<td align='left' valign='top'>" + style + Convert.ToString(drQue["Question"]) + "</span></td>");
+               sbtblNextMonth.Append("</tr>");
+               sbtblNextMonth.Append("<tr><td colspan='2'>&nbsp;</td></tr>");
+           }
+
+           sbtblNextMonth.Append("</table></td></tr>");
+
+           #endregion
+
+           sbtblNextMonth.Append("<tr><td colspan='4'>&nbsp;</td></tr>");
+           sbtblNextMonth.Append("</table>");
+       }
+       else
+       {
+           strBody.Replace("[BT_Security_Walk_Questions_NextMonth]", "<span style='font-size: 11pt; font-family: Calibri'>No records Found</span>");
+       }
+       strBody = strBody.Replace("[BT_Security_Walk_Questions_NextMonth]", sbtblNextMonth.ToString());
+
+       #endregion
+
         #region "Quarterly Facility Inspections"
         int intQuarter = objSLT_Meeting_Schedule.Scheduled_Meeting_Date != null ? clsGeneral.GetQuarterFromDate(objSLT_Meeting_Schedule.Scheduled_Meeting_Date) : 1;
         int intYear = objSLT_Meeting_Schedule.Scheduled_Meeting_Date != null ? Convert.ToInt32(Convert.ToDateTime(objSLT_Meeting_Schedule.Scheduled_Meeting_Date).Year) : Convert.ToInt32(DateTime.Now.Year);
@@ -1256,7 +1311,7 @@ public class SLT_Reports : System.Web.UI.Page
             string styleHeader = "<span style='font-family: Calibri;'>";
             sbUniTrainingTemp.Append("<table cellpadding='0' cellspacing='0' border='0' width='100%' align='center'>");
             sbUniTrainingTemp.Append("<tr><th align='left' valign='bottom' width='20%'>" + styleHeader + "Focus</span></th>");
-            sbUniTrainingTemp.Append("<th align='left' valign='bottom' width='35%'>" + styleHeader + " Topic</span></th>");
+            sbUniTrainingTemp.Append("<th align='left' valign='bottom' width='10%'>" + styleHeader + " Topic</span></th>");
             sbUniTrainingTemp.Append("<th align='left' valign='bottom' width='20%'>" + styleHeader + "Date Scheduled</span></th>");
             sbUniTrainingTemp.Append("<th align='left' valign='bottom' width='25%'>" + styleHeader + "Date Completed </span></th>");
             sbUniTrainingTemp.Append("<th align='left' valign='bottom' width='25%'>" + styleHeader + "Reason Not Completed </span></th></tr>");
