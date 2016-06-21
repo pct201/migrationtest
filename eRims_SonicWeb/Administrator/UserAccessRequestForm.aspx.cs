@@ -194,6 +194,7 @@ public partial class UserAccessRequestForm : System.Web.UI.Page
         u_a_request.Last_Name = txtLastName.Text.Trim().Replace("'", "\'");
         u_a_request.Email = txtEmail.Text.Trim().Replace("'", "\'");
         u_a_request.Telephone = txtTelephone.Text.ToString();
+        u_a_request.Cell_Phone_Number = txtCellPhoneNumber.Text.ToString();
 
         if (ddlDealership.SelectedIndex > 0)
             u_a_request.FK_LU_Location = Convert.ToInt32(ddlDealership.SelectedValue);
@@ -460,7 +461,7 @@ public partial class UserAccessRequestForm : System.Web.UI.Page
     #region "Methods"
     private void ClearControlValues()
     {
-        txtFirstName.Text = txtLastName.Text = txtEmail.Text = txtTelephone.Text = ctrlReason_For_Access.Text = txtHome_Office_Text.Text = txtField_Operations_Text.Text = "";
+        txtFirstName.Text = txtLastName.Text = txtEmail.Text = txtTelephone.Text = txtCellPhoneNumber.Text =ctrlReason_For_Access.Text = txtHome_Office_Text.Text = txtField_Operations_Text.Text = "";
         ddlDealership.SelectedIndex = -1;
         rdlSA_EA_Associate.SelectedIndex = -1;
         chkGeneral_Manager.Checked = chkService.Checked = chkHome_Office.Checked = chkParts.Checked = false;
@@ -596,6 +597,7 @@ public partial class UserAccessRequestForm : System.Web.UI.Page
         txtLastName.Text = Convert.ToString(objU_A_Request.Last_Name);
         txtEmail.Text = Convert.ToString(objU_A_Request.Email);
         txtTelephone.Text = Convert.ToString(objU_A_Request.Telephone);
+        txtCellPhoneNumber.Text = Convert.ToString(objU_A_Request.Cell_Phone_Number);
         if (!string.IsNullOrEmpty(objU_A_Request.FK_LU_Location.ToString()))
         {
             ddlDealership.SelectedValue = Convert.ToString(objU_A_Request.FK_LU_Location);
@@ -686,6 +688,7 @@ public partial class UserAccessRequestForm : System.Web.UI.Page
         lblLastName.Text = Convert.ToString(objU_A_Request.Last_Name);
         lblEmail.Text = Convert.ToString(objU_A_Request.Email);
         lblTelephone.Text = Convert.ToString(objU_A_Request.Telephone);
+        lblCellPhoneNumber.Text = Convert.ToString(objU_A_Request.Cell_Phone_Number);
         if (objU_A_Request.FK_Employee != null)
         {
             lblEmployeeId.Text = Convert.ToString(objU_A_Request.FK_Employee);
@@ -1311,6 +1314,7 @@ public partial class UserAccessRequestForm : System.Web.UI.Page
                 strEbdy = strEbdy.Replace("[lblLast_Name]", Convert.ToString(objU_A_Request.Last_Name));
                 strEbdy = strEbdy.Replace("[lblEmail]", Convert.ToString(objU_A_Request.Email));
                 strEbdy = strEbdy.Replace("[lblTelephone]", Convert.ToString(objU_A_Request.Telephone));
+                strEbdy = strEbdy.Replace("[lblCellPhoneNumber]", Convert.ToString(objU_A_Request.Cell_Phone_Number));
                 strEbdy = strEbdy.Replace("[lblLocation]", strUARequestLocations.TrimEnd(',').TrimStart(','));
                 strEbdy = strEbdy.Replace("[lblSA_EA_Associate]", Convert.ToString(objU_A_Request.SA_EA_Associate) == "True" ? "Yes" : "No");
                 strEbdy = strEbdy.Replace("[lblGeneral_Manager]", Convert.ToString(objU_A_Request.General_Manager) == "True" ? strTick : strClose);

@@ -45,6 +45,7 @@ namespace ERIMS.DAL
 		private DateTime? _Created_Date;
 		private bool? _Deny;
 		private bool? _Facilities_Construction_Access;
+        private string _Cell_Phone_Number;
 
 		#endregion
 
@@ -338,6 +339,14 @@ namespace ERIMS.DAL
 			set { _Facilities_Construction_Access = value; }
 		}
 
+        /// <summary>
+        /// Gets or sets the Cell Phone Number value.
+        /// </summary>
+        public string Cell_Phone_Number
+        {
+            get { return _Cell_Phone_Number; }
+            set { _Cell_Phone_Number = value; }
+        }
 
 		#endregion
 
@@ -542,6 +551,10 @@ namespace ERIMS.DAL
 				else
 					this._Facilities_Construction_Access = (bool?)drU_A_Request["Facilities_Construction_Access"];
 
+                if (drU_A_Request["Cell_Phone_Number"] == DBNull.Value)
+                    this._Cell_Phone_Number = null;
+                else
+                    this._Cell_Phone_Number = (string)drU_A_Request["Cell_Phone_Number"];
 
 		}
 
@@ -642,6 +655,11 @@ namespace ERIMS.DAL
 			db.AddInParameter(dbCommand, "Deny", DbType.Boolean, this._Deny);
 			
 			db.AddInParameter(dbCommand, "Facilities_Construction_Access", DbType.Boolean, this._Facilities_Construction_Access);
+
+            if (string.IsNullOrEmpty(this._Cell_Phone_Number))
+                db.AddInParameter(dbCommand, "Cell_Phone_Number", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Cell_Phone_Number", DbType.String, this._Cell_Phone_Number);
 
 			// Execute the query and return the new identity value
 			int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -776,6 +794,11 @@ namespace ERIMS.DAL
 			db.AddInParameter(dbCommand, "Deny", DbType.Boolean, this._Deny);
 			
 			db.AddInParameter(dbCommand, "Facilities_Construction_Access", DbType.Boolean, this._Facilities_Construction_Access);
+
+            if (string.IsNullOrEmpty(this._Cell_Phone_Number))
+                db.AddInParameter(dbCommand, "Cell_Phone_Number", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Cell_Phone_Number", DbType.String, this._Cell_Phone_Number);
 
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));

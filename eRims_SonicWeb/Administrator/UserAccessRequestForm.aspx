@@ -67,6 +67,9 @@
             if (document.getElementById('<%=txtTelephone.ClientID%>').value == "___-___-____")
                 document.getElementById('<%=txtTelephone.ClientID%>').value = "";
 
+            if (document.getElementById('<%=txtCellPhoneNumber.ClientID%>').value == "___-___-____")
+                document.getElementById('<%=txtCellPhoneNumber.ClientID%>').value = "";
+
             //ctl = document.getElementById('<=rdoIsSonicEmployee.ClientID %>');
             //rdo = document.getElementById(ctl.id + "_0");
             ////check if Is employee is true than only check employee is selected or not.
@@ -101,7 +104,8 @@
     </script>
     <script type="text/javascript">
         jQuery(function ($) {
-            $("#<%=txtTelephone.ClientID%>").mask("999-999-9999");         
+            $("#<%=txtTelephone.ClientID%>").mask("999-999-9999");
+            $("#<%=txtCellPhoneNumber.ClientID%>").mask("999-999-9999");
 
         });
     </script>
@@ -312,6 +316,25 @@
                             runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Telephone."></asp:RequiredFieldValidator>--%>
                         <asp:RegularExpressionValidator ID="rfvtxtTelephone" ControlToValidate="txtTelephone"
                             runat="server" ErrorMessage="Please Enter TelePhone in (999-999-9999) format."
+                            Display="none" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left">&nbsp;
+                    </td>
+                    <td align="center">
+                    </td>
+                    <td>
+                       &nbsp;
+                    </td>
+                    <td align="left"> Cell Phone Number (999-999-9999)
+                    </td>
+                    <td align="center">:
+                    </td>
+                    <td align="left">
+                        <asp:TextBox runat="server" ID="txtCellPhoneNumber" MaxLength="12" Width="170px"></asp:TextBox>
+                        <asp:RegularExpressionValidator ID="RegularExpressionValidator3" ControlToValidate="txtCellPhoneNumber"
+                            runat="server" ErrorMessage="Please Enter Cell Phone Number in (999-999-9999) format."
                             Display="none" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>
                     </td>
                 </tr>
@@ -662,6 +685,21 @@
                     </td>
                     <td align="left">
                         <asp:Label runat="server" ID="lblTelephone"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left">
+                    </td>
+                    <td align="center">
+                    </td>
+                    <td>
+                    </td>
+                    <td align="left">Cell Phone Number (999-999-9999)
+                    </td>
+                    <td align="center">:
+                    </td>
+                    <td align="left">
+                        <asp:Label runat="server" ID="lblCellPhoneNumber"></asp:Label>
                     </td>
                 </tr>
                 <tr>
