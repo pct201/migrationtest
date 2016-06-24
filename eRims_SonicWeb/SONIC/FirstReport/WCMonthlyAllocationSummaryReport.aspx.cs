@@ -77,13 +77,39 @@ public partial class SONIC_FirstReport_WCMonthlyAllocationSummaryReport : clsBas
         gvworkers_comp_summary.DataSource = dtResult;
         gvworkers_comp_summary.DataBind();
 
+        //if (rdoRunBy.SelectedValue == "Region")
+        //{
+        //    gvworkers_comp_summary.Columns[3].Visible = false;
+        //}
+        //else
+        //{
+        //    gvworkers_comp_summary.Columns[3].Visible = true;
+        //}
+
         if (rdoRunBy.SelectedValue == "Region")
         {
-            gvworkers_comp_summary.Columns[3].Visible = false;
+            gvworkers_comp_summary.HeaderRow.Cells[3].Visible = false;
+            for (int i = 0; i < gvworkers_comp_summary.Rows.Count; i++)
+            {
+                GridViewRow row = gvworkers_comp_summary.Rows[i];
+                row.Cells[3].Visible = false;
+            }
+
         }
         else
         {
-            gvworkers_comp_summary.Columns[3].Visible = true;
+            gvworkers_comp_summary.HeaderRow.Cells[3].Visible = true;
+            for (int i = 0; i < gvworkers_comp_summary.Rows.Count; i++)
+            {
+                GridViewRow row = gvworkers_comp_summary.Rows[i];
+                row.Cells[3].Visible = true;
+            }
+            gvworkers_comp_summary.HeaderRow.Cells[2].Visible = false;
+            for (int i = 0; i < gvworkers_comp_summary.Rows.Count; i++)
+            {
+                GridViewRow row = gvworkers_comp_summary.Rows[i];
+                row.Cells[2].Visible = false;
+            }
         }
 
         // set Background color and Font Color for each cell in row
@@ -111,6 +137,25 @@ public partial class SONIC_FirstReport_WCMonthlyAllocationSummaryReport : clsBas
     protected void lnkExportToExcel_Click(object sender, EventArgs e)
     {
         gvworkers_comp_summary.GridLines = GridLines.Both;
+        if (rdoRunBy.SelectedValue == "Region")
+        {
+            gvworkers_comp_summary.HeaderRow.Cells[3].Visible = false;
+            for (int i = 0; i < gvworkers_comp_summary.Rows.Count; i++)
+            {
+                GridViewRow row = gvworkers_comp_summary.Rows[i];
+                row.Cells[3].Visible = false;
+            }
+              
+        }
+        else
+        {
+            gvworkers_comp_summary.HeaderRow.Cells[3].Visible = true;
+            for (int i = 0; i < gvworkers_comp_summary.Rows.Count; i++)
+            {
+                GridViewRow row = gvworkers_comp_summary.Rows[i];
+                row.Cells[3].Visible = true;
+            }
+        }
         string htmlContent = GridViewExportUtil.ExportAdHoc_New(gvworkers_comp_summary);
         gvworkers_comp_summary.GridLines = GridLines.None;
 

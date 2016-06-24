@@ -33,7 +33,7 @@ public partial class SONIC_FirstReport_RptSonicCauseCodeReclassification : clsBa
             BindDropDownList();
             lstLocation.Focus();
         }
-        clsGeneral.SetListBoxToolTip(new ListBox[] { lstLocation,lstRegion });
+        clsGeneral.SetListBoxToolTip(new ListBox[] { lstLocation, lstRegion });
     }
     #endregion
 
@@ -59,13 +59,13 @@ public partial class SONIC_FirstReport_RptSonicCauseCodeReclassification : clsBa
     {
 
         DateTime? dtInjuryDateFrom = null, dtInjuryDateEnd = null;
-        string strRegion = string.Empty, strMarket = string.Empty, strLocationStatus = string.Empty, strDBA = string.Empty ,strClaimnumber = string.Empty;
+        string strRegion = string.Empty, strMarket = string.Empty, strLocationStatus = string.Empty, strDBA = string.Empty, strClaimnumber = string.Empty;
         decimal? decFirsrRepot = null, decIncidentNumber = null;
-        if(txtFirstReportNumber.Text!="")
-           decFirsrRepot = Convert.ToDecimal(txtFirstReportNumber.Text);
-        if(txtIncidentNumber.Text !="")
+        if (txtFirstReportNumber.Text != "")
+            decFirsrRepot = Convert.ToDecimal(txtFirstReportNumber.Text);
+        if (txtIncidentNumber.Text != "")
             decIncidentNumber = Convert.ToDecimal(txtIncidentNumber.Text);
-             
+
 
         if (txtInjuryDateFrom.Text.Trim() != string.Empty)
             dtInjuryDateFrom = Convert.ToDateTime(txtInjuryDateFrom.Text);
@@ -74,7 +74,7 @@ public partial class SONIC_FirstReport_RptSonicCauseCodeReclassification : clsBa
             dtInjuryDateEnd = Convert.ToDateTime(txtInjuryDateEnd.Text);
         if (txtClaimNumber.Text != "")
             strClaimnumber = txtClaimNumber.Text;
-       
+
         // get selected Location
         foreach (ListItem li in lstLocation.Items)
         {
@@ -83,7 +83,7 @@ public partial class SONIC_FirstReport_RptSonicCauseCodeReclassification : clsBa
         }
         strDBA = strDBA.TrimEnd(',');
 
-         // get selected regions
+        // get selected regions
         foreach (ListItem li in lstRegion.Items)
         {
             if (li.Selected)
@@ -101,7 +101,7 @@ public partial class SONIC_FirstReport_RptSonicCauseCodeReclassification : clsBa
 
 
         DataSet dsReport = WC_ClaimInfo.GetSonicCauseCodeReclassification_Report(strRegion, strMarket, strDBA, dtInjuryDateFrom, dtInjuryDateEnd, decFirsrRepot, decIncidentNumber, strClaimnumber);
-    
+
 
         // get data tables from dataset
         DataTable dtReport = dsReport.Tables[0];
@@ -127,8 +127,8 @@ public partial class SONIC_FirstReport_RptSonicCauseCodeReclassification : clsBa
             ((Label)gvDescription.FooterRow.FindControl("lblTotalIncurred")).Text = string.Format("{0:C2}", dtReport.Compute("sum(TotalIncurred)", ""));
             ((Label)gvDescription.FooterRow.FindControl("lblTotalPaid")).Text = string.Format("{0:C2}", dtReport.Compute("sum(TotalPaid)", ""));
             ((Label)gvDescription.FooterRow.FindControl("lblTotalOutstanding")).Text = string.Format("{0:C2}", dtReport.Compute("sum(TotalOutstanding)", ""));
-          
-          
+
+
 
             // set Gridview div Scroll bar events so Scroll Header as per grid scroll
             dvGrid.Attributes.Add("onscroll", "javascript:ChangeScrollBar(this," + dvHeader.ClientID + ");");
@@ -151,19 +151,26 @@ public partial class SONIC_FirstReport_RptSonicCauseCodeReclassification : clsBa
     /// <param name="sender"></param>
     /// <param name="e"></param>
     protected void lbtExportToExcel_Click(object sender, EventArgs e)
-    {      
-             // gvDescription.ShowHeader = false;
+    {
+        // gvDescription.ShowHeader = false;
         gvDescription.GridLines = GridLines.None;
-        ((HtmlTable)gvDescription.HeaderRow.FindControl("tblHeader")).Border = 0;
+
+
+        if (((HtmlTable)gvDescription.HeaderRow.FindControl("tblHeader")) != null)
+        {
+            ((HtmlTable)gvDescription.HeaderRow.FindControl("tblHeader")).Border = 0;
+            ((HtmlTable)gvDescription.HeaderRow.FindControl("tblHeader")).Border = 1;
+            ((HtmlTable)gvDescription.FooterRow.FindControl("tblFooter")).Border = 1;
+        }
 
         // show gridlines to be shown in excel
         gvDescription.GridLines = GridLines.Both;
-        ((HtmlTable)gvDescription.HeaderRow.FindControl("tblHeader")).Border = 1;
-        ((HtmlTable)gvDescription.FooterRow.FindControl("tblFooter")).Border = 1;
+
 
         foreach (GridViewRow gRow in gvDescription.Rows)
         {
-            ((HtmlTable)gRow.FindControl("tblDetails")).Border = 1;
+            if (((HtmlTable)gRow.FindControl("tblDetails")) != null)
+                ((HtmlTable)gRow.FindControl("tblDetails")).Border = 1;
         }
 
         // export gridview to excel
@@ -171,13 +178,16 @@ public partial class SONIC_FirstReport_RptSonicCauseCodeReclassification : clsBa
 
         // hide gridlines
         gvDescription.GridLines = GridLines.None;
-        ((HtmlTable)gvDescription.HeaderRow.FindControl("tblHeader")).Border = 0;
-        ((HtmlTable)gvDescription.HeaderRow.FindControl("tblDetails")).Border = 0;
-        ((HtmlTable)gvDescription.FooterRow.FindControl("tblFooter")).Border = 0;
-
+        if (((HtmlTable)gvDescription.HeaderRow.FindControl("tblHeader")) != null)
+        {
+            ((HtmlTable)gvDescription.HeaderRow.FindControl("tblHeader")).Border = 0;
+            ((HtmlTable)gvDescription.HeaderRow.FindControl("tblDetails")).Border = 0;
+            ((HtmlTable)gvDescription.FooterRow.FindControl("tblFooter")).Border = 0;
+        }
         foreach (GridViewRow gRow in gvDescription.Rows)
         {
-            ((HtmlTable)gRow.FindControl("tblDetails")).Border = 0;
+            if (((HtmlTable)gRow.FindControl("tblDetails")) != null)
+                ((HtmlTable)gRow.FindControl("tblDetails")).Border = 0;
         }
     }
 

@@ -8,7 +8,7 @@ using System.Drawing;
 using System.Collections;
 
 
-public class AdhocHTML2Excel 
+public class AdhocHTML2Excel
 {
     private string _htmlData;
     ExcelPackage excelWorkbook;
@@ -684,7 +684,7 @@ public class AdhocHTML2Excel
             switch (tdAttrib.Name)
             {
                 case "border":
-                    if (currRowNumber - 1 > startRow)
+                    if (currRowNumber - 1 > startRow && NoOfCol > 0)
                         using (ExcelRange range = excelWorksheet.Cells[startRow, startCol, currRowNumber - 1, NoOfCol])
                         {
                             range.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
