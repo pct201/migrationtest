@@ -181,8 +181,8 @@ public partial class SONIC_ClaimInfo_rptRiskManagementWorksheet : clsBasePage
             {
                 if (File.Exists(outputFiles))
                     File.Delete(outputFiles);
-                //if (File.Exists(strPath))
-                //    File.Delete(strPath);
+                if (File.Exists(strPath))
+                    File.Delete(strPath);
 
                 HttpContext.Current.Response.End();
             }

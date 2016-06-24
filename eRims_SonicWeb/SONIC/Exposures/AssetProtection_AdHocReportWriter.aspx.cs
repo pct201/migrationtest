@@ -158,8 +158,8 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
             {
                 if (File.Exists(outputFiles))
                     File.Delete(outputFiles);
-                //if (File.Exists(strFilePath))
-                //    File.Delete(strFilePath);
+                if (File.Exists(strFilePath))
+                    File.Delete(strFilePath);
 
                 HttpContext.Current.Response.End();
             }

@@ -145,7 +145,7 @@ public partial class SONIC_FirstReport_WCMonthlyAllocationSummaryReport : clsBas
                 GridViewRow row = gvworkers_comp_summary.Rows[i];
                 row.Cells[3].Visible = false;
             }
-              
+
         }
         else
         {
@@ -191,11 +191,11 @@ public partial class SONIC_FirstReport_WCMonthlyAllocationSummaryReport : clsBas
             finally
             {
                 if (File.Exists(outputFiles))
-                    //File.Delete(outputFiles);
-                    if (File.Exists(strPath))
-                        //File.Delete(strPath);
+                    File.Delete(outputFiles);
+                if (File.Exists(strPath))
+                    File.Delete(strPath);
 
-                        HttpContext.Current.Response.End();
+                HttpContext.Current.Response.End();
             }
         }
     }

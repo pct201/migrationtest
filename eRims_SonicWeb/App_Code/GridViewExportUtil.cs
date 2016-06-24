@@ -360,8 +360,8 @@ public class GridViewExportUtil
                 {
                     if (File.Exists(outputFiles))
                         File.Delete(outputFiles);
-                    //if (File.Exists(strPath))
-                    //    File.Delete(strPath);
+                    if (File.Exists(strPath))
+                        File.Delete(strPath);
                     HttpContext.Current.Response.End();
                 }
             }

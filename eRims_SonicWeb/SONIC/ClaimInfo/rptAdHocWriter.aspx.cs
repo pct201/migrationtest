@@ -514,7 +514,7 @@ public partial class SONIC_ClaimInfo_rptAdHocWriter : clsBasePage
         if (txtRestricted_EndTo.Text != string.Empty)
             objAdhocReport.DateRestrictedEndEndDate = Convert.ToDateTime(txtRestricted_EndTo.Text);
 
-        if(Request.Form[lstClaimStatus.UniqueID] != null)
+        if (Request.Form[lstClaimStatus.UniqueID] != null)
             objAdhocReport.OStatus = "'" + Request.Form[lstClaimStatus.UniqueID].Replace(",", "','") + "'";
         if (Request.Form[lstCoverageState.UniqueID] != null)
             objAdhocReport.CoverageState = "'" + Request.Form[lstCoverageState.UniqueID].Replace(",", "','") + "'";
@@ -627,7 +627,7 @@ public partial class SONIC_ClaimInfo_rptAdHocWriter : clsBasePage
             {
                 if (rdoALClaimOrigin.Items[i].Selected == true)
                 {
-                    strgetClaimorgin += "'" +rdoALClaimOrigin.Items[i].Value + "'" + ",";
+                    strgetClaimorgin += "'" + rdoALClaimOrigin.Items[i].Value + "'" + ",";
                 }
             }
             strgetClaimorgin = strgetClaimorgin.TrimEnd(',');
@@ -654,7 +654,7 @@ public partial class SONIC_ClaimInfo_rptAdHocWriter : clsBasePage
             dsReport = objAdhocReport.GetReportWC(DateTime.Today);
 
         if (this.Claim_Type == "ALL" || this.Claim_Type.Contains("NS"))
-            if(dsReport == null)
+            if (dsReport == null)
                 dsReport = objAdhocReport.GetReportNS(DateTime.Today);
             else
                 dsReport.Merge(objAdhocReport.GetReportNS(DateTime.Today));
@@ -797,7 +797,7 @@ public partial class SONIC_ClaimInfo_rptAdHocWriter : clsBasePage
             string fileName = "AdHocReport" + this.Claim_Type + ".xlsx";
             string outputFiles = Path.GetFullPath(strPath + fileName);
             bool blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
-            if ((blnHTML2Excel==true) && File.Exists(outputFiles))
+            if ((blnHTML2Excel == true) && File.Exists(outputFiles))
             {
                 try
                 {
@@ -815,13 +815,13 @@ public partial class SONIC_ClaimInfo_rptAdHocWriter : clsBasePage
                 }
             }
         }
-            else
-            {
-                string m_strScript = "alert('No Data Available For Selected Criteria.');";
-                Page.ClientScript.RegisterStartupScript(this.GetType(), "NoRecords", m_strScript, true);
-            }
+        else
+        {
+            string m_strScript = "alert('No Data Available For Selected Criteria.');";
+            Page.ClientScript.RegisterStartupScript(this.GetType(), "NoRecords", m_strScript, true);
         }
-    
+    }
+
 
     /// <summary>
     /// Calculate Sum for the perticular column in passed datatable.
@@ -1781,7 +1781,7 @@ public partial class SONIC_ClaimInfo_rptAdHocWriter : clsBasePage
             if (objAdhocReport.Indicator != "B" && objAdhocReport.Indicator != "L")
                 lstIndicator.SelectedValue = objAdhocReport.Indicator;
         }
-        if(!string.IsNullOrEmpty(objAdhocReport.FullFinalClincher))
+        if (!string.IsNullOrEmpty(objAdhocReport.FullFinalClincher))
             rdoFull_Final_Clincher.SelectedValue = objAdhocReport.FullFinalClincher;
         if (!String.IsNullOrEmpty(objAdhocReport.SonicCauseCode))
             BinListData(objAdhocReport.SonicCauseCode, lstSonicCauseCode);
@@ -1964,6 +1964,6 @@ public partial class SONIC_ClaimInfo_rptAdHocWriter : clsBasePage
             rbnAL.Checked = false;
             rbnAU.Checked = false;
             rbnGK.Checked = false;
-        }            
+        }
     }
 }
