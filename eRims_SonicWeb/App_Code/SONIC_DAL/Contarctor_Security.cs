@@ -41,6 +41,8 @@ namespace ERIMS.DAL
         private int _Dashboard_Type;
         private string _Vendor_Number;
         private decimal? _FK_LU_Contract_Type;
+        private int? _IS_SRM;
+        private int? _IS_GC;
 
         #endregion
 
@@ -295,6 +297,24 @@ namespace ERIMS.DAL
             set { _FK_LU_Contract_Type = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the IS_SRM value.
+        /// </summary>
+        public int? IS_SRM
+        {
+            get { return _IS_SRM; }
+            set { _IS_SRM = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the IS_GC value.
+        /// </summary>
+        public int? IS_GC
+        {
+            get { return _IS_GC; }
+            set { _IS_GC = value; }
+        }
+
         #endregion
 
         #region Default Constructors
@@ -462,6 +482,16 @@ namespace ERIMS.DAL
                 this._FK_LU_Contract_Type = (decimal?)drContractor_Security["FK_LU_Contract_Type"];
 
             this._Dashboard_Type = (int)drContractor_Security["Dashboard_Type"];
+
+            if (drContractor_Security["IS_SRM"] == DBNull.Value)
+                this._IS_SRM = null;
+            else
+                this._IS_SRM = (int?)drContractor_Security["IS_SRM"];
+
+            if (drContractor_Security["IS_GC"] == DBNull.Value)
+                this._IS_GC = null;
+            else
+                this._IS_GC = (int?)drContractor_Security["IS_GC"];
         }
 
 
@@ -589,6 +619,10 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "FK_LU_Contract_Type", DbType.Decimal, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "FK_LU_Contract_Type", DbType.Decimal, this._FK_LU_Contract_Type);
+
+            db.AddInParameter(dbCommand, "IS_SRM", DbType.Int32, this._IS_SRM);
+
+            db.AddInParameter(dbCommand, "IS_GC", DbType.Int32, this._IS_GC);
 
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -785,6 +819,10 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "FK_LU_Contract_Type", DbType.Decimal, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "FK_LU_Contract_Type", DbType.Decimal, this._FK_LU_Contract_Type);
+
+            db.AddInParameter(dbCommand, "IS_SRM", DbType.Int32, this._IS_SRM);
+
+            db.AddInParameter(dbCommand, "IS_GC", DbType.Int32, this._IS_GC);
 
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
             return returnValue;

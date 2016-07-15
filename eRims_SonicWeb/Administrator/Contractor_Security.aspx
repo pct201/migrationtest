@@ -70,6 +70,55 @@
                 document.getElementById('spantxtVendorNumber').style.visibility = 'hidden';
             }
 
+            var lblSRMGC = document.getElementById("<%=lblIsSRMGC.ClientID %>");
+            var ChkSRM = document.getElementById("<%=chkIsSRM.ClientID %>");
+            var ChkGC = document.getElementById("<%=chkISGC.ClientID %>");
+            
+            if (selectedText.toUpperCase() == 'CONTRACTOR') {
+                trGC.style.display = "";
+                lblSRMGC.style.display = "";
+                lblSRMGC.innerHTML = "IS GC?";
+                ChkSRM.checked = false;
+                ChkSRM.style.display = "none";
+                ChkGC.style.display = "";
+            }
+            else if (selectedText.toUpperCase() == 'PM') {
+                trGC.style.display = "";
+                lblSRMGC.style.display = "";
+                lblSRMGC.innerHTML = "IS Senior Project Manager?";
+                ChkSRM.style.display = "";
+                ChkGC.checked = false;
+                ChkGC.style.display = "none";
+            }
+            else {
+                trGC.style.display = "none";
+                ChkSRM.checked = false;
+                ChkGC.checked = false;
+            }
+
+            if (document.getElementById("<%=DivViewSecurity.ClientID %>").style.display != "none") {
+                var lbltype = document.getElementById("<%=lblContractorType.ClientID %>");
+                var lblSRMGC = document.getElementById("<%=LabelSRMGC.ClientID %>");
+                var lblSRM = document.getElementById("<%=lblIsSRM.ClientID %>");
+                var lblGC = document.getElementById("<%=lblISGC.ClientID %>");
+
+                if (lbltype.innerHTML.toUpperCase() == 'CONTRACTOR') {
+                    trGCview.style.display = "";
+                    lblSRMGC.innerHTML = "IS GC?";
+                    lblGC.style.display = "";
+                    lblSRM.style.display = "none";
+                }
+                else if (lbltype.innerHTML.toUpperCase() == 'PM') {
+                    trGCview.style.display = "";
+                    lblSRMGC.innerHTML = "IS Senior Project Manager?";
+                    lblSRM.style.display = "";
+                    lblGC.style.display = "none";
+                }
+                else {
+                    trGCview.style.display = "none";
+                    lblSRMGC.style.display = "";
+                }
+            }
         }
         
         $(document).ready(function () {
@@ -311,7 +360,26 @@
                     </td>
 
                 </tr>
-
+                <tr id="trGC">
+                    <td align="left">
+                        &nbsp;
+                    </td>
+                    <td style="width: 4%;" align="center">
+                        &nbsp;
+                    </td>
+                    <td align="left" width="26%">
+                        &nbsp;
+                    </td>
+                    <td align="left">
+                        <asp:Label ID="lblIsSRMGC" runat="server"></asp:Label>
+                    </td>
+                    <td align="center">:
+                    </td>
+                    <td align="left">
+                       <asp:CheckBox ID="chkIsSRM" runat="server" />
+                       <asp:CheckBox ID="chkISGC" runat="server" />
+                    </td>
+                </tr>
                 <tr>
                     <td align="left">Alert Method<span style="color: Red;">*</span>
                     </td>
@@ -589,6 +657,26 @@
                     </td>
                     <td align="left" style="width: 28%;">
                         <asp:Label runat="server" Style="word-wrap: normal; word-break: break-all" ID="lblContractorType"></asp:Label>
+                    </td>
+                </tr>
+                <tr id="trGCview">
+                    <td align="left">
+                       &nbsp;
+                    </td>
+                    <td style="width: 4%;" align="center">
+                        &nbsp;
+                    </td>
+                    <td align="left" width="26%">
+                        &nbsp;
+                    </td>
+                    <td align="left">
+                        <asp:Label ID="LabelSRMGC" runat="server" />
+                    </td>
+                    <td align="center">:
+                    </td>
+                    <td align="left">
+                        <asp:Label ID="lblIsSRM" runat="server" />
+                        <asp:Label ID="lblISGC" runat="server" />
                     </td>
                 </tr>
                 <tr>

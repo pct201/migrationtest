@@ -168,6 +168,8 @@ public partial class Administrator_Contractor_Security : clsBasePage
         txtCellPhone.Text = "";
         txtPager.Text = "";
         txtEmail.Text = "";
+        chkIsSRM.Checked = false;
+        chkISGC.Checked = false;
     }
 
     /// <summary>
@@ -276,6 +278,8 @@ public partial class Administrator_Contractor_Security : clsBasePage
             objContractorSecurity.FK_LU_Contract_Type = null;
 
         objContractorSecurity.Vendor_Number = txtVendorNumber.Text;
+        objContractorSecurity.IS_SRM = chkIsSRM.Checked ? 1 : 0;
+        objContractorSecurity.IS_GC = chkISGC.Checked ? 1 : 0;
 
         if (PK_Contactor_Security > 0)
         {
@@ -655,6 +659,11 @@ public partial class Administrator_Contractor_Security : clsBasePage
         txtCellPhone.Text = Convert.ToString(objContractorSecurity.Cell_Telephone);
         txtPager.Text = Convert.ToString(objContractorSecurity.Pager);
         txtEmail.Text = Convert.ToString(objContractorSecurity.Email);
+        if (objContractorSecurity.IS_SRM != null)
+            chkIsSRM.Checked = objContractorSecurity.IS_SRM == 1 ? true : false;
+        if (objContractorSecurity.IS_GC != null)
+            chkISGC.Checked = objContractorSecurity.IS_GC == 1 ? true : false;
+
         hdnPKContractorSecurity.Value = Convert.ToString(PK_Contactor_Security);
         btnCopyFrom.Visible = true;
         btnCopyTo.Visible = true;
@@ -714,6 +723,11 @@ public partial class Administrator_Contractor_Security : clsBasePage
 
         lblVendorNumber.Text = objContractorSecurity.Vendor_Number;
         lblContractType.Text = objContractorSecurity.FK_LU_Contract_Type.HasValue ? new LU_Contract_Type(Convert.ToDecimal(objContractorSecurity.FK_LU_Contract_Type.Value)).Descr : "";
+        if (objContractorSecurity.IS_SRM != null)
+            lblIsSRM.Text = objContractorSecurity.IS_SRM == 1 ? "Yes" : "No";
+        if (objContractorSecurity.IS_GC != null)
+            lblISGC.Text = objContractorSecurity.IS_GC == 1 ? "Yes" : "No";
+
         btnCopyFrom.Visible = false;
         btnCopyTo.Visible = false;
     }
