@@ -38,6 +38,7 @@ public class HTML2Excel
     double minWidth = 25, maxWidth = 60;
     Hashtable htTableCols = new Hashtable();
     bool colSpanSet = false;
+    Hashtable htColStyles = new Hashtable();
 
     struct tabledef
     {
@@ -450,12 +451,25 @@ public class HTML2Excel
                                     Color backcolor = ColorTranslator.FromHtml(nodeVal[1].Trim());
                                     excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].Style.Fill.PatternType = ExcelFillStyle.Solid;
                                     excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].Style.Fill.BackgroundColor.SetColor(backcolor);
+                                    if (!htColStyles.Contains(currRowNumber + ":" + currColumnNumber))
+                                    {
+                                        htColStyles.Add(currRowNumber + ":" + currColumnNumber, backcolor);
+                                    }
                                     break;
                             }
                         }
 
                     }
 
+                    break;
+                case "bgcolor":
+                    Color backcolor1 = ColorTranslator.FromHtml(tdAttrib.Value);
+                    excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].Style.Fill.BackgroundColor.SetColor(backcolor1);
+                    if (!htColStyles.Contains(currRowNumber + ":" + currColumnNumber))
+                    {
+                        htColStyles.Add(currRowNumber + ":" + currColumnNumber, backcolor1);
+                    }
                     break;
                 case "align":
                     if (tdAttrib.Value.ToLower() == "right")
@@ -1193,6 +1207,17 @@ public class HTML2Excel
         {
             if (Convert.ToInt32(htTableCols[startRow]) > NoOfCol)
                 NoOfCol = Convert.ToInt32(htTableCols[startRow]);
+        }
+
+        if (htColStyles.Contains(startRow + ":" + startCol))
+        {
+            Color backcolor1 = (Color)htColStyles[startRow + ":" + startCol];
+            using (ExcelRange range = excelWorksheet.Cells[startRow, startCol, currRowNumber - 1, NoOfCol])
+            {
+                range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                range.Style.Fill.BackgroundColor.SetColor(backcolor1);
+            }
+
         }
 
         foreach (HtmlAttribute tdAttrib in hNode.Attributes)

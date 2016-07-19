@@ -95,48 +95,48 @@ public partial class DashBoard_SafetyFirstAwardReport : clsBasePage
                 //lblResultingScore.Text = decTotalScore.ToString() + " ("+ Charts.Platinum_Label +")";
                 lblFinal_ScoreCard.Text = decTotalScore + " (" + Charts.Platinum_Label + ")";
                 //tdResult.BgColor = Charts.Platinum;// "green";
-                tdScoreCard.BgColor = Charts.Platinum; ;// "green";
+                tdScoreCard.BgColor = "#" + Charts.Platinum; ;// "green";
             }
             else if (decTotalScore > 89.5 && decTotalScore <= 94.5)
             {
                 //lblResultingScore.Text = decTotalScore.ToString() + " (" + Charts.Gold_Label + ")";
                 lblFinal_ScoreCard.Text = decTotalScore + " (" + Charts.Gold_Label + ")";
                 //tdResult.BgColor = Charts.Gold;//"blue";
-                tdScoreCard.BgColor = Charts.Gold;//"blue";
+                tdScoreCard.BgColor = "#" + Charts.Gold;//"blue";
             }
             else if (decTotalScore > 79.5 && decTotalScore <= 89.5)
             {
                 //lblResultingScore.Text = decTotalScore.ToString() + " (" + Charts.Silver_Label + ")";
                 lblFinal_ScoreCard.Text = decTotalScore + " (" + Charts.Silver_Label + ")";
                 //tdResult.BgColor = Charts.Silver;//"yellow";
-                tdScoreCard.BgColor = Charts.Silver;//"Yellow";
+                tdScoreCard.BgColor = "#" + Charts.Silver;//"Yellow";
             }
             else if (decTotalScore > 69.5 && decTotalScore <= 79.5)
             {
                 //lblResultingScore.Text = decTotalScore.ToString() + " (" + Charts.Bronze_Label + ")";
                 lblFinal_ScoreCard.Text = decTotalScore + " (" + Charts.Bronze_Label + ")";
                 //tdResult.BgColor = Charts.Bronze;//"orange";
-                tdScoreCard.BgColor = Charts.Bronze;//"orange";
+                tdScoreCard.BgColor = "#" + Charts.Bronze;//"orange";
             }
             else if (decTotalScore >= 0 && decTotalScore <= 69.5)
             {
                 //lblResultingScore.Text = decTotalScore.ToString() + " (" + Charts.Tin_Label + ")";
                 lblFinal_ScoreCard.Text = decTotalScore + " (" + Charts.Tin_Label + ")";
                 //tdResult.BgColor = Charts.Tin;// "red";
-                tdScoreCard.BgColor = Charts.Tin;//"red";
+                tdScoreCard.BgColor = "#" + Charts.Tin;//"red";
             }
 
             if (Is_Total == 1)
             {
                 //tdResult.BgColor = "ADD8E6";
-                tdScoreCard.BgColor = "ADD8E6";
+                tdScoreCard.BgColor = "#ADD8E6";
                 //e.Row.Cells[0].BackColor = System.Drawing.Color.Blue;
                 e.Row.Cells[0].Style.Add("background-color", "#ADD8E6");
                 e.Row.Cells[0].Style.Add("color", "black");
             }
             if (Is_Total == 2)
             {
-                tdScoreCard.BgColor = "76bdd5";
+                tdScoreCard.BgColor = "#76bdd5";
                 e.Row.Cells[0].Style.Add("background-color", "#76bdd5");
                 e.Row.Cells[0].Style.Add("color", "black");
                 Label lblRegion = (Label)e.Row.FindControl("lblRegion");
