@@ -139,9 +139,9 @@ public partial class DealershipDetail : System.Web.UI.Page
 
         dsResult = Charts.GetSabaTrainingDetail2(Year, DBA, Sonic_Location_Code, Quarter, AssociateStatus,false);
         if (dsResult.Tables[1] != null && dsResult.Tables[1].Rows.Count > 0)
-            dtAggreage.Rows[1][1] = dsResult.Tables[1].Rows[0][2] != DBNull.Value ? dsResult.Tables[1].Rows[0][2] : 28;
+            dtAggreage.Rows[1][1] = dsResult.Tables[1].Rows[0][2] != DBNull.Value ? dsResult.Tables[1].Rows[0][2] : 14;
         else
-            dtAggreage.Rows[1][1] = 28;
+            dtAggreage.Rows[1][1] = 14;
 
         if (dsResult.Tables[1] != null && dsResult.Tables[1].Rows.Count > 0)
             dtAggreage.Rows[1][2] = dsResult.Tables[1].Rows[0][1] != DBNull.Value ? dsResult.Tables[1].Rows[0][1] : "Platinum";            
@@ -219,23 +219,23 @@ public partial class DealershipDetail : System.Web.UI.Page
             //}            
 
             //Change as per bug-tracker 3600 #35143..
-            if (_intScore > 84.5m && _intScore <= 100)
+            if (_intScore >= 95 && _intScore <= 100)
             {
                 strResult = "Platinum";
             }
-            else if (_intScore > 69.5m && _intScore <= 84.5m)
+            else if (_intScore >= 90 && _intScore < 95)
             {
                 strResult = "Gold";
             }
-            else if (_intScore > 49.5m && _intScore <= 69.5m)
+            else if (_intScore >= 80 && _intScore < 90)
             {
                 strResult = "Silver";
             }
-            else if (_intScore > 29.5m && _intScore <= 49.5m)
+            else if (_intScore >= 70 && _intScore < 80)
             {
                 strResult = "Bronze";
             }
-            else if (_intScore >= 0 && _intScore <= 29.5m)
+            else if (_intScore >= 0 && _intScore < 70)
             {
                 strResult = "Tin";
             }
@@ -275,11 +275,11 @@ public partial class DealershipDetail : System.Web.UI.Page
         string strLevel = "";
         switch (intScore)
         {
-            case 4: strLevel = "Tin"; break;
-            case 10: strLevel = "Bronze"; break;
-            case 16: strLevel = "Silver"; break;
-            case 22: strLevel = "Gold"; break;
-            case 28: strLevel = "Platinum"; break;
+            case 2: strLevel = "Tin"; break;
+            case 5: strLevel = "Bronze"; break;
+            case 8: strLevel = "Silver"; break;
+            case 11: strLevel = "Gold"; break;
+            case 14: strLevel = "Platinum"; break;
             default: strLevel = "Platinum"; break;
         }
         return strLevel;

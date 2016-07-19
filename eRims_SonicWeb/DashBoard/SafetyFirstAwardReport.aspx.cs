@@ -90,35 +90,35 @@ public partial class DashBoard_SafetyFirstAwardReport : clsBasePage
             int.TryParse(Convert.ToString(DataBinder.Eval(e.Row.DataItem, "IS_EchoPark")), out IS_EchoPark);
 
 
-            if (decTotalScore > 94.5 && decTotalScore <= 100)
+            if (decTotalScore >= 95 && decTotalScore <= 100)
             {
                 //lblResultingScore.Text = decTotalScore.ToString() + " ("+ Charts.Platinum_Label +")";
                 lblFinal_ScoreCard.Text = decTotalScore + " (" + Charts.Platinum_Label + ")";
                 //tdResult.BgColor = Charts.Platinum;// "green";
                 tdScoreCard.BgColor = "#" + Charts.Platinum; ;// "green";
             }
-            else if (decTotalScore > 89.5 && decTotalScore <= 94.5)
+            else if (decTotalScore >= 90 && decTotalScore < 95)
             {
                 //lblResultingScore.Text = decTotalScore.ToString() + " (" + Charts.Gold_Label + ")";
                 lblFinal_ScoreCard.Text = decTotalScore + " (" + Charts.Gold_Label + ")";
                 //tdResult.BgColor = Charts.Gold;//"blue";
                 tdScoreCard.BgColor = "#" + Charts.Gold;//"blue";
             }
-            else if (decTotalScore > 79.5 && decTotalScore <= 89.5)
+            else if (decTotalScore >= 80 && decTotalScore < 90)
             {
                 //lblResultingScore.Text = decTotalScore.ToString() + " (" + Charts.Silver_Label + ")";
                 lblFinal_ScoreCard.Text = decTotalScore + " (" + Charts.Silver_Label + ")";
                 //tdResult.BgColor = Charts.Silver;//"yellow";
                 tdScoreCard.BgColor = "#" + Charts.Silver;//"Yellow";
             }
-            else if (decTotalScore > 69.5 && decTotalScore <= 79.5)
+            else if (decTotalScore >= 70 && decTotalScore < 80)
             {
                 //lblResultingScore.Text = decTotalScore.ToString() + " (" + Charts.Bronze_Label + ")";
                 lblFinal_ScoreCard.Text = decTotalScore + " (" + Charts.Bronze_Label + ")";
                 //tdResult.BgColor = Charts.Bronze;//"orange";
                 tdScoreCard.BgColor = "#" + Charts.Bronze;//"orange";
             }
-            else if (decTotalScore >= 0 && decTotalScore <= 69.5)
+            else if (decTotalScore >= 0 && decTotalScore < 70)
             {
                 //lblResultingScore.Text = decTotalScore.ToString() + " (" + Charts.Tin_Label + ")";
                 lblFinal_ScoreCard.Text = decTotalScore + " (" + Charts.Tin_Label + ")";

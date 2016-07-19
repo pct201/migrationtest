@@ -207,27 +207,27 @@ public partial class DashboardGraph : clsBasePage
             ////Change as per bug-tracker #3585,further change as per 3600 #35143.
             //_intScore = (_intScore / 200) * 100;
 
-            if (_intScore > 84.5m && _intScore <= 100)
+            if (_intScore >= 95 && _intScore <= 100)
             {
                 dtRegion.Rows[_iRow][2] = Charts.Platinum_Label;
                 dtRegion.Rows[_iRow][1] = _intScore;
             }
-            else if (_intScore > 69.5m && _intScore <= 84.5m)
+            else if (_intScore >= 90 && _intScore < 95)
             {
                 dtRegion.Rows[_iRow][2] = Charts.Gold_Label;
                 dtRegion.Rows[_iRow][1] = _intScore;
             }
-            else if (_intScore > 49.5m && _intScore <= 69.5m)
+            else if (_intScore >= 80 && _intScore < 90)
             {
                 dtRegion.Rows[_iRow][2] = Charts.Silver_Label;
                 dtRegion.Rows[_iRow][1] = _intScore;
             }
-            else if (_intScore > 29.5m && _intScore <= 49.5m)
+            else if (_intScore >= 70 && _intScore < 80)
             {
                 dtRegion.Rows[_iRow][2] = Charts.Bronze_Label;
                 dtRegion.Rows[_iRow][1] = _intScore;
             }
-            else if (_intScore >= 0 && _intScore <= 29.5m)
+            else if (_intScore >= 0 && _intScore < 70)
             {
                 dtRegion.Rows[_iRow][2] = Charts.Tin_Label;
                 dtRegion.Rows[_iRow][1] = _intScore;
@@ -245,7 +245,7 @@ public partial class DashboardGraph : clsBasePage
             strHeader = "Aggregate Performance";
 
         // Set Chart property 
-        strChartXML.Append("<chart caption='" + strHeader + "' plotGradientColor='' bgColor='#FFFFFF' showalternatevgridcolor='0' xAxisName='Region' yAxisName='Level' useRoundEdges='0' showValues='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='102' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='0' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
+        strChartXML.Append("<chart caption='" + strHeader + "' plotGradientColor='' bgColor='#FFFFFF' showalternatevgridcolor='0' xAxisName='Region' yAxisName='Level' useRoundEdges='0' showValues='0' showYAxisValues='0' yAxisMinValue='45' yAxisMaxValue='102' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='0' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
         decimal _decAvg = 0;
         //decimal.TryParse(Convert.ToString(dtAverage.Compute("AVG(Score)", "")), out _devAvg);
         decimal.TryParse(Convert.ToString(dtRegion.Compute("AVG(Score)", "")), out _decAvg);
@@ -258,10 +258,10 @@ public partial class DashboardGraph : clsBasePage
 
         // set Tread Lines
         strChartXML.Append("<trendLines>");
-        strChartXML.Append("<line startValue='29.5' showOnTop='0' color='49563A' displayvalue='" + Charts.Tin_Label + "' /> ");
-        strChartXML.Append("<line startValue='49.5' color='49563A' displayvalue='" + Charts.Bronze_Label + "' /> ");
-        strChartXML.Append("<line startValue='69.5' color='49563A' displayvalue='" + Charts.Silver_Label + "' /> ");
-        strChartXML.Append("<line startValue='84.5' color='49563A' displayvalue='" + Charts.Gold_Label + "' /> ");
+        strChartXML.Append("<line startValue='69' showOnTop='0' color='49563A' displayvalue='" + Charts.Tin_Label + "' /> ");
+        strChartXML.Append("<line startValue='79' color='49563A' displayvalue='" + Charts.Bronze_Label + "' /> ");
+        strChartXML.Append("<line startValue='89' color='49563A' displayvalue='" + Charts.Silver_Label + "' /> ");
+        strChartXML.Append("<line startValue='94' color='49563A' displayvalue='" + Charts.Gold_Label + "' /> ");
         strChartXML.Append("<line startValue='100' color='49563A' displayvalue='" + Charts.Platinum_Label + "' /> ");
         //strChartXML.Append("<line startValue='" + string.Format("{0:N2}", _devAvg) + "' color='FF0000' displayvalue='Company Average' valueOnRight='1' thickness='2' /> ");
         strChartXML.Append("<line startValue='95' color='FF0000' displayvalue='{br}Cross The Line' valueOnRight='1' thickness='2' /> ");

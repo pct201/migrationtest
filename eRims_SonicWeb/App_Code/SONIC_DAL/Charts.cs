@@ -617,23 +617,23 @@ public class Charts
     public static string GetColorCodeFromScoreAggregate(decimal _intScore)
     {
         string color = string.Empty;
-        if (_intScore > 84.5M && _intScore <= 100)
+        if (_intScore >= 95 && _intScore <= 100)
         {
             color = Platinum;
         }
-        else if (_intScore > 69.5m && _intScore <= 84.5m)
+        else if (_intScore >= 90 && _intScore < 95)
         {
             color = Gold;
         }
-        else if (_intScore > 49.5m && _intScore <= 69.5m)
+        else if (_intScore >= 80 && _intScore < 90)
         {
             color = Silver;
         }
-        else if (_intScore > 29.5m && _intScore <= 49.5m)
+        else if (_intScore >= 70 && _intScore < 80)
         {
             color = Bronze;
         }
-        else if (_intScore >= 0 && _intScore <= 29.5m)
+        else if (_intScore >= 0 && _intScore < 70)
         {
             color = Tin;
         }

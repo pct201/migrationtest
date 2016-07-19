@@ -203,27 +203,27 @@ public partial class ScorecardByLocation : System.Web.UI.Page
             ////Change as per bug-tracker #3585,further change as per 3600 #35143..
             //_intScore = (_intScore / 200) * 100;
 
-            if (_intScore > 84.5m && _intScore <= 100)
+            if (_intScore >= 95 && _intScore <= 100)
             {
                 dtRegion.Rows[_iRow]["Performance"] = Charts.Platinum_Label; 
                 dtRegion.Rows[_iRow]["Score"] = _intScore;
             }
-            else if (_intScore > 69.5m && _intScore <= 84.5m)
+            else if (_intScore >= 90 && _intScore < 95)
             {
                 dtRegion.Rows[_iRow]["Performance"] = Charts.Gold_Label;
                 dtRegion.Rows[_iRow]["Score"] = _intScore;
             }
-            else if (_intScore > 49.5m && _intScore <= 69.5m)
+            else if (_intScore >= 80 && _intScore < 90)
             {
                 dtRegion.Rows[_iRow]["Performance"] = Charts.Silver_Label;
                 dtRegion.Rows[_iRow]["Score"] = _intScore;
             }
-            else if (_intScore > 29.5m && _intScore <= 49.5m)
+            else if (_intScore >= 70 && _intScore < 80)
             {
                 dtRegion.Rows[_iRow]["Performance"] = Charts.Bronze_Label;
                 dtRegion.Rows[_iRow]["Score"] = _intScore;
             }
-            else if (_intScore >= 0 && _intScore <= 29.5m)
+            else if (_intScore >= 0 && _intScore < 70)
             {
                 dtRegion.Rows[_iRow]["Performance"] = Charts.Tin_Label;
                 dtRegion.Rows[_iRow]["Score"] = _intScore;
@@ -237,7 +237,7 @@ public partial class ScorecardByLocation : System.Web.UI.Page
 
         // for new version
         string strWidth = dtRegion.Rows.Count > 25 ? "950" : "800";
-        strChartXML.Append("<chart caption='Aggregate Performance for Region " + Region + "' showalternatevgridcolor='0' bgColor='#FFFFFF' plotGradientColor='' xAxisName='Location' yAxisName='Level' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='102' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
+        strChartXML.Append("<chart caption='Aggregate Performance for Region " + Region + "' showalternatevgridcolor='0' bgColor='#FFFFFF' plotGradientColor='' xAxisName='Location' yAxisName='Level' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='45' yAxisMaxValue='102' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
 
         // Set Label
         for (int i = 0; i < dtRegion.Rows.Count; i++)
@@ -568,10 +568,10 @@ public partial class ScorecardByLocation : System.Web.UI.Page
 
         // set Tread Lines
         strChartXML.Append("<trendLines>");
-        strChartXML.Append("<line startValue='29.5' color='666666' displayvalue='" + Charts.Tin_Label + "' /> ");
-        strChartXML.Append("<line startValue='49.5' color='666666' displayvalue='" + Charts.Bronze_Label + "' /> ");
-        strChartXML.Append("<line startValue='69.5' color='666666' displayvalue='" + Charts.Silver_Label + "' /> ");
-        strChartXML.Append("<line startValue='84.5' color='666666' displayvalue='" + Charts.Gold_Label + "' /> ");
+        strChartXML.Append("<line startValue='69' color='666666' displayvalue='" + Charts.Tin_Label + "' /> ");
+        strChartXML.Append("<line startValue='79' color='666666' displayvalue='" + Charts.Bronze_Label + "' /> ");
+        strChartXML.Append("<line startValue='89' color='666666' displayvalue='" + Charts.Silver_Label + "' /> ");
+        strChartXML.Append("<line startValue='94' color='666666' displayvalue='" + Charts.Gold_Label + "' /> ");
         strChartXML.Append("<line startValue='100' color='666666' displayvalue='" + Charts.Platinum_Label + "' /> ");
         strChartXML.Append("<line startValue='95' color='FF0000' displayvalue='{br}Cross The Line' valueOnRight='1' thickness='2' /> ");
 
