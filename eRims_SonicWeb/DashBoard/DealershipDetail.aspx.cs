@@ -337,7 +337,7 @@ public partial class DealershipDetail : System.Web.UI.Page
         {
             lblIIPerLevel.Text = "Platinum";
             lblNoofInvestigations.Text = "0";
-            AvgInvestigation.Text = "28.0";
+            AvgInvestigation.Text = "14.0";
         }
     }
 
