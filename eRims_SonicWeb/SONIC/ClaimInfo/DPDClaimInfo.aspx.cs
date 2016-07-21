@@ -99,7 +99,7 @@ public partial class SONIC_DPDClaimInfo : clsBasePage
                 lblDateofLoss.Text = drDPD_Claims["Date_Of_Loss"] == DBNull.Value ? "" : clsGeneral.FormatDateToDisplay(Convert.ToDateTime(drDPD_Claims["Date_Of_Loss"].ToString()));
 
                 ucAdjusterNotes.ClaimID = PK_DPD_Claims_ID;
-                ucAdjusterNotes.ClaimNumber = Convert.ToString(drDPD_Claims["Origin_Claim_Number"]);
+                ucAdjusterNotes.ClaimNumber = Convert.ToString(drDPD_Claims["Origin_Claim_Number"]).Trim();
                 ucAdjusterNotes.BindGridNotes(ucAdjusterNotes.ClaimNumber);
 
                 ctrlSonicNotes.PK_DPD_Claims_ID = PK_DPD_Claims_ID;
@@ -197,7 +197,7 @@ public partial class SONIC_DPDClaimInfo : clsBasePage
 
             DataRow drDPD_Claims = dtDPD_Claims.Rows[0];
 
-            lblClaimNumber.Text = Convert.ToString(drDPD_Claims["Origin_Claim_Number"]);
+            lblClaimNumber.Text = Convert.ToString(drDPD_Claims["Origin_Claim_Number"]).Trim();
             lblLocationdba.Text = Convert.ToString(drDPD_Claims["dba1"]);
             lblDateLoss.Text = drDPD_Claims["Date_Of_Loss"] == DBNull.Value ? "" : clsGeneral.FormatDateToDisplay(Convert.ToDateTime(drDPD_Claims["Date_Of_Loss"].ToString()));
             lnkAssociatedFirstReport.Text = Convert.ToString(drDPD_Claims["DPD_FR_Number"]);
