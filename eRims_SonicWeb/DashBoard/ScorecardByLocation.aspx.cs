@@ -568,10 +568,10 @@ public partial class ScorecardByLocation : System.Web.UI.Page
 
         // set Tread Lines
         strChartXML.Append("<trendLines>");
-        strChartXML.Append("<line startValue='69' color='666666' displayvalue='" + Charts.Tin_Label + "' /> ");
-        strChartXML.Append("<line startValue='79' color='666666' displayvalue='" + Charts.Bronze_Label + "' /> ");
-        strChartXML.Append("<line startValue='89' color='666666' displayvalue='" + Charts.Silver_Label + "' /> ");
-        strChartXML.Append("<line startValue='94' color='666666' displayvalue='" + Charts.Gold_Label + "' /> ");
+        strChartXML.Append("<line startValue='70' color='666666' displayvalue='" + Charts.Tin_Label + "' /> ");
+        strChartXML.Append("<line startValue='80' color='666666' displayvalue='" + Charts.Bronze_Label + "' /> ");
+        strChartXML.Append("<line startValue='90' color='666666' displayvalue='" + Charts.Silver_Label + "' /> ");
+        strChartXML.Append("<line startValue='95' color='666666' displayvalue='" + Charts.Gold_Label + "' /> ");
         strChartXML.Append("<line startValue='100' color='666666' displayvalue='" + Charts.Platinum_Label + "' /> ");
         strChartXML.Append("<line startValue='95' color='FF0000' displayvalue='{br}Cross The Line' valueOnRight='1' thickness='2' /> ");
 
