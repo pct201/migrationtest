@@ -250,7 +250,7 @@
                                                     AutoPostBack="True" ValidationGroup="vsErrorGroup" onchange="CheckDummyVal();">
                                                 </asp:DropDownList>
                                                 <asp:RequiredFieldValidator runat="server" ID="rfvRMLocationNumber" ControlToValidate="ddlRMLocationNumber"
-                                                    ErrorMessage="Please Select either Sonic Location Number or Location d/b/a or Location f/k/a"
+                                                    ErrorMessage="Please Select either Sonic Location Number or Location d/b/a"
                                                     Display="none" ValidationGroup="vsErrorGroup" InitialValue="0">
                                                 </asp:RequiredFieldValidator>
                                             </td>
@@ -266,6 +266,7 @@
                                                 </asp:DropDownList>
                                             </td>
                                         </tr>
+<!--
                                         <tr>
                                             <%--<td align="left">
                                                 Legal Entity
@@ -289,6 +290,7 @@
                                                 </asp:DropDownList>
                                             </td>
                                         </tr>
+-->
                                         <tr>
                                             <td align="left">
                                                 Address 1

@@ -194,6 +194,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
+<!--
                                                 <td align="left">
                                                     Location f/k/a
                                                 </td>
@@ -205,6 +206,7 @@
                                                         OnSelectedIndexChanged="ddlLocationfka_SelectedIndexChanged">
                                                     </asp:DropDownList>
                                                 </td>
+-->
                                                 <td align="left">
                                                    First Report Category 
                                                 </td>
@@ -222,10 +224,12 @@
                                                         <asp:ListItem>Property</asp:ListItem>
                                                     </asp:DropDownList> 
                                                 </td>
+<!--
                                             </tr>
                                             <tr>
                                                 <td class="Spacer" style="height: 20px;" colspan="3">
                                                 </td>
+-->
                                                 <td align="left">
                                                     Carrier/TPA Claim Number
                                                 </td>
@@ -276,7 +280,7 @@
             GB_showCenter('Associate Name', '<%=AppConfig.SiteURL%>SONIC/FirstReport/AssociateNamePopup.aspx', 500, 500, ReturnFunc);
         }
         function ReturnFunc() {
-            document.getElementById('<%=HdnEmployeeID.ClientID %>').value = document.getElementById('hdnEmpval').value;
+            document.getElementById('<%=HdnEmployeeID.ClientID %>').value = document.getElementById('hdnEmpval').value;        
         }
     </script>
     <script type="text/javascript" src="<%=AppConfig.SiteURL%>greybox/AJS.js"></script>
