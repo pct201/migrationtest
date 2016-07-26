@@ -5,10 +5,6 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-
-    <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
-        HeaderText="Verify the following fields:" BorderWidth="1" BorderColor="DimGray"
-        ValidationGroup="vsErrorGroup" CssClass="errormessage"></asp:ValidationSummary>
     <script type="text/javascript" language="javascript" src="../JavaScript/jquery-1.5.min.js"></script>
     <script type="text/javascript" language="javascript" src="../JavaScript/jquery.maskedinput.js"></script>
 
@@ -21,7 +17,7 @@
             $("#<%=txtCellPhone.ClientID%>").mask("999-999-9999");
             $("#<%=txtPager.ClientID%>").mask("999-999-9999");
         });
-        function CheckVal() {            
+        function CheckVal() {
             if (document.getElementById('<%=txtCellPhone.ClientID%>').value == "___-___-____")
                 document.getElementById('<%=txtCellPhone.ClientID%>').value = "";
             if (document.getElementById('<%=txtOfficeTelephone.ClientID%>').value == "___-___-____")
@@ -31,11 +27,7 @@
             if (document.getElementById('<%=txtZipCode.ClientID%>').value == "_____-____")
                 document.getElementById('<%=txtZipCode.ClientID%>').value = "";
 
-            if (Page_ClientValidate()) {
-                return true;
-            }
-            else
-                return false;
+            Page_ClientValidate('vsErrorGroup')
         }
         function OPenCSChangePasswordPopup() {
             GB_showCenter('Associate Name', '<%=AppConfig.SiteURL%>Administrator/ChangePasswordContractorSecurity_Popup.aspx?UserName=' + document.getElementById('<%=txtLoginUserName.ClientID %>').value + '&id=0&UID=' + document.getElementById('<%=HdnPK_Contactor_Security.ClientID %>').value, 500, 500, '');
@@ -51,8 +43,7 @@
             return false;
         }
 
-        function OpenContractorSecurityPopup(action, title)
-        {
+        function OpenContractorSecurityPopup(action, title) {
             GB_showCenter(title, '<%=AppConfig.SiteURL%>Administrator/ContractorSecurityPopup.aspx?action=' + action + '&FK_Contractor_Security=<%= PK_Contactor_Security %>', 300, 800, '');
             return false;
         }
@@ -63,7 +54,7 @@
             //var selectedValue = ddlContractorType.value;
             if (selectedText.toUpperCase() == 'AED' || selectedText.toUpperCase() == 'CONTRACTOR' || selectedText.toUpperCase() == 'VENDOR ACCOUNTANT') {
                 document.getElementById("<%=rfvtxtVendorNumber.ClientID%>").enabled = true;
-                document.getElementById('spantxtVendorNumber').style.visibility = 'visible';                
+                document.getElementById('spantxtVendorNumber').style.visibility = 'visible';
             }
             else {
                 document.getElementById("<%=rfvtxtVendorNumber.ClientID%>").enabled = false;
@@ -73,7 +64,7 @@
             var lblSRMGC = document.getElementById("<%=lblIsSRMGC.ClientID %>");
             var ChkSRM = document.getElementById("<%=chkIsSRM.ClientID %>");
             var ChkGC = document.getElementById("<%=chkISGC.ClientID %>");
-            
+
             if (selectedText.toUpperCase() == 'CONTRACTOR') {
                 trGC.style.display = "";
                 lblSRMGC.style.display = "";
@@ -120,7 +111,7 @@
                 }
             }
         }
-        
+
         $(document).ready(function () {
             ddlChangeValidator();
         });
@@ -343,8 +334,13 @@
                             Width="170px"></asp:TextBox>&nbsp;
                     </td>--%>
                     <td align="left" width="26%">
-                        <asp:DropDownList ID="ddlContractorfirm" runat="server" Width="170px" SkinID="ddlSONIC">
-                        </asp:DropDownList>
+                        <asp:UpdatePanel runat="server" ID="udpFirm" UpdateMode="conditional">
+                                    <ContentTemplate>
+                                        <asp:DropDownList ID="ddlContractorfirm" runat="server" Width="170px" SkinID="ddlSONIC" 
+                                            AutoPostBack="true" OnSelectedIndexChanged="ddlContractorfirm_SelectedIndexChanged">
+                                        </asp:DropDownList>
+                                    </ContentTemplate>
+                                </asp:UpdatePanel>
                         <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ControlToValidate="ddlContractorfirm" Display="None"
                              ValidationGroup="vsErrorGroup" Text="*" InitialValue="0" runat="server" ErrorMessage="Please select atleast one Contractor Firm."></asp:RequiredFieldValidator>
                     </td>
@@ -524,10 +520,16 @@
                     <td align="center">:
                     </td>
                     <td align="left">
-                        <asp:TextBox runat="server" ID="txtVendorNumber" MaxLength="50" Width="170px"></asp:TextBox>    
-                         <asp:RequiredFieldValidator ID="rfvtxtVendorNumber" ControlToValidate="txtVendorNumber" Display="None" 
-                            runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Vendor Number."></asp:RequiredFieldValidator>
-                                                                    
+                        <asp:UpdatePanel runat="server" ID="udpMember" UpdateMode="conditional">
+                                <ContentTemplate>
+                                    <asp:TextBox runat="server" ID="txtVendorNumber" MaxLength="50" Width="170px" Enabled="false"></asp:TextBox>
+                                     <asp:RequiredFieldValidator ID="rfvtxtVendorNumber" ControlToValidate="txtVendorNumber" Display="None" 
+                                        runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Vendor Number."></asp:RequiredFieldValidator>
+                                </ContentTemplate>
+                                 <Triggers>
+                                    <asp:AsyncPostBackTrigger ControlID="ddlContractorfirm" EventName="SelectedIndexChanged" />
+                                </Triggers>
+                        </asp:UpdatePanel>                                            
                     </td>
                 </tr>
                 <tr>
@@ -866,6 +868,9 @@
                         </tr>
                         <tr>
                             <td align="center">
+                                 <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
+                                    HeaderText="Verify the following fields:" BorderWidth="1" BorderColor="DimGray"
+                                    ValidationGroup="vsErrorGroup" CssClass="errormessage"></asp:ValidationSummary>
                                 <asp:Button ID="btnSave" runat="server" Text=" Save & View" CausesValidation="true" ValidationGroup="vsErrorGroup"
                                     OnClick="btnSave_Click" OnClientClick="return CheckVal();" />&nbsp;&nbsp;&nbsp;
                                   <asp:Button ID="btnEdit" runat="server" Text=" Edit " OnClick="btnEdit_Click" />&nbsp;&nbsp;&nbsp;

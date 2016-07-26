@@ -13,7 +13,7 @@
     <script type="text/javascript">
         var GB_ROOT_DIR = '<%=AppConfig.SiteURL%>' + 'greybox/';
         jQuery(function ($) {
-            $("#<%=txtZipCode.ClientID%>").mask("99999-9999");
+            <%--$("#<%=txtZipCode.ClientID%>").mask("99999-9999");--%>
             $("#<%=txtOfficeTelephone.ClientID%>").mask("999-999-9999");
             $("#<%=txtCellPhone.ClientID%>").mask("999-999-9999");
             $("#<%=txtPager.ClientID%>").mask("999-999-9999");
@@ -226,14 +226,14 @@
                     </td>
                 </tr>                               
                 <tr>
-                    <td align="left">Address 1<%--<span style="color: Red;">*</span>--%>
+                    <td align="left">Address 1<span style="color: Red;">*</span>
                     </td>
                     <td align="center">:
                     </td>
                     <td align="left">
                         <asp:TextBox runat="server" ID="txtAddress1" MaxLength="75" Width="170px"></asp:TextBox>
-                        <%--<asp:RequiredFieldValidator ID="rfvtxtAddress1" ControlToValidate="txtAddress1" Display="None"
-                            runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Address 1."></asp:RequiredFieldValidator>--%>
+                        <asp:RequiredFieldValidator ID="rfvtxtAddress1" ControlToValidate="txtAddress1" Display="None"
+                            runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Address 1."></asp:RequiredFieldValidator>
                     </td>
                     <td align="left">Address 2<%--<span style="color: Red;">*</span>--%>
                     </td>
@@ -247,14 +247,14 @@
                 </tr>
 
                 <tr>
-                    <td align="left">City<%--<span style="color: Red;">*</span>--%>
+                    <td align="left">City<span style="color: Red;">*</span>
                     </td>
                     <td align="center">:
                     </td>
                     <td align="left">
                         <asp:TextBox runat="server" ID="txtCity" MaxLength="50" Width="170px"></asp:TextBox>
-                        <%--<asp:RequiredFieldValidator ID="rfvtxtCity" ControlToValidate="txtCity" Display="None"
-                            runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter City."></asp:RequiredFieldValidator>--%>
+                        <asp:RequiredFieldValidator ID="rfvtxtCity" ControlToValidate="txtCity" Display="None"
+                            runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter City."></asp:RequiredFieldValidator>
                     </td>
                     <td align="left">State <span style="color: Red;">*</span>
                     </td>
@@ -269,50 +269,50 @@
                     </td>
                 </tr>
                 <tr>
-                    <td align="left">Zip Code (99999-9999)<%--<span style="color: Red;">*</span>--%>
+                    <td align="left">Zip Code (99999-9999)<span style="color: Red;">*</span>
                     </td>
                     <td style="width: 4%;" align="center">:
                     </td>
                     <td align="left" width="26%" >
                         <asp:TextBox runat="server" ID="txtZipCode" MaxLength="10" ValidationGroup="vsErrorGroup"
                             Width="170px"></asp:TextBox>&nbsp;
-                        <%--<asp:RequiredFieldValidator ID="rfvtxtZipCode" ControlToValidate="txtZipCode" Display="None"
-                            runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Zip Code."></asp:RequiredFieldValidator>--%>
+                        <asp:RequiredFieldValidator ID="rfvtxtZipCode1" ControlToValidate="txtZipCode" Display="None"
+                            runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Zip Code."></asp:RequiredFieldValidator>
                         <asp:RegularExpressionValidator ID="rfvtxtZipCode" ControlToValidate="txtZipCode" runat="server"
                             ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter the Zip Code in xxxxx-xxxx format."
-                            Display="none" ValidationExpression="((\(\d{2}\) ?)|(\d{5}-))?\d{4}$"></asp:RegularExpressionValidator>
+                            Display="none" ValidationExpression="\d{5}(-\d{4})?"></asp:RegularExpressionValidator>
                     </td>
                      <td align="left">Contact Name</td>
                     <td align="center">:
                     </td>
                     <td align="left">
                         <asp:TextBox runat="server" ID="txtContactName" MaxLength="50" Width="170px"></asp:TextBox>
-                        <%--<asp:RequiredFieldValidator ID="rfvtxtAddress2" ControlToValidate="txtAddress2" Display="None"
-                            runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Address 2."></asp:RequiredFieldValidator>--%>
+                        <%--<asp:RequiredFieldvalidator id="rfvtxtaddress2" controltovalidate="txtaddress2" display="none"
+                            runat="server" initialvalue="" text="*" validationGroup="vsErrorGroup" ErrorMessage="Please Enter Address 2."></asp:RequiredFieldValidator>--%>
                     </td>
                 </tr>
 
                 <tr>
-                    <td align="left">Office Telephone (999-999-9999)
+                    <td align="left">Office Telephone (999-999-9999)<span style="color: Red;">*</span>
                     </td>
                     <td align="center">:
                     </td>
                     <td align="left">
                         <asp:TextBox runat="server" ID="txtOfficeTelephone" MaxLength="12" Width="170px"></asp:TextBox>
-                        <%--<asp:RequiredFieldValidator ID="rfvtxtOfficeTelephone" ControlToValidate="txtOfficeTelephone" Display="None"
-                            runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Office Telephone."></asp:RequiredFieldValidator>--%>
+                        <asp:RequiredFieldValidator ID="rfvtxtOfficeTelephone1" ControlToValidate="txtOfficeTelephone" Display="None"
+                            runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Office Telephone."></asp:RequiredFieldValidator>
                         <asp:RegularExpressionValidator ID="rfvtxtOfficeTelephone" ControlToValidate="txtOfficeTelephone"
                             runat="server" ErrorMessage="Please Enter Office TelePhone in XXX-XXX-XXXX format."
                             Display="none" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>
                     </td>
-                    <td align="left">Cell Phone (999-999-9999)<%--<span style="color: Red;">*</span>--%>
+                    <td align="left">Cell Phone (999-999-9999)<span style="color: Red;">*</span>
                     </td>
                     <td align="center">:
                     </td>
                     <td align="left">
                         <asp:TextBox runat="server" ID="txtCellPhone" MaxLength="12" Width="170px"></asp:TextBox>
-                        <%--<asp:RequiredFieldValidator ID="rfvtxtCellPhone" ControlToValidate="txtCellPhone" Display="None"
-                            runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Cell Phone."></asp:RequiredFieldValidator>--%>
+                        <asp:RequiredFieldValidator ID="rfvtxtCellPhone2" ControlToValidate="txtCellPhone" Display="None"
+                            runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Cell Phone."></asp:RequiredFieldValidator>
                         <asp:RegularExpressionValidator ID="rfvtxtCellPhone" ControlToValidate="txtCellPhone"
                             runat="server" ErrorMessage="Please Enter Cell Phone in XXX-XXX-XXXX format."
                             Display="none" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>
@@ -348,13 +348,20 @@
                     </td>
                     <td align="center">:
                     </td>
-                    <td colspan="4">
+                    <td align="left">
                         <asp:TextBox runat="server" ID="txtEmail" MaxLength="100" Width="170px"></asp:TextBox>
                         <asp:RequiredFieldValidator ID="rfvtxtEmail" ControlToValidate="txtEmail" Display="None"
                             runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Email."></asp:RequiredFieldValidator>
                         <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txtEmail"
                             ValidationGroup="vsErrorGroup" Display="None" ErrorMessage="Email Address Is Invalid."
                             SetFocusOnError="True" Text="*" ToolTip="Email Address Is Invalid" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*">*</asp:RegularExpressionValidator>
+                    </td>
+                    <td align="left">Vendor Number
+                    </td>
+                    <td align="center">:
+                    </td>
+                    <td align="left">
+                        <asp:TextBox runat="server" ID="txtVendor_Number" MaxLength="50" Width="170px"></asp:TextBox>
                     </td>
                 </tr>    
 
@@ -470,8 +477,15 @@
                     </td>
                     <td align="center">:
                     </td>
-                    <td colspan="4">
+                    <td align="left">
                         <asp:Label runat="server" ID="lblEmail" Style="word-wrap: normal; word-break: break-all"></asp:Label>
+                    </td>
+                    <td align="left">Vendor Number
+                    </td>
+                    <td align="center">:
+                    </td>
+                    <td align="left">
+                        <asp:Label runat="server" ID="lblVendor_Number" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                     </td>
 
                 </tr>              

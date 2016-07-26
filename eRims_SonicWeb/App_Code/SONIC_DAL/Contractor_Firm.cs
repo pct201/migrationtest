@@ -29,6 +29,7 @@ namespace ERIMS.DAL
         private decimal? _FK_LU_Firm_type;
         private string _Contact_Name;
         private string _Facsimile_Number;
+        private string _Vendor_Number;
         
 
 		#endregion
@@ -180,6 +181,15 @@ namespace ERIMS.DAL
             set { _Facsimile_Number = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the Vendor_Number value.
+        /// </summary>
+        public string Vendor_Number
+        {
+            get { return _Vendor_Number; }
+            set { _Vendor_Number = value; }
+        }
+
 		#endregion
 
 		#region Default Constructors
@@ -298,6 +308,11 @@ namespace ERIMS.DAL
                 else
                     this._Facsimile_Number = (string)drContractor_Firm["Facsimile_Number"];
 
+                if (drContractor_Firm["Vendor_Number"] == DBNull.Value)
+                    this._Vendor_Number = null;
+                else
+                    this._Vendor_Number = (string)drContractor_Firm["Vendor_Number"];
+
 		}
 
 		#endregion
@@ -377,6 +392,11 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Facsimile_Number", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Facsimile_Number", DbType.String, this._Facsimile_Number);
+
+            if (string.IsNullOrEmpty(this._Vendor_Number))
+                db.AddInParameter(dbCommand, "Vendor_Number", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Vendor_Number", DbType.String, this._Vendor_Number);
 
 			// Execute the query and return the new identity value
 			int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -505,6 +525,11 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Facsimile_Number", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Facsimile_Number", DbType.String, this._Facsimile_Number);
+
+            if (string.IsNullOrEmpty(this._Vendor_Number))
+                db.AddInParameter(dbCommand, "Vendor_Number", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Vendor_Number", DbType.String, this._Vendor_Number);
 
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
             return returnValue;

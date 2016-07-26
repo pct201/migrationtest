@@ -355,6 +355,21 @@ public partial class Administrator_Contractor_Security : clsBasePage
         BindGrid(ctrlPageProperty.CurrentPage, ctrlPageProperty.PageSize);
     }
 
+    /// <summary>
+    /// Event to handle Contractor Firm change.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void ddlContractorfirm_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (ddlContractorfirm.SelectedIndex > 0)
+        {
+            txtVendorNumber.Text = new Contractor_Firm(Convert.ToDecimal(ddlContractorfirm.SelectedValue)).Vendor_Number;
+        }
+        else
+            txtVendorNumber.Text = string.Empty;
+    }
+
     #endregion
 
     #region Grid Events

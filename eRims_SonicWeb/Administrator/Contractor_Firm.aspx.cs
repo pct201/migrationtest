@@ -123,6 +123,7 @@ public partial class Administrator_Contractor_Firm : clsBasePage
         txtCellPhone.Text = "";
         txtPager.Text = "";
         txtEmail.Text = "";
+        txtVendor_Number.Text = "";
     }
 
     /// <summary>
@@ -192,6 +193,7 @@ public partial class Administrator_Contractor_Firm : clsBasePage
         objContractorFirm.Pager = Convert.ToString(txtPager.Text);
 
         objContractorFirm.Email = txtEmail.Text.Trim().Replace("'", "\'");
+        objContractorFirm.Vendor_Number = Convert.ToString(txtVendor_Number.Text);
         objContractorFirm.Updated_By = clsSession.UserID;
         objContractorFirm.Update_Date = DateTime.Now;
         objContractorFirm.Contact_Name = Convert.ToString(txtContactName.Text);
@@ -438,6 +440,7 @@ public partial class Administrator_Contractor_Firm : clsBasePage
         txtCellPhone.Text = Convert.ToString(objContractorFirm.Cell_Telephone);
         txtPager.Text = Convert.ToString(objContractorFirm.Pager);
         txtEmail.Text = Convert.ToString(objContractorFirm.Email);
+        txtVendor_Number.Text = Convert.ToString(objContractorFirm.Vendor_Number);
         txtFacsimile_Number.Text = Convert.ToString(objContractorFirm.Facsimile_Number);
         txtContactName.Text = Convert.ToString(objContractorFirm.Contact_Name);
         if (objContractorFirm.FK_LU_Firm_type != null)
@@ -469,6 +472,7 @@ public partial class Administrator_Contractor_Firm : clsBasePage
         lblCellPhone.Text = Convert.ToString(objContractorFirm.Cell_Telephone);
         lblPager.Text = Convert.ToString(objContractorFirm.Pager);
         lblEmail.Text = Convert.ToString(objContractorFirm.Email);
+        lblVendor_Number.Text = Convert.ToString(objContractorFirm.Vendor_Number);
         lblContactName.Text = Convert.ToString(objContractorFirm.Contact_Name);
         lblFacsimileNumber.Text = Convert.ToString(objContractorFirm.Facsimile_Number);
         if (objContractorFirm.FK_LU_Firm_type != null)
