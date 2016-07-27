@@ -1149,11 +1149,17 @@ public class clsGeneral : System.Web.UI.Page
         // get the extension of file name that will be used to create new file if it exists
         string strExt = GetExtension(strFullName);
 
+        //string strFileName = GetFileName(strFullName).Replace(strExt, "").Trim();
+        
+        string strFileName = string.Empty;
         // get filename without extension
-        string strFileName = GetFileName(strFullName).Replace(strExt, "").Trim();
+        if (!string.IsNullOrEmpty(strExt))
+            strFileName = GetFileName(strFullName).Replace(strExt, "").Trim();
+        else
+            strFileName = GetFileName(strFullName);
 
         // append time
-        strFileName = System.DateTime.Now.ToString("MMddyyhhmmss") + strFileName;
+        strFileName = System.DateTime.Now.ToString("MMddyyhhmmss") + strFileName.Replace(",", "").Replace(";", "").Replace("&", "");
 
         if (File.Exists(strFullName))
         {
@@ -1165,7 +1171,7 @@ public class clsGeneral : System.Web.UI.Page
                 FileCount++;
                 strRetVal = string.Concat(strPath, strFileName, FileCount.ToString(), strExt);
             }
-            strRetVal = System.DateTime.Now.ToString("MMddyyhhmmss") + strRetVal;
+            //strRetVal = System.DateTime.Now.ToString("MMddyyhhmmss") + strRetVal;
             return strRetVal;
         }
         else
