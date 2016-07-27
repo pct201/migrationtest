@@ -131,6 +131,8 @@ public partial class SONIC_PropertyFirstReport : clsBasePage
                         property_Claims.SelectByProperty_FR_ID(PK_Prop_FR_ID);
                         SonicInfo.SetClaimPostBackUrlAndVisibility(property_Claims.PK_Property_Claims_ID == null ? 0 : property_Claims.PK_Property_Claims_ID.Value, property_Claims.FK_First_Report_Wizard_ID);
                     }
+
+                    btnSendMail.Visible = (UserAccessType == AccessType.Administrative_Access) && (new Property_FR(PK_Prop_FR_ID).Complete == true);
                 }
                 catch
                 {

@@ -114,6 +114,7 @@ public partial class SONIC_WCFirstReport : clsBasePage
                     {
                         strPageOpeMode = (new WC_FR(PK_WC_FR_ID).Complete == false) ? "edit" : "view";
                     }
+                    btnSendMail.Visible = (UserAccessType == AccessType.Administrative_Access) && (new WC_FR(PK_WC_FR_ID).Complete == true);
                 }
                 catch
                 {

@@ -270,6 +270,8 @@ public partial class SONIC_DPDFirstReport : clsBasePage
                     {
                         strPageOpeMode = (new DPD_FR(PK_DPD_FR_ID).Complete == false) ? "edit" : "view";
                     }
+
+                    btnSendMail.Visible = (UserAccessType == AccessType.Administrative_Access) && (new DPD_FR(PK_DPD_FR_ID).Complete == true);
                 }
                 catch
                 {

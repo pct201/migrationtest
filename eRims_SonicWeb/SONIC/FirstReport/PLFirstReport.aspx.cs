@@ -112,6 +112,8 @@ public partial class SONIC_PLFirstReport : clsBasePage
                     {
                         strPageOpeMode = (new PL_FR(PK_PL_FR_ID).Complete == false) ? "edit" : "view";
                     }
+
+                    btnSendMail.Visible = (UserAccessType == AccessType.Administrative_Access) && (new PL_FR(PK_PL_FR_ID).Complete == true);
                 }
                 catch
                 {
