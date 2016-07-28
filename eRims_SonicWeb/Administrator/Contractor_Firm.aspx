@@ -356,12 +356,14 @@
                             ValidationGroup="vsErrorGroup" Display="None" ErrorMessage="Email Address Is Invalid."
                             SetFocusOnError="True" Text="*" ToolTip="Email Address Is Invalid" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*">*</asp:RegularExpressionValidator>
                     </td>
-                    <td align="left">Vendor Number
+                    <td align="left">Vendor Number <span style="color: Red;">*</span>
                     </td>
                     <td align="center">:
                     </td>
                     <td align="left">
                         <asp:TextBox runat="server" ID="txtVendor_Number" MaxLength="50" Width="170px"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="rfvVendor_Number" ControlToValidate="txtVendor_Number" Display="None"
+                            runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Vendor Number."></asp:RequiredFieldValidator>
                     </td>
                 </tr>    
 
