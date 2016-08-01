@@ -379,7 +379,8 @@ namespace ERIMS.DAL
 
         public static DataTable ImportData(string strFileName)
         {
-            string strConn = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + strFileName + @";Extended Properties=""Excel 8.0;HDR=YES;IMEX=1;""";
+            //string strConn = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + strFileName + @";Extended Properties=""Excel 8.0;HDR=YES;IMEX=1;""";
+            string strConn = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + strFileName + @";Extended Properties=""Excel 5.0;HDR=YES;IMEX=1;""";
             OleDbConnection objConn = new OleDbConnection(strConn);
             try
             {

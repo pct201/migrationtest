@@ -6,6 +6,8 @@ using System.Web.UI.WebControls;
 using System.Data;
 using ERIMS.DAL;
 using System.IO;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
 
 public partial class SONIC_Exposures_PropertyValuesImport : clsBasePage
 {
@@ -44,8 +46,11 @@ public partial class SONIC_Exposures_PropertyValuesImport : clsBasePage
         gvBuilding.DataBind();
 
         // export data to excel sheet
-        //clsGeneral.ExportData(dtPropertyValues, "Propert Values Spreadsheet");
-        GridViewExportUtil.ExportGrid("Propert_Values_Spreadsheet.xls", gvBuilding, true);
+        //clsGeneral.ExportData(dtPropertyValues, "Property Values Spreadsheet");
+        //GridViewExportUtil.ExportGrid("Propert_Values_Spreadsheet.xlsx", gvBuilding, true);
+
+        ToExcel(dtPropertyValues, "Propert_Values_Spreadsheet.xlsx");
+
     }
 
     /// <summary>
@@ -120,7 +125,7 @@ public partial class SONIC_Exposures_PropertyValuesImport : clsBasePage
                 else
                 {
                     // show message for no data available
-                    Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "alert('No data available to imort');", true);
+                    Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "alert('No data available to import');", true);
                 }
             }
             else
@@ -171,6 +176,70 @@ public partial class SONIC_Exposures_PropertyValuesImport : clsBasePage
     public override void VerifyRenderingInServerForm(Control control)
     {
         return;
+    }
+
+    public void ToExcel(DataTable dt, string Filename)
+    {
+        MemoryStream ms = DataTableToExcelXlsx(dt, "Sheet1");
+        HttpContext.Current.Response.Clear();
+        ms.WriteTo(HttpContext.Current.Response.OutputStream);
+        HttpContext.Current.Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+        HttpContext.Current.Response.AddHeader("Content-Disposition", "attachment;filename=" + Filename);
+        HttpContext.Current.Response.StatusCode = 200;
+        HttpContext.Current.Response.End();
+    }
+
+    public static MemoryStream DataTableToExcelXlsx(DataTable table, string sheetName)
+    {
+        MemoryStream Result = new MemoryStream();
+        ExcelPackage pack = new ExcelPackage();
+        ExcelWorksheet ws = pack.Workbook.Worksheets.Add(sheetName);
+        int col = 1;
+        int row = 1;
+
+        ws.Column(1).Width = 32;
+        ws.Column(2).Width = 22;
+        ws.Column(3).Width = 22;
+        ws.Column(4).Width = 15;
+        ws.Column(5).Width = 10;
+        ws.Column(7).Width = 20;
+        ws.Column(8).Width = 20;
+        ws.Column(9).Width = 18;
+        ws.Column(10).Width = 18;
+        ws.Column(11).Width = 30;
+        ws.Column(12).Width = 15;
+        ws.Column(13).Width = 15;
+
+        foreach (DataColumn column in table.Columns)
+        {
+            ws.Cells[row, col].Value = column.ColumnName.ToString();
+            ws.Cells[row, col].Style.Font.Bold = true;
+            col++;
+        }
+        col = 1;
+        row = 2;
+        foreach (DataRow rw in table.Rows)
+        {
+            foreach (DataColumn cl in table.Columns)
+            {
+                if (rw[cl.ColumnName] != DBNull.Value)
+                {
+                    double num;
+                    if (double.TryParse(rw[cl.ColumnName].ToString(), out num))
+                    {
+                        ws.Cells[row, col].Value = Convert.ToDecimal(rw[cl.ColumnName]);
+                    }
+                    else
+                        ws.Cells[row, col].Value = rw[cl.ColumnName].ToString();
+                }
+
+                col++;
+            }
+            row++;
+            col = 1;
+        }
+        pack.SaveAs(Result);
+        return Result;
     }
 
     #endregion
