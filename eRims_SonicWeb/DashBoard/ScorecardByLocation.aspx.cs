@@ -620,9 +620,9 @@ public partial class ScorecardByLocation : System.Web.UI.Page
         strChartXML.Append("<line startValue='17.5' color='666666' displayvalue='" + Charts.Bronze_Label + "' /> ");
         strChartXML.Append("<line startValue='23.5' color='666666' displayvalue='" + Charts.Silver_Label + "' /> ");
         strChartXML.Append("<line startValue='29' color='666666' displayvalue='" + Charts.Gold_Label + "' /> ");
-        strChartXML.Append("<line startValue='30' color='666666' displayvalue='{br}       " + Charts.Platinum_Label + "' /> ");
+        strChartXML.Append("<line startValue='30' color='666666' displayvalue='           " + Charts.Platinum_Label + "' /> ");
 
-        strChartXML.Append("<line startValue='28.5' color='FF0000' displayvalue='{br}{br}Cross The Line' valueOnRight='1' thickness='2' /> ");
+        strChartXML.Append("<line startValue='28.5' color='FF0000' displayvalue='{br}Cross The Line' valueOnRight='1' thickness='2' /> ");
 
         //if (Average != 0 && decCompAverage > 0 && (Math.Abs(Average - decCompAverage) <= 0.20M))
         //{
