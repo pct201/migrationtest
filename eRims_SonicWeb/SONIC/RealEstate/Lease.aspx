@@ -6715,8 +6715,8 @@ function ValidateSubtenantFileds(sender, args) {
                     Display="None" ValidationGroup="vsErrorGroup" />
                 <asp:CustomValidator ID="CustomValidator1" runat="server" ErrorMessage="" ClientValidationFunction="ValidateSubtenantFileds"
                     Display="None" ValidationGroup="vgSubtenant" />
-                <asp:CustomValidator ID="CustomValidator2" runat="server" ErrorMessage="" ClientValidationFunction="ValidateDates"
-                    display="None" ValidationGroup="vsErrorGroup"></asp:CustomValidator>
+                <%--<asp:CustomValidator ID="CustomValidator2" runat="server" ErrorMessage="" ClientValidationFunction="ValidateDates"
+                    display="None" ValidationGroup="vsErrorGroup"></asp:CustomValidator>--%>
                 <input id="hdnControlIDs" runat="server" type="hidden" />
                 <input id="hdnErrorMsgs" runat="server" type="hidden" />
                 <input id="hdnSubtenanatIDs" runat="server" type="hidden" />
