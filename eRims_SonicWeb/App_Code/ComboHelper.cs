@@ -6561,7 +6561,7 @@ public class ComboHelper
         foreach (DropDownList ddlToFill in dropDowns)
         {
             ddlToFill.Items.Clear();
-            ddlToFill.DataTextField = "Sonic_Location_Code";
+            ddlToFill.DataTextField = "dba1";
             ddlToFill.DataValueField = "Sonic_Location_Code";
             ddlToFill.DataSource = dtData;
             ddlToFill.DataBind();

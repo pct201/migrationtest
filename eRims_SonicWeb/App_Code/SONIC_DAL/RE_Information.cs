@@ -72,6 +72,8 @@ namespace ERIMS.DAL
         private string _Other_Repairs;
         private string _Maintenance_Notes;
         private decimal? _FK_LU_Lease_Instance_ID;
+        private DateTime? _Mortgage_Commencement_Date;
+        private DateTime? _Mortgage_Expiration_Date;
 
         #endregion
 
@@ -593,6 +595,23 @@ namespace ERIMS.DAL
             set { _FK_LU_Lease_Instance_ID = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the Mortgage_Commencement_Date value.
+        /// </summary>
+        public DateTime? Mortgage_Commencement_Date
+        {
+            get { return _Mortgage_Commencement_Date; }
+            set { _Mortgage_Commencement_Date = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Mortgage_Expiration_Date value.
+        /// </summary>
+        public DateTime? Mortgage_Expiration_Date
+        {
+            get { return _Mortgage_Expiration_Date; }
+            set { _Mortgage_Expiration_Date = value; }
+        }
         #endregion
 
         #region Default Constructors
@@ -899,6 +918,16 @@ namespace ERIMS.DAL
                 else
                     this._FK_LU_Lease_Instance_ID = (decimal?)drRE_Information["FK_LU_Lease_Instance_ID"];
 
+                if (drRE_Information["Mortgage_Commencement_Date"] == DBNull.Value)
+                    this._Mortgage_Commencement_Date = null;
+                else
+                    this._Mortgage_Commencement_Date = (DateTime?)drRE_Information["Mortgage_Commencement_Date"];
+
+                if (drRE_Information["Mortgage_Expiration_Date"] == DBNull.Value)
+                    this._Mortgage_Expiration_Date = null;
+                else
+                    this._Mortgage_Expiration_Date = (DateTime?)drRE_Information["Mortgage_Expiration_Date"];
+
             }
             else
             {
@@ -1197,6 +1226,16 @@ namespace ERIMS.DAL
                     this._FK_LU_Lease_Instance_ID = null;
                 else
                     this._FK_LU_Lease_Instance_ID = (decimal?)drRE_Information["FK_LU_Lease_Instance_ID"];
+
+                if (drRE_Information["Mortgage_Commencement_Date"] == DBNull.Value)
+                    this._Mortgage_Commencement_Date = null;
+                else
+                    this._Mortgage_Commencement_Date = (DateTime?)drRE_Information["Mortgage_Commencement_Date"];
+
+                if (drRE_Information["Mortgage_Expiration_Date"] == DBNull.Value)
+                    this._Mortgage_Expiration_Date = null;
+                else
+                    this._Mortgage_Expiration_Date = (DateTime?)drRE_Information["Mortgage_Expiration_Date"];
             }
             else
             {
@@ -1268,6 +1307,8 @@ namespace ERIMS.DAL
             this._Other_Repairs = null;
             this._Maintenance_Notes = null;
             this._FK_LU_Lease_Instance_ID = null;
+            this._Mortgage_Commencement_Date = null;
+            this._Mortgage_Expiration_Date = null;
         }
 
         /// <summary>
@@ -1486,6 +1527,11 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Maintenance_Notes", DbType.String, this._Maintenance_Notes);
 
             db.AddInParameter(dbCommand, "FK_LU_Lease_Instance_ID", DbType.Decimal, this._FK_LU_Lease_Instance_ID);
+
+            db.AddInParameter(dbCommand, "Mortgage_Commencement_Date", DbType.DateTime, this._Mortgage_Commencement_Date);
+
+            db.AddInParameter(dbCommand, "Mortgage_Expiration_Date", DbType.DateTime, this._Mortgage_Expiration_Date);
+
 
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -1734,6 +1780,10 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Maintenance_Notes", DbType.String, this._Maintenance_Notes);
 
             db.AddInParameter(dbCommand, "FK_LU_Lease_Instance_ID", DbType.Decimal, this._FK_LU_Lease_Instance_ID);
+
+            db.AddInParameter(dbCommand, "Mortgage_Commencement_Date", DbType.DateTime, this._Mortgage_Commencement_Date);
+
+            db.AddInParameter(dbCommand, "Mortgage_Expiration_Date", DbType.DateTime, this._Mortgage_Expiration_Date);
 
             db.ExecuteNonQuery(dbCommand);
         }

@@ -3299,6 +3299,16 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
+        public static DataSet BuildingBySelectedFKLocation(int fK_LU_Location_ID)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("BuildingBySelectedFKLocation");
+
+            db.AddInParameter(dbCommand, "FK_LU_Location_ID", DbType.Int32, fK_LU_Location_ID);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
         public static DataSet SelectFinancialLimitsByLocation(int fK_LU_Location_ID)
         {
             Database db = DatabaseFactory.CreateDatabase();
@@ -3487,7 +3497,7 @@ namespace ERIMS.DAL
         public static void ChangeBuilding_Location(int Old_Location_code, int New_Location_Code, string Old_Building_Number)
         {
             Database db = DatabaseFactory.CreateDatabase();
-            DbCommand dbCommand = db.GetStoredProcCommand("Building_Location_Change");
+            DbCommand dbCommand = db.GetStoredProcCommand("Building_Location_Change_All");
 
             db.AddInParameter(dbCommand, "old_Location_code", DbType.Int32, Old_Location_code);
             db.AddInParameter(dbCommand, "new_Location_Code", DbType.Int32, New_Location_Code);
