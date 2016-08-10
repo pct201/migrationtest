@@ -2406,9 +2406,9 @@ public partial class Exposures_Property : clsBasePage
         ucCtrlExposureInfo.SetRMLocationCode(PK_Building_ID);
         DataTable dtLocation = LU_Location.SelectByPK(FK_LU_Location_ID).Tables[0];
 
-        if (dtLocation != null && dtLocation.Rows.Count > 0 && !string.IsNullOrEmpty(Convert.ToString(dtLocation.Rows[0]["Sonic_Location_Code"])) && Convert.ToInt32(dtLocation.Rows[0]["Sonic_Location_Code"]) != 503)
+        if (dtLocation != null && dtLocation.Rows.Count > 0 && !string.IsNullOrEmpty(Convert.ToString(dtLocation.Rows[0]["Sonic_Location_Code"])))
         {
-            btnShowChangeBuildingLocationScreen.Style["display"] = "none";
+            btnShowChangeBuildingLocationScreen.Style["display"] = "";
         }
 
         //ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "", "javascript:seLocationBuildingNumber('" + strLocationCode + "');", true);
@@ -3234,11 +3234,20 @@ public partial class Exposures_Property : clsBasePage
         cblBuildingList.ClearSelection();
         trBuildings.Visible = false;
         //trRelatedBuildingDetailsLink.Visible = false;
-        trProjectDetails.Visible = trBuildingImprovementsDetails.Visible = trEPMDetails.Visible = false;
+        trProjectDetails.Visible = trBuildingImprovementsDetails.Visible = trEPMDetails.Visible = trFacilityMaintence.Visible = trAssetProtection.Visible = trFranchise.Visible = trInspection.Visible = trEHS.Visible =trLease.Visible= false;
         if (fk_Location_Id > 0)
         {
-            DataTable dtBuilding = Building.BuildingByFKLocation(fk_Location_Id).Tables[0];
+            DataTable dtLocation = LU_Location.SelectByPK(fk_Location_Id).Tables[0];
+            DataTable dtBuilding;
 
+            if (Convert.ToInt64(dtLocation.Rows[0]["Sonic_Location_Code"]) == 503)
+            {
+                dtBuilding = Building.BuildingBySelectedFKLocation(fk_Location_Id).Tables[0];
+            }
+            else
+            {
+                 dtBuilding = Building.BuildingByFKLocation(fk_Location_Id).Tables[0];
+            }
             cblBuildingList.DataSource = dtBuilding;
             cblBuildingList.DataTextField = "Building_Occupacy";
             cblBuildingList.DataValueField = "PK_Building_ID";
@@ -4534,6 +4543,12 @@ public partial class Exposures_Property : clsBasePage
         trProjectDetails.Visible = false;
         trBuildingImprovementsDetails.Visible = false;
         trEPMDetails.Visible = false;
+        trFacilityMaintence.Visible = false;
+        trAssetProtection.Visible = false;
+        trFranchise.Visible = false;
+        trInspection.Visible = false;
+        trEHS.Visible = false;
+        trLease.Visible = false;
         btnConfirmBuildingInfo.Enabled = false;
 
         for (int i = 0; i < cblBuildingList.Items.Count; i++)
@@ -4555,6 +4570,12 @@ public partial class Exposures_Property : clsBasePage
             DataTable dtProjectData = dsBuildingsRelatedData.Tables[0];
             DataTable dtBuildingImprovementData = dsBuildingsRelatedData.Tables[1];
             DataTable dtEPMData = dsBuildingsRelatedData.Tables[2];
+            DataTable dtMaintenance = dsBuildingsRelatedData.Tables[3];
+            DataTable dtAssetProtection = dsBuildingsRelatedData.Tables[4];
+            DataTable dtFranchise = dsBuildingsRelatedData.Tables[5];
+            DataTable dtInspection = dsBuildingsRelatedData.Tables[6];
+            DataTable dtEHS = dsBuildingsRelatedData.Tables[7];
+            DataTable dtLease = dsBuildingsRelatedData.Tables[8];
 
             gvProjectList.DataSource = dtProjectData;
             gvProjectList.DataBind();
@@ -4564,6 +4585,24 @@ public partial class Exposures_Property : clsBasePage
 
             gvEPM.DataSource = dtEPMData;
             gvEPM.DataBind();
+
+            gvMaintenance.DataSource = dtMaintenance;
+            gvMaintenance.DataBind();
+
+            gvBuildingPropertySecurity.DataSource = dtAssetProtection;
+            gvBuildingPropertySecurity.DataBind();
+
+            gvFranchise.DataSource = dtFranchise;
+            gvFranchise.DataBind();
+
+            gvInspection.DataSource = dtInspection;
+            gvInspection.DataBind();
+
+            gvBuilding.DataSource = dtEHS;
+            gvBuilding.DataBind();
+
+            gvRealEstate.DataSource = dtLease;
+            gvRealEstate.DataBind();
 
             string associatedProject = string.Empty;
 
@@ -4600,6 +4639,12 @@ public partial class Exposures_Property : clsBasePage
             trProjectDetails.Visible = true;
             trBuildingImprovementsDetails.Visible = true;
             trEPMDetails.Visible = true;
+            trFacilityMaintence.Visible = true;
+            trAssetProtection.Visible = true;
+            trFranchise.Visible = true;
+            trInspection.Visible = true;
+            trEHS.Visible = true;
+            trLease.Visible = true;
 
             if (!string.IsNullOrEmpty(associatedProject))
             {

@@ -488,66 +488,66 @@ function ValidateFieldsAdditionalInsured(sender, args) {
 function ValidateFieldsLossPayee(sender, args) {
     var msg = '';
     var ctrlIDs = document.getElementById('<%=hdnControlIDsLossPayee.ClientID%>').value.split(',');
-            var Messages = document.getElementById('<%=hdnErrorMsgsLossPayee.ClientID%>').value.split(',');
-            var focusCtrlID = "";
-            if (document.getElementById('<%=hdnControlIDsLossPayee.ClientID%>').value != "") {
-                var i = 0;
-                for (i = 0; i < ctrlIDs.length; i++) {
-                    var bEmpty = false;
-                    var ctrl = document.getElementById(ctrlIDs[i]);
-                    switch (ctrl.type) {
-                        case "textarea":
-                        case "text":
-                            if (ctrl.value == '') bEmpty = true; break;
-                        case "select-one": if (ctrl.selectedIndex == 0) bEmpty = true; break;
-                        case "select-multiple": if (ctrl.selectedIndex == -1) bEmpty = true; break;
-                    }
-                    if (bEmpty && focusCtrlID == "") focusCtrlID = ctrlIDs[i];
-                    if (bEmpty) msg += (msg.length > 0 ? "- " : "") + Messages[i] + "\n";
-                }
-                if (msg.length > 0) {
-                    sender.errormessage = msg;
-                    args.IsValid = false;
-                }
-                else
-                    args.IsValid = true;
+    var Messages = document.getElementById('<%=hdnErrorMsgsLossPayee.ClientID%>').value.split(',');
+    var focusCtrlID = "";
+    if (document.getElementById('<%=hdnControlIDsLossPayee.ClientID%>').value != "") {
+        var i = 0;
+        for (i = 0; i < ctrlIDs.length; i++) {
+            var bEmpty = false;
+            var ctrl = document.getElementById(ctrlIDs[i]);
+            switch (ctrl.type) {
+                case "textarea":
+                case "text":
+                    if (ctrl.value == '') bEmpty = true; break;
+                case "select-one": if (ctrl.selectedIndex == 0) bEmpty = true; break;
+                case "select-multiple": if (ctrl.selectedIndex == -1) bEmpty = true; break;
             }
-            else {
-                args.IsValid = true;
-            }
+            if (bEmpty && focusCtrlID == "") focusCtrlID = ctrlIDs[i];
+            if (bEmpty) msg += (msg.length > 0 ? "- " : "") + Messages[i] + "\n";
         }
+        if (msg.length > 0) {
+            sender.errormessage = msg;
+            args.IsValid = false;
+        }
+        else
+            args.IsValid = true;
+    }
+    else {
+        args.IsValid = true;
+    }
+}
 
-        function ValidateFieldsBuildindOwnerSubLease(sender, args) {
-            var msg = '';
-            var ctrlIDs = document.getElementById('<%=hdnControlIDsBuildingOwnerShipSubLease.ClientID%>').value.split(',');
-            var Messages = document.getElementById('<%=hdnErrorMsgsBuildingOwnerShipSubLease.ClientID%>').value.split(',');
-            var focusCtrlID = "";
-            if (document.getElementById('<%=hdnControlIDsBuildingOwnerShipSubLease.ClientID%>').value != "") {
-                var i = 0;
-                for (i = 0; i < ctrlIDs.length; i++) {
-                    var bEmpty = false;
-                    var ctrl = document.getElementById(ctrlIDs[i]);
-                    switch (ctrl.type) {
-                        case "textarea":
-                        case "text":
-                            if (ctrl.value == '') bEmpty = true; break;
-                        case "select-one": if (ctrl.selectedIndex == 0) bEmpty = true; break;
-                        case "select-multiple": if (ctrl.selectedIndex == -1) bEmpty = true; break;
-                    }
-                    if (bEmpty && focusCtrlID == "") focusCtrlID = ctrlIDs[i];
-                    if (bEmpty) msg += (msg.length > 0 ? "- " : "") + Messages[i] + "\n";
-                }
-                if (msg.length > 0) {
-                    sender.errormessage = msg;
-                    args.IsValid = false;
-                }
-                else
-                    args.IsValid = true;
+function ValidateFieldsBuildindOwnerSubLease(sender, args) {
+    var msg = '';
+    var ctrlIDs = document.getElementById('<%=hdnControlIDsBuildingOwnerShipSubLease.ClientID%>').value.split(',');
+    var Messages = document.getElementById('<%=hdnErrorMsgsBuildingOwnerShipSubLease.ClientID%>').value.split(',');
+    var focusCtrlID = "";
+    if (document.getElementById('<%=hdnControlIDsBuildingOwnerShipSubLease.ClientID%>').value != "") {
+        var i = 0;
+        for (i = 0; i < ctrlIDs.length; i++) {
+            var bEmpty = false;
+            var ctrl = document.getElementById(ctrlIDs[i]);
+            switch (ctrl.type) {
+                case "textarea":
+                case "text":
+                    if (ctrl.value == '') bEmpty = true; break;
+                case "select-one": if (ctrl.selectedIndex == 0) bEmpty = true; break;
+                case "select-multiple": if (ctrl.selectedIndex == -1) bEmpty = true; break;
             }
-            else {
-                args.IsValid = true;
-            }
+            if (bEmpty && focusCtrlID == "") focusCtrlID = ctrlIDs[i];
+            if (bEmpty) msg += (msg.length > 0 ? "- " : "") + Messages[i] + "\n";
         }
+        if (msg.length > 0) {
+            sender.errormessage = msg;
+            args.IsValid = false;
+        }
+        else
+            args.IsValid = true;
+    }
+    else {
+        args.IsValid = true;
+    }
+}
     </script>
     <link href="<%=AppConfig.SiteURL%>greybox/gb_styles.css" rel="stylesheet" type="text/css" />
     <asp:ValidationSummary ID="valBuildingInfo" runat="server" ValidationGroup="vsErrorBuildingInfo"
@@ -3925,7 +3925,7 @@ function ValidateFieldsLossPayee(sender, args) {
                                                                                     <asp:DropDownList ID="drpLocation" runat="server" SkinID="propertyBuilding"></asp:DropDownList>
                                                                                     <asp:RequiredFieldValidator ID="rfvdrpLocation" runat="server" ControlToValidate="drpLocation"
                                                                                         InitialValue="0" Display="None" ValidationGroup="vsErrorBuildingInfo" ErrorMessage="Please select New Location Number"></asp:RequiredFieldValidator>
-                                                                                </td>      --%>                                                                          
+                                                                                </td>      --%>
                                                                                 <%--<td>Existing Building Number
                                                                                 </td>
                                                                                 <td width="2%">:
@@ -3941,7 +3941,7 @@ function ValidateFieldsLossPayee(sender, args) {
                                                                                 <td width="2%">:
                                                                                 </td>
                                                                                 <td>
-                                                                                    <asp:DropDownList ID="drpLocation" runat="server" SkinID="propertyBuilding" ></asp:DropDownList>
+                                                                                    <asp:DropDownList ID="drpLocation" runat="server" SkinID="propertyBuilding"></asp:DropDownList>
                                                                                     <asp:RequiredFieldValidator ID="rfvdrpLocation" runat="server" ControlToValidate="drpLocation"
                                                                                         InitialValue="0" Display="None" ValidationGroup="vsErrorBuildingInfo" ErrorMessage="Please select New Location Number"></asp:RequiredFieldValidator>
                                                                                 </td>
@@ -3961,52 +3961,13 @@ function ValidateFieldsLossPayee(sender, args) {
                                                                             <tr>
                                                                                 <td class="Spacer" style="height: 8px;" colspan="6"></td>
                                                                             </tr>
-                                                                            <tr runat="server" visible="false" id="trProjectDetails">
-                                                                                <td align="left" valign="top">Construction Project
-                                                                                </td>
-                                                                                <td align="center" valign="top">:
-                                                                                </td>
-                                                                                <td align="left" valign="top" colspan="4">
-                                                                                    <asp:GridView ID="gvProjectList" runat="server" Width="100%" EmptyDataText="No Record Found" AllowSorting="false" HeaderStyle-VerticalAlign="Top">
-                                                                                        <Columns>
-                                                                                            <asp:TemplateField HeaderText="Project Number" SortExpression="Project_Number">
-                                                                                                <ItemStyle Width="10%" />
-                                                                                                <ItemTemplate>
-                                                                                                    <span style="word-break: break-all; word-wrap: normal; display: inline-block;"><%# Eval("Project_Number") %></span>
-                                                                                                </ItemTemplate>
-                                                                                            </asp:TemplateField>
-                                                                                            <asp:TemplateField HeaderText="Title" SortExpression="Title">
-                                                                                                <ItemStyle Width="15%" />
-                                                                                                <ItemTemplate>
-                                                                                                    <span style="word-break: break-all; word-wrap: normal; display: inline-block;"><%# Eval("Title") %></span>
-                                                                                                </ItemTemplate>
-                                                                                            </asp:TemplateField>
-                                                                                            <asp:TemplateField HeaderText="Building" SortExpression="Building_Number">
-                                                                                                <ItemStyle Width="10%" />
-                                                                                                <ItemTemplate>
-                                                                                                    <span style="word-break: break-all; word-wrap: normal; display: inline-block;"><%# DBNull.Value.Equals(Eval("Building_Number")) ? "" : Convert.ToString(Eval("Building_Number")).Trim(',') %></span>
-                                                                                                </ItemTemplate>
-                                                                                            </asp:TemplateField>
-                                                                                            <asp:TemplateField HeaderText="Project Type" SortExpression="Type_Description">
-                                                                                                <ItemStyle Width="15%" />
-                                                                                                <ItemTemplate>
-                                                                                                    <span style="word-break: break-all; word-wrap: normal; display: inline-block;"><%# Eval("Type_Description") %></span>
-                                                                                                </ItemTemplate>
-                                                                                            </asp:TemplateField>
-                                                                                        </Columns>
-                                                                                    </asp:GridView>
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td class="Spacer" style="height: 8px;" colspan="6"></td>
-                                                                            </tr>
                                                                             <tr runat="server" visible="false" id="trBuildingImprovementsDetails">
                                                                                 <td align="left" valign="top">Building Improvements
                                                                                 </td>
                                                                                 <td align="center" valign="top">:
                                                                                 </td>
                                                                                 <td align="left" valign="top" colspan="4">
-                                                                                    <asp:GridView ID="gvImprovementDetails" runat="server" Width="100%" EmptyDataText="No Record Found">
+                                                                                    <asp:GridView ID="gvImprovementDetails" runat="server" Width="100%" EmptyDataText="No Building Improvement Records Found">
                                                                                         <Columns>
                                                                                             <asp:TemplateField HeaderText="Building" SortExpression="Building_Number">
                                                                                                 <ItemStyle Width="10%" />
@@ -4051,13 +4012,296 @@ function ValidateFieldsLossPayee(sender, args) {
                                                                             <tr>
                                                                                 <td class="Spacer" style="height: 8px;" colspan="6"></td>
                                                                             </tr>
+                                                                            <tr runat="server" visible="false" id="trProjectDetails">
+                                                                                <td align="left" valign="top">Construction Project
+                                                                                </td>
+                                                                                <td align="center" valign="top">:
+                                                                                </td>
+                                                                                <td align="left" valign="top" colspan="4">
+                                                                                    <asp:GridView ID="gvProjectList" runat="server" Width="100%" EmptyDataText="No Constuction Project Records Found" AllowSorting="false" HeaderStyle-VerticalAlign="Top">
+                                                                                        <Columns>
+                                                                                            <asp:TemplateField HeaderText="Project Number" SortExpression="Project_Number">
+                                                                                                <ItemStyle Width="10%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <span style="word-break: break-all; word-wrap: normal; display: inline-block;"><%# Eval("Project_Number") %></span>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                            <asp:TemplateField HeaderText="Title" SortExpression="Title">
+                                                                                                <ItemStyle Width="15%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <span style="word-break: break-all; word-wrap: normal; display: inline-block;"><%# Eval("Title") %></span>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                            <asp:TemplateField HeaderText="Building" SortExpression="Building_Number">
+                                                                                                <ItemStyle Width="10%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <span style="word-break: break-all; word-wrap: normal; display: inline-block;"><%# DBNull.Value.Equals(Eval("Building_Number")) ? "" : Convert.ToString(Eval("Building_Number")).Trim(',') %></span>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                            <asp:TemplateField HeaderText="Project Type" SortExpression="Type_Description">
+                                                                                                <ItemStyle Width="15%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <span style="word-break: break-all; word-wrap: normal; display: inline-block;"><%# Eval("Type_Description") %></span>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                        </Columns>
+                                                                                    </asp:GridView>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="Spacer" style="height: 8px;" colspan="6"></td>
+                                                                            </tr>
+                                                                            <tr runat="server" visible="false" id="trFacilityMaintence">
+                                                                                <td align="left" valign="top">Facility Maintenance
+                                                                                </td>
+                                                                                <td align="center" valign="top">:
+                                                                                </td>
+                                                                                <td align="left" valign="top" colspan="4">
+                                                                                    <asp:GridView ID="gvMaintenance" runat="server" EmptyDataText="No Facility Maintenance Records Found"
+                                                                                        AutoGenerateColumns="false" Width="100%">
+                                                                                        <Columns>
+                                                                                            <asp:TemplateField HeaderText="Maintenance Number">
+                                                                                                <ItemStyle Width="20%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <%# Eval("Item_Number")%>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                            <asp:TemplateField HeaderText="Building Number">
+                                                                                                <ItemStyle Width="20%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <%# Eval("Building_Number")%>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                            <asp:TemplateField HeaderText="Type">
+                                                                                                <ItemStyle Width="20%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <%# Eval("Maintenance_Type")%>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                            <asp:TemplateField HeaderText="Title">
+                                                                                                <ItemStyle Width="35%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <%# Eval("Title") %>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                            <asp:TemplateField HeaderText="Status">
+                                                                                                <ItemStyle Width="35%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <%# Eval("Maintenance_Status") %>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                        </Columns>
+                                                                                    </asp:GridView>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="Spacer" style="height: 8px;" colspan="6"></td>
+                                                                            </tr>
+                                                                            <tr runat="server" visible="false" id="trInspection">
+                                                                                <td align="left" valign="top">Facility Inspection
+                                                                                </td>
+                                                                                <td align="center" valign="top">:
+                                                                                </td>
+                                                                                <td align="left" valign="top" colspan="4">
+                                                                                    <asp:GridView ID="gvInspection" runat="server" EmptyDataText="No Facility Inspection Records Found"
+                                                                                        AutoGenerateColumns="false" Width="100%">
+                                                                                        <Columns>
+                                                                                            <asp:TemplateField HeaderText="Building Number">
+                                                                                                <ItemStyle Width="20%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <%# Eval("Building_Number")%>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                            <asp:TemplateField HeaderText="Inspection Date">
+                                                                                                <ItemStyle Width="20%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <%# clsGeneral.FormatDBNullDateToDisplay(Eval("Inspection_Date"))%>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                            <asp:TemplateField HeaderText="Inspector">
+                                                                                                <ItemStyle Width="35%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <%# Eval("Inspector") %>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                        </Columns>
+                                                                                    </asp:GridView>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="Spacer" style="height: 8px;" colspan="6"></td>
+                                                                            </tr>
+                                                                            <tr runat="server" visible="false" id="trAssetProtection">
+                                                                                <td align="left" valign="top">Asset Protection
+                                                                                </td>
+                                                                                <td align="center" valign="top">:
+
+                                                                                </td>
+                                                                                <td align="left" valign="top" colspan="4">
+                                                                                    <asp:GridView ID="gvBuildingPropertySecurity" runat="server" 
+                                                                                         AutoGenerateColumns="false" Width="100%" EmptyDataText="No Asset Protection Records Found">
+                                                                                        <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" Font-Names="Tahoma"
+                                                                                            Font-Size="8pt" />
+                                                                                        <RowStyle BackColor="#EAEAEA" Font-Names="Tahoma" Font-Size="8pt" />
+                                                                                        <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" Font-Names="Tahoma"
+                                                                                            Font-Size="8pt" />
+                                                                                        <HeaderStyle BackColor="#7f7f7f" Font-Bold="True" ForeColor="White" Font-Names="Tahoma"
+                                                                                            Font-Size="8pt" VerticalAlign="Bottom" />
+                                                                                        <AlternatingRowStyle BackColor="White" Font-Names="Tahoma" Font-Size="8pt" />
+                                                                                        <Columns>
+                                                                                            <asp:TemplateField HeaderText="Building" HeaderStyle-HorizontalAlign="Left">
+                                                                                                <ItemStyle Width="20%" HorizontalAlign="Left" />
+                                                                                                <ItemTemplate>
+                                                                                                    <%# Eval("Building_Occupancy")%>
+                                                                                                    <asp:HiddenField ID="hdnBuildingNumber" runat="server" Value='<%# Eval("Building_Number") %>' />
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                        </Columns>
+                                                                                    </asp:GridView>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="Spacer" style="height: 8px;" colspan="6"></td>
+                                                                            </tr>
+                                                                            <tr runat="server" visible="false" id="trLease">
+                                                                                <td align="left" valign="top">Lease
+                                                                                </td>
+                                                                                <td align="center" valign="top">:
+                                                                                </td>
+                                                                                <td align="left" valign="top" colspan="4">
+                                                                                <asp:GridView ID="gvRealEstate" runat="server" Width="100%" 
+                                                                                EmptyDataText="No Lease Records Found">
+                                                                                <Columns>
+                                                                                    <asp:TemplateField HeaderText="Region">
+                                                                                        <ItemStyle Width="12%" />
+                                                                                        <ItemTemplate>
+                                                                                           <%#Eval("Region") %>
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                    <asp:TemplateField HeaderText="LCD">
+                                                                                        <ItemStyle Width="9%" />
+                                                                                        <ItemTemplate>
+                                                                                           <%#clsGeneral.FormatDBNullDateToDisplay(Eval("Lease_Commencement_Date"))%>
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                    <asp:TemplateField HeaderText="LED">
+                                                                                        <ItemStyle Width="9%" />
+                                                                                        <ItemTemplate>
+                                                                                            <%#clsGeneral.FormatDBNullDateToDisplay(Eval("Lease_Expiration_Date"))%>
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                    <asp:TemplateField HeaderText="Landlord">
+                                                                                        <ItemStyle Width="11%" />
+                                                                                        <ItemTemplate>
+                                                                                           <%#Eval("Landlord") %>
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                    <asp:TemplateField HeaderText="Date Acquired">
+                                                                                        <ItemStyle Width="11%" />
+                                                                                        <ItemTemplate>
+                                                                                            <%#clsGeneral.FormatDBNullDateToDisplay(Eval("Date_Acquired"))%>
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                    <asp:TemplateField HeaderText="Building Number(s)">
+                                                                                        <ItemStyle Width="21%" />
+                                                                                        <ItemTemplate>
+                                                                                            <%#Eval("Building_Number")%>
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                    <asp:TemplateField HeaderText="Building Street Address">
+                                                                                        <ItemStyle Width="21%" />
+                                                                                        <ItemTemplate>
+                                                                                             <%#Eval("Address_1")%>
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                </Columns>
+                                                                            </asp:GridView>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            <tr>
+                                                                                <td class="Spacer" style="height: 8px;" colspan="6"></td>
+                                                                            </tr>
+                                                                            <tr runat="server" visible="false" id="trFranchise">
+                                                                                <td align="left" valign="top">Franchise
+                                                                                </td>
+                                                                                <td align="center" valign="top">:
+                                                                                </td>
+                                                                                <td align="left" valign="top" colspan="4">
+                                                                                    <asp:GridView ID="gvFranchise" runat="server" Width="100%" EmptyDataText="No Franchise Records Found"
+                                                                                        AllowPaging="true" PageSize="50" HeaderStyle-VerticalAlign="Top">
+                                                                                        <Columns>
+                                                                                            <asp:TemplateField HeaderText="Building">
+                                                                                                <ItemStyle Width="44%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <%#Eval("Building_Number")%>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                            <asp:TemplateField HeaderText="Brand">
+                                                                                                <ItemStyle Width="18%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <%#Eval("Brand")%>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                            <asp:TemplateField HeaderText="Construction Start">
+                                                                                                <ItemStyle Width="14%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <%# DataBinder.Eval(Container.DataItem,"Construction_Start","{0:MM/dd/yyyy}")%>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                            <asp:TemplateField HeaderText="Construction Finish">
+                                                                                                <ItemStyle Width="14%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <%#DataBinder.Eval(Container.DataItem,"Construction_Finish","{0:MM/dd/yyyy}")%>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                        </Columns>
+                                                                                    </asp:GridView>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="Spacer" style="height: 8px;" colspan="6"></td>
+                                                                            </tr>
+                                                                            <tr runat="server" visible="false" id="trEHS">
+                                                                                <td align="left" valign="top">EHS
+                                                                                </td>
+                                                                                <td align="center" valign="top">:
+                                                                                </td>
+                                                                                <td align="left" valign="top" colspan="4">
+                                                                                    <asp:GridView ID="gvBuilding" runat="server" Width="100%" EmptyDataText="No EHS Records Found">
+                                                                                        <Columns>
+                                                                                            <asp:TemplateField HeaderText="Sonic Location Code" SortExpression="Sonic_Location_Code">
+                                                                                                <ItemStyle Width="15%" HorizontalAlign="Left" />
+                                                                                                <ItemTemplate>
+                                                                                                    <%#Eval("Sonic_Location_Code")%>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                            <asp:TemplateField HeaderText="Sonic Location d/b/a" SortExpression="dba">
+                                                                                                <ItemStyle Width="20%" HorizontalAlign="Left" />
+                                                                                                <ItemTemplate>
+                                                                                                    <%#Eval("dba")%>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                            <asp:TemplateField HeaderText="Building" SortExpression="Building_Occupacy">
+                                                                                                <ItemStyle Width="60%" HorizontalAlign="Left" />
+                                                                                                <ItemTemplate>
+                                                                                                    <%# Eval("Building_Occupacy")%>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                        </Columns>
+                                                                                        <HeaderStyle VerticalAlign="Top" />
+                                                                                    </asp:GridView>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="Spacer" style="height: 8px;" colspan="6"></td>
+                                                                            </tr>
                                                                             <tr runat="server" visible="false" id="trEPMDetails">
                                                                                 <td align="left" valign="top">EPM
                                                                                 </td>
                                                                                 <td align="center" valign="top">:
                                                                                 </td>
                                                                                 <td align="left" valign="top" colspan="4">
-                                                                                    <asp:GridView ID="gvEPM" runat="server" Width="100%" AutoGenerateColumns="False">
+                                                                                    <asp:GridView ID="gvEPM" runat="server" Width="100%" AutoGenerateColumns="False" EmptyDataText="No EPM Records Found">
                                                                                         <Columns>
                                                                                             <asp:TemplateField HeaderText="Project Number" SortExpression="Project_Number">
                                                                                                 <ItemStyle Width="10%" />
@@ -4090,15 +4334,6 @@ function ValidateFieldsLossPayee(sender, args) {
                                                                                                 </ItemTemplate>
                                                                                             </asp:TemplateField>
                                                                                         </Columns>
-                                                                                        <EmptyDataTemplate>
-                                                                                            <table width="100%">
-                                                                                                <tr>
-                                                                                                    <td align="center">
-                                                                                                        <asp:Label ID="lblMsg" runat="server" SkinID="Message" Text="No records found."></asp:Label>
-                                                                                                    </td>
-                                                                                                </tr>
-                                                                                            </table>
-                                                                                        </EmptyDataTemplate>
                                                                                         <HeaderStyle VerticalAlign="Top" />
                                                                                     </asp:GridView>
                                                                                 </td>

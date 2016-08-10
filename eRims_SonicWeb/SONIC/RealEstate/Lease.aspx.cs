@@ -490,6 +490,8 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         txtLandlordLegalEntity.Text = objRE_Information.Landlord_Legal_Entity;
         txtAmendmentInfo.Text = objRE_Information.Amendment_Info;
         txtAssignementInfo.Text = objRE_Information.Assignment_Info;
+        txtMortgage_Commencement_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objRE_Information.Mortgage_Commencement_Date);
+        txtMortgage_Expiration_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objRE_Information.Mortgage_Expiration_Date);
 
         #endregion
 
@@ -861,6 +863,8 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         lblLandlordLegalEntity.Text = objRE_Information.Landlord_Legal_Entity;
         lblAmendmentInfo.Text = objRE_Information.Amendment_Info;
         lblAssignementInfo.Text = objRE_Information.Assignment_Info;
+        lblMorgage_Commencement_Date.Text = txtMortgage_Commencement_Date.Text;
+        lblMorgage_Expiration_Date.Text = txtMortgage_Expiration_Date.Text;
         #endregion
 
         #region " Bind Lease Maint Obligation Information "
@@ -1647,6 +1651,9 @@ public partial class SONIC_Exposures_Lease : clsBasePage
 
             objRE_Information.Other_Repairs = txtOtherRepairs.Text.Trim();
             objRE_Information.Maintenance_Notes = txtMaintenanceNotes.Text.Trim();
+
+            objRE_Information.Mortgage_Commencement_Date = clsGeneral.FormatNullDateToStore(txtMortgage_Commencement_Date.Text);
+            objRE_Information.Mortgage_Expiration_Date = clsGeneral.FormatNullDateToStore(txtMortgage_Expiration_Date.Text);
 
             // save the information as per the PK availability
             if (_PK_RE_Information > 0)
@@ -3203,6 +3210,8 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         txtNumber_of_Buildings.Text = "";
         txtTotal_Gross_Leaseable_Area.Text = "";
         txtLand_Value.Text = "";
+        txtMortgage_Expiration_Date.Text = "";
+        txtMortgage_Commencement_Date.Text = "";
 
         #endregion
 

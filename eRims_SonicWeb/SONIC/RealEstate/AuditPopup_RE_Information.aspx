@@ -221,7 +221,12 @@
                                 <th class="cols">
 	                                <span style="display: inline-block;width:300px;">Maintenance Notes</span>
                                 </th>   
-                                                                                         
+                                <th class="cols">
+	                                <span style="display: inline-block;width:300px;">Mortgage Commencement Date</span>
+                                </th>  
+                                <th class="cols">
+	                                <span style="display: inline-block;width:300px;">Mortgage Expiration Date</span>
+                                </th>                                                           
                                 <th class="cols">
                                     <span style="display: inline-block; width: 110px;">Updated_By</span>
                                 </th>
@@ -579,6 +584,18 @@
 	                            <ItemStyle CssClass="cols" />
 	                            <ItemTemplate>
 		                            <asp:Label ID="lblMaintenance_Notes" runat="server" Text='<%# Eval("Maintenance_Notes")%>' Width="300px" CssClass="TextClip"></asp:Label>
+	                            </ItemTemplate>
+                            </asp:TemplateField>
+                              <asp:TemplateField HeaderText="Mortgage Commencement Date" >
+	                            <ItemStyle CssClass="cols" />
+	                            <ItemTemplate>
+		                            <asp:Label ID="lblMortgage_Commencement_Date" runat="server" Text='<%#Eval("Mortgage_Commencement_Date") != DBNull.Value ? clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("Mortgage_Commencement_Date"))) : ""%>' Width="300px" ></asp:Label>
+	                            </ItemTemplate>
+                            </asp:TemplateField>
+                              <asp:TemplateField HeaderText="Mortgage Expiration Date" >
+	                            <ItemStyle CssClass="cols" />
+	                            <ItemTemplate>
+		                            <asp:Label ID="lblMortgage_Expiration_Date" runat="server" Text='<%#Eval("Mortgage_Expiration_Date") != DBNull.Value ? clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("Mortgage_Expiration_Date"))) : ""%>' Width="300px" ></asp:Label>
 	                            </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Updated_By">

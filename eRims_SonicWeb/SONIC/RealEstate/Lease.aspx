@@ -61,8 +61,8 @@
                         document.getElementById("ctl00_ContentPlaceHolder1_pnl" + i).style.display = (i == index) ? "block" : "none";
                     }
 
-//                    if (index == 3)
-//                        document.getElementById('<%=txtSubtenant_Mailing_Address1.ClientID%>').focus();
+                    //                    if (index == 3)
+                    //                        document.getElementById('<%=txtSubtenant_Mailing_Address1.ClientID%>').focus();
                     if (index == 4)
                         document.getElementById('<%=txtResponsible_Party.ClientID%>').focus();
                     else if (index == 5)
@@ -72,10 +72,10 @@
                     else if (index == 8)
                         document.getElementById('<%=txtLandlord_Company.ClientID%>').focus();
 
-                    document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";
+        document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlAttachmentDetails.ClientID%>").style.display = "none";
                     document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 11).style.display = "none";
-                    
+
                 }
                 else {
                     for (i = 1; i <= 9; i++) {
@@ -139,7 +139,7 @@
                     if (hdn1 != txt1 || hdn2 != txt2 || hdn3 != txt3) {
                         retVal = confirm("Would you like to apply the change(s) to the Regional Vice President, Regional Controller and Loss Control Manager to all leases at dealerships in the same Region?");
                         if(retVal == true)
-                            __doPostBack(document.getElementById('<%=btnSave.ClientID%>').name, "UpdateRLCMDetails"); 
+                            __doPostBack(document.getElementById('<%=btnSave.ClientID%>').name, "UpdateRLCMDetails");
                     }
                 }
                 return true;
@@ -290,68 +290,68 @@
             else
                 txtPercent = document.getElementById('<%=txtPercentage_Rate.ClientID%>');
 
-            if (Number(txtPercent.value) <= 100 || txtPercent.value == '') {
-                if (document.getElementById('<%=txtLease_Commencement_Date.ClientID%>').value != '') {
+        if (Number(txtPercent.value) <= 100 || txtPercent.value == '') {
+            if (document.getElementById('<%=txtLease_Commencement_Date.ClientID%>').value != '') {
                     if (type == 'Rent')
                         document.getElementById('<%=btnUpdateRent_Rent.ClientID%>').click();
                     else if (type == 'Subtenant')
                         document.getElementById('<%=btnUpdateRentSubtenant.ClientID%>').click();
                     else
                         document.getElementById('<%=btnUpdateRent_RentProj.ClientID%>').click();
-                }
-                else {
-                    alert('Please enter the [Lease Information]/Lease Commensement Date to calculate the rents');
-                    txtPercent.value = '';
-                    txtPercent.focus();
-                }
             }
             else {
-                alert('Percentage Rate should be less than 100');
+                alert('Please enter the [Lease Information]/Lease Commensement Date to calculate the rents');
                 txtPercent.value = '';
                 txtPercent.focus();
             }
         }
+        else {
+            alert('Percentage Rate should be less than 100');
+            txtPercent.value = '';
+            txtPercent.focus();
+        }
+    }
 
-        function AddRentScheduleRent(bAdd) {            
-            var bValid = Page_ClientValidate('vsErrorGroup');
-            if (bValid) {
-                if (AvailableLeaseDateAndEscalation('Rent'))
-                    return true;
-                else
-                    return false;
-            }
+    function AddRentScheduleRent(bAdd) {
+        var bValid = Page_ClientValidate('vsErrorGroup');
+        if (bValid) {
+            if (AvailableLeaseDateAndEscalation('Rent'))
+                return true;
             else
                 return false;
         }
+        else
+            return false;
+    }
 
-        function AddSubTenantRentSchedule(bAdd) {
-            //var bValid = (bAdd == 'Add') ? Page_ClientValidate('vsErrorGroup') : true;
-            var bValid = Page_ClientValidate('vgSubtenant');
-            if (bValid) {
-                if (AvailableLeaseDateAndEscalation('SubTenant'))
-                    return true;
-                else
-                    return false;
-            }
+    function AddSubTenantRentSchedule(bAdd) {
+        //var bValid = (bAdd == 'Add') ? Page_ClientValidate('vsErrorGroup') : true;
+        var bValid = Page_ClientValidate('vgSubtenant');
+        if (bValid) {
+            if (AvailableLeaseDateAndEscalation('SubTenant'))
+                return true;
             else
                 return false;
         }
+        else
+            return false;
+    }
 
-        function AddRentProjectionRentSchedule(bAdd) {
-            //var bValid = (bAdd == 'Add') ? Page_ClientValidate('vsErrorGroup') : true;
-            var bValid = Page_ClientValidate('vsErrorGroup');
-            if (bValid) {
-                if (AvailableLeaseDateAndEscalation('RentProjection'))
-                    return true;
-                else
-                    return false;
-            }
+    function AddRentProjectionRentSchedule(bAdd) {
+        //var bValid = (bAdd == 'Add') ? Page_ClientValidate('vsErrorGroup') : true;
+        var bValid = Page_ClientValidate('vsErrorGroup');
+        if (bValid) {
+            if (AvailableLeaseDateAndEscalation('RentProjection'))
+                return true;
             else
                 return false;
         }
+        else
+            return false;
+    }
 
-        function AvailableLeaseDateAndEscalation(type) {
-            var LeaseDate = document.getElementById('<%=txtLease_Commencement_Date.ClientID %>').value;
+    function AvailableLeaseDateAndEscalation(type) {
+        var LeaseDate = document.getElementById('<%=txtLease_Commencement_Date.ClientID %>').value;
             var Escalation;
             if (type == 'Rent')
                 Escalation = document.getElementById('<%=drpFK_LU_EscalationRent.ClientID %>').value;
@@ -360,30 +360,30 @@
             else
                 Escalation = document.getElementById('<%=drpFK_LU_Escalation.ClientID %>').value;
 
-            if (LeaseDate == '') {
-                alert("An entry in [Lease Information]/Lease Commencement Date is required in order to add a Rent Grid Record");
+        if (LeaseDate == '') {
+            alert("An entry in [Lease Information]/Lease Commencement Date is required in order to add a Rent Grid Record");
+            return false;
+        }
+        else {
+            if (Escalation == 0) {
+                alert("An entry in " + ((type == 'Rent') ? "[Rent]" : ((type == 'SubTenant') ? "[Subtenant Information]" : "[Rent Projections]"))
+                        + "/Escalation is required in order to add a Rent Grid Record");
                 return false;
             }
-            else {
-                if (Escalation == 0) {
-                    alert("An entry in " + ((type == 'Rent') ? "[Rent]" : ((type == 'SubTenant') ? "[Subtenant Information]" : "[Rent Projections]"))
-	                        + "/Escalation is required in order to add a Rent Grid Record");
-                    return false;
-                }
-                else
-                    return true;
-            }
+            else
+                return true;
         }
+    }
 
-        function ConfirmDelete() {
-            return confirm('Are you sure you want to remove the selected data from eRIMS2? Once the data are removed, eRIMS2 does not have functionality to retrieve the data.');
-        }
+    function ConfirmDelete() {
+        return confirm('Are you sure you want to remove the selected data from eRIMS2? Once the data are removed, eRIMS2 does not have functionality to retrieve the data.');
+    }
 
-        function ConfirmSubLeaseRemove() {
-            return confirm('You have selected to remove a Subtenant from the Lease module data for the above location. Continue?');
-        }
-        function UpdateRents() {
-            var LeaseDate = document.getElementById('<%=txtLease_Commencement_Date.ClientID %>').value;
+    function ConfirmSubLeaseRemove() {
+        return confirm('You have selected to remove a Subtenant from the Lease module data for the above location. Continue?');
+    }
+    function UpdateRents() {
+        var LeaseDate = document.getElementById('<%=txtLease_Commencement_Date.ClientID %>').value;
             if (LeaseDate != '') {
                 var bValid = CheckValidDate('<%=txtLease_Commencement_Date.ClientID %>');
                 if (bValid) {
@@ -470,16 +470,21 @@
             else if (intIndex == 7)
                 strURL = "AuditPopup_RE_Rent.aspx?id=" + document.getElementById('<%=hdnRentID.ClientID%>').value;
 
-            obj = window.open(strURL, 'AuditPopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
-            obj.focus();
-            return false;
-        }
+    obj = window.open(strURL, 'AuditPopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
+    obj.focus();
+    return false;
+}
 
-        function ValidateFields(sender, args) {
-            var msg = '';
-            var ctrlIDs = document.getElementById('<%=hdnControlIDs.ClientID%>').value.split(',');
-            var Messages = document.getElementById('<%=hdnErrorMsgs.ClientID%>').value.split(',');
-            var focusCtrlID = "";
+function ValidateFields(sender, args) {
+    var msg = '';
+    var ctrlIDs = document.getElementById('<%=hdnControlIDs.ClientID%>').value.split(',');
+    var Messages = document.getElementById('<%=hdnErrorMsgs.ClientID%>').value.split(',');
+    var focusCtrlID = "";
+    var lease_Commencement_Date = document.getElementById('<%=txtLease_Commencement_Date.ClientID%>').value;
+    var mortgage_Commencement_Date = document.getElementById('<%=txtMortgage_Commencement_Date.ClientID%>').value;
+    var lease_Expiration_Date = document.getElementById('<%=txtLease_Expiration_Date.ClientID%>').value;
+    var mortgage_Expiration_Date = document.getElementById('<%=txtMortgage_Expiration_Date.ClientID%>').value;
+
             if (document.getElementById('<%=hdnControlIDs.ClientID%>').value != "") {
                 var i = 0;
                 for (i = 0; i < ctrlIDs.length; i++) {
@@ -489,8 +494,8 @@
                         case "textarea":
                         case "text":
                             if (ctrl.value == '') {
-                                if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtPercentage_RateSubtenant') {                                   
-                                    if (document.getElementById('<%=drpFK_LU_EscalationSubtenant.ClientID %>').options[document.getElementById('<%=drpFK_LU_EscalationSubtenant.ClientID %>').selectedIndex].text == 'LIBOR Rate Schedule')                                   
+                                if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtPercentage_RateSubtenant') {
+                                    if (document.getElementById('<%=drpFK_LU_EscalationSubtenant.ClientID %>').options[document.getElementById('<%=drpFK_LU_EscalationSubtenant.ClientID %>').selectedIndex].text == 'LIBOR Rate Schedule')
                                         bEmpty = true;
                                 }
                                 else if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtPercentage_RateRent') {
@@ -500,30 +505,37 @@
                                 else if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtPercentage_Rate') {
                                     if (document.getElementById('<%=drpFK_LU_Escalation.ClientID %>').options[document.getElementById('<%=drpFK_LU_Escalation.ClientID %>').selectedIndex].text == 'LIBOR Rate Schedule')
                                         bEmpty = true;
-                                }          
+                                }
                                 else
                                     bEmpty = true;
-                            } break;
-                       
-                        case "select-one": if (ctrl.selectedIndex == 0) bEmpty = true; break;
+                    } break;
+
+                case "select-one": if (ctrl.selectedIndex == 0) bEmpty = true; break;
                     }
-                    if (bEmpty && focusCtrlID == "") focusCtrlID = ctrlIDs[i];
-                    if (bEmpty) msg += (msg.length > 0 ? "- " : "") + Messages[i] + "\n";
+            if (bEmpty && focusCtrlID == "") focusCtrlID = ctrlIDs[i];
+            if (bEmpty) msg += (msg.length > 0 ? "- " : "") + Messages[i] + "\n";
                 }
-                if (msg.length > 0) {
-                    sender.errormessage = msg;
-                    args.IsValid = false;
-                }
-                else
-                    args.IsValid = true;
-            }
-            else {
-                args.IsValid = true;
-            }
+                
+         if (lease_Commencement_Date == '' && mortgage_Commencement_Date == '') {
+             msg = msg + (msg.length > 0 ? "- " : "") + 'Please enter [Lease Information]/Lease Commencement Date or Mortgage Commencement Date' + "\n";
+         }
+         if (lease_Expiration_Date == '' && mortgage_Expiration_Date == '') {
+             msg = msg + (msg.length > 0 ? "- " : "") + 'Please enter [Lease Information]/Lease Expiration Date or Mortgage Expiration Date' + "\n";
+         }
+        if (msg.length > 0) {
+            sender.errormessage = msg;
+            args.IsValid = false;
         }
-        function ValidateSubtenantFileds(sender, args) {
-            var msg = '';
-            var ctrlIDs = document.getElementById('<%=hdnSubtenanatIDs.ClientID%>').value.split(',');
+        else
+            args.IsValid = true;
+    }
+    else {
+        args.IsValid = true;
+    }
+}
+function ValidateSubtenantFileds(sender, args) {
+    var msg = '';
+    var ctrlIDs = document.getElementById('<%=hdnSubtenanatIDs.ClientID%>').value.split(',');
             var Messages = document.getElementById('<%=hdnSubtenantErroeMassage.ClientID%>').value.split(',');
             var focusCtrlID = "";
             if (document.getElementById('<%=hdnSubtenanatIDs.ClientID%>').value != "") {
@@ -562,8 +574,7 @@
         ValidationGroup="vgSubtenant" CssClass="errormessage"></asp:ValidationSummary>
     <asp:ValidationSummary ID="ValidationSummary1" runat="server" ShowSummary="false"
         ShowMessageBox="true" HeaderText="Verify the following fields:" BorderWidth="1"
-        BorderColor="DimGray" ValidationGroup="AddAttachment" CssClass="errormessage">
-    </asp:ValidationSummary>
+        BorderColor="DimGray" ValidationGroup="AddAttachment" CssClass="errormessage"></asp:ValidationSummary>
     <br />
     <uc:CtlTab runat="server" ID="Tab"></uc:CtlTab>
     <asp:UpdatePanel ID="pnlHiddentIDs" runat="server" UpdateMode="Always">
@@ -578,8 +589,7 @@
             <input type="hidden" id="hdnRentID" runat="server" />
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
-                    <td class="Spacer" width="100%" style="height: 15px;" colspan="2">
-                    </td>
+                    <td class="Spacer" width="100%" style="height: 15px;" colspan="2"></td>
                 </tr>
                 <tr>
                     <td width="100%" colspan="2">
@@ -587,14 +597,12 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="Spacer" style="height: 5px;" colspan="2" width="100%">
-                    </td>
+                    <td class="Spacer" style="height: 5px;" colspan="2" width="100%"></td>
                 </tr>
             </table>
             <table id="tblMsg" runat="server" style="display: none" width="80%" align="center">
                 <tr>
-                    <td>
-                        &nbsp;
+                    <td>&nbsp;
                     </td>
                 </tr>
                 <tr>
@@ -603,8 +611,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>
-                        &nbsp;
+                    <td>&nbsp;
                     </td>
                 </tr>
             </table>
@@ -687,63 +694,61 @@
                         <td>
                             <table cellpadding="0" cellspacing="0" width="100%">
                                 <tr>
-                                    <td class="Spacer" style="height: 15px;" colspan="2">
-                                    </td>
+                                    <td class="Spacer" style="height: 15px;" colspan="2"></td>
                                 </tr>
                                 <tr>
                                     <td class="leftMenu">
                                         <table cellpadding="5" cellspacing="0" width="100%">
                                             <tr>
-                                                <td style="height: 18px;" class="Spacer">
+                                                <td style="height: 18px;" class="Spacer"></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="left" width="100%">
+                                                    <span id="Menu1" onclick="javascript:ShowPanel(1);" class="LeftMenuStatic">Lease Information&nbsp;<span id="MenuAsterisk1" runat="server" style="color: Red; display: none">*</span></span>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td align="left" width="100%">
-                                                    <span id="Menu1" onclick="javascript:ShowPanel(1);" class="LeftMenuStatic">Lease Information&nbsp;<span id="MenuAsterisk1" runat="server" style="color: Red;display:none">*</span></span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td align="left" width="100%">
-                                                    <span id="Menu2" onclick="javascript:ShowPanel(2);" class="LeftMenuStatic">Rent&nbsp;<span id="MenuAsterisk2" runat="server" style="color: Red;display:none">*</span></span>
+                                                    <span id="Menu2" onclick="javascript:ShowPanel(2);" class="LeftMenuStatic">Rent&nbsp;<span id="MenuAsterisk2" runat="server" style="color: Red; display: none">*</span></span>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td align="left" width="100%">
                                                     <span id="Menu3" onclick="javascript:ShowPanel(3);" class="LeftMenuStatic">Subtenant
-                                                        Information&nbsp;<span id="MenuAsterisk3" runat="server" style="color: Red;display:none">*</span></span>
+                                                        Information&nbsp;<span id="MenuAsterisk3" runat="server" style="color: Red; display: none">*</span></span>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td align="left" width="100%">
-                                                    <span id="Menu4" onclick="javascript:ShowPanel(4);" class="LeftMenuStatic">Rent Projections&nbsp;<span id="MenuAsterisk4" runat="server" style="color: Red;display:none">*</span></span>
+                                                    <span id="Menu4" onclick="javascript:ShowPanel(4);" class="LeftMenuStatic">Rent Projections&nbsp;<span id="MenuAsterisk4" runat="server" style="color: Red; display: none">*</span></span>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td align="left" width="100%">
                                                     <span id="Menu5" onclick="javascript:ShowPanel(5);" class="LeftMenuStatic">Security
-                                                        Deposit&nbsp;<span id="MenuAsterisk5" runat="server" style="color: Red;display:none">*</span></span>
+                                                        Deposit&nbsp;<span id="MenuAsterisk5" runat="server" style="color: Red; display: none">*</span></span>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td align="left" width="100%">
-                                                    <span id="Menu6" onclick="javascript:ShowPanel(6);" class="LeftMenuStatic">Repair/Maintenance&nbsp;<span id="MenuAsterisk6" runat="server" style="color: Red;display:none">*</span></span>
+                                                    <span id="Menu6" onclick="javascript:ShowPanel(6);" class="LeftMenuStatic">Repair/Maintenance&nbsp;<span id="MenuAsterisk6" runat="server" style="color: Red; display: none">*</span></span>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td align="left" width="100%">
                                                     <span id="Menu7" onclick="javascript:ShowPanel(7);" class="LeftMenuStatic">Surrender
-                                                        Obligations&nbsp;<span id="MenuAsterisk7" runat="server" style="color: Red;display:none">*</span></span>
+                                                        Obligations&nbsp;<span id="MenuAsterisk7" runat="server" style="color: Red; display: none">*</span></span>
                                                 </td>
                                             </tr>
-                                              <tr>
-                                                <td align="left" width="100%">
-                                                    <span id="Menu11" onclick="javascript:ShowPanel(11);" class="LeftMenuStatic">Lease Maint Obligations&nbsp;
-                                                        <span id="MenuAsterisk11" runat="server" style="color: Red;display:none">*</span></span>
-                                                </td>
-                                            </tr>                                           
                                             <tr>
                                                 <td align="left" width="100%">
-                                                    <span id="Menu8" onclick="javascript:ShowPanel(8);" class="LeftMenuStatic">Notices&nbsp;<span id="MenuAsterisk8" runat="server" style="color: Red;display:none">*</span></span>
+                                                    <span id="Menu11" onclick="javascript:ShowPanel(11);" class="LeftMenuStatic">Lease Maint Obligations&nbsp;
+                                                        <span id="MenuAsterisk11" runat="server" style="color: Red; display: none">*</span></span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="left" width="100%">
+                                                    <span id="Menu8" onclick="javascript:ShowPanel(8);" class="LeftMenuStatic">Notices&nbsp;<span id="MenuAsterisk8" runat="server" style="color: Red; display: none">*</span></span>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -761,42 +766,38 @@
                                     <td valign="top">
                                         <table cellpadding="0" cellspacing="0" border="0" width="100%">
                                             <tr>
-                                                <td width="5px" class="Spacer">
-                                                    &nbsp;
+                                                <td width="5px" class="Spacer">&nbsp;
                                                 </td>
                                                 <td class="dvContainer">
                                                     <div id="dvEdit" runat="server" width="794px">
                                                         <asp:Button ID="btnSelectBuildingOwnership" runat="server" Style="display: none"
                                                             OnClick="btnSelectBuildingOwnership_Click" />
-                                                         <asp:Button id="btnSelectSubLease" runat="server" style="display:none;" OnClick="btnSelectSubLease_OnClick" />
+                                                        <asp:Button ID="btnSelectSubLease" runat="server" Style="display: none;" OnClick="btnSelectSubLease_OnClick" />
                                                         <input type="hidden" id="hdnOwnershipInfo" runat="server" />
                                                         <asp:Panel ID="pnl1" runat="server" Style="display: none;">
                                                             <div class="bandHeaderRow">
-                                                                Lease Information</div>
+                                                                Lease Information
+                                                            </div>
                                                             <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                                 <tr>
-                                                                    <td colspan="6" align="left" class="BlueItalicText">
-                                                                        The data for the blue italicized fields on this screen are derived from the Property
+                                                                    <td colspan="6" align="left" class="BlueItalicText">The data for the blue italicized fields on this screen are derived from the Property
                                                                         module for the same location.
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>
-                                                                        &nbsp;
+                                                                    <td>&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" width="19%" valign="top" class="BlueItalicText">
-                                                                        Dealership DBA
+                                                                    <td align="left" width="19%" valign="top" class="BlueItalicText">Dealership DBA
                                                                     </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
+                                                                    <td align="center" width="4%" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top" colspan="4">
                                                                         <asp:TextBox ID="txtLU_Location" runat="server" Enabled="false" Width="300px" />
                                                                     </td>
                                                                 </tr>
-                                                               <%-- <tr>
+                                                                <%-- <tr>
                                                                     <td align="left" width="19%" valign="top" class="BlueItalicText">
                                                                         Legal Entity
                                                                     </td>
@@ -817,173 +818,138 @@
                                                                     </td>
                                                                 </tr>--%>
                                                                 <tr>
-                                                                    <td align="left" width="19%" valign="top" class="BlueItalicText" >
-                                                                        Parent Company Legal Entity
+                                                                    <td align="left" width="19%" valign="top" class="BlueItalicText">Parent Company Legal Entity
                                                                     </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
+                                                                    <td align="center" width="4%" valign="top">:
                                                                     </td>
                                                                     <td align="left" width="27%" valign="top">
                                                                         <asp:TextBox ID="txtParentCompanyLegalEntity" runat="server" Width="170px" Enabled="false" />
                                                                     </td>
-                                                                    <td align="left" width="20%" valign="top" class="BlueItalicText">
-                                                                        Parent Company Legal Entity FEIN
+                                                                    <td align="left" width="20%" valign="top" class="BlueItalicText">Parent Company Legal Entity FEIN
                                                                     </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
+                                                                    <td align="center" width="4%" valign="top">:
                                                                     </td>
                                                                     <td align="left" width="26%" valign="top">
-                                                                        <asp:TextBox ID="txtParentCompanyLegalEntityFEIN" runat="server" Width="170px" Enabled="false"/>
-                                                                    </td>
-                                                                </tr>
-                                                                 <tr>
-                                                                    <td align="left" width="19%" valign="top" class="BlueItalicText">
-                                                                        Legal Entity (Operations)
-                                                                    </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left" width="27%" valign="top">
-                                                                        <asp:TextBox ID="txtLegalEntityOperations" runat="server" Width="170px" Enabled="false"/>
-                                                                    </td>
-                                                                    <td align="left" width="20%" valign="top" class="BlueItalicText">
-                                                                        Legal Entity (Operations) FEIN
-                                                                    </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left" width="26%" valign="top">
-                                                                        <asp:TextBox ID="txtLegalEntityOperationsFEIN" runat="server" Width="170px" Enabled="false"/>
+                                                                        <asp:TextBox ID="txtParentCompanyLegalEntityFEIN" runat="server" Width="170px" Enabled="false" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" width="19%" valign="top" class="BlueItalicText">
-                                                                        Legal Entity (Properties)
+                                                                    <td align="left" width="19%" valign="top" class="BlueItalicText">Legal Entity (Operations)
                                                                     </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
+                                                                    <td align="center" width="4%" valign="top">:
                                                                     </td>
                                                                     <td align="left" width="27%" valign="top">
-                                                                        <asp:TextBox ID="txtLegalEntityProperties" runat="server" Width="170px" Enabled="false"/>
+                                                                        <asp:TextBox ID="txtLegalEntityOperations" runat="server" Width="170px" Enabled="false" />
                                                                     </td>
-                                                                    <td align="left" width="20%" valign="top" class="BlueItalicText">
-                                                                        Legal Entity (Properties) FEIN
+                                                                    <td align="left" width="20%" valign="top" class="BlueItalicText">Legal Entity (Operations) FEIN
                                                                     </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
+                                                                    <td align="center" width="4%" valign="top">:
                                                                     </td>
                                                                     <td align="left" width="26%" valign="top">
-                                                                        <asp:TextBox ID="txtLegalEntityPropertiesFEIN" runat="server" Width="170px" Enabled="false"/>
+                                                                        <asp:TextBox ID="txtLegalEntityOperationsFEIN" runat="server" Width="170px" Enabled="false" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" class="BlueItalicText">
-                                                                        Status
+                                                                    <td align="left" width="19%" valign="top" class="BlueItalicText">Legal Entity (Properties)
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" width="4%" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" width="27%" valign="top">
+                                                                        <asp:TextBox ID="txtLegalEntityProperties" runat="server" Width="170px" Enabled="false" />
+                                                                    </td>
+                                                                    <td align="left" width="20%" valign="top" class="BlueItalicText">Legal Entity (Properties) FEIN
+                                                                    </td>
+                                                                    <td align="center" width="4%" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" width="26%" valign="top">
+                                                                        <asp:TextBox ID="txtLegalEntityPropertiesFEIN" runat="server" Width="170px" Enabled="false" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" valign="top" class="BlueItalicText">Status
+                                                                    </td>
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:DropDownList ID="drpFK_LU_Status" Width="175px" SkinID="dropGen" runat="server"
                                                                             Enabled="false">
                                                                         </asp:DropDownList>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" class="BlueItalicText">
-                                                                        Address 1
+                                                                    <td align="left" valign="top" class="BlueItalicText">Address 1
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtAddress1" runat="server" Width="170px" Enabled="false" />
                                                                     </td>
-                                                                    <td align="left" valign="top" class="BlueItalicText">
-                                                                        Address 2
+                                                                    <td align="left" valign="top" class="BlueItalicText">Address 2
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtAddress2" runat="server" Width="170px" Enabled="false" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" class="BlueItalicText">
-                                                                        City
+                                                                    <td align="left" valign="top" class="BlueItalicText">City
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtCity" runat="server" Width="170px" Enabled="false" />
                                                                     </td>
-                                                                    <td align="left" valign="top" class="BlueItalicText">
-                                                                        State
+                                                                    <td align="left" valign="top" class="BlueItalicText">State
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtState" runat="server" Width="170px" Enabled="false" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" class="BlueItalicText">
-                                                                        Zip Code (XXXXX-XXXX)
+                                                                    <td align="left" valign="top" class="BlueItalicText">Zip Code (XXXXX-XXXX)
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtZipCode" runat="server" Width="170px" Enabled="false" />
                                                                     </td>
-                                                                    <td align="left" valign="top" class="BlueItalicText">
-                                                                        Telephone (XXX-XXX-XXXX)
+                                                                    <td align="left" valign="top" class="BlueItalicText">Telephone (XXX-XXX-XXXX)
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtTelephone" runat="server" Width="170px" Enabled="false" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" class="BlueItalicText">
-                                                                        County
+                                                                    <td align="left" valign="top" class="BlueItalicText">County
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtCounty" runat="server" Width="170px" Enabled="false" />
                                                                     </td>
-                                                                    <td align="left" valign="top" class="BlueItalicText">
-                                                                        Region
+                                                                    <td align="left" valign="top" class="BlueItalicText">Region
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtRegion" runat="server" Width="170px" Enabled="false" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Tax Parcel Number&nbsp;<span id="Span33" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Tax Parcel Number&nbsp;<span id="Span33" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtTax_Parcel_Number" runat="server" Width="170px" MaxLength="50" />
@@ -994,15 +960,13 @@
                                                                     <td align="center" valign="top">
                                                                         <%--:--%>&nbsp;
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                         <%--<asp:DropDownList ID="drpFK_LU_Lease_Type" Width="175px" SkinID="dropGen" runat="server">
                                                                         </asp:DropDownList>--%>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Building Grid&nbsp;<span style="color:Red">*</span><br />
+                                                                    <td align="left" valign="top">Building Grid&nbsp;<span style="color: Red">*</span><br />
                                                                         <asp:LinkButton ID="lnkAddBuilding" runat="server" Text="--Add--" CausesValidation="false" OnClick="lnkAddBuilding_Click" />
                                                                     </td>
                                                                     <td align="center" valign="top">:</td>
@@ -1013,7 +977,7 @@
                                                                                 <asp:TemplateField HeaderText="Building Address">
                                                                                     <ItemStyle Width="40%" />
                                                                                     <ItemTemplate>
-                                                                                        <%# clsGeneral.FormatAddress(Eval("Address_1"),Eval("Address_2"),Eval("City"),Eval("State"),Eval("Zip")) %>                                                                                                
+                                                                                        <%# clsGeneral.FormatAddress(Eval("Address_1"),Eval("Address_2"),Eval("City"),Eval("State"),Eval("Zip")) %>
                                                                                     </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:BoundField HeaderText="Landlord Name" DataField="Landlord_Name" ItemStyle-Width="25%" ItemStyle-HorizontalAlign="Left" />
@@ -1024,7 +988,7 @@
                                                                                     </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                             </Columns>
-                                                                        </asp:GridView>                                                                        
+                                                                        </asp:GridView>
                                                                     </td>
                                                                 </tr>
                                                                 <%--<tr>
@@ -1111,20 +1075,16 @@
                                                                     </td>
                                                                 </tr>--%>
                                                                 <tr>
-                                                                    <td align="left" valign="top" class="BlueItalicText">
-                                                                        Landlord
+                                                                    <td align="left" valign="top" class="BlueItalicText">Landlord
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtLandlord" runat="server" Width="170px" MaxLength="75" Enabled="false" />
                                                                     </td>
-                                                                    <td align="left" valign="top" class="BlueItalicText">
-                                                                        Landlord Legal Entity
+                                                                    <td align="left" valign="top" class="BlueItalicText">Landlord Legal Entity
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtLandlordLegalEntity" runat="server" Width="170px" MaxLength="75"
@@ -1132,21 +1092,17 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" class="BlueItalicText">
-                                                                        Landlord Location Address 1
+                                                                    <td align="left" valign="top" class="BlueItalicText">Landlord Location Address 1
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtLandlord_Location_Address1" runat="server" Width="170px" MaxLength="50"
                                                                             Enabled="false" />
                                                                     </td>
-                                                                    <td align="left" valign="top" class="BlueItalicText">
-                                                                        Landlord Location Address 2
+                                                                    <td align="left" valign="top" class="BlueItalicText">Landlord Location Address 2
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtLandlord_Location_Address2" runat="server" Width="170px" MaxLength="50"
@@ -1154,21 +1110,17 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" class="BlueItalicText">
-                                                                        Landlord Location City
+                                                                    <td align="left" valign="top" class="BlueItalicText">Landlord Location City
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtLandlord_Location_City" runat="server" Width="170px" MaxLength="50"
                                                                             Enabled="false" />
                                                                     </td>
-                                                                    <td align="left" valign="top" class="BlueItalicText">
-                                                                        Landlord Location State
+                                                                    <td align="left" valign="top" class="BlueItalicText">Landlord Location State
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:DropDownList ID="drpLandlord_Location_State" runat="server" SkinID="dropGen"
@@ -1176,11 +1128,9 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" class="BlueItalicText">
-                                                                        Landlord Location Zip Code (XXXXX-XXXX)
+                                                                    <td align="left" valign="top" class="BlueItalicText">Landlord Location Zip Code (XXXXX-XXXX)
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtLandlord_Location_Zip_Code" runat="server" Width="170px" MaxLength="10"
@@ -1189,62 +1139,49 @@
                                                                             runat="server" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter [Lease Information]/Landlord Location Zip Code in xxxxx-xxxx format."
                                                                             Display="none" ValidationExpression="\d{5}(-\d{4})?"></asp:RegularExpressionValidator>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Landlord Mailing Address 1&nbsp;<span id="Span2" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Landlord Mailing Address 1&nbsp;<span id="Span2" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtLandlord_Mailing_Address1" runat="server" Width="170px" MaxLength="50" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Landlord Mailing Address 2&nbsp;<span id="Span3" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Landlord Mailing Address 2&nbsp;<span id="Span3" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtLandlord_Mailing_Address2" runat="server" Width="170px" MaxLength="50" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Landlord Mailing City&nbsp;<span id="Span4" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Landlord Mailing City&nbsp;<span id="Span4" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtLandlord_Mailing_City" runat="server" Width="170px" MaxLength="50" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Landlord Mailing State&nbsp;<span id="Span5" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Landlord Mailing State&nbsp;<span id="Span5" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:DropDownList ID="drpLandlordMailingState" runat="server" Width="175px" SkinID="dropGen" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Landlord Mailing Zip Code (XXXXX-XXXX)&nbsp;<span id="Span6" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Landlord Mailing Zip Code (XXXXX-XXXX)&nbsp;<span id="Span6" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtLandlord_Mailing_Zip_Code" runat="server" Width="170px" MaxLength="10"
@@ -1253,22 +1190,17 @@
                                                                             runat="server" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter [Lease Information]/Landlord Mailing Zip Code in xxxxx-xxxx format."
                                                                             Display="none" ValidationExpression="\d{5}(-\d{4})?"></asp:RegularExpressionValidator>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Landlord Telephone (XXX-XXX-XXXX)&nbsp;<span id="Span7" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Landlord Telephone (XXX-XXX-XXXX)&nbsp;<span id="Span7" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtLandlord_Telephone" runat="server" Width="170px" MaxLength="12"
@@ -1277,11 +1209,9 @@
                                                                             runat="server" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter [Lease Information]/Landlord Telephone in xxx-xxx-xxxx format."
                                                                             Display="none" ValidationExpression="\d{3}(-\d{3})(-\d{4})"></asp:RegularExpressionValidator>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Landlord E-Mail&nbsp;<span id="Span8" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Landlord E-Mail&nbsp;<span id="Span8" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtLandlord_Email" runat="server" Width="170px" MaxLength="255" />
@@ -1291,53 +1221,42 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Sublease?
+                                                                    <td align="left" valign="top">Sublease?
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:RadioButtonList ID="rdoSublease" runat="server" SkinID="YesNoType" AutoPostBack="true"
                                                                             OnSelectedIndexChanged="rdoSublease_SelectedIndexChanged">
                                                                         </asp:RadioButtonList>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Subtenant&nbsp;<span id="Span9" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Subtenant&nbsp;<span id="Span9" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtSubtenant" runat="server" Width="170px" MaxLength="75" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" class="BlueItalicText">
-                                                                        Lease Id
+                                                                    <td align="left" valign="top" class="BlueItalicText">Lease Id
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtLease_Id" runat="server" Width="170px" MaxLength="50" Enabled="false" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" class="BlueItalicText">
-                                                                        Lease Commencement Date
+                                                                    <td align="left" valign="top" class="BlueItalicText">Lease Commencement Date
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtLease_Commencement_Date" runat="server" Width="170px" onChange="UpdateRents();"
@@ -1359,11 +1278,9 @@
                                                                             ErrorMessage="Please Enter [Lease Information]/Lease Commencement Date in valid format"
                                                                             Display="none" ValidationGroup="vsErrorGroup" SetFocusOnError="true"></asp:RegularExpressionValidator>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Project Type&nbsp;<span id="Span10" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Project Type&nbsp;<span id="Span10" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:DropDownList ID="drpFK_LU_Project_Type" Width="175px" SkinID="dropGen" runat="server">
@@ -1371,11 +1288,9 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" class="BlueItalicText">
-                                                                        Lease Expiration Date
+                                                                    <td align="left" valign="top" class="BlueItalicText">Lease Expiration Date
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtLease_Expiration_Date" runat="server" Width="170px" Enabled="false" />
@@ -1396,11 +1311,9 @@
                                                                             ErrorMessage="Please Enter [Lease Information]/Lease Expiration Date in valid format"
                                                                             Display="none" ValidationGroup="vsErrorGroup" SetFocusOnError="true"></asp:RegularExpressionValidator>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Date Acquired&nbsp;<span id="Span11" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Date Acquired&nbsp;<span id="Span11" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtDate_Acquired" runat="server" Width="145px" />
@@ -1423,21 +1336,30 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Lease Term In Months&nbsp;<span id="Span12" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top" class="BlueItalicText">Mortgage Commencement Date &nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
-                                                                        <asp:TextBox ID="txtLease_Term_Months" runat="server" Width="170px" onpaste="return false"
-                                                                            onkeypress="return FormatNumber(event,this.id,4,true);" />
+                                                                        <asp:TextBox ID="txtMortgage_Commencement_Date" runat="server" Width="170px" onpaste="return false"/>
+                                                                        <cc1:MaskedEditExtender ID="mskMortgage_Commencement_Date" runat="server" AcceptNegative="Left"
+                                                                            DisplayMoney="Left" Mask="99/99/9999" MaskType="Date" MessageValidatorTip="true"
+                                                                            OnFocusCssClass="MaskedEditFocus" OnInvalidCssClass="MaskedEditError" TargetControlID="txtMortgage_Commencement_Date"
+                                                                            CultureName="en-US" AutoComplete="true" AutoCompleteValue="05/23/1964">
+                                                                        </cc1:MaskedEditExtender>
+                                                                        <cc1:MaskedEditValidator ID="MaskedEditValidator1" runat="server" ControlExtender="mskMortgage_Commencement_Date"
+                                                                            ControlToValidate="txtMortgage_Commencement_Date" Display="none" IsValidEmpty="true"
+                                                                            Enabled="false" MaximumValue="" InvalidValueMessage="Date is invalid." MaximumValueMessage=""
+                                                                            MinimumValueMessage="" TooltipMessage="" MinimumValue=""></cc1:MaskedEditValidator>
+                                                                        <asp:RegularExpressionValidator ID="RegularExpressionValidator15" runat="server" ControlToValidate="txtMortgage_Commencement_Date"
+                                                                            ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$"
+                                                                            ErrorMessage="Please Enter [Lease Information]/ Mortgage Commencement Date in valid format"
+                                                                            Display="none" ValidationGroup="vsErrorGroup" SetFocusOnError="true"></asp:RegularExpressionValidator>
+
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Date Sold&nbsp;<span id="Span13" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Date Sold&nbsp;<span id="Span13" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtDate_Sold" runat="server" Width="145px" />
@@ -1460,11 +1382,54 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Prior Lease Commencement Date&nbsp;<span id="Span14" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top" class="BlueItalicText">Mortgage Expiration Date &nbsp;<span id="Span163" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:TextBox ID="txtMortgage_Expiration_Date" runat="server" Width="170px" onpaste="return false" />
+                                                                        <cc1:MaskedEditExtender ID="mskMortgage_Expiration_Date" runat="server" AcceptNegative="Left"
+                                                                            DisplayMoney="Left" Mask="99/99/9999" MaskType="Date" MessageValidatorTip="true"
+                                                                            OnFocusCssClass="MaskedEditFocus" OnInvalidCssClass="MaskedEditError" TargetControlID="txtMortgage_Expiration_Date"
+                                                                            CultureName="en-US" AutoComplete="true" AutoCompleteValue="05/23/1964">
+                                                                        </cc1:MaskedEditExtender>
+                                                                        <cc1:MaskedEditValidator ID="mskvMortgage_Expiration_Date" runat="server" ControlExtender="mskMortgage_Expiration_Date"
+                                                                            ControlToValidate="txtMortgage_Expiration_Date" Display="none" IsValidEmpty="true"
+                                                                            Enabled="false" MaximumValue="" InvalidValueMessage="Date is invalid." MaximumValueMessage=""
+                                                                            MinimumValueMessage="" TooltipMessage="" MinimumValue=""></cc1:MaskedEditValidator>
+                                                                        <asp:RegularExpressionValidator ID="RegularExpressionValidator16" runat="server" ControlToValidate="txtMortgage_Expiration_Date"
+                                                                            ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$"
+                                                                            ErrorMessage="Please Enter [Lease Information]/ Mortgage Expiration Date in valid format"
+                                                                            Display="none" ValidationGroup="vsErrorGroup" SetFocusOnError="true"></asp:RegularExpressionValidator>
+
+                                                                    </td>
+                                                                    <td align="left" valign="top">&nbsp;
+                                                                    </td>
+                                                                    <td align="center" valign="top">&nbsp;
+                                                                    </td>
+                                                                    <td align="center" valign="top">&nbsp;
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" valign="top">Lease Term In Months&nbsp;<span id="Span12" style="color: Red; display: none;" runat="server">*</span>
+                                                                    </td>
+                                                                    <td align="center" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:TextBox ID="txtLease_Term_Months" runat="server" Width="170px" onpaste="return false"
+                                                                            onkeypress="return FormatNumber(event,this.id,4,true);" />
+                                                                    </td>
+                                                                    <td align="left" valign="top">&nbsp;
+                                                                    </td>
+                                                                    <td align="center" valign="top">&nbsp;
+                                                                    </td>
+                                                                    <td align="center" valign="top">&nbsp;
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" valign="top">Prior Lease Commencement Date&nbsp;<span id="Span14" style="color: Red; display: none;" runat="server">*</span>
+                                                                    </td>
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtPrior_Lease_Commencement_Date" runat="server" Width="145px" />
@@ -1485,22 +1450,17 @@
                                                                             ErrorMessage="Please Enter [Lease Information]/Prior Lease Commencement Date in valid format"
                                                                             Display="none" ValidationGroup="vsErrorGroup" SetFocusOnError="true"></asp:RegularExpressionValidator>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Renewals&nbsp;<span id="Span15" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Renewals&nbsp;<span id="Span15" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtRenewals" runat="server" Width="170px" MaxLength="100" />
@@ -1518,20 +1478,16 @@
                                                                     </td>--%>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Review Date
+                                                                    <td align="left" valign="top">Review Date
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblReviewDate" runat="server" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Year Remodeled&nbsp;<span id="Span16" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Year Remodeled&nbsp;<span id="Span16" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtYear_Remodeled" runat="server" Width="170px" MaxLength="4" onkeypress="return isValid(this);"
@@ -1539,11 +1495,9 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Reminder Date&nbsp;<span id="Span17" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Reminder Date&nbsp;<span id="Span17" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtReminder_Date" runat="server" Width="145px" />
@@ -1564,11 +1518,9 @@
                                                                             ErrorMessage="Please Enter [Lease Information]/Reminder Date in valid format"
                                                                             Display="none" ValidationGroup="vsErrorGroup" SetFocusOnError="true"></asp:RegularExpressionValidator>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Regional Vice President&nbsp;<span id="Span18" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Regional Vice President&nbsp;<span id="Span18" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtRegional_Vice_President" runat="server" Width="170px" MaxLength="75" />
@@ -1576,20 +1528,15 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Regional Controller&nbsp;<span id="Span35" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Regional Controller&nbsp;<span id="Span35" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtRegionalController" runat="server" Width="170px" MaxLength="75" />
@@ -1597,11 +1544,9 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Landlord Notification Date&nbsp;<span id="Span19" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Landlord Notification Date&nbsp;<span id="Span19" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtLandlord_Notification_Date" runat="server" Width="145px" />
@@ -1622,22 +1567,18 @@
                                                                             ErrorMessage="Please Enter [Lease Information]/Landlord Notification Date in valid format"
                                                                             Display="none" ValidationGroup="vsErrorGroup" SetFocusOnError="true"></asp:RegularExpressionValidator>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        General Manager&nbsp;<span id="Span20" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">General Manager&nbsp;<span id="Span20" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtGeneral_Manager" runat="server" Width="170px" MaxLength="75" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Vacate Date&nbsp;<span id="Span21" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Vacate Date&nbsp;<span id="Span21" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtVacate_Date" runat="server" Width="145px" />
@@ -1658,31 +1599,25 @@
                                                                             ErrorMessage="Please Enter [Lease Information]/Vacate Date in valid format" Display="none"
                                                                             ValidationGroup="vsErrorGroup" SetFocusOnError="true"></asp:RegularExpressionValidator>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Controller&nbsp;<span id="Span22" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Controller&nbsp;<span id="Span22" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtController" runat="server" Width="170px" MaxLength="75" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Primary Use&nbsp;<span id="Span23" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Primary Use&nbsp;<span id="Span23" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtPrimary_Use" runat="server" Width="170px" MaxLength="125" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Loss Control Manager&nbsp;<span id="Span24" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Loss Control Manager&nbsp;<span id="Span24" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtLoss_Control_Manager" runat="server" Width="170px" MaxLength="75" />
@@ -1690,20 +1625,16 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Lease Codes&nbsp;<span id="Span25" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Lease Codes&nbsp;<span id="Span25" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtLease_Codes" runat="server" Width="170px" MaxLength="50" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Total Acres&nbsp;<span id="Span26" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Total Acres&nbsp;<span id="Span26" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtTotal_Acres" runat="server" Width="170px" onpaste="return false"
@@ -1712,50 +1643,37 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Number of Buildings&nbsp;<span id="Span27" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Number of Buildings&nbsp;<span id="Span27" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtNumber_of_Buildings" runat="server" Width="170px" onpaste="return false"
                                                                             onkeypress="return FormatNumber(event,this.id,4,true);" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Total Gross Leasable Area (square feet)&nbsp;<span id="Span28" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Total Gross Leasable Area (square feet)&nbsp;<span id="Span28" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtTotal_Gross_Leaseable_Area" runat="server" Width="170px" onpaste="return false"
@@ -1763,44 +1681,34 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Land Value&nbsp;<span id="Span29" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Land Value&nbsp;<span id="Span29" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        $&nbsp;
+                                                                    <td align="left" valign="top">$&nbsp;
                                                                         <asp:TextBox ID="txtLand_Value" runat="server" Width="160px" onpaste="return false"
                                                                             onkeypress="return currencyFormat(this,',','.',event);" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Amendment Info&nbsp;<span id="Span30" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Amendment Info&nbsp;<span id="Span30" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top" colspan="4">
                                                                         <uc:ctrlMultiLineTextBox ID="txtAmendmentInfo" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Assignment Info&nbsp;<span id="Span31" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Assignment Info&nbsp;<span id="Span31" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top" colspan="4">
                                                                         <uc:ctrlMultiLineTextBox ID="txtAssignementInfo" runat="server" />
@@ -1815,96 +1723,78 @@
                                                         </asp:Panel>
                                                         <asp:Panel ID="pnl2" runat="server" Style="display: none;">
                                                             <div class="bandHeaderRow">
-                                                                Rent</div>
+                                                                Rent
+                                                            </div>
                                                             <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                                 <tr>
-                                                                    <td align="left" width="18%" valign="top">
-                                                                        Responsible Party&nbsp;<span id="Span32" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" width="18%" valign="top">Responsible Party&nbsp;<span id="Span32" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
+                                                                    <td align="center" width="4%" valign="top">:
                                                                     </td>
                                                                     <td align="left" width="28%" valign="top">
                                                                         <asp:TextBox ID="txtResponsible_PartyRent" runat="server" Width="170px" MaxLength="75" />
                                                                     </td>
-                                                                    <td align="left" width="18%" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" width="18%" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" width="4%" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" width="28%" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" width="28%" valign="top">&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Lease Commencement Date
+                                                                    <td align="left" valign="top">Lease Commencement Date
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblRentLeaseCommencementDate" runat="server" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Lease Term in Months&nbsp;<span id="Span34" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Lease Term in Months&nbsp;<span id="Span34" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblRentLeaseTerm" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Lease Expiration Date
+                                                                    <td align="left" valign="top">Lease Expiration Date
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblRentLeaseExpDate" runat="server" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Prior Lease Commencement Date
+                                                                    <td align="left" valign="top">Prior Lease Commencement Date
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblRentPriorLeaseDate" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" width="18%" valign="top">
-                                                                        Cancel Options&nbsp;<span id="Span37" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" width="18%" valign="top">Cancel Options&nbsp;<span id="Span37" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
+                                                                    <td align="center" width="4%" valign="top">:
                                                                     </td>
                                                                     <td align="left" colspan="4" valign="top">
                                                                         <uc:ctrlMultiLineTextBox ID="txtCancel_OptionsRent" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Renewal Options&nbsp;<span id="Span38" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Renewal Options&nbsp;<span id="Span38" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" colspan="4" valign="top">
                                                                         <uc:ctrlMultiLineTextBox ID="txtRenew_OptionsRent" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Renewal Notification Due Date&nbsp;<span id="Span39" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Renewal Notification Due Date&nbsp;<span id="Span39" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtNotification_Due_DateRent" runat="server" Width="145px" />
@@ -1925,98 +1815,75 @@
                                                                             ErrorMessage="Please Enter [Rent]/Renewal Notification Due Date in valid format"
                                                                             Display="none" ValidationGroup="vsErrorGroup" SetFocusOnError="true"></asp:RegularExpressionValidator>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Annual Rent&nbsp;<span id="Span40" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Annual Rent&nbsp;<span id="Span40" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        $&nbsp;<asp:TextBox ID="txtRentSubtenant_Base_Rent" runat="server" Width="160px"
-                                                                            onpaste="return false" onkeypress="return currencyFormat(this,',','.',event);" />
+                                                                    <td align="left" valign="top">$&nbsp;<asp:TextBox ID="txtRentSubtenant_Base_Rent" runat="server" Width="160px"
+                                                                        onpaste="return false" onkeypress="return currencyFormat(this,',','.',event);" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Monthly Rent&nbsp;<span id="Span41" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Monthly Rent&nbsp;<span id="Span41" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        $&nbsp;<asp:TextBox ID="txtRentSubtenant_Monthly_Rent" runat="server" Width="160px"
-                                                                            onpaste="return false" onkeypress="return FormatNumber(event,this.id,9,false);"
-                                                                            onchange="UpdateRentMonthlyRent();" />
+                                                                    <td align="left" valign="top">$&nbsp;<asp:TextBox ID="txtRentSubtenant_Monthly_Rent" runat="server" Width="160px"
+                                                                        onpaste="return false" onkeypress="return FormatNumber(event,this.id,9,false);"
+                                                                        onchange="UpdateRentMonthlyRent();" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Rent Details&nbsp;<span id="Span42" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Rent Details&nbsp;<span id="Span42" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" colspan="4" valign="top">
                                                                         <uc:ctrlMultiLineTextBox ID="txtRentDetails" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Rent Adjustments&nbsp;<span id="Span43" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Rent Adjustments&nbsp;<span id="Span43" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top" colspan="4">
                                                                         <uc:ctrlMultiLineTextBox ID="txtRentAdjustment" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Escalation&nbsp;<span id="Span44" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Escalation&nbsp;<span id="Span44" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:DropDownList ID="drpFK_LU_EscalationRent" Width="175px" SkinID="dropGen" runat="server"
                                                                             AutoPostBack="true" OnSelectedIndexChanged="drpFK_LU_EscalationRent_SelectedIndexChanged">
                                                                         </asp:DropDownList>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Percentage Rate&nbsp;<span id="Span45" style="color: Red; display: none;position:absolute" runat="server">*</span>
+                                                                    <td align="left" valign="top">Percentage Rate&nbsp;<span id="Span45" style="color: Red; display: none; position: absolute" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtPercentage_RateRent" Enabled="false" runat="server" Width="170px"
@@ -2027,34 +1894,27 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Increase Amount&nbsp;<span id="Span46" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Increase Amount&nbsp;<span id="Span46" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtIncreaseRent" runat="server" Width="170px" onpaste="return false"
                                                                             onkeypress="return currencyFormat(this,',','.',event);" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Term Rent Schedule Grid<br />
+                                                                    <td align="left" valign="top">Term Rent Schedule Grid<br />
                                                                         <asp:LinkButton ID="lnkAddTRSRent" runat="server" OnClientClick="javascript:return AddRentScheduleRent('Add');"
                                                                             OnClick="lnkAddTRSRent_Click" CausesValidation="true" ValidationGroup="ValidateSubtenantFileds">--Add--</asp:LinkButton>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top" colspan="4">
                                                                         <asp:GridView ID="gvRentTRS" runat="server" Width="100%" EmptyDataText="No Record Found"
@@ -2073,32 +1933,37 @@
                                                                                     <ItemStyle Width="15%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkFrom" runat="server" Text='<%#clsGeneral.FormatDBNullDateToDisplay(Eval("From_Date"))%>'
-                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Rent_TRS") %>' OnClientClick="javascript:return AddRentScheduleRent('Edit');" /></ItemTemplate>
+                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Rent_TRS") %>' OnClientClick="javascript:return AddRentScheduleRent('Edit');" />
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="To">
                                                                                     <ItemStyle Width="15%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkTo" runat="server" Text='<%#clsGeneral.FormatDBNullDateToDisplay(Eval("To_Date"))%>'
-                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Rent_TRS") %>' OnClientClick="javascript:return AddRentScheduleRent('Edit');" /></ItemTemplate>
+                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Rent_TRS") %>' OnClientClick="javascript:return AddRentScheduleRent('Edit');" />
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="Months">
                                                                                     <ItemStyle Width="10%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkMonths" runat="server" Text='<%#DataBinder.Eval(Container.DataItem,"Months", "{0:N1}")%>'
-                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Rent_TRS") %>' OnClientClick="javascript:return AddRentScheduleRent('Edit');" /></ItemTemplate>
+                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Rent_TRS") %>' OnClientClick="javascript:return AddRentScheduleRent('Edit');" />
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="Additions" ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Right">
                                                                                     <ItemStyle Width="15%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkAdditions" runat="server" Text='<%#clsGeneral.GetStringValue(Eval("Additions"))%>'
-                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Rent_TRS") %>' OnClientClick="javascript:return AddRentScheduleRent('Edit');" /></ItemTemplate>
+                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Rent_TRS") %>' OnClientClick="javascript:return AddRentScheduleRent('Edit');" />
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="Total Monthly Rent" ItemStyle-HorizontalAlign="Right"
                                                                                     HeaderStyle-HorizontalAlign="Right">
                                                                                     <ItemStyle Width="20%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkMonthlyRent" runat="server" Text='<%#clsGeneral.GetStringValue(Eval("Monthly_Rent"))%>'
-                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Rent_TRS") %>' OnClientClick="javascript:return AddRentScheduleRent('Edit');" /></ItemTemplate>
+                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Rent_TRS") %>' OnClientClick="javascript:return AddRentScheduleRent('Edit');" />
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="Remove" HeaderStyle-HorizontalAlign="Center">
                                                                                     <ItemStyle Width="15%" HorizontalAlign="Center" />
@@ -2112,13 +1977,11 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Renewal Rent Schedule Grid<br />
+                                                                    <td align="left" valign="top">Renewal Rent Schedule Grid<br />
                                                                         <asp:LinkButton ID="lnkAddRRSRent" runat="server" OnClientClick="javascript:return AddRentScheduleRent('Add');"
                                                                             OnClick="lnkAddRRSRent_Click" CausesValidation="true" ValidationGroup="ValidateSubtenantFileds">--Add--</asp:LinkButton>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top" colspan="4">
                                                                         <asp:GridView ID="gvRentRRS" runat="server" Width="100%" EmptyDataText="No Record Found"
@@ -2137,21 +2000,24 @@
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkFromDate" runat="server" CommandArgument='<%#Eval("PK_RE_Rent_RRS") %>'
                                                                                             CommandName="ShowDetails" Text='<%#clsGeneral.FormatDBNullDateToDisplay(Eval("From_Date"))%>'
-                                                                                            OnClientClick="javascript:return AddRentScheduleRent('Edit');"></asp:LinkButton></ItemTemplate>
+                                                                                            OnClientClick="javascript:return AddRentScheduleRent('Edit');"></asp:LinkButton>
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="To">
                                                                                     <ItemStyle Width="18%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkToDate" runat="server" CommandArgument='<%#Eval("PK_RE_Rent_RRS") %>'
                                                                                             CommandName="ShowDetails" Text='<%#clsGeneral.FormatDBNullDateToDisplay(Eval("To_Date"))%>'
-                                                                                            OnClientClick="javascript:return AddRentScheduleRent('Edit');"></asp:LinkButton></ItemTemplate>
+                                                                                            OnClientClick="javascript:return AddRentScheduleRent('Edit');"></asp:LinkButton>
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="Months">
                                                                                     <ItemStyle Width="13%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkMonths" runat="server" CommandArgument='<%#Eval("PK_RE_Rent_RRS") %>'
                                                                                             CommandName="ShowDetails" Text='<%#DataBinder.Eval(Container.DataItem,"Months", "{0:N1}")%>'
-                                                                                            OnClientClick="javascript:return AddRentScheduleRent('Edit');"></asp:LinkButton></ItemTemplate>
+                                                                                            OnClientClick="javascript:return AddRentScheduleRent('Edit');"></asp:LinkButton>
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="Base Monthly Rent" ItemStyle-HorizontalAlign="Right"
                                                                                     HeaderStyle-HorizontalAlign="Right">
@@ -2159,7 +2025,8 @@
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkMonthlyRent" runat="server" CommandArgument='<%#Eval("PK_RE_Rent_RRS") %>'
                                                                                             CommandName="ShowDetails" Text='<%#clsGeneral.GetStringValue(Eval("Monthly_Rent"))%>'
-                                                                                            OnClientClick="javascript:return AddRentScheduleRent('Edit');"></asp:LinkButton></ItemTemplate>
+                                                                                            OnClientClick="javascript:return AddRentScheduleRent('Edit');"></asp:LinkButton>
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="Remove" HeaderStyle-HorizontalAlign="Center">
                                                                                     <ItemStyle Width="15%" HorizontalAlign="Center" />
@@ -2181,63 +2048,70 @@
                                                         </asp:Panel>
                                                         <asp:Panel ID="pnl3" runat="server">
                                                             <div class="bandHeaderRow">
-                                                                Subtenant Information</div>
+                                                                Subtenant Information
+                                                            </div>
                                                             <table border="0" cellpadding="3" cellspacing="1" width="100%">
                                                                 <tr>
                                                                     <td align="left" width="12%" valign="top">
-                                                                        <asp:Label Text="Subtenant Grid :" runat="server" /> <br />
+                                                                        <asp:Label Text="Subtenant Grid :" runat="server" />
+                                                                        <br />
                                                                         <asp:LinkButton ID="lnkAddSubtenant" runat="server" Text="--Add--" CausesValidation="false" OnClick="lnkAddSubtenant_Click" />
                                                                     </td>
                                                                     <td>
                                                                         <asp:GridView ID="gvSubtenanat" runat="server" EmptyDataText="No Subtenant Record Exists"
                                                                             OnRowCommand="gvSubtenant_OnRowCommand" Width="100%">
                                                                             <Columns>
-                                                                                        <asp:TemplateField HeaderText="">
-                                                                                            <ItemStyle Width="5%" />
-                                                                                            <ItemTemplate>
-                                                                                                <asp:LinkButton ID="lnkViewSubLeaseDetails" CausesValidation="false" runat="server"
-                                                                                                    Text='<%# Container.DataItemIndex + 1 %>' CommandName="ViewSubTenantDetails" CommandArgument='<%#Eval("PK_RE_Subtenant")%>'></asp:LinkButton>
-                                                                                            </ItemTemplate>
-                                                                                        </asp:TemplateField>
-                                                                                        <asp:TemplateField HeaderText="Subtenant DBA">
-                                                                                            <ItemStyle Width="20%" />
-                                                                                            <ItemTemplate>
-                                                                                                <%# Eval("Subtenant_DBA")%></ItemTemplate>
-                                                                                        </asp:TemplateField>
-                                                                                        <asp:TemplateField HeaderText="Lease Commencement Date">
-                                                                                            <ItemStyle Width="20%" />
-                                                                                            <ItemTemplate>
-                                                                                                <%#clsGeneral.FormatDBNullDateToDisplay(Eval("Lease_Commencement_Date"))%></ItemTemplate>
-                                                                                        </asp:TemplateField>
-                                                                                        <asp:TemplateField HeaderText="Lease Expiration Date">
-                                                                                            <ItemStyle Width="20%" />
-                                                                                            <ItemTemplate>
-                                                                                                <%# clsGeneral.FormatDBNullDateToDisplay(Eval("Lease_Expiration_Date"))%></ItemTemplate>
-                                                                                        </asp:TemplateField>
-                                                                                        <asp:TemplateField HeaderText="Sublease Commencement Date">
-                                                                                            <ItemStyle Width="20%" />
-                                                                                            <ItemTemplate>
-                                                                                                <%# clsGeneral.FormatDBNullDateToDisplay(Eval("Sublease_Commencement_Date"))%></ItemTemplate>
-                                                                                        </asp:TemplateField>
-                                                                                        <asp:TemplateField HeaderText="Sublease Expiration Date">
-                                                                                            <ItemStyle Width="20%" />
-                                                                                            <ItemTemplate>
-                                                                                                <%# clsGeneral.FormatDBNullDateToDisplay(Eval("Sublease_Expiration_Date"))%></ItemTemplate>
-                                                                                        </asp:TemplateField>
-                                                                                        <asp:TemplateField HeaderText="Remove">
-                                                                                            <ItemStyle Width="10%" />
-                                                                                            <ItemTemplate>
-                                                                                                <asp:LinkButton ID="lnkRemoveLease" TeID="lnkRemove" OnClientClick="return ConfirmSubLeaseRemove();"
-                                                                                                    CausesValidation="false" runat="server" Text="Remove" CommandName="RemoveSubtenant"
-                                                                                                    CommandArgument='<%#Eval("PK_RE_Subtenant")%>' />
-                                                                                            </ItemTemplate>
-                                                                                        </asp:TemplateField>
-                                                                                    </Columns>
+                                                                                <asp:TemplateField HeaderText="">
+                                                                                    <ItemStyle Width="5%" />
+                                                                                    <ItemTemplate>
+                                                                                        <asp:LinkButton ID="lnkViewSubLeaseDetails" CausesValidation="false" runat="server"
+                                                                                            Text='<%# Container.DataItemIndex + 1 %>' CommandName="ViewSubTenantDetails" CommandArgument='<%#Eval("PK_RE_Subtenant")%>'></asp:LinkButton>
+                                                                                    </ItemTemplate>
+                                                                                </asp:TemplateField>
+                                                                                <asp:TemplateField HeaderText="Subtenant DBA">
+                                                                                    <ItemStyle Width="20%" />
+                                                                                    <ItemTemplate>
+                                                                                        <%# Eval("Subtenant_DBA")%>
+                                                                                    </ItemTemplate>
+                                                                                </asp:TemplateField>
+                                                                                <asp:TemplateField HeaderText="Lease Commencement Date">
+                                                                                    <ItemStyle Width="20%" />
+                                                                                    <ItemTemplate>
+                                                                                        <%#clsGeneral.FormatDBNullDateToDisplay(Eval("Lease_Commencement_Date"))%>
+                                                                                    </ItemTemplate>
+                                                                                </asp:TemplateField>
+                                                                                <asp:TemplateField HeaderText="Lease Expiration Date">
+                                                                                    <ItemStyle Width="20%" />
+                                                                                    <ItemTemplate>
+                                                                                        <%# clsGeneral.FormatDBNullDateToDisplay(Eval("Lease_Expiration_Date"))%>
+                                                                                    </ItemTemplate>
+                                                                                </asp:TemplateField>
+                                                                                <asp:TemplateField HeaderText="Sublease Commencement Date">
+                                                                                    <ItemStyle Width="20%" />
+                                                                                    <ItemTemplate>
+                                                                                        <%# clsGeneral.FormatDBNullDateToDisplay(Eval("Sublease_Commencement_Date"))%>
+                                                                                    </ItemTemplate>
+                                                                                </asp:TemplateField>
+                                                                                <asp:TemplateField HeaderText="Sublease Expiration Date">
+                                                                                    <ItemStyle Width="20%" />
+                                                                                    <ItemTemplate>
+                                                                                        <%# clsGeneral.FormatDBNullDateToDisplay(Eval("Sublease_Expiration_Date"))%>
+                                                                                    </ItemTemplate>
+                                                                                </asp:TemplateField>
+                                                                                <asp:TemplateField HeaderText="Remove">
+                                                                                    <ItemStyle Width="10%" />
+                                                                                    <ItemTemplate>
+                                                                                        <asp:LinkButton ID="lnkRemoveLease" TeID="lnkRemove" OnClientClick="return ConfirmSubLeaseRemove();"
+                                                                                            CausesValidation="false" runat="server" Text="Remove" CommandName="RemoveSubtenant"
+                                                                                            CommandArgument='<%#Eval("PK_RE_Subtenant")%>' />
+                                                                                    </ItemTemplate>
+                                                                                </asp:TemplateField>
+                                                                            </Columns>
                                                                         </asp:GridView>
-                                                                    </td>                                                               
-                                                                </tr>                                                               
-                                                            </table>    
-                                                            <table id="tblSubtenant" runat="server" cellpadding="3" cellspacing="1" border="0" width="100%" style="display:none;">
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                            <table id="tblSubtenant" runat="server" cellpadding="3" cellspacing="1" border="0" width="100%" style="display: none;">
                                                                 <caption>
                                                                     Option Rent Schedule Grid
                                                                     <tr>
@@ -2324,8 +2198,8 @@
                                                                         <td align="left" valign="top">
                                                                             <asp:TextBox ID="txtSubLease_Commencement_Date" runat="server" Width="145px" />
                                                                             <img alt="Notification Due Date" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtSubLease_Commencement_Date', 'mm/dd/y');"
-                                                                            onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
-                                                                            align="middle" />
+                                                                                onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
+                                                                                align="middle" />
                                                                             <br />
                                                                             <cc1:MaskedEditExtender ID="mskSubLease_Commencement_Date" runat="server" AcceptNegative="Left" AutoComplete="true" AutoCompleteValue="05/23/1964" CultureName="en-US" DisplayMoney="Left" Mask="99/99/9999" MaskType="Date" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus" OnInvalidCssClass="MaskedEditError" TargetControlID="txtSubLease_Commencement_Date">
                                                                             </cc1:MaskedEditExtender>
@@ -2337,8 +2211,8 @@
                                                                         <td align="left" valign="top">
                                                                             <asp:TextBox ID="txtSubLease_Expiration_Date" runat="server" Width="145px" />
                                                                             <img alt="Lease Expiration Date" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtSubLease_Expiration_Date', 'mm/dd/y');"
-                                                                            onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
-                                                                            align="middle" />
+                                                                                onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
+                                                                                align="middle" />
                                                                             <br />
                                                                             <cc1:MaskedEditExtender ID="mskSubLease_Expiration_Date" runat="server" AcceptNegative="Left" AutoComplete="true" AutoCompleteValue="05/23/1964" CultureName="en-US" DisplayMoney="Left" Mask="99/99/9999" MaskType="Date" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus" OnInvalidCssClass="MaskedEditError" TargetControlID="txtSubLease_Expiration_Date">
                                                                             </cc1:MaskedEditExtender>
@@ -2380,8 +2254,8 @@
                                                                         <td align="left" valign="top">
                                                                             <asp:TextBox ID="txtNotification_Due_DateSubtenant" runat="server" Width="145px" />
                                                                             <img alt="Notification Due Date" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtNotification_Due_DateSubtenant', 'mm/dd/y');"
-                                                                            onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
-                                                                            align="middle" />
+                                                                                onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
+                                                                                align="middle" />
                                                                             <br />
                                                                             <cc1:MaskedEditExtender ID="mskNotification_Due_DateSubtenant" runat="server" AcceptNegative="Left" AutoComplete="true" AutoCompleteValue="05/23/1964" CultureName="en-US" DisplayMoney="Left" Mask="99/99/9999" MaskType="Date" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus" OnInvalidCssClass="MaskedEditError" TargetControlID="txtNotification_Due_DateSubtenant">
                                                                             </cc1:MaskedEditExtender>
@@ -2426,7 +2300,7 @@
                                                                             <asp:DropDownList ID="drpFK_LU_EscalationSubtenant" runat="server" AutoPostBack="true" OnSelectedIndexChanged="drpFK_LU_EscalationSubtenant_SelectedIndexChanged" SkinID="dropGen" Width="175px">
                                                                             </asp:DropDownList>
                                                                         </td>
-                                                                        <td align="left" valign="top">Percentage Rate&nbsp;<span id="Span169" runat="server" style="color: Red; display: none;position:absolute">*</span> </td>
+                                                                        <td align="left" valign="top">Percentage Rate&nbsp;<span id="Span169" runat="server" style="color: Red; display: none; position: absolute">*</span></td>
                                                                         <td align="center" valign="top">: </td>
                                                                         <td align="left" valign="top">
                                                                             <asp:TextBox ID="txtPercentage_RateSubtenant" runat="server" Enabled="false" onchange="CalculateMonthlyRent('Subtenant');" onkeypress="return FormatNumber(event,this.id,5,false);" onpaste="return false" Width="170px" />
@@ -2563,107 +2437,87 @@
                                                         </asp:Panel>
                                                         <asp:Panel ID="pnl4" runat="server" Style="display: none;">
                                                             <div class="bandHeaderRow">
-                                                                Rent Projections</div>
+                                                                Rent Projections
+                                                            </div>
                                                             <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                                 <tr>
-                                                                    <td align="left" width="18%" valign="top">
-                                                                        Responsible Party&nbsp;<span id="Span69" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" width="18%" valign="top">Responsible Party&nbsp;<span id="Span69" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
+                                                                    <td align="center" width="4%" valign="top">:
                                                                     </td>
                                                                     <td align="left" width="28%" valign="top">
                                                                         <asp:TextBox ID="txtResponsible_Party" runat="server" Width="170px" MaxLength="75" />
                                                                     </td>
-                                                                    <td align="left" width="18%" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" width="18%" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" width="4%" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" width="28%" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" width="28%" valign="top">&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Lease Commencement Date
+                                                                    <td align="left" valign="top">Lease Commencement Date
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblRentProjectionsLeaseCommencementDate" runat="server" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Lease Term in Months
+                                                                    <td align="left" valign="top">Lease Term in Months
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblRentProjectionsLeaseTerm" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Lease Expiration Date
+                                                                    <td align="left" valign="top">Lease Expiration Date
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblRentProjectionsLeaseExpDate" runat="server" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Prior Lease Commencement Date
+                                                                    <td align="left" valign="top">Prior Lease Commencement Date
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblRentProjectionsPriorLeaseDate" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" width="18%" valign="top">
-                                                                        Cancel Details&nbsp;<span id="Span70" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" width="18%" valign="top">Cancel Details&nbsp;<span id="Span70" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
+                                                                    <td align="center" width="4%" valign="top">:
                                                                     </td>
                                                                     <td align="left" colspan="4" valign="top">
                                                                         <uc:ctrlMultiLineTextBox ID="txtCancel_Options" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Renew Options&nbsp;<span id="Span71" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Renew Options&nbsp;<span id="Span71" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" colspan="4" valign="top">
                                                                         <uc:ctrlMultiLineTextBox ID="txtRenew_Options" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Option Notification&nbsp;<span id="Span72" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Option Notification&nbsp;<span id="Span72" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" colspan="4" valign="top">
                                                                         <uc:ctrlMultiLineTextBox ID="txtOpen_Notification" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Notification Due Date&nbsp;<span id="Span73" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Notification Due Date&nbsp;<span id="Span73" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtNotification_Due_Date" runat="server" Width="145px" />
@@ -2684,75 +2538,56 @@
                                                                             ErrorMessage="Please Enter [Rent Projections]/Notification Due Date in valid format"
                                                                             Display="none" ValidationGroup="vsErrorGroup" SetFocusOnError="true"></asp:RegularExpressionValidator>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Subtenant Base Rent&nbsp;<span id="Span74" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Subtenant Base Rent&nbsp;<span id="Span74" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        $&nbsp;<asp:TextBox ID="txtSubtenant_Base_Rent" runat="server" Width="160px" onpaste="return false"
-                                                                            onkeypress="return currencyFormat(this,',','.',event);" />
+                                                                    <td align="left" valign="top">$&nbsp;<asp:TextBox ID="txtSubtenant_Base_Rent" runat="server" Width="160px" onpaste="return false"
+                                                                        onkeypress="return currencyFormat(this,',','.',event);" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Subtenant Monthly Rent&nbsp;<span id="Span75" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Subtenant Monthly Rent&nbsp;<span id="Span75" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        $&nbsp;<asp:TextBox ID="txtSubtenant_Monthly_Rent" runat="server" Width="160px" onpaste="return false"
-                                                                            onkeypress="return FormatNumber(event,this.id,9,false);" onchange="UpdateRentProjectionMonthlyRent();" />
+                                                                    <td align="left" valign="top">$&nbsp;<asp:TextBox ID="txtSubtenant_Monthly_Rent" runat="server" Width="160px" onpaste="return false"
+                                                                        onkeypress="return FormatNumber(event,this.id,9,false);" onchange="UpdateRentProjectionMonthlyRent();" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Escalation&nbsp;<span id="Span76" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Escalation&nbsp;<span id="Span76" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:DropDownList ID="drpFK_LU_Escalation" Width="175px" SkinID="dropGen" runat="server"
                                                                             AutoPostBack="true" OnSelectedIndexChanged="drpFK_LU_Escalation_SelectedIndexChanged">
                                                                         </asp:DropDownList>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Percentage Rate&nbsp;<span id="Span170" style="color: Red; display: none;position:absolute" runat="server">*</span>
+                                                                    <td align="left" valign="top">Percentage Rate&nbsp;<span id="Span170" style="color: Red; display: none; position: absolute" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtPercentage_Rate" Enabled="false" runat="server" Width="170px"
@@ -2763,34 +2598,27 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Increase&nbsp;<span id="Span77" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Increase&nbsp;<span id="Span77" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtIncrease" runat="server" Width="170px" onpaste="return false"
                                                                             onkeypress="return currencyFormat(this,',','.',event);" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Term Rent Schedule Grid<br />
+                                                                    <td align="left" valign="top">Term Rent Schedule Grid<br />
                                                                         <asp:LinkButton ID="lnkAddTRSRentProjection" runat="server" OnClientClick="javascript:return AddRentProjectionRentSchedule('Add');"
                                                                             OnClick="lnkAddTRSRentProjection_Click" CausesValidation="false">--Add--</asp:LinkButton>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top" colspan="4">
                                                                         <asp:GridView ID="gvRentProjectionTRS" runat="server" Width="100%" EmptyDataText="No Record Found"
@@ -2810,28 +2638,32 @@
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkFrom" runat="server" Text='<%#clsGeneral.FormatDBNullDateToDisplay(Eval("From_Date"))%>'
                                                                                             CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Rent_Projctions_TRS") %>'
-                                                                                            OnClientClick="javascript:return AddRentProjectionRentSchedule('Edit');" /></ItemTemplate>
+                                                                                            OnClientClick="javascript:return AddRentProjectionRentSchedule('Edit');" />
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="To">
                                                                                     <ItemStyle Width="15%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkTo" runat="server" Text='<%#clsGeneral.FormatDBNullDateToDisplay(Eval("To_Date"))%>'
                                                                                             CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Rent_Projctions_TRS") %>'
-                                                                                            OnClientClick="javascript:return AddRentProjectionRentSchedule('Edit');" /></ItemTemplate>
+                                                                                            OnClientClick="javascript:return AddRentProjectionRentSchedule('Edit');" />
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="Months">
                                                                                     <ItemStyle Width="10%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkMonths" runat="server" Text='<%#DataBinder.Eval(Container.DataItem,"Months", "{0:N1}")%>'
                                                                                             CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Rent_Projctions_TRS") %>'
-                                                                                            OnClientClick="javascript:return AddRentProjectionRentSchedule('Edit');" /></ItemTemplate>
+                                                                                            OnClientClick="javascript:return AddRentProjectionRentSchedule('Edit');" />
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="Additions" ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Right">
                                                                                     <ItemStyle Width="15%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkAdditions" runat="server" Text='<%#clsGeneral.GetStringValue(Eval("Additions"))%>'
                                                                                             CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Rent_Projctions_TRS") %>'
-                                                                                            OnClientClick="javascript:return AddRentProjectionRentSchedule('Edit');" /></ItemTemplate>
+                                                                                            OnClientClick="javascript:return AddRentProjectionRentSchedule('Edit');" />
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="Total Monthly Rent" ItemStyle-HorizontalAlign="Right"
                                                                                     HeaderStyle-HorizontalAlign="Right">
@@ -2839,7 +2671,8 @@
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkMonthlyRent" runat="server" Text='<%#clsGeneral.GetStringValue(Eval("Monthly_Rent"))%>'
                                                                                             CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Rent_Projctions_TRS") %>'
-                                                                                            OnClientClick="javascript:return AddRentProjectionRentSchedule('Edit');" /></ItemTemplate>
+                                                                                            OnClientClick="javascript:return AddRentProjectionRentSchedule('Edit');" />
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="Remove" HeaderStyle-HorizontalAlign="Center">
                                                                                     <ItemStyle Width="15%" HorizontalAlign="Center" />
@@ -2853,13 +2686,11 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Option Rent Schedule Grid<br />
+                                                                    <td align="left" valign="top">Option Rent Schedule Grid<br />
                                                                         <asp:LinkButton ID="lnkAddORSRentProjection" runat="server" OnClientClick="javascript:return AddRentProjectionRentSchedule('Add');"
                                                                             OnClick="lnkAddORSRentProjection_Click">--Add--</asp:LinkButton>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top" colspan="4">
                                                                         <asp:GridView ID="gvRentProjectionORS" runat="server" Width="100%" EmptyDataText="No Record Found"
@@ -2878,21 +2709,24 @@
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkFromDate" runat="server" CommandArgument='<%#Eval("PK_RE_Rent_Projections_ORS") %>'
                                                                                             CommandName="ShowDetails" Text='<%#clsGeneral.FormatDBNullDateToDisplay(Eval("From_Date"))%>'
-                                                                                            OnClientClick="javascript:return AddRentProjectionRentSchedule('Edit');"></asp:LinkButton></ItemTemplate>
+                                                                                            OnClientClick="javascript:return AddRentProjectionRentSchedule('Edit');"></asp:LinkButton>
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="To">
                                                                                     <ItemStyle Width="18%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkToDate" runat="server" CommandArgument='<%#Eval("PK_RE_Rent_Projections_ORS") %>'
                                                                                             CommandName="ShowDetails" Text='<%#clsGeneral.FormatDBNullDateToDisplay(Eval("To_Date"))%>'
-                                                                                            OnClientClick="javascript:return AddRentProjectionRentSchedule('Edit');"></asp:LinkButton></ItemTemplate>
+                                                                                            OnClientClick="javascript:return AddRentProjectionRentSchedule('Edit');"></asp:LinkButton>
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="Months">
                                                                                     <ItemStyle Width="13%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkMonths" runat="server" CommandArgument='<%#Eval("PK_RE_Rent_Projections_ORS") %>'
                                                                                             CommandName="ShowDetails" Text='<%#DataBinder.Eval(Container.DataItem,"Months", "{0:N1}")%>'
-                                                                                            OnClientClick="javascript:return AddRentProjectionRentSchedule('Edit');"></asp:LinkButton></ItemTemplate>
+                                                                                            OnClientClick="javascript:return AddRentProjectionRentSchedule('Edit');"></asp:LinkButton>
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="Base Monthly Rent" ItemStyle-HorizontalAlign="Right"
                                                                                     HeaderStyle-HorizontalAlign="Right">
@@ -2900,7 +2734,8 @@
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkMonthlyRent" runat="server" CommandArgument='<%#Eval("PK_RE_Rent_Projections_ORS") %>'
                                                                                             CommandName="ShowDetails" Text='<%#clsGeneral.GetStringValue(Eval("Monthly_Rent"))%>'
-                                                                                            OnClientClick="javascript:return AddRentProjectionRentSchedule('Edit');"></asp:LinkButton></ItemTemplate>
+                                                                                            OnClientClick="javascript:return AddRentProjectionRentSchedule('Edit');"></asp:LinkButton>
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="Remove" HeaderStyle-HorizontalAlign="Center">
                                                                                     <ItemStyle Width="15%" HorizontalAlign="Center" />
@@ -2922,24 +2757,20 @@
                                                         </asp:Panel>
                                                         <asp:Panel ID="pnl5" runat="server" Style="display: none;">
                                                             <div class="bandHeaderRow">
-                                                                Security Deposit</div>
+                                                                Security Deposit
+                                                            </div>
                                                             <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                                 <tr>
-                                                                    <td align="left" width="18%" valign="top">
-                                                                        Amount&nbsp;<span id="Span78" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" width="18%" valign="top">Amount&nbsp;<span id="Span78" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
+                                                                    <td align="center" width="4%" valign="top">:
                                                                     </td>
-                                                                    <td align="left" width="28%" valign="top">
-                                                                        $&nbsp;<asp:TextBox ID="txtAmount" runat="server" Width="160px" onpaste="return false"
-                                                                            onkeypress="return currencyFormat(this,',','.',event);" />
+                                                                    <td align="left" width="28%" valign="top">$&nbsp;<asp:TextBox ID="txtAmount" runat="server" Width="160px" onpaste="return false"
+                                                                        onkeypress="return currencyFormat(this,',','.',event);" />
                                                                     </td>
-                                                                    <td align="left" width="18%" valign="top">
-                                                                        Date of Security Deposit&nbsp;<span id="Span79" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" width="18%" valign="top">Date of Security Deposit&nbsp;<span id="Span79" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
+                                                                    <td align="center" width="4%" valign="top">:
                                                                     </td>
                                                                     <td align="left" width="28%" valign="top">
                                                                         <asp:TextBox ID="txtDate_Of_Security_Deposit" runat="server" Width="145px" />
@@ -2962,21 +2793,17 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Tender Type&nbsp;<span id="Span80" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Tender Type&nbsp;<span id="Span80" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:DropDownList ID="drpFK_LU_Tender_Type" Width="175px" SkinID="dropGen" runat="server">
                                                                         </asp:DropDownList>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Received By&nbsp;<span id="Span81" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Received By&nbsp;<span id="Span81" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtReceived_By" runat="server" Width="170px" MaxLength="75" />
@@ -2988,20 +2815,16 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Bank Name the Check was Drawn Against&nbsp;<span id="Span82" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Bank Name the Check was Drawn Against&nbsp;<span id="Span82" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtBank_Name" runat="server" Width="170px" MaxLength="75" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Check Number&nbsp;<span id="Span83" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Check Number&nbsp;<span id="Span83" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtCheck_Number" runat="server" Width="170px" onkeypress="return FormatInteger(event);"
@@ -3009,20 +2832,16 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Name Printed on Check&nbsp;<span id="Span84" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Name Printed on Check&nbsp;<span id="Span84" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtName_On_Check" runat="server" Width="170px" MaxLength="75" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Account Number&nbsp;<span id="Span85" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Account Number&nbsp;<span id="Span85" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtAccount_Number" runat="server" Width="170px" onkeypress="return FormatInteger(event);"
@@ -3030,43 +2849,34 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Security Deposit Held At&nbsp;<span id="Span86" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Security Deposit Held At&nbsp;<span id="Span86" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:DropDownList ID="drpFK_LU_Security_Deposit_Held" Width="175px" SkinID="dropGen"
                                                                             runat="server">
                                                                         </asp:DropDownList>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Security Deposit Returned?&nbsp;<span id="Span87" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Security Deposit Returned?&nbsp;<span id="Span87" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:RadioButtonList ID="rdoSecurity_Deposit_Returned" runat="server" SkinID="YesNoType">
                                                                         </asp:RadioButtonList>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Date Security Deposit Returned&nbsp;<span id="Span88" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Date Security Deposit Returned&nbsp;<span id="Span88" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtDate_Security_Deposit_Returned" runat="server" Width="145px" />
@@ -3089,79 +2899,61 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Security Deposit Reduced?&nbsp;<span id="Span89" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Security Deposit Reduced?&nbsp;<span id="Span89" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:RadioButtonList ID="rdoSecurity_Deposit_Reduced" runat="server" SkinID="YesNoType">
                                                                         </asp:RadioButtonList>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Reason for Security Deposit Reduction&nbsp;<span id="Span90" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Reason for Security Deposit Reduction&nbsp;<span id="Span90" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" colspan="4" valign="top">
                                                                         <uc:ctrlMultiLineTextBox ID="txtSecurity_Deposit_Reduction_Reason" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Any Interest to be Realized on Security Deposit?&nbsp;<span id="Span91" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Any Interest to be Realized on Security Deposit?&nbsp;<span id="Span91" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:RadioButtonList ID="rdoInterest_On_Security_Deposit" runat="server" SkinID="YesNoType">
                                                                         </asp:RadioButtonList>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Interest Amount&nbsp;<span id="Span92" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Interest Amount&nbsp;<span id="Span92" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        $&nbsp;<asp:TextBox ID="txtInterest_Amount" runat="server" Width="160px" onpaste="return false"
-                                                                            onkeypress="return currencyFormat(this,',','.',event);" />
+                                                                    <td align="left" valign="top">$&nbsp;<asp:TextBox ID="txtInterest_Amount" runat="server" Width="160px" onpaste="return false"
+                                                                        onkeypress="return currencyFormat(this,',','.',event);" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Amount of Security Deposit Returned&nbsp;<span id="Span93" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Amount of Security Deposit Returned&nbsp;<span id="Span93" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        $&nbsp;
+                                                                    <td align="left" valign="top">$&nbsp;
                                                                         <asp:TextBox ID="txtAmount_Security_Deposit_Returned" runat="server" Width="170px"
                                                                             onpaste="return false" onkeypress="return currencyFormat(this,',','.',event);" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
@@ -3173,16 +2965,15 @@
                                                         </asp:Panel>
                                                         <asp:Panel ID="pnl6" runat="server" Style="display: none;">
                                                             <div class="bandHeaderRow">
-                                                                Repair/Maintenance</div>
+                                                                Repair/Maintenance
+                                                            </div>
                                                             <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                                 <tr>
-                                                                    <td align="left" width="18%" valign="top">
-                                                                        Repair/Maintenance Grid<br />
+                                                                    <td align="left" width="18%" valign="top">Repair/Maintenance Grid<br />
                                                                         <asp:LinkButton ID="lnkAddRepairMaint" runat="server" Text="--Add--" ValidationGroup="vsErrorGroup"
                                                                             CausesValidation="true" OnClick="lnkAddRepairMaint_Click" />
                                                                     </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
+                                                                    <td align="center" width="4%" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <div style="width: 600px; overflow-x: scroll; overflow-y: hidden;">
@@ -3196,28 +2987,28 @@
                                                                                                 CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Repair_Maintenance")%>' />
                                                                                         </ItemTemplate>
                                                                                     </asp:TemplateField>
-                                                                                     <asp:TemplateField HeaderText="HVAC Capital">
+                                                                                    <asp:TemplateField HeaderText="HVAC Capital">
                                                                                         <ItemStyle Width="100px" />
                                                                                         <ItemTemplate>
                                                                                             <asp:LinkButton ID="lnkHVACCapital" runat="server" Text='<%#Eval("FK_LU_Responsibilie_Party_HVAC_Capital")%>'
                                                                                                 CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Repair_Maintenance")%>' />
                                                                                         </ItemTemplate>
                                                                                     </asp:TemplateField>
-                                                                                     <asp:TemplateField HeaderText="Roof Repairs">
+                                                                                    <asp:TemplateField HeaderText="Roof Repairs">
                                                                                         <ItemStyle Width="100px" />
                                                                                         <ItemTemplate>
                                                                                             <asp:LinkButton ID="lnkRoofRepairs" runat="server" Text='<%#Eval("FK_LU_Responsibilie_Party_Roof_Repairs")%>'
                                                                                                 CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Repair_Maintenance")%>' />
                                                                                         </ItemTemplate>
                                                                                     </asp:TemplateField>
-                                                                                     <asp:TemplateField HeaderText="Roof Capital">
+                                                                                    <asp:TemplateField HeaderText="Roof Capital">
                                                                                         <ItemStyle Width="100px" />
                                                                                         <ItemTemplate>
                                                                                             <asp:LinkButton ID="lnkRoofCapital" runat="server" Text='<%#Eval("FK_LU_Responsibilie_Party_Roof_Capital")%>'
                                                                                                 CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Repair_Maintenance")%>' />
                                                                                         </ItemTemplate>
                                                                                     </asp:TemplateField>
-                                                                                     <asp:TemplateField HeaderText="Other Repairs">
+                                                                                    <asp:TemplateField HeaderText="Other Repairs">
                                                                                         <ItemStyle Width="100px" />
                                                                                         <ItemTemplate>
                                                                                             <asp:LinkButton ID="lnkOtherRepairs" runat="server" Text='<%#Eval("FK_LU_Responsibilie_Party_Other_Repairs")%>'
@@ -3228,7 +3019,7 @@
                                                                                         <ItemStyle Width="100px" />
                                                                                         <ItemTemplate>
                                                                                             <asp:Label ID="lblMaintenanceNotes" runat="server" Text='<%#Eval("Maintenance_Notes")%>'
-                                                                                             CssClass="TextClip" Width="90px"  CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Repair_Maintenance")%>'  />
+                                                                                                CssClass="TextClip" Width="90px" CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Repair_Maintenance")%>' />
                                                                                         </ItemTemplate>
                                                                                     </asp:TemplateField>
                                                                                     <%--<asp:TemplateField HeaderText="Repair Type">
@@ -3339,69 +3130,58 @@
                                                         </asp:Panel>
                                                         <asp:Panel ID="pnl7" runat="server" Style="display: none;">
                                                             <div class="bandHeaderRow">
-                                                                Surrender Obligations</div>
+                                                                Surrender Obligations
+                                                            </div>
                                                             <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                                 <tr>
-                                                                    <td align="left" width="18%" valign="top">
-                                                                        Condition at Lease Commencement Date&nbsp;<span id="Span94" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" width="18%" valign="top">Condition at Lease Commencement Date&nbsp;<span id="Span94" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
+                                                                    <td align="center" width="4%" valign="top">:
                                                                     </td>
                                                                     <td align="left" colspan="4" valign="top">
                                                                         <uc:ctrlMultiLineTextBox ID="txtCondition_At_Commencement" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Permitted Use&nbsp;<span id="Span95" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Permitted Use&nbsp;<span id="Span95" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" colspan="4" valign="top">
                                                                         <uc:ctrlMultiLineTextBox ID="txtPermitted_Use" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Alterations&nbsp;<span id="Span96" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Alterations&nbsp;<span id="Span96" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" colspan="4" valign="top">
                                                                         <uc:ctrlMultiLineTextBox ID="txtAlterations" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Tenant’s Obligations&nbsp;<span id="Span97" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Tenant’s Obligations&nbsp;<span id="Span97" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" colspan="4" valign="top">
                                                                         <uc:ctrlMultiLineTextBox ID="txtTenants_Obligations" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Environmental Matters – Tenant’s Covenant&nbsp;<span id="Span98" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Environmental Matters – Tenant’s Covenant&nbsp;<span id="Span98" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" colspan="4" valign="top">
                                                                         <uc:ctrlMultiLineTextBox ID="txtEnvironmental_Matters" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Landlord’s Obligations&nbsp;<span id="Span99" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Landlord’s Obligations&nbsp;<span id="Span99" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" colspan="4" valign="top">
                                                                         <uc:ctrlMultiLineTextBox ID="txtLandlords_Obligations" runat="server" />
@@ -3417,7 +3197,8 @@
                                                         </asp:Panel>
                                                         <asp:Panel ID="pnl8" runat="server" Style="display: none;">
                                                             <div class="bandHeaderRow">
-                                                                Notices</div>
+                                                                Notices
+                                                            </div>
                                                             <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                                 <tr>
                                                                     <td colspan="6">
@@ -3425,60 +3206,48 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" width="18%" valign="top">
-                                                                        Company&nbsp;<span id="Span100" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" width="18%" valign="top">Company&nbsp;<span id="Span100" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
+                                                                    <td align="center" width="4%" valign="top">:
                                                                     </td>
                                                                     <td align="left" width="28%" valign="top">
                                                                         <asp:TextBox ID="txtLandlord_Company" runat="server" Width="170px" MaxLength="75" />
                                                                     </td>
-                                                                    <td align="left" width="18%" valign="top">
-                                                                        Contact Name&nbsp;<span id="Span101" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" width="18%" valign="top">Contact Name&nbsp;<span id="Span101" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
+                                                                    <td align="center" width="4%" valign="top">:
                                                                     </td>
                                                                     <td align="left" width="28%" valign="top">
                                                                         <asp:TextBox ID="txtLandlord_Contact" runat="server" Width="170px" MaxLength="75" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Address 1&nbsp;<span id="Span102" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Address 1&nbsp;<span id="Span102" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtLandlord_Address1" runat="server" Width="170px" MaxLength="50" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Address 2&nbsp;<span id="Span103" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Address 2&nbsp;<span id="Span103" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtLandlord_Address2" runat="server" Width="170px" MaxLength="50" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        City&nbsp;<span id="Span104" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">City&nbsp;<span id="Span104" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtLandlord_City" runat="server" Width="170px" MaxLength="50" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        State&nbsp;<span id="Span105" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">State&nbsp;<span id="Span105" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:DropDownList ID="drpFK_State_Landlord" Width="175px" SkinID="dropGen" runat="server">
@@ -3486,11 +3255,9 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Zip Code (XXXXX-XXXX)&nbsp;<span id="Span106" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Zip Code (XXXXX-XXXX)&nbsp;<span id="Span106" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtLandlord_Zip_Code" runat="server" Width="170px" MaxLength="10"
@@ -3499,11 +3266,9 @@
                                                                             runat="server" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter [Notices]/Landlord Zip Code in xxxxx-xxxx format."
                                                                             Display="none" ValidationExpression="\d{5}(-\d{4})?"></asp:RegularExpressionValidator>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Telephone (XXX-XXX-XXXX)&nbsp;<span id="Span107" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Telephone (XXX-XXX-XXXX)&nbsp;<span id="Span107" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtLandlord_TelephoneNotices" runat="server" Width="170px" MaxLength="12"
@@ -3514,11 +3279,9 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Facsimile (XXX-XXX-XXXX)&nbsp;<span id="Span108" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Facsimile (XXX-XXX-XXXX)&nbsp;<span id="Span108" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtLandlord_Facsimile" runat="server" Width="170px" MaxLength="12"
@@ -3527,11 +3290,9 @@
                                                                             runat="server" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter [Notices]/Landlord Facsimile in xxx-xxx-xxxx format."
                                                                             Display="none" ValidationExpression="\d{3}(-\d{3})(-\d{4})"></asp:RegularExpressionValidator>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        E-Mail&nbsp;<span id="Span109" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">E-Mail&nbsp;<span id="Span109" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtLandlord_EmailNotices" runat="server" Width="170px" MaxLength="255" />
@@ -3541,65 +3302,52 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td colspan="6">
-                                                                        With a copy to
+                                                                    <td colspan="6">With a copy to
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Company&nbsp;<span id="Span110" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Company&nbsp;<span id="Span110" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtLandlord_Copy_Company" runat="server" Width="170px" MaxLength="75" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Contact Name&nbsp;<span id="Span111" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Contact Name&nbsp;<span id="Span111" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtLandlord_Copy_Contact" runat="server" Width="170px" MaxLength="75" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Address 1&nbsp;<span id="Span112" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Address 1&nbsp;<span id="Span112" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtLandlord_Copy_Address1" runat="server" Width="170px" MaxLength="50" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Address 2&nbsp;<span id="Span113" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Address 2&nbsp;<span id="Span113" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtLandlord_Copy_Address2" runat="server" Width="170px" MaxLength="50" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        City&nbsp;<span id="Span114" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">City&nbsp;<span id="Span114" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtLandlord_Copy_City" runat="server" Width="170px" MaxLength="50" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        State&nbsp;<span id="Span115" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">State&nbsp;<span id="Span115" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:DropDownList ID="drpFK_State_Landlord_Copy" Width="175px" SkinID="dropGen" runat="server">
@@ -3607,11 +3355,9 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Zip Code (XXXXX-XXXX)&nbsp;<span id="Span116" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Zip Code (XXXXX-XXXX)&nbsp;<span id="Span116" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtLandlord_Copy_Zip_Code" runat="server" Width="170px" MaxLength="10"
@@ -3620,11 +3366,9 @@
                                                                             runat="server" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter [Notices]/Landlord Copy Zip Code in xxxxx-xxxx format."
                                                                             Display="none" ValidationExpression="\d{5}(-\d{4})?"></asp:RegularExpressionValidator>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Telephone (XXX-XXX-XXXX)&nbsp;<span id="Span117" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Telephone (XXX-XXX-XXXX)&nbsp;<span id="Span117" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtLandlord_Copy_Telephone" runat="server" Width="170px" MaxLength="12"
@@ -3635,11 +3379,9 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Facsimile (XXX-XXX-XXXX)&nbsp;<span id="Span118" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Facsimile (XXX-XXX-XXXX)&nbsp;<span id="Span118" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtLandlord_Copy_Facsimile" runat="server" Width="170px" MaxLength="12"
@@ -3648,11 +3390,9 @@
                                                                             runat="server" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter [Notices]/Landlord Copy Facsimile in xxx-xxx-xxxx format."
                                                                             Display="none" ValidationExpression="\d{3}(-\d{3})(-\d{4})"></asp:RegularExpressionValidator>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        E-Mail&nbsp;<span id="Span119" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">E-Mail&nbsp;<span id="Span119" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtLandlord_Copy_Email" runat="server" Width="170px" MaxLength="255" />
@@ -3667,60 +3407,48 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Company&nbsp;<span id="Span120" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Company&nbsp;<span id="Span120" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtTenant_Company" runat="server" Width="170px" MaxLength="75" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Contact Name&nbsp;<span id="Span121" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Contact Name&nbsp;<span id="Span121" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtTenant_Contact" runat="server" Width="170px" MaxLength="75" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Address 1&nbsp;<span id="Span122" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Address 1&nbsp;<span id="Span122" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtTenant_Address1" runat="server" Width="170px" MaxLength="50" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Address 2&nbsp;<span id="Span123" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Address 2&nbsp;<span id="Span123" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtTenant_Address2" runat="server" Width="170px" MaxLength="50" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        City&nbsp;<span id="Span124" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">City&nbsp;<span id="Span124" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtTenant_City" runat="server" Width="170px" MaxLength="50" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        State&nbsp;<span id="Span125" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">State&nbsp;<span id="Span125" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:DropDownList ID="drpFK_State_Tenant" Width="175px" SkinID="dropGen" runat="server">
@@ -3728,11 +3456,9 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Zip Code (XXXXX-XXXX)&nbsp;<span id="Span126" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Zip Code (XXXXX-XXXX)&nbsp;<span id="Span126" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtTenant_Zip_Code" runat="server" Width="170px" MaxLength="10"
@@ -3741,11 +3467,9 @@
                                                                             runat="server" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter [Notices]/Tenant Zip Code in xxxxx-xxxx format."
                                                                             Display="none" ValidationExpression="\d{5}(-\d{4})?"></asp:RegularExpressionValidator>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Telephone (XXX-XXX-XXXX)&nbsp;<span id="Span127" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Telephone (XXX-XXX-XXXX)&nbsp;<span id="Span127" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtTenant_Telephone" runat="server" Width="170px" MaxLength="12"
@@ -3756,11 +3480,9 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Facsimile (XXX-XXX-XXXX)&nbsp;<span id="Span128" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Facsimile (XXX-XXX-XXXX)&nbsp;<span id="Span128" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtTenant_Facsimile" runat="server" Width="170px" MaxLength="12"
@@ -3769,11 +3491,9 @@
                                                                             runat="server" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter [Notices]/Tenant Facsimile in xxx-xxx-xxxx format."
                                                                             Display="none" ValidationExpression="\d{3}(-\d{3})(-\d{4})"></asp:RegularExpressionValidator>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        E-Mail&nbsp;<span id="Span129" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">E-Mail&nbsp;<span id="Span129" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtTenant_Email" runat="server" Width="170px" MaxLength="255" />
@@ -3783,65 +3503,52 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td colspan="6">
-                                                                        With a copy to
+                                                                    <td colspan="6">With a copy to
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Company&nbsp;<span id="Span130" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Company&nbsp;<span id="Span130" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtTenant_Copy_Company" runat="server" Width="170px" MaxLength="75" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Contact Name&nbsp;<span id="Span131" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Contact Name&nbsp;<span id="Span131" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtTenant_Copy_Contact" runat="server" Width="170px" MaxLength="75" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Address 1&nbsp;<span id="Span132" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Address 1&nbsp;<span id="Span132" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtTenant_Copy_Address1" runat="server" Width="170px" MaxLength="50" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Address 2&nbsp;<span id="Span133" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Address 2&nbsp;<span id="Span133" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtTenant_Copy_Address2" runat="server" Width="170px" MaxLength="50" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        City&nbsp;<span id="Span134" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">City&nbsp;<span id="Span134" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtTenant_Copy_City" runat="server" Width="170px" MaxLength="50" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        State&nbsp;<span id="Span135" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">State&nbsp;<span id="Span135" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:DropDownList ID="drpFK_State_Tenant_Copy" Width="175px" SkinID="dropGen" runat="server">
@@ -3849,11 +3556,9 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Zip Code (XXXXX-XXXX)&nbsp;<span id="Span136" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Zip Code (XXXXX-XXXX)&nbsp;<span id="Span136" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtTenant_Copy_Zip_Code" runat="server" Width="170px" MaxLength="10"
@@ -3862,11 +3567,9 @@
                                                                             runat="server" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter [Notices]/Tenant Copy Zip Code in xxxxx-xxxx format."
                                                                             Display="none" ValidationExpression="\d{5}(-\d{4})?"></asp:RegularExpressionValidator>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Telephone (XXX-XXX-XXXX)&nbsp;<span id="Span137" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Telephone (XXX-XXX-XXXX)&nbsp;<span id="Span137" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtTenant_Copy_Telephone" runat="server" Width="170px" MaxLength="12"
@@ -3877,11 +3580,9 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Facsimile (XXX-XXX-XXXX)&nbsp;<span id="Span138" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Facsimile (XXX-XXX-XXXX)&nbsp;<span id="Span138" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtTenant_Copy_Facsimile" runat="server" Width="170px" MaxLength="12"
@@ -3890,11 +3591,9 @@
                                                                             runat="server" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter [Notices]/Tenant Copy Facsimile in xxx-xxx-xxxx format."
                                                                             Display="none" ValidationExpression="\d{3}(-\d{3})(-\d{4})"></asp:RegularExpressionValidator>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        E-Mail&nbsp;<span id="Span139" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">E-Mail&nbsp;<span id="Span139" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtTenant_Copy_Email" runat="server" Width="170px" MaxLength="255" />
@@ -3909,60 +3608,48 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Company&nbsp;<span id="Span140" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Company&nbsp;<span id="Span140" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtSubtenant_Company" runat="server" Width="170px" MaxLength="75" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Contact Name&nbsp;<span id="Span141" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Contact Name&nbsp;<span id="Span141" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtSubtenant_Contact" runat="server" Width="170px" MaxLength="75" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Address 1&nbsp;<span id="Span142" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Address 1&nbsp;<span id="Span142" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtSubtenant_Address1" runat="server" Width="170px" MaxLength="50" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Address 2&nbsp;<span id="Span143" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Address 2&nbsp;<span id="Span143" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtSubtenant_Address2" runat="server" Width="170px" MaxLength="50" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        City&nbsp;<span id="Span144" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">City&nbsp;<span id="Span144" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtSubtenant_City" runat="server" Width="170px" MaxLength="50" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        State&nbsp;<span id="Span145" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">State&nbsp;<span id="Span145" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:DropDownList ID="drpFK_State_Subtenant" Width="175px" SkinID="dropGen" runat="server">
@@ -3970,11 +3657,9 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Zip Code (XXXXX-XXXX)&nbsp;<span id="Span146" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Zip Code (XXXXX-XXXX)&nbsp;<span id="Span146" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtSubtenant_Zip_Code" runat="server" Width="170px" MaxLength="10"
@@ -3983,11 +3668,9 @@
                                                                             runat="server" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter [Notices]/Subtenant Zip Code in xxxxx-xxxx format."
                                                                             Display="none" ValidationExpression="\d{5}(-\d{4})?"></asp:RegularExpressionValidator>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Telephone (XXX-XXX-XXXX)&nbsp;<span id="Span147" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Telephone (XXX-XXX-XXXX)&nbsp;<span id="Span147" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtSubtenant_Telephone" runat="server" Width="170px" MaxLength="12"
@@ -3998,11 +3681,9 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Facsimile (XXX-XXX-XXXX)&nbsp;<span id="Span148" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Facsimile (XXX-XXX-XXXX)&nbsp;<span id="Span148" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtSubtenant_Facsimile" runat="server" Width="170px" MaxLength="12"
@@ -4011,11 +3692,9 @@
                                                                             runat="server" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter [Notices]/Subtenant Facsimile in xxx-xxx-xxxx format."
                                                                             Display="none" ValidationExpression="\d{3}(-\d{3})(-\d{4})"></asp:RegularExpressionValidator>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        E-Mail&nbsp;<span id="Span149" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">E-Mail&nbsp;<span id="Span149" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtSubtenant_Email" runat="server" Width="170px" MaxLength="255" />
@@ -4025,65 +3704,52 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td colspan="6">
-                                                                        With a copy to
+                                                                    <td colspan="6">With a copy to
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Company&nbsp;<span id="Span150" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Company&nbsp;<span id="Span150" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtSubtenant_Copy_Company" runat="server" Width="170px" MaxLength="75" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Contact Name&nbsp;<span id="Span151" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Contact Name&nbsp;<span id="Span151" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtSubtenant_Copy_Contact" runat="server" Width="170px" MaxLength="75" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Address 1&nbsp;<span id="Span152" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Address 1&nbsp;<span id="Span152" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtSubtenant_Copy_Address1" runat="server" Width="170px" MaxLength="50" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Address 2&nbsp;<span id="Span153" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Address 2&nbsp;<span id="Span153" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtSubtenant_Copy_Address2" runat="server" Width="170px" MaxLength="50" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        City&nbsp;<span id="Span154" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">City&nbsp;<span id="Span154" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtSubtenant_Copy_City" runat="server" Width="170px" MaxLength="50" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        State&nbsp;<span id="Span155" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">State&nbsp;<span id="Span155" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:DropDownList ID="drpFK_State_Subtenant_Copy" Width="175px" SkinID="dropGen"
@@ -4092,11 +3758,9 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Zip Code (XXXXX-XXXX)&nbsp;<span id="Span156" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Zip Code (XXXXX-XXXX)&nbsp;<span id="Span156" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtSubtenant_Copy_Zip_Code" runat="server" Width="170px" MaxLength="10"
@@ -4105,11 +3769,9 @@
                                                                             runat="server" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter [Notices]/Subtenant Copy Zip Code in xxxxx-xxxx format."
                                                                             Display="none" ValidationExpression="\d{5}(-\d{4})?"></asp:RegularExpressionValidator>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Telephone (XXX-XXX-XXXX)&nbsp;<span id="Span157" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Telephone (XXX-XXX-XXXX)&nbsp;<span id="Span157" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtSubtenant_Copy_Telephone" runat="server" Width="170px" MaxLength="12"
@@ -4120,11 +3782,9 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Facsimile (XXX-XXX-XXXX)&nbsp;<span id="Span158" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Facsimile (XXX-XXX-XXXX)&nbsp;<span id="Span158" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtSubtenant_Copy_Facsimile" runat="server" Width="170px" MaxLength="12"
@@ -4133,11 +3793,9 @@
                                                                             runat="server" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter [Notices]/Subtenant Copy Facsimile in xxx-xxx-xxxx format."
                                                                             Display="none" ValidationExpression="\d{3}(-\d{3})(-\d{4})"></asp:RegularExpressionValidator>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        E-Mail&nbsp;<span id="Span159" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">E-Mail&nbsp;<span id="Span159" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:TextBox ID="txtSubtenant_Copy_Email" runat="server" Width="170px" MaxLength="255" />
@@ -4155,16 +3813,15 @@
                                                         </asp:Panel>
                                                         <asp:Panel ID="pnl9" runat="server" Style="display: none;">
                                                             <div class="bandHeaderRow">
-                                                                Notes</div>
+                                                                Notes
+                                                            </div>
                                                             <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                                 <tr>
-                                                                    <td width="18%" align="left" valign="top">
-                                                                        Notes Grid<br />
+                                                                    <td width="18%" align="left" valign="top">Notes Grid<br />
                                                                         <asp:LinkButton ID="lnkAddNotes" runat="server" Text="--Add--" CausesValidation="true"
                                                                             ValidationGroup="vsErrorGroup" OnClick="lnkAddNotes_Click" />
                                                                     </td>
-                                                                    <td width="4%" align="center" valign="top">
-                                                                        :
+                                                                    <td width="4%" align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:GridView ID="gvNotes" runat="server" Width="100%" EmptyDataText="No Record Found"
@@ -4174,13 +3831,15 @@
                                                                                     <ItemStyle Width="15%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkNoteDate" runat="server" Text='<%#Convert.ToDateTime(Eval("Note_Date")).ToString("MMM-dd-yyyy")%>'
-                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Notes") %>' /></ItemTemplate>
+                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Notes") %>' />
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="Note Text Snippet">
                                                                                     <ItemStyle Width="75%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkNote" runat="server" Text='<%#Eval("Notes")%>' CssClass="TextClip"
-                                                                                            Width="400px" CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Notes") %>' /></ItemTemplate>
+                                                                                            Width="400px" CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Notes") %>' />
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="Remove">
                                                                                     <ItemStyle Width="10%" />
@@ -4197,38 +3856,32 @@
                                                         </asp:Panel>
                                                         <asp:Panel ID="pnl11" runat="server" Style="display: none;">
                                                             <div class="bandHeaderRow">
-                                                               Lease Maintenance Obligations
+                                                                Lease Maintenance Obligations
                                                             </div>
-                                                             <table cellpadding="3" cellspacing="1" border="0" width="100%">
-                                                                  <tr>
-                                                                    <td align="left" valign="top" width="18%">
-                                                                       Lease Instance&nbsp;<span id="spanLeaseInstance" style="color: Red; display: none;" runat="server">*</span>
+                                                            <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                                                <tr>
+                                                                    <td align="left" valign="top" width="18%">Lease Instance&nbsp;<span id="spanLeaseInstance" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top" width="4%">
-                                                                        :
+                                                                    <td align="center" valign="top" width="4%">:
                                                                     </td>
                                                                     <td align="left" valign="top" width="28%">
-                                                                        <asp:DropDownList ID="drpFK_LU_Lease_Instance" Width="175px" SkinID="dropGen" runat="server" AutoPostBack="true" OnSelectedIndexChanged="drpFK_LU_Lease_Instance_SelectedIndexChanged" 
-                                                                            CausesValidation="false" onchange="Page_BlockSubmit = false;" >
+                                                                        <asp:DropDownList ID="drpFK_LU_Lease_Instance" Width="175px" SkinID="dropGen" runat="server" AutoPostBack="true" OnSelectedIndexChanged="drpFK_LU_Lease_Instance_SelectedIndexChanged"
+                                                                            CausesValidation="false" onchange="Page_BlockSubmit = false;">
                                                                         </asp:DropDownList>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        HVAC Repairs&nbsp;<span id="spanHVACRepairs" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">HVAC Repairs&nbsp;<span id="spanHVACRepairs" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:DropDownList ID="drpFK_HVAC_Repairs" Width="175px" SkinID="dropGen" runat="server">
                                                                         </asp:DropDownList>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        HVAC Capital&nbsp;<span id="spanCapital" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">HVAC Capital&nbsp;<span id="spanCapital" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                       :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:DropDownList ID="drpFK_HVAC_Capital" Width="175px" SkinID="dropGen" runat="server">
@@ -4236,44 +3889,36 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Roof Repairs&nbsp;<span id="span36" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Roof Repairs&nbsp;<span id="span36" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:DropDownList ID="drpFK_Roof_Repairs" Width="175px" SkinID="dropGen" runat="server">
                                                                         </asp:DropDownList>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Roof Capital&nbsp;<span id="span160" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Roof Capital&nbsp;<span id="span160" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                       :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:DropDownList ID="drpFK_Roof_Capital" Width="175px" SkinID="dropGen" runat="server">
                                                                         </asp:DropDownList>
                                                                     </td>
                                                                 </tr>
-                                                                  <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Other Repairs&nbsp;<span id="Span161" style="color: Red; display: none;" runat="server">*</span>
+                                                                <tr>
+                                                                    <td align="left" valign="top">Other Repairs&nbsp;<span id="Span161" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
-                                                                        <uc:ctrlMultiLineTextBox ID="txtOtherRepairs" runat="server" Width="200"  MaxLength="500"/>
+                                                                        <uc:ctrlMultiLineTextBox ID="txtOtherRepairs" runat="server" Width="200" MaxLength="500" />
                                                                     </td>
-                                                                      <td align="left" valign="top">
-                                                                        Maintenance Notes&nbsp;<span id="Span162" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" valign="top">Maintenance Notes&nbsp;<span id="Span162" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
-                                                                    <td align="left" valign="top" >
+                                                                    <td align="left" valign="top">
                                                                         <uc:ctrlMultiLineTextBox ID="txtMaintenanceNotes" runat="server" Width="200" MaxLength="500" />
                                                                     </td>
                                                                 </tr>
@@ -4283,7 +3928,7 @@
                                                                     </td>
                                                                 </tr>
                                                             </table>
-                                                         </asp:Panel>
+                                                        </asp:Panel>
                                                         <div id="dvAttachment" runat="server" style="display: none;">
                                                             <table cellpadding="0" cellspacing="0" width="100%">
                                                                 <tr>
@@ -4299,12 +3944,10 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="Spacer" style="height: 20px;">
-                                                                    </td>
+                                                                    <td class="Spacer" style="height: 20px;"></td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="Spacer" style="height: 20px;">
-                                                                    </td>
+                                                                    <td class="Spacer" style="height: 20px;"></td>
                                                                 </tr>
                                                             </table>
                                                         </div>
@@ -4312,8 +3955,7 @@
                                                     <asp:UpdateProgress runat="server" ID="upProgress" DisplayAfter="100">
                                                         <ProgressTemplate>
                                                             <div class="UpdatePanelloading" id="divProgress" style="width: 100%;">
-                                                                <table id="ProgressTable" cellpadding="0" cellspacing="0" border="0" style="width: 100%;
-                                                                    height: 100%;">
+                                                                <table id="ProgressTable" cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: 100%;">
                                                                     <tr align="center" valign="middle">
                                                                         <td class="LoadingText" align="center" valign="middle">
                                                                             <img src="../../Images/indicator.gif" alt="Loading" />&nbsp;&nbsp;&nbsp;Please Wait..
@@ -4326,40 +3968,34 @@
                                                     <div id="dvView" runat="server" width="794px">
                                                         <asp:Panel ID="pnl1View" runat="server" Style="display: none;">
                                                             <div class="bandHeaderRow">
-                                                                Lease Information</div>
+                                                                Lease Information
+                                                            </div>
                                                             <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                                 <tr>
-                                                                    <td colspan="6" align="left" class="BlueItalicText">
-                                                                        The data for the blue italicized fields on this screen are derived from the Property
+                                                                    <td colspan="6" align="left" class="BlueItalicText">The data for the blue italicized fields on this screen are derived from the Property
                                                                         module for the same location.
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>
-                                                                        &nbsp;
+                                                                    <td>&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" width="19%" valign="top" class="BlueItalicText">
-                                                                        Dealership DBA
+                                                                    <td align="left" width="19%" valign="top" class="BlueItalicText">Dealership DBA
                                                                     </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
+                                                                    <td align="center" width="4%" valign="top">:
                                                                     </td>
                                                                     <td align="left" colspan="4" valign="top">
                                                                         <asp:Label ID="lblFK_LU_Location" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" width="20%" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" width="20%" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" width="4%" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" width="26%" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" width="26%" valign="top">&nbsp;
                                                                     </td>
                                                                 </tr>
-                                                              <%--  <tr>
+                                                                <%--  <tr>
                                                                     <td align="left" width="19%" valign="top" class="BlueItalicText">
                                                                         Legal Entity
                                                                     </td>
@@ -4379,172 +4015,137 @@
                                                                         <asp:Label ID="lblFederal_Id" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>--%>
-                                                                  <tr>
-                                                                    <td align="left" width="19%" valign="top" class="BlueItalicText">
-                                                                        Parent Company Legal Entity 
+                                                                <tr>
+                                                                    <td align="left" width="19%" valign="top" class="BlueItalicText">Parent Company Legal Entity 
                                                                     </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
+                                                                    <td align="center" width="4%" valign="top">:
                                                                     </td>
                                                                     <td align="left" width="27%" valign="top">
                                                                         <asp:Label ID="lblParentCompanyLegalEntity" runat="server" Width="170px" Style="word-wrap: normal; word-break: break-all" />
                                                                     </td>
-                                                                    <td align="left" width="20%" valign="top" class="BlueItalicText">
-                                                                        Parent Company Legal Entity FEIN 
+                                                                    <td align="left" width="20%" valign="top" class="BlueItalicText">Parent Company Legal Entity FEIN 
                                                                     </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
+                                                                    <td align="center" width="4%" valign="top">:
                                                                     </td>
                                                                     <td align="left" width="26%" valign="top">
                                                                         <asp:Label ID="lblParentCompanyLegalEntityFEIN" runat="server" Width="170px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                                                                     </td>
                                                                 </tr>
-                                                                 <tr>
-                                                                    <td align="left" width="19%" valign="top" class="BlueItalicText">
-                                                                        Legal Entity (Operations)  
+                                                                <tr>
+                                                                    <td align="left" width="19%" valign="top" class="BlueItalicText">Legal Entity (Operations)  
                                                                     </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
+                                                                    <td align="center" width="4%" valign="top">:
                                                                     </td>
                                                                     <td align="left" width="27%" valign="top">
                                                                         <asp:Label ID="lblLegalEntityOperations" runat="server" Width="170px" Style="word-wrap: normal; word-break: break-all" />
                                                                     </td>
-                                                                    <td align="left" width="20%" valign="top" class="BlueItalicText">
-                                                                        Legal Entity (Operations) FEIN
+                                                                    <td align="left" width="20%" valign="top" class="BlueItalicText">Legal Entity (Operations) FEIN
                                                                     </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
+                                                                    <td align="center" width="4%" valign="top">:
                                                                     </td>
                                                                     <td align="left" width="26%" valign="top">
                                                                         <asp:Label ID="lblLegalEntityOperationsFEIN" runat="server" Width="170px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                                                                     </td>
                                                                 </tr>
-                                                                 <tr>
-                                                                    <td align="left" width="19%" valign="top" class="BlueItalicText">
-                                                                        Legal Entity (Properties)
+                                                                <tr>
+                                                                    <td align="left" width="19%" valign="top" class="BlueItalicText">Legal Entity (Properties)
                                                                     </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
+                                                                    <td align="center" width="4%" valign="top">:
                                                                     </td>
                                                                     <td align="left" width="27%" valign="top">
-                                                                        <asp:Label ID="lblLegalEntityProperties" runat="server" Width="170px" Style="word-wrap: normal; word-break: break-all"/>
+                                                                        <asp:Label ID="lblLegalEntityProperties" runat="server" Width="170px" Style="word-wrap: normal; word-break: break-all" />
                                                                     </td>
-                                                                    <td align="left" width="20%" valign="top" class="BlueItalicText">
-                                                                        Legal Entity (Properties) FEIN
+                                                                    <td align="left" width="20%" valign="top" class="BlueItalicText">Legal Entity (Properties) FEIN
                                                                     </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
+                                                                    <td align="center" width="4%" valign="top">:
                                                                     </td>
                                                                     <td align="left" width="26%" valign="top">
                                                                         <asp:Label ID="lblLegalEntityPropertiesFEIN" runat="server" Width="170px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" class="BlueItalicText">
-                                                                        Status
+                                                                    <td align="left" valign="top" class="BlueItalicText">Status
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblFK_LU_Status" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" class="BlueItalicText">
-                                                                        Address 1
+                                                                    <td align="left" valign="top" class="BlueItalicText">Address 1
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblAddress1" runat="server" />
                                                                     </td>
-                                                                    <td align="left" valign="top" class="BlueItalicText">
-                                                                        Address 2
+                                                                    <td align="left" valign="top" class="BlueItalicText">Address 2
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblAddress2" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" class="BlueItalicText">
-                                                                        City
+                                                                    <td align="left" valign="top" class="BlueItalicText">City
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblCity" runat="server" />
                                                                     </td>
-                                                                    <td align="left" valign="top" class="BlueItalicText">
-                                                                        State
+                                                                    <td align="left" valign="top" class="BlueItalicText">State
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblState" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" class="BlueItalicText">
-                                                                        Zip Code (XXXXX-XXXX)
+                                                                    <td align="left" valign="top" class="BlueItalicText">Zip Code (XXXXX-XXXX)
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblZipCode" runat="server" />
                                                                     </td>
-                                                                    <td align="left" valign="top" class="BlueItalicText">
-                                                                        Telephone (XXX-XXX-XXXX)
+                                                                    <td align="left" valign="top" class="BlueItalicText">Telephone (XXX-XXX-XXXX)
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblTelephone" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" class="BlueItalicText">
-                                                                        County
+                                                                    <td align="left" valign="top" class="BlueItalicText">County
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblCounty" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top" class="BlueItalicText">
-                                                                        Region
+                                                                    <td align="left" valign="top" class="BlueItalicText">Region
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblRegion" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Tax Parcel Number
+                                                                    <td align="left" valign="top">Tax Parcel Number
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblTax_Parcel_Number" runat="server"></asp:Label>
@@ -4560,8 +4161,7 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Building Grid
+                                                                    <td align="left" valign="top">Building Grid
                                                                     </td>
                                                                     <td align="center" valign="top">:</td>
                                                                     <td colspan="4" align="left" valign="top">
@@ -4571,13 +4171,13 @@
                                                                                 <asp:TemplateField HeaderText="Building Address">
                                                                                     <ItemStyle Width="40%" />
                                                                                     <ItemTemplate>
-                                                                                        <%# clsGeneral.FormatAddress(Eval("Address_1"),Eval("Address_2"),Eval("City"),Eval("State"),Eval("Zip")) %>                                                                                                
+                                                                                        <%# clsGeneral.FormatAddress(Eval("Address_1"),Eval("Address_2"),Eval("City"),Eval("State"),Eval("Zip")) %>
                                                                                     </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:BoundField HeaderText="Landlord Name" DataField="Landlord_Name" ItemStyle-Width="30%" ItemStyle-HorizontalAlign="Left" />
-                                                                                <asp:BoundField HeaderText="Year Built" DataField="Year_Built" ItemStyle-Width="15%" ItemStyle-HorizontalAlign="Left" />                                                                                
+                                                                                <asp:BoundField HeaderText="Year Built" DataField="Year_Built" ItemStyle-Width="15%" ItemStyle-HorizontalAlign="Left" />
                                                                             </Columns>
-                                                                        </asp:GridView>                                                                        
+                                                                        </asp:GridView>
                                                                     </td>
                                                                 </tr>
                                                                 <%--<tr>
@@ -4661,293 +4261,261 @@
                                                                     </td>
                                                                 </tr>--%>
                                                                 <tr>
-                                                                    <td align="left" valign="top" class="BlueItalicText">
-                                                                        Landlord
+                                                                    <td align="left" valign="top" class="BlueItalicText">Landlord
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblLandlord" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top" class="BlueItalicText">
-                                                                        Landlord Legal Entity
+                                                                    <td align="left" valign="top" class="BlueItalicText">Landlord Legal Entity
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblLandlordLegalEntity" runat="server" Width="170px" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" class="BlueItalicText">
-                                                                        Landlord Location Address 1
+                                                                    <td align="left" valign="top" class="BlueItalicText">Landlord Location Address 1
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblLandlord_Location_Address1" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top" class="BlueItalicText">
-                                                                        Landlord Location Address 2
+                                                                    <td align="left" valign="top" class="BlueItalicText">Landlord Location Address 2
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblLandlord_Location_Address2" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" class="BlueItalicText">
-                                                                        Landlord Location City
+                                                                    <td align="left" valign="top" class="BlueItalicText">Landlord Location City
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblLandlord_Location_City" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top" class="BlueItalicText">
-                                                                        Landlord Location State
+                                                                    <td align="left" valign="top" class="BlueItalicText">Landlord Location State
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblLandlordLocationState" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" class="BlueItalicText">
-                                                                        Landlord Location Zip Code (XXXXX-XXXX)
+                                                                    <td align="left" valign="top" class="BlueItalicText">Landlord Location Zip Code (XXXXX-XXXX)
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblLandlord_Location_Zip_Code" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Landlord Mailing Address 1
+                                                                    <td align="left" valign="top">Landlord Mailing Address 1
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblLandlord_Mailing_Address1" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Landlord Mailing Address 2
+                                                                    <td align="left" valign="top">Landlord Mailing Address 2
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblLandlord_Mailing_Address2" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Landlord Mailing City
+                                                                    <td align="left" valign="top">Landlord Mailing City
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblLandlord_Mailing_City" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Landlord Mailing State
+                                                                    <td align="left" valign="top">Landlord Mailing State
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblLandlordMailingState" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Landlord Mailing Zip Code (XXXXX-XXXX)
+                                                                    <td align="left" valign="top">Landlord Mailing Zip Code (XXXXX-XXXX)
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblLandlord_Mailing_Zip_Code" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Landlord Telephone (XXX-XXX-XXXX)
+                                                                    <td align="left" valign="top">Landlord Telephone (XXX-XXX-XXXX)
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblLandlord_Telephone" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Landlord E-Mail
+                                                                    <td align="left" valign="top">Landlord E-Mail
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblLandlord_Email" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Sublease?
+                                                                    <td align="left" valign="top">Sublease?
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblSublease" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Subtenant
+                                                                    <td align="left" valign="top">Subtenant
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblSubtenant" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" class="BlueItalicText">
-                                                                        Lease Id
+                                                                    <td align="left" valign="top" class="BlueItalicText">Lease Id
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblLease_Id" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" class="BlueItalicText">
-                                                                        Lease Commencement Date
+                                                                    <td align="left" valign="top" class="BlueItalicText">Lease Commencement Date
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblLease_Commencement_Date" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Project Type
+                                                                    <td align="left" valign="top">Project Type
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblFK_LU_Project_Type" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" class="BlueItalicText">
-                                                                        Lease Expiration Date
+                                                                    <td align="left" valign="top" class="BlueItalicText">Lease Expiration Date
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblLease_Expiration_Date" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Date Acquired
+                                                                    <td align="left" valign="top">Date Acquired
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblDate_Acquired" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Lease Term In Months
+                                                                    <td align="left" valign="top" class="BlueItalicText" >Mortgage Commencement Date
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
-                                                                        <asp:Label ID="lblLease_Term_Months" runat="server"></asp:Label>
+                                                                        <asp:Label ID="lblMorgage_Commencement_Date" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Date Sold
+                                                                    <td align="left" valign="top">Date Sold
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblDate_Sold" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
-                                                                <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Prior Lease Commencement Date
+                                                                 <tr>
+                                                                    <td align="left" valign="top" class="BlueItalicText">Mortgage Expiration Date
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:Label ID="lblMorgage_Expiration_Date" runat="server"></asp:Label>
+                                                                    </td>
+                                                                    <td align="left" valign="top">&nbsp;
+                                                                    </td>
+                                                                    <td align="center" valign="top">&nbsp;
+                                                                    </td>
+                                                                    <td align="center" valign="top">&nbsp;
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" valign="top">Lease Term In Months
+                                                                    </td>
+                                                                    <td align="center" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:Label ID="lblLease_Term_Months" runat="server"></asp:Label>
+                                                                    </td>
+                                                                    <td align="left" valign="top">&nbsp;
+                                                                    </td>
+                                                                    <td align="center" valign="top">&nbsp;
+                                                                    </td>
+                                                                    <td align="center" valign="top">&nbsp;
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" valign="top">Prior Lease Commencement Date
+                                                                    </td>
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblPrior_Lease_Commencement_Date" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Renewals
+                                                                    <td align="left" valign="top">Renewals
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
-                                                                    <td  align="left" valign="top" Style="word-wrap: normal; word-break: break-all;">
+                                                                    <td align="left" valign="top" style="word-wrap: normal; word-break: break-all;">
                                                                         <asp:Label ID="lblRenewals" runat="server"></asp:Label>
                                                                     </td>
                                                                     <td colspan="3">&nbsp;
@@ -4963,222 +4531,173 @@
                                                                     </td>--%>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Review Date
+                                                                    <td align="left" valign="top">Review Date
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblReviewDateView" runat="server" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Year Remodeled
+                                                                    <td align="left" valign="top">Year Remodeled
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblYear_Remodeled" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Reminder Date
+                                                                    <td align="left" valign="top">Reminder Date
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblReminder_Date" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Regional Vice President
+                                                                    <td align="left" valign="top">Regional Vice President
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblRegional_Vice_President" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Regional Controller
+                                                                    <td align="left" valign="top">Regional Controller
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblRegionalController" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Landlord Notification Date
+                                                                    <td align="left" valign="top">Landlord Notification Date
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblLandlord_Notification_Date" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        General Manager
+                                                                    <td align="left" valign="top">General Manager
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblGeneral_Manager" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Vacate Date
+                                                                    <td align="left" valign="top">Vacate Date
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblVacate_Date" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Controller
+                                                                    <td align="left" valign="top">Controller
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblController" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Primary Use
+                                                                    <td align="left" valign="top">Primary Use
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblPrimary_Use" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Loss Control Manager
+                                                                    <td align="left" valign="top">Loss Control Manager
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblLoss_Control_Manager" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Lease Codes
+                                                                    <td align="left" valign="top">Lease Codes
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblLease_Codes" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Total Acres
+                                                                    <td align="left" valign="top">Total Acres
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblTotal_Acres" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Number of Buildings
+                                                                    <td align="left" valign="top">Number of Buildings
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblNumber_of_Buildings" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Total Gross Leasable Area (square feet)
+                                                                    <td align="left" valign="top">Total Gross Leasable Area (square feet)
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblTotal_Gross_Leaseable_Area" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Land Value
+                                                                    <td align="left" valign="top">Land Value
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        $&nbsp;<asp:Label ID="lblLand_Value" runat="server"></asp:Label>
+                                                                    <td align="left" valign="top">$&nbsp;<asp:Label ID="lblLand_Value" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Amendment Info
+                                                                    <td align="left" valign="top">Amendment Info
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top" colspan="4">
                                                                         <uc:ctrlMultiLineTextBox ID="lblAmendmentInfo" runat="server" ControlType="Label" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Assignment Info
+                                                                    <td align="left" valign="top">Assignment Info
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top" colspan="4">
                                                                         <uc:ctrlMultiLineTextBox ID="lblAssignementInfo" runat="server" ControlType="Label" />
@@ -5193,211 +4712,166 @@
                                                         </asp:Panel>
                                                         <asp:Panel ID="pnl2View" runat="server" Style="display: none;">
                                                             <div class="bandHeaderRow">
-                                                                Rent</div>
+                                                                Rent
+                                                            </div>
                                                             <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                                 <tr>
-                                                                    <td align="left" width="18%" valign="top">
-                                                                        Responsible Party
+                                                                    <td align="left" width="18%" valign="top">Responsible Party
                                                                     </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
+                                                                    <td align="center" width="4%" valign="top">:
                                                                     </td>
                                                                     <td align="left" width="28%" valign="top">
                                                                         <asp:Label ID="lblResponsible_PartyRent" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" width="18%" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" width="18%" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" width="4%" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" width="28%" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" width="28%" valign="top">&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Lease Commencement Date
+                                                                    <td align="left" valign="top">Lease Commencement Date
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblRentLeaseCommencementDateView" runat="server" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Lease Term in Months
+                                                                    <td align="left" valign="top">Lease Term in Months
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblRentLeaseTermView" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Lease Expiration Date
+                                                                    <td align="left" valign="top">Lease Expiration Date
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblRentLeaseExpDateView" runat="server" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Prior Lease Commencement Date
+                                                                    <td align="left" valign="top">Prior Lease Commencement Date
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblRentPriorLeaseDateView" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" width="18%" valign="top">
-                                                                        Cancel Options
+                                                                    <td align="left" width="18%" valign="top">Cancel Options
                                                                     </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
+                                                                    <td align="center" width="4%" valign="top">:
                                                                     </td>
                                                                     <td align="left" colspan="4" valign="top">
                                                                         <uc:ctrlMultiLineTextBox ID="lblCancel_OptionsRent" runat="server" ControlType="Label" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Renewal Options
+                                                                    <td align="left" valign="top">Renewal Options
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" colspan="4" valign="top">
                                                                         <uc:ctrlMultiLineTextBox ID="lblRenew_OptionsRent" runat="server" ControlType="Label" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Renewal Notification Due Date
+                                                                    <td align="left" valign="top">Renewal Notification Due Date
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblNotification_Due_DateRent" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Annual Rent
+                                                                    <td align="left" valign="top">Annual Rent
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        $&nbsp;<asp:Label ID="lblRentSubtenant_Base_Rent" runat="server"></asp:Label>
+                                                                    <td align="left" valign="top">$&nbsp;<asp:Label ID="lblRentSubtenant_Base_Rent" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Monthly Rent
+                                                                    <td align="left" valign="top">Monthly Rent
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        $&nbsp;<asp:Label ID="lblRentSubtenant_Monthly_Rent" runat="server"></asp:Label>
+                                                                    <td align="left" valign="top">$&nbsp;<asp:Label ID="lblRentSubtenant_Monthly_Rent" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Rent Details
+                                                                    <td align="left" valign="top">Rent Details
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" colspan="4" valign="top">
                                                                         <uc:ctrlMultiLineTextBox ID="lblRentDetails" runat="server" ControlType="Label" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Rent Adjustments
+                                                                    <td align="left" valign="top">Rent Adjustments
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top" colspan="4">
                                                                         <uc:ctrlMultiLineTextBox ID="lblRentAdjustments" runat="server" ControlType="Label" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Escalation
+                                                                    <td align="left" valign="top">Escalation
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblFK_LU_EscalationRent" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Percentage Rate
+                                                                    <td align="left" valign="top">Percentage Rate
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblPercentage_RateRent" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Increase Amount
+                                                                    <td align="left" valign="top">Increase Amount
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblIncreaseRent" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Term Rent Schedule Grid
+                                                                    <td align="left" valign="top">Term Rent Schedule Grid
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top" colspan="4">
                                                                         <asp:GridView ID="gvRentTRSView" runat="server" Width="100%" EmptyDataText="No Record Found"
@@ -5407,49 +4881,53 @@
                                                                                     <ItemStyle Width="10%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkYear" runat="server" Text='<%#Eval("Year")%>' CommandName="ShowDetails"
-                                                                                            CommandArgument='<%#Eval("PK_RE_Rent_TRS") %>' /></ItemTemplate>
+                                                                                            CommandArgument='<%#Eval("PK_RE_Rent_TRS") %>' />
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="From">
                                                                                     <ItemStyle Width="16%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkFrom" runat="server" Text='<%#clsGeneral.FormatDBNullDateToDisplay(Eval("From_Date"))%>'
-                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Rent_TRS") %>' /></ItemTemplate>
+                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Rent_TRS") %>' />
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="To">
                                                                                     <ItemStyle Width="16%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkTo" runat="server" Text='<%#clsGeneral.FormatDBNullDateToDisplay(Eval("To_Date"))%>'
-                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Rent_TRS") %>' /></ItemTemplate>
+                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Rent_TRS") %>' />
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="Months">
                                                                                     <ItemStyle Width="11%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkMonths" runat="server" Text='<%#DataBinder.Eval(Container.DataItem,"Months", "{0:N1}")%>'
-                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Rent_TRS") %>' /></ItemTemplate>
+                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Rent_TRS") %>' />
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="Additions" ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Right">
                                                                                     <ItemStyle Width="16%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkAdditions" runat="server" Text='<%#clsGeneral.GetStringValue(Eval("Additions"))%>'
-                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Rent_TRS") %>' /></ItemTemplate>
+                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Rent_TRS") %>' />
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="Total Monthly Rent" ItemStyle-HorizontalAlign="Right"
                                                                                     HeaderStyle-HorizontalAlign="Right">
                                                                                     <ItemStyle Width="21%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkMonthlyRent" runat="server" Text='<%#clsGeneral.GetStringValue(Eval("Monthly_Rent"))%>'
-                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Rent_TRS") %>' /></ItemTemplate>
+                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Rent_TRS") %>' />
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                             </Columns>
                                                                         </asp:GridView>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Renewal Rent Schedule Grid
+                                                                    <td align="left" valign="top">Renewal Rent Schedule Grid
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top" colspan="4">
                                                                         <asp:GridView ID="gvRentRRSView" runat="server" Width="100%" EmptyDataText="No Record Found"
@@ -5459,32 +4937,37 @@
                                                                                     <ItemStyle Width="14%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkOption" runat="server" CommandArgument='<%#Eval("PK_RE_Rent_RRS") %>'
-                                                                                            CommandName="ShowDetails"><%#Eval("Option_Period")%></asp:LinkButton></ItemTemplate>
+                                                                                            CommandName="ShowDetails"><%#Eval("Option_Period")%></asp:LinkButton>
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="From">
                                                                                     <ItemStyle Width="19%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkFromDate" runat="server" CommandArgument='<%#Eval("PK_RE_Rent_RRS") %>'
-                                                                                            CommandName="ShowDetails"><%#clsGeneral.FormatDBNullDateToDisplay(Eval("From_Date"))%></asp:LinkButton></ItemTemplate>
+                                                                                            CommandName="ShowDetails"><%#clsGeneral.FormatDBNullDateToDisplay(Eval("From_Date"))%></asp:LinkButton>
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="To">
                                                                                     <ItemStyle Width="19%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkToDate" runat="server" CommandArgument='<%#Eval("PK_RE_Rent_RRS") %>'
-                                                                                            CommandName="ShowDetails"><%#clsGeneral.FormatDBNullDateToDisplay(Eval("To_Date"))%></asp:LinkButton></ItemTemplate>
+                                                                                            CommandName="ShowDetails"><%#clsGeneral.FormatDBNullDateToDisplay(Eval("To_Date"))%></asp:LinkButton>
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="Months">
                                                                                     <ItemStyle Width="14%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkMonths" runat="server" CommandArgument='<%#Eval("PK_RE_Rent_RRS") %>'
-                                                                                            CommandName="ShowDetails"><%#DataBinder.Eval(Container.DataItem, "Months", "{0:N1}")%></asp:LinkButton></ItemTemplate>
+                                                                                            CommandName="ShowDetails"><%#DataBinder.Eval(Container.DataItem, "Months", "{0:N1}")%></asp:LinkButton>
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="Base Monthly Rent" ItemStyle-HorizontalAlign="Right"
                                                                                     HeaderStyle-HorizontalAlign="Right">
                                                                                     <ItemStyle Width="24%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkMonthlyRent" runat="server" CommandArgument='<%#Eval("PK_RE_Rent_RRS") %>'
-                                                                                            CommandName="ShowDetails"><%#clsGeneral.GetStringValue(Eval("Monthly_Rent"))%></asp:LinkButton></ItemTemplate>
+                                                                                            CommandName="ShowDetails"><%#clsGeneral.GetStringValue(Eval("Monthly_Rent"))%></asp:LinkButton>
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                             </Columns>
                                                                         </asp:GridView>
@@ -5499,7 +4982,8 @@
                                                         </asp:Panel>
                                                         <asp:Panel ID="pnl3View" runat="server" Style="display: none;">
                                                             <div class="bandHeaderRow">
-                                                                Subtenant Information</div>
+                                                                Subtenant Information
+                                                            </div>
                                                             <table border="0" cellpadding="3" cellspacing="1" width="100%">
                                                                 <tr>
                                                                     <td width="12%" valign="top">
@@ -5507,340 +4991,281 @@
                                                                     </td>
                                                                     <td>
                                                                         <asp:GridView ID="gvSubtenanatView" runat="server" EmptyDataText="No Subtenant Record Exists"
-                                                                             OnRowCommand="gvSubtenantView_OnRowCommand" Width="100%">
+                                                                            OnRowCommand="gvSubtenantView_OnRowCommand" Width="100%">
                                                                             <Columns>
-                                                                                        <asp:TemplateField HeaderText="">
-                                                                                            <ItemStyle Width="5%" />
-                                                                                            <ItemTemplate>
-                                                                                                <asp:LinkButton ID="lnkViewSubLeaseDetails" CausesValidation="false" runat="server"
-                                                                                                    Text='<%# Container.DataItemIndex + 1 %>' CommandName="ViewSubTenantDetails" CommandArgument='<%#Eval("PK_RE_Subtenant")%>'></asp:LinkButton>
-                                                                                            </ItemTemplate>
-                                                                                        </asp:TemplateField>
-                                                                                        <asp:TemplateField HeaderText="Subtenant DBA">
-                                                                                            <ItemStyle Width="15%" />
-                                                                                            <ItemTemplate>
-                                                                                                <%# Eval("Subtenant_DBA")%></ItemTemplate>
-                                                                                        </asp:TemplateField>
-                                                                                        <asp:TemplateField HeaderText="Lease Commencement Date">
-                                                                                            <ItemStyle Width="20%" />
-                                                                                            <ItemTemplate>
-                                                                                                <%#clsGeneral.FormatDBNullDateToDisplay(Eval("Lease_Commencement_Date"))%></ItemTemplate>
-                                                                                        </asp:TemplateField>
-                                                                                        <asp:TemplateField HeaderText="Lease Expiration Date">
-                                                                                            <ItemStyle Width="20%" />
-                                                                                            <ItemTemplate>
-                                                                                                <%# clsGeneral.FormatDBNullDateToDisplay(Eval("Lease_Expiration_Date"))%></ItemTemplate>
-                                                                                        </asp:TemplateField>
-                                                                                        <asp:TemplateField HeaderText="Sublease Commencement Date">
-                                                                                            <ItemStyle Width="20%" />
-                                                                                            <ItemTemplate>
-                                                                                                <%# clsGeneral.FormatDBNullDateToDisplay(Eval("Sublease_Commencement_Date"))%></ItemTemplate>
-                                                                                        </asp:TemplateField>
-                                                                                        <asp:TemplateField HeaderText="Sublease Expiration Date">
-                                                                                            <ItemStyle Width="20%" />
-                                                                                            <ItemTemplate>
-                                                                                                <%# clsGeneral.FormatDBNullDateToDisplay(Eval("Sublease_Expiration_Date"))%></ItemTemplate>
-                                                                                        </asp:TemplateField>                                                                                        
-                                                                                    </Columns>
+                                                                                <asp:TemplateField HeaderText="">
+                                                                                    <ItemStyle Width="5%" />
+                                                                                    <ItemTemplate>
+                                                                                        <asp:LinkButton ID="lnkViewSubLeaseDetails" CausesValidation="false" runat="server"
+                                                                                            Text='<%# Container.DataItemIndex + 1 %>' CommandName="ViewSubTenantDetails" CommandArgument='<%#Eval("PK_RE_Subtenant")%>'></asp:LinkButton>
+                                                                                    </ItemTemplate>
+                                                                                </asp:TemplateField>
+                                                                                <asp:TemplateField HeaderText="Subtenant DBA">
+                                                                                    <ItemStyle Width="15%" />
+                                                                                    <ItemTemplate>
+                                                                                        <%# Eval("Subtenant_DBA")%>
+                                                                                    </ItemTemplate>
+                                                                                </asp:TemplateField>
+                                                                                <asp:TemplateField HeaderText="Lease Commencement Date">
+                                                                                    <ItemStyle Width="20%" />
+                                                                                    <ItemTemplate>
+                                                                                        <%#clsGeneral.FormatDBNullDateToDisplay(Eval("Lease_Commencement_Date"))%>
+                                                                                    </ItemTemplate>
+                                                                                </asp:TemplateField>
+                                                                                <asp:TemplateField HeaderText="Lease Expiration Date">
+                                                                                    <ItemStyle Width="20%" />
+                                                                                    <ItemTemplate>
+                                                                                        <%# clsGeneral.FormatDBNullDateToDisplay(Eval("Lease_Expiration_Date"))%>
+                                                                                    </ItemTemplate>
+                                                                                </asp:TemplateField>
+                                                                                <asp:TemplateField HeaderText="Sublease Commencement Date">
+                                                                                    <ItemStyle Width="20%" />
+                                                                                    <ItemTemplate>
+                                                                                        <%# clsGeneral.FormatDBNullDateToDisplay(Eval("Sublease_Commencement_Date"))%>
+                                                                                    </ItemTemplate>
+                                                                                </asp:TemplateField>
+                                                                                <asp:TemplateField HeaderText="Sublease Expiration Date">
+                                                                                    <ItemStyle Width="20%" />
+                                                                                    <ItemTemplate>
+                                                                                        <%# clsGeneral.FormatDBNullDateToDisplay(Eval("Sublease_Expiration_Date"))%>
+                                                                                    </ItemTemplate>
+                                                                                </asp:TemplateField>
+                                                                            </Columns>
                                                                         </asp:GridView>
-                                                                    </td>                                                               
-                                                                </tr>                                                                
+                                                                    </td>
+                                                                </tr>
                                                             </table>
-                                                            <table id="tblSubtenantView" runat="server" cellpadding="3" cellspacing="1" border="0" width="100%" style="display:none;">
+                                                            <table id="tblSubtenantView" runat="server" cellpadding="3" cellspacing="1" border="0" width="100%" style="display: none;">
                                                                 <tr>
-                                                                    <td colspan="6" align="left" class="BlueItalicText">
-                                                                        The data for the blue italicized fields on this screen are derived from the Property
+                                                                    <td colspan="6" align="left" class="BlueItalicText">The data for the blue italicized fields on this screen are derived from the Property
                                                                         module for the same location.
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>
-                                                                        &nbsp;
+                                                                    <td>&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" width="19%" valign="top" class="BlueItalicText">
-                                                                        Subtenant/DBA
+                                                                    <td align="left" width="19%" valign="top" class="BlueItalicText">Subtenant/DBA
                                                                     </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
+                                                                    <td align="center" width="4%" valign="top">:
                                                                     </td>
                                                                     <td align="left" width="27%" valign="top">
                                                                         <asp:Label ID="lblSubtenant_DBA" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" width="19%" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" width="19%" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" width="4%" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" width="27%" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" width="27%" valign="top">&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" width="19%" valign="top">
-                                                                        Subtenant Mailing Address 1
+                                                                    <td align="left" width="19%" valign="top">Subtenant Mailing Address 1
                                                                     </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
+                                                                    <td align="center" width="4%" valign="top">:
                                                                     </td>
                                                                     <td align="left" width="27%" valign="top">
                                                                         <asp:Label ID="lblSubtenant_Mailing_Address1" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Subtenant Mailing Address 2
+                                                                    <td align="left" valign="top">Subtenant Mailing Address 2
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblSubtenant_Mailing_Address2" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Subtenant Mailing City
+                                                                    <td align="left" valign="top">Subtenant Mailing City
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblSubtenant_Mailing_City" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Subtenant Mailing State
+                                                                    <td align="left" valign="top">Subtenant Mailing State
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblSubtenantMailingState" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Subtenant Mailing Zip Code (XXXXX-XXXX)
+                                                                    <td align="left" valign="top">Subtenant Mailing Zip Code (XXXXX-XXXX)
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblSubtenant_Mailing_Zip_Code" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Subtenant Telephone
+                                                                    <td align="left" valign="top">Subtenant Telephone
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblSubtenantTelephone" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Lease Commencement Date
+                                                                    <td align="left" valign="top">Lease Commencement Date
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblSubtenantLeaseCommencementDateView" runat="server" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Lease Term in Months
+                                                                    <td align="left" valign="top">Lease Term in Months
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblSubtenantLeaseTermView" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Lease Expiration Date
+                                                                    <td align="left" valign="top">Lease Expiration Date
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblSubtenantLeaseExpDateView" runat="server" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Prior Lease Commencement Date
+                                                                    <td align="left" valign="top">Prior Lease Commencement Date
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblSubtenantPriorLeaseDateView" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Sublease Commencement Date
+                                                                    <td align="left" valign="top">Sublease Commencement Date
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblSubleaseCommencementDate" runat="server" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Sublease Expiration Date
+                                                                    <td align="left" valign="top">Sublease Expiration Date
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblSubleaseExpirationDate" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Rent Details
+                                                                    <td align="left" valign="top">Rent Details
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" colspan="4" valign="top">
                                                                         <uc:ctrlMultiLineTextBox ID="lblCancel_OptionsSubtenant" runat="server" ControlType="Label" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Renew Options
+                                                                    <td align="left" valign="top">Renew Options
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" colspan="4" valign="top">
                                                                         <uc:ctrlMultiLineTextBox ID="lblRenew_OptionsSubtenant" runat="server" ControlType="Label" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Late Fees
+                                                                    <td align="left" valign="top">Late Fees
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" colspan="4" valign="top">
                                                                         <uc:ctrlMultiLineTextBox ID="lblOpen_NotificationSubtenant" runat="server" ControlType="Label" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Other Requirements
+                                                                    <td align="left" valign="top">Other Requirements
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" colspan="4" valign="top">
                                                                         <uc:ctrlMultiLineTextBox ID="lblOtherRequirements" runat="server" ControlType="Label" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Notification Due Date
+                                                                    <td align="left" valign="top">Notification Due Date
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblNotification_Due_DateSubtenant" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Subtenant Annual Rent
+                                                                    <td align="left" valign="top">Subtenant Annual Rent
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        $&nbsp;<asp:Label ID="lblSubtenant_Base_RentSubtenant" runat="server"></asp:Label>
+                                                                    <td align="left" valign="top">$&nbsp;<asp:Label ID="lblSubtenant_Base_RentSubtenant" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Subtenant Monthly Rent
+                                                                    <td align="left" valign="top">Subtenant Monthly Rent
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        $&nbsp;<asp:Label ID="lblSubtenant_Monthly_RentSubtenant" runat="server"></asp:Label>
+                                                                    <td align="left" valign="top">$&nbsp;<asp:Label ID="lblSubtenant_Monthly_RentSubtenant" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Security Deposit
+                                                                    <td align="left" valign="top">Security Deposit
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        $&nbsp;<asp:Label ID="lblSecurityDeposit" runat="server"></asp:Label>
+                                                                    <td align="left" valign="top">$&nbsp;<asp:Label ID="lblSecurityDeposit" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Escalation
+                                                                    <td align="left" valign="top">Escalation
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblFK_LU_EscalationSubtenant" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Percentage Rate
+                                                                    <td align="left" valign="top">Percentage Rate
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblPercentage_RateSubtenant" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Increase
+                                                                    <td align="left" valign="top">Increase
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblIncreaseSubtenant" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Term Rent Schedule Grid
+                                                                    <td align="left" valign="top">Term Rent Schedule Grid
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top" colspan="4">
                                                                         <asp:GridView ID="gvSubtenantTRSView" runat="server" Width="100%" EmptyDataText="No Record Found"
@@ -5850,49 +5275,53 @@
                                                                                     <ItemStyle Width="10%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkYear" runat="server" Text='<%#Eval("Year")%>' CommandName="ShowDetails"
-                                                                                            CommandArgument='<%#Eval("PK_RE_Subtenant_TRS") %>' /></ItemTemplate>
+                                                                                            CommandArgument='<%#Eval("PK_RE_Subtenant_TRS") %>' />
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="From">
                                                                                     <ItemStyle Width="16%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkFrom" runat="server" Text='<%#clsGeneral.FormatDBNullDateToDisplay(Eval("From_Date"))%>'
-                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Subtenant_TRS") %>' /></ItemTemplate>
+                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Subtenant_TRS") %>' />
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="To">
                                                                                     <ItemStyle Width="16%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkTo" runat="server" Text='<%#clsGeneral.FormatDBNullDateToDisplay(Eval("To_Date"))%>'
-                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Subtenant_TRS") %>' /></ItemTemplate>
+                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Subtenant_TRS") %>' />
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="Months">
                                                                                     <ItemStyle Width="11%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkMonths" runat="server" Text='<%#DataBinder.Eval(Container.DataItem,"Months", "{0:N1}")%>'
-                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Subtenant_TRS") %>' /></ItemTemplate>
+                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Subtenant_TRS") %>' />
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="Additions" ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Right">
                                                                                     <ItemStyle Width="16%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkAdditions" runat="server" Text='<%#clsGeneral.GetStringValue(Eval("Additions"))%>'
-                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Subtenant_TRS") %>' /></ItemTemplate>
+                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Subtenant_TRS") %>' />
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="Total Monthly Rent" ItemStyle-HorizontalAlign="Right"
                                                                                     HeaderStyle-HorizontalAlign="Right">
                                                                                     <ItemStyle Width="21%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkMonthlyRent" runat="server" Text='<%#clsGeneral.GetStringValue(Eval("Monthly_Rent"))%>'
-                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Subtenant_TRS") %>' /></ItemTemplate>
+                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Subtenant_TRS") %>' />
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                             </Columns>
                                                                         </asp:GridView>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Option Rent Schedule Grid
+                                                                    <td align="left" valign="top">Option Rent Schedule Grid
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top" colspan="4">
                                                                         <asp:GridView ID="gvSubtenantORSView" runat="server" Width="100%" EmptyDataText="No Record Found"
@@ -5902,32 +5331,37 @@
                                                                                     <ItemStyle Width="14%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkOption" runat="server" CommandArgument='<%#Eval("PK_RE_SubTenant_ORS") %>'
-                                                                                            CommandName="ShowDetails"><%#Eval("Option_Period")%></asp:LinkButton></ItemTemplate>
+                                                                                            CommandName="ShowDetails"><%#Eval("Option_Period")%></asp:LinkButton>
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="From">
                                                                                     <ItemStyle Width="19%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkFromDate" runat="server" CommandArgument='<%#Eval("PK_RE_SubTenant_ORS") %>'
-                                                                                            CommandName="ShowDetails"><%#clsGeneral.FormatDBNullDateToDisplay(Eval("From_Date"))%></asp:LinkButton></ItemTemplate>
+                                                                                            CommandName="ShowDetails"><%#clsGeneral.FormatDBNullDateToDisplay(Eval("From_Date"))%></asp:LinkButton>
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="To">
                                                                                     <ItemStyle Width="19%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkToDate" runat="server" CommandArgument='<%#Eval("PK_RE_SubTenant_ORS") %>'
-                                                                                            CommandName="ShowDetails"><%#clsGeneral.FormatDBNullDateToDisplay(Eval("To_Date"))%></asp:LinkButton></ItemTemplate>
+                                                                                            CommandName="ShowDetails"><%#clsGeneral.FormatDBNullDateToDisplay(Eval("To_Date"))%></asp:LinkButton>
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="Months">
                                                                                     <ItemStyle Width="14%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkMonths" runat="server" CommandArgument='<%#Eval("PK_RE_SubTenant_ORS") %>'
-                                                                                            CommandName="ShowDetails"><%#DataBinder.Eval(Container.DataItem,"Months", "{0:N1}")%></asp:LinkButton></ItemTemplate>
+                                                                                            CommandName="ShowDetails"><%#DataBinder.Eval(Container.DataItem,"Months", "{0:N1}")%></asp:LinkButton>
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="Base Monthly Rent" ItemStyle-HorizontalAlign="Right"
                                                                                     HeaderStyle-HorizontalAlign="Right">
                                                                                     <ItemStyle Width="24%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkMonthlyRent" runat="server" CommandArgument='<%#Eval("PK_RE_SubTenant_ORS") %>'
-                                                                                            CommandName="ShowDetails"><%#clsGeneral.GetStringValue(Eval("Monthly_Rent"))%></asp:LinkButton></ItemTemplate>
+                                                                                            CommandName="ShowDetails"><%#clsGeneral.GetStringValue(Eval("Monthly_Rent"))%></asp:LinkButton>
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                             </Columns>
                                                                         </asp:GridView>
@@ -5942,200 +5376,157 @@
                                                         </asp:Panel>
                                                         <asp:Panel ID="pnl4View" runat="server" Style="display: none;">
                                                             <div class="bandHeaderRow">
-                                                                Rent Projections</div>
+                                                                Rent Projections
+                                                            </div>
                                                             <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                                 <tr>
-                                                                    <td align="left" width="18%" valign="top">
-                                                                        Responsible Party
+                                                                    <td align="left" width="18%" valign="top">Responsible Party
                                                                     </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
+                                                                    <td align="center" width="4%" valign="top">:
                                                                     </td>
                                                                     <td align="left" width="28%" valign="top">
                                                                         <asp:Label ID="lblResponsible_Party" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" width="18%" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" width="18%" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" width="4%" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" width="28%" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" width="28%" valign="top">&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Lease Commencement Date
+                                                                    <td align="left" valign="top">Lease Commencement Date
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblRentProjectionsLeaseCommencementDateView" runat="server" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Lease Term in Months
+                                                                    <td align="left" valign="top">Lease Term in Months
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblRentProjectionsLeaseTermView" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Lease Expiration Date
+                                                                    <td align="left" valign="top">Lease Expiration Date
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblRentProjectionsLeaseExpDateView" runat="server" />
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Prior Lease Commencement Date
+                                                                    <td align="left" valign="top">Prior Lease Commencement Date
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblRentProjectionsPriorLeaseDateView" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" width="18%" valign="top">
-                                                                        Cancel Options
+                                                                    <td align="left" width="18%" valign="top">Cancel Options
                                                                     </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
+                                                                    <td align="center" width="4%" valign="top">:
                                                                     </td>
                                                                     <td align="left" colspan="4" valign="top">
                                                                         <uc:ctrlMultiLineTextBox ID="lblCancel_Options" runat="server" ControlType="Label" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Renew Options
+                                                                    <td align="left" valign="top">Renew Options
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" colspan="4" valign="top">
                                                                         <uc:ctrlMultiLineTextBox ID="lblRenew_Options" runat="server" ControlType="Label" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Option Notification
+                                                                    <td align="left" valign="top">Option Notification
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" colspan="4" valign="top">
                                                                         <uc:ctrlMultiLineTextBox ID="lblOpen_Notification" runat="server" ControlType="Label" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Notification Due Date
+                                                                    <td align="left" valign="top">Notification Due Date
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblNotification_Due_Date" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Subtenant Base Rent
+                                                                    <td align="left" valign="top">Subtenant Base Rent
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        $&nbsp;<asp:Label ID="lblSubtenant_Base_Rent" runat="server"></asp:Label>
+                                                                    <td align="left" valign="top">$&nbsp;<asp:Label ID="lblSubtenant_Base_Rent" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Subtenant Monthly Rent
+                                                                    <td align="left" valign="top">Subtenant Monthly Rent
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        $&nbsp;<asp:Label ID="lblSubtenant_Monthly_Rent" runat="server"></asp:Label>
+                                                                    <td align="left" valign="top">$&nbsp;<asp:Label ID="lblSubtenant_Monthly_Rent" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Escalation
+                                                                    <td align="left" valign="top">Escalation
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblFK_LU_Escalation" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Percentage Rate
+                                                                    <td align="left" valign="top">Percentage Rate
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblPercentage_Rate" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Increase
+                                                                    <td align="left" valign="top">Increase
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblIncrease" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Term Rent Schedule Grid
+                                                                    <td align="left" valign="top">Term Rent Schedule Grid
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top" colspan="4">
                                                                         <asp:GridView ID="gvRentProjectionTRSView" runat="server" Width="100%" EmptyDataText="No Record Found"
@@ -6145,49 +5536,53 @@
                                                                                     <ItemStyle Width="10%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkYear" runat="server" Text='<%#Eval("Year")%>' CommandName="ShowDetails"
-                                                                                            CommandArgument='<%#Eval("PK_RE_Rent_Projctions_TRS") %>' /></ItemTemplate>
+                                                                                            CommandArgument='<%#Eval("PK_RE_Rent_Projctions_TRS") %>' />
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="From">
                                                                                     <ItemStyle Width="16%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkFrom" runat="server" Text='<%#clsGeneral.FormatDBNullDateToDisplay(Eval("From_Date"))%>'
-                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Rent_Projctions_TRS") %>' /></ItemTemplate>
+                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Rent_Projctions_TRS") %>' />
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="To">
                                                                                     <ItemStyle Width="16%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkTo" runat="server" Text='<%#clsGeneral.FormatDBNullDateToDisplay(Eval("To_Date"))%>'
-                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Rent_Projctions_TRS") %>' /></ItemTemplate>
+                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Rent_Projctions_TRS") %>' />
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="Months">
                                                                                     <ItemStyle Width="11%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkMonths" runat="server" Text='<%#DataBinder.Eval(Container.DataItem,"Months", "{0:N1}")%>'
-                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Rent_Projctions_TRS") %>' /></ItemTemplate>
+                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Rent_Projctions_TRS") %>' />
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="Additions" ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Right">
                                                                                     <ItemStyle Width="16%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkAdditions" runat="server" Text='<%#clsGeneral.GetStringValue(Eval("Additions"))%>'
-                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Rent_Projctions_TRS") %>' /></ItemTemplate>
+                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Rent_Projctions_TRS") %>' />
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="Total Monthly Rent" ItemStyle-HorizontalAlign="Right"
                                                                                     HeaderStyle-HorizontalAlign="Right">
                                                                                     <ItemStyle Width="21%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkMonthlyRent" runat="server" Text='<%#clsGeneral.GetStringValue(Eval("Monthly_Rent"))%>'
-                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Rent_Projctions_TRS") %>' /></ItemTemplate>
+                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Rent_Projctions_TRS") %>' />
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                             </Columns>
                                                                         </asp:GridView>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Option Rent Schedule Grid
+                                                                    <td align="left" valign="top">Option Rent Schedule Grid
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top" colspan="4">
                                                                         <asp:GridView ID="gvRentProjectionORSView" runat="server" Width="100%" EmptyDataText="No Record Found"
@@ -6197,32 +5592,37 @@
                                                                                     <ItemStyle Width="14%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkOption" runat="server" CommandArgument='<%#Eval("PK_RE_Rent_Projections_ORS") %>'
-                                                                                            CommandName="ShowDetails"><%#Eval("Option_Period")%></asp:LinkButton></ItemTemplate>
+                                                                                            CommandName="ShowDetails"><%#Eval("Option_Period")%></asp:LinkButton>
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="From">
                                                                                     <ItemStyle Width="19%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkFromDate" runat="server" CommandArgument='<%#Eval("PK_RE_Rent_Projections_ORS") %>'
-                                                                                            CommandName="ShowDetails"><%#clsGeneral.FormatDBNullDateToDisplay(Eval("From_Date"))%></asp:LinkButton></ItemTemplate>
+                                                                                            CommandName="ShowDetails"><%#clsGeneral.FormatDBNullDateToDisplay(Eval("From_Date"))%></asp:LinkButton>
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="To">
                                                                                     <ItemStyle Width="19%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkToDate" runat="server" CommandArgument='<%#Eval("PK_RE_Rent_Projections_ORS") %>'
-                                                                                            CommandName="ShowDetails"><%#clsGeneral.FormatDBNullDateToDisplay(Eval("To_Date"))%></asp:LinkButton></ItemTemplate>
+                                                                                            CommandName="ShowDetails"><%#clsGeneral.FormatDBNullDateToDisplay(Eval("To_Date"))%></asp:LinkButton>
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="Months">
                                                                                     <ItemStyle Width="14%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkMonths" runat="server" CommandArgument='<%#Eval("PK_RE_Rent_Projections_ORS") %>'
-                                                                                            CommandName="ShowDetails"><%#DataBinder.Eval(Container.DataItem,"Months", "{0:N1}")%></asp:LinkButton></ItemTemplate>
+                                                                                            CommandName="ShowDetails"><%#DataBinder.Eval(Container.DataItem,"Months", "{0:N1}")%></asp:LinkButton>
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="Base Monthly Rent" ItemStyle-HorizontalAlign="Right"
                                                                                     HeaderStyle-HorizontalAlign="Right">
                                                                                     <ItemStyle Width="24%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkMonthlyRent" runat="server" CommandArgument='<%#Eval("PK_RE_Rent_Projections_ORS") %>'
-                                                                                            CommandName="ShowDetails"><%#clsGeneral.GetStringValue(Eval("Monthly_Rent"))%></asp:LinkButton></ItemTemplate>
+                                                                                            CommandName="ShowDetails"><%#clsGeneral.GetStringValue(Eval("Monthly_Rent"))%></asp:LinkButton>
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                             </Columns>
                                                                         </asp:GridView>
@@ -6237,43 +5637,35 @@
                                                         </asp:Panel>
                                                         <asp:Panel ID="pnl5View" runat="server" Style="display: none;">
                                                             <div class="bandHeaderRow">
-                                                                Security Deposit</div>
+                                                                Security Deposit
+                                                            </div>
                                                             <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                                 <tr>
-                                                                    <td align="left" width="18%" valign="top">
-                                                                        Amount
+                                                                    <td align="left" width="18%" valign="top">Amount
                                                                     </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
+                                                                    <td align="center" width="4%" valign="top">:
                                                                     </td>
-                                                                    <td align="left" width="28%" valign="top">
-                                                                        $&nbsp;<asp:Label ID="lblAmount" runat="server"></asp:Label>
+                                                                    <td align="left" width="28%" valign="top">$&nbsp;<asp:Label ID="lblAmount" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" width="18%" valign="top">
-                                                                        Date of Security Deposit
+                                                                    <td align="left" width="18%" valign="top">Date of Security Deposit
                                                                     </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
+                                                                    <td align="center" width="4%" valign="top">:
                                                                     </td>
                                                                     <td align="left" width="28%" valign="top">
                                                                         <asp:Label ID="lblDate_Of_Security_Deposit" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Tender Type
+                                                                    <td align="left" valign="top">Tender Type
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblFK_LU_Tender_Type" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Received By
+                                                                    <td align="left" valign="top">Received By
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblReceived_By" runat="server"></asp:Label>
@@ -6285,111 +5677,87 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Bank Name the Check was Drawn Against
+                                                                    <td align="left" valign="top">Bank Name the Check was Drawn Against
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblBank_Name" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Check Number
+                                                                    <td align="left" valign="top">Check Number
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblCheck_Number" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Name Printed on Check
+                                                                    <td align="left" valign="top">Name Printed on Check
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblName_On_Check" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Account Number
+                                                                    <td align="left" valign="top">Account Number
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblAccount_Number" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Security Deposit Held At
+                                                                    <td align="left" valign="top">Security Deposit Held At
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblFK_LU_Security_Deposit_Held" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Security Deposit Returned?
+                                                                    <td align="left" valign="top">Security Deposit Returned?
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblSecurity_Deposit_Returned" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Date Security Deposit Returned
+                                                                    <td align="left" valign="top">Date Security Deposit Returned
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblDate_Security_Deposit_Returned" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Security Deposit Reduced?
+                                                                    <td align="left" valign="top">Security Deposit Reduced?
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblSecurity_Deposit_Reduced" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Reason for Security Deposit Reduction
+                                                                    <td align="left" valign="top">Reason for Security Deposit Reduction
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" colspan="4" valign="top">
                                                                         <uc:ctrlMultiLineTextBox ID="lblSecurity_Deposit_Reduction_Reason" runat="server"
@@ -6397,44 +5765,33 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Any Interest to be Realized on Security Deposit?
+                                                                    <td align="left" valign="top">Any Interest to be Realized on Security Deposit?
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblInterest_On_Security_Deposit" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Interest Amount
+                                                                    <td align="left" valign="top">Interest Amount
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        $&nbsp;<asp:Label ID="lblInterest_Amount" runat="server"></asp:Label>
+                                                                    <td align="left" valign="top">$&nbsp;<asp:Label ID="lblInterest_Amount" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Amount of Security Deposit Returned
+                                                                    <td align="left" valign="top">Amount of Security Deposit Returned
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        $&nbsp;
+                                                                    <td align="left" valign="top">$&nbsp;
                                                                         <asp:Label ID="lblAmount_Security_Deposit_Returned" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
@@ -6446,14 +5803,13 @@
                                                         </asp:Panel>
                                                         <asp:Panel ID="pnl6View" runat="server" Style="display: none;">
                                                             <div class="bandHeaderRow">
-                                                                Repair/Maintenance</div>
+                                                                Repair/Maintenance
+                                                            </div>
                                                             <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                                 <tr>
-                                                                    <td align="left" width="18%" valign="top">
-                                                                        Repair/Maintenance Grid
+                                                                    <td align="left" width="18%" valign="top">Repair/Maintenance Grid
                                                                     </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
+                                                                    <td align="center" width="4%" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <div style="width: 600px; overflow-x: scroll; overflow-y: hidden;">
@@ -6467,28 +5823,28 @@
                                                                                                 CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Repair_Maintenance")%>' />
                                                                                         </ItemTemplate>
                                                                                     </asp:TemplateField>
-                                                                                     <asp:TemplateField HeaderText="HVAC Capital">
+                                                                                    <asp:TemplateField HeaderText="HVAC Capital">
                                                                                         <ItemStyle Width="100px" />
                                                                                         <ItemTemplate>
                                                                                             <asp:LinkButton ID="lnkHVACCapital" runat="server" Text='<%#Eval("FK_LU_Responsibilie_Party_HVAC_Capital")%>'
                                                                                                 CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Repair_Maintenance")%>' />
                                                                                         </ItemTemplate>
                                                                                     </asp:TemplateField>
-                                                                                     <asp:TemplateField HeaderText="Roof Repairs">
+                                                                                    <asp:TemplateField HeaderText="Roof Repairs">
                                                                                         <ItemStyle Width="100px" />
                                                                                         <ItemTemplate>
                                                                                             <asp:LinkButton ID="lnkRoofRepairs" runat="server" Text='<%#Eval("FK_LU_Responsibilie_Party_Roof_Repairs")%>'
                                                                                                 CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Repair_Maintenance")%>' />
                                                                                         </ItemTemplate>
                                                                                     </asp:TemplateField>
-                                                                                     <asp:TemplateField HeaderText="Roof Capital">
+                                                                                    <asp:TemplateField HeaderText="Roof Capital">
                                                                                         <ItemStyle Width="100px" />
                                                                                         <ItemTemplate>
                                                                                             <asp:LinkButton ID="lnkRoofCapital" runat="server" Text='<%#Eval("FK_LU_Responsibilie_Party_Roof_Capital")%>'
                                                                                                 CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Repair_Maintenance")%>' />
                                                                                         </ItemTemplate>
                                                                                     </asp:TemplateField>
-                                                                                     <asp:TemplateField HeaderText="Other Repairs">
+                                                                                    <asp:TemplateField HeaderText="Other Repairs">
                                                                                         <ItemStyle Width="100px" />
                                                                                         <ItemTemplate>
                                                                                             <asp:LinkButton ID="lnkOtherRepairs" runat="server" Text='<%#Eval("FK_LU_Responsibilie_Party_Other_Repairs")%>'
@@ -6499,7 +5855,7 @@
                                                                                         <ItemStyle Width="100px" />
                                                                                         <ItemTemplate>
                                                                                             <asp:Label ID="lblMaintenanceNotes" runat="server" Text='<%#Eval("Maintenance_Notes")%>'
-                                                                                                CssClass="TextClip" Width="90px" CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Repair_Maintenance")%>'/>
+                                                                                                CssClass="TextClip" Width="90px" CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Repair_Maintenance")%>' />
                                                                                         </ItemTemplate>
                                                                                     </asp:TemplateField>
                                                                                     <%--<asp:TemplateField HeaderText="Repair Type">
@@ -6602,69 +5958,58 @@
                                                         </asp:Panel>
                                                         <asp:Panel ID="pnl7View" runat="server" Style="display: none;">
                                                             <div class="bandHeaderRow">
-                                                                Surrender Obligations</div>
+                                                                Surrender Obligations
+                                                            </div>
                                                             <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                                 <tr>
-                                                                    <td align="left" width="18%" valign="top">
-                                                                        Condition at Lease Commencement Date
+                                                                    <td align="left" width="18%" valign="top">Condition at Lease Commencement Date
                                                                     </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
+                                                                    <td align="center" width="4%" valign="top">:
                                                                     </td>
                                                                     <td align="left" colspan="4" valign="top">
                                                                         <uc:ctrlMultiLineTextBox ID="lblCondition_At_Commencement" runat="server" ControlType="Label" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Permitted Use
+                                                                    <td align="left" valign="top">Permitted Use
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" colspan="4" valign="top">
                                                                         <uc:ctrlMultiLineTextBox ID="lblPermitted_Use" runat="server" ControlType="Label" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Alterations
+                                                                    <td align="left" valign="top">Alterations
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" colspan="4" valign="top">
                                                                         <uc:ctrlMultiLineTextBox ID="lblAlterations" runat="server" ControlType="Label" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Tenant’s Obligations
+                                                                    <td align="left" valign="top">Tenant’s Obligations
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" colspan="4" valign="top">
                                                                         <uc:ctrlMultiLineTextBox ID="lblTenants_Obligations" runat="server" ControlType="Label" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Environmental Matters – Tenant’s Covenant
+                                                                    <td align="left" valign="top">Environmental Matters – Tenant’s Covenant
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" colspan="4" valign="top">
                                                                         <uc:ctrlMultiLineTextBox ID="lblEnvironmental_Matters" runat="server" ControlType="Label" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Landlord’s Obligations
+                                                                    <td align="left" valign="top">Landlord’s Obligations
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" colspan="4" valign="top">
                                                                         <uc:ctrlMultiLineTextBox ID="lblLandlords_Obligations" runat="server" ControlType="Label" />
@@ -6679,7 +6024,8 @@
                                                         </asp:Panel>
                                                         <asp:Panel ID="pnl8View" runat="server" Style="display: none;">
                                                             <div class="bandHeaderRow">
-                                                                Notices</div>
+                                                                Notices
+                                                            </div>
                                                             <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                                 <tr>
                                                                     <td colspan="6">
@@ -6687,205 +6033,164 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" width="18%" valign="top">
-                                                                        Company
+                                                                    <td align="left" width="18%" valign="top">Company
                                                                     </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
+                                                                    <td align="center" width="4%" valign="top">:
                                                                     </td>
                                                                     <td align="left" width="28%" valign="top">
                                                                         <asp:Label ID="lblLandlord_Company" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" width="18%" valign="top">
-                                                                        Contact Name
+                                                                    <td align="left" width="18%" valign="top">Contact Name
                                                                     </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
+                                                                    <td align="center" width="4%" valign="top">:
                                                                     </td>
                                                                     <td align="left" width="28%" valign="top">
                                                                         <asp:Label ID="lblLandlord_Contact" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Address 1
+                                                                    <td align="left" valign="top">Address 1
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblLandlord_Address1" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Address 2
+                                                                    <td align="left" valign="top">Address 2
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblLandlord_Address2" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        City
+                                                                    <td align="left" valign="top">City
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblLandlord_City" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        State
+                                                                    <td align="left" valign="top">State
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblFK_State_Landlord" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Zip Code (XXXXX-XXXX)
+                                                                    <td align="left" valign="top">Zip Code (XXXXX-XXXX)
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblLandlord_Zip_Code" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Telephone (XXX-XXX-XXXX)
+                                                                    <td align="left" valign="top">Telephone (XXX-XXX-XXXX)
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblLandlord_TelephoneNotices" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Facsimile (XXX-XXX-XXXX)
+                                                                    <td align="left" valign="top">Facsimile (XXX-XXX-XXXX)
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblLandlord_Facsimile" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        E-Mail
+                                                                    <td align="left" valign="top">E-Mail
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblLandlord_EmailNotices" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td colspan="6">
-                                                                        With a copy to
+                                                                    <td colspan="6">With a copy to
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Company
+                                                                    <td align="left" valign="top">Company
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblLandlord_Copy_Company" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Contact Name
+                                                                    <td align="left" valign="top">Contact Name
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblLandlord_Copy_Contact" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Address 1
+                                                                    <td align="left" valign="top">Address 1
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblLandlord_Copy_Address1" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Address 2
+                                                                    <td align="left" valign="top">Address 2
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblLandlord_Copy_Address2" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        City
+                                                                    <td align="left" valign="top">City
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblLandlord_Copy_City" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        State
+                                                                    <td align="left" valign="top">State
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblFK_State_Landlord_Copy" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Zip Code (XXXXX-XXXX)
+                                                                    <td align="left" valign="top">Zip Code (XXXXX-XXXX)
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblLandlord_Copy_Zip_Code" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Telephone (XXX-XXX-XXXX)
+                                                                    <td align="left" valign="top">Telephone (XXX-XXX-XXXX)
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblLandlord_Copy_Telephone" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Facsimile (XXX-XXX-XXXX)
+                                                                    <td align="left" valign="top">Facsimile (XXX-XXX-XXXX)
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblLandlord_Copy_Facsimile" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        E-Mail
+                                                                    <td align="left" valign="top">E-Mail
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblLandlord_Copy_Email" runat="server"></asp:Label>
@@ -6897,205 +6202,164 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Company
+                                                                    <td align="left" valign="top">Company
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblTenant_Company" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Contact Name
+                                                                    <td align="left" valign="top">Contact Name
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblTenant_Contact" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Address 1
+                                                                    <td align="left" valign="top">Address 1
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblTenant_Address1" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Address 2
+                                                                    <td align="left" valign="top">Address 2
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblTenant_Address2" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        City
+                                                                    <td align="left" valign="top">City
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblTenant_City" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        State
+                                                                    <td align="left" valign="top">State
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblFK_State_Tenant" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Zip Code (XXXXX-XXXX)
+                                                                    <td align="left" valign="top">Zip Code (XXXXX-XXXX)
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblTenant_Zip_Code" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Telephone (XXX-XXX-XXXX)
+                                                                    <td align="left" valign="top">Telephone (XXX-XXX-XXXX)
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblTenant_Telephone" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Facsimile (XXX-XXX-XXXX)
+                                                                    <td align="left" valign="top">Facsimile (XXX-XXX-XXXX)
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblTenant_Facsimile" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        E-Mail
+                                                                    <td align="left" valign="top">E-Mail
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblTenant_Email" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td colspan="6">
-                                                                        With a copy to
+                                                                    <td colspan="6">With a copy to
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Company
+                                                                    <td align="left" valign="top">Company
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblTenant_Copy_Company" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Contact Name
+                                                                    <td align="left" valign="top">Contact Name
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblTenant_Copy_Contact" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Address 1
+                                                                    <td align="left" valign="top">Address 1
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblTenant_Copy_Address1" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Address 2
+                                                                    <td align="left" valign="top">Address 2
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblTenant_Copy_Address2" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        City
+                                                                    <td align="left" valign="top">City
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblTenant_Copy_City" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        State
+                                                                    <td align="left" valign="top">State
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblFK_State_Tenant_Copy" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Zip Code (XXXXX-XXXX)
+                                                                    <td align="left" valign="top">Zip Code (XXXXX-XXXX)
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblTenant_Copy_Zip_Code" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Telephone (XXX-XXX-XXXX)
+                                                                    <td align="left" valign="top">Telephone (XXX-XXX-XXXX)
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblTenant_Copy_Telephone" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Facsimile (XXX-XXX-XXXX)
+                                                                    <td align="left" valign="top">Facsimile (XXX-XXX-XXXX)
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblTenant_Copy_Facsimile" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        E-Mail
+                                                                    <td align="left" valign="top">E-Mail
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblTenant_Copy_Email" runat="server"></asp:Label>
@@ -7107,205 +6371,164 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Company
+                                                                    <td align="left" valign="top">Company
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblSubtenant_Company" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Contact Name
+                                                                    <td align="left" valign="top">Contact Name
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblSubtenant_Contact" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Address 1
+                                                                    <td align="left" valign="top">Address 1
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblSubtenant_Address1" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Address 2
+                                                                    <td align="left" valign="top">Address 2
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblSubtenant_Address2" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        City
+                                                                    <td align="left" valign="top">City
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblSubtenant_City" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        State
+                                                                    <td align="left" valign="top">State
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblFK_State_Subtenant" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Zip Code (XXXXX-XXXX)
+                                                                    <td align="left" valign="top">Zip Code (XXXXX-XXXX)
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblSubtenant_Zip_Code" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Telephone (XXX-XXX-XXXX)
+                                                                    <td align="left" valign="top">Telephone (XXX-XXX-XXXX)
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblSubtenant_Telephone" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Facsimile (XXX-XXX-XXXX)
+                                                                    <td align="left" valign="top">Facsimile (XXX-XXX-XXXX)
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblSubtenant_Facsimile" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        E-Mail
+                                                                    <td align="left" valign="top">E-Mail
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblSubtenant_Email" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td colspan="6">
-                                                                        With a copy to
+                                                                    <td colspan="6">With a copy to
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Company
+                                                                    <td align="left" valign="top">Company
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblSubtenant_Copy_Company" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Contact Name
+                                                                    <td align="left" valign="top">Contact Name
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblSubtenant_Copy_Contact" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Address 1
+                                                                    <td align="left" valign="top">Address 1
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblSubtenant_Copy_Address1" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Address 2
+                                                                    <td align="left" valign="top">Address 2
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblSubtenant_Copy_Address2" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        City
+                                                                    <td align="left" valign="top">City
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblSubtenant_Copy_City" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        State
+                                                                    <td align="left" valign="top">State
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblFK_State_Subtenant_Copy" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Zip Code (XXXXX-XXXX)
+                                                                    <td align="left" valign="top">Zip Code (XXXXX-XXXX)
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblSubtenant_Copy_Zip_Code" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        Telephone (XXX-XXX-XXXX)
+                                                                    <td align="left" valign="top">Telephone (XXX-XXX-XXXX)
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblSubtenant_Copy_Telephone" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Facsimile (XXX-XXX-XXXX)
+                                                                    <td align="left" valign="top">Facsimile (XXX-XXX-XXXX)
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblSubtenant_Copy_Facsimile" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top">
-                                                                        E-Mail
+                                                                    <td align="left" valign="top">E-Mail
                                                                     </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
+                                                                    <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblSubtenant_Copy_Email" runat="server"></asp:Label>
@@ -7320,14 +6543,13 @@
                                                         </asp:Panel>
                                                         <asp:Panel ID="pnl9View" runat="server" Style="display: none;">
                                                             <div class="bandHeaderRow">
-                                                                Notes</div>
+                                                                Notes
+                                                            </div>
                                                             <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                                 <tr>
-                                                                    <td width="18%" align="left" valign="top">
-                                                                        Notes Grid
+                                                                    <td width="18%" align="left" valign="top">Notes Grid
                                                                     </td>
-                                                                    <td width="4%" align="center" valign="top">
-                                                                        :
+                                                                    <td width="4%" align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:GridView ID="gvNotesView" runat="server" Width="100%" EmptyDataText="No Record Found"
@@ -7337,13 +6559,15 @@
                                                                                     <ItemStyle Width="15%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkNoteDate" runat="server" Text='<%#Convert.ToDateTime(Eval("Note_Date")).ToString("MMM-dd-yyyy")%>'
-                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Notes") %>' /></ItemTemplate>
+                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Notes") %>' />
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="Note Text Snippet">
                                                                                     <ItemStyle Width="85%" />
                                                                                     <ItemTemplate>
                                                                                         <asp:LinkButton ID="lnkNote" runat="server" Text='<%#Eval("Notes")%>' CssClass="TextClip"
-                                                                                            Width="450px" CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Notes") %>' /></ItemTemplate>
+                                                                                            Width="450px" CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Notes") %>' />
+                                                                                    </ItemTemplate>
                                                                                 </asp:TemplateField>
                                                                             </Columns>
                                                                         </asp:GridView>
@@ -7353,15 +6577,13 @@
                                                         </asp:Panel>
                                                         <asp:Panel ID="pnl11View" runat="server" Style="display: none;">
                                                             <div class="bandHeaderRow">
-                                                                 Lease Maintenance Obligations
+                                                                Lease Maintenance Obligations
                                                             </div>
                                                             <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                                 <tr>
-                                                                    <td align="left" valign="top" width="18%">
-                                                                       Lease Instance
+                                                                    <td align="left" valign="top" width="18%">Lease Instance
                                                                     </td>
-                                                                    <td align="center" valign="top" width="4%">
-                                                                        :
+                                                                    <td align="center" valign="top" width="4%">:
                                                                     </td>
                                                                     <td align="left" valign="top" width="28%">
                                                                         <asp:Label ID="lblLeaseInstance" runat="server">
@@ -7369,21 +6591,17 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" width="18%">
-                                                                        HVAC Repairs
+                                                                    <td align="left" valign="top" width="18%">HVAC Repairs
                                                                     </td>
-                                                                    <td align="center" valign="top" width="4%">
-                                                                        :
+                                                                    <td align="center" valign="top" width="4%">:
                                                                     </td>
                                                                     <td align="left" valign="top" width="28%">
                                                                         <asp:Label ID="lblHVACRepairs" runat="server">
                                                                         </asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top" width="18%">
-                                                                        HVAC Capital
+                                                                    <td align="left" valign="top" width="18%">HVAC Capital
                                                                     </td>
-                                                                    <td align="center" valign="top" width="4%">
-                                                                       :
+                                                                    <td align="center" valign="top" width="4%">:
                                                                     </td>
                                                                     <td align="left" valign="top" width="28%">
                                                                         <asp:Label ID="lblHVACCapital" runat="server">
@@ -7391,45 +6609,37 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" width="18%">
-                                                                        Roof Repairs
+                                                                    <td align="left" valign="top" width="18%">Roof Repairs
                                                                     </td>
-                                                                    <td align="center" valign="top" width="4%">
-                                                                        :
+                                                                    <td align="center" valign="top" width="4%">:
                                                                     </td>
                                                                     <td align="left" valign="top" width="28%">
                                                                         <asp:Label ID="lblRoofRepairs" runat="server">
                                                                         </asp:Label>
                                                                     </td>
-                                                                    <td align="left" valign="top" width="18%">
-                                                                        Roof Capital
+                                                                    <td align="left" valign="top" width="18%">Roof Capital
                                                                     </td>
-                                                                    <td align="center" valign="top"width="4%">
-                                                                       :
+                                                                    <td align="center" valign="top" width="4%">:
                                                                     </td>
                                                                     <td align="left" valign="top" width="28%">
                                                                         <asp:Label ID="lblRoofCapital" runat="server">
                                                                         </asp:Label>
                                                                     </td>
                                                                 </tr>
-                                                                  <tr>
-                                                                    <td align="left" valign="top" width="18%">
-                                                                        Other Repairs
+                                                                <tr>
+                                                                    <td align="left" valign="top" width="18%">Other Repairs
                                                                     </td>
-                                                                    <td align="center" valign="top" width="4%">
-                                                                        :
+                                                                    <td align="center" valign="top" width="4%">:
                                                                     </td>
                                                                     <td align="left" valign="top" width="28%">
-                                                                        <uc:ctrlMultiLineTextBox ID="lblOtherRepairs" runat="server" ControlType="Label" width="200"/>
+                                                                        <uc:ctrlMultiLineTextBox ID="lblOtherRepairs" runat="server" ControlType="Label" Width="200" />
                                                                     </td>
-                                                                      <td align="left" valign="top" width="18%">
-                                                                        Maintenance Notes
+                                                                    <td align="left" valign="top" width="18%">Maintenance Notes
                                                                     </td>
-                                                                    <td align="center" valign="top" width="4%">
-                                                                        :
+                                                                    <td align="center" valign="top" width="4%">:
                                                                     </td>
                                                                     <td align="left" valign="top" width="28%">
-                                                                        <uc:ctrlMultiLineTextBox ID="lblMaintenanceNotes" runat="server" ControlType="Label"  Width="200"/>
+                                                                        <uc:ctrlMultiLineTextBox ID="lblMaintenanceNotes" runat="server" ControlType="Label" Width="200" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
@@ -7438,7 +6648,7 @@
                                                                     </td>
                                                                 </tr>
                                                             </table>
-                                                            </asp:Panel>
+                                                        </asp:Panel>
                                                     </div>
                                                     <asp:Panel ID="pnlAttachmentDetails" runat="server" Style="display: none;">
                                                         <table cellpadding="0" cellspacing="0" width="100%">
@@ -7448,8 +6658,7 @@
                                                                 </td>
                                                             </tr>
                                                             <tr>
-                                                                <td class="Spacer" style="height: 150px;">
-                                                                </td>
+                                                                <td class="Spacer" style="height: 150px;"></td>
                                                             </tr>
                                                         </table>
                                                     </asp:Panel>
@@ -7459,8 +6668,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2">
-                                        &nbsp;
+                                    <td colspan="2">&nbsp;
                                     </td>
                                 </tr>
                                 <tr>
@@ -7496,23 +6704,24 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2">
-                                        &nbsp;
+                                    <td colspan="2">&nbsp;
                                     </td>
                                 </tr>
                             </table>
                         </td>
                     </tr>
                 </table>
-                 <asp:CustomValidator ID="CustomValidator" runat="server" ErrorMessage="" ClientValidationFunction="ValidateFields"
+                <asp:CustomValidator ID="CustomValidator" runat="server" ErrorMessage="" ClientValidationFunction="ValidateFields"
                     Display="None" ValidationGroup="vsErrorGroup" />
                 <asp:CustomValidator ID="CustomValidator1" runat="server" ErrorMessage="" ClientValidationFunction="ValidateSubtenantFileds"
                     Display="None" ValidationGroup="vgSubtenant" />
+                <asp:CustomValidator ID="CustomValidator2" runat="server" ErrorMessage="" ClientValidationFunction="ValidateDates"
+                    display="None" ValidationGroup="vsErrorGroup"></asp:CustomValidator>
                 <input id="hdnControlIDs" runat="server" type="hidden" />
                 <input id="hdnErrorMsgs" runat="server" type="hidden" />
                 <input id="hdnSubtenanatIDs" runat="server" type="hidden" />
                 <input id="hdnSubtenantErroeMassage" runat="server" type="hidden" />
-            </asp:Panel>            
+            </asp:Panel>
         </ContentTemplate>
         <Triggers>
             <asp:PostBackTrigger ControlID="btnSave" />
@@ -7520,5 +6729,5 @@
             <asp:PostBackTrigger ControlID="btnAddAttachment" />
         </Triggers>
     </asp:UpdatePanel>
-    
+
 </asp:Content>
