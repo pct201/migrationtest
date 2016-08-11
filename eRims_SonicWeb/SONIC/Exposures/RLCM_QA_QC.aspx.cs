@@ -198,7 +198,7 @@ public partial class SONIC_Exposures_RLCM_QA_QC : clsBasePage
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
                 string strGridId = ((GridView)sender).ID;
-                string strChaildGridId = string.Empty, strTaskID =string.Empty;
+                string strChaildGridId = string.Empty, strTaskID = string.Empty;
 
                 switch (strGridId)
                 {
@@ -481,7 +481,7 @@ public partial class SONIC_Exposures_RLCM_QA_QC : clsBasePage
     /// <param name="e"></param>
     protected void btnSave_Click(object sender, EventArgs e)
     {
-        string checkedIDs = string.Empty, uncheckedIDs = string.Empty, strChildGridID = string.Empty, strPanel=string.Empty, strRequestChecked = string.Empty;
+        string checkedIDs = string.Empty, uncheckedIDs = string.Empty, strChildGridID = string.Empty, strPanel = string.Empty, strRequestChecked = string.Empty;
         bool chkMonthlyReviewChecked = false;
         string strSenderButtonId = ((Button)sender).ID;
         GridView gvTemp = null;
@@ -536,7 +536,7 @@ public partial class SONIC_Exposures_RLCM_QA_QC : clsBasePage
                                 else
                                     uncheckedIDs += hdnStatus.Value + ",";
 
-                                if (Convert.ToInt16(strPanel) == 1 )
+                                if (Convert.ToInt16(strPanel) == 1)
                                 {
                                     if (chkRequest_Deleted.Checked)
                                         strRequestChecked += hdnStatus.Value + ",";
@@ -555,8 +555,9 @@ public partial class SONIC_Exposures_RLCM_QA_QC : clsBasePage
 
 
         clsRLCM_QA_QC.UpdateStatus(checkedIDs, uncheckedIDs, Convert.ToString(clsSession.UserID));
-        clsRLCM_QA_QC.RequestUpdateStatus(rlcm, strRequestChecked, Convert.ToString(clsSession.UserID));
-        clsRLCM_QA_QC.RLCM_QA_QC_CompleteInsertUpdateStatus(rlcm, year, month, chkMonthlyReviewChecked, Convert.ToString(clsSession.UserID));
+        if (strSenderButtonId == "btnSave")
+            clsRLCM_QA_QC.RequestUpdateStatus(rlcm, strRequestChecked, Convert.ToString(clsSession.UserID));
+        //clsRLCM_QA_QC.RLCM_QA_QC_CompleteInsertUpdateStatus(rlcm, year, month, chkMonthlyReviewChecked, Convert.ToString(clsSession.UserID));
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(" + strPanel + ");", true);
     }
 
@@ -610,7 +611,7 @@ public partial class SONIC_Exposures_RLCM_QA_QC : clsBasePage
 
 
         clsRLCM_QA_QC.UpdateStatus(checkedIDs, uncheckedIDs, Convert.ToString(clsSession.UserID));
-        clsRLCM_QA_QC.RLCM_QA_QC_CompleteInsertUpdateStatus(rlcm, year, month, chkMonthlyReviewChecked, Convert.ToString(clsSession.UserID));
+        //clsRLCM_QA_QC.RLCM_QA_QC_CompleteInsertUpdateStatus(rlcm, year, month, chkMonthlyReviewChecked, Convert.ToString(clsSession.UserID));
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(4);", true);
     }
 
@@ -694,8 +695,8 @@ public partial class SONIC_Exposures_RLCM_QA_QC : clsBasePage
 
 
         clsRLCM_QA_QC.UpdateStatus(checkedIDs, uncheckedIDs, Convert.ToString(clsSession.UserID));
-        clsRLCM_QA_QC.RLCM_QA_QC_CompleteInsertUpdateStatus(rlcm, year, month, chkMonthlyReviewChecked, Convert.ToString(clsSession.UserID));
-        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel("+strPanel+");", true);
+        //clsRLCM_QA_QC.RLCM_QA_QC_CompleteInsertUpdateStatus(rlcm, year, month, chkMonthlyReviewChecked, Convert.ToString(clsSession.UserID));
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(" + strPanel + ");", true);
     }
 
     protected void btnACISave_Click(object sender, EventArgs e)
