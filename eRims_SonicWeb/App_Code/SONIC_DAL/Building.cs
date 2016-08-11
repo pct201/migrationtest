@@ -3501,7 +3501,7 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "old_Location_code", DbType.Int32, Old_Location_code);
             db.AddInParameter(dbCommand, "new_Location_Code", DbType.Int32, New_Location_Code);
-            db.AddInParameter(dbCommand, "old_Building_Number", DbType.String, Old_Building_Number);
+            db.AddInParameter(dbCommand, "building_Number", DbType.String, Old_Building_Number);
 
             db.ExecuteNonQuery(dbCommand);
         }

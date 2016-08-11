@@ -4606,35 +4606,35 @@ public partial class Exposures_Property : clsBasePage
 
             string associatedProject = string.Empty;
 
-            if (dtProjectData != null && dtProjectData.Rows.Count > 0)
-            {
-                DataRow[] drUnSelectedItem = dtProjectData.Select("PK_Building_ID NOT IN (" + selectedBuildings.Substring(0, selectedBuildings.LastIndexOf(",")) + ")");
-                DataRow[] drSelectedItems = dtProjectData.Select("PK_Building_ID IN (" + selectedBuildings.Substring(0, selectedBuildings.LastIndexOf(",")) + ")");
+            //if (dtProjectData != null && dtProjectData.Rows.Count > 0)
+            //{
+            //    DataRow[] drUnSelectedItem = dtProjectData.Select("PK_Building_ID NOT IN (" + selectedBuildings.Substring(0, selectedBuildings.LastIndexOf(",")) + ")");
+            //    DataRow[] drSelectedItems = dtProjectData.Select("PK_Building_ID IN (" + selectedBuildings.Substring(0, selectedBuildings.LastIndexOf(",")) + ")");
 
-                if (drUnSelectedItem.Length > 0)
-                {
-                    foreach (DataRow drItem in drUnSelectedItem)
-                    {
-                        if (cblBuildingList.Items.FindByValue(Convert.ToString(drItem["PK_Building_ID"])) != null)
-                        {
-                            cblBuildingList.Items.FindByValue(Convert.ToString(drItem["PK_Building_ID"])).Selected = true;
-                            cblBuildingList.Items.FindByValue(Convert.ToString(drItem["PK_Building_ID"])).Enabled = false;
-                        }
-                    }
+            //    if (drUnSelectedItem.Length > 0)
+            //    {
+            //        foreach (DataRow drItem in drUnSelectedItem)
+            //        {
+            //            if (cblBuildingList.Items.FindByValue(Convert.ToString(drItem["PK_Building_ID"])) != null)
+            //            {
+            //                cblBuildingList.Items.FindByValue(Convert.ToString(drItem["PK_Building_ID"])).Selected = true;
+            //                cblBuildingList.Items.FindByValue(Convert.ToString(drItem["PK_Building_ID"])).Enabled = false;
+            //            }
+            //        }
 
-                    foreach (DataRow drSelectedItem in drSelectedItems)
-                    {
-                        DataRow[] drAssociatedItems = dtProjectData.Select("Project_Number = '" + Convert.ToString(drSelectedItem["Project_Number"]) + "' AND PK_Building_ID NOT IN (" + selectedBuildings.Substring(0, selectedBuildings.LastIndexOf(",")) + ")");
-                        if (drAssociatedItems.Length > 0)
-                        {
-                            foreach (DataRow drAssociatedItem in drAssociatedItems)
-                            {
-                                associatedProject += "Project " + Convert.ToString(drSelectedItem["Project_Number"]) + " tied to " + "Building " + Convert.ToString(drSelectedItem["Building_Number"]) + " is also tied to building " + Convert.ToString(drAssociatedItem["Building_Number"]) + "\\n";
-                            }
-                        }
-                    }
-                }
-            }
+            //        foreach (DataRow drSelectedItem in drSelectedItems)
+            //        {
+            //            DataRow[] drAssociatedItems = dtProjectData.Select("Project_Number = '" + Convert.ToString(drSelectedItem["Project_Number"]) + "' AND PK_Building_ID NOT IN (" + selectedBuildings.Substring(0, selectedBuildings.LastIndexOf(",")) + ")");
+            //            if (drAssociatedItems.Length > 0)
+            //            {
+            //                foreach (DataRow drAssociatedItem in drAssociatedItems)
+            //                {
+            //                    associatedProject += "Project " + Convert.ToString(drSelectedItem["Project_Number"]) + " tied to " + "Building " + Convert.ToString(drSelectedItem["Building_Number"]) + " is also tied to building " + Convert.ToString(drAssociatedItem["Building_Number"]) + "\\n";
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
 
             trProjectDetails.Visible = true;
             trBuildingImprovementsDetails.Visible = true;
