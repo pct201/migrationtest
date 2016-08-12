@@ -1305,17 +1305,29 @@ public partial class Exposures_Property : clsBasePage
         dvChangeBuilding.Style["display"] = "none";
         dvBuildingGrid.Style["display"] = "";
         dvBuilding.Style["display"] = "none";
+        string buildingNumber = string.Empty;
+        string buildings = string.Empty;
+        DataTable dtLocation = LU_Location.SelectByPK(FK_LU_Location_ID).Tables[0];
 
         for (int i = 0; i < cblBuildingList.Items.Count; i++)
         {
             if (cblBuildingList.Items[i].Selected)
             {
                 string[] splitBuildingText = cblBuildingList.Items[i].Text.Split('-');
-                string buildingNumber = splitBuildingText[0] + "-" + splitBuildingText[1].TrimEnd();
-                Building.ChangeBuilding_Location(Convert.ToInt32(txtExistingLocation.Text), Convert.ToInt32(drpLocation.SelectedValue), buildingNumber);
+                buildingNumber = splitBuildingText[0] + "-" + splitBuildingText[1].TrimEnd();
+                buildings +="," + buildingNumber;
+
+               if (Convert.ToInt64(dtLocation.Rows[0]["Sonic_Location_Code"]) == 503)
+               {
+                   Building.ChangeBuilding_Location(Convert.ToInt32(txtExistingLocation.Text), Convert.ToInt32(drpLocation.SelectedValue), buildingNumber);
+               }
             }
+
         }
-        
+        if (Convert.ToInt64(dtLocation.Rows[0]["Sonic_Location_Code"]) != 503)
+        {
+            Building.ChangeBuilding_Location(Convert.ToInt32(txtExistingLocation.Text), Convert.ToInt32(drpLocation.SelectedValue), buildings);
+        }
         BindGridBuilding();
         BindBuildingImprovementGrid();
     }
