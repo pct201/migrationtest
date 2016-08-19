@@ -82,7 +82,7 @@ public partial class SONIC_FirstReport_FranchiseGrid : clsBasePage
         {
             lnkAddFranchise.Visible = false;
             gvFranchise.Columns[4].Visible = false;
-            btnEdit.Visible = (App_Access == AccessType.Franchise_AddEdit);
+            btnEdit.Visible = (App_Access == AccessType.Franchise_AddEdit || App_Access == AccessType.Administrative_Access);
         }
         else
         {
