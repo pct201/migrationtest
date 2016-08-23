@@ -278,5 +278,22 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
+
+        /// <summary>
+        /// Selects records by FK
+        /// </summary>
+        /// <param name="pK_PM_SI_Utility_Provider"></param>
+        /// <returns></returns>
+        public static DataSet SelectPk_EquipmentByEquipmentType(decimal fK_PM_Site_Information, decimal FK_LU_Equipment_Type)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Pk_EquipmentSelectByEquipmentType");
+
+            db.AddInParameter(dbCommand, "FK_PM_Site_Information", DbType.Decimal, fK_PM_Site_Information);
+            db.AddInParameter(dbCommand, "FK_LU_Equipment_Type", DbType.Decimal, FK_LU_Equipment_Type);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
     }
 }

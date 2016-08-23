@@ -991,9 +991,17 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
     /// Save OWS Data
     /// </summary>
     private void SaveHydraulicLiftData()
-    {
+    {        
+
         clsPM_Equipment objPM_Equipment = new clsPM_Equipment();
-        objPM_Equipment.PK_PM_Equipment = PM_Equipment;
+        //Added by Poonam Parekh
+        //To add a new record in PM_Equipment for alignment type and hydraulic lift
+        DataSet dsData = clsPM_Equipment.SelectPk_EquipmentByEquipmentType(FK_PM_Site_Information, Convert.ToDecimal(drpEquipmentType.SelectedValue));
+        if(dsData.Tables[0].Rows.Count>0)
+            objPM_Equipment.PK_PM_Equipment = PM_Equipment;
+        else
+            objPM_Equipment.PK_PM_Equipment = 0;
+
         objPM_Equipment.FK_PM_Site_Information = FK_PM_Site_Information;
         if (drpEquipmentType.SelectedIndex > 0) objPM_Equipment.FK_LU_Equipment_Type = Convert.ToDecimal(drpEquipmentType.SelectedValue);
         objPM_Equipment.FK_Table_Name = 0;
@@ -1282,6 +1290,19 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         //Equipment type 'Alignment Rack' is selected then show and hide Panel ticket #3142
         else if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "hydraulic lift" || drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "alignment rack")
         {
+            //Get PM_equipment
+            DataSet dsData = clsPM_Equipment_Hydraulic_Lift.RackLiftSelectByEquipmentType(FK_PM_Site_Information, Convert.ToDecimal(drpEquipmentType.SelectedValue));
+            if (dsData.Tables[0].Rows.Count > 0)
+            {
+                PM_Equipment = Convert.ToDecimal(dsData.Tables[0].Rows[0]["PK_PM_Equipment"].ToString());
+                PK_PM_Equipment_Hydraulic_Lift = Convert.ToDecimal(dsData.Tables[0].Rows[0]["PK_PM_Equipment_Hydraulic_Lift"].ToString());
+            }
+            else
+            {
+                PM_Equipment = 0;
+                PK_PM_Equipment_Hydraulic_Lift = 0;
+            }
+            
             if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "hydraulic lift")
             {
                 Lift();
@@ -1898,6 +1919,17 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
     /// <param name="e"></param>
     protected void btnSaveView_Click(object sender, EventArgs e)
     {
+        //DataSet dsData = clsPM_Equipment_Hydraulic_Lift.RackLiftSelectByEquipmentType(FK_PM_Site_Information, Convert.ToDecimal(drpEquipmentType.SelectedValue));
+        //if (dsData.Tables[0].Rows.Count > 0)
+        //{
+        //    PM_Equipment = Convert.ToDecimal(dsData.Tables[0].Rows[0]["PK_PM_Equipment"].ToString());
+        //    PK_PM_Equipment_Hydraulic_Lift = Convert.ToDecimal(dsData.Tables[0].Rows[0]["PK_PM_Equipment_Hydraulic_Lift"].ToString());
+        //}
+        //else
+        //{
+        //    PM_Equipment = 0;
+        //    PK_PM_Equipment_Hydraulic_Lift = 0;
+        //}
         //Equipment type 'Tank' is selected then Save Data in PM_Equipment_Tank table
         if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "tank")
         {

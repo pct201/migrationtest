@@ -317,5 +317,18 @@ namespace ERIMS.DAL
             return returnValue;
             
         }
+
+        public static DataSet RackLiftSelectByEquipmentType(decimal fK_PM_Site_Information, decimal FK_LU_Equipment_Type)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("PM_Equipment_Hydraulic_LiftSelectByEquipmentType");
+
+            db.AddInParameter(dbCommand, "FK_PM_Site_Information", DbType.Decimal, fK_PM_Site_Information);
+            db.AddInParameter(dbCommand, "FK_LU_Equipment_Type", DbType.Decimal, FK_LU_Equipment_Type);
+
+            return db.ExecuteDataSet(dbCommand);
+
+        }
+
 	}
 }
