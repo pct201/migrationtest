@@ -54,7 +54,7 @@
             <asp:Label ID="lblDateIncident" runat="server"></asp:Label>
         </td>
            <td align="left">
-            <asp:LinkButton ID="lnkClaimNumber" Text="" runat="server" />
+            <asp:LinkButton ID="lnkClaimNumber" Text="" runat="server" CausesValidation="false" />
         </td>
         <td align="left" id="tdDataInvestigation" runat="server" style="display: none;">
             <asp:LinkButton ID="lnkInvestigation" Text="" runat="server" />
