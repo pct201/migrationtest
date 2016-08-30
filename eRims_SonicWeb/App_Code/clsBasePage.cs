@@ -173,7 +173,7 @@ public class clsBasePage : System.Web.UI.Page
                     }
                     App_Access = AccessType.View_Only;
                 }
-                 
+
                 if (strModule == "COIReports/")
                     strModule = "COI/";
                 if (strModule == "Pollution/")
@@ -384,11 +384,11 @@ public class clsBasePage : System.Web.UI.Page
                                 {
                                     boolAccessSet = true;
                                     if (clsSession.IsUserRegionalOfficer == true)
-                                    {                                        
+                                    {
                                         if (drView != null && drView.Length > 0)
                                         {
                                             App_Access = AccessType.View_Only;
-                                        }                                        
+                                        }
                                         if (drAdmin != null && drAdmin.Length > 0)
                                         {
                                             App_Access = AccessType.Administrative_Access;
@@ -417,7 +417,7 @@ public class clsBasePage : System.Web.UI.Page
                                     boolAccessSet = false;
                                 }
                             }
-                         
+
                             //if (Request.Url.ToString().IndexOf("ClaimReviewWorkSheetGroupSearch.aspx") > 0)
                             //{
                             //    //check once right is set for the module and also check current right is administrative.
@@ -499,6 +499,8 @@ public class clsBasePage : System.Web.UI.Page
             // check if user is system administrator
             DataRow[] drAdminGrp = dsGroup.Tables[0].Select("Group_Name = 'Administrative'");
             IsUserSystemAdmin = drAdminGrp.Length > 0;
+            string[] allowUsersForEmployee = { "tjhallice", "jjames", "brady.lamp", "durham" };
+
 
             if (IsUserSystemAdmin)
             {
@@ -510,10 +512,14 @@ public class clsBasePage : System.Web.UI.Page
             if (strModule == "Administrator/" && strUrl.IndexOf("rptSecurity.aspx") > 0)
             {
                 if (UserAccessType != AccessType.Administrative_Access)
-                {   
+                {
                     if (dsGroup.Tables[0].Rows.Count <= 0)
                         Response.Redirect(AppConfig.SiteURL + "Error.aspx?msg=errAcc");
                 }
+            }
+            else if (strModule == "Administrator/" && strUrl.IndexOf("EmployeeSearchResult.aspx") > 0 && Array.IndexOf(allowUsersForEmployee, clsSession.UserName) < 0)
+            {
+                Response.Redirect(AppConfig.SiteURL + "Error.aspx?msg=errAcc");
             }
 
             else if (strModule == "SLT/" && !boolAccessSet)
@@ -590,8 +596,8 @@ public class clsBasePage : System.Web.UI.Page
                         Response.Redirect(AppConfig.SiteURL + "Error.aspx?msg=errAcc");
                     }
                     // if user donot have admin access and try to access than redirect to error page.
-                   else if (strUrl.IndexOf("/Administrator/") == -1 && App_Access == AccessType.NotAssigned && !(strUrl.Contains("ExposureSearch") || strUrl.Contains("DealershipDBA_Pupup")))
-                   {
+                    else if (strUrl.IndexOf("/Administrator/") == -1 && App_Access == AccessType.NotAssigned && !(strUrl.Contains("ExposureSearch") || strUrl.Contains("DealershipDBA_Pupup")))
+                    {
                         Response.Redirect(AppConfig.SiteURL + "Error.aspx?msg=errAcc");
                     }
                 }
