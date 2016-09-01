@@ -8,6 +8,8 @@ using System.Drawing;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Net;
+using OfficeOpenXml.Drawing;
 
 
 public class HTML2Excel
@@ -176,6 +178,10 @@ public class HTML2Excel
                     case "TR": HandleTRNode(childNode, hasBorder); break;
 
                     case "TD":
+						foreach (HtmlAttribute trAttrib in hNode.Attributes)
+						{
+							childNode.Attributes.Add(trAttrib);
+						}
                         HandleTDNode(childNode);
                         currColumnNumber++;
                         break;
@@ -456,6 +462,10 @@ public class HTML2Excel
                                         htColStyles.Add(currRowNumber + ":" + currColumnNumber, backcolor);
                                     }
                                     break;
+								case "width":
+									//excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].
+									excelWorksheet.Column(currColumnNumber).Width = (Convert.ToInt32(nodeVal[1].Trim().Replace("px","")) - 12 + 5) / 7d + 1;
+									break;
                             }
                         }
 
@@ -663,6 +673,46 @@ public class HTML2Excel
                         }
 
                         break;
+					case "img":
+						string url = string.Empty, width = "0", height = "0";
+
+						foreach (HtmlAttribute tdAttrib in childNode.Attributes)
+						{
+							switch (tdAttrib.Name.ToUpper())
+							{
+								case "SRC":
+									url = tdAttrib.Value;
+									break;
+								case "WIDTH":
+									width = tdAttrib.Value;
+									break;
+								case "HEIGHT":
+									height = tdAttrib.Value;
+									break;
+
+							}
+						}
+						if (!string.IsNullOrEmpty(url))
+						{
+							using (WebClient client = new WebClient())
+							{
+								string imagePath = @"D:\R & D Work\Adhoc Reports\Input\" + Guid.NewGuid().ToString();
+								//client.DownloadFileAsync(new Uri(url), @"c:\temp\image35.png");
+								client.DownloadFile(new Uri(url), imagePath);
+								Image img = Image.FromFile(imagePath);
+
+								ExcelPicture cellImg = excelWorksheet.Drawings.AddPicture("", img);
+								cellImg.From.Column = currColumnNumber - 1;
+								cellImg.From.Row = currRowNumber - 1;
+								cellImg.From.ColumnOff = 1;
+								//cellImg.SetPosition(currRowNumber - 1, 1, currColumnNumber - 1, 3);
+								cellImg.SetSize((int)(Convert.ToInt32(width) * 0.8), (int)(Convert.ToInt32(height) * 0.35));
+								cellImg.Dispose();
+
+								File.Delete(imagePath);
+							}
+						}
+						break;
                 }
             }
             if (colSpanSet)
@@ -693,7 +743,11 @@ public class HTML2Excel
             {
                 case "TABLE": HandleTABLENode(childNode); break;
                 case "TR":
-
+					foreach (HtmlAttribute trAttrib in hNode.Attributes)
+					{
+						childNode.Attributes.Add(trAttrib);
+					}
+					
                     totalcolsInCurrRow = HandleTRNode(childNode, hasBorder);
                     if (totalcolsInCurrRow > MaxColumnInCurrTable)
                         MaxColumnInCurrTable = totalcolsInCurrRow;
