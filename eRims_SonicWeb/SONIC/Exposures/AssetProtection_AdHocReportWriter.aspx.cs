@@ -804,7 +804,7 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
                             if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.TextBox)
                                 LoadFilterControlText(lstFilter[i].ConditionType, lstFilter[i].ConditionValue, pnlText_F1, txtFilter1, drpText_F1);
                             // Set Multi Selection listBox Criteria
-                            else if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                            else if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectList || lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
                                 LoadFilterControlDropDown(lstFilter[i].Field_Header, lstFilter[i].ConditionValue, lst_F1);
                             // Set Amount field Criteria
                             else if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.AmountControl)
@@ -817,7 +817,7 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
                             LoadFilterCriteria(lstFilter[i], drpFilter2);
                             if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.TextBox)
                                 LoadFilterControlText(lstFilter[i].ConditionType, lstFilter[i].ConditionValue, pnlText_F2, txtFilter2, drpText_F2);
-                            else if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                            else if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectList || lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
                                 LoadFilterControlDropDown(lstFilter[i].Field_Header, lstFilter[i].ConditionValue, lst_F2);
                             else if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.AmountControl)
                                 LoadFilterControlAmount(lstFilter[i], pnlAmount_F2, drpAmount_F2, txtAmount1_F1, txtAmount2_F2, lblAmountText1_F2, lblAmountText2_F2, cvAmount2);
@@ -828,7 +828,7 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
                             LoadFilterCriteria(lstFilter[i], drpFilter3);
                             if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.TextBox)
                                 LoadFilterControlText(lstFilter[i].ConditionType, lstFilter[i].ConditionValue, pnlText_F3, txtFilter3, drpText_F3);
-                            else if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                            else if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectList || lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
                                 LoadFilterControlDropDown(lstFilter[i].Field_Header, lstFilter[i].ConditionValue, lst_F3);
                             else if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.AmountControl)
                                 LoadFilterControlAmount(lstFilter[i], pnlAmount_F3, drpAmount_F3, txtAmount1_F3, txtAmount2_F3, lblAmountText1_F3, lblAmountText2_F3, cvAmount3);
@@ -839,7 +839,7 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
                             LoadFilterCriteria(lstFilter[i], drpFilter4);
                             if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.TextBox)
                                 LoadFilterControlText(lstFilter[i].ConditionType, lstFilter[i].ConditionValue, pnlText_F4, txtFilter4, drpText_F4);
-                            else if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                            else if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectList || lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
                                 LoadFilterControlDropDown(lstFilter[i].Field_Header, lstFilter[i].ConditionValue, lst_F4);
                             else if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.AmountControl)
                                 LoadFilterControlAmount(lstFilter[i], pnlAmount_F4, drpAmount_F4, txtAmount1_F4, txtAmount2_F4, lblAmountText1_F4, lblAmountText2_F4, cvAmount4);
@@ -850,7 +850,7 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
                             LoadFilterCriteria(lstFilter[i], drpFilter5);
                             if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.TextBox)
                                 LoadFilterControlText(lstFilter[i].ConditionType, lstFilter[i].ConditionValue, pnlText_F5, txtFilter5, drpText_F5);
-                            else if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                            else if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectList || lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
                                 LoadFilterControlDropDown(lstFilter[i].Field_Header, lstFilter[i].ConditionValue, lst_F5);
                             else if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.AmountControl)
                                 LoadFilterControlAmount(lstFilter[i], pnlAmount_F5, drpAmount_F5, txtAmount1_F5, txtAmount2_F5, lblAmountText1_F5, lblAmountText2_F5, cvAmount5);
@@ -861,7 +861,7 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
                             LoadFilterCriteria(lstFilter[i], drpFilter6);
                             if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.TextBox)
                                 LoadFilterControlText(lstFilter[i].ConditionType, lstFilter[i].ConditionValue, pnlText_F6, txtFilter6, drpText_F6);
-                            else if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                            else if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectList || lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
                                 LoadFilterControlDropDown(lstFilter[i].Field_Header, lstFilter[i].ConditionValue, lst_F6);
                             else if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.AmountControl)
                                 LoadFilterControlAmount(lstFilter[i], pnlAmount_F6, drpAmount_F6, txtAmount1_F6, txtAmount2_F6, lblAmountText1_F6, lblAmountText2_F6, cvAmount6);
@@ -872,7 +872,7 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
                             LoadFilterCriteria(lstFilter[i], drpFilter7);
                             if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.TextBox)
                                 LoadFilterControlText(lstFilter[i].ConditionType, lstFilter[i].ConditionValue, pnlText_F7, txtFilter7, drpText_F7);
-                            else if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                            else if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectList || lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
                                 LoadFilterControlDropDown(lstFilter[i].Field_Header, lstFilter[i].ConditionValue, lst_F7);
                             else if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.AmountControl)
                                 LoadFilterControlAmount(lstFilter[i], pnlAmount_F7, drpAmount_F7, txtAmount1_F7, txtAmount2_F7, lblAmountText1_F7, lblAmountText2_F7, cvAmount7);
@@ -883,7 +883,7 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
                             LoadFilterCriteria(lstFilter[i], drpFilter8);
                             if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.TextBox)
                                 LoadFilterControlText(lstFilter[i].ConditionType, lstFilter[i].ConditionValue, pnlText_F8, txtFilter8, drpText_F8);
-                            else if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                            else if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectList || lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
                                 LoadFilterControlDropDown(lstFilter[i].Field_Header, lstFilter[i].ConditionValue, lst_F8);
                             else if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.AmountControl)
                                 LoadFilterControlAmount(lstFilter[i], pnlAmount_F8, drpAmount_F8, txtAmount1_F8, txtAmount2_F8, lblAmountText1_F8, lblAmountText2_F8, cvAmount8);
@@ -894,7 +894,7 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
                             LoadFilterCriteria(lstFilter[i], drpFilter9);
                             if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.TextBox)
                                 LoadFilterControlText(lstFilter[i].ConditionType, lstFilter[i].ConditionValue, pnlText_F9, txtFilter9, drpText_F9);
-                            else if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                            else if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectList || lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
                                 LoadFilterControlDropDown(lstFilter[i].Field_Header, lstFilter[i].ConditionValue, lst_F9);
                             else if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.AmountControl)
                                 LoadFilterControlAmount(lstFilter[i], pnlAmount_F9, drpAmount_F9, txtAmount1_F9, txtAmount2_F9, lblAmountText1_F9, lblAmountText2_F9, cvAmount9);
@@ -905,7 +905,7 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
                             LoadFilterCriteria(lstFilter[i], drpFilter10);
                             if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.TextBox)
                                 LoadFilterControlText(lstFilter[i].ConditionType, lstFilter[i].ConditionValue, pnlText_F10, txtFilter10, drpText_F10);
-                            else if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                            else if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectList || lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
                                 LoadFilterControlDropDown(lstFilter[i].Field_Header, lstFilter[i].ConditionValue, lst_F10);
                             else if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.AmountControl)
                                 LoadFilterControlAmount(lstFilter[i], pnlAmount_F10, drpAmount_F10, txtAmount1_F10, txtAmount2_F10, lblAmountText1_F10, lblAmountText2_F10, cvAmount10);
@@ -3454,7 +3454,7 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
             objFilter.ConditionType = FitlerText;
             objFilter.ConditionValue = TextWhere.Trim();
         }
-        else if (Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+        else if (Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList || Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
         {
             objFilter.ConditionValue = ListFilterWhere;
         }
@@ -3547,6 +3547,49 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
         else if (Convert.ToString(Field_Header).ToLower().Trim() == "cap index risk category")
         {
             ComboHelper.FillCap_Index_Risk_Category(new ListBox[] { lst_F }, false);
+        }
+        else if (Convert.ToString(Field_Header).ToLower().Trim() == "location d/b/a")
+        {
+            ComboHelper.FillLocationDBA_All(new ListBox[] { lst_F }, 0, false);
+        }
+        else if (Convert.ToString(Field_Header).ToLower().Trim() == "transaction type")
+        {
+            ComboHelper.FillTransactionType(new ListBox[] { lst_F }, false);
+        }
+        else if (Convert.ToString(Field_Header).ToLower().Trim() == "transaction category")
+        {
+            ComboHelper.FillTransactionCategory(new ListBox[] { lst_F }, false);
+        }
+        else if (Convert.ToString(Field_Header).ToLower().Trim() == "cause of loss")
+        {
+            lst_F.Items.Clear();
+            lst_F.Items.Add(new ListItem("MVA-Single", "1"));
+            lst_F.Items.Add(new ListItem("MVA-Multiple", "2"));
+            lst_F.Items.Add(new ListItem("Fraud", "3"));
+            lst_F.Items.Add(new ListItem("Theft", "4"));
+            lst_F.Items.Add(new ListItem("Partial Theft", "5"));
+            lst_F.Items.Add(new ListItem("Vandalism", "6"));
+            lst_F.Items.Add(new ListItem("Hail", "7"));
+            lst_F.Items.Add(new ListItem("Flood", "8"));
+            lst_F.Items.Add(new ListItem("Fire", "9"));
+            lst_F.Items.Add(new ListItem("Wind", "10"));
+        }
+        else if (Convert.ToString(Field_Header).ToLower().Trim().Contains("state"))
+        {
+            ComboHelper.FillStateList(new ListBox[] { lst_F }, false);
+        }
+        else if (Convert.ToString(Field_Header).ToLower().Trim() == "type of vehicle")
+        {
+            lst_F.Items.Clear();
+            lst_F.Items.Add(new ListItem("New Inventory", "New Inventory"));
+            lst_F.Items.Add(new ListItem("Used Inventory", "Used Inventory"));
+            lst_F.Items.Add(new ListItem("Demo", "Demo"));
+            lst_F.Items.Add(new ListItem("Shop Loaner", "Shop Loaner"));
+            lst_F.Items.Add(new ListItem("Daily Rental", "Daily Rental"));
+        }
+        else if (Convert.ToString(Field_Header).ToLower().Trim() == "type of event")
+        {
+            ComboHelper.FillEventType(new ListBox[] { lst_F }, false);
         }
         else
         {
