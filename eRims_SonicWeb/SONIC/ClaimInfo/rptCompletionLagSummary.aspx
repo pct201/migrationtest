@@ -145,7 +145,7 @@
                 <td align="center" colspan="2">
                     <asp:GridView ID="gvDescription" EnableTheming="false" DataKeyNames="Region"
                         runat="server" AutoGenerateColumns="false" OnRowDataBound="gvDescription_RowDataBound"
-                        Width="100%" HorizontalAlign="Left" GridLines="None" ShowFooter="true" EmptyDataText="No Record Found !">
+                        Width="100%" GridLines="None" ShowFooter="true" EmptyDataText="No Record Found !">
                         <HeaderStyle HorizontalAlign="Center" CssClass="HeaderStyle" />
                         <RowStyle BackColor="White" HorizontalAlign="Left" />
                         <AlternatingRowStyle BackColor="White" HorizontalAlign="Left" />

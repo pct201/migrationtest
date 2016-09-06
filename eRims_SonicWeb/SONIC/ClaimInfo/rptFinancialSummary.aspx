@@ -241,7 +241,7 @@ Inherits="SONIC_ClaimInfo_rptFinancialSummary" Title="eRIMS Sonic :: Financial S
                                                                                     <tr>
                                                                                         <td align="Left">
                                                                                             <asp:GridView ID="gvDetail" runat="server" AutoGenerateColumns="false" DataKeyNames="AccidentYear"
-                                                                                                CellPadding="4" CssClass="GridClass" Width="100%" ShowHeader="False" HorizontalAlign="Left"
+                                                                                                CellPadding="4" CssClass="GridClass" Width="100%" ShowHeader="False" 
                                                                                                 EnableTheming="false" GridLines="None" ShowFooter="true" OnRowDataBound="gvDetail_RowDataBound"
                                                                                                 EmptyDataText="No Record Found">
                                                                                                 <RowStyle CssClass="RowStyle" />
