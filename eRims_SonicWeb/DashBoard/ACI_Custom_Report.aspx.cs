@@ -142,9 +142,9 @@ public partial class ACI_Custom_Report : clsBasePage
                 int intRes;
                 int intDiv = System.Math.DivRem(intI3, 2, out intRes);
                 if (intRes == 0)
-                    sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#EAEAEA;font-family:Tahoma;'>");
+                    sbRecorords.Append("<tr  style='font-size:8pt;background-color:#EAEAEA;font-family:Tahoma;'>");
                 else
-                    sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#FFFFFF;font-family:Tahoma;'>");
+                    sbRecorords.Append("<tr  style='font-size:8pt;background-color:#FFFFFF;font-family:Tahoma;'>");
 
                 sbRecorords.Append("<td  class='cols_' align='left' >" + Convert.ToString(drRecords["Region"]) + "</td>");
                 sbRecorords.Append("<td  class='cols_' align='left' >" + Convert.ToString(drRecords["Location"]) + "</td>");
@@ -163,7 +163,7 @@ public partial class ACI_Custom_Report : clsBasePage
                 sbRecorords.Append("<td  class='cols_' align='left' >&nbsp;&nbsp;&nbsp;" + Convert.ToString(drRecords["Resulting_Score"]) + "</td>");
                 sbRecorords.Append("</tr>");
             }
-            sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#FFFFFF;font-family:Tahoma;'>");
+            sbRecorords.Append("<tr style='font-size:8pt;background-color:#FFFFFF;font-family:Tahoma;'>");
             
             sbRecorords.Append("<td  class='cols_' align='left' ><b>Total</b></td>");
             sbRecorords.Append("<td class='cols_' align='right'><b>" + string.Empty + "</b></td>");

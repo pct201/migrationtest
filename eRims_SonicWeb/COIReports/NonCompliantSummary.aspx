@@ -78,8 +78,8 @@
                                     <asp:GridView ID="gvReport" runat="server" Width="3500px" EnableTheming="false" GridLines="none" AutoGenerateColumns="false" 
                                      EmptyDataText="No Record Found" ShowFooter="true" CellPadding="4" CellSpacing="0">
                                         <HeaderStyle HorizontalAlign="Center" CssClass="HeaderStyle" />
-                                        <RowStyle CssClass="RowStyle" HorizontalAlign="Left" />
-                                        <AlternatingRowStyle CssClass="AlterRowStyle" BackColor="White" HorizontalAlign="Left" />
+                                        <RowStyle CssClass="RowStyle"  />
+                                        <AlternatingRowStyle CssClass="AlterRowStyle" BackColor="White"  />
                                         <FooterStyle ForeColor="White" Font-Bold="true" />
                                         <EmptyDataRowStyle BackColor="#EAEAEA" HorizontalAlign="Center" Height="22px" />
                                         <Columns>

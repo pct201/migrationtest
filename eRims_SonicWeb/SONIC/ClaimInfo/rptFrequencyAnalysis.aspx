@@ -157,7 +157,7 @@
             <tr>
                 <td align="center">
                     <asp:GridView ID="gvRegions" runat="server" EnableTheming="false" AutoGenerateColumns="false" Width="100%" 
-                     OnRowDataBound="gvRegions_RowDataBound" ShowFooter="true" GridLines="None" HorizontalAlign="Left" 
+                     OnRowDataBound="gvRegions_RowDataBound" ShowFooter="true" GridLines="None"
                      EmptyDataText="No Record Found !">
                      <HeaderStyle HorizontalAlign="Center" CssClass="HeaderStyle" />
                         <RowStyle BackColor="White" HorizontalAlign="Left" />
@@ -211,7 +211,7 @@
                                         <tr>
                                             <td>
                                                 <asp:GridView ID="gvDetails" runat="server" EnableTheming="false" Width="100%" AutoGenerateColumns="false" GridLines="None"
-                                                 CellPadding="4" ShowHeader="false" OnRowDataBound="gvDetails_RowDataBound" ShowFooter="true" HorizontalAlign="Left" CssClass="GridClass">
+                                                 CellPadding="4" ShowHeader="false" OnRowDataBound="gvDetails_RowDataBound" ShowFooter="true" CssClass="GridClass">
                                                     <FooterStyle BackColor="white" ForeColor="black" Font-Bold="true" />
                                                     <RowStyle CssClass="RowStyle" />
                                                     <AlternatingRowStyle CssClass="AlterStyle" />

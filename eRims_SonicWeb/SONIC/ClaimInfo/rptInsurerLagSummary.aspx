@@ -174,7 +174,7 @@
                                             <td>
                                                 <asp:GridView Width="100%" ShowHeader="false" ID="gvLagSummaryReport" runat="server"
                                                     CellPadding="4" GridLines="None" CssClass="GridClass" AutoGenerateColumns="false"
-                                                    EnableTheming="false" OnRowDataBound="gvLagSummaryReport_RowDataBound" HorizontalAlign="Left"
+                                                    EnableTheming="false" OnRowDataBound="gvLagSummaryReport_RowDataBound" 
                                                     ShowFooter="true" EmptyDataText="No Record Found !">
                                                     <FooterStyle BackColor="white" ForeColor="black" Font-Bold="true" />
                                                     <RowStyle CssClass="RowStyle" />

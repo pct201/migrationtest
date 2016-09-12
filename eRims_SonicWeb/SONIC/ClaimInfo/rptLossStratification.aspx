@@ -145,7 +145,7 @@
                                                                         <td>
                                                                             <asp:GridView ID="gvReportDetail" runat="server" AutoGenerateColumns="false" Width="100%"
                                                                                 CssClass="GridClass" CellPadding="4" GridLines="None" OnRowDataBound="gvReportDetail_RowDataBound"
-                                                                                ShowHeader="False" ShowFooter="true" EnableTheming="false" HorizontalAlign="Left"
+                                                                                ShowHeader="False" ShowFooter="true" EnableTheming="false" 
                                                                                 EmptyDataText="No Record Found !" EmptyDataRowStyle-HorizontalAlign="Left">
                                                                                 <RowStyle CssClass="RowStyle" />
                                                                                 <AlternatingRowStyle CssClass="AlterRowStyle" />

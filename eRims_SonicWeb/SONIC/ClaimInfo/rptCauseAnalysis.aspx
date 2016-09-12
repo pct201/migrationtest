@@ -189,7 +189,7 @@
                                         <tr>
                                             <td>
                                                 <asp:GridView ID="gvDetails" runat="server" EnableTheming="false" Width="100%" AutoGenerateColumns="false" GridLines="None"
-                                                 CellPadding="4" ShowHeader="false" OnRowDataBound="gvDetails_RowDataBound" ShowFooter="true" HorizontalAlign="Left" CssClass="GridClass">
+                                                 CellPadding="4" ShowHeader="false" OnRowDataBound="gvDetails_RowDataBound" ShowFooter="true" CssClass="GridClass">
                                                     <FooterStyle BackColor="white" ForeColor="black" Font-Bold="true" />
                                                     <RowStyle CssClass="RowStyle" />
                                                     <AlternatingRowStyle CssClass="AlterRowStyle" />
