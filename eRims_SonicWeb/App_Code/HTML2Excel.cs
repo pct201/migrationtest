@@ -8,7 +8,7 @@ using System.Drawing;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System.Net; 
+using System.Net;
 using OfficeOpenXml.Drawing;
 
 
@@ -279,7 +279,7 @@ public class HTML2Excel
 									{
 										//range.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
 										Border border = range.Style.Border;
-										border.Right.Style = ExcelBorderStyle.Medium;
+										border.Right.Style = ExcelBorderStyle.Thin;
 									}
 									break;
 								case "border-left":
@@ -288,7 +288,7 @@ public class HTML2Excel
 									{
 										//range.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
 										Border border = range.Style.Border;
-										border.Left.Style = ExcelBorderStyle.Medium;
+										border.Left.Style = ExcelBorderStyle.Thin;
 									}
 									break;
 							}
@@ -339,6 +339,25 @@ public class HTML2Excel
 
 						}
 					}
+					break;
+
+				case "border":
+					if (trAttrib.Value != "0")
+						using (ExcelRange range = excelWorksheet.Cells[currRowNumber, tempCol, currRowNumber, tempCol])
+						{
+							range.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
+							Border border = range.Style.Border;
+							border.Bottom.Style = border.Top.Style = border.Left.Style = border.Right.Style = ExcelBorderStyle.Thin;
+						}
+					//else
+					//{
+					//    using (ExcelRange range = excelWorksheet.Cells[currRowNumber, tempCol, currRowNumber, tempCol])
+					//    {
+					//        range.Style.Border.BorderAround(ExcelBorderStyle.None);
+					//        Border border = range.Style.Border;
+					//        border.Bottom.Style = border.Top.Style = border.Left.Style = border.Right.Style = ExcelBorderStyle.None;
+					//    }
+					//}
 					break;
 			}
 		}
@@ -505,24 +524,24 @@ public class HTML2Excel
 										htColStyles.Add(currRowNumber + ":" + currColumnNumber, backcolor);
 									}
 									break;
-								case "width":
-									//excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].
-									string tempWidth = nodeVal[1].Trim().ToLower().Replace("px", "");
-									if (!tempWidth.Contains("%"))
-										excelWorksheet.Column(currColumnNumber).Width = (Convert.ToInt32(tempWidth) - 12) / 7d;
-									else if (!tempWidth.Contains("100%"))
-									{
-										excelWorksheet.Column(currColumnNumber).Width = (((fixWidth * Convert.ToInt32(tempWidth.Replace("%", ""))) / 100) - 12 + 5) / 7d + 1;
-										isPercentWidthSet = true;
-									}
-									break;
+								//case "width":
+								//    //excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].
+								//    string tempWidth = nodeVal[1].Trim().ToLower().Replace("px", "");
+								//    if (!tempWidth.Contains("%"))
+								//        excelWorksheet.Column(currColumnNumber).Width = (Convert.ToInt32(tempWidth) - 12) / 7d;
+								//    else if (!tempWidth.Contains("100%"))
+								//    {
+								//        excelWorksheet.Column(currColumnNumber).Width = (((fixWidth * Convert.ToInt32(tempWidth.Replace("%", ""))) / 100) - 12 + 5) / 7d + 1;
+								//        isPercentWidthSet = true;
+								//    }
+								//    break;
 								case "border":
-									//if (NoOfCol > 0 && tdAttrib.Value != "0")
+									if (tdAttrib.Value != "0")
 									using (ExcelRange range = excelWorksheet.Cells[currRowNumber, currColumnNumber, currRowNumber, currColumnNumber + noOfColspan])
 									{
-										range.Style.Border.BorderAround(ExcelBorderStyle.Medium, Color.Black);
+										range.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
 										Border border = range.Style.Border;
-										border.Bottom.Style = border.Top.Style = border.Left.Style = border.Right.Style = ExcelBorderStyle.Medium;
+										border.Bottom.Style = border.Top.Style = border.Left.Style = border.Right.Style = ExcelBorderStyle.Thin;
 
 									}
 									break;
@@ -559,6 +578,20 @@ public class HTML2Excel
 						excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 						cellAlign = ExcelHorizontalAlignment.Center;
 						alignSet = true;
+					}
+					break;
+					case "valign":
+					if (tdAttrib.Value.ToLower() == "top")
+					{
+						excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].Style.VerticalAlignment = ExcelVerticalAlignment.Top;
+					}
+					if (tdAttrib.Value.ToLower() == "bottom")
+					{
+						excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].Style.VerticalAlignment = ExcelVerticalAlignment.Bottom;
+					}
+					if (tdAttrib.Value.ToLower() == "middle")
+					{
+						excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
 					}
 					break;
 			}
@@ -666,16 +699,21 @@ public class HTML2Excel
 						{
 							currColumnNumber = currColumnNumber + Convert.ToInt32(htGridCells[currColumnNumber]) - 1;
 						}
-						ExcelRichTextCollection rtfCollection2 = excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].RichText;
-						ExcelRichText tempText2 = rtfCollection2.Add(childNode.InnerText.Trim().Replace("&nbsp;", " ").Replace("<br>", "\r\n"));
-
-						if (!isBold && isTH)
-							isBold = true;
-						tempText2.Bold = isBold;
-						tempText2.PreserveSpace = true;
-						if (color != Color.Black)
+						string tempText111 = childNode.InnerText.Trim().Replace("&nbsp;", " ").Replace("<br>", "\r\n");
+						if (!string.IsNullOrEmpty(tempText111))
 						{
-							tempText2.Color = color;
+							ExcelRichTextCollection rtfCollection2 = excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].RichText;
+
+							ExcelRichText tempText2 = rtfCollection2.Add(tempText111);
+
+							if (!isBold && isTH)
+								isBold = true;
+							tempText2.Bold = isBold;
+							//tempText2.PreserveSpace = true;
+							if (color != Color.Black)
+							{
+								tempText2.Color = color;
+							}
 						}
 						break;
 					case "a":
@@ -809,7 +847,6 @@ public class HTML2Excel
 							}
 						}
 						if (!string.IsNullOrEmpty(url) && !url.Contains("up-arrow") && !url.Contains("down-arrow"))
-
 						{
 							using (WebClient client = new WebClient())
 							{
@@ -823,7 +860,7 @@ public class HTML2Excel
 								cellImg.From.Row = currRowNumber - 1;
 								cellImg.From.ColumnOff = 1;
 								//cellImg.SetPosition(currRowNumber - 1, 1, currColumnNumber - 1, 3);
-								cellImg.SetSize((int)(Convert.ToInt32(width.ToLower().Replace("px", "")) *0.94), (int)(Convert.ToInt32(height.ToLower().Replace("px", "")) * 0.34));
+								cellImg.SetSize((int)(Convert.ToInt32(width.ToLower().Replace("px", "")) * 0.94), (int)(Convert.ToInt32(height.ToLower().Replace("px", "")) * 0.34));
 								cellImg.Dispose();
 
 								File.Delete(imagePath2);
@@ -1450,9 +1487,9 @@ public class HTML2Excel
 						if (NoOfCol > 0 && tdAttrib.Value != "0")
 							using (ExcelRange range = excelWorksheet.Cells[startRow, startCol, currRowNumber - 1, NoOfCol])
 							{
-								range.Style.Border.BorderAround(ExcelBorderStyle.Medium, Color.Black);
+								range.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
 								Border border = range.Style.Border;
-								border.Bottom.Style = border.Top.Style = border.Left.Style = border.Right.Style = ExcelBorderStyle.Medium;
+								border.Bottom.Style = border.Top.Style = border.Left.Style = border.Right.Style = ExcelBorderStyle.Thin;
 							}
 					break;
 				case "style":
@@ -1499,9 +1536,9 @@ public class HTML2Excel
 										if (NoOfCol > 0 && tdAttrib.Value != "0")
 											using (ExcelRange range = excelWorksheet.Cells[startRow, startCol, currRowNumber - 1, NoOfCol])
 											{
-												range.Style.Border.BorderAround(ExcelBorderStyle.Medium, Color.Black);
+												range.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
 												Border border = range.Style.Border;
-												border.Bottom.Style = border.Top.Style = border.Left.Style = border.Right.Style = ExcelBorderStyle.Medium;
+												border.Bottom.Style = border.Top.Style = border.Left.Style = border.Right.Style = ExcelBorderStyle.Thin;
 											}
 									break;
 							}

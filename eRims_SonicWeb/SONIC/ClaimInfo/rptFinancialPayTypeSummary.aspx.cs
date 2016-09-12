@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using ERIMS.DAL;
+using System.Collections.Generic;
 
 public partial class SONIC_ClaimInfo_rptFinancialPayTypeSummary : clsBasePage
 {
@@ -158,7 +159,9 @@ public partial class SONIC_ClaimInfo_rptFinancialPayTypeSummary : clsBasePage
         }
 
         // export data to excel from gridview
-        GridViewExportUtil.ExportGrid("FinancialPayTypeSummary.xlsx", gvReportOuter, true);
+        List<System.Collections.Generic.KeyValuePair<int, double>> columnWidth = new List<System.Collections.Generic.KeyValuePair<int, double>>();
+        columnWidth.Add(new KeyValuePair<int, double>(6, 20));
+        GridViewExportUtil.ExportGrid("FinancialPayTypeSummary.xlsx", gvReportOuter, true, columnWidth);
 
         // reset the settings
         ((HtmlTable)gvReportOuter.HeaderRow.FindControl("tblHeader")).Border = 0;

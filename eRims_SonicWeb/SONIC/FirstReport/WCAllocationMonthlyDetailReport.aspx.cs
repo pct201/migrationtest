@@ -90,7 +90,7 @@ public partial class SONIC_FirstReport_WCAllocationMonthlyDetailReport : clsBase
 
                 }
             }
-            GridViewExportUtil.ExportGrid("WCAllocationDetailsReport.xls", gvMarketReport, true);
+            GridViewExportUtil.ExportGrid("WCAllocationDetailsReport.xlsx", gvMarketReport, true);
 
             //Hide the Grid lines
             gvMarketReport.GridLines = GridLines.None;

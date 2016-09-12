@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using System.Text;
+using System.Collections.Generic;
 /// <summary>
 /// 
 /// </summary>
@@ -323,6 +324,88 @@ public class GridViewExportUtil
             HTML2Excel objHtml2Excel = new HTML2Excel(data);
             objHtml2Excel.isGrid = isGrid;
             objHtml2Excel.isUseCSS = false;
+            outputFiles = Path.GetFullPath(strPath) + ".xlsx";
+            bool blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
+
+            if (blnHTML2Excel)
+            {
+                try
+                {
+                    HttpContext.Current.Response.Clear();
+                    HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename=\"" + fileNameToSave + "\""));
+                    HttpContext.Current.Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                    HttpContext.Current.Response.TransmitFile(outputFiles);
+                    HttpContext.Current.Response.Flush();
+                }
+                finally
+                {
+                    if (File.Exists(outputFiles))
+                        File.Delete(outputFiles);
+                    if (File.Exists(strPath))
+                        File.Delete(strPath);
+                    HttpContext.Current.Response.End();
+                }
+            }
+            else
+            {
+                try
+                {
+                    fileNameToSave.Replace(".xlsx", ".xls");
+                    HttpContext.Current.Response.Clear();
+                    HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename=\"" + fileNameToSave + "\""));
+                    HttpContext.Current.Response.ContentType = "application/ms-excel";
+                    HttpContext.Current.Response.TransmitFile(strPath);
+                    HttpContext.Current.Response.Flush();
+                }
+                finally
+                {
+                    if (File.Exists(outputFiles))
+                        File.Delete(outputFiles);
+                    if (File.Exists(strPath))
+                        File.Delete(strPath);
+                    HttpContext.Current.Response.End();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+
+    public static void ExportGrid(string fileNameToSave, GridView gvReportGrid, bool isGrid, List<System.Collections.Generic.KeyValuePair<int, double>> columnWidth)
+    {
+        try
+        {
+            StringWriter stringWrite = new StringWriter();
+            HtmlTextWriter htmlWrite = new HtmlTextWriter(stringWrite);
+            MemoryStream memorystream = new MemoryStream();
+            String strPath = String.Empty, data = String.Empty, outputFiles = String.Empty;
+
+            gvReportGrid.RenderControl(htmlWrite);
+
+            byte[] _bytes = Encoding.UTF8.GetBytes(stringWrite.ToString());
+            memorystream.Write(_bytes, 0, _bytes.Length);
+            memorystream.Seek(0, SeekOrigin.Begin);
+
+            strPath = AppConfig.SitePath + @"temp\" + DateTime.Now.ToString("ddMMyyyyhhmmss");
+            if (!File.Exists(strPath))
+            {
+                if (!Directory.Exists(AppConfig.SitePath + @"temp\"))
+                    Directory.CreateDirectory(AppConfig.SitePath + @"temp\");
+                // Create a file to write to.
+                using (StreamWriter sw = File.CreateText(strPath))
+                {
+                    sw.Write(stringWrite.ToString());
+                }
+            }
+
+            data = File.ReadAllText(strPath);
+            data = data.Trim();
+            HTML2Excel objHtml2Excel = new HTML2Excel(data);
+            objHtml2Excel.isGrid = isGrid;
+            objHtml2Excel.isUseCSS = false;
+            objHtml2Excel.columnWidth = columnWidth;
             outputFiles = Path.GetFullPath(strPath) + ".xlsx";
             bool blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
 
