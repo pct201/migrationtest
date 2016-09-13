@@ -56,11 +56,11 @@ public partial class SONIC_CRM_rptCustomerIncidentSummary : clsBasePage
         {
             sbRecorords.Append("<style type='text/css'></style><table border='0' style='border: black 0.5px solid;border-collapse: collapse;' cellpadding='0' cellspacing='0'  Width='100%px'><tr><td class='cols_' >");
             sbRecorords.Append("<table border='0' style='font-size:8.5pt;font-family:Tahoma' cellpadding='4' cellspacing='0' Width='100%'>");//Sub Table
-            sbRecorords.Append("<tr style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:11pt;height:25'>"); //Title
+            sbRecorords.Append("<tr style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:11pt;height:25;border:thin'>"); //Title
             sbRecorords.Append("<td align='center' style='font-size:9pt;' colspan='14' ><b> Customer Relations Incident Summary Report for " + drpYear.SelectedValue + " </b></td>");
             sbRecorords.Append("</tr>");
 
-            sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:8.5pt'>");
+            sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:8.5pt;border:thin'>");
             sbRecorords.Append("<td class='cols_' width='130px'>&nbsp;</td>");
             sbRecorords.Append("<td class='cols_' width='56px' align='left'>JAN</td>");
             sbRecorords.Append("<td class='cols_' width='56px' align='left'>FEB</td>");
@@ -77,7 +77,7 @@ public partial class SONIC_CRM_rptCustomerIncidentSummary : clsBasePage
             sbRecorords.Append("<td class='cols_' width='56px' align='left'>Total</td>");
             sbRecorords.Append("</tr>");
 
-            sbRecorords.Append("<tr style='font-weight: bold; color: #FF6600;font-size:9pt'><td style='border-bottom: #EAEAEA 1px solid' class='cols_'  style='color: #FF9C09;font-weight: bold;font-size:9pt' colspan='14'>Analysis by Incident</td></tr>");
+            sbRecorords.Append("<tr style='font-weight: bold; color: #FF6600;font-size:9pt;border:thin'><td style='border-bottom: #EAEAEA 1px solid' class='cols_'  style='color: #FF9C09;font-weight: bold;font-size:9pt' colspan='14'>Analysis by Incident</td></tr>");
 
             for (int i = 0; i < dtRecordType.Rows.Count; i++)
             {
@@ -85,9 +85,9 @@ public partial class SONIC_CRM_rptCustomerIncidentSummary : clsBasePage
                 DataRow[] drReport = dtReport.Select("Type = '" + strRecordType + "'");
 
                 if (strRecordType == "Number of Dealerships with a Reported Incident")
-                    sbRecorords.Append("<tr style='font-weight: bold; color: #FF6600;font-size:9pt'><td style='border-bottom: #EAEAEA 1px solid' class='cols_'  style='color: #FF9C09;font-weight: bold;font-size:9pt' colspan='14'>Analysis by Dealership</td></tr>");
+                    sbRecorords.Append("<tr style='font-weight: bold; color: #FF6600;font-size:9pt;border:thin'><td style='border-bottom: #EAEAEA 1px solid' class='cols_'  style='color: #FF9C09;font-weight: bold;font-size:9pt' colspan='14'>Analysis by Dealership</td></tr>");
 
-                sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#EAEAEA;font-family:Tahoma;'>");
+                sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#EAEAEA;font-family:Tahoma;border:thin'>");
 
                 if (strRecordType == "Method of Contact")
                 {
@@ -107,9 +107,9 @@ public partial class SONIC_CRM_rptCustomerIncidentSummary : clsBasePage
                         int intRes;
                         int intDiv = System.Math.DivRem(j, 2, out intRes);
                         if (intRes == 0)
-                            sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#FFFFFF;font-family:Tahoma;'>");                            
+                            sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#FFFFFF;font-family:Tahoma;border:thin'>");                            
                         else
-                            sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#EAEAEA;font-family:Tahoma;'>");
+                            sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#EAEAEA;font-family:Tahoma;border:thin'>");
 
                         sbRecorords.Append("<td class='cols_' align='left'>" + Convert.ToString(drRecords["Description"]) + "</td>");
                     }
@@ -136,7 +136,7 @@ public partial class SONIC_CRM_rptCustomerIncidentSummary : clsBasePage
                         sbRecorords.Append("</tr>");
                 }
                 if (i < dtRecordType.Rows.Count - 1)
-                    sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#FFFFFF;font-family:Tahoma;'><td colspan='14'>&nbsp;</td></tr>");
+                    sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#FFFFFF;font-family:Tahoma;border:thin'><td colspan='14'>&nbsp;</td></tr>");
             }
 
             //sbRecorords.Append("<tr><td colspan='14' class='cols_'>&nbsp;</td></tr>");
@@ -149,7 +149,7 @@ public partial class SONIC_CRM_rptCustomerIncidentSummary : clsBasePage
             // if record not found then hide Header and set width and height so scroll bar not visible.            
             trGrid.Visible = false;
             sbRecorords.Append("<table style='font-family:Tahoma' cellpadding='4' cellspacing='0' Width='100%'>");
-            sbRecorords.Append("<tr style='background-color:#F2F2F2;color:Black;'>");
+            sbRecorords.Append("<tr style='background-color:#F2F2F2;color:Black;border:thin'>");
             sbRecorords.Append("<td align='center' style='font-size:9pt;'>No Records found.</td></tr></table>");
         }
 

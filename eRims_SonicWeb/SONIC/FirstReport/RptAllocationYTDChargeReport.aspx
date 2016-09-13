@@ -181,7 +181,7 @@
                                                 <ItemTemplate>
                                                     <table width="100%" cellpadding="0" cellspacing="0" border="0">
                                                         <tr>
-                                                            <td align="left" style="background-color: White; height: 25px; color: Black;">
+                                                            <td align="left" colspan="16" style="background-color: White; height: 25px; color: Black;border:thin">
                                                                 <b>&nbsp;Location :
                                                                     <asp:Label ID="lblRegion" runat="server"><%#Eval("DBA")%></asp:Label>
                                                                 </b>

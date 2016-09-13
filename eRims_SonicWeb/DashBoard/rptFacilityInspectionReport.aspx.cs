@@ -154,12 +154,12 @@ public partial class SONIC_Exposures_rptFacilityInspectionReport : clsBasePage
             sbRecorords.Append("<style type='text/css'></style><div style='overflow-x: scroll;overflow-y:hidden; width: 994px; height: 100%;'><table border='0' style='border: black 0.5px solid;border-collapse: collapse;' cellpadding='0' cellspacing='0'  Width='100%px'><tr><td class='cols_' >");
             //sbRecorords.Append("<div style='overflow-x: scroll;overflow-y:hidden; width: 994px; height: 100%;'>");
             sbRecorords.Append("<table style='padding-left:4px;font-size:8.5pt;font-family:Tahoma' cellpadding='4' cellspacing='0' Width='1980px'>");//Sub Table
-            sbRecorords.Append("<tr style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:11pt;height:25'>"); //Title
+            sbRecorords.Append("<tr style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:11pt;height:25;border:thin'>"); //Title
             sbRecorords.Append("<td align='left' style='font-size:9pt;' colspan='2'><b>Sonic Automotive</b></td>");
             sbRecorords.Append("<td align='center' style='font-size:9pt;' colspan='9' ><b> FACILITY INSPECTIONS - MONTHLY REPORT FOR " + drpYear.SelectedValue + " </b></td>");
             sbRecorords.Append("<td style='font-size:9pt' align='right' colspan='4'>Valuation Date: " + DateTime.Now.ToString("MM/dd/yyy HH:mm tt") + "</td></tr>");
 
-            sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:8.5pt'>");
+            sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:8.5pt;border:thin'>");
             sbRecorords.Append("<td class='cols_' width='180px'>REGION</td>");
             sbRecorords.Append("<td class='cols_' width='230px'>STORE</td>");
             sbRecorords.Append("<td class='cols_' width='120px'>JANUARY</td>");
@@ -182,9 +182,9 @@ public partial class SONIC_Exposures_rptFacilityInspectionReport : clsBasePage
                 int intRes;
                 int intDiv = System.Math.DivRem(intI3, 2, out intRes);
                 if (intRes == 0)
-                    sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#EAEAEA;font-family:Tahoma;'>");
+                    sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#EAEAEA;font-family:Tahoma;border:thin'>");
                 else
-                    sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#FFFFFF;font-family:Tahoma;'>");
+                    sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#FFFFFF;font-family:Tahoma;border:thin'>");
 
                 sbRecorords.Append("<td  class='cols_' align='left' >" + Convert.ToString(drRecords["Region"]) + "</td>");
                 sbRecorords.Append("<td class='cols_' >" + Convert.ToString(drRecords["DBA"]) + "</td>");
@@ -215,7 +215,7 @@ public partial class SONIC_Exposures_rptFacilityInspectionReport : clsBasePage
             // if record not found then hide Header and set width and height so scroll bar not visible.            
             trGrid.Visible = false;
             sbRecorords.Append("<table style='font-family:Tahoma' cellpadding='4' cellspacing='0' Width='100%'>");
-            sbRecorords.Append("<tr style='background-color:#F2F2F2;color:Black;'>");
+            sbRecorords.Append("<tr style='background-color:#F2F2F2;color:Black;border:thin'>");
             sbRecorords.Append("<td align='center' style='font-size:9pt;'>No Records found.</td></tr></table>");
         }
         return sbRecorords;
@@ -253,12 +253,12 @@ public partial class SONIC_Exposures_rptFacilityInspectionReport : clsBasePage
 
             // sbRecorords.Append("<div style='overflow: scroll; width: 985px; height: 100%;'>");
             sbRecorords.Append("<table style='padding-left:4px;font-size:8.5pt;font-family:Tahoma' cellpadding='4' cellspacing='0' Width='995px'>");//Sub Table
-            sbRecorords.Append("<tr style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:11pt;height:25'>"); //Title
+            sbRecorords.Append("<tr style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:11pt;height:25;border:thin'>"); //Title
             sbRecorords.Append("<td align='left' style='font-size:9pt;' colspan='1'><b>Sonic Automotive</b></td>");
             sbRecorords.Append("<td align='center' style='font-size:9pt;' colspan='3' ><b> FACILITY INSPECTION - QUARTERLY REPORT FOR " + drpYear.SelectedValue + " </b></td>");
             sbRecorords.Append("<td style='font-size:9pt' align='right' colspan='3'>Valuation Date: " + DateTime.Now.ToString("MM/dd/yyy HH:mm tt") + "</td></tr>");
 
-            sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:8.5pt'>");
+            sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:8.5pt;border:thin'>");
             sbRecorords.Append("<td class='cols_' width='185px'>REGION</td>");
             sbRecorords.Append("<td class='cols_' width='220px'>STORE</td>");
             sbRecorords.Append("<td class='cols_' width='120px'>Q1</td>");
@@ -273,9 +273,9 @@ public partial class SONIC_Exposures_rptFacilityInspectionReport : clsBasePage
                 int intRes;
                 int intDiv = System.Math.DivRem(intI3, 2, out intRes);
                 if (intRes == 0)
-                    sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#EAEAEA;font-family:Tahoma;'>");
+                    sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#EAEAEA;font-family:Tahoma;border:thin'>");
                 else
-                    sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#FFFFFF;font-family:Tahoma;'>");
+                    sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#FFFFFF;font-family:Tahoma;border:thin'>");
 
                 sbRecorords.Append("<td  class='cols_' align='left' >" + Convert.ToString(drRecords["Region"]) + "</td>");
                 sbRecorords.Append("<td class='cols_' >" + Convert.ToString(drRecords["DBA"]) + "</td>");
@@ -297,7 +297,7 @@ public partial class SONIC_Exposures_rptFacilityInspectionReport : clsBasePage
             // if record not found then hide Header and set width and height so scroll bar not visible.            
             trGrid.Visible = false;
             sbRecorords.Append("<table style='font-family:Tahoma' cellpadding='4' cellspacing='0' Width='100%'>");
-            sbRecorords.Append("<tr style='background-color:#F2F2F2;color:Black;'>");
+            sbRecorords.Append("<tr style='background-color:#F2F2F2;color:Black;border:thin'>");
             sbRecorords.Append("<td align='center' style='font-size:9pt;'>No Records found.</td></tr></table>");
         }
         return sbRecorords;
@@ -336,12 +336,12 @@ public partial class SONIC_Exposures_rptFacilityInspectionReport : clsBasePage
 
             //sbRecorords.Append("<div style='overflow: scroll; width: 995px; height: 100%;'>");
             sbRecorords.Append("<table style='padding-left:4px;font-size:8.5pt;font-family:Tahoma' cellpadding='4' cellspacing='0' Width='996px'>");//Sub Table
-            sbRecorords.Append("<tr style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:11pt;height:25'>"); //Title
+            sbRecorords.Append("<tr style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:11pt;height:25;border:thin'>"); //Title
             sbRecorords.Append("<td align='left' style='font-size:9pt;' colspan='1'><b>Sonic Automotive</b></td>");
             sbRecorords.Append("<td align='center' style='font-size:9pt;' colspan='4' ><b> FACILITY INSPECTION - ANNAUL REPORT FOR " + drpYear.SelectedValue + " </b></td>");
             sbRecorords.Append("<td style='font-size:9pt' align='right' colspan='3'>Valuation Date: " + DateTime.Now.ToString("MM/dd/yyy HH:mm tt") + "</td></tr>");
 
-            sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:8.5pt'>");
+            sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:8.5pt;border:thin'>");
             sbRecorords.Append("<td class='cols_' width='180px'>REGION</td>");
             sbRecorords.Append("<td class='cols_' width='230px'>STORE</td>");
             sbRecorords.Append("<td class='cols_' width='120px'>" + Convert.ToString(intSelectYear - 4) + "</td>");
@@ -357,9 +357,9 @@ public partial class SONIC_Exposures_rptFacilityInspectionReport : clsBasePage
                 int intRes;
                 int intDiv = System.Math.DivRem(intI3, 2, out intRes);
                 if (intRes == 0)
-                    sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#EAEAEA;font-family:Tahoma;'>");
+                    sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#EAEAEA;font-family:Tahoma;border:thin'>");
                 else
-                    sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#FFFFFF;font-family:Tahoma;'>");
+                    sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#FFFFFF;font-family:Tahoma;border:thin'>");
 
                 sbRecorords.Append("<td  class='cols_' align='left' >" + Convert.ToString(drRecords["Region"]) + "</td>");
                 sbRecorords.Append("<td class='cols_' >" + Convert.ToString(drRecords["DBA"]) + "</td>");
@@ -382,7 +382,7 @@ public partial class SONIC_Exposures_rptFacilityInspectionReport : clsBasePage
             // if record not found then hide Header and set width and height so scroll bar not visible.            
             trGrid.Visible = false;
             sbRecorords.Append("<table style='font-family:Tahoma' cellpadding='4' cellspacing='0' Width='100%'>");
-            sbRecorords.Append("<tr style='background-color:#F2F2F2;color:Black;'>");
+            sbRecorords.Append("<tr style='background-color:#F2F2F2;color:Black;border:thin'>");
             sbRecorords.Append("<td align='center' style='font-size:9pt;'>No Records found.</td></tr></table>");
         }
         return sbRecorords;

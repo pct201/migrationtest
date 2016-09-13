@@ -434,7 +434,7 @@
                                                                         <asp:Label ID="Label22" runat="server" Width="120px" Text="Total" />
                                                                     </td>
                                                                     <td style="width: 120px;">
-                                                                        <asp:Label ID="lblFTotal" runat="server" Width="120px" />
+                                                                        <asp:Label ID="lblFTotal" runat="server" Width="120px"  />
                                                                     </td>
                                                                     <td style="width: 200px;">
                                                                         <asp:Label ID="Label23" runat="server" Width="200px" />

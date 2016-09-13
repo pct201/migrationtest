@@ -131,12 +131,12 @@ public partial class SONIC_SLT_rptSLTScoring : clsBasePage
             //sbRecorords.Append("<div style='overflow: hidden; width: 995px;'>");
             //sbRecorords.Append("<div style='overflow-x: scroll;overflow-y:hidden; width: 994px; height: 100%;'>");
             sbRecorords.Append("<table style='padding-left:4px;font-size:8.5pt;font-family:Tahoma' cellpadding='4' cellspacing='0' Width='1980px'>");//Sub Table
-            sbRecorords.Append("<tr style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:11pt;height:25'>"); //Title
+            sbRecorords.Append("<tr style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:11pt;height:25;border:thin'>"); //Title
             sbRecorords.Append("<td align='left' style='font-size:9pt;' colspan='2'><b>Sonic Automotive</b></td>");
             sbRecorords.Append("<td align='center' style='font-size:9pt;' colspan='9' ><b> SLT SCORING REPORT - MONTHLY " + drpYear.SelectedValue + " </b></td>");
             sbRecorords.Append("<td style='font-size:9pt' align='right' colspan='4'>Valuation Date: " + DateTime.Now.ToString("MM/dd/yyy HH:mm tt") + "</td></tr>");
 
-            sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:8.5pt'>");
+            sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:8.5pt;border:thin'>");
             sbRecorords.Append("<td class='cols_' width='180px'>REGION</td>");
             sbRecorords.Append("<td class='cols_' width='230px'>STORE</td>");
             sbRecorords.Append("<td class='cols_' width='120px'>JANUARY</td>");
@@ -159,9 +159,9 @@ public partial class SONIC_SLT_rptSLTScoring : clsBasePage
                 int intRes;
                 int intDiv = System.Math.DivRem(intI3, 2, out intRes);
                 if (intRes == 0)
-                    sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#EAEAEA;font-family:Tahoma;'>");
+                    sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#EAEAEA;font-family:Tahoma;border:thin'>");
                 else
-                    sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#FFFFFF;font-family:Tahoma;'>");
+                    sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#FFFFFF;font-family:Tahoma;border:thin'>");
 
                 sbRecorords.Append("<td  class='cols_' align='left' >" + Convert.ToString(drRecords["Region"]) + "</td>");
                 sbRecorords.Append("<td class='cols_' >" + Convert.ToString(drRecords["DBA"]) + "</td>");
@@ -192,7 +192,7 @@ public partial class SONIC_SLT_rptSLTScoring : clsBasePage
             // if record not found then hide Header and set width and height so scroll bar not visible.            
             trGrid.Visible = false;
             sbRecorords.Append("<table style='font-family:Tahoma' cellpadding='4' cellspacing='0' Width='100%'>");
-            sbRecorords.Append("<tr style='background-color:#F2F2F2;color:Black;'>");
+            sbRecorords.Append("<tr style='background-color:#F2F2F2;color:Black;border:thin'>");
             sbRecorords.Append("<td align='center' style='font-size:9pt;'>No Records found.</td></tr></table>");
         }
         return sbRecorords;

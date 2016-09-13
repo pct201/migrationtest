@@ -100,7 +100,7 @@ public partial class SONIC_Sedgwick_rptActionPlansNotCompleted : clsBasePage
 
 
             // Report Header Start
-            sbRecorords.Append("<tr align='left' style='font-weight: bold;background-color:#7f7f7f;color:White;'>");
+            sbRecorords.Append("<tr align='left' style='font-weight: bold;background-color:#7f7f7f;color:White;border:thin'>");
             sbRecorords.Append("<td class='cols_' width='10%'>Sedgwick Field Office </td>");
             sbRecorords.Append("<td class='cols_' width='5%'>Year </td>");
             sbRecorords.Append("<td class='cols_' width='2%'>Quarter </td>");
@@ -129,7 +129,7 @@ public partial class SONIC_Sedgwick_rptActionPlansNotCompleted : clsBasePage
 
             for (int intCount = 0; intCount < dtFirstGroupBy.Rows.Count; intCount++)
             {
-                sbRecorords.Append("<tr style='background-color:'#EAEAEA';font-weight: bold; color: #FF9C09;font-size:8pt'><td class='cols_'  style='color: #FF9C09;font-weight: bold;font-size:9pt' border-top:#EAEAEA 1px solid; colspan='14'>" + Convert.ToString(drpGroupBy1.SelectedItem.Text) + " : " + Convert.ToString(dtFirstGroupBy.Rows[intCount]["FirstGroupBy"]) + "</td></tr>");
+                sbRecorords.Append("<tr style='background-color:'#EAEAEA';font-weight: bold; color: #FF9C09;font-size:8pt;border:thin'><td class='cols_'  style='color: #FF9C09;border:thin;font-weight: bold;font-size:9pt' border-top:#EAEAEA 1px solid; colspan='14'>" + Convert.ToString(drpGroupBy1.SelectedItem.Text) + " : " + Convert.ToString(dtFirstGroupBy.Rows[intCount]["FirstGroupBy"]) + "</td></tr>");
 
                 string strFirstGroupBy = Convert.ToString(dtFirstGroupBy.Rows[intCount]["FirstGroupBy"]);
                 strFirstGroupBy = strFirstGroupBy.Replace("'", "''");
@@ -140,8 +140,8 @@ public partial class SONIC_Sedgwick_rptActionPlansNotCompleted : clsBasePage
                     DataRow[] drRecordsSec = dtSecondGroupBy.Select(string.Format("FirstGroupBy = '{0}'", strFirstGroupBy));
                     for (int intI3 = 0; intI3 < drRecordsSec.Length; intI3++)
                     {
-                        sbRecorords.Append("<tr>");
-                        sbRecorords.Append("<td colspan='14' style='background-color: #FFFFFF; font-weight: bold;' align='left'>" + Convert.ToString(drpGroupBy2.SelectedItem.Text) + " : " + Convert.ToString(drRecordsSec[intI3]["SecondGroupBy"]) + "</td>");
+                        sbRecorords.Append("<tr style='border:thin'>");
+                        sbRecorords.Append("<td colspan='14' style='background-color: #FFFFFF; font-weight: bold;border:thin' align='left'>" + Convert.ToString(drpGroupBy2.SelectedItem.Text) + " : " + Convert.ToString(drRecordsSec[intI3]["SecondGroupBy"]) + "</td>");
                         sbRecorords.Append("</tr>");
                         string strSecondGroupBy = Convert.ToString(drRecordsSec[intI3]["SecondGroupBy"]);
                         strSecondGroupBy = strSecondGroupBy.Replace("'", "''");
@@ -165,7 +165,7 @@ public partial class SONIC_Sedgwick_rptActionPlansNotCompleted : clsBasePage
         {
             ///When records are not found.
             sbRecorords.Append("<table style='font-family:Tahoma' cellpadding='4' cellspacing='0' Width='100%'>");
-            sbRecorords.Append("<tr style='background-color:#F2F2F2;color:Black;'>");
+            sbRecorords.Append("<tr style='background-color:#F2F2F2;color:Black;border:thin'>");
             sbRecorords.Append("<td align='center' style='font-size:9pt;'>No Record found.</td></tr></table>");
             tr_Data.Visible = false;
         }
@@ -197,9 +197,9 @@ public partial class SONIC_Sedgwick_rptActionPlansNotCompleted : clsBasePage
                 int intRes;
                 int intDiv = System.Math.DivRem(intI3, 2, out intRes);
                 if (intRes == 0)
-                    sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#EAEAEA;font-family:Tahoma;'>");
+                    sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#EAEAEA;font-family:Tahoma;border:thin'>");
                 else
-                    sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#FFFFFF;font-family:Tahoma;'>");
+                    sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#FFFFFF;font-family:Tahoma;border:thin'>");
 
                 sbRecorords.Append("<td align='left' valign='Top' class='cols_' >" + Convert.ToString(drRecords[intI3]["Sedgwick_Field_Office"]) + "</td>");
                 sbRecorords.Append("<td align='left' valign='Top' class='cols_' >" + Convert.ToString(drRecords[intI3]["Year"]) + "</td>");
