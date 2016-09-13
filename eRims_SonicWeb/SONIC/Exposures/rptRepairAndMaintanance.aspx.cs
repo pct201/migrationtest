@@ -175,7 +175,7 @@ public partial class SONIC_Exposures_rptRepairAndMaintanance : clsBasePage
        
         // export data to excel from gridview
         string css = " #ctl00_ContentPlaceHolder1_gvDescription_New th {height: 22px;}.HeaderStyle th {vertical-align: bottom;text-align: left;padding-bottom: 3px;padding-left: 3px;height: 22px;}";
-        GridViewExportUtil.ExportGrid("RepairAndMaintenance.xls", gvDescription1, css);
+        GridViewExportUtil.ExportGrid("RepairAndMaintenance.xlsx", gvDescription1, css);
        
     }
 

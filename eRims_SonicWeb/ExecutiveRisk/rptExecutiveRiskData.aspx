@@ -244,15 +244,15 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="text-align: left">
+                                    <td>
                                         <div id="Div1" runat="server" style="width: 998px; overflow-x: scroll">
                                             <asp:GridView ID="gvSearch" runat="server" Width="4650px" AutoGenerateColumns="False"
-                                                HorizontalAlign="Left" OnRowDataBound="gvSearch_RowDataBound" BorderWidth="1px"
+                                                OnRowDataBound="gvSearch_RowDataBound" BorderWidth="1px"
                                                 BorderColor="silver" OnRowCreated="gvSearch_RowCreated" EmptyDataText="No Record Found !"
                                                 EnableTheming="false" GridLines="None">
-                                                <HeaderStyle HorizontalAlign="Left" CssClass="HeaderStyle" />
-                                                <RowStyle CssClass="RowStyle" HorizontalAlign="Left" />
-                                                <AlternatingRowStyle CssClass="AlterRowStyle" BackColor="White" HorizontalAlign="Left" />
+                                                <HeaderStyle CssClass="HeaderStyle" />
+                                                <RowStyle CssClass="RowStyle"/>
+                                                <AlternatingRowStyle CssClass="AlterRowStyle" BackColor="White" />
                                                 <FooterStyle ForeColor="Black" Font-Bold="true" />
                                                 <EmptyDataRowStyle BackColor="#EAEAEA" HorizontalAlign="Center" Height="22px" />
                                                 <Columns>

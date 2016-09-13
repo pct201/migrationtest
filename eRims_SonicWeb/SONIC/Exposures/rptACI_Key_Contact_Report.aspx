@@ -90,7 +90,7 @@
             </td>
         </tr>
         <tr runat="server" id="trResult" visible="false">
-            <td align="center">
+            <td>
                 <table width="100%" align="center" cellpadding="0" cellspacing="0" border="0">
                     <tr valign="middle">
                         <td align="right" width="100%">
@@ -102,14 +102,14 @@
                         </td>
                     </tr>
                     <tr id="trGrid" runat="server">
-                        <td align="left">
+                        <td>
                             <div style="overflow: auto; width: 997px; height: 398px;">
                                 <asp:GridView ID="gvKey_Contact" EnableTheming="false" runat="server" AutoGenerateColumns="false"
-                                HorizontalAlign="Left" GridLines="None" EmptyDataText="No Record Found !" CellPadding="4" 
+                                GridLines="None" EmptyDataText="No Record Found !" CellPadding="4" 
                                 CellSpacing="0">
-                                <HeaderStyle HorizontalAlign="Left" CssClass="HeaderStyle" />
-                                <RowStyle CssClass="RowStyle" HorizontalAlign="Left" />
-                                <AlternatingRowStyle CssClass="AlterRowStyle" BackColor="White" HorizontalAlign="Left" />
+                                <HeaderStyle CssClass="HeaderStyle" />
+                                <RowStyle CssClass="RowStyle" />
+                                <AlternatingRowStyle CssClass="AlterRowStyle" BackColor="White" />
                                 <FooterStyle ForeColor="Black" Font-Bold="true" />
                                 <EmptyDataRowStyle BackColor="#EAEAEA" HorizontalAlign="Center" Height="22px" Font-Bold="true" />
                                 <Columns>
@@ -138,12 +138,12 @@
                                             <%#Eval("State")%>
                                         </ItemTemplate>
                                     </asp:TemplateField>
-                                    <asp:TemplateField HeaderText="Store Zip" ItemStyle-Width="80px">
+                                    <asp:TemplateField HeaderText="Store Zip" ItemStyle-Width="80px" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left">
                                         <ItemTemplate>
                                             <%#Eval("zip_code")%>
                                         </ItemTemplate>
                                     </asp:TemplateField>
-                                    <asp:TemplateField HeaderText="Location Code" ItemStyle-Width="80px">
+                                    <asp:TemplateField HeaderText="Location Code" ItemStyle-Width="80px" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left">
                                         <ItemTemplate>
                                             <%#Eval("Sonic_Location_Code")%>
                                         </ItemTemplate>

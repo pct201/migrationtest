@@ -202,13 +202,13 @@
                         </td>
                     </tr>
                     <tr id="trGrid" runat="server">
-                        <td align="left">
+                        <td>
                             <asp:GridView ID="gvInspection" EnableTheming="false" runat="server" AutoGenerateColumns="false" Width="100%"
-                                HorizontalAlign="Left" GridLines="None" EmptyDataText="No Record Found !" CellPadding="4"
+                                GridLines="None" EmptyDataText="No Record Found !" CellPadding="4"
                                 CellSpacing="0">
-                                <HeaderStyle HorizontalAlign="Left" CssClass="HeaderStyle" />
-                                <RowStyle CssClass="RowStyle" HorizontalAlign="Left" />
-                                <AlternatingRowStyle CssClass="AlterRowStyle" BackColor="White" HorizontalAlign="Left" />
+                                <HeaderStyle CssClass="HeaderStyle" />
+                                <RowStyle CssClass="RowStyle" />
+                                <AlternatingRowStyle CssClass="AlterRowStyle" BackColor="White" />
                                 <FooterStyle ForeColor="Black" Font-Bold="true" />
                                 <EmptyDataRowStyle BackColor="#EAEAEA" HorizontalAlign="Center" Height="22px" Font-Bold="true" />
                                 <Columns>

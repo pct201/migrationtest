@@ -110,7 +110,7 @@ public partial class SONIC_ClaimInfo_rptThreePITSummary : clsBasePage
 
             TableCell Cell = new TableCell();
             Cell.Text = "<table width='100%' cellspacing=0 cellpadding=0><tr><td width='100%'>" +
-                                "<table width='100%' style='font-weight: bold;' cellspacing=0 cellpadding=0><tr style='font-weight: bold;'>" +
+                                "<table width='100%' style='font-weight: bold;' cellspacing=0 cellpadding=0><tr style='font-weight: bold;>" +
                                 "<td width='14%'>&nbsp;</td>" +
                                 "<td colspan='2' align='center' width='18%'>Period 1 <br/> " + dtLossFrom1 + " To " + dtLossTo1 + " <br/> As Of " + dtAsOf1 + "</td>" +
                                 "<td colspan='4' align='center' width='34%'>Period 2 <br/> " + dtLossFrom2 + " To " + dtLossTo2 + " <br/> As Of " + dtAsOf2 + "</td>" +

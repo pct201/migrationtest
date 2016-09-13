@@ -54,7 +54,7 @@
                                             <HeaderTemplate>
                                                 <table cellpadding="0" cellspacing="0" width="100%">
                                                     <tr>
-                                                        <td width="100%" align="left">
+                                                        <td width="100%">
                                                             <table cellpadding="4" cellspacing="0" width="100%" style="font-weight: bold;" id="tblHeader"
                                                                 runat="server">
                                                                 <tr>
@@ -134,10 +134,10 @@
                                                         <td>
                                                             <asp:GridView ID="gvClaimData" runat="server" ShowHeader="false" Width="100%" OnRowDataBound="gvClaimData_RowDataBound"
                                                                 CellPadding="4" GridLines="None" CssClass="GridClass" AutoGenerateColumns="false"
-                                                                EnableTheming="false" HorizontalAlign="Left" ShowFooter="true">
+                                                                EnableTheming="false" ShowFooter="true">
                                                                 <FooterStyle BackColor="white" ForeColor="black" Font-Bold="true" HorizontalAlign="left" />
-                                                                <RowStyle HorizontalAlign="Left" CssClass="RowStyle" VerticalAlign="top" />
-                                                                <AlternatingRowStyle HorizontalAlign="left" CssClass="AlterRowStyle" VerticalAlign="top" />
+                                                                <RowStyle CssClass="RowStyle" VerticalAlign="top" />
+                                                                <AlternatingRowStyle CssClass="AlterRowStyle" VerticalAlign="top" />
                                                                 <Columns>
                                                                     <asp:TemplateField>
                                                                         <ItemStyle Width="120px" HorizontalAlign="left" />

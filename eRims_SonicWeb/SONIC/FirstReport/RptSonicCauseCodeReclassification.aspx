@@ -287,7 +287,7 @@
                                                 <%=DateTime.Now.ToString()  %>
                                             </td>
                                         </tr>
-                                        <tr align="left" valign="bottom" class="HeaderStyle">
+                                        <tr valign="bottom" class="HeaderStyle">
                                             <td width="150px" align="left">
                                                 Region
                                             </td>
@@ -335,7 +335,7 @@
                                 </HeaderTemplate>
                                 <ItemTemplate>
                                     <table width="2400px" cellpadding="4" cellspacing="0" border="0" id="tblDetails" runat="server">
-                                        <tr align="left" valign="top">
+                                        <tr valign="top">
                                             <td width="150px" align="left">
                                                 <%# Eval("Region")%>
                                             </td>

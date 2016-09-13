@@ -139,7 +139,7 @@
                                                                             <asp:Label runat="server" ID="lblAccYear"></asp:Label>
                                                                         </td>
                                                                     </tr>
-                                                                    <tr align="left">
+                                                                    <tr >
                                                                         <td style="width: 90px;">First Report Number
                                                                         </td>
                                                                         <td style="width: 125px;">Date of Incident
@@ -328,7 +328,7 @@
                                                         <tr>
                                                             <td>
                                                                 <table cellpadding="4" cellspacing="0" width="100%" id="tblFooter" runat="server">
-                                                                    <tr align="left" style="font-weight: bold; background-color: #507cd1; color: White">
+                                                                    <tr style="font-weight: bold; background-color: #507cd1; color: White">
                                                                         <td style="width: 90px;">Grand Total
                                                                         </td>
                                                                         <td style="width: 125px;">

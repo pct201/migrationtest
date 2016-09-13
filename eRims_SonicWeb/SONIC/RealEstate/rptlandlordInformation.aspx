@@ -284,8 +284,10 @@
                                                                     <tr>
                                                                         <td align="left" style="width: 240px;">Grand Total
                                                                         </td>
-                                                                        <td align="left" style="width: 400px" colspan="2">
+                                                                        <td align="left" style="width: 400px" colspan="15">
                                                                             <asp:Label ID="lblGrandTotal" runat="server"></asp:Label>
+                                                                        </td>
+                                                                        <td align="left" style="width: 90px;">&nbsp;
                                                                         </td>
                                                                         <td align="left" style="width: 90px;">&nbsp;
                                                                         </td>

@@ -2717,15 +2717,16 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     #region First GroupBy
                     if (!string.IsNullOrEmpty(strFirstGroupBy))
                     {
+                        int colcount = Reader.FieldCount-1;
                         if (strGroupByValue_1 != strCurrValue1)
                         {
                             strGroupByValue_1 = strCurrValue1;
                             if (strFormatFirstGroupBy == "decimal")
-                                sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;' align='right'>&nbsp;" + strFirstGroupBy + ": " + string.Format("{0:c2}", strGroupByValue_1) + "</td><td>&nbsp;</td></tr>");
+                                sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;' align='right' colspan='" + (colcount - 1) + "'>&nbsp;" + strFirstGroupBy + ": " + string.Format("{0:c2}", strGroupByValue_1) + "</td><td>&nbsp;</td></tr>");
                             else if (strFormatFirstGroupBy == "datetime")
-                                sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;'>&nbsp;" + strFirstGroupBy + ": " + clsGeneral.FormatDBNullDateToDisplay(strGroupByValue_1) + "</td><td>&nbsp;</td></tr>");
+                                sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;' colspan='" + (colcount - 1) + "'>&nbsp;" + strFirstGroupBy + ": " + clsGeneral.FormatDBNullDateToDisplay(strGroupByValue_1) + "</td><td>&nbsp;</td></tr>");
                             else
-                                sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;'>&nbsp;" + strFirstGroupBy + ": " + strGroupByValue_1 + "</td><td>&nbsp;</td></tr>");
+                                sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;' colspan='" + (colcount - 1) + "'>&nbsp;" + strFirstGroupBy + ": " + strGroupByValue_1 + "</td><td>&nbsp;</td></tr>");
                             //Change Second Group By when First Groupby is Change
                             strGroupByValue_2 = strGroupByValue_3 = strGroupByValue_4 = strGroupByValue_5 = null;
                         }
@@ -2735,19 +2736,20 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     #region Second GroupBY
                     if (!string.IsNullOrEmpty(strSecGroupBy))
                     {
+                        int colcount = Reader.FieldCount - 1;
                         if (strGroupByValue_2 != strCurrValue2)
                         {
                             strGroupByValue_2 = strCurrValue2;
                             if (strFormatSecGroupBy == "decimal")
-                                sbRecord.Append("<tr><td style='font-weight: bold;color: #276692;' align='right' >&nbsp;" + strSecGroupBy + ": " + string.Format("{0:c2}", strGroupByValue_2) + "</td></tr>");
+                                sbRecord.Append("<tr><td style='font-weight: bold;color: #276692;' align='right' colspan='" + (colcount - 1) + "'>&nbsp;" + strSecGroupBy + ": " + string.Format("{0:c2}", strGroupByValue_2) + "</td></tr>");
                             else if (strFormatSecGroupBy == "datetime")
                             {
                                 // it display only Time
                                 if (strSecGroupBy == "Time Theft Reported")
-                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #276692;'>&nbsp;" + strSecGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strSecGroupBy]) + "</td></tr>");
-                                else sbRecord.Append("<tr><td style='font-weight: bold;color: #276692;' >&nbsp;" + strSecGroupBy + ": " + clsGeneral.FormatDBNullDateToDisplay(strGroupByValue_2) + "</td></tr>");
+                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #276692;'colspan='" + (colcount - 1) + "'>&nbsp;" + strSecGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strSecGroupBy]) + "</td></tr>");
+                                else sbRecord.Append("<tr><td style='font-weight: bold;color: #276692;'colspan='" + (colcount - 1) + "' >&nbsp;" + strSecGroupBy + ": " + clsGeneral.FormatDBNullDateToDisplay(strGroupByValue_2) + "</td></tr>");
                             }
-                            else sbRecord.Append("<tr><td style='font-weight: bold;color: #276692;' >&nbsp;" + strSecGroupBy + ": " + strGroupByValue_2 + "</td></tr>");
+                            else sbRecord.Append("<tr><td style='font-weight: bold;color: #276692;' colspan='" + (colcount - 1) + "'>&nbsp;" + strSecGroupBy + ": " + strGroupByValue_2 + "</td></tr>");
                             strGroupByValue_3 = strGroupByValue_4 = strGroupByValue_5 = null;
                         }
                     }
@@ -2755,19 +2757,20 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     #region Third GroupBY
                     if (!string.IsNullOrEmpty(strThirdGroupBy))
                     {
+                        int colcount = Reader.FieldCount - 1;
                         if (strGroupByValue_3 != strCurrValue3)
                         {
                             strGroupByValue_3 = strCurrValue3;
                             if (strFormatThirdGroupBy == "decimal")
-                                sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;' align='right' >&nbsp;" + strThirdGroupBy + ": " + string.Format("{0:c2}", strGroupByValue_3) + "</td></tr>");
+                                sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;' align='right' colspan='" + (colcount - 1) + "'>&nbsp;" + strThirdGroupBy + ": " + string.Format("{0:c2}", strGroupByValue_3) + "</td></tr>");
                             else if (strFormatThirdGroupBy == "datetime")
                             {
                                 // it display only Time
                                 if (strThirdGroupBy == "Time Theft Reported")
-                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;'>&nbsp;" + strThirdGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strThirdGroupBy]) + "</td></tr>");
-                                else sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;' >&nbsp;" + strThirdGroupBy + ": " + clsGeneral.FormatDBNullDateToDisplay(strGroupByValue_3) + "</td></tr>");
+                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;' colspan='" + (colcount - 1) + "'>&nbsp;" + strThirdGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strThirdGroupBy]) + "</td></tr>");
+                                else sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;' colspan='" + (colcount - 1) + "'>&nbsp;" + strThirdGroupBy + ": " + clsGeneral.FormatDBNullDateToDisplay(strGroupByValue_3) + "</td></tr>");
                             }
-                            else sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;' >&nbsp;" + strThirdGroupBy + ": " + strGroupByValue_3 + "</td></tr>");
+                            else sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;' colspan='" + (colcount - 1) + "'>&nbsp;" + strThirdGroupBy + ": " + strGroupByValue_3 + "</td></tr>");
                             strGroupByValue_4 = strGroupByValue_5 = null;
                         }
                     }
@@ -2775,19 +2778,20 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     #region Fourth GroupBY
                     if (!string.IsNullOrEmpty(strFourthGroupBy))
                     {
+                        int colcount = Reader.FieldCount - 1;
                         if (strGroupByValue_4 != strCurrValue4)
                         {
                             strGroupByValue_4 = strCurrValue4;
                             if (strFormatFourthGroupBy == "decimal")
-                                sbRecord.Append("<tr><td style='font-weight: bold;color: green;' align='right' >&nbsp;" + strFourthGroupBy + ": " + string.Format("{0:c2}", strGroupByValue_4) + "</td></tr>");
+                                sbRecord.Append("<tr><td style='font-weight: bold;color: green;' align='right' colspan='" + (colcount - 1) + "' >&nbsp;" + strFourthGroupBy + ": " + string.Format("{0:c2}", strGroupByValue_4) + "</td></tr>");
                             else if (strFormatFourthGroupBy == "datetime")
                             {
                                 // it display only Time
                                 if (strFourthGroupBy == "Time Theft Reported")
-                                    sbRecord.Append("<tr><td style='font-weight: bold;color: green;'>&nbsp;" + strFourthGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strFourthGroupBy]) + "</td></tr>");
-                                else sbRecord.Append("<tr><td style='font-weight: bold;color: green;' >&nbsp;" + strFourthGroupBy + ": " + clsGeneral.FormatDBNullDateToDisplay(strGroupByValue_4) + "</td></tr>");
+                                    sbRecord.Append("<tr><td style='font-weight: bold;color: green;' colspan='" + (colcount - 1) + "'>&nbsp;" + strFourthGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strFourthGroupBy]) + "</td></tr>");
+                                else sbRecord.Append("<tr><td style='font-weight: bold;color: green;' colspan='" + (colcount - 1) + "'>&nbsp;" + strFourthGroupBy + ": " + clsGeneral.FormatDBNullDateToDisplay(strGroupByValue_4) + "</td></tr>");
                             }
-                            else sbRecord.Append("<tr><td style='font-weight: bold;color: green;' >&nbsp;" + strFourthGroupBy + ": " + strGroupByValue_4 + "</td></tr>");
+                            else sbRecord.Append("<tr><td style='font-weight: bold;color: green;' colspan='" + (colcount - 1) + "'>&nbsp;" + strFourthGroupBy + ": " + strGroupByValue_4 + "</td></tr>");
                             strGroupByValue_5 = null;
                         }
                     }
@@ -2795,19 +2799,20 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     #region Fifth GroupBY
                     if (!string.IsNullOrEmpty(strFifthGroupBy))
                     {
+                        int colcount = Reader.FieldCount - 1;
                         if (strGroupByValue_5 != strCurrValue5)
                         {
                             strGroupByValue_5 = strCurrValue5;
                             if (strFormatFifthGroupBy == "decimal")
-                                sbRecord.Append("<tr><td style='font-weight: bold;' align='right' >&nbsp;" + strFifthGroupBy + ": " + string.Format("{0:c2}", strGroupByValue_5) + "</td></tr>");
+                                sbRecord.Append("<tr><td style='font-weight: bold;' align='right' colspan='" + (colcount - 1) + "'>&nbsp;" + strFifthGroupBy + ": " + string.Format("{0:c2}", strGroupByValue_5) + "</td></tr>");
                             else if (strFormatFifthGroupBy == "datetime")
                             {
                                 // it display only Time
                                 if (strFifthGroupBy == "Time Theft Reported")
-                                    sbRecord.Append("<tr><td style='font-weight: bold;'>&nbsp;" + strFifthGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strFifthGroupBy]) + "</td></tr>");
-                                else sbRecord.Append("<tr><td style='font-weight: bold;' >&nbsp;" + strFifthGroupBy + ": " + clsGeneral.FormatDBNullDateToDisplay(strGroupByValue_5) + "</td></tr>");
+                                    sbRecord.Append("<tr><td style='font-weight: bold;' colspan='" + (colcount - 1) + "'>&nbsp;" + strFifthGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strFifthGroupBy]) + "</td></tr>");
+                                else sbRecord.Append("<tr><td style='font-weight: bold;'colspan='" + (colcount - 1) + "' >&nbsp;" + strFifthGroupBy + ": " + clsGeneral.FormatDBNullDateToDisplay(strGroupByValue_5) + "</td></tr>");
                             }
-                            else sbRecord.Append("<tr><td style='font-weight: bold;' >&nbsp;" + strFifthGroupBy + ": " + strGroupByValue_5 + "</td></tr>");
+                            else sbRecord.Append("<tr><td style='font-weight: bold;' colspan='" + (colcount - 1) + "'>&nbsp;" + strFifthGroupBy + ": " + strGroupByValue_5 + "</td></tr>");
                         }
                     }
                     #endregion
@@ -3829,6 +3834,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     #region First GroupBy
                     if (!string.IsNullOrEmpty(strFirstGroupBy))
                     {
+                        int colcount = Reader.FieldCount-1;
                         if (strGroupByValue_1 != strCurrValue1)
                         {
                             strGroupByValue_1 = strCurrValue1;
@@ -3838,17 +3844,17 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                                 decimal.TryParse(strGroupByValue_1, out decVal);
                                 if (strFirstGroupBy == "Auto Liability - FROI #" || strFirstGroupBy == "DPD - FROI #" || strFirstGroupBy == "Premises Liability - FROI #" || strFirstGroupBy == "Property Damage -FROI #")
                                 {
-                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;'>&nbsp;" + strFirstGroupBy + ": " + strGroupByValue_1 + "</td></tr>");
+                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;'colspan='" + (colcount - 1) + "'>&nbsp;" + strFirstGroupBy + ": " + strGroupByValue_1 + "</td></tr>");
                                 }
                                 else
                                 {
-                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;' align='right'>&nbsp;" + strFirstGroupBy + ": " + string.Format("{0:c2}", decVal) + "</td></tr>");
+                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;' align='right' colspan='" + (colcount - 1) + "'>&nbsp;" + strFirstGroupBy + ": " + string.Format("{0:c2}", decVal) + "</td></tr>");
                                 }
                             }
                             else if (strFormatFirstGroupBy == "datetime")
-                                sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;'>&nbsp;" + strFirstGroupBy + ": " + clsGeneral.FormatDBNullDateToDisplay(strGroupByValue_1) + "</td></tr>");
+                                sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;' colspan='" + (colcount - 1) + "'>&nbsp;" + strFirstGroupBy + ": " + clsGeneral.FormatDBNullDateToDisplay(strGroupByValue_1) + "</td></tr>");
                             else
-                                sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;'>&nbsp;" + strFirstGroupBy + ": " + strGroupByValue_1 + "</td></tr>");
+                                sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;' colspan='" + (colcount - 1) + "'>&nbsp;" + strFirstGroupBy + ": " + strGroupByValue_1 + "</td></tr>");
                             //Change Second Group By when First Groupby is Change
                             strGroupByValue_2 = strGroupByValue_3 = strGroupByValue_4 = strGroupByValue_5 = null;
                         }
@@ -3858,6 +3864,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     #region Second GroupBY
                     if (!string.IsNullOrEmpty(strSecGroupBy))
                     {
+                        int colcount = Reader.FieldCount - 1;
                         if (strGroupByValue_2 != strCurrValue2)
                         {
                             strGroupByValue_2 = strCurrValue2;
@@ -3867,21 +3874,21 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                                 decimal.TryParse(strGroupByValue_2, out decVal);
                                 if (strSecGroupBy == "Auto Liability - FROI #" || strSecGroupBy == "DPD - FROI #" || strSecGroupBy == "Premises Liability - FROI #" || strSecGroupBy == "Property Damage -FROI #")
                                 {
-                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;'>&nbsp;" + strSecGroupBy + ": " + strGroupByValue_2 + "</td></tr>");
+                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;' colspan='" + (colcount - 1) + "'>&nbsp;" + strSecGroupBy + ": " + strGroupByValue_2 + "</td></tr>");
                                 }
                                 else
                                 {
-                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #276692;' align='right' >&nbsp;" + strSecGroupBy + ": " + string.Format("{0:c2}", decVal) + "</td></tr>");
+                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #276692;' align='right' colspan='" + (colcount - 1) + "'>&nbsp;" + strSecGroupBy + ": " + string.Format("{0:c2}", decVal) + "</td></tr>");
                                 }
                             }
                             else if (strFormatSecGroupBy == "datetime")
                             {
                                 // it display only Time
                                 if (strSecGroupBy == "Time Theft Reported")
-                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #276692;'>&nbsp;" + strSecGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strSecGroupBy]) + "</td></tr>");
-                                else sbRecord.Append("<tr><td style='font-weight: bold;color: #276692;' >&nbsp;" + strSecGroupBy + ": " + clsGeneral.FormatDBNullDateToDisplay(strGroupByValue_2) + "</td></tr>");
+                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #276692;' colspan='" + (colcount - 1) + "'>&nbsp;" + strSecGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strSecGroupBy]) + "</td></tr>");
+                                else sbRecord.Append("<tr><td style='font-weight: bold;color: #276692;'colspan='" + (colcount - 1) + "' >&nbsp;" + strSecGroupBy + ": " + clsGeneral.FormatDBNullDateToDisplay(strGroupByValue_2) + "</td></tr>");
                             }
-                            else sbRecord.Append("<tr><td style='font-weight: bold;color: #276692;' >&nbsp;" + strSecGroupBy + ": " + strGroupByValue_2 + "</td></tr>");
+                            else sbRecord.Append("<tr><td style='font-weight: bold;color: #276692;' colspan='" + (colcount - 1) + "'>&nbsp;" + strSecGroupBy + ": " + strGroupByValue_2 + "</td></tr>");
                             strGroupByValue_3 = strGroupByValue_4 = strGroupByValue_5 = null;
                         }
                     }
@@ -3889,6 +3896,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     #region Third GroupBY
                     if (!string.IsNullOrEmpty(strThirdGroupBy))
                     {
+                        int colcount = Reader.FieldCount - 1;
                         if (strGroupByValue_3 != strCurrValue3)
                         {
                             strGroupByValue_3 = strCurrValue3;
@@ -3898,21 +3906,21 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                                 decimal.TryParse(strGroupByValue_3, out decVal);
                                 if (strThirdGroupBy == "Auto Liability - FROI #" || strThirdGroupBy == "DPD - FROI #" || strThirdGroupBy == "Premises Liability - FROI #" || strThirdGroupBy == "Property Damage -FROI #")
                                 {
-                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;'>&nbsp;" + strThirdGroupBy + ": " + strGroupByValue_3 + "</td></tr>");
+                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;' colspan='" + (colcount - 1) + "'>&nbsp;" + strThirdGroupBy + ": " + strGroupByValue_3 + "</td></tr>");
                                 }
                                 else
                                 {
-                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;' align='right' >&nbsp;" + strThirdGroupBy + ": " + string.Format("{0:c2}", decVal) + "</td></tr>");
+                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;' align='right' colspan='" + (colcount - 1) + "'>&nbsp;" + strThirdGroupBy + ": " + string.Format("{0:c2}", decVal) + "</td></tr>");
                                 }
                             }
                             else if (strFormatThirdGroupBy == "datetime")
                             {
                                 // it display only Time
                                 if (strThirdGroupBy == "Time Theft Reported")
-                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;'>&nbsp;" + strThirdGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strThirdGroupBy]) + "</td></tr>");
-                                else sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;' >&nbsp;" + strThirdGroupBy + ": " + clsGeneral.FormatDBNullDateToDisplay(strGroupByValue_3) + "</td></tr>");
+                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;' colspan='" + (colcount - 1) + "'>&nbsp;" + strThirdGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strThirdGroupBy]) + "</td></tr>");
+                                else sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;' colspan='" + (colcount - 1) + "'>&nbsp;" + strThirdGroupBy + ": " + clsGeneral.FormatDBNullDateToDisplay(strGroupByValue_3) + "</td></tr>");
                             }
-                            else sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;' >&nbsp;" + strThirdGroupBy + ": " + strGroupByValue_3 + "</td></tr>");
+                            else sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;' colspan='" + (colcount - 1) + "'>&nbsp;" + strThirdGroupBy + ": " + strGroupByValue_3 + "</td></tr>");
                             strGroupByValue_4 = strGroupByValue_5 = null;
                         }
                     }
@@ -3920,6 +3928,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     #region Fourth GroupBY
                     if (!string.IsNullOrEmpty(strFourthGroupBy))
                     {
+                        int colcount = Reader.FieldCount - 1;
                         if (strGroupByValue_4 != strCurrValue4)
                         {
                             strGroupByValue_4 = strCurrValue4;
@@ -3929,21 +3938,21 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                                 decimal.TryParse(strGroupByValue_4, out decVal);
                                 if (strFourthGroupBy == "Auto Liability - FROI #" || strFourthGroupBy == "DPD - FROI #" || strFourthGroupBy == "Premises Liability - FROI #" || strFourthGroupBy == "Property Damage -FROI #")
                                 {
-                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;'>&nbsp;" + strFourthGroupBy + ": " + strGroupByValue_4 + "</td></tr>");
+                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;' colspan='" + (colcount - 1) + "'>&nbsp;" + strFourthGroupBy + ": " + strGroupByValue_4 + "</td></tr>");
                                 }
                                 else
                                 {
-                                    sbRecord.Append("<tr><td style='font-weight: bold;color: green;' align='right' >&nbsp;" + strFourthGroupBy + ": " + string.Format("{0:c2}", decVal) + "</td></tr>");
+                                    sbRecord.Append("<tr><td style='font-weight: bold;color: green;' align='right' colspan='" + (colcount - 1) + "'>&nbsp;" + strFourthGroupBy + ": " + string.Format("{0:c2}", decVal) + "</td></tr>");
                                 }
                             }
                             else if (strFormatFourthGroupBy == "datetime")
                             {
                                 // it display only Time
                                 if (strFourthGroupBy == "Time Theft Reported")
-                                    sbRecord.Append("<tr><td style='font-weight: bold;color: green;'>&nbsp;" + strFourthGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strFourthGroupBy]) + "</td></tr>");
-                                else sbRecord.Append("<tr><td style='font-weight: bold;color: green;' >&nbsp;" + strFourthGroupBy + ": " + clsGeneral.FormatDBNullDateToDisplay(strGroupByValue_4) + "</td></tr>");
+                                    sbRecord.Append("<tr><td style='font-weight: bold;color: green;' colspan='" + (colcount - 1) + "'>&nbsp;" + strFourthGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strFourthGroupBy]) + "</td></tr>");
+                                else sbRecord.Append("<tr><td style='font-weight: bold;color: green;' colspan='" + (colcount - 1) + "'>&nbsp;" + strFourthGroupBy + ": " + clsGeneral.FormatDBNullDateToDisplay(strGroupByValue_4) + "</td></tr>");
                             }
-                            else sbRecord.Append("<tr><td style='font-weight: bold;color: green;' >&nbsp;" + strFourthGroupBy + ": " + strGroupByValue_4 + "</td></tr>");
+                            else sbRecord.Append("<tr><td style='font-weight: bold;color: green;' colspan='" + (colcount - 1) + "'>&nbsp;" + strFourthGroupBy + ": " + strGroupByValue_4 + "</td></tr>");
                             strGroupByValue_5 = null;
                         }
                     }
@@ -3951,6 +3960,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     #region Fifth GroupBY
                     if (!string.IsNullOrEmpty(strFifthGroupBy))
                     {
+                        int colcount = Reader.FieldCount - 1;
                         if (strGroupByValue_5 != strCurrValue5)
                         {
                             strGroupByValue_5 = strCurrValue5;
@@ -3960,21 +3970,21 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                                 decimal.TryParse(strGroupByValue_5, out decVal);
                                 if (strFifthGroupBy == "Auto Liability - FROI #" || strFifthGroupBy == "DPD - FROI #" || strFifthGroupBy == "Premises Liability - FROI #" || strFifthGroupBy == "Property Damage -FROI #")
                                 {
-                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;'>&nbsp;" + strFifthGroupBy + ": " + strGroupByValue_5 + "</td></tr>");
+                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;' colspan='" + (colcount - 1) + "'>&nbsp;" + strFifthGroupBy + ": " + strGroupByValue_5 + "</td></tr>");
                                 }
                                 else
                                 {
-                                    sbRecord.Append("<tr><td style='font-weight: bold;' align='right' >&nbsp;" + strFifthGroupBy + ": " + string.Format("{0:c2}", decVal) + "</td></tr>");
+                                    sbRecord.Append("<tr><td style='font-weight: bold;' align='right' colspan='" + (colcount - 1) + "'>&nbsp;" + strFifthGroupBy + ": " + string.Format("{0:c2}", decVal) + "</td></tr>");
                                 }
                             }
                             else if (strFormatFifthGroupBy == "datetime")
                             {
                                 // it display only Time
                                 if (strFifthGroupBy == "Time Theft Reported")
-                                    sbRecord.Append("<tr><td style='font-weight: bold;'>&nbsp;" + strFifthGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strFifthGroupBy]) + "</td></tr>");
-                                else sbRecord.Append("<tr><td style='font-weight: bold;' >&nbsp;" + strFifthGroupBy + ": " + clsGeneral.FormatDBNullDateToDisplay(strGroupByValue_5) + "</td></tr>");
+                                    sbRecord.Append("<tr><td style='font-weight: bold;' colspan='" + (colcount - 1) + "'>&nbsp;" + strFifthGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strFifthGroupBy]) + "</td></tr>");
+                                else sbRecord.Append("<tr><td style='font-weight: bold;' colspan='" + (colcount - 1) + "'>&nbsp;" + strFifthGroupBy + ": " + clsGeneral.FormatDBNullDateToDisplay(strGroupByValue_5) + "</td></tr>");
                             }
-                            else sbRecord.Append("<tr><td style='font-weight: bold;' >&nbsp;" + strFifthGroupBy + ": " + strGroupByValue_5 + "</td></tr>");
+                            else sbRecord.Append("<tr><td style='font-weight: bold;' colspan='" + (colcount - 1) + "'>&nbsp;" + strFifthGroupBy + ": " + strGroupByValue_5 + "</td></tr>");
                         }
                     }
                     #endregion

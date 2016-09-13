@@ -220,7 +220,7 @@
                                                 <%=DateTime.Now.ToString()  %>
                                             </td>
                                         </tr>
-                                        <tr align="left" valign="bottom">
+                                        <tr valign="bottom">
                                             <td width="150px" align="left">
                                                 Location
                                             </td>
@@ -302,7 +302,7 @@
                                 <ItemTemplate>
                                     <table width="4180px" cellpadding="4" cellspacing="0" border="0" id="tblDetails"
                                         runat="server">
-                                        <tr align="left" valign="top">
+                                        <tr valign="top">
                                             <td width="150px" align="left">
                                                 <%# Eval("dba")%>
                                             </td>

@@ -400,9 +400,9 @@ public partial class SONIC_Exposures_PremiumAllocation_AnnualReport_New : clsBas
                 int intRes;
                 int intDiv = System.Math.DivRem(i, 2, out intRes);
                 if (intRes == 0)
-                    sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#FFFFFF;font-family:Tahoma;'>");
+                    sbRecorords.Append("<tr align='left' style='font-size:8pt;font-family:Tahoma;'>");
                 else
-                    sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#EAEAEA;font-family:Tahoma;'>");
+                    sbRecorords.Append("<tr align='left' style='font-size:8pt;font-family:Tahoma;'>");
 
                 DataRow drRecords = dtReport.Rows[i];
 

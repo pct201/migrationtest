@@ -118,7 +118,7 @@
                                 <ItemTemplate>
                                     <table width="100%" align="left">
                                         <tr>
-                                            <td>
+                                            <td colspan="5" style="border:thin">
                                                 <asp:Label ID="lblPolicyYear" runat="server" Text='<%# "Year - " + Eval("AccidentYear")%>'
                                                     Font-Bold="true" ForeColor="Black">
                                                 </asp:Label>
@@ -136,7 +136,7 @@
                                                             <ItemTemplate>
                                                                 <table width="100%" align="left">
                                                                     <tr>
-                                                                        <td>
+                                                                        <td colspan="5" style="border:thin">
                                                                             <asp:Label ID="lblPolicy_Type" runat="server" Text='<%#"Claim Type - " + Eval("Claim_Type") %>'
                                                                                 Font-Bold="true" ForeColor="black"></asp:Label>
                                                                         </td>

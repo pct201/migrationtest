@@ -449,7 +449,7 @@ Inherits="SONIC_ClaimInfo_rptThreePITSummary" Title="eRIMS Sonic :: Three Points
                                 <ItemTemplate>
                                     <table width="100%" cellpadding="0" cellspacing="0" border="0">
                                         <tr>
-                                            <td align="left" style="background-color: White; height: 25px; color: Black;">
+                                            <td align="left" colspan="11" style="background-color: White; height: 25px; color: Black;border:thin">
                                                 <b>
                                                     Region : <asp:Label ID="lblRegion" runat="server"><%#Eval("Region")%></asp:Label>
                                                 </b>

@@ -276,7 +276,9 @@
                                                 </table>
                                                 <table cellpadding="0" cellspacing="0" width="100%">
                                                     <tr>
-                                                        <td style="width: 30%" align="left"><asp:Label ID="lblMedian" runat="server" /></td>
+                                                          <td style="width: 30%; border: thin" align="left" colspan="5"><b>
+                                                            <asp:Label ID="lblMedian" runat="server" /></b>
+                                                        </td>
                                                     </tr>
                                                 </table>
                                             </td>

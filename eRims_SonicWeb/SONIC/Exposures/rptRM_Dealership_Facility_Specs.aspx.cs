@@ -137,12 +137,12 @@ public partial class SONIC_Exposures_rptRM_Dealership_Facility_Specs : clsBasePa
                              
         //Add Header HTML
         strHTML.Append("<table  cellpadding='0' cellspacing='0' width='100%' border='1'>");
-        strHTML.Append("<tr align='right' valign='bottom' style='font-weight: bold;'>");
+        strHTML.Append("<tr valign='bottom' style='font-weight: bold;'>");
         strHTML.Append("<td align='left' colspan='2'>Sonic Automotive</td>");
         strHTML.Append("<td align='center' colspan='9'>RM Dealership and Facility Specs</td>");
         strHTML.Append("<td align='right' colspan='5'>" + DateTime.Now.ToString() + "</td>");
         strHTML.Append("</tr>");
-        strHTML.Append("<tr align='right' valign='bottom' style='font-weight: bold;'>");
+        strHTML.Append("<tr valign='bottom' style='font-weight: bold;'>");
         strHTML.Append("<td align='left'>Region</td>");
         strHTML.Append("<td align='left'>Location D/B/A</td>");
         strHTML.Append("<td align='left'>Sonic Location Number</td>");
@@ -238,10 +238,10 @@ public partial class SONIC_Exposures_rptRM_Dealership_Facility_Specs : clsBasePa
             }
             finally
             {
-                if (File.Exists(outputFiles))
-                    File.Delete(outputFiles);
-                if (File.Exists(strPath))
-                    File.Delete(strPath);
+                //if (File.Exists(outputFiles))
+                //    File.Delete(outputFiles);
+                //if (File.Exists(strPath))
+                //    File.Delete(strPath);
 
                 HttpContext.Current.Response.End();
             }

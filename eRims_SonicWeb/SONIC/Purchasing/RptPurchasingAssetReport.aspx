@@ -29,7 +29,7 @@
             </td>
         </tr>
         <tr>
-            <td align="left">
+            <td>
                 <table cellpadding="3" cellspacing="0" width="50%" align="center">
                     <tr>
                         <td align="left" valign="top">
@@ -140,7 +140,7 @@
                                             <HeaderTemplate>
                                                 <table cellpadding="0" cellspacing="0" width="2100px">
                                                     <tr>
-                                                        <td align="left">
+                                                        <td>
                                                             <table cellpadding="4" cellspacing="0" width="2100px" style="font-weight: bold;"
                                                                 id="tblHeader" runat="server">
                                                                 <tr>
@@ -287,7 +287,7 @@
                                             <FooterTemplate>
                                                 <table cellpadding="0" cellspacing="0" width="2100px">
                                                     <tr>
-                                                        <td width="100%" align="left">
+                                                        <td width="100%">
                                                             <table cellpadding="4" cellspacing="0" width="2100px" style="font-weight: bold; color: White;"
                                                                 id="tblFooter" runat="server">
                                                                 <tr>

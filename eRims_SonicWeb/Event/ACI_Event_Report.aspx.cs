@@ -116,7 +116,7 @@ public partial class ACI_Event_Report : clsBasePage
             sbRecorords.Append("<tr style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:11pt;height:25'>"); //Title
             sbRecorords.Append("<td align='left' style='font-size:9pt;' colspan='5'>Date To: " + clsGeneral.FormatDBNullDateToDisplay(txtTo_Date_Of_Event.Text) + "</td></tr>");
 
-            sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:8.5pt'>");
+            sbRecorords.Append("<tr style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:8.5pt'>");
             sbRecorords.Append("<td class='cols_' width='185px'>Location</td>");
             sbRecorords.Append("<td class='cols_' width='220px' align='right'>ACI Event Count</td>");
             sbRecorords.Append("<td class='cols_' width='120px' align='right'>Sonic Event Count</td>");
@@ -130,9 +130,9 @@ public partial class ACI_Event_Report : clsBasePage
                 int intRes;
                 int intDiv = System.Math.DivRem(intI3, 2, out intRes);
                 if (intRes == 0)
-                    sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#EAEAEA;font-family:Tahoma;'>");
+                    sbRecorords.Append("<tr style='font-size:8pt;background-color:#EAEAEA;font-family:Tahoma;'>");
                 else
-                    sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#FFFFFF;font-family:Tahoma;'>");
+                    sbRecorords.Append("<tr style='font-size:8pt;background-color:#FFFFFF;font-family:Tahoma;'>");
 
                 sbRecorords.Append("<td  class='cols_' align='left' >" + Convert.ToString(drRecords["Location"]) + "</td>");
                 sbRecorords.Append("<td class='cols_' align='right'>" + string.Format("{0:N0}", drRecords["Sonic_Event"]) + "</td>");
@@ -142,7 +142,7 @@ public partial class ACI_Event_Report : clsBasePage
                 
                 sbRecorords.Append("</tr>");
             }
-            sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#FFFFFF;font-family:Tahoma;'>");
+            sbRecorords.Append("<tr style='font-size:8pt;background-color:#FFFFFF;font-family:Tahoma;'>");
 
             sbRecorords.Append("<td  class='cols_' align='left' ><b>Total</b></td>");
             sbRecorords.Append("<td class='cols_' align='right'><b>" + string.Format("{0:N0}", dtReport.Compute("SUM(Sonic_Event)", "")) + "</b></td>");

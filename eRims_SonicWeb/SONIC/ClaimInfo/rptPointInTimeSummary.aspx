@@ -168,26 +168,26 @@ Inherits="SONIC_ClaimInfo_rptPointInTimeSummary" Title="eRIMS Sonic :: Point-in-
                                 <ItemTemplate>
                                     <table cellpadding="0" cellspacing="0" width="100%" border="0">
                                         <tr>
-                                            <td align="left" style="height:25px;" valign="middle">
+                                            <td align="left" colspan="6" style="height:25px;border:thin" valign="middle">
                                                 <asp:Label ID="lblPolicyYear" runat="server" Text='<%# "Accident Year - " + Eval("AccidentYear")%>'
                                                     Font-Bold="true">
                                                 </asp:Label>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td align="left">
+                                            <td>
                                                 <asp:GridView ID="gvSubReport" runat="server" AutoGenerateColumns="False" Width="100%"
-                                                    CellPadding="4" GridLines="None" CssClass="GridClass" EnableTheming="false" HorizontalAlign="Left"
+                                                    CellPadding="4" GridLines="None" CssClass="GridClass" EnableTheming="false"
                                                     EmptyDataText="No Record Found !" EmptyDataRowStyle-HorizontalAlign="Left" ShowHeader="false"
                                                     ShowFooter="true">
-                                                    <HeaderStyle HorizontalAlign="Left" CssClass="HeaderStyle" />
-                                                    <RowStyle HorizontalAlign="Left" CssClass="RowStyle" />
-                                                    <AlternatingRowStyle HorizontalAlign="left" CssClass="AlterRowStyle" />
+                                                    <HeaderStyle CssClass="HeaderStyle" />
+                                                    <RowStyle CssClass="RowStyle" />
+                                                    <AlternatingRowStyle CssClass="AlterRowStyle" />
                                                     <FooterStyle ForeColor="Black" Font-Bold="true" />
                                                     <Columns>
                                                         <asp:TemplateField>
                                                             <ItemTemplate>
-                                                                <table align="left" border="0" cellpadding="0" cellspacing="0" style="width: 100%;
+                                                                <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;
                                                                     border-collapse: collapse;" id="tblDetails" runat="server">
                                                                     <tr>
                                                                         <td colspan="6">
@@ -238,7 +238,7 @@ Inherits="SONIC_ClaimInfo_rptPointInTimeSummary" Title="eRIMS Sonic :: Point-in-
                                                                 </table>
                                                             </ItemTemplate>
                                                             <FooterTemplate>
-                                                                <table align="left" border="0" cellpadding="0" cellspacing="0" style="width: 100%;
+                                                                <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;
                                                                     font-weight: bold; color: Black;" id="tblFooter" runat="server">
                                                                     <tr>
                                                                         <td colspan="6">
@@ -302,7 +302,7 @@ Inherits="SONIC_ClaimInfo_rptPointInTimeSummary" Title="eRIMS Sonic :: Point-in-
                                                 <table width="100%" cellpadding="0" cellspacing="0">
                                                     <tr>
                                                         <td>
-                                                            <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="font-weight: bold;
+                                                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="font-weight: bold;
                                                                 background-color: #507CD1; color: #ffffff;" id="tblFooter" runat="server">
                                                                 <tr>
                                                                     <td colspan="6" align="left">

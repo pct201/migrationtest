@@ -59,7 +59,7 @@
         <tr runat="server" id="trResult">
             <td colspan="4">
                 <div runat="server" id="dvReport" style="overflow-x: hidden; overflow-y: hidden;
-                    width: 995px; text-align: left;">
+                    width: 995px;">
                     <asp:GridView ID="gvworkers_comp_summary" runat="server" AutoGenerateColumns="true"
                         CellPadding="4" CellSpacing="0" Width="100%" OnRowCreated="gvworkers_comp_summary_RowCreated">
                         <Columns>

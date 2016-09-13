@@ -571,8 +571,8 @@ public partial class SONIC_ClaimInfo_rptAdHocWriterOhioWCClaim : clsBasePage
                 }
                 finally
                 {
-                    if (File.Exists(outputFiles))
-                        File.Delete(outputFiles);
+                    //if (File.Exists(outputFiles))
+                    //    File.Delete(outputFiles);
                     HttpContext.Current.Response.End();
                 }
 
