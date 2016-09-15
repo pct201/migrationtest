@@ -1407,6 +1407,76 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         }
 
     }
+
+    /// <summary>
+    /// Clear DPD FROIS Details
+    /// </summary>
+    private void ClearDPDFROIS()
+    {
+        lblDate_Of_Loss.Text = "";
+        lblTime_of_Loss.Text = "";
+        lblCause_of_Loss.Text = "";
+        lblVIN.Text = "";
+        lblMake.Text = "";
+        lblModel.Text = "";
+        lblYear.Text = "";
+        lblTypeOfVehicle.Text = "";
+        lblVehicleColor.Text = "";
+        lblPresent_Location.Text = "";
+        lblPresent_Address.Text = "";
+        lblPresent_State.Text = "";
+        lblPresent_Zip.Text = "";
+        lblInvoice_Value.Text = "";
+        lblPoliceCaseNumber.Text = "";
+        lblInvestigatingPoliceDepartment.Text = "";
+        lblLoss_Description.Text = "";
+        lblAssocaitedClaimNo.Text = "";
+        lblDPDClaim_NumberView.Text = "";
+        lblIncident_NumberView.Text = "";
+        ctrlAPNotes_DPDView.BindEmptyGrid();
+
+        chk3rd_Party_Vendor_Related_TheftView.Checked = false;
+        chkAccess_Control_FailuresView.Checked = false;
+        chkBreaking_and_EnteringView.Checked = false;
+        chkBurglar_Alarm_FailureView.Checked = false;
+        chkCamera_Dead_SpotView.Checked = false;
+        chkCCTV_Monitoring_FailureView.Checked = false;
+        chkCCTV_Monitoring_Failure_byOperatorView.Checked = false;
+        chkDesign_weakness_Property_ProtectionView.Checked = false;
+        chkEnvironmental_Obstruction_ConditionCameraView.Checked = false;
+        chkFailure_to_ReportLate_ReportView.Checked = false;
+        chkKey_SwapView.Checked = false;
+        chkLighting_DeficienciesView.Checked = false;
+        chkLockBoxView.Checked = false;
+        chkLockBox_Not_Properly_SecuredView.Checked = false;
+        chkNegligence_Lackof_Key_Control_Program_Unattended_KeysView.Checked = false;
+        chkNonPermissible_User_of_TakingVehicleView.Checked = false;
+        chkPower_OutageView.Checked = false;
+        chkSecurity_Guard_FailureView.Checked = false;
+        chkStolen_IdView.Checked = false;
+        chkTheft_by_DeceptionView.Checked = false;
+        chkUnauthorized_Building_Entry_ForcibleView.Checked = false;
+        chkUnauthorized_Building_Entry_UnlockedView.Checked = false;
+        chkUnauthorized_Vehicle_Entry_ForcibleView.Checked = false;
+        chkUnauthorized_Vehicle_Entry_UnlockedView.Checked = false;
+        chkVehicle_Takenby_Tow_TruckView.Checked = false;
+        chkWeather_Related_DamageLossView.Checked = false;
+        chkVandalismView.Checked = false;
+        chkOtherView.Checked = false;
+
+        lblInvestigation_Finding_Other_Description.Text = "";
+        lblRoot_Cause.Text = "";
+        lblIncident_Prevention.Text = "";
+        lblPerson_Tasked.Text = "";
+        lblTarget_Date_of_Completion.Text = "";
+        lblStatus_Due_On.Text = "";
+        lblComments.Text = "";
+        lblFinancial_Loss.Text = "";
+        lblRecovery.Text = "";
+        lblItem_Status.Text = "";
+
+        btnDPD_FROIsAudit_TrailView.Visible = false;
+    }
     #endregion
 
     #region "AL_FROI"
@@ -5171,7 +5241,9 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         {
             rdoFROIs.SelectedIndex = 0;
             rdoDPD_FROIsView.SelectedIndex = 0;
+            AP_DPD_FROIs_CommandArgs = null;
             BindAP_DPD_FROIs_Grid(CtrlPagingDPD_FROIs.CurrentPage, CtrlPagingDPD_FROIs.PageSize);
+            ClearDPDFROIS();
             Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
         }
         else if (Dest == "AL")
