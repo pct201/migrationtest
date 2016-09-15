@@ -1462,7 +1462,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         chkVehicle_Takenby_Tow_TruckView.Checked = false;
         chkWeather_Related_DamageLossView.Checked = false;
         chkVandalismView.Checked = false;
-        chkOtherView.Checked = false;
+        chkOther_DescribeView.Checked = false;
 
         lblInvestigation_Finding_Other_Description.Text = "";
         lblRoot_Cause.Text = "";
