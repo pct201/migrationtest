@@ -56,6 +56,7 @@ namespace ERIMS.DAL
         private string _LE_Operations_FEIN;
         private string _LE_Properties;
         private string _LE_Properties_FEIN;
+        private DateTime? _Activation_Date;
 
         #endregion
 
@@ -320,6 +321,15 @@ namespace ERIMS.DAL
             set { _LE_Properties_FEIN = value; }
         }
 
+        /// <summary>
+        /// Gets or Sets Activation_Date value.
+        /// </summary>
+        public DateTime? Activation_Date
+        {
+            get { return _Activation_Date; }
+            set { _Activation_Date = value; }
+        }
+
         #endregion
 
         #region Constructors
@@ -357,6 +367,7 @@ namespace ERIMS.DAL
             this._LE_Operations_FEIN="";
             this._LE_Properties="";
             this._LE_Properties_FEIN="";
+            this._Activation_Date = null;
         }
 
         /// <summary> 
@@ -398,6 +409,7 @@ namespace ERIMS.DAL
                 this._LE_Operations_FEIN = Convert.ToString(drLU_Location["LE_Operations_FEIN"]);
                 this._LE_Properties = Convert.ToString(drLU_Location["LE_Properties"]);
                 this._LE_Properties_FEIN = Convert.ToString(drLU_Location["LE_Properties_FEIN"]);
+                if (drLU_Location["Activation_Date"]!= DBNull.Value) this._Activation_Date = Convert.ToDateTime(drLU_Location["Activation_Date"]);
             }
 
             else
@@ -430,6 +442,7 @@ namespace ERIMS.DAL
                 this._LE_Operations_FEIN = "";
                 this._LE_Properties = "";
                 this._LE_Properties_FEIN = "";
+                this._Activation_Date = null;
             }
         }
 
@@ -471,6 +484,7 @@ namespace ERIMS.DAL
                 this._LE_Operations_FEIN = Convert.ToString(drLU_Location["LE_Operations_FEIN"]);
                 this._LE_Properties = Convert.ToString(drLU_Location["LE_Properties"]);
                 this._LE_Properties_FEIN = Convert.ToString(drLU_Location["LE_Properties_FEIN"]);
+                //this._Activation_Date = Convert.ToDateTime(drLU_Location["Activation_Date"]);
             }
             else
             {
@@ -502,6 +516,7 @@ namespace ERIMS.DAL
                 this._LE_Operations_FEIN = "";
                 this._LE_Properties = "";
                 this._LE_Properties_FEIN = "";
+                //this._Activation_Date = null;
             }
 
         }
@@ -552,6 +567,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "LE_Operations_FEIN", DbType.String, this._LE_Operations_FEIN);
             db.AddInParameter(dbCommand, "LE_Properties", DbType.String, this._LE_Properties);
             db.AddInParameter(dbCommand, "LE_Properties_FEIN", DbType.String, this._LE_Properties_FEIN);
+            db.AddInParameter(dbCommand, "Activation_Date", DbType.DateTime, this._Activation_Date);
 
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -829,6 +845,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "LE_Operations_FEIN", DbType.String, this._LE_Operations_FEIN);
             db.AddInParameter(dbCommand, "LE_Properties", DbType.String, this._LE_Properties);
             db.AddInParameter(dbCommand, "LE_Properties_FEIN", DbType.String, this._LE_Properties_FEIN);
+            db.AddInParameter(dbCommand, "Activation_Date", DbType.DateTime, this._Activation_Date);
 
             db.ExecuteNonQuery(dbCommand);
         }

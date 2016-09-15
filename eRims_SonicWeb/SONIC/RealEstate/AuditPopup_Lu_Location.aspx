@@ -132,6 +132,9 @@
                                  <th class="cols">
                                     <span style="display: inline-block; width: 150px;">LE Properties FEIN</span>
                                 </th>
+                                 <th class="cols">
+                                    <span style="display: inline-block; width: 120px;">Activation Date</span>
+                                </th>
                                 <th class="cols">
                                     <span style="display: inline-block; width: 120px;">Updated_By</span>
                                 </th>
@@ -313,6 +316,13 @@
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
                                     <asp:Label ID="lblLE_Properties_FEIN" runat="server" Text='<%#Eval("LE_Properties_FEIN")%>' Width="150px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                             <asp:TemplateField HeaderText="Activatin_Date">
+                                <ItemStyle CssClass="cols" Width="120px" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblActivatin_Date" runat="server" Text='<%#Eval("Activation_Date") != DBNull.Value ? clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("Activation_Date"))) : ""%>'
+                                        Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                              <asp:TemplateField HeaderText="Updated_By">

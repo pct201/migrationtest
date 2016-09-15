@@ -128,6 +128,7 @@ public partial class SONIC_RealEstate_DealershipDBA_Pupup : clsBasePage
             txtLegalEntityOperationsFEIN.Text = objLocation.LE_Operations_FEIN;
             txtLegalEntityProperties.Text = objLocation.LE_Properties;
             txtLegalEntityPropertiesFEIN.Text = objLocation.LE_Properties_FEIN;
+            txtActivation_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objLocation.Activation_Date);
 
             DataSet dsPayroll = LU_Location.SelectPayrollByLocation(_PK_LU_Location);
             if (dsPayroll != null && dsPayroll.Tables.Count > 0 && dsPayroll.Tables[0].Rows.Count > 0)
@@ -172,6 +173,7 @@ public partial class SONIC_RealEstate_DealershipDBA_Pupup : clsBasePage
             lblLocationDescription.Text = objLocation.Location_Description;
             lblSonicCode.Text = Convert.ToString(objLocation.Sonic_Location_Code);
             lblActive.Text = objLocation.Active;
+            lblActivation_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objLocation.Activation_Date);
             lblShowOnDashboard.Text = objLocation.Show_On_Dashboard == "Y" ? "Yes" : "No";
             if (objLocation.FK_Employee_Id != null)
             {
@@ -243,6 +245,7 @@ public partial class SONIC_RealEstate_DealershipDBA_Pupup : clsBasePage
         objLocation.LE_Operations_FEIN = Convert.ToString(txtLegalEntityOperationsFEIN.Text);
         objLocation.LE_Properties = Convert.ToString(txtLegalEntityProperties.Text);
         objLocation.LE_Properties_FEIN = Convert.ToString(txtLegalEntityPropertiesFEIN.Text);
+        objLocation.Activation_Date = Convert.ToDateTime(txtActivation_Date.Text);
     }
 
     private void InsertPayroll()

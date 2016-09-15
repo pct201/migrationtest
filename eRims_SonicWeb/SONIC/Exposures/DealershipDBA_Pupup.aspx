@@ -19,8 +19,18 @@
     <script type="text/javascript" language="javascript" src="../../JavaScript/Validator.js"></script>
 
     <script type="text/javascript" language="javascript" src="../../JavaScript/Date_Validation.js"></script>
-
+    <script type="text/javascript" src="../../JavaScript/jquery-1.5.min.js"></script>
+    <script type="text/javascript" src="../../JavaScript/JFunctions.js"></script>
+    <script type="text/javascript" language="javascript" src="../../JavaScript/Calendar_new.js"></script>
+    <script type="text/javascript" language="javascript" src="../../JavaScript/calendar-en.js"></script>
+    <script type="text/javascript" language="javascript" src="../../JavaScript/Calendar.js"></script>
     <script language="javascript" type="text/javascript">
+        
+     function scrolldown()
+     {
+         $("html, body").animate({ scrollTop: $(document).height() }, "slow");
+     };
+   
      function AuditPopUp()
      {
           var winHeight = window.screen.availHeight - 380;
@@ -31,7 +41,7 @@
         obj= window.open("../RealEstate/AuditPopup_Lu_Location.aspx?id="+ Lu_Location_ID,'AuditPopUp','width=' + winWidth +',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');        
         obj.focus();
         return false;
-     }    
+     }
     </script>
 
 </head>
@@ -84,7 +94,7 @@
                                         ValidationGroup="vsErrorGroup" SetFocusOnError="true" ControlToValidate="txtLegalEntity"
                                         Display="None"></asp:RequiredFieldValidator>
                                 </td>--%>
-                            </tr>
+                            </tr> 
                              <tr>
                                 <td align="left" style="padding-left: 5px;">
                                     Parent Company Legal Entity 
@@ -382,6 +392,26 @@
                                 <td colspan="3">&nbsp;</td>
                             </tr>
                             <tr>
+                                <td colspan="3">
+                                    &nbsp;
+                                </td>
+                                <td align="left" style="padding-left: 5px;">
+                                    Activation Date
+                                </td>
+                                <td align="center">
+                                    :
+                                </td>
+                                <td align="left">
+                                     <asp:TextBox ID="txtActivation_Date" runat="server" Width="150px" SkinID="txtDate" />
+                                     <img alt="Activation Date" onclick="scrolldown(); return showCalendar('txtActivation_Date', 'mm/dd/y'); "
+                                     onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
+                                     align="middle"/>
+                                     <asp:RegularExpressionValidator ID="revActivation_Date" runat="server" ValidationGroup="vsErrorGroup"
+                                     Display="none" ErrorMessage="Activation Date is not a valid date"
+                                     SetFocusOnError="true" ControlToValidate="txtActivation_Date" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
+                                </td>
+                            </tr>
+                            <tr>
                                 <td valign="top" align="center" colspan="6">
                                     <asp:Button ID="btnSave" Text=" Save " CausesValidation="true" ValidationGroup="vsErrorGroup"
                                         runat="server" OnClick="btnSave_Click" />
@@ -664,6 +694,12 @@
                                     <asp:Label ID="lblActive" runat="server" Text=""></asp:Label>
                                 </td>
                                 <td colspan="3">&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">&nbsp;</td>
+                                <td>Activation Date</td>
+                                <td>:</td>
+                                <td><asp:Label ID="lblActivation_Date" runat="server" Text=""></asp:Label></td>
                             </tr>
                         </table>
                     </asp:Panel>
