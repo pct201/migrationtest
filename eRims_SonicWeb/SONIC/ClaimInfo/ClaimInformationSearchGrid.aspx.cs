@@ -163,30 +163,43 @@ public partial class SONIC_ClaimInformationSearchGrid : System.Web.UI.Page
     /// <param name="e"></param>
     protected void gvClaimInfoSearchGrid_RowCommand(object sender, GridViewCommandEventArgs e)
     {
-        int Index = Convert.ToInt32(e.CommandArgument);
-        int PK_ID = (gvClaimInfoSearchGrid.DataKeys[Index].Values["PK_ID"] != null) ? Convert.ToInt32(gvClaimInfoSearchGrid.DataKeys[Index].Values["PK_ID"]) : 0;
-        string Claim_Type = (gvClaimInfoSearchGrid.DataKeys[Index].Values["Claim_Type"] != null) ? gvClaimInfoSearchGrid.DataKeys[Index].Values["Claim_Type"].ToString() : "";
-        string url = (gvClaimInfoSearchGrid.DataKeys[Index].Values["Url"] != null) ? gvClaimInfoSearchGrid.DataKeys[Index].Values["Url"].ToString() : "";
-        string FK_First_Report_Wizard_ID = (gvClaimInfoSearchGrid.DataKeys[Index].Values["FK_First_Report_Wizard_ID"] != null) ? Convert.ToString(gvClaimInfoSearchGrid.DataKeys[Index].Values["FK_First_Report_Wizard_ID"]) : "";
-        string redirectURL = string.Empty;
-
+        int Index, PK_ID;
+        string redirectURL = string.Empty, Claim_Type = string.Empty, url = string.Empty, FK_First_Report_Wizard_ID = string.Empty;
+        
         if (e.CommandName == "View" || e.CommandName == "ViewClaim")
         {
+            Index = Convert.ToInt32(e.CommandArgument);
+            PK_ID = (gvClaimInfoSearchGrid.DataKeys[Index].Values["PK_ID"] != null) ? Convert.ToInt32(gvClaimInfoSearchGrid.DataKeys[Index].Values["PK_ID"]) : 0;
+            Claim_Type = (gvClaimInfoSearchGrid.DataKeys[Index].Values["Claim_Type"] != null) ? gvClaimInfoSearchGrid.DataKeys[Index].Values["Claim_Type"].ToString() : "";
+            url = (gvClaimInfoSearchGrid.DataKeys[Index].Values["Url"] != null) ? gvClaimInfoSearchGrid.DataKeys[Index].Values["Url"].ToString() : "";
+            FK_First_Report_Wizard_ID = (gvClaimInfoSearchGrid.DataKeys[Index].Values["FK_First_Report_Wizard_ID"] != null) ? Convert.ToString(gvClaimInfoSearchGrid.DataKeys[Index].Values["FK_First_Report_Wizard_ID"]) : "";
             redirectURL = url + "?id=" + Encryption.Encrypt(PK_ID.ToString()) + "&mode=view&wz_id=" + Encryption.Encrypt(FK_First_Report_Wizard_ID);
+
+            if (Claim_Type != string.Empty)
+            {
+                SetTab(Claim_Type);
+                Response.Redirect(redirectURL);
+            }
+            else
+                Response.Redirect("ClaimInformationSearch.aspx");
         }
         else if (e.CommandName == "EditClaim")
         {
+            Index = Convert.ToInt32(e.CommandArgument);
+            PK_ID = (gvClaimInfoSearchGrid.DataKeys[Index].Values["PK_ID"] != null) ? Convert.ToInt32(gvClaimInfoSearchGrid.DataKeys[Index].Values["PK_ID"]) : 0;
+            Claim_Type = (gvClaimInfoSearchGrid.DataKeys[Index].Values["Claim_Type"] != null) ? gvClaimInfoSearchGrid.DataKeys[Index].Values["Claim_Type"].ToString() : "";
+            url = (gvClaimInfoSearchGrid.DataKeys[Index].Values["Url"] != null) ? gvClaimInfoSearchGrid.DataKeys[Index].Values["Url"].ToString() : "";
+            FK_First_Report_Wizard_ID = (gvClaimInfoSearchGrid.DataKeys[Index].Values["FK_First_Report_Wizard_ID"] != null) ? Convert.ToString(gvClaimInfoSearchGrid.DataKeys[Index].Values["FK_First_Report_Wizard_ID"]) : "";
             redirectURL = url + "?id=" + Encryption.Encrypt(PK_ID.ToString()) + "&mode=edit&wz_id=" + Encryption.Encrypt(FK_First_Report_Wizard_ID);
-        }
 
-        if (Claim_Type != string.Empty)
-        {
-            SetTab(Claim_Type);
-            Response.Redirect(redirectURL);
+            if (Claim_Type != string.Empty)
+            {
+                SetTab(Claim_Type);
+                Response.Redirect(redirectURL);
+            }
+            else
+                Response.Redirect("ClaimInformationSearch.aspx");
         }
-        else
-            Response.Redirect("ClaimInformationSearch.aspx");
-
     }
 
     #region Methods
