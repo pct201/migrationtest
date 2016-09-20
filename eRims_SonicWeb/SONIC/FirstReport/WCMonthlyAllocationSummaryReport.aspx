@@ -63,31 +63,31 @@
                     <asp:GridView ID="gvworkers_comp_summary" runat="server" AutoGenerateColumns="true"
                         CellPadding="4" CellSpacing="0" Width="100%" OnRowCreated="gvworkers_comp_summary_RowCreated">
                         <Columns>
-                            <asp:TemplateField HeaderText="Location">
+                            <asp:TemplateField HeaderText="Location" ItemStyle-HorizontalAlign="Left">
                                 <ItemStyle HorizontalAlign="Left" />
                                 <ItemTemplate>
                                     <asp:Label ID="lbldba" runat="server" Text='<%#Eval("dba") %>' Width="200px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="Location Code">
+                            <asp:TemplateField HeaderText="Location Code" ItemStyle-HorizontalAlign="Left">
                                 <ItemStyle HorizontalAlign="Left" />
                                 <ItemTemplate>
                                     <asp:Label ID="lblLocationCode" runat="server" Text='<%#Eval("Sonic_Location_Code") %>' Width="95px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="Region">
+                            <asp:TemplateField HeaderText="Region" ItemStyle-HorizontalAlign="Left">
                                 <ItemStyle HorizontalAlign="Left" />
                                 <ItemTemplate>
                                     <asp:Label ID="lblRegion" runat="server" Text='<%#Eval("Region") %>' Width="95px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="Market">
+                            <asp:TemplateField HeaderText="Market" ItemStyle-HorizontalAlign="Left">
                                 <ItemStyle HorizontalAlign="Left" />
                                 <ItemTemplate>
                                     <asp:Label ID="lblMarket" runat="server" Text='<%#Eval("Market") %>' Width="95px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="JAN">
+                            <asp:TemplateField HeaderText="JAN" ItemStyle-HorizontalAlign="right">
                                 <HeaderStyle HorizontalAlign="right" />
                                 <ItemStyle HorizontalAlign="right" />
                                 <ItemTemplate>
@@ -95,7 +95,7 @@
                                         Width="80px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="FEB">
+                            <asp:TemplateField HeaderText="FEB" ItemStyle-HorizontalAlign="right">
                                 <HeaderStyle HorizontalAlign="right" />
                                 <ItemStyle HorizontalAlign="Right" />
                                 <ItemTemplate>
@@ -103,7 +103,7 @@
                                         Width="80px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="MAR">
+                            <asp:TemplateField HeaderText="MAR" ItemStyle-HorizontalAlign="right">
                                 <HeaderStyle HorizontalAlign="right" />
                                 <ItemStyle HorizontalAlign="Right" />
                                 <ItemTemplate>
@@ -111,7 +111,7 @@
                                         Width="80px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="APR">
+                            <asp:TemplateField HeaderText="APR" ItemStyle-HorizontalAlign="right">
                                 <HeaderStyle HorizontalAlign="right" />
                                 <ItemStyle HorizontalAlign="Right" />
                                 <ItemTemplate>
@@ -119,7 +119,7 @@
                                         Width="80px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="MAY">
+                            <asp:TemplateField HeaderText="MAY" ItemStyle-HorizontalAlign="right">
                                 <HeaderStyle HorizontalAlign="right" />
                                 <ItemStyle HorizontalAlign="Right" />
                                 <ItemTemplate>
@@ -127,7 +127,7 @@
                                         Width="80px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="JUN">
+                            <asp:TemplateField HeaderText="JUN" ItemStyle-HorizontalAlign="right">
                                 <HeaderStyle HorizontalAlign="right" />
                                 <ItemStyle HorizontalAlign="Right" />
                                 <ItemTemplate>
@@ -135,7 +135,7 @@
                                         Width="80px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="JUL">
+                            <asp:TemplateField HeaderText="JUL" ItemStyle-HorizontalAlign="right">
                                 <HeaderStyle HorizontalAlign="right" />
                                 <ItemStyle HorizontalAlign="Right" />
                                 <ItemTemplate>
@@ -143,7 +143,7 @@
                                         Width="80px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="AUG">
+                            <asp:TemplateField HeaderText="AUG" ItemStyle-HorizontalAlign="right">
                                 <HeaderStyle HorizontalAlign="right" />
                                 <ItemStyle HorizontalAlign="Right" />
                                 <ItemTemplate>
@@ -151,7 +151,7 @@
                                         Width="80px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="SEP">
+                            <asp:TemplateField HeaderText="SEP" ItemStyle-HorizontalAlign="right">
                                 <HeaderStyle HorizontalAlign="right" />
                                 <ItemStyle HorizontalAlign="Right" />
                                 <ItemTemplate>
@@ -159,7 +159,7 @@
                                         Width="80px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="OCT">
+                            <asp:TemplateField HeaderText="OCT" ItemStyle-HorizontalAlign="right">
                                 <HeaderStyle HorizontalAlign="right" />
                                 <ItemStyle HorizontalAlign="Right" />
                                 <ItemTemplate>
@@ -167,7 +167,7 @@
                                         Width="80px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="NOV">
+                            <asp:TemplateField HeaderText="NOV" ItemStyle-HorizontalAlign="right">
                                 <HeaderStyle HorizontalAlign="right" />
                                 <ItemStyle HorizontalAlign="Right" />
                                 <ItemTemplate>
@@ -175,7 +175,7 @@
                                         Width="80px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="DEC">
+                            <asp:TemplateField HeaderText="DEC" ItemStyle-HorizontalAlign="right">
                                 <HeaderStyle HorizontalAlign="right" />
                                 <ItemStyle HorizontalAlign="Right" />
                                 <ItemTemplate>
@@ -183,7 +183,7 @@
                                         Width="80px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="JAN">
+                            <asp:TemplateField HeaderText="JAN" ItemStyle-HorizontalAlign="right">
                                 <HeaderStyle HorizontalAlign="right" />
                                 <ItemStyle HorizontalAlign="right" />
                                 <ItemTemplate>
@@ -191,7 +191,7 @@
                                         Width="80px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="FEB">
+                            <asp:TemplateField HeaderText="FEB" ItemStyle-HorizontalAlign="right">
                                 <HeaderStyle HorizontalAlign="right" />
                                 <ItemStyle HorizontalAlign="Right" />
                                 <ItemTemplate>
@@ -199,7 +199,7 @@
                                         Width="80px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="MAR">
+                            <asp:TemplateField HeaderText="MAR" ItemStyle-HorizontalAlign="right">
                                 <HeaderStyle HorizontalAlign="right" />
                                 <ItemStyle HorizontalAlign="Right" />
                                 <ItemTemplate>
@@ -207,7 +207,7 @@
                                         Width="80px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="Total">
+                            <asp:TemplateField HeaderText="Total" ItemStyle-HorizontalAlign="right">
                                 <HeaderStyle HorizontalAlign="right" />
                                 <ItemStyle HorizontalAlign="Right" />
                                 <ItemTemplate>
