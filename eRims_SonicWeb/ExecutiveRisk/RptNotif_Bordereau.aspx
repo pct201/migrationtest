@@ -185,8 +185,8 @@
                                             </HeaderTemplate>
                                             <ItemTemplate>
                                                 <table width="100%" cellpadding="0" cellspacing="0" border="0">
-                                                    <tr>
-                                                        <td align="left" style="background-color: White; height: 25px; color: Black;" width="100%">
+                                                    <tr >
+                                                        <td align="left" style="background-color: White; height: 25px; color: Black;" width="100%" colspan="11">
                                                             <b>
                                                                 <asp:Label ID="lblRegion" runat="server"><%#Eval("Region")%></asp:Label>
                                                             </b>
@@ -280,7 +280,7 @@
                                                         <td width="100%" align="left">
                                                             <table cellpadding="4" cellspacing="0" width="100%" style="font-weight: bold; color: White;"
                                                                 id="tblFooter" runat="server">
-                                                                <tr>
+                                                                <tr style="background-color:#507CD1;">
                                                                     <td style="width: 120px;">
                                                                         <asp:Label ID="lblH1" runat="server" Width="120px" Text='Grand Total' />
                                                                     </td>
