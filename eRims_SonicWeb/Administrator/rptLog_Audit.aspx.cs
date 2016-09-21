@@ -6,6 +6,7 @@ using System.Web.UI.WebControls;
 using System.Data;
 using ERIMS.DAL;
 using System.Text;
+using System.IO;
 
 public partial class Administrator_rptLog_Audit : clsBasePage
 {    
@@ -169,22 +170,56 @@ public partial class Administrator_rptLog_Audit : clsBasePage
     /// <param name="e"></param>
     protected void btnExcel_Click(object sender, EventArgs e)
     {
-        System.IO.StringWriter stringWrite = new System.IO.StringWriter();
-        System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
-        string strcols = "border:black 1px solid;";
+        bool blnHTML2Excel = false;
+        String strHTML, strFilePath, outputFiles = string.Empty;
 
-        string strHTML = ltrReport.Text;
-        //Write HTML in to HtmlWriter
-        htmlWrite.WriteLine(strHTML.ToString());
+        strHTML = ltrReport.Text;
+        strFilePath = AppConfig.SitePath + @"temp\" + DateTime.Now.ToString("ddMMyyyyhhmmss");
 
-        HttpContext context = HttpContext.Current;
-        context.Response.Clear();
+        if (!File.Exists(strFilePath))
+        {
+            if (!Directory.Exists(AppConfig.SitePath + @"temp\"))
+                Directory.CreateDirectory(AppConfig.SitePath + @"temp\");
 
-        context.Response.Write(stringWrite);
+            // Create a file to write to.
+            using (StreamWriter sw = File.CreateText(strFilePath))
+            {
+                sw.Write(strHTML.ToString());
+                strHTML = string.Empty;
+            }
+        }
 
-        context.Response.ContentType = "application/ms-excel";
-        context.Response.AppendHeader("Content-Disposition", "attachment; filename=Log_Audit.xls");
-        context.Response.End();
+        if (File.Exists(strFilePath))
+        {
+            string data = File.ReadAllText(strFilePath);
+            data = data.Trim();
+            HTML2Excel objHtml2Excel = new HTML2Excel(data);
+            objHtml2Excel.isGrid = true;
+            objHtml2Excel.isUseCSS = false;
+            outputFiles = Path.GetFullPath(strFilePath) + ".xlsx";
+            blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
+        }
+
+        //If records found
+        if (blnHTML2Excel)
+        {
+            try
+            {
+                HttpContext.Current.Response.Clear();
+                HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename=\"" + "Log_Audit.xlsx" + "\""));
+                HttpContext.Current.Response.ContentType = "application/ms-excel";
+                HttpContext.Current.Response.TransmitFile(outputFiles);
+                HttpContext.Current.Response.Flush();
+            }
+            finally
+            {
+                if (File.Exists(outputFiles))
+                    File.Delete(outputFiles);
+                if (File.Exists(strFilePath))
+                    File.Delete(strFilePath);
+                HttpContext.Current.Response.End();
+            }
+        }
     }
 
     #endregion
