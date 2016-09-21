@@ -453,7 +453,7 @@ public class HTML2Excel
         string colVal = hNode.InnerText;
         colVal = colVal.Replace("&nbsp;", " ");
         Color color = Color.Black;
-
+        bool isUnderline = false;
         bool isBold = false;
         int tempColspanCol = currColumnNumber;
         int noOfColspan = 0;
@@ -657,6 +657,15 @@ public class HTML2Excel
                             {
                                 tempText1.Color = color;
                             }
+                            if (isUnderline)
+                            {
+                                tempText1.UnderLine = true;
+                                isUnderline = false;
+                            }
+                            else
+                            {
+                                tempText1.UnderLine = false;
+                            }
                         }
                         break;
                     case "span":
@@ -687,6 +696,12 @@ public class HTML2Excel
                                                         isBold = true;
                                                     }
                                                     break;
+                                                case "text-decoration":
+                                                    if (nodeVal[1].ToLower().Trim() == "underline")
+                                                    {
+                                                        isUnderline = true;
+                                                    }
+                                                    break;
                                             }
                                         }
 
@@ -714,6 +729,15 @@ public class HTML2Excel
                             if (color != Color.Black)
                             {
                                 tempText2.Color = color;
+                            }
+                            if (isUnderline)
+                            {
+                                tempText2.UnderLine = true;
+                                isUnderline = false;
+                            }
+                            else
+                            {
+                                tempText2.UnderLine = false;
                             }
                         }
                         break;
@@ -776,6 +800,15 @@ public class HTML2Excel
                         if (colSpanSet)
                             excelWorksheet.Row(currRowNumber).Height = excelWorksheet.Row(currRowNumber).Height + 15;
                         ExcelRichText tempText3 = rtfCollection3.Add(Environment.NewLine);
+                        if (isUnderline)
+                        {
+                            tempText3.UnderLine = true;
+                            isUnderline = false;
+                        }
+                        else
+                        {
+                            tempText3.UnderLine = false;
+                        }
                         if (childNode.HasChildNodes)
                         {
                             foreach (HtmlNode brchildNode in childNode.ChildNodes)
@@ -786,7 +819,15 @@ public class HTML2Excel
                                         string innerText1 = brchildNode.InnerText.Trim().Replace("&nbsp;", " ").Replace("<br>", "\r\n");
                                         if (!string.IsNullOrEmpty(innerText1))
                                         {
-                                            rtfCollection3.Add(Environment.NewLine + innerText1);
+                                            ExcelRichText tempText3_1 = rtfCollection3.Add(Environment.NewLine + innerText1);
+                                            if (isUnderline)
+                                            {
+                                                tempText3_1.UnderLine = true;
+                                            }
+                                            else
+                                            {
+                                                tempText3_1.UnderLine = false;
+                                            }
                                         }
                                         break;
                                 }
