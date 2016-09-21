@@ -267,7 +267,7 @@
                                                         style="font-weight: bold; background-color: #507cd1; color: White">
                                                         <tr>
                                                             <td>
-                                                                <table style="font-weight: bold; background-color: #507cd1; color: White">
+                                                                <table style="border: black 0.5px solid;font-weight: bold; background-color: #507cd1; color: White">
                                                                     <tr align="left">
                                                                         <td style="width: 200px;">Grand Total
                                                                         </td>

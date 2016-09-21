@@ -254,7 +254,7 @@
                                                                     id="tblFooter" runat="server">
                                                                     <tr>
                                                                         <td>
-                                                                            <table style="font-weight: bold; background-color: #507CD1; color: White;">
+                                                                            <table style="border: black 0.5px solid;font-weight: bold; background-color: #507CD1; color: White;">
                                                                                 <tr>
                                                                                     <td width="100px" align="left">Report Grand Totals
                                                                                     </td>
