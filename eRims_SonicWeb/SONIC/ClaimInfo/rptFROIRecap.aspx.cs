@@ -258,16 +258,23 @@ public partial class SONIC_ClaimInfo_rptFROIRecap : clsBasePage
 
             #region "Report Title"
 
+            
+            strHTML.Append("<table> <tr> <td colspan='11'>");
             strHTML.Append("<br />");
             strHTML.Append("<b>Report Title : FROI Recap Report</b>");
-            strHTML.Append("<br /><br />");
+            strHTML.Append("<br /><br /><br />");
 
             //Add Report Filter Criteria 
-            strHTML.Append("<br /><br />");
+            strHTML.Append("</td> </tr>");
+            strHTML.Append("<tr> <td colspan='11'>");
             strHTML.Append("<b>Report Filters </b>");
-            strHTML.Append("<br /><table> <tr> <td colspan='11'>");
+            strHTML.Append("</td> </tr>");
+
+            strHTML.Append("<tr> <td colspan='11'>");
             strHTML.Append("Date   : " + lblDate.Text);
             strHTML.Append("</td> </tr>");
+            
+            
             strHTML.Append("<tr> <td colspan='11'>");
             strHTML.Append("Region   : " + lblRegion.Text);
             strHTML.Append("</td> </tr>");
@@ -350,7 +357,7 @@ public partial class SONIC_ClaimInfo_rptFROIRecap : clsBasePage
                         else
                         {
                             //Add No record found line for year
-                            strHTML.Append("<tr><td align='left' colspan='5'>No Record Found!</td></tr>");
+                            strHTML.Append("<tr><td align='left' colspan='9'>No Record Found!</td></tr>");
                         }
                         strHTML.Append("</table>");
 
@@ -401,7 +408,7 @@ public partial class SONIC_ClaimInfo_rptFROIRecap : clsBasePage
                         else
                         {
                             //Add No record found line for year
-                            strHTML.Append("<tr><td align='left' colspan='5'>No Record Found!</td></tr>");
+                            strHTML.Append("<tr><td align='left' colspan='11'>No Record Found!</td></tr>");
                         }
                         strHTML.Append("</table>");
                         #endregion
@@ -446,7 +453,7 @@ public partial class SONIC_ClaimInfo_rptFROIRecap : clsBasePage
                         else
                         {
                             //Add No record found line for year
-                            strHTML.Append("<tr><td align='left' colspan='5'>No Record Found!</td></tr>");
+                            strHTML.Append("<tr><td align='left' colspan='8'>No Record Found!</td></tr>");
                         }
                         strHTML.Append("</table>");
 
@@ -489,7 +496,7 @@ public partial class SONIC_ClaimInfo_rptFROIRecap : clsBasePage
                         else
                         {
                             //Add No record found line for year
-                            strHTML.Append("<tr><td align='left' colspan='5'>No Record Found!</td></tr>");
+                            strHTML.Append("<tr><td align='left' colspan='7'>No Record Found!</td></tr>");
                         }
                         strHTML.Append("</table>");
 
@@ -536,7 +543,7 @@ public partial class SONIC_ClaimInfo_rptFROIRecap : clsBasePage
                         else
                         {
                             //Add No record found line for year
-                            strHTML.Append("<tr><td align='left' colspan='5'>No Record Found!</td></tr>");
+                            strHTML.Append("<tr><td align='left' colspan='9'>No Record Found!</td></tr>");
                         }
                         strHTML.Append("</table>");
 
@@ -581,7 +588,7 @@ public partial class SONIC_ClaimInfo_rptFROIRecap : clsBasePage
                         else
                         {
                             //Add No record found line for year
-                            strHTML.Append("<tr><td align='left' colspan='5'>No Record Found!</td></tr>");
+                            strHTML.Append("<tr><td align='left' colspan='8'>No Record Found!</td></tr>");
                         }
                         strHTML.Append("</table>");
 
@@ -637,7 +644,7 @@ public partial class SONIC_ClaimInfo_rptFROIRecap : clsBasePage
                     if (File.Exists(outputFiles))
                         File.Delete(outputFiles);
                     if (File.Exists(strPath))
-                       File.Delete(strPath);
+                        File.Delete(strPath);
                     HttpContext.Current.Response.End();
                 }
             }

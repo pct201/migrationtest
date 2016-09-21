@@ -11,130 +11,117 @@
 
     <script type="text/javascript" language="javascript" src="../JavaScript/Validator.js"></script>
 
-    <asp:ValidationSummary ID="vsErrSum" ValidationGroup="vsError" runat="server" ShowMessageBox="true"
-        ShowSummary="false" HeaderText="Verify the following fields" BorderWidth="1"
-        BorderColor="DimGray" CssClass="errormessage" />
+    <asp:validationsummary id="vsErrSum" validationgroup="vsError" runat="server" showmessagebox="true"
+        showsummary="false" headertext="Verify the following fields" borderwidth="1"
+        bordercolor="DimGray" cssclass="errormessage" />
     <table cellpadding="0" cellspacing="0" width="100%">
         <tr>
-            <td width="100%" class="Spacer" style="height: 15px;">
+            <td width="100%" class="Spacer" style="height: 15px;"></td>
+        </tr>
+        <tr>
+            <td width="100%" class="ghc">&nbsp;&nbsp;Bordereau Report
             </td>
         </tr>
         <tr>
-            <td width="100%" class="ghc">
-                &nbsp;&nbsp;Bordereau Report
-            </td>
-        </tr>
-        <tr>
-            <td width="100%" class="Spacer" style="height: 15px;">
-            </td>
+            <td width="100%" class="Spacer" style="height: 15px;"></td>
         </tr>
         <tr>
             <td align="left">
                 <table cellpadding="3" cellspacing="0" width="50%" align="center">
                     <tr>
-                        <td width="28%" align="left">
-                            Start Date
+                        <td width="28%" align="left">Start Date
                         </td>
-                        <td width="4%" align="center">
-                            :
+                        <td width="4%" align="center">:
                         </td>
                         <td>
-                            <asp:TextBox runat="server" ID="txtStartDate" Width="170px" SkinID="txtDate"></asp:TextBox>
+                            <asp:textbox runat="server" id="txtStartDate" width="170px" skinid="txtDate"></asp:textbox>
                             <img alt="Date Opened" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtStartDate', 'mm/dd/y');"
                                 onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
                                 align="middle" />
-                            <asp:RequiredFieldValidator ID="rfvStartDate" runat="server" ControlToValidate="txtStartDate"
-                                ErrorMessage="Please enter Start Date" ValidationGroup="vsError" Display="none" />
-                            <asp:RangeValidator ID="revDate" ControlToValidate="txtStartDate" MinimumValue="01/01/1753"
-                                MaximumValue="12/31/9999" Type="Date" ErrorMessage="Start Date is not valid."
-                                runat="server" SetFocusOnError="true" ValidationGroup="vsError" Display="none" />
+                            <asp:requiredfieldvalidator id="rfvStartDate" runat="server" controltovalidate="txtStartDate"
+                                errormessage="Please enter Start Date" validationgroup="vsError" display="none" />
+                            <asp:rangevalidator id="revDate" controltovalidate="txtStartDate" minimumvalue="01/01/1753"
+                                maximumvalue="12/31/9999" type="Date" errormessage="Start Date is not valid."
+                                runat="server" setfocusonerror="true" validationgroup="vsError" display="none" />
                         </td>
                     </tr>
                     <tr>
-                        <td width="28%" align="left">
-                            End Date
+                        <td width="28%" align="left">End Date
                         </td>
-                        <td width="4%" align="center">
-                            :
+                        <td width="4%" align="center">:
                         </td>
                         <td>
-                            <asp:TextBox runat="server" ID="txtEndDate" Width="170px" SkinID="txtDate"></asp:TextBox>
+                            <asp:textbox runat="server" id="txtEndDate" width="170px" skinid="txtDate"></asp:textbox>
                             <img alt="Date Opened" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtEndDate', 'mm/dd/y');"
                                 onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
                                 align="middle" />
-                            <asp:RequiredFieldValidator ID="rfvEndDate" runat="server" ControlToValidate="txtEndDate"
-                                ErrorMessage="Please enter End Date" ValidationGroup="vsError" Display="none" />
-                            <asp:RangeValidator ID="revEndDate" ControlToValidate="txtEndDate" MinimumValue="01/01/1753"
-                                MaximumValue="12/31/9999" Type="Date" ErrorMessage="End Date is not valid." runat="server"
-                                SetFocusOnError="true" ValidationGroup="vsError" Display="none" />
-                            <asp:CompareValidator ID="cvDate" runat="server" ControlToValidate="txtEndDate" ControlToCompare="txtStartDate"
-                                Type="Date" ErrorMessage="End Date must be greater than or equal to Start Date"
-                                Operator="GreaterThanEqual" SetFocusOnError="true" ValidationGroup="vsError"
-                                Display="none"></asp:CompareValidator>
+                            <asp:requiredfieldvalidator id="rfvEndDate" runat="server" controltovalidate="txtEndDate"
+                                errormessage="Please enter End Date" validationgroup="vsError" display="none" />
+                            <asp:rangevalidator id="revEndDate" controltovalidate="txtEndDate" minimumvalue="01/01/1753"
+                                maximumvalue="12/31/9999" type="Date" errormessage="End Date is not valid." runat="server"
+                                setfocusonerror="true" validationgroup="vsError" display="none" />
+                            <asp:comparevalidator id="cvDate" runat="server" controltovalidate="txtEndDate" controltocompare="txtStartDate"
+                                type="Date" errormessage="End Date must be greater than or equal to Start Date"
+                                operator="GreaterThanEqual" setfocusonerror="true" validationgroup="vsError"
+                                display="none"></asp:comparevalidator>
                         </td>
                     </tr>
                     <tr>
-                        <td align="left">
-                            Region
+                        <td align="left">Region
                         </td>
-                        <td align="center">
-                            :
+                        <td align="center">:
                         </td>
                         <td align="left">
-                            <asp:DropDownList ID="drpRegion" runat="server" SkinID="ddlSONIC" />
+                            <asp:dropdownlist id="drpRegion" runat="server" skinid="ddlSONIC" />
                         </td>
                     </tr>
                     <tr>
-                        <td align="left">
-                            Market
+                        <td align="left">Market
                         </td>
-                        <td align="center">
-                            :
+                        <td align="center">:
                         </td>
                         <td align="left">
-                            <asp:DropDownList ID="ddlMarket" runat="server" SkinID="ddlSONIC" />
+                            <asp:dropdownlist id="ddlMarket" runat="server" skinid="ddlSONIC" />
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2">
-                            &nbsp;
+                        <td colspan="2">&nbsp;
                         </td>
                         <td align="left">
-                            <asp:Button ID="btnGenerateReport" runat="server" Text="Generate Report" OnClick="btnGenerateReport_Click"
-                                CausesValidation="true" ValidationGroup="vsError" />
+                            <asp:button id="btnGenerateReport" runat="server" text="Generate Report" onclick="btnGenerateReport_Click"
+                                causesvalidation="true" validationgroup="vsError" />
                         </td>
                     </tr>
                 </table>
             </td>
         </tr>
         <tr>
-            <td width="100%" class="Spacer" style="height: 15px;">
-            </td>
+            <td width="100%" class="Spacer" style="height: 15px;"></td>
         </tr>
         <tr>
             <td align="center">
                 <table cellpadding="1" cellspacing="1" width="1000px">
                     <tr>
                         <td align="right">
-                            <asp:LinkButton ID="lnkExport" runat="server" Text="Export To Excel" OnClick="lnkExport_Click"
-                                Visible="false" />&nbsp;
+                            <asp:linkbutton id="lnkExport" runat="server" text="Export To Excel" onclick="lnkExport_Click"
+                                visible="false" />
+                            &nbsp;
                         </td>
                     </tr>
                     <tr>
-                        <td width="100%" class="Spacer" style="height: 5px;">
-                        </td>
+                        <td width="100%" class="Spacer" style="height: 5px;"></td>
                     </tr>
                     <tr>
                         <td align="left">
                             <div style="display: none; text-align: left;" id="divReport_Grid" runat="server"
                                 width="999px">
-                                <asp:GridView ID="gvReport" runat="server" Width="100%" EmptyDataText="No Records Found"
-                                    OnRowCreated="gvReport_RowCreated" EnableTheming="false" GridLines="None" ShowFooter="true"
-                                    AutoGenerateColumns="false" OnRowDataBound="gvReport_RowDataBound">
+                                <asp:gridview id="gvReport" runat="server" width="100%" emptydatatext="No Records Found"
+                                    onrowcreated="gvReport_RowCreated" enabletheming="false" gridlines="None" showfooter="true"
+                                    autogeneratecolumns="false" onrowdatabound="gvReport_RowDataBound">
                                     <HeaderStyle HorizontalAlign="Left" CssClass="HeaderStyle" VerticalAlign="top" />
-                                    <RowStyle BackColor="White" HorizontalAlign="Left" VerticalAlign="top" />
+                                    <RowStyle BackColor="White" VerticalAlign="top" />
                                     <FooterStyle BackColor="#507CD1" ForeColor="White" Font-Bold="true" HorizontalAlign="left" />
-                                    <AlternatingRowStyle BackColor="White" HorizontalAlign="Left" VerticalAlign="top" />
+                                    <AlternatingRowStyle BackColor="White" VerticalAlign="top" />
                                     <EmptyDataRowStyle BackColor="#EAEAEA" HorizontalAlign="Center" Height="22px" />
                                     <Columns>
                                         <asp:TemplateField>
@@ -256,10 +243,10 @@
                                                         <td>
                                                             <asp:GridView ID="gvClaimData" runat="server" ShowHeader="false" Width="100%" OnRowDataBound="gvClaimData_RowDataBound"
                                                                 CellPadding="4" GridLines="None" CssClass="GridClass" AutoGenerateColumns="false"
-                                                                EnableTheming="false" HorizontalAlign="Left" ShowFooter="true">
-                                                                <FooterStyle BackColor="white" ForeColor="Black" Font-Bold="true" HorizontalAlign="left" />
-                                                                <RowStyle HorizontalAlign="Left" CssClass="RowStyle" VerticalAlign="top" />
-                                                                <AlternatingRowStyle HorizontalAlign="left" CssClass="AlterRowStyle" VerticalAlign="top" />
+                                                                EnableTheming="false" ShowFooter="true">
+                                                                <FooterStyle BackColor="white" ForeColor="Black" Font-Bold="true" />
+                                                                <RowStyle CssClass="RowStyle" VerticalAlign="top" />
+                                                                <AlternatingRowStyle CssClass="AlterRowStyle" VerticalAlign="top" />
                                                                 <Columns>
                                                                     <asp:TemplateField>
                                                                         <ItemStyle Width="120px" HorizontalAlign="left" />
@@ -427,7 +414,7 @@
                                                 <table cellpadding="0" cellspacing="0" width="100%">
                                                     <tr>
                                                         <td width="100%" align="left">
-                                                            <table cellpadding="4" cellspacing="0" width="100%" style="font-weight: bold; color: White;"
+                                                            <table cellpadding="4" cellspacing="0" width="100%" style="font-weight: bold; color: White;background-color:#507CD1"
                                                                 id="tblFooter" runat="server">
                                                                 <tr>
                                                                     <td style="width: 120px;">
@@ -496,27 +483,25 @@
                                                                     <td style="width: 120px;">
                                                                         <asp:Label ID="Label15" runat="server" Width="120px" />
                                                                     </td>
-                                                                    <td style="width: 650px;">
-                                                                        <div>
-                                                                            <table style="border-collapse: collapse" cellspacing="0" cellpadding="4" border="0">
+                                                                    <td style="width: 650px;background-color:#507CD1" colspan="4">
+                                                                            <%--<table style="border-collapse: collapse;" cellspacing="0" cellpadding="4" border="0">
                                                                                 <tbody>
                                                                                     <tr>
-                                                                                        <td style="width: 150px" align="left">
+                                                                                        <td style="width: 150px;" align="left">
                                                                                             <span style="display: inline-block; width: 150px"></span>
                                                                                         </td>
-                                                                                        <td style="width: 150px" align="left">
+                                                                                        <td style="width: 150px;" align="left">
                                                                                             <span style="display: inline-block; width: 150px"></span>
                                                                                         </td>
-                                                                                        <td style="width: 200px" align="left">
+                                                                                        <td style="width: 200px;" align="left">
                                                                                             <span style="display: inline-block; width: 200px"></span>
                                                                                         </td>
-                                                                                        <td style="width: 150px" align="left">
+                                                                                        <td style="width: 150px;" align="left">
                                                                                             <span style="display: inline-block; width: 150px"></span>
                                                                                         </td>
                                                                                     </tr>
                                                                                 </tbody>
-                                                                            </table>
-                                                                        </div>
+                                                                            </table>--%>
                                                                     </td>
                                                                 </tr>
                                                             </table>
@@ -526,7 +511,7 @@
                                             </FooterTemplate>
                                         </asp:TemplateField>
                                     </Columns>
-                                </asp:GridView>
+                                </asp:gridview>
                             </div>
                         </td>
                     </tr>
@@ -534,8 +519,7 @@
             </td>
         </tr>
         <tr>
-            <td width="100%" class="Spacer" style="height: 15px;">
-            </td>
+            <td width="100%" class="Spacer" style="height: 15px;"></td>
         </tr>
     </table>
 </asp:Content>

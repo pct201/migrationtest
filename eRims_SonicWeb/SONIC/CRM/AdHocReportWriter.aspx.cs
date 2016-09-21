@@ -2409,6 +2409,8 @@ public partial class SONIC_CRM_AdHocReportWriter : clsBasePage
                                 // If dataType is Numeric but it is not Currency field.
                                 if (CheckISdisplayCurrencyFormat(dtSchema.Rows[intColumn][0].ToString()))
                                     sbRecord.Append("<td align='right'>" + string.Format("{0:c2}", Reader[intColumn]) + "</td>");
+                                else if (Convert.ToString(dtSchema.Rows[intColumn]["ColumnName"]) == "Complaint Number")
+                                    sbRecord.Append("<td align='right'>" + Convert.ToString(Reader[intColumn]) + "</td>");
                                 else
                                     sbRecord.Append("<td>" + Convert.ToString(Reader[intColumn]) + "</td>");
                             }

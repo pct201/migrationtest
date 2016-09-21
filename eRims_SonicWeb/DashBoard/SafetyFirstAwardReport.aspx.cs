@@ -132,6 +132,12 @@ public partial class DashBoard_SafetyFirstAwardReport : clsBasePage
                 tdScoreCard.BgColor = "#ADD8E6";
                 //e.Row.Cells[0].BackColor = System.Drawing.Color.Blue;
                 e.Row.Cells[0].Style.Add("background-color", "#ADD8E6");
+                HtmlTable tblItem = (HtmlTable)e.Row.Cells[0].FindControl("tblItem");
+                if (tblItem != null)
+                {
+                    tblItem.Style.Add("background-color", "#ADD8E6");
+                    tblItem.Style.Add("color", "black");
+                }
                 e.Row.Cells[0].Style.Add("color", "black");
             }
             if (Is_Total == 2)
@@ -139,6 +145,12 @@ public partial class DashBoard_SafetyFirstAwardReport : clsBasePage
                 tdScoreCard.BgColor = "#76bdd5";
                 e.Row.Cells[0].Style.Add("background-color", "#76bdd5");
                 e.Row.Cells[0].Style.Add("color", "black");
+                HtmlTable tblItem = (HtmlTable)e.Row.Cells[0].FindControl("tblItem");
+                if (tblItem != null)
+                {
+                    tblItem.Style.Add("background-color", "#76bdd5");
+                    tblItem.Style.Add("color", "black");
+                }
                 Label lblRegion = (Label)e.Row.FindControl("lblRegion");
                 if (Convert.ToString(DataBinder.Eval(e.Row.DataItem, "Region")) == "ZZZZ" && IS_EchoPark == 1)
                     lblRegion.Text = "EchoPark Average";

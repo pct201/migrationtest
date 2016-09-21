@@ -153,7 +153,7 @@
                                                 </table>
                                             </HeaderTemplate>
                                             <ItemTemplate>
-                                                <table width="1700px" cellpadding="1" cellspacing="0" border="0">
+                                                <table width="1700px" cellpadding="1" cellspacing="0" border="0" id="tblItem" runat="server">
                                                     <tr>
                                                         <td align="left" width="200px">
                                                             <asp:Label ID="lblRegion" runat="server" Text='<%#Eval("Region")%>'></asp:Label>
