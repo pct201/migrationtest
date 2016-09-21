@@ -460,8 +460,8 @@ Inherits="SONIC_ClaimInfo_rptThreePITSummary" Title="eRIMS Sonic :: Three Points
                                                 <asp:GridView ID="gvReport" runat="server" AutoGenerateColumns="False" Width="100%"
                                                 CellPadding="4" GridLines="None" CssClass="GridClass" ShowFooter="true" EmptyDataText="No Record found !"
                                                 EnableTheming="false" ShowHeader="false">                                                
-                                                <RowStyle HorizontalAlign="Right" CssClass="RowStyle" />
-                                                <AlternatingRowStyle HorizontalAlign="Right" CssClass="AlterRowStyle" />
+                                                <RowStyle CssClass="RowStyle" />
+                                                <AlternatingRowStyle CssClass="AlterRowStyle" />
                                                  <FooterStyle Font-Bold="true" ForeColor="Black" />
                                                 <Columns>
                                                     <asp:TemplateField ItemStyle-HorizontalAlign="Left" FooterStyle-HorizontalAlign="Left">
@@ -476,7 +476,7 @@ Inherits="SONIC_ClaimInfo_rptThreePITSummary" Title="eRIMS Sonic :: Three Points
                                                     </asp:TemplateField>
                                                     <asp:TemplateField>
                                                         <FooterStyle Width="10%"  BackColor="white" ForeColor="black" Wrap="true" HorizontalAlign="right" />
-                                                        <ItemStyle Width="10%" />
+                                                        <ItemStyle Width="10%" HorizontalAlign="right"/>
                                                         <ItemTemplate>
                                                             <%# Eval("Incurred_1","{0:C2}")%>
                                                         </ItemTemplate>

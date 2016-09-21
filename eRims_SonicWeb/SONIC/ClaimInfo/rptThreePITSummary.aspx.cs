@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using ERIMS.DAL;
+using System.Collections.Generic;
 public partial class SONIC_ClaimInfo_rptThreePITSummary : clsBasePage
 {
     #region Private Variables
@@ -109,12 +110,12 @@ public partial class SONIC_ClaimInfo_rptThreePITSummary : clsBasePage
             row.Font.Bold = true;
 
             TableCell Cell = new TableCell();
-            Cell.Text = "<table width='100%' cellspacing=0 cellpadding=0><tr><td width='100%' style='border:thin'>" +
-                                "<table width='100%' style='font-weight: bold;' cellspacing=0 cellpadding=0><tr style='font-weight: bold;'>" +
+            Cell.Text = "<table width='100%' cellspacing=0 cellpadding=0><tr><td width='100%'>" +
+                                "<table width='100%' style='font-weight: bold;border:1' cellspacing=0 cellpadding=0 ><tr style='font-weight: bold;'>" +
                                 "<td width='14%'>&nbsp;</td>" +
                                 "<td colspan='2' align='center' width='18%'>Period 1 <br/> " + dtLossFrom1 + " To " + dtLossTo1 + " <br/> As Of " + dtAsOf1 + "</td>" +
                                 "<td colspan='4' align='center' width='34%'>Period 2 <br/> " + dtLossFrom2 + " To " + dtLossTo2 + " <br/> As Of " + dtAsOf2 + "</td>" +
-                                "<td colspan='4' align='center' style='border-right:thin'>Period 3 <br/> " + dtLossFrom3 + " To " + dtLossTo3 + " <br/> As Of " + dtAsOf3 + "</td>" +
+                                "<td colspan='4' align='center' style='border-right:1'>Period 3 <br/> " + dtLossFrom3 + " To " + dtLossTo3 + " <br/> As Of " + dtAsOf3 + "</td>" +
                             "</tr></table></td></tr></table>";
 
             row.Cells.Add(Cell);
@@ -151,7 +152,7 @@ public partial class SONIC_ClaimInfo_rptThreePITSummary : clsBasePage
     protected void lbtExportToExcel_Click(object sender, EventArgs e)
     {
         // set borders for tables and gridlines in grids to be displayed in excel file
-        gvRegion.GridLines = GridLines.Both;
+        //gvRegion.GridLines = GridLines.Both;
         //((Table)gvRegion.Controls[0]).Rows[0].Controls[0]
 
         ((HtmlTable)gvRegion.HeaderRow.FindControl("tblHeader")).Border = 1;
@@ -163,7 +164,19 @@ public partial class SONIC_ClaimInfo_rptThreePITSummary : clsBasePage
         }
 
         //Export Grid
-        GridViewExportUtil.ExportGrid("ThreePITSummaryReport.xlsx", gvRegion, true);
+        List<System.Collections.Generic.KeyValuePair<int, double>> columnWidth = new List<System.Collections.Generic.KeyValuePair<int, double>>();
+        columnWidth.Add(new KeyValuePair<int, double>(2,20));
+        columnWidth.Add(new KeyValuePair<int, double>(3, 10));
+        columnWidth.Add(new KeyValuePair<int, double>(4, 20));
+        columnWidth.Add(new KeyValuePair<int, double>(5, 13));
+        columnWidth.Add(new KeyValuePair<int, double>(6, 10));
+        columnWidth.Add(new KeyValuePair<int, double>(7, 17));
+        columnWidth.Add(new KeyValuePair<int, double>(8, 20));
+        columnWidth.Add(new KeyValuePair<int, double>(9, 13));
+        columnWidth.Add(new KeyValuePair<int, double>(10, 10));
+        columnWidth.Add(new KeyValuePair<int, double>(11, 17));
+
+        GridViewExportUtil.ExportGrid("ThreePITSummaryReport.xlsx", gvRegion, true, columnWidth);
 
         //Hide the Grid lines
         gvRegion.GridLines = GridLines.None;
