@@ -8,6 +8,8 @@ using System.Drawing;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Net;
+using OfficeOpenXml.Drawing;
 
 
 public class HTML2Excel
@@ -33,9 +35,17 @@ public class HTML2Excel
     public bool isUseCSS = false;
     ArrayList blankRows = new ArrayList();
     int nestedLevel = 0;
+    double fixWidth = 950;
 
     bool HasInnerTable = false;
-    double minWidth = 25, maxWidth = 60;
+    double minWidth = 25, maxWidth = 150;
+    Hashtable htTableCols = new Hashtable();
+    bool colSpanSet = false;
+    Hashtable htColStyles = new Hashtable();
+    public string imagePath = string.Empty;
+    bool isPercentWidthSet = false;
+    public List<System.Collections.Generic.KeyValuePair<int, double>> columnWidth = new List<KeyValuePair<int, double>>();
+    public bool overwriteBorder = true;
 
     struct tabledef
     {
@@ -65,13 +75,16 @@ public class HTML2Excel
         excelWorkbook = new ExcelPackage();
         excelWorksheet = excelWorkbook.Workbook.Worksheets.Add("Report");
         //isGrid = true;
+        _htmlData = _htmlData.Replace("<div>", "").Replace("</div>", "");
+        _htmlData = _htmlData.Replace("&amp;", "&");
+
         HtmlDocument hDoc = new HtmlDocument();
 
         hDoc.LoadHtml(_htmlData);
 
         if (isUseCSS)
         {
-            string cssFile = AppDomain.CurrentDomain.BaseDirectory + @"ERIMS.css";
+            string cssFile = AppConfig.SitePath + @"App_Themes\Default\ERIMS.css";
             GetStyleSheet(cssFile);
         }
         HtmlNodeCollection hNodes = hDoc.DocumentNode.ChildNodes;
@@ -127,11 +140,22 @@ public class HTML2Excel
         //excelWorksheet.Cells[1, MaxColumnInRow + 1, totalRows + 1, excelWorksheet.Cells.Columns].Clear();
         using (ExcelRange range = excelWorksheet.Cells[1, 1, currRowNumber - 2, MaxColumnInRow])
         {
-
-            range.AutoFitColumns(minWidth, maxWidth);
+            if (!isPercentWidthSet)
+                range.AutoFitColumns(minWidth, maxWidth);
             range.Style.WrapText = true;
         }
-        excelWorksheet.Cells.AutoFitColumns(minWidth, maxWidth);
+        if (columnWidth.Count == 0)
+        {
+            if (!isPercentWidthSet)
+                excelWorksheet.Cells.AutoFitColumns(minWidth, maxWidth);
+        }
+        else
+        {
+            foreach (KeyValuePair<int, double> colWidth in columnWidth)
+            {
+                excelWorksheet.Column(colWidth.Key).Width = colWidth.Value;
+            }
+        }
         //excelWorksheet.Cells.Style.WrapText = true;
 
         Byte[] bin = excelWorkbook.GetAsByteArray();
@@ -170,6 +194,11 @@ public class HTML2Excel
                     case "TR": HandleTRNode(childNode, hasBorder); break;
 
                     case "TD":
+                        foreach (HtmlAttribute trAttrib in hNode.Attributes)
+                        {
+                            if (trAttrib.Name.ToUpper() != "BORDER")
+                                childNode.Attributes.Add(trAttrib);
+                        }
                         HandleTDNode(childNode);
                         currColumnNumber++;
                         break;
@@ -201,7 +230,7 @@ public class HTML2Excel
         Color backColor = Color.White;
         bool bold = false, isBoldSet = false, isColorSet = false, isBackcolorSet = false, isFontFamilySet = false;
         string fontFamilty = "Calibri";
-        float font_size = 11;
+        //float font_size = 11;
 
         #region Style Attributes
         foreach (HtmlAttribute trAttrib in hNode.Attributes)
@@ -224,13 +253,13 @@ public class HTML2Excel
                                     isColorSet = true;
                                     //excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].Style.Font.Color.SetColor(color);
                                     break;
-                                case "font-family":
-                                    fontFamilty = nodeVal[1].Trim();
-                                    isFontFamilySet = true;
-                                    break;
-                                case "font-size":
-                                    font_size = float.Parse(nodeVal[1].Trim().Replace("pt", ""));
-                                    break;
+                                //case "font-family":
+                                //    fontFamilty = nodeVal[1].Trim();
+                                //    isFontFamilySet = true;
+                                //    break;
+                                //case "font-size":
+                                //    font_size = float.Parse(nodeVal[1].Trim().Replace("pt", ""));
+                                //    break;
                                 case "font-weight":
                                     bold = true;
                                     isBoldSet = true;
@@ -244,6 +273,24 @@ public class HTML2Excel
                                     else
                                         backColor = ColorTranslator.FromHtml(nodeVal[1].Trim());
                                     isBackcolorSet = true;
+                                    break;
+                                case "border-right":
+                                    //if (NoOfCol > 0 && tdAttrib.Value != "0")
+                                    using (ExcelRange range = excelWorksheet.Cells[currRowNumber, currColumnNumber - 2, currRowNumber, currColumnNumber - 1])
+                                    {
+                                        //range.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
+                                        Border border = range.Style.Border;
+                                        border.Right.Style = ExcelBorderStyle.Thin;
+                                    }
+                                    break;
+                                case "border-left":
+                                    //if (NoOfCol > 0 && tdAttrib.Value != "0")
+                                    using (ExcelRange range = excelWorksheet.Cells[currRowNumber, tempCol, currRowNumber, tempCol])
+                                    {
+                                        //range.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
+                                        Border border = range.Style.Border;
+                                        border.Left.Style = ExcelBorderStyle.Thin;
+                                    }
                                     break;
                             }
                         }
@@ -267,13 +314,13 @@ public class HTML2Excel
                                         isColorSet = true;
                                         //excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].Style.Font.Color.SetColor(color);
                                         break;
-                                    case "font-family":
-                                        fontFamilty = nodeVal[1].Trim();
-                                        isFontFamilySet = true;
-                                        break;
-                                    case "font-size":
-                                        font_size = float.Parse(nodeVal[1].Trim().Replace("pt", ""));
-                                        break;
+                                    //case "font-family":
+                                    //    fontFamilty = nodeVal[1].Trim();
+                                    //    isFontFamilySet = true;
+                                    //    break;
+                                    //case "font-size":
+                                    //    font_size = float.Parse(nodeVal[1].Trim().Replace("pt", ""));
+                                    //    break;
                                     case "font-weight":
                                         bold = true;
                                         isBoldSet = true;
@@ -294,11 +341,30 @@ public class HTML2Excel
                         }
                     }
                     break;
+
+                case "border":
+                    if (trAttrib.Value != "0")
+                        using (ExcelRange range = excelWorksheet.Cells[currRowNumber, tempCol, currRowNumber, tempCol])
+                        {
+                            range.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
+                            Border border = range.Style.Border;
+                            border.Bottom.Style = border.Top.Style = border.Left.Style = border.Right.Style = ExcelBorderStyle.Thin;
+                        }
+                    //else
+                    //{
+                    //    using (ExcelRange range = excelWorksheet.Cells[currRowNumber, tempCol, currRowNumber, tempCol])
+                    //    {
+                    //        range.Style.Border.BorderAround(ExcelBorderStyle.None);
+                    //        Border border = range.Style.Border;
+                    //        border.Bottom.Style = border.Top.Style = border.Left.Style = border.Right.Style = ExcelBorderStyle.None;
+                    //    }
+                    //}
+                    break;
             }
         }
         if (hNode.Attributes.Count > 0)
         {
-            if (currColumnNumber - 1 > 0)
+            if (currColumnNumber - 1 > 0 && tempCol <= currColumnNumber - 1)
                 using (ExcelRange range = excelWorksheet.Cells[currRowNumber, tempCol, currRowNumber, currColumnNumber - 1])
                 {
 
@@ -323,13 +389,16 @@ public class HTML2Excel
                             if (excelWorksheet.Cells[GetExcelColumnName(tempCol1, currRowNumber)].IsRichText)
                             {
                                 ExcelRichTextCollection rtfCollection1 = excelWorksheet.Cells[GetExcelColumnName(tempCol1, currRowNumber)].RichText;
-                                if (isColorSet)
-                                    rtfCollection1[0].Color = color;
-                                if (isBoldSet)
-                                    rtfCollection1[0].Bold = bold;
-                                if (isFontFamilySet)
-                                    rtfCollection1[0].FontName = fontFamilty;
-                                rtfCollection1[0].Size = font_size;
+                                foreach (ExcelRichText tempRichtext in rtfCollection1)
+                                {
+                                    if (isColorSet)
+                                        tempRichtext.Color = color;
+                                    if (isBoldSet)
+                                        tempRichtext.Bold = bold;
+                                }
+                                //if (isFontFamilySet)
+                                //    rtfCollection1[0].FontName = fontFamilty;
+                                //rtfCollection1[0].Size = font_size;
                             }
                         }
                     }
@@ -360,6 +429,22 @@ public class HTML2Excel
             applycolSpan = false;
         }
 
+        if (!htTableCols.Contains(currRowNumber))
+        {
+            htTableCols.Add(currRowNumber, MaxColumnInRow);
+        }
+        else
+        {
+            if (Convert.ToInt32(htTableCols[currRowNumber]) > MaxColumnInRow)
+            {
+                MaxColumnInRow = Convert.ToInt32(htTableCols[currRowNumber]);
+            }
+            else
+            {
+                htTableCols[currRowNumber] = MaxColumnInRow;
+            }
+        }
+
         return nestedColumns;
     }
 
@@ -368,11 +453,18 @@ public class HTML2Excel
         string colVal = hNode.InnerText;
         colVal = colVal.Replace("&nbsp;", " ");
         Color color = Color.Black;
-
+        bool isUnderline = false;
         bool isBold = false;
         int tempColspanCol = currColumnNumber;
-        bool colSpanSet = false;
+        int noOfColspan = 0;
+        ExcelHorizontalAlignment cellAlign = ExcelHorizontalAlignment.General;
+        bool alignSet = false;
+        colSpanSet = false;
         #region Style Attributes
+        if (hNode.Attributes.Contains("colspan"))
+        {
+            noOfColspan = Convert.ToInt32(hNode.Attributes["colspan"].Value) - 1;
+        }
         foreach (HtmlAttribute tdAttrib in hNode.Attributes)
         {
             //styleBuilder.AppendLine("Name : "+tdAttrib.Name + "    Value :"+tdAttrib.Value);
@@ -389,6 +481,8 @@ public class HTML2Excel
                             excelWorksheet.Cells[mergeCells].AutoFitColumns(minWidth * (Convert.ToInt32(tdAttrib.Value) - 1), maxWidth * (Convert.ToInt32(tdAttrib.Value) - 1));
                             tempColspanCol = currColumnNumber + Convert.ToInt32(tdAttrib.Value) - 1;
                             colSpanSet = true;
+                            if (alignSet)
+                                excelWorksheet.Cells[mergeCells].Style.HorizontalAlignment = cellAlign;
                         }
                         //using (ExcelRange range = excelWorksheet.Cells[mergeCells])
                         //{
@@ -426,6 +520,31 @@ public class HTML2Excel
                                     Color backcolor = ColorTranslator.FromHtml(nodeVal[1].Trim());
                                     excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].Style.Fill.PatternType = ExcelFillStyle.Solid;
                                     excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].Style.Fill.BackgroundColor.SetColor(backcolor);
+                                    if (!htColStyles.Contains(currRowNumber + ":" + currColumnNumber))
+                                    {
+                                        htColStyles.Add(currRowNumber + ":" + currColumnNumber, backcolor);
+                                    }
+                                    break;
+                                //case "width":
+                                //    //excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].
+                                //    string tempWidth = nodeVal[1].Trim().ToLower().Replace("px", "");
+                                //    if (!tempWidth.Contains("%"))
+                                //        excelWorksheet.Column(currColumnNumber).Width = (Convert.ToInt32(tempWidth) - 12) / 7d;
+                                //    else if (!tempWidth.Contains("100%"))
+                                //    {
+                                //        excelWorksheet.Column(currColumnNumber).Width = (((fixWidth * Convert.ToInt32(tempWidth.Replace("%", ""))) / 100) - 12 + 5) / 7d + 1;
+                                //        isPercentWidthSet = true;
+                                //    }
+                                //    break;
+                                case "border":
+                                    if (tdAttrib.Value != "0")
+                                        using (ExcelRange range = excelWorksheet.Cells[currRowNumber, currColumnNumber, currRowNumber, currColumnNumber + noOfColspan])
+                                        {
+                                            range.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
+                                            Border border = range.Style.Border;
+                                            border.Bottom.Style = border.Top.Style = border.Left.Style = border.Right.Style = ExcelBorderStyle.Thin;
+
+                                        }
                                     break;
                             }
                         }
@@ -433,21 +552,47 @@ public class HTML2Excel
                     }
 
                     break;
+                case "bgcolor":
+                    Color backcolor1 = ColorTranslator.FromHtml(tdAttrib.Value);
+                    excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].Style.Fill.BackgroundColor.SetColor(backcolor1);
+                    if (!htColStyles.Contains(currRowNumber + ":" + currColumnNumber))
+                    {
+                        htColStyles.Add(currRowNumber + ":" + currColumnNumber, backcolor1);
+                    }
+                    break;
                 case "align":
                     if (tdAttrib.Value.ToLower() == "right")
                     {
                         excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
-
+                        cellAlign = ExcelHorizontalAlignment.Right;
+                        alignSet = true;
                     }
                     if (tdAttrib.Value.ToLower() == "left")
                     {
                         excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
-
+                        cellAlign = ExcelHorizontalAlignment.Left;
+                        alignSet = true;
                     }
                     if (tdAttrib.Value.ToLower() == "center")
                     {
                         excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-
+                        cellAlign = ExcelHorizontalAlignment.Center;
+                        alignSet = true;
+                    }
+                    break;
+                case "valign":
+                    if (tdAttrib.Value.ToLower() == "top")
+                    {
+                        excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].Style.VerticalAlignment = ExcelVerticalAlignment.Top;
+                    }
+                    if (tdAttrib.Value.ToLower() == "bottom")
+                    {
+                        excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].Style.VerticalAlignment = ExcelVerticalAlignment.Bottom;
+                    }
+                    if (tdAttrib.Value.ToLower() == "middle")
+                    {
+                        excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
                     }
                     break;
             }
@@ -512,6 +657,15 @@ public class HTML2Excel
                             {
                                 tempText1.Color = color;
                             }
+                            if (isUnderline)
+                            {
+                                tempText1.UnderLine = true;
+                                isUnderline = false;
+                            }
+                            else
+                            {
+                                tempText1.UnderLine = false;
+                            }
                         }
                         break;
                     case "span":
@@ -542,6 +696,12 @@ public class HTML2Excel
                                                         isBold = true;
                                                     }
                                                     break;
+                                                case "text-decoration":
+                                                    if (nodeVal[1].ToLower().Trim() == "underline")
+                                                    {
+                                                        isUnderline = true;
+                                                    }
+                                                    break;
                                             }
                                         }
 
@@ -555,16 +715,83 @@ public class HTML2Excel
                         {
                             currColumnNumber = currColumnNumber + Convert.ToInt32(htGridCells[currColumnNumber]) - 1;
                         }
-                        ExcelRichTextCollection rtfCollection2 = excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].RichText;
-                        ExcelRichText tempText2 = rtfCollection2.Add(childNode.InnerText.Trim().Replace("&nbsp;", " ").Replace("<br>", "\r\n"));
+                        string tempText111 = childNode.InnerText.Trim().Replace("&nbsp;", " ").Replace("<br>", "\r\n");
+                        if (!string.IsNullOrEmpty(tempText111))
+                        {
+                            ExcelRichTextCollection rtfCollection2 = excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].RichText;
+
+                            ExcelRichText tempText2 = rtfCollection2.Add(tempText111);
+
+                            if (!isBold && isTH)
+                                isBold = true;
+                            tempText2.Bold = isBold;
+                            //tempText2.PreserveSpace = true;
+                            if (color != Color.Black)
+                            {
+                                tempText2.Color = color;
+                            }
+                            if (isUnderline)
+                            {
+                                tempText2.UnderLine = true;
+                                isUnderline = false;
+                            }
+                            else
+                            {
+                                tempText2.UnderLine = false;
+                            }
+                        }
+                        break;
+                    case "a":
+                        //#region Style Attributes
+                        //foreach (HtmlAttribute tdAttrib in childNode.Attributes)
+                        //{
+                        //    //styleBuilder.AppendLine("Name : "+tdAttrib.Name + "    Value :"+tdAttrib.Value);
+                        //    switch (tdAttrib.Name)
+                        //    {
+                        //        case "style":
+                        //            string styleVal = tdAttrib.Value;
+                        //            string[] styleCollection = styleVal.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
+                        //            foreach (string styleAttrib in styleCollection)
+                        //            {
+                        //                string[] nodeVal = styleAttrib.Split(new string[] { ":" }, StringSplitOptions.RemoveEmptyEntries);
+                        //                if (nodeVal.Length > 1)
+                        //                {
+                        //                    switch (nodeVal[0].Trim())
+                        //                    {
+                        //                        case "color":
+                        //                            color = ColorTranslator.FromHtml(nodeVal[1].Trim());
+                        //                            excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].Style.Font.Color.SetColor(color);
+                        //                            break;
+                        //                        case "font-weight":
+                        //                            if (nodeVal[1].ToLower().Trim() == "bold")
+                        //                            {
+                        //                                excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].Style.Font.Bold = true;
+                        //                                isBold = true;
+                        //                            }
+                        //                            break;
+                        //                    }
+                        //                }
+
+                        //            }
+
+                        //            break;
+                        //    }
+                        //}
+                        //#endregion
+                        if (htGridCells.Contains(currColumnNumber) && !isNestedTable)
+                        {
+                            currColumnNumber = currColumnNumber + Convert.ToInt32(htGridCells[currColumnNumber]) - 1;
+                        }
+                        ExcelRichTextCollection rtfCollection2_2 = excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].RichText;
+                        ExcelRichText tempText2_2 = rtfCollection2_2.Add(childNode.InnerText.Trim().Replace("&nbsp;", " ").Replace("<br>", "\r\n"));
 
                         if (!isBold && isTH)
                             isBold = true;
-                        tempText2.Bold = isBold;
-                        tempText2.PreserveSpace = true;
+                        tempText2_2.Bold = isBold;
+                        tempText2_2.PreserveSpace = true;
                         if (color != Color.Black)
                         {
-                            tempText2.Color = color;
+                            tempText2_2.Color = color;
                         }
                         break;
                     case "br":
@@ -573,6 +800,39 @@ public class HTML2Excel
                         if (colSpanSet)
                             excelWorksheet.Row(currRowNumber).Height = excelWorksheet.Row(currRowNumber).Height + 15;
                         ExcelRichText tempText3 = rtfCollection3.Add(Environment.NewLine);
+                        if (isUnderline)
+                        {
+                            tempText3.UnderLine = true;
+                            isUnderline = false;
+                        }
+                        else
+                        {
+                            tempText3.UnderLine = false;
+                        }
+                        if (childNode.HasChildNodes)
+                        {
+                            foreach (HtmlNode brchildNode in childNode.ChildNodes)
+                            {
+                                switch (brchildNode.Name)
+                                {
+                                    case "#text":
+                                        string innerText1 = brchildNode.InnerText.Trim().Replace("&nbsp;", " ").Replace("<br>", "\r\n");
+                                        if (!string.IsNullOrEmpty(innerText1))
+                                        {
+                                            ExcelRichText tempText3_1 = rtfCollection3.Add(Environment.NewLine + innerText1);
+                                            if (isUnderline)
+                                            {
+                                                tempText3_1.UnderLine = true;
+                                            }
+                                            else
+                                            {
+                                                tempText3_1.UnderLine = false;
+                                            }
+                                        }
+                                        break;
+                                }
+                            }
+                        }
                         break;
                     case "table":
 
@@ -609,6 +869,46 @@ public class HTML2Excel
                         }
 
                         break;
+                    case "img":
+                        string url = string.Empty, width = "0", height = "0";
+
+                        foreach (HtmlAttribute tdAttrib in childNode.Attributes)
+                        {
+                            switch (tdAttrib.Name.ToUpper())
+                            {
+                                case "SRC":
+                                    url = tdAttrib.Value;
+                                    break;
+                                case "WIDTH":
+                                    width = tdAttrib.Value;
+                                    break;
+                                case "HEIGHT":
+                                    height = tdAttrib.Value;
+                                    break;
+
+                            }
+                        }
+                        if (!string.IsNullOrEmpty(url) && !url.Contains("up-arrow") && !url.Contains("down-arrow"))
+                        {
+                            using (WebClient client = new WebClient())
+                            {
+                                string imagePath2 = imagePath + Guid.NewGuid().ToString();
+                                //client.DownloadFileAsync(new Uri(url), @"c:\temp\image35.png");
+                                client.DownloadFile(new Uri(url), imagePath2);
+                                Image img = Image.FromFile(imagePath2);
+
+                                ExcelPicture cellImg = excelWorksheet.Drawings.AddPicture("", img);
+                                cellImg.From.Column = currColumnNumber - 1;
+                                cellImg.From.Row = currRowNumber - 1;
+                                cellImg.From.ColumnOff = 1;
+                                //cellImg.SetPosition(currRowNumber - 1, 1, currColumnNumber - 1, 3);
+                                cellImg.SetSize((int)(Convert.ToInt32(width.ToLower().Replace("px", "")) * 0.94), (int)(Convert.ToInt32(height.ToLower().Replace("px", "")) * 0.34));
+                                cellImg.Dispose();
+
+                                File.Delete(imagePath2);
+                            }
+                        }
+                        break;
                 }
             }
             if (colSpanSet)
@@ -620,6 +920,8 @@ public class HTML2Excel
             {
                 currColumnNumber = currColumnNumber + Convert.ToInt32(htGridCells[currColumnNumber]) - 1;
             }
+            if (colSpanSet)
+                currColumnNumber = tempColspanCol;
         }
     }
 
@@ -637,6 +939,11 @@ public class HTML2Excel
             {
                 case "TABLE": HandleTABLENode(childNode); break;
                 case "TR":
+                    foreach (HtmlAttribute trAttrib in hNode.Attributes)
+                    {
+                        if (trAttrib.Name.ToUpper() != "BORDER")
+                            childNode.Attributes.Add(trAttrib);
+                    }
 
                     totalcolsInCurrRow = HandleTRNode(childNode, hasBorder);
                     if (totalcolsInCurrRow > MaxColumnInCurrTable)
@@ -742,6 +1049,9 @@ public class HTML2Excel
                 break;
             case "SPAN":
             case "DIV":
+            case "FONT":
+            case "HTML":
+            case "BODY":
                 foreach (HtmlNode hChildNode in hNode.ChildNodes)
                 {
                     switch (hChildNode.Name.ToUpper())
@@ -750,6 +1060,52 @@ public class HTML2Excel
                         case "TR": HandleTRNode(hChildNode, false); break;
                         case "TD": HandleTDNode(hChildNode); break;
                         default: HandleOtherNode(hChildNode); break;
+                    }
+                }
+                break;
+            case "IMG":
+                string url = string.Empty, width = "0", height = "0";
+
+                foreach (HtmlAttribute tdAttrib in hNode.Attributes)
+                {
+                    switch (tdAttrib.Name.ToUpper())
+                    {
+                        case "SRC":
+                            url = tdAttrib.Value;
+                            break;
+                        case "WIDTH":
+                            width = tdAttrib.Value.ToLower().Replace("px", "");
+                            break;
+                        case "HEIGHT":
+                            height = tdAttrib.Value.ToLower().Replace("px", "");
+                            break;
+
+                    }
+                }
+                if (!string.IsNullOrEmpty(url))
+                {
+                    using (WebClient client = new WebClient())
+                    {
+                        string imagePath = @"D:\R & D Work\Adhoc Reports\Input\" + Guid.NewGuid().ToString();
+                        //client.DownloadFileAsync(new Uri(url), @"c:\temp\image35.png");
+                        client.DownloadFile(new Uri(url), imagePath);
+                        excelWorksheet.Row(currRowNumber).Height = (int)(Convert.ToInt32(height.ToLower().Replace("px", "")) * 1);
+
+                        Image img = Image.FromFile(imagePath);
+
+                        ExcelPicture cellImg = excelWorksheet.Drawings.AddPicture("", img);
+                        cellImg.From.Column = currColumnNumber - 1;
+                        cellImg.From.Row = currRowNumber - 1;
+                        cellImg.EditAs = eEditAs.TwoCell;
+                        //cellImg.From.ColumnOff = 1;
+
+                        //cellImg.SetPosition(currRowNumber - 1, 1, currColumnNumber - 1, 3);
+                        cellImg.SetSize((int)(Convert.ToInt32(width.ToLower().Replace("px", "")) * 0.94), (int)(Convert.ToInt32(height.ToLower().Replace("px", "")) * 1));
+                        cellImg.Dispose();
+
+                        excelWorksheet.Row(currRowNumber).Height = (int)(Convert.ToInt32(height.ToLower().Replace("px", "")) * 1);
+
+                        File.Delete(imagePath);
                     }
                 }
                 break;
@@ -916,7 +1272,7 @@ public class HTML2Excel
                                 excelWorksheet.Cells[mergeCells].AutoFitColumns(minWidth, maxWidth);
                                 string value = string.Empty;
                                 bool rightAlign = false;
-
+                                bool isBorder = false;
 
 
                                 excelWorksheet.Cells[mergeCells].Style.VerticalAlignment = ExcelVerticalAlignment.Bottom;
@@ -927,11 +1283,15 @@ public class HTML2Excel
                                     excelWorksheet.Cells[mergeCells].RichText.Text += excelWorksheet.Cells[tempRow, colStart].RichText.Text;
                                     if (excelWorksheet.Cells[tempRow, colStart].Style.HorizontalAlignment == ExcelHorizontalAlignment.Right)
                                         rightAlign = true;
+                                    if (excelWorksheet.Cells[tempRow, colStart].Style.Border.Right.Style != ExcelBorderStyle.None)
+                                        isBorder = true;
                                 }
                                 if (rightAlign)
                                     excelWorksheet.Cells[mergeCells].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
                                 if (!htMergedCells.Contains(mergeCells))
                                     htMergedCells.Add(mergeCells, true);
+                                if (isBorder)
+                                    excelWorksheet.Cells[mergeCells].Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
                             }
                             catch
                             {
@@ -1003,11 +1363,9 @@ public class HTML2Excel
                 rowList.Add(innerTableDef);
                 htGridRow[currRowNumber] = rowList;
 
-
-
             }
         }
-        HasInnerTable = false;
+
         //if (!htGridCells.Contains(currColumnNumber))
         {
             if (!htGridCells.Contains(currColumnNumber))
@@ -1053,7 +1411,7 @@ public class HTML2Excel
                 htGridCells.Add(currColumnNumber, innerTableDef.noOfColumn);
 
             }
-
+            HasInnerTable = false;
             // for colspans
             //int topRow = 0;
             //if (htGridCellsRows.Contains(currColumnNumber))
@@ -1148,6 +1506,24 @@ public class HTML2Excel
     {
         Color color = Color.Black;
         bool isBold = false;
+
+        if (htTableCols.Contains(startRow))
+        {
+            if (Convert.ToInt32(htTableCols[startRow]) > NoOfCol && !overwriteBorder)
+                NoOfCol = Convert.ToInt32(htTableCols[startRow]);
+        }
+
+        //if (htColStyles.Contains(startRow + ":" + startCol))
+        //{
+        //    Color backcolor1 = (Color)htColStyles[startRow + ":" + startCol];
+        //    using (ExcelRange range = excelWorksheet.Cells[startRow, startCol, currRowNumber - 1, NoOfCol])
+        //    {
+        //        range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+        //        range.Style.Fill.BackgroundColor.SetColor(backcolor1);
+        //    }
+
+        //}
+
         foreach (HtmlAttribute tdAttrib in hNode.Attributes)
         {
             //styleBuilder.AppendLine("Name : "+tdAttrib.Name + "    Value :"+tdAttrib.Value);
@@ -1155,7 +1531,7 @@ public class HTML2Excel
             {
                 case "border":
                     if (currRowNumber - 1 >= startRow)
-                        if (NoOfCol > 0)
+                        if (NoOfCol > 0 && tdAttrib.Value != "0")
                             using (ExcelRange range = excelWorksheet.Cells[startRow, startCol, currRowNumber - 1, NoOfCol])
                             {
                                 range.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
@@ -1204,7 +1580,7 @@ public class HTML2Excel
                                     break;
                                 case "border":
                                     if (currRowNumber - 1 >= startRow)
-                                        if (NoOfCol > 0)
+                                        if (NoOfCol > 0 && tdAttrib.Value != "0")
                                             using (ExcelRange range = excelWorksheet.Cells[startRow, startCol, currRowNumber - 1, NoOfCol])
                                             {
                                                 range.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
