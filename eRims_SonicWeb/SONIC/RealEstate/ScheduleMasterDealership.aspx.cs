@@ -90,7 +90,7 @@ public partial class SONIC_RealEstate_ScheduleMasterDealership : clsBasePage
         foreach (ListItem li in lstMarket.Items)
         {
             if (li.Selected)
-                strMarket = strMarket + "'" + li.Value + "',";
+                strMarket = strMarket + "" + li.Value + ",";
         }
         strMarket = strMarket.TrimEnd(',');
 

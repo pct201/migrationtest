@@ -69,6 +69,18 @@
                             </asp:ListBox>
                         </td>
                     </tr>
+                   <tr valign="top" align="left">
+                        <td>
+                            Market
+                        </td>
+                        <td align="right">
+                            :
+                        </td>
+                        <td colspan="4">
+                            <asp:ListBox ID="lstMarket" runat="server" Rows="4" SelectionMode="Multiple" Width="250px">
+                            </asp:ListBox>
+                        </td>
+                    </tr>
                     <tr valign="top" align="left">
                         <td>
                             Location
@@ -80,7 +92,8 @@
                             <asp:ListBox ID="lstLocation" runat="server" Rows="4" SelectionMode="Multiple" Width="250px">
                             </asp:ListBox>
                         </td>
-                    </tr>                       
+                    </tr>     
+                                      
                     <tr valign="top" align="left">
                         <td style="width: 23%;">
                             Date of Injury Begin

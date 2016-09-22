@@ -67,7 +67,7 @@ public partial class SONIC_FirstReport_SchedulerSonicCauseCodeReclassification :
         clsTatva_RptSonicCauseCodeReclassificationScheduler obj = new clsTatva_RptSonicCauseCodeReclassificationScheduler();
        
         DateTime? dtInjuryDateFrom = null, dtInjuryDateEnd = null;
-        string strRegion = string.Empty, strLocationStatus = string.Empty, strDBA = string.Empty, strClaimnumber = string.Empty;
+        string strRegion = string.Empty, strLocationStatus = string.Empty, strDBA = string.Empty, strClaimnumber = string.Empty, strMarket = string.Empty;
         decimal? decFirsrRepot = null, decIncidentNumber = null;
         if (txtFirstReportNumber.Text != "")
             decFirsrRepot = Convert.ToDecimal(txtFirstReportNumber.Text);
@@ -99,7 +99,12 @@ public partial class SONIC_FirstReport_SchedulerSonicCauseCodeReclassification :
         }
         strRegion = strRegion.TrimEnd(',');
 
-        
+        foreach (ListItem li in lstMarket.Items)
+        {
+            if (li.Selected)
+                strMarket = strMarket + "" + li.Value + ",";
+        }
+        strMarket = strMarket.TrimEnd(',');
 
 
         // set region
@@ -109,6 +114,9 @@ public partial class SONIC_FirstReport_SchedulerSonicCauseCodeReclassification :
         // set lease type
         if (!string.IsNullOrEmpty(strDBA))
             obj.Location = strDBA;
+
+        if (!string.IsNullOrEmpty(strMarket))
+            obj.Market = strMarket;
 
         if (!string.IsNullOrEmpty(strClaimnumber))
             obj.ClaimNumber = strClaimnumber;
@@ -178,7 +186,7 @@ public partial class SONIC_FirstReport_SchedulerSonicCauseCodeReclassification :
         lstRegion.DataValueField = "region";
         lstRegion.DataBind();
 
-       
+        ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
 
         //Display Recipient List 
         DataSet ds = Report.GetRecipientList();
