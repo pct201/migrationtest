@@ -204,6 +204,10 @@ public partial class SONIC_Exposures_rptACI_Key_Contact_Report : clsBasePage
         ws.Column(12).Width = 15;
         ws.Column(13).Width = 15;
 
+        ws.Column(6).Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
+        ws.Column(7).Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
+        
+
         foreach (DataColumn column in table.Columns)
         {
             ws.Cells[row, col].Value = column.ColumnName.ToString();

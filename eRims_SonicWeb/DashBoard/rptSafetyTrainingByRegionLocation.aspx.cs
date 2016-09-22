@@ -158,11 +158,11 @@ public partial class DashBoard_rptSafetyTrainingByRegionLocation : clsBasePage
             sbRecorords.Append("<td ></td>");
             sbRecorords.Append("<td ></td>");
             sbRecorords.Append("</tr>");
-            sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:#FFFFFF;color:White;font-size:8.5pt'>");
-            sbRecorords.Append("<td ></td>");
-            sbRecorords.Append("<td ></td>");
-            sbRecorords.Append("<td ></td>");
-            sbRecorords.Append("</tr>");
+            //sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:#FFFFFF;color:White;font-size:8.5pt'>");
+            //sbRecorords.Append("<td ></td>");
+            //sbRecorords.Append("<td ></td>");
+            //sbRecorords.Append("<td ></td>");
+            //sbRecorords.Append("</tr>");
             sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:8.5pt'>");
             sbRecorords.Append("<td class='cols_' width='300px'>Region</td>");
             sbRecorords.Append("<td class='cols_' width='140px'>Location</td>");
@@ -185,7 +185,7 @@ public partial class DashBoard_rptSafetyTrainingByRegionLocation : clsBasePage
             }
             // sbRecorords.Append("<tr><td colspan='7' class='cols_'>&nbsp;</td></tr>");
             sbRecorords.Append("</table>");
-            // sbRecorords.Append("</div>");
+            sbRecorords.Append("</td></tr>");
             sbRecorords.Append("</table>");
             trGrid.Visible = true;
         }

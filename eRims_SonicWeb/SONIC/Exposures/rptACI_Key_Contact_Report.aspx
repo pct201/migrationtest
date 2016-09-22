@@ -139,11 +139,13 @@
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="Store Zip" ItemStyle-Width="80px" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left">
+                                        <ItemStyle HorizontalAlign="Left"/>
                                         <ItemTemplate>
                                             <%#Eval("zip_code")%>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="Location Code" ItemStyle-Width="80px" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left">
+                                        <ItemStyle HorizontalAlign="Left"/>
                                         <ItemTemplate>
                                             <%#Eval("Sonic_Location_Code")%>
                                         </ItemTemplate>

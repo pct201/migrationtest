@@ -131,8 +131,8 @@
                                     OnRowCreated="gvReport_RowCreated" EnableTheming="false" GridLines="None" ShowFooter="true"
                                     AutoGenerateColumns="false" OnRowDataBound="gvReport_RowDataBound">
                                     <HeaderStyle HorizontalAlign="Left" CssClass="HeaderStyle" VerticalAlign="top" />
-                                    <RowStyle BackColor="White" HorizontalAlign="Left" VerticalAlign="top" />
-                                    <FooterStyle BackColor="#507CD1" ForeColor="White" Font-Bold="true" HorizontalAlign="left" />
+                                    <RowStyle BackColor="White" VerticalAlign="top" />
+                                    <FooterStyle BackColor="#507CD1" ForeColor="White" Font-Bold="true" />
                                     <AlternatingRowStyle BackColor="White" HorizontalAlign="Left" VerticalAlign="top" />
                                     <EmptyDataRowStyle BackColor="#EAEAEA" HorizontalAlign="Center" Height="22px" />
                                     <Columns>
@@ -196,10 +196,10 @@
                                                         <td>
                                                             <asp:GridView ID="gvClaimData" runat="server" ShowHeader="false" Width="100%" OnRowDataBound="gvClaimData_RowDataBound"
                                                                 CellPadding="4" GridLines="None" CssClass="GridClass" AutoGenerateColumns="false"
-                                                                EnableTheming="false" HorizontalAlign="Left" ShowFooter="true">
-                                                                <FooterStyle BackColor="white" ForeColor="black" Font-Bold="true" HorizontalAlign="left" />
-                                                                <RowStyle HorizontalAlign="Left" CssClass="RowStyle" VerticalAlign="top" />
-                                                                <AlternatingRowStyle HorizontalAlign="left" CssClass="AlterRowStyle" VerticalAlign="top" />
+                                                                EnableTheming="false"  ShowFooter="true">
+                                                                <FooterStyle BackColor="white" ForeColor="black" Font-Bold="true" />
+                                                                <RowStyle CssClass="RowStyle" VerticalAlign="top" />
+                                                                <AlternatingRowStyle CssClass="AlterRowStyle" VerticalAlign="top" />
                                                                 <Columns>
                                                                     <asp:TemplateField>
                                                                         <ItemStyle Width="120px" HorizontalAlign="left" />
