@@ -2099,7 +2099,7 @@ public partial class SONIC_Franchise_AdHocReportWriter : clsBasePage
                     // Create a file to write to.
                     using (StreamWriter sw = File.CreateText(strPath))
                     {
-                        sw.Write(sbRecord.ToString());
+                        sw.Write(sbRecord.ToString());                        
                         sbRecord = new StringBuilder(string.Empty);
                     }
                 }
@@ -2170,7 +2170,11 @@ public partial class SONIC_Franchise_AdHocReportWriter : clsBasePage
                     }
 
                     #endregion
-
+                    int groupByColumnCount=0;
+                    if (!string.IsNullOrEmpty(strFirstGroupBy))
+                        groupByColumnCount++;
+                    if (!string.IsNullOrEmpty(strSecGroupBy))
+                        groupByColumnCount++;
                     //First Group By
                     if (!string.IsNullOrEmpty(strFirstGroupBy))
                     {
@@ -2179,15 +2183,15 @@ public partial class SONIC_Franchise_AdHocReportWriter : clsBasePage
                         {
                             strGroupByValue_1 = Convert.ToString(Reader[strFirstGroupBy]);
                             if (strFormatFirstGroupBy == "decimal")
-                                sbRecord.Append("<tr><td style='font-weight: bold;' align='right' colspan='" + (colcount - 1) + "'>" + strFirstGroupBy + ": " + string.Format("{0:c2}", strGroupByValue_1) + "</td></tr>");
+                                sbRecord.Append("<tr><td style='font-weight: bold;' align='right' colspan='" + (colcount - groupByColumnCount) + "'>" + strFirstGroupBy + ": " + string.Format("{0:c2}", strGroupByValue_1) + "</td></tr>");
                             else if (strFormatFirstGroupBy == "datetime")
                             {
                                 // it display only Time
                                 if (strFirstGroupBy == "Time Theft Reported")
-                                    sbRecord.Append("<tr><td style='font-weight: bold;' colspan='" + (colcount - 1) + "'>" + strFirstGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strFirstGroupBy]) + "</td></tr>");
-                                else sbRecord.Append("<tr><td style='font-weight: bold;' colspan='" + (colcount - 1) + "'>" + strFirstGroupBy + ": " + clsGeneral.FormatDBNullDateToDisplay(strGroupByValue_1) + "</td></tr>");
+                                    sbRecord.Append("<tr><td style='font-weight: bold;' colspan='" + (colcount - groupByColumnCount) + "'>" + strFirstGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strFirstGroupBy]) + "</td></tr>");
+                                else sbRecord.Append("<tr><td style='font-weight: bold;' colspan='" + (colcount - groupByColumnCount) + "'>" + strFirstGroupBy + ": " + clsGeneral.FormatDBNullDateToDisplay(strGroupByValue_1) + "</td></tr>");
                             }
-                            else sbRecord.Append("<tr><td style='font-weight: bold;' colspan='" + (colcount - 1) + "'>&nbsp;" + strFirstGroupBy + ": " + strGroupByValue_1 + "</td></tr>");
+                            else sbRecord.Append("<tr><td style='font-weight: bold;' colspan='" + (colcount - groupByColumnCount) + "'>&nbsp;" + strFirstGroupBy + ": " + strGroupByValue_1 + "</td></tr>");
                             //Change Second Group By when First Groupby is Change
                             strGroupByValue_2 = string.Empty;
                         }
@@ -2195,7 +2199,7 @@ public partial class SONIC_Franchise_AdHocReportWriter : clsBasePage
                         else if ((Reader[strFirstGroupBy] == DBNull.Value || string.IsNullOrEmpty(Convert.ToString(Reader[strFirstGroupBy]))) && strNOGroup1 == string.Empty)
                         {
                             strNOGroup1 = "No " + strFirstGroupBy;
-                            sbRecord.Append("<tr><td style='font-weight: bold;' colspan='" + (colcount - 1) + "'>&nbsp;" + strFirstGroupBy + ": " + strNOGroup1 + "</td></tr>");
+                            sbRecord.Append("<tr><td style='font-weight: bold;' colspan='" + (colcount - groupByColumnCount) + "'>&nbsp;" + strFirstGroupBy + ": " + strNOGroup1 + "</td></tr>");
                             // When Group by 1 value find as Null
                             strNOGroup1 = strFirstGroupBy;
                             //Change Second Group By when First Groupby is Change
@@ -2210,20 +2214,20 @@ public partial class SONIC_Franchise_AdHocReportWriter : clsBasePage
                         {
                             strGroupByValue_2 = Convert.ToString(Reader[strSecGroupBy]);
                             if (strFormatSecGroupBy == "decimal")
-                                sbRecord.Append("<tr><td style='font-weight: bold;' align='right' colspan='" + (colcount - 1) + "'>" + strSecGroupBy + ": " + string.Format("{0:c2}", strGroupByValue_2) + "</td></tr>");
+                                sbRecord.Append("<tr><td style='font-weight: bold;' align='right' colspan='" + (colcount - groupByColumnCount) + "'>" + strSecGroupBy + ": " + string.Format("{0:c2}", strGroupByValue_2) + "</td></tr>");
                             else if (strFormatSecGroupBy == "datetime")
                             {
                                 // it display only Time
                                 if (strSecGroupBy == "Time Theft Reported")
-                                    sbRecord.Append("<tr><td style='font-weight: bold;' colspan='" + (colcount - 1) + "'>" + strSecGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strSecGroupBy]) + "</td></tr>");
-                                else sbRecord.Append("<tr><td style='font-weight: bold;' colspan='" + (colcount - 1) + "'>" + strSecGroupBy + ": " + clsGeneral.FormatDBNullDateToDisplay(strGroupByValue_2) + "</td></tr>");
+                                    sbRecord.Append("<tr><td style='font-weight: bold;' colspan='" + (colcount - groupByColumnCount) + "'>" + strSecGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strSecGroupBy]) + "</td></tr>");
+                                else sbRecord.Append("<tr><td style='font-weight: bold;' colspan='" + (colcount - groupByColumnCount) + "'>" + strSecGroupBy + ": " + clsGeneral.FormatDBNullDateToDisplay(strGroupByValue_2) + "</td></tr>");
                             }
-                            else sbRecord.Append("<tr><td style='font-weight: bold;' colspan='" + (colcount - 1) + "'>&nbsp;" + strSecGroupBy + ": " + strGroupByValue_2 + "</td></tr>");
+                            else sbRecord.Append("<tr><td style='font-weight: bold;' colspan='" + (colcount - groupByColumnCount) + "'>&nbsp;" + strSecGroupBy + ": " + strGroupByValue_2 + "</td></tr>");
                         }
                         else if (Reader[strSecGroupBy] == DBNull.Value && strNOGroup2 == string.Empty)
                         {
                             strNOGroup2 = "No " + strSecGroupBy;
-                            sbRecord.Append("<tr><td style='font-weight: bold;' colspan='" + (colcount - 1) + "'>&nbsp;" + strSecGroupBy + ": " + strNOGroup2 + "</td></tr>");
+                            sbRecord.Append("<tr><td style='font-weight: bold;' colspan='" + (colcount - groupByColumnCount) + "'>&nbsp;" + strSecGroupBy + ": " + strNOGroup2 + "</td></tr>");
                             //No Group by assign
                             strNOGroup2 = strGroupByValue_2;
                         }
@@ -2311,7 +2315,7 @@ public partial class SONIC_Franchise_AdHocReportWriter : clsBasePage
 
                     using (StreamWriter sw = File.AppendText(strPath))
                     {
-                        sw.Write(sbRecord);
+                        sw.Write(sbRecord);                        
                         sbRecord = new StringBuilder(string.Empty);
                     }
                 } while (Reader.Read());
@@ -2373,7 +2377,7 @@ public partial class SONIC_Franchise_AdHocReportWriter : clsBasePage
                 sbRecord.Append("</table>");
                 using (StreamWriter sw = File.AppendText(strPath))
                 {
-                    sw.Write(sbRecord);
+                    sw.Write(sbRecord);                    
                     sbRecord = new StringBuilder(string.Empty);
                 }
             }
