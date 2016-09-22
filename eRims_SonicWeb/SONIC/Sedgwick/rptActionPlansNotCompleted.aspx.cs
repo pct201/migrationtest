@@ -91,11 +91,11 @@ public partial class SONIC_Sedgwick_rptActionPlansNotCompleted : clsBasePage
         if (dsReport.Tables[0].Rows.Count > 0 && dsReport.Tables[1].Rows.Count > 0)
         {
             sbRecorords.Append("<style type='text/css'></style><table border='0' style='border: black 0.5px solid;border-collapse: collapse;' cellpadding='0' cellspacing='0'  Width='100%'><tr><td class='cols_' >");//Main Table
-            sbRecorords.Append("<table style='padding-left:4px;font-size:8.5pt;font-family:Tahoma' cellpadding='4' cellspacing='0' Width='100%'>");//Sub Table
+            sbRecorords.Append("<table style='padding-left:4px;font-size:8.5pt;font-family:Tahoma;border: black 0.5px solid;' cellpadding='4' cellspacing='0' Width='100%'>");//Sub Table
 
             sbRecorords.Append("<tr style='font-weight: bold;background-color:#7f7f7f;color:White;height:25;font-size:11pt'>"); //Title
-            sbRecorords.Append("<td>&nbsp;</td>");
-            sbRecorords.Append("<td align='left' colspan='13'>&nbsp;</td></tr>");
+            //sbRecorords.Append("<td>&nbsp;</td>");
+            sbRecorords.Append("<td align='left' colspan='14'>&nbsp;</td></tr>");
             //sbRecorords.Append("<td style='font-size:9pt;' colspan='3' align='right'>Valued as of: " + clsGeneral.FormatDBNullDateToDisplay(txtPriorValuationDate.Text) + "</td></tr>");
 
 
@@ -129,7 +129,7 @@ public partial class SONIC_Sedgwick_rptActionPlansNotCompleted : clsBasePage
 
             for (int intCount = 0; intCount < dtFirstGroupBy.Rows.Count; intCount++)
             {
-                sbRecorords.Append("<tr style='background-color:'#EAEAEA';font-weight: bold; color: #FF9C09;font-size:8pt;border:thin'><td class='cols_'  style='color: #FF9C09;border:thin;font-weight: bold;font-size:9pt' border-top:#EAEAEA 1px solid; colspan='14'>" + Convert.ToString(drpGroupBy1.SelectedItem.Text) + " : " + Convert.ToString(dtFirstGroupBy.Rows[intCount]["FirstGroupBy"]) + "</td></tr>");
+                sbRecorords.Append("<tr style='background-color:'#EAEAEA';font-weight: bold; color: #FF9C09;font-size:8pt;border:thin'><td class='cols_'  style='color: #FF9C09;border:thin;font-weight: bold;font-size:9pt; border-top:#EAEAEA 1px solid;' colspan='14'>" + Convert.ToString(drpGroupBy1.SelectedItem.Text) + " : " + Convert.ToString(dtFirstGroupBy.Rows[intCount]["FirstGroupBy"]) + "</td></tr>");
 
                 string strFirstGroupBy = Convert.ToString(dtFirstGroupBy.Rows[intCount]["FirstGroupBy"]);
                 strFirstGroupBy = strFirstGroupBy.Replace("'", "''");
