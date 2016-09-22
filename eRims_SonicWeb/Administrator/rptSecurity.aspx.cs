@@ -93,14 +93,14 @@ public partial class Administrator_rptSecurity : clsBasePage
         StringBuilder strReport = new StringBuilder();
         if ((dsLogAudit != null) && (dsLogAudit.Tables.Count > 0) && (dsLogAudit.Tables[0].Rows.Count > 0))
         {
-            strReport.Append("<style type='text/css'></style><table border='0' style='border: black 0.5px solid;border-collapse: collapse;' cellpadding='0' cellspacing='0'  Width='100%px'><tr><td class='cols_' >");
+            strReport.Append("<style type='text/css'></style><table style='border: black 0.5px solid;border-collapse: collapse;' cellpadding='0' cellspacing='0'  Width='100%px'><tr><td class='cols_' >");
             strReport.Append("<div style='overflow-x: scroll;overflow-y:hidden; width: 990px; height: 100%;'>");
-            strReport.Append("<table style='padding-left:4px;font-size:8.5pt;font-family:Tahoma' cellpadding='5' cellspacing='0' width='2960px'>");
-            strReport.Append("<tr style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:9pt;height:25'>");
-            strReport.Append("<td colspan='3'>&nbsp;</td>");
-            strReport.Append("<td style='font-size:9pt;' colspan='3' align='Right'><b>User Report</b></td>");
-            strReport.Append("<td align='center' colspan='2'></td>");
-            strReport.Append("<td align='right' colspan='5' style='font-size:9pt;'><b>Run Date/Time : " + DateTime.Now.ToString("MM/dd/yyyy HH:mm tt") + "</b></td></tr>");
+            strReport.Append("<table style='border: black 0.5px solid;padding-left:4px;font-size:8.5pt;font-family:Tahoma'  cellpadding='5' cellspacing='0' width='2960px'>");
+            strReport.Append("<tr style='border:0;font-weight: bold;background-color:#7f7f7f;color:White;font-size:9pt;height:25'>");
+            //strReport.Append("<td colspan='3'>&nbsp;</td>");
+            strReport.Append("<td style='border:0;font-size:9pt;' colspan='10' align='center'><b>User Report</b></td><td colspan='3' align='right'><b>Run Date/Time : " + DateTime.Now.ToString("MM/dd/yyyy HH:mm tt") + "</b></td> </tr>");
+            //strReport.Append("<td align='center' colspan='2'></td>");
+           // strReport.Append("<td align='right' colspan='5' style='font-size:9pt;'><b>Run Date/Time : " + DateTime.Now.ToString("MM/dd/yyyy HH:mm tt") + "</b></td></tr>");
             strReport.Append("<tr style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:8.5pt;height:25'>");
 
             strReport.Append("<td align='left' valign='top' style='font-size:9pt;width:120px;' class='cols_'><b>Last Name</b></td><td style='font-size:9pt;width:120px;' class='cols_' align='left' valign='top'><b>First Name</b></td><td style='font-size:9pt;width:120px;' class='cols_' align='left' valign='top' class='cols_'><b>User Name</b></td><td style='font-size:9pt;width:120px;' align='left' valign='top' class='cols_'><b>Phone</b></td><td style='font-size:9pt;width:130px;' align='left' valign='top' class='cols_'><b>Email</b></td><td style='font-size:9pt;width:100px;' align='left' valign='top' class='cols_'><b>Employee Id</b></td><td style='font-size:9pt;width:180px;' align='left' valign='top' class='cols_'><b>Region</b></td><td style='font-size:9pt;width:150px;' align='left' valign='top' class='cols_'><b>Location</b></td><td style='font-size:9pt;width:130px;' align='left' valign='top' class='cols_'><b>Is Regional Officer</b></td><td style='font-size:9pt;width:130px;' align='left' valign='top' class='cols_'><b>Report Type </b></td><td style='font-size:9pt;width:130px;' align='left' valign='top' class='cols_'><b>Corporate user</b></td><td style='font-size:9pt;width:500px;' align='left' valign='top' class='cols_'><b>User Rights</b></td><td style='font-size:9pt;width:1000px;' align='left' valign='top' class='cols_'><b>FROI E-Mail Locations</b></td></tr>");
@@ -193,22 +193,74 @@ public partial class Administrator_rptSecurity : clsBasePage
     /// <param name="e"></param>
     protected void btnExcel_Click(object sender, EventArgs e)
     {
-        string strcols = "border: #7f7f7f 1px solid;vertical-align: top;font-size: 8pt;border-collapse: collapse;";
-        System.IO.StringWriter stringWrite = new System.IO.StringWriter();
-        System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
+        string strcols = "border: black 0.5px solid;vertical-align: top;font-size: 8pt;border:thin";
+        //System.IO.StringWriter stringWrite = new System.IO.StringWriter();
+        //System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
 
-        ltrReport.RenderControl(htmlWrite);
+        //ltrReport.RenderControl(htmlWrite);
+        String strHTML, strFilePath, outputFiles = string.Empty;
+
+        strHTML = ltrReport.Text;
         
-        MemoryStream memorystream = new MemoryStream();
-        byte[] _bytes = Encoding.UTF8.GetBytes(stringWrite.ToString().Replace("border-top:#EAEAEA", "border-top:#000000").Replace("<style type='text/css'></style>", "<style type='text/css'> .cols_{" + strcols + " }</style>"));
-        memorystream.Write(_bytes, 0, _bytes.Length);
-        memorystream.Seek(0, SeekOrigin.Begin);
+        //MemoryStream memorystream = new MemoryStream();
+        //byte[] _bytes = Encoding.UTF8.GetBytes(strHTML.ToString().Replace("border-top:#EAEAEA", "border-top:#000000").Replace("<style type='text/css'></style>", "<style type='text/css'> .cols_{" + strcols + " }</style>"));
+        //memorystream.Write(_bytes, 0, _bytes.Length);
+        //memorystream.Seek(0, SeekOrigin.Begin);
 
-        HttpContext.Current.Response.Clear();
-        HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "User Report.xls"));
-        HttpContext.Current.Response.ContentType = "application/ms-excel";
-        HttpContext.Current.Response.Write(stringWrite.ToString().Replace("#EAEAEA", "White").Replace("#eaeaea", "White").Replace("background-color:#C0C0C0", "background-color:White;").Replace("<style type='text/css'></style>", "<style type='text/css'> .cols_{" + strcols + " }</style>").Replace("background-color:#7f7f7f;color:White", "background-color:White;color:Black"));
-        HttpContext.Current.Response.End();
+        //HttpContext.Current.Response.Clear();
+        //HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "User Report.xls"));
+        //HttpContext.Current.Response.ContentType = "application/ms-excel";
+        //HttpContext.Current.Response.Write(stringWrite.ToString().Replace("#EAEAEA", "White").Replace("#eaeaea", "White").Replace("background-color:#C0C0C0", "background-color:White;").Replace("<style type='text/css'></style>", "<style type='text/css'> .cols_{" + strcols + " }</style>").Replace("background-color:#7f7f7f;color:White", "background-color:White;color:Black"));
+        //HttpContext.Current.Response.End();
+
+        bool blnHTML2Excel = false;
+        
+        strFilePath = AppConfig.SitePath + @"temp\" + DateTime.Now.ToString("ddMMyyyyhhmmss");
+
+        if (!File.Exists(strFilePath))
+        {
+            if (!Directory.Exists(AppConfig.SitePath + @"temp\"))
+                Directory.CreateDirectory(AppConfig.SitePath + @"temp\");
+
+            // Create a file to write to.
+            using (StreamWriter sw = File.CreateText(strFilePath))
+            {
+                sw.Write(strHTML.ToString().Replace("#EAEAEA", "White").Replace("#eaeaea", "White").Replace("background-color:#C0C0C0", "background-color:White;").Replace("<style type='text/css'></style>", "<style type='text/css'> .cols_{" + strcols + " }</style>").Replace("background-color:#7f7f7f;color:White", "background-color:White;color:Black"));
+                strHTML = string.Empty;
+            }
+        }
+
+        if (File.Exists(strFilePath))
+        {
+            string data = File.ReadAllText(strFilePath);
+            data = data.Trim();
+            HTML2Excel objHtml2Excel = new HTML2Excel(data);
+            objHtml2Excel.isGrid = true;
+            objHtml2Excel.isUseCSS = false;
+            outputFiles = Path.GetFullPath(strFilePath) + ".xlsx";
+            blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
+        }
+
+        //If records found
+        if (blnHTML2Excel)
+        {
+            try
+            {
+                HttpContext.Current.Response.Clear();
+                HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename=\"" + "User Report.xlsx" + "\""));
+                HttpContext.Current.Response.ContentType = "application/ms-excel";
+                HttpContext.Current.Response.TransmitFile(outputFiles);
+                HttpContext.Current.Response.Flush();
+            }
+            finally
+            {
+                if (File.Exists(outputFiles))
+                    File.Delete(outputFiles);
+                if (File.Exists(strFilePath))
+                    File.Delete(strFilePath);
+                HttpContext.Current.Response.End();
+            }
+        }
     }
 
     #endregion
