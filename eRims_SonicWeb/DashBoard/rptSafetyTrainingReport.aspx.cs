@@ -339,7 +339,7 @@ public partial class DashBoard_rptSafetyTrainingReport : clsBasePage
             sbRecorords.Append("<style type='text/css'></style><table border='0' style='border: black 0.5px solid;border-collapse: collapse;' cellpadding='0' cellspacing='0'  Width='100%px'><tr><td class='cols_' >");
 
             //sbRecorords.Append("<div style='overflow: scroll; width: 995px; height: 100%;'>");
-            sbRecorords.Append("<table style='padding-left:4px;font-size:8.5pt;font-family:Tahoma' cellpadding='4' cellspacing='0' Width='996px'>");//Sub Table
+            sbRecorords.Append("<table style='padding-left:4px;font-size:8.5pt;font-family:Tahoma;border: black 0.5px solid;' cellpadding='4' cellspacing='0' Width='996px'>");//Sub Table
             sbRecorords.Append("<tr style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:11pt;height:25'>"); //Title
             sbRecorords.Append("<td align='left' style='font-size:9pt;' colspan='1'><b>Sonic Automotive</b></td>");
             sbRecorords.Append("<td align='center' style='font-size:9pt;' colspan='4' ><b> Safety Training - ANNAUL REPORT FOR " + drpYear.SelectedValue + " </b></td>");
