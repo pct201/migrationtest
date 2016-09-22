@@ -84,7 +84,7 @@ public class HTML2Excel
 
         if (isUseCSS)
         {
-            string cssFile = AppConfig.SitePath + @"App_Themes\Default\ERIMS.css";
+            string cssFile = AppDomain.CurrentDomain.BaseDirectory + @"ERIMS.css";
             GetStyleSheet(cssFile);
         }
         HtmlNodeCollection hNodes = hDoc.DocumentNode.ChildNodes;
