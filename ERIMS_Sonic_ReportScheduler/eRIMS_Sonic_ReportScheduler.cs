@@ -5949,7 +5949,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         else
                         {
                             //Add No record found line for year
-                            strHTML.Append("<tr><td align='left' style='border:thin' colspan='12'>No Record Found!</td></tr>");
+                            strHTML.Append("<table  colspan='11' style='border: black 0.5px solid;'><tr><td align='left' colspan='11'>No Record Found!</td></tr></table>");                           
                         }
 
                         //Write HTML in to HtmlWriter
@@ -9184,16 +9184,16 @@ namespace ERIMS_Sonic_ReportScheduler
                                     strHTML.Append("</table>");
                                 }
                                 strHTML.Append("</td>");
-                                strHTML.Append("<td> " + Convert.ToString(drReport["CITY"]) + " </td>");
-                                strHTML.Append("<td> " + Convert.ToString(drReport["STATE"]) + " </td>");
-                                strHTML.Append("<td> " + Convert.ToString(drReport["ZIP"]) + " </td>");
-                                strHTML.Append("<td> " + FormatDBNullDateToDisplay(drReport["LCD"]) + " </td>");
-                                strHTML.Append("<td> " + FormatDBNullDateToDisplay(drReport["LED"]) + " </td>");
-                                strHTML.Append("<td> " + Convert.ToString(drReport["Renewals"]) + " </td>");
-                                strHTML.Append("<td> " + Convert.ToString(drReport["Landlord_Name"]) + " </td>");
-                                strHTML.Append("<td align='right'> " + string.Format("{0:N0}", drReport["MonthlyRent"]) + " </td>");
-                                strHTML.Append("<td> " + Convert.ToString(drReport["Subtenant"]) + " </td>");
-                                strHTML.Append("<td align='right'> " + string.Format("{0:N0}", drReport["SubtenantMonthlyRent"]) + " </td>");
+                                strHTML.Append("<td align='left' valign='top'> " + Convert.ToString(drReport["CITY"]) + " </td>");
+                                strHTML.Append("<td align='left' valign='top'> " + Convert.ToString(drReport["STATE"]) + " </td>");
+                                strHTML.Append("<td align='left' valign='top'> " + Convert.ToString(drReport["ZIP"]) + " </td>");
+                                strHTML.Append("<td align='left' valign='top'> " + FormatDBNullDateToDisplay(drReport["LCD"]) + " </td>");
+                                strHTML.Append("<td align='left' valign='top'> " + FormatDBNullDateToDisplay(drReport["LED"]) + " </td>");
+                                strHTML.Append("<td align='left' valign='top'> " + Convert.ToString(drReport["Renewals"]) + " </td>");
+                                strHTML.Append("<td align='left' valign='top'> " + Convert.ToString(drReport["Landlord_Name"]) + " </td>");
+                                strHTML.Append("<td align='right' valign='top'> " + string.Format("{0:N0}", drReport["MonthlyRent"]) + " </td>");
+                                strHTML.Append("<td align='left' valign='top'> " + Convert.ToString(drReport["Subtenant"]) + " </td>");
+                                strHTML.Append("<td align='right' valign='top'> " + string.Format("{0:N0}", drReport["SubtenantMonthlyRent"]) + " </td>");
                                 strHTML.Append("</tr></table></td>");
                                 strHTML.Append("</tr>");
                             }
@@ -9217,9 +9217,9 @@ namespace ERIMS_Sonic_ReportScheduler
 
                         // print Grand Total for Whole Report
                         strHTML.Append("<tr><td><table><tr>");
-                        strHTML.Append("<td><table><tr valign='top' align='left' style='font-weight: bold; background-color: #507CD1;color: White;'>");
-                        strHTML.Append("<td> Grand Total </td>");
-                        strHTML.Append("<td colspan='2'>" + dsResult.Tables[0].Rows.Count.ToString() + "</td>");
+                        strHTML.Append("<td><table><tr valign='top' style='font-weight: bold; background-color: #507CD1;color: White;'>");
+                        strHTML.Append("<td align='left'> Grand Total </td>");
+                        strHTML.Append("<td colspan='2' align='left'>" + dsResult.Tables[0].Rows.Count.ToString() + "</td>");
                         strHTML.Append("<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>");
                         strHTML.Append("<td align='right'> " + string.Format("{0:N0}", dsResult.Tables[0].Compute("SUM(MonthlyRent)", "")) + " </td>");
                         strHTML.Append("<td>&nbsp;</td><td align='right'> " + string.Format("{0:N0}", dsResult.Tables[0].Compute("SUM(SubtenantMonthlyRent)", "")) + " </td>");
@@ -9414,7 +9414,7 @@ namespace ERIMS_Sonic_ReportScheduler
                             {
                                 strHTML.Append("<tr><td><table cellpadding='0' cellspacing='0' width='100%' border='1'>");
                                 strHTML.Append("<tr align='left'>");
-                                strHTML.Append("<td> " + Convert.ToString(drReport["DBA"]) + " </td>");
+                                strHTML.Append("<td align='left' valign='top'> " + Convert.ToString(drReport["DBA"]) + " </td>");
                                 strHTML.Append("<td align='left' valign='top' style='width: 400px'>");
                                 decimal _PK_RE_Information = Convert.ToDecimal(drReport["PK_RE_Information"]);
                                 DataTable dtBuilding = Report.SelectByFK_RE_Information(_PK_RE_Information).Tables[0];
@@ -9440,19 +9440,19 @@ namespace ERIMS_Sonic_ReportScheduler
                                     strHTML.Append("</table>");
                                 }
                                 strHTML.Append("</td>");
-                                strHTML.Append("<td valign='top'> " + Convert.ToString(drReport["City"]) + " </td>");
-                                strHTML.Append("<td> " + Convert.ToString(drReport["State"]) + " </td>");
-                                strHTML.Append("<td> " + Convert.ToString(drReport["Zip"]) + " </td>");
-                                strHTML.Append("<td> " + (drReport["Lease_Commencement_Date"] != DBNull.Value ? Convert.ToDateTime(drReport["Lease_Commencement_Date"]) == System.Data.SqlTypes.SqlDateTime.MinValue ? "" : string.Format("{0:MM/dd/yyyy}", drReport["Lease_Commencement_Date"]) : "") + " </td>");
-                                strHTML.Append("<td> " + (drReport["Lease_Expiration_Date"] != DBNull.Value ? Convert.ToDateTime(drReport["Lease_Expiration_Date"]) == System.Data.SqlTypes.SqlDateTime.MinValue ? "" : string.Format("{0:MM/dd/yyyy}", drReport["Lease_Expiration_Date"]) : "") + " </td>");
-                                strHTML.Append("<td> " + Convert.ToString(drReport["Renewals"]) + " </td>");
-                                strHTML.Append("<td> " + Convert.ToString(drReport["Landlord_Name"]) + " </td>");
-                                strHTML.Append("<td> " + Convert.ToString(drReport["Landlord_Address_1"]) + " </td>");
-                                strHTML.Append("<td> " + Convert.ToString(drReport["Landlord_Address_2"]) + " </td>");
-                                strHTML.Append("<td> " + Convert.ToString(drReport["Landlord_City"]) + " </td>");
-                                strHTML.Append("<td> " + Convert.ToString(drReport["Landlord_State"]) + " </td>");
-                                strHTML.Append("<td> " + Convert.ToString(drReport["Landlord_Zip"]) + " </td>");
-                                strHTML.Append("<td> " + Convert.ToString(drReport["Landlord_Telephone"]) + " </td>");
+                                strHTML.Append("<td align='left' valign='top'> " + Convert.ToString(drReport["City"]) + " </td>");
+                                strHTML.Append("<td align='left' valign='top'> " + Convert.ToString(drReport["State"]) + " </td>");
+                                strHTML.Append("<td align='left' valign='top'> " + Convert.ToString(drReport["Zip"]) + " </td>");
+                                strHTML.Append("<td align='left' valign='top'> " + (drReport["Lease_Commencement_Date"] != DBNull.Value ? Convert.ToDateTime(drReport["Lease_Commencement_Date"]) == System.Data.SqlTypes.SqlDateTime.MinValue ? "" : string.Format("{0:MM/dd/yyyy}", drReport["Lease_Commencement_Date"]) : "") + " </td>");
+                                strHTML.Append("<td align='left' valign='top'> " + (drReport["Lease_Expiration_Date"] != DBNull.Value ? Convert.ToDateTime(drReport["Lease_Expiration_Date"]) == System.Data.SqlTypes.SqlDateTime.MinValue ? "" : string.Format("{0:MM/dd/yyyy}", drReport["Lease_Expiration_Date"]) : "") + " </td>");
+                                strHTML.Append("<td align='left' valign='top'> " + Convert.ToString(drReport["Renewals"]) + " </td>");
+                                strHTML.Append("<td align='left' valign='top'> " + Convert.ToString(drReport["Landlord_Name"]) + " </td>");
+                                strHTML.Append("<td align='left' valign='top'> " + Convert.ToString(drReport["Landlord_Address_1"]) + " </td>");
+                                strHTML.Append("<td align='left' valign='top'> " + Convert.ToString(drReport["Landlord_Address_2"]) + " </td>");
+                                strHTML.Append("<td align='left' valign='top'> " + Convert.ToString(drReport["Landlord_City"]) + " </td>");
+                                strHTML.Append("<td align='left' valign='top'> " + Convert.ToString(drReport["Landlord_State"]) + " </td>");
+                                strHTML.Append("<td align='left' valign='top'> " + Convert.ToString(drReport["Landlord_Zip"]) + " </td>");
+                                strHTML.Append("<td align='left' valign='top'> " + Convert.ToString(drReport["Landlord_Telephone"]) + " </td>");
                                 strHTML.Append("</tr>");
                                 strHTML.Append("</table></td></tr>");
                             }
@@ -10824,7 +10824,7 @@ namespace ERIMS_Sonic_ReportScheduler
                                 strHTML.Append("<table cellpadding='4' cellspacing='0' border='1'>");
                                 strHTML.Append("<tr>");
                                 strHTML.Append("<td valign='top' align='left' style='width: 100px'>" + FormatDBNullDateToDisplay(drDetail["LED"]) + "</td>");
-                                strHTML.Append("<td valign='top' align='left' style='width: 180px'>" + Convert.ToString(drDetail["DBA"]) + "</td>");
+                                strHTML.Append("<td align='left' valign=top>" + Convert.ToString(drDetail["DBA"]) + "</td>");
                                 strHTML.Append("<td valign='top' align='left' style='width: 560px'>");
                                 decimal _PK_RE_Information = Convert.ToDecimal(drDetail["PK_RE_Information"]);
                                 DataTable dtBuilding = Report.SelectByFK_RE_Information(_PK_RE_Information).Tables[0];
@@ -11697,7 +11697,7 @@ namespace ERIMS_Sonic_ReportScheduler
                             {
                                 strHTML.Append("<tr>");
                                 strHTML.Append("<td valign='top' align='left' style='width: 100px'>" + FormatDBNullDateToDisplay(drDetail["LLNotifyDate"]) + "</td>");
-                                strHTML.Append("<td valign='top' align='left' style='width: 180px'>" + Convert.ToString(drDetail["DBA"]) + "</td>");
+                                strHTML.Append("<td valign='top' align='left'>" + Convert.ToString(drDetail["DBA"]) + "</td>");
                                 strHTML.Append("<td valign='top' align='left' valign='top' style='width: 560px'>");
                                 decimal _PK_RE_Information = Convert.ToDecimal(drDetail["PK_RE_Information"]);
                                 DataTable dtBuilding = Report.SelectByFK_RE_Information(_PK_RE_Information).Tables[0];
@@ -11727,11 +11727,11 @@ namespace ERIMS_Sonic_ReportScheduler
                                 }
 
                                 strHTML.Append("</td>");
-                                strHTML.Append("<td valign='top' align='left' style='width: 100px'>" + FormatDBNullDateToDisplay(drDetail["LCD"]) + "</td>");
-                                strHTML.Append("<td valign='top' align='left' style='width: 100px'>" + FormatDBNullDateToDisplay(drDetail["LED"]) + "</td>");
+                                strHTML.Append("<td valign='top' align='left' >" + FormatDBNullDateToDisplay(drDetail["LCD"]) + "</td>");
+                                strHTML.Append("<td valign='top' align='left' >" + FormatDBNullDateToDisplay(drDetail["LED"]) + "</td>");
                                 strHTML.Append("<td valign='top' align='left' style='width: 100px'>" + FormatDBNullDateToDisplay(drDetail["ReminderDate"]) + "</td>");
                                 strHTML.Append("<td valign='top' align='left' style='width: 100px'>" + FormatDBNullDateToDisplay(drDetail["ReviewDate"]) + "</td>");
-                                strHTML.Append("<td valign='top' align='right' style='width: 100px'>" + string.Format("{0:N2}", drDetail["MonthlyRent"] != DBNull.Value ? Convert.ToDecimal(drDetail["MonthlyRent"]) : 0) + "</td>");
+                                strHTML.Append("<td valign='top' align='right' >" + string.Format("{0:N2}", drDetail["MonthlyRent"] != DBNull.Value ? Convert.ToDecimal(drDetail["MonthlyRent"]) : 0) + "</td>");
                                 strHTML.Append("<td valign='top' align='left' style='width: 180px'>" + Convert.ToString(drDetail["Renewals"]) + "</td>");
 
 
@@ -11760,17 +11760,17 @@ namespace ERIMS_Sonic_ReportScheduler
                             strHTML.Append("<td valign='top' align='left' style='width: 100px'>&nbsp;</td>");
                             strHTML.Append("<td valign='top' align='right' style='width: 100px'>" + string.Format("{0:N2}", dtDetails.Compute("sum(MonthlyRent)", "")) + "</td>");
                             strHTML.Append("<td valign='top' align='left' style='width: 180px'>&nbsp;</td>");
-                            strHTML.Append("<td align='left' style='width: 100px'>Report Grand Totals</td>");
-                            strHTML.Append("<td align='left' style='width: 180px'>" + Convert.ToString(dtDetails.Rows.Count) + " </td>");
-                            strHTML.Append("<td align='left' style='width: 560px' colspan='3'>&nbsp;</td>");
+                            //strHTML.Append("<td align='left' style='width: 100px'>Report Grand Totals</td>");
+                            //strHTML.Append("<td align='left' style='width: 180px'>" + Convert.ToString(dtDetails.Rows.Count) + " </td>");
+                            //strHTML.Append("<td align='left' style='width: 560px' colspan='3'>&nbsp;</td>");
+                            ////strHTML.Append("<td align='left' style='width: 100px'>&nbsp;</td>");
+                            ////strHTML.Append("<td align='left' style='width: 100px'>&nbsp;</td>");
                             //strHTML.Append("<td align='left' style='width: 100px'>&nbsp;</td>");
                             //strHTML.Append("<td align='left' style='width: 100px'>&nbsp;</td>");
-                            strHTML.Append("<td align='left' style='width: 100px'>&nbsp;</td>");
-                            strHTML.Append("<td align='left' style='width: 100px'>&nbsp;</td>");
-                            strHTML.Append("<td align='left' style='width: 100px'>&nbsp;</td>");
-                            strHTML.Append("<td align='left' style='width: 100px'>&nbsp;</td>");
-                            strHTML.Append("<td align='right' style='width: 100px'>" + string.Format("{0:N2}", dtDetails.Compute("sum(MonthlyRent)", "")) + "</td>");
-                            strHTML.Append("<td align='left' style='width: 180px'>&nbsp;</td>");
+                            //strHTML.Append("<td align='left' style='width: 100px'>&nbsp;</td>");
+                            //strHTML.Append("<td align='left' style='width: 100px'>&nbsp;</td>");
+                            //strHTML.Append("<td align='right' style='width: 100px'>" + string.Format("{0:N2}", dtDetails.Compute("sum(MonthlyRent)", "")) + "</td>");
+                            //strHTML.Append("<td align='left' style='width: 180px'>&nbsp;</td>");
 
                             strHTML.Append(" </tr>");
                             strHTML.Append("</table>");
@@ -12145,6 +12145,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append(" </tr></table></td>");
                         strHTML.Append("<td style='border:thin'>" + Convert.ToString(dr["Resignation"]) + "</td>");
                         strHTML.Append("<td align='right' style='border:thin'>" + string.Format("{0:C2}", dr["Settled_Amount"]) + "</td>");
+                        //strHTML.Append("<td style='border:thin'>" + Convert.ToString(dr["Who_Approved"]).Replace("</br>", " , ") + "</td>");
                         strHTML.Append("<td style='border:thin'>" + Convert.ToString(dr["Who_Approved"]).Replace("<br/>", " , ") + "</td>");
                         strHTML.Append("</tr></table></td>");
                         strHTML.Append("</tr>");

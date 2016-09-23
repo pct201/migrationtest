@@ -1275,7 +1275,7 @@ public class HTML2Excel
                                 bool isBorder = false;
 
 
-                                excelWorksheet.Cells[mergeCells].Style.VerticalAlignment = ExcelVerticalAlignment.Bottom;
+                                excelWorksheet.Cells[mergeCells].Style.VerticalAlignment = ExcelVerticalAlignment.Top;
                                 excelWorksheet.Cells[mergeCells].Style.WrapText = true;
                                 excelWorksheet.Cells[mergeCells].Merge = true;
                                 for (int tempRow = currRowNumber + 1; tempRow <= currRowNumber + MaxRows - 1; tempRow++)
