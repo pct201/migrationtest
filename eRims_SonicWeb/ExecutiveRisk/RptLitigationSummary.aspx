@@ -242,7 +242,7 @@
                                                 <table cellpadding="0" cellspacing="0" width="100%">
                                                     <tr>
                                                         <td width="100%" align="left">
-                                                            <table cellpadding="4" cellspacing="0" width="100%" style="font-weight: bold; color: White;"
+                                                            <table cellpadding="4" cellspacing="0" width="100%" style="font-weight: bold;background-color:#507CD1;color:white;"
                                                                 id="tblFooter" runat="server">
                                                                 <tr>
                                                                     <td style="width: 150px;">

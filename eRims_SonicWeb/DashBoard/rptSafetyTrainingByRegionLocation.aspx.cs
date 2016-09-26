@@ -11,6 +11,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Text;
 using System.IO;
 using ERIMS.DAL;
+using System.Collections.Generic;
 
 public partial class DashBoard_rptSafetyTrainingByRegionLocation : clsBasePage
 {
@@ -69,7 +70,10 @@ public partial class DashBoard_rptSafetyTrainingByRegionLocation : clsBasePage
     /// <param name="e"></param>
     protected void lbtExportToExcel_Click(object sender, EventArgs e)
     {
-        GridViewExportUtil.ExportGrid("Safety Training by Region and Location Report.xlsx", lblReport);
+        List<System.Collections.Generic.KeyValuePair<int, double>> columnWidth = new List<System.Collections.Generic.KeyValuePair<int, double>>();        
+        columnWidth.Add(new KeyValuePair<int, double>(2, 60));
+        columnWidth.Add(new KeyValuePair<int, double>(3, 40));
+        GridViewExportUtil.ExportGrid("Safety Training by Region and Location Report.xlsx", lblReport, true, columnWidth);
     }
     /// <summary>
     /// Back hrom report to Criteria
