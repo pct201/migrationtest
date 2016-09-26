@@ -216,7 +216,7 @@ public partial class SONIC_FirstReport_WCAllocationMonthlyDetailReport : clsBase
             TableCell Cell = new TableCell();
             Cell.HorizontalAlign = HorizontalAlign.Center;
             Cell.Text = "<table width='100%' cellspacing=0 cellpadding=0><tr><td width='100%'>" +
-                            "<table width='100%' style='font-weight: bold;' cellspacing=0 cellpadding=0>" +
+                            "<table width='100%' style='border: black 0.5px solid;font-weight: bold;' cellspacing=0 cellpadding=0>" +
                                 "<tr style='font-weight: bold;' ><td width='100%' align='center' colspan='19'>WC Allocation Monthly Detail Report </td></tr></table>" +
                             "</td></tr></table>";
             // add cell in row

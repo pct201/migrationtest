@@ -140,7 +140,7 @@ public partial class SONIC_Exposures_rptRM_Dealership_Facility_Specs : clsBasePa
         strHTML.Append("<tr valign='bottom' style='font-weight: bold;'>");
         strHTML.Append("<td align='left' colspan='2'>Sonic Automotive</td>");
         strHTML.Append("<td align='center' colspan='9'>RM Dealership and Facility Specs</td>");
-        strHTML.Append("<td align='right' colspan='5'>" + DateTime.Now.ToString() + "</td>");
+        strHTML.Append("<td align='right' colspan='6'>" + DateTime.Now.ToString() + "</td>");
         strHTML.Append("</tr>");
         strHTML.Append("<tr valign='bottom' style='font-weight: bold;'>");
         strHTML.Append("<td align='left'>Region</td>");
