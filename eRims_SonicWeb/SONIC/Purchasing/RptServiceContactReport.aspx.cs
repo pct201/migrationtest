@@ -215,7 +215,7 @@ public partial class SONIC_Purchasing_RptServiceContactReport : clsBasePage
             Cell.HorizontalAlign = HorizontalAlign.Center;
             Cell.Text = "<table width='100%' cellspacing=0 cellpadding=0><tr><td width='100%'>" +
                             "<table width='100%' style='font-weight: bold;' cellspacing=0 cellpadding=0><tr><td width='100%' >" +
-                                "<table width='100%' cellpadding=4 cellspacing=0 style='font-weight: bold;'>" +
+                                "<table width='100%' cellpadding=4 cellspacing=0 style='border: black 0.5px solid;font-weight: bold;'>" +
                                     "<tr style='font-weight: bold;'><td align='right' style='width:55%' colspan='4' >Service Contract Detail</td>" +
                                     "<td align='right' style='width:45%' colspan='4'> " + DateTime.Now + "</td></tr></table>" +
                                 "</td></tr></table>" +

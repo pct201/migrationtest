@@ -215,7 +215,7 @@ public partial class SONIC_Purchasing_RptLeaseRentalDetailReport : clsBasePage
             TableCell Cell = new TableCell();
             Cell.HorizontalAlign = HorizontalAlign.Center;
             Cell.Text = "<table width='100%' cellspacing=0 cellpadding=0><tr><td width='100%'>" +
-                            "<table width='100%' style='font-weight: bold;' cellspacing=0 cellpadding=0>" +
+                            "<table width='100%' style='border: black 0.5px solid;font-weight: bold;' cellspacing=0 cellpadding=0>" +
                                 "<tr style='font-weight: bold;' ><td align='left' colspan='8'>Sonic Automotive Lease/Rental Agreement Detail </td><td align='right' colspan='3'>" + DateTime.Now + "</td></tr></table>" +
                             "</td></tr></table>";
             // add cell in row

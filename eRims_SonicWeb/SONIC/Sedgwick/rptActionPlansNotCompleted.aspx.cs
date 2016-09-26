@@ -240,16 +240,16 @@ public partial class SONIC_Sedgwick_rptActionPlansNotCompleted : clsBasePage
     {
         StringBuilder strExport = new StringBuilder();
 
-        strExport.Append("<table style='font-size:8.5pt;font-family:Tahoma' width='99%'>");
-        strExport.Append("<tr><td colspan='2'>&nbsp;</td></tr>");
+        strExport.Append("<table style='border-right:black 0.5px solid;font-size:8.5pt;font-family:Tahoma' width='99%'>");
+        strExport.Append("<tr><td colspan='14'>&nbsp;</td></tr>");
         strExport.Append("<tr>");
-        strExport.Append("<td colspan='2'><b>Report Title :  Action Plans Not Completed Report</b></td>");
+        strExport.Append("<td colspan='14'><b>Report Title :  Action Plans Not Completed Report</b></td>");
         strExport.Append("</tr>");
-        strExport.Append("<tr><td colspan='2'>&nbsp;</td></tr>");
+        strExport.Append("<tr><td colspan='14'>&nbsp;</td></tr>");
         //strExport.Append("<tr><td width='35%'><b> First Group By : </b>" + clsGeneral.GetGroupByFilter(Convert.ToString(drpGroupBy1.SelectedValue)) + "</td> <td> <b>Sorting :</b> " + Convert.ToString(rdbSort1.SelectedItem.Text) + " </td></tr>");
         //strExport.Append("<tr><td ><b> Second Group By : </b>" + clsGeneral.GetGroupByFilter(Convert.ToString(drpGroupBy2.SelectedValue)) + "</td><td> <b>Sorting :</b> " + Convert.ToString(rdbSort2.SelectedItem.Text) + " </td></tr>");
         strExport.Append(GetClaimSummaryFiltersDetails());
-        strExport.Append("<tr><td colspan='2'>&nbsp;</td></tr>");
+        strExport.Append("<tr><td colspan='14'>&nbsp;</td></tr>");
         strExport.Append("</table>");
 
         return strExport.ToString();
