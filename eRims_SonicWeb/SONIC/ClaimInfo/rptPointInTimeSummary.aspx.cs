@@ -189,7 +189,7 @@ public partial class SONIC_ClaimInfo_rptPointInTimeSummary : clsBasePage
             Cell1.HorizontalAlign = HorizontalAlign.Left;
             Cell1.Text = "<table width='100%' cellspacing=0 cellpadding=0><tr><td width='100%'>" +
                             "<table width='100%' cellspacing=0 cellpadding=0><tr><td width='100%'>" +
-                                "<table width='100%' style='font-weight: bold;' cellspacing=0 cellpadding=0><tr style='font-weight: bold;'>" +
+                                "<table border='1' width='100%' style='font-weight: bold;' cellspacing=0 cellpadding=0><tr style='font-weight: bold;'>" +
                                      "<td width='50%' align='left' colspan=3>Summary Changes Report</td><td align='right' colspan=3>Losses from " + strAccidentDateFrom + " To " + strAccidentDateTo + "</td></tr></table>" +
                             "</td></tr></table></td></tr></table>";
             // add cell in row

@@ -135,7 +135,8 @@
                                                             <asp:GridView ID="gvClaimData" runat="server" ShowHeader="false" Width="100%" OnRowDataBound="gvClaimData_RowDataBound"
                                                                 CellPadding="4" GridLines="None" CssClass="GridClass" AutoGenerateColumns="false"
                                                                 EnableTheming="false" ShowFooter="true">
-                                                                <FooterStyle BackColor="white" ForeColor="black" Font-Bold="true" HorizontalAlign="left" />
+                                                                <HeaderStyle HorizontalAlign="Left" VerticalAlign="top" />
+                                                                <FooterStyle BackColor="white" ForeColor="black" Font-Bold="true" />
                                                                 <RowStyle CssClass="RowStyle" VerticalAlign="top" />
                                                                 <AlternatingRowStyle CssClass="AlterRowStyle" VerticalAlign="top" />
                                                                 <Columns>
@@ -198,8 +199,8 @@
                                                                             <asp:Label ID="lbl8" runat="server" Width="120px" Text='<%# Eval("Primary_Policy_Expiration_Date") != DBNull.Value ? clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("Primary_Policy_Expiration_Date"))) : ""%>' /></ItemTemplate>
                                                                     </asp:TemplateField>
                                                                     <asp:TemplateField>
-                                                                        <ItemStyle Width="150px" HorizontalAlign="right" />
-                                                                        <FooterStyle Width="150px" HorizontalAlign="right" />
+                                                                        <ItemStyle Width="150px" HorizontalAlign="Right" />
+                                                                        <FooterStyle Width="150px" HorizontalAlign="Right" />
                                                                         <ItemTemplate>
                                                                             <asp:Label ID="lbl9" runat="server" Width="150px" Text='<%# Eval("Estimated_Demand_Exposure") != DBNull.Value ? "$ " + clsGeneral.GetStringValue(Eval("Estimated_Demand_Exposure")) : "" %>' /></ItemTemplate>
                                                                         <FooterTemplate>
@@ -258,7 +259,7 @@
                                                         <td width="100%" align="left">
                                                             <table cellpadding="4" cellspacing="0" width="100%" style="font-weight: bold; color: White;"
                                                                 id="tblFooter" runat="server">
-                                                                <tr>
+                                                                <tr style="background-color:#507CD1;">
                                                                     <td style="width: 120px;">
                                                                         <asp:Label ID="lblH1" runat="server" Width="120px" Text='Grand Total' />
                                                                     </td>
