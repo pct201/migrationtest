@@ -2979,7 +2979,7 @@ public partial class Pollution_AdHocReportWriter : clsBasePage
                         sbRecord.Append("<br /><br />");
                     }
 
-                    sbRecord.Append("<table border='1' cellpadding='0' cellspacing='0' width='" + (150 * lstSelectedFields.Items.Count).ToString() + "' style='font-size:10pt'>");
+                    sbRecord.Append("<table border='1' cellpadding='0' cellspacing='0' width='" + (200 * lstSelectedFields.Items.Count).ToString() + "' style='font-size:10pt;border: black 0.5px solid;'>");
 
                     #region "Header"
                     // If reader found a records 
@@ -2991,7 +2991,7 @@ public partial class Pollution_AdHocReportWriter : clsBasePage
                     {
                         //Remove Group By 
                         if (strFirstGroupBy != Convert.ToString(drHeader["ColumnName"]) && strSecGroupBy != Convert.ToString(drHeader["ColumnName"]))
-                            sbRecord.Append("<td><b>" + drHeader["ColumnName"] + "</b></td>");
+                            sbRecord.Append("<td width='180'><b>" + drHeader["ColumnName"] + "</b></td>");
                         //Get First and Second Group By Field's Data Type
                         if (strFirstGroupBy == Convert.ToString(drHeader["ColumnName"]))
                             strFormatFirstGroupBy = drHeader["DataTypeName"].ToString();

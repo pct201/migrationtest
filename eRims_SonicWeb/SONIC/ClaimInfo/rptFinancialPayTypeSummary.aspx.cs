@@ -161,6 +161,8 @@ public partial class SONIC_ClaimInfo_rptFinancialPayTypeSummary : clsBasePage
         // export data to excel from gridview
         List<System.Collections.Generic.KeyValuePair<int, double>> columnWidth = new List<System.Collections.Generic.KeyValuePair<int, double>>();
         columnWidth.Add(new KeyValuePair<int, double>(6, 20));
+        columnWidth.Add(new KeyValuePair<int, double>(2, 15));
+        columnWidth.Add(new KeyValuePair<int, double>(3, 15));
         GridViewExportUtil.ExportGrid("FinancialPayTypeSummary.xlsx", gvReportOuter, true, columnWidth);
 
         // reset the settings

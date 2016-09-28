@@ -147,7 +147,7 @@
                                         <td>
                                             <div runat="server" id="dvReport" style="overflow-x: hidden; overflow-y: hidden; text-align: left; width: 950px;">
                                                 <asp:GridView ID="gvDBA" runat="server" AutoGenerateColumns="false" ShowFooter="true"
-                                                    Width="1825px" EnableTheming="false" HorizontalAlign="Left" CellPadding="0" CellSpacing="0"
+                                                    Width="1825px" EnableTheming="false" CellPadding="0" CellSpacing="0"
                                                     GridLines="None" CssClass="GridClass" EmptyDataText="No Record Found" OnRowDataBound="gvDBA_RowDataBound"
                                                     OnRowCreated="gvDBA_RowCreated" Style="word-wrap: normal; word-break: break-all;">
                                                     <HeaderStyle CssClass="HeaderStyle" />
@@ -208,7 +208,7 @@
                                                                                 CellPadding="4" ShowHeader="false">
                                                                                 <Columns>
                                                                                     <asp:TemplateField>
-                                                                                        <ItemStyle Width="40%" HorizontalAlign="left" />
+                                                                                        <ItemStyle Width="40%" VerticalAlign="Top" />
                                                                                         <ItemTemplate>
                                                                                             <%# (Eval("Address")) %>
                                                                                         </ItemTemplate>

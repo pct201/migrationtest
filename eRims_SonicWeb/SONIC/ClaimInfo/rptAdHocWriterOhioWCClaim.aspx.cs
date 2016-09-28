@@ -630,7 +630,10 @@ public partial class SONIC_ClaimInfo_rptAdHocWriterOhioWCClaim : clsBasePage
                     {
                         // Check if Its don't contains "&nbsp" means empty value
                         if (!string.IsNullOrEmpty(Server.HtmlDecode(e.Row.Cells[iCell].Text).Trim()))
+                        {
                             e.Row.Cells[iCell].Text = string.Format("{0:C}", Convert.ToDouble(e.Row.Cells[iCell].Text));
+                            e.Row.Cells[iCell].HorizontalAlign = HorizontalAlign.Right;
+                        }
                     }
 
                     // check header row title if it contains Date value then format date value

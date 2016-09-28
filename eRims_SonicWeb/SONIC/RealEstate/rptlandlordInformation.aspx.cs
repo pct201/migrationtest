@@ -108,7 +108,7 @@ public partial class SONIC_RealEstate_rptlandlordInformation : clsBasePage
             gRow.Font.Bold = true;
             if (strTime == "") strTime = string.Format("{0:t}", DateTime.Now);
             TableCell Cell = new TableCell();
-            Cell.Text = "<table width='100%' style='font-weight: bold;' cellspacing=0 cellpadding=4><tr style='font-weight: bold;'>" +
+            Cell.Text = "<table width='100%' style='border: black 0.5px solid;font-weight: bold;' cellspacing=0 cellpadding=4><tr style='font-weight: bold;'>" +
                                 "<td colspan='2' align='left' >Sonic Automotive</td>" +
                                 "<td colspan='7' align='center' >Landlord Report </td>" +
                                 "<td colspan='6' align='right'>" + clsGeneral.FormatDateToDisplay(DateTime.Now) + " " + strTime + "</td></tr></table>";

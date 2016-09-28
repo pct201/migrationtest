@@ -855,7 +855,7 @@ public partial class SONIC_ClaimInfo_rptAdHocWriter : clsBasePage
         {
             int iCell;
             // set vertical alignment for row.
-            e.Row.Style.Add(HtmlTextWriterStyle.VerticalAlign, "top");
+            e.Row.Style.Add(HtmlTextWriterStyle.VerticalAlign, "top");            
 
             // Check field header title if its contains  numerical fiels then format it into 2 point decimal
             for (iCell = 0; iCell < gvAdHoc.HeaderRow.Cells.Count; iCell++)
@@ -865,6 +865,7 @@ public partial class SONIC_ClaimInfo_rptAdHocWriter : clsBasePage
                     // Check if Its don't contains "&nbsp" means empty value
                     if (!string.IsNullOrEmpty(Server.HtmlDecode(e.Row.Cells[iCell].Text).Trim()))
                         e.Row.Cells[iCell].Text = string.Format("{0:C}", Convert.ToDouble(e.Row.Cells[iCell].Text));
+                    e.Row.Cells[iCell].HorizontalAlign = HorizontalAlign.Right;
                 }
 
                 // check header row title if it contains Date value then format date value
@@ -892,7 +893,7 @@ public partial class SONIC_ClaimInfo_rptAdHocWriter : clsBasePage
             gvAdHoc.Rows[gvAdHoc.Rows.Count - 1].ForeColor = System.Drawing.Color.WhiteSmoke;
             for (int i = 0; i < gvAdHoc.Rows[gvAdHoc.Rows.Count - 1].Cells.Count; i++)
             {
-                gvAdHoc.Rows[gvAdHoc.Rows.Count - 1].Cells[i].BackColor = System.Drawing.ColorTranslator.FromHtml("#507CD1");
+                gvAdHoc.Rows[gvAdHoc.Rows.Count - 1].Cells[i].BackColor = System.Drawing.ColorTranslator.FromHtml("#507CD1");                
             }
 
         }

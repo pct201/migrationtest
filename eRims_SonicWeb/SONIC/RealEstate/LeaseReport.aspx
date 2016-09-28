@@ -10,7 +10,7 @@
     <script type="text/javascript" language="javascript" src="../../JavaScript/Calendar.js"></script>
     <script type="text/javascript" language="javascript" src="../../JavaScript/Validator.js"></script>
     <script type="text/javascript" language="javascript" src="../../JavaScript/Date_Validation.js"></script>
-    <table width="100%" cellpadding="0" cellspacing="0">
+    <table width="100%" cellpadding="0" cellspacing="0" >
         <tr>
             <td align="left" class="ghc">Lease Report
             </td>
@@ -145,8 +145,8 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <div runat="server" id="dvReport" style="overflow-x: hidden; overflow-y: hidden; text-align: left; width: 970px;">
-                                                <asp:GridView ID="gvDBA" runat="server" AutoGenerateColumns="false" ShowFooter="true"
+                                            <div runat="server" id="dvReport" style="overflow-x: hidden; overflow-y: hidden;text-align: left; width: 970px;">
+                                                <asp:GridView ID="gvDBA" runat="server" AutoGenerateColumns="false" ShowFooter="true" 
                                                     Width="2335px" EnableTheming="false" HorizontalAlign="Left" CellPadding="0" CellSpacing="0"
                                                     GridLines="None" CssClass="GridClass" EmptyDataText="No Record Found" OnRowDataBound="gvDBA_RowDataBound"
                                                     OnRowCreated="gvDBA_RowCreated" Style="word-wrap: normal; word-break: break-all;">
@@ -199,8 +199,8 @@
                                                             </HeaderTemplate>
                                                             <ItemTemplate>
                                                                 <table width="100%" cellpadding="4" cellspacing="0" id="tblDetails" runat="server">
-                                                                    <tr>
-                                                                        <td align="left" style="width: 180px" valign="top">
+                                                                    <tr valign="top">
+                                                                        <td valign="top">
                                                                             <%# Eval("DBA") %>
                                                                         </td>
                                                                         <td align="left" style="width: 560px" valign="top">
@@ -209,7 +209,7 @@
                                                                                 CellPadding="4" ShowHeader="false">
                                                                                 <Columns>
                                                                                     <asp:TemplateField>
-                                                                                        <ItemStyle Width="40%" HorizontalAlign="left" />
+                                                                                        <ItemStyle Width="40%" VerticalAlign="top"/>
                                                                                         <ItemTemplate>
                                                                                             <%# (Eval("Address")) %>
                                                                                         </ItemTemplate>
