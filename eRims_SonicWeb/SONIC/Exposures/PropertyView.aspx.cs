@@ -1223,6 +1223,7 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
         BindEmergencyContactGrid();
         BindUtilityContactGrid();
         BindOtherContactGrid();
+        BindACIKeyContactGrid();
     }
 
     #endregion
@@ -1350,6 +1351,16 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
         DataTable dtSubLeaseGrid = clsBuilding_Ownership_Sublease.SelectByFK(PK_Building_Ownership).Tables[0];
         gvSubLease.DataSource = dtSubLeaseGrid;
         gvSubLease.DataBind();
+    }
+
+    /// <summary>
+    /// Bind ACI Key Contacts
+    /// </summary>
+    private void BindACIKeyContactGrid()
+    {
+        DataTable dtContact = ACI_Key_Contacts.SelectByPKBuilding(PK_Building_ID).Tables[0];
+        gvACIKeyContacts.DataSource = dtContact;
+        gvACIKeyContacts.DataBind();
     }
     #endregion
 

@@ -34,6 +34,7 @@ namespace ERIMS.DAL
         private DateTime? _Update_Date;        
         private DateTime? _Invoice_ProccesedBySonicDate;
         private DateTime? _Payment_ReceivedbyACIDate;
+        private String _Comments;
 
         #endregion
 
@@ -220,6 +221,15 @@ namespace ERIMS.DAL
             set { _Payment_ReceivedbyACIDate = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the Comment value.
+        /// </summary>
+        public String Comments
+        {
+            get { return _Comments; }
+            set { _Comments = value; }
+        }
+
         #endregion
 
         #region Default Constructors
@@ -358,6 +368,11 @@ namespace ERIMS.DAL
             else
                 this._Payment_ReceivedbyACIDate = (DateTime?)drACIManagement_ProjectCost_Invoice["Payment_ReceivedbyACIDate"];
 
+            if (drACIManagement_ProjectCost_Invoice["Comments"] == DBNull.Value)
+                this._Comments = null;
+            else
+                this._Comments = (String)drACIManagement_ProjectCost_Invoice["Comments"];
+
         }
 
         #endregion
@@ -436,6 +451,11 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Invoice_ProccesedBySonicDate", DbType.DateTime, this._Invoice_ProccesedBySonicDate);
 
             db.AddInParameter(dbCommand, "Payment_ReceivedbyACIDate", DbType.DateTime, this._Payment_ReceivedbyACIDate);
+
+            if (string.IsNullOrEmpty(this._Comments))
+                db.AddInParameter(dbCommand, "Comments", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Comments", DbType.String, this._Comments);
 
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -544,6 +564,11 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Invoice_ProccesedBySonicDate", DbType.DateTime, this._Invoice_ProccesedBySonicDate);
 
             db.AddInParameter(dbCommand, "Payment_ReceivedbyACIDate", DbType.DateTime, this._Payment_ReceivedbyACIDate);
+
+            if (string.IsNullOrEmpty(this._Comments))
+                db.AddInParameter(dbCommand, "Comments", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Comments", DbType.String, this._Comments);
 
             db.ExecuteNonQuery(dbCommand);
         }

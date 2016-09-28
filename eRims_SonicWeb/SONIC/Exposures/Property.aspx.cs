@@ -222,6 +222,7 @@ public partial class Exposures_Property : clsBasePage
                 BindBuildingFinancialLimitGrid();
                 BindBuildingGGKLGrid();
                 BindSubLeaseGrid();
+                BindACIKeyContactGrid();
 
 
                 SetValidationsPropertyCope();
@@ -2677,6 +2678,7 @@ public partial class Exposures_Property : clsBasePage
         BindEmergencyContactGrid();
         BindUtilityContactGrid();
         BindOtherContactGrid();
+        BindACIKeyContactGrid();
     }
 
     /// <summary>
@@ -3239,6 +3241,20 @@ public partial class Exposures_Property : clsBasePage
     }
 
     /// <summary>
+    /// Clear ACI Contacts controls
+    /// </summary>
+    private void CLearACIContactsControls()
+    {
+        //hdnPKPropertySabaTraning.Value = "";
+        txtFirst_Name.Text = "";
+        txtLast_Name.Text = "";
+        txtJob_Title.Text = "";
+        txtCellPhone.Text = "";
+        txtWorkPhone.Text = "";
+        txtEmail.Text = "";
+    }
+
+    /// <summary>
     /// bind Building data in radio button list
     /// </summary>
     private void BindBuildingsOnLocationSelections(Int32 fk_Location_Id)
@@ -3397,6 +3413,15 @@ public partial class Exposures_Property : clsBasePage
         gvSubLease.DataBind();
     }
 
+    /// <summary>
+    /// Bind ACI Key Contacts
+    /// </summary>
+    private void BindACIKeyContactGrid()
+    {
+        DataTable dtContact = ACI_Key_Contacts.SelectByPKBuilding(PK_Building_ID).Tables[0];
+        gvACIKeyContacts.DataSource = dtContact;
+        gvACIKeyContacts.DataBind();
+    }
     #endregion
 
     #region "Attahcment uploading methods"
@@ -4665,6 +4690,78 @@ public partial class Exposures_Property : clsBasePage
 
             btnConfirmBuildingInfo.Enabled = true;
         }
+    }
+
+    /// <summary>
+    /// Link ACI Key Contacts Click
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void lnkACIKeyContacts_Click(object sender, EventArgs e)
+    {
+        if (PK_Building_ID > 0)
+        {
+            CLearACIContactsControls();
+            hdrContacts.Style["display"] = tblContacts.Style["display"] = "none";
+            pnlACIContacts.Style["display"] = "";
+            
+        }
+        else
+            ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);alert('Please Select/Enter Building Information First');", true);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gvACIKeyContacts_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        int index;
+        if (e.CommandName == "RemoveACIContact")
+        {
+            index = Convert.ToInt32(e.CommandArgument);
+            ACI_Key_Contacts.DeleteByPK(index);
+            gvACIKeyContacts.DataSource = ACI_Key_Contacts.SelectByPKBuilding(PK_Building_ID);
+            gvACIKeyContacts.DataBind();
+            ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "ShowPanel(5);", true);
+        }
+    }
+
+    /// <summary>
+    /// Button Save ACI Contact Click Event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnSaveACIContact_Click(object sender, EventArgs e)
+    {
+        ACI_Key_Contacts objAcIKeyContacts = new ACI_Key_Contacts();
+        objAcIKeyContacts.PK_ACI_Key_Contacts = 0;
+        objAcIKeyContacts.First_Name = txtFirst_Name.Text;
+        objAcIKeyContacts.Last_Name = txtLast_Name.Text;
+        objAcIKeyContacts.Job_Title = txtJob_Title.Text;
+        objAcIKeyContacts.Email = txtEmail.Text;
+        objAcIKeyContacts.FK_Building_ID = PK_Building_ID;
+        objAcIKeyContacts.Cell_Phone = txtCellPhone.Text;
+        objAcIKeyContacts.Work_Phone = txtWorkPhone.Text;
+        objAcIKeyContacts.Update_Date = DateTime.Now;
+        objAcIKeyContacts.Updated_By = clsSession.UserID;
+
+        //int retValue = 0;
+        if (objAcIKeyContacts.PK_ACI_Key_Contacts > 0)
+            objAcIKeyContacts.Update();
+        else
+            objAcIKeyContacts.Insert();
+
+        gvACIKeyContacts.DataSource = ACI_Key_Contacts.SelectByPKBuilding(PK_Building_ID);
+        gvACIKeyContacts.DataBind();
+        ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
+
+    }
+
+    protected void btnBackACIContact_Click(object sender, EventArgs e)
+    {
+        ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
     }
 }
 

@@ -835,7 +835,7 @@
                                                               <asp:DropDownList ID="drpFK_Work_To_Be_Completed_By" runat="server" Width="175px" SkinID="dropGen">
                                                               </asp:DropDownList>
                                                             </td>
-                                                            <td align="left" valign="top">Status
+                                                            <td align="left" valign="top">Status<span class="mf">*</span>
                                                             </td>
                                                             <td align="center" valign="top">:
                                                             </td>
@@ -845,6 +845,9 @@
                                                                     <asp:ListItem Text="No" Value="0" Selected="True"></asp:ListItem>
                                                                 </asp:RadioButtonList>--%>
                                                                 <asp:DropDownList runat="server" ID="drpMaintenanceStatus"></asp:DropDownList>
+                                                                <asp:RequiredFieldValidator ID="rfvMaintenanceStatus" runat="server" ControlToValidate="drpMaintenanceStatus"
+                                                                 InitialValue="0" ErrorMessage="Please Select Status" Display="None" SetFocusOnError="true"
+                                                                 ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -904,13 +907,16 @@
 
                                                         </tr>
                                                         <tr>
-                                                            <td align="left" valign="top">Record Type
+                                                            <td align="left" valign="top">Record Type<span class="mf">*</span>
                                                             </td>
                                                             <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
                                                                 <asp:DropDownList ID="drpFK_Record_Type" runat="server" Width="175px" SkinID="dropGen">
                                                                 </asp:DropDownList>
+                                                                 <asp:RequiredFieldValidator ID="rfvFK_Record_Type" runat="server" ControlToValidate="drpFK_Record_Type"
+                                                                    InitialValue="0" ErrorMessage="Please Select Record Type" Display="None" SetFocusOnError="true"
+                                                                    ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
                                                             </td>
                                                             <td align="left" valign="top">CR Approved
                                                             </td>

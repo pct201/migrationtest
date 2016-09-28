@@ -583,6 +583,9 @@ function ValidateFieldsBuildindOwnerSubLease(sender, args) {
     <asp:ValidationSummary ID="ValidationSummary6" runat="server" ValidationGroup="vsErrorSabaTraining"
         ShowMessageBox="true" ShowSummary="false" HeaderText="Verify the following fields"
         BorderWidth="1" BorderColor="DimGray" CssClass="errormessage" />
+    <asp:ValidationSummary ID="ValidationSummary8" runat="server" ValidationGroup="vsErrorACIContact"
+        ShowMessageBox="true" ShowSummary="false" HeaderText="Verify the following fields"
+        BorderWidth="1" BorderColor="DimGray" CssClass="errormessage" />
     <table cellpadding="0" cellspacing="0" width="100%">
         <tr>
             <td width="100%" style="height: 50px;" valign="bottom" colspan="2">
@@ -4138,8 +4141,8 @@ function ValidateFieldsBuildindOwnerSubLease(sender, args) {
 
                                                                                 </td>
                                                                                 <td align="left" valign="top" colspan="4">
-                                                                                    <asp:GridView ID="gvBuildingPropertySecurity" runat="server" 
-                                                                                         AutoGenerateColumns="false" Width="100%" EmptyDataText="No Asset Protection Records Found">
+                                                                                    <asp:GridView ID="gvBuildingPropertySecurity" runat="server"
+                                                                                        AutoGenerateColumns="false" Width="100%" EmptyDataText="No Asset Protection Records Found">
                                                                                         <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" Font-Names="Tahoma"
                                                                                             Font-Size="8pt" />
                                                                                         <RowStyle BackColor="#EAEAEA" Font-Names="Tahoma" Font-Size="8pt" />
@@ -4169,55 +4172,55 @@ function ValidateFieldsBuildindOwnerSubLease(sender, args) {
                                                                                 <td align="center" valign="top">:
                                                                                 </td>
                                                                                 <td align="left" valign="top" colspan="4">
-                                                                                <asp:GridView ID="gvRealEstate" runat="server" Width="100%" 
-                                                                                EmptyDataText="No Lease Records Found">
-                                                                                <Columns>
-                                                                                    <asp:TemplateField HeaderText="Region">
-                                                                                        <ItemStyle Width="12%" />
-                                                                                        <ItemTemplate>
-                                                                                           <%#Eval("Region") %>
-                                                                                        </ItemTemplate>
-                                                                                    </asp:TemplateField>
-                                                                                    <asp:TemplateField HeaderText="LCD">
-                                                                                        <ItemStyle Width="9%" />
-                                                                                        <ItemTemplate>
-                                                                                           <%#clsGeneral.FormatDBNullDateToDisplay(Eval("Lease_Commencement_Date"))%>
-                                                                                        </ItemTemplate>
-                                                                                    </asp:TemplateField>
-                                                                                    <asp:TemplateField HeaderText="LED">
-                                                                                        <ItemStyle Width="9%" />
-                                                                                        <ItemTemplate>
-                                                                                            <%#clsGeneral.FormatDBNullDateToDisplay(Eval("Lease_Expiration_Date"))%>
-                                                                                        </ItemTemplate>
-                                                                                    </asp:TemplateField>
-                                                                                    <asp:TemplateField HeaderText="Landlord">
-                                                                                        <ItemStyle Width="11%" />
-                                                                                        <ItemTemplate>
-                                                                                           <%#Eval("Landlord") %>
-                                                                                        </ItemTemplate>
-                                                                                    </asp:TemplateField>
-                                                                                    <asp:TemplateField HeaderText="Date Acquired">
-                                                                                        <ItemStyle Width="11%" />
-                                                                                        <ItemTemplate>
-                                                                                            <%#clsGeneral.FormatDBNullDateToDisplay(Eval("Date_Acquired"))%>
-                                                                                        </ItemTemplate>
-                                                                                    </asp:TemplateField>
-                                                                                    <asp:TemplateField HeaderText="Building Number(s)">
-                                                                                        <ItemStyle Width="21%" />
-                                                                                        <ItemTemplate>
-                                                                                            <%#Eval("Building_Number")%>
-                                                                                        </ItemTemplate>
-                                                                                    </asp:TemplateField>
-                                                                                    <asp:TemplateField HeaderText="Building Street Address">
-                                                                                        <ItemStyle Width="21%" />
-                                                                                        <ItemTemplate>
-                                                                                             <%#Eval("Address_1")%>
-                                                                                        </ItemTemplate>
-                                                                                    </asp:TemplateField>
-                                                                                </Columns>
-                                                                            </asp:GridView>
-                                                                                    </td>
-                                                                                </tr>
+                                                                                    <asp:GridView ID="gvRealEstate" runat="server" Width="100%"
+                                                                                        EmptyDataText="No Lease Records Found">
+                                                                                        <Columns>
+                                                                                            <asp:TemplateField HeaderText="Region">
+                                                                                                <ItemStyle Width="12%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <%#Eval("Region") %>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                            <asp:TemplateField HeaderText="LCD">
+                                                                                                <ItemStyle Width="9%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <%#clsGeneral.FormatDBNullDateToDisplay(Eval("Lease_Commencement_Date"))%>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                            <asp:TemplateField HeaderText="LED">
+                                                                                                <ItemStyle Width="9%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <%#clsGeneral.FormatDBNullDateToDisplay(Eval("Lease_Expiration_Date"))%>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                            <asp:TemplateField HeaderText="Landlord">
+                                                                                                <ItemStyle Width="11%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <%#Eval("Landlord") %>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                            <asp:TemplateField HeaderText="Date Acquired">
+                                                                                                <ItemStyle Width="11%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <%#clsGeneral.FormatDBNullDateToDisplay(Eval("Date_Acquired"))%>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                            <asp:TemplateField HeaderText="Building Number(s)">
+                                                                                                <ItemStyle Width="21%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <%#Eval("Building_Number")%>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                            <asp:TemplateField HeaderText="Building Street Address">
+                                                                                                <ItemStyle Width="21%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <%#Eval("Address_1")%>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                        </Columns>
+                                                                                    </asp:GridView>
+                                                                                </td>
+                                                                            </tr>
                                                                             <tr>
                                                                                 <td class="Spacer" style="height: 8px;" colspan="6"></td>
                                                                             </tr>
@@ -5502,12 +5505,12 @@ function ValidateFieldsBuildindOwnerSubLease(sender, args) {
                                                 </asp:UpdatePanel>
                                             </asp:Panel>
                                             <asp:Panel ID="pnlContacts" runat="server" Width="100%">
-                                                <div class="bandHeaderRow">
-                                                    Contacts
-                                                </div>
                                                 <asp:UpdatePanel runat="server" ID="UpdatePanel1">
                                                     <ContentTemplate>
-                                                        <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                                        <div class="bandHeaderRow" id="hdrContacts" runat="server">
+                                                            Contacts
+                                                        </div>
+                                                        <table cellpadding="3" cellspacing="1" border="0" width="100%" id="tblContacts" runat="server">
                                                             <tr>
                                                                 <td align="left" colspan="6">
                                                                     <b>Facility Contact</b>
@@ -5760,6 +5763,65 @@ function ValidateFieldsBuildindOwnerSubLease(sender, args) {
                                                                 </td>
                                                             </tr>
                                                             <tr>
+                                                                <td align="left" colspan="6">
+                                                                    <b>Additional ACI Key Contact</b>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left" colspan="6">
+                                                                    <asp:HiddenField ID="hdnPKACIKeyContacts" runat="server" />
+                                                                    <asp:GridView ID="gvACIKeyContacts" runat="server" Width="100%" OnRowCommand="gvACIKeyContacts_RowCommand"
+                                                                        EmptyDataText="No ACI Key Contact Record Exists">
+                                                                        <Columns>
+                                                                            <asp:TemplateField HeaderText="First Name">
+                                                                                <ItemStyle Width="15%" />
+                                                                                <ItemTemplate>
+                                                                                    <%# Eval("First_Name")%>
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>
+                                                                            <asp:TemplateField HeaderText="Last Name">
+                                                                                <ItemStyle Width="23%" />
+                                                                                <ItemTemplate>
+                                                                                    <%# Eval("Last_Name")%>
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>
+                                                                            <asp:TemplateField HeaderText="Job Title">
+                                                                                <ItemStyle Width="20%" />
+                                                                                <ItemTemplate>
+                                                                                    <%# Eval("Job_Title")%>
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>
+                                                                            <asp:TemplateField HeaderText="Cell Phone">
+                                                                                <ItemStyle Width="20%" />
+                                                                                <ItemTemplate>
+                                                                                    <%# Eval("Cell_Phone")%>
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>
+                                                                            <asp:TemplateField HeaderText="Work Phone">
+                                                                                <ItemStyle Width="20%" />
+                                                                                <ItemTemplate>
+                                                                                    <%# Eval("Work_Phone") %>
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>
+                                                                            <asp:TemplateField HeaderText="Remove">
+                                                                                <ItemStyle Width="10%" />
+                                                                                <ItemTemplate>
+                                                                                    <asp:LinkButton ID="lnkRemove" runat="server" Text="Remove" CausesValidation="false"
+                                                                                        CommandArgument='<%# Eval("PK_ACI_Key_Contacts")%>' CommandName="RemoveACIContact"
+                                                                                        OnClientClick="return ConfirmRemove();" />
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>
+                                                                        </Columns>
+                                                                    </asp:GridView>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="6" align="left">
+                                                                    <asp:LinkButton ID="lnkACIKeyContacts" runat="server" OnClick="lnkACIKeyContacts_Click"
+                                                                        Text="Add New" CausesValidation="false" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
                                                                 <td class="Spacer" style="height: 10px;"></td>
                                                             </tr>
                                                             <tr>
@@ -5904,6 +5966,81 @@ function ValidateFieldsBuildindOwnerSubLease(sender, args) {
                                                                 <td class="Spacer" style="height: 10px;"></td>
                                                             </tr>
                                                         </table>
+                                                        <asp:Panel ID="pnlACIContacts" runat="server" Width="100%" Style="display: none;">
+                                                            <div class="bandHeaderRow">
+                                                                Contacts
+                                                            </div>
+                                                            <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                                                <tr>
+                                                                    <td class="Spacer" style="height: 10px;"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" width="20%" valign="top">First Name
+                                                                    </td>
+                                                                    <td width="4%" align="center" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:TextBox ID="txtFirst_Name" runat="server" Width="170px"></asp:TextBox>
+                                                                    </td>
+                                                                    <td align="left" width="20%" valign="top">Last Name
+                                                                    </td>
+                                                                    <td width="4%" align="center" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:TextBox ID="txtLast_Name" runat="server" Width="170px"></asp:TextBox>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" width="20%" valign="top">Job Title
+                                                                    </td>
+                                                                    <td width="4%" align="center" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:TextBox ID="txtJob_Title" runat="server" Width="170px"></asp:TextBox>
+                                                                    </td>
+                                                                    <td align="left" width="20%" valign="top">Email
+                                                                    </td>
+                                                                    <td width="4%" align="center" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:TextBox ID="txtEmail" runat="server" Width="170px"></asp:TextBox>
+                                                                        <asp:RegularExpressionValidator ID="revEmail" runat="server" ErrorMessage="Please Enter valid Email"
+                                                                            ControlToValidate="txtEmail" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*"
+                                                                            Display="none" SetFocusOnError="true" ValidationGroup="vsErrorACIContact"></asp:RegularExpressionValidator>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" width="20%" valign="top">Cell Phone
+                                                                    </td>
+                                                                    <td width="4%" align="center" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:TextBox ID="txtCellPhone" runat="server" Width="170px" MaxLength="12" onKeyPress="javascript:return FormatPhone(event,this.id);"></asp:TextBox>
+                                                                        <asp:RegularExpressionValidator ID="refCellPhone" ControlToValidate="txtCellPhone"
+                                                                            SetFocusOnError="true" runat="server" ValidationGroup="vsErrorACIContact" ErrorMessage="Please Enter Cell Phone in xxx-xxx-xxxx format."
+                                                                            Display="none" Enabled="true" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>
+                                                                    </td>
+                                                                    <td align="left" width="20%" valign="top">Work Phone
+                                                                    </td>
+                                                                    <td width="4%" align="center" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:TextBox ID="txtWorkPhone" runat="server" Width="170px" MaxLength="12" onKeyPress="javascript:return FormatPhone(event,this.id);"></asp:TextBox>
+                                                                        <asp:RegularExpressionValidator ID="refWorkPhone" ControlToValidate="txtWorkPhone"
+                                                                            SetFocusOnError="true" runat="server" ValidationGroup="vsErrorACIContact" ErrorMessage="Please Enter Work Phone in xxx-xxx-xxxx format."
+                                                                            Display="none" Enabled="true" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="Spacer" style="height: 10px;"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="center" colspan="6">
+                                                                        <asp:Button runat="server" ID="btnSaveACIContact" Text="Save" OnClick="btnSaveACIContact_Click" ValidationGroup="vsErrorACIContact" />&nbsp;
+                                                                        <asp:Button ID="btnBackACIContact" runat="server" Text="Cancel" OnClick="btnBackACIContact_Click" />&nbsp;
+                                                                    </td>
+                                                                </tr>
+                                                        </asp:Panel>
                                                     </ContentTemplate>
                                                 </asp:UpdatePanel>
                                             </asp:Panel>
@@ -6236,6 +6373,9 @@ function ValidateFieldsBuildindOwnerSubLease(sender, args) {
                     document.getElementById("<%=pnlOwnershipDetails.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlBuildingImprovements.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlContacts.ClientID%>").style.display = "";
+                    document.getElementById("<%=pnlACIContacts.ClientID%>").style.display = "none";
+                    document.getElementById("<%=hdrContacts.ClientID%>").style.display = "";
+                    document.getElementById("<%=tblContacts.ClientID%>").style.display = "";
                 }
             }
         }

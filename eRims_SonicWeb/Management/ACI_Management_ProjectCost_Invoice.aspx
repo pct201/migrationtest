@@ -5,6 +5,7 @@
 <%@ Register Src="~/Controls/NotesWithSpellCheck/Notes.ascx" TagName="ctrlMultiLineTextBox"
     TagPrefix="uc" %>
 <%@ Register Src="~/Controls/ExposuresTab/ExposuresTab.ascx" TagName="CtlTab" TagPrefix="uc" %>
+<%@ Register Src="~/Controls/Notes/Notes.ascx" TagName="ctrlMultiLineCommentTextBox" TagPrefix="uc" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <script type="text/javascript" src="../../JavaScript/JFunctions.js"></script>
@@ -239,6 +240,13 @@
                                                 ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*"></asp:RegularExpressionValidator>
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td align="left" valign="top">
+                                            Comments
+                                        </td>
+                                        <td align="center" valign="top" width="4%">:</td>
+                                        <td align="left" valign="top" colspan="4"><uc:ctrlMultiLineCommentTextBox ID="txtComments" runat="server" /></td>
+                                    </tr>
                                 </table>
                             </div>
                             <div id="divView" runat="server" style="display: none;">
@@ -380,6 +388,13 @@
                                         </td>
                                         <td align="left" valign="top" width="26%">&nbsp;<asp:Label ID="lblVendorEmail" Style="word-wrap: normal; word-break: break-all" runat="server" />
                                         </td>
+                                    </tr>
+                                     <tr>
+                                        <td align="left" valign="top">
+                                            Comments
+                                        </td>
+                                        <td align="center" valign="top" width="4%">:</td>
+                                        <td align="left" valign="top" colspan="4"><uc:ctrlMultiLineCommentTextBox ID="lblComments"  Enabled="false" runat="server" /></td>
                                     </tr>
                                 </table>
                             </div>

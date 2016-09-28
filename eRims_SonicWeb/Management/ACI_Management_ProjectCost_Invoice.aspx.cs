@@ -115,6 +115,7 @@ public partial class SONIC_Exposures_ACI_Management_ProjectCost_Invoice : clsBas
         objACIManagement_ProjectCost_Invoice.Update_Date = clsGeneral.FormatDateToStore(DateTime.Now);
         if (txtInvoice_ProccesedBySonicDate.Text != string.Empty && txtInvoice_ProccesedBySonicDate.Text != "05/23/1964") objACIManagement_ProjectCost_Invoice.Invoice_ProccesedBySonicDate = clsGeneral.FormatDateToStore(txtInvoice_ProccesedBySonicDate.Text);
         if (txtPayment_ReceivedbyACIDate.Text != string.Empty && txtPayment_ReceivedbyACIDate.Text != "05/23/1964") objACIManagement_ProjectCost_Invoice.Payment_ReceivedbyACIDate = clsGeneral.FormatDateToStore(txtPayment_ReceivedbyACIDate.Text);
+        objACIManagement_ProjectCost_Invoice.Comments = txtComments.Text;
                 
         if (PK_ACIManagement_ProjectCost_Invoice > 0)
             objACIManagement_ProjectCost_Invoice.Update();
@@ -167,6 +168,8 @@ public partial class SONIC_Exposures_ACI_Management_ProjectCost_Invoice : clsBas
         lblVendorEmail.Text = Convert.ToString(objACIManagement_ProjectCost_Invoice.Vendor_Email);
         lblInvoice_ProccesedBySonicDate.Text = clsGeneral.FormatDBNullDateToDisplay(objACIManagement_ProjectCost_Invoice.Invoice_ProccesedBySonicDate);
         lblPayment_ReceivedbyACIDate.Text = clsGeneral.FormatDBNullDateToDisplay(objACIManagement_ProjectCost_Invoice.Payment_ReceivedbyACIDate);
+        lblComments.Text = Convert.ToString(objACIManagement_ProjectCost_Invoice.Comments);
+        lblComments.Enable = false;
     }
 
     /// <summary>
@@ -194,6 +197,7 @@ public partial class SONIC_Exposures_ACI_Management_ProjectCost_Invoice : clsBas
         txtVendorEmail.Text = Convert.ToString(objACIManagement_ProjectCost_Invoice.Vendor_Email);
         txtInvoice_ProccesedBySonicDate.Text = clsGeneral.FormatDBNullDateToDisplay(objACIManagement_ProjectCost_Invoice.Invoice_ProccesedBySonicDate);
         txtPayment_ReceivedbyACIDate.Text = clsGeneral.FormatDBNullDateToDisplay(objACIManagement_ProjectCost_Invoice.Payment_ReceivedbyACIDate);
+        txtComments.Text = Convert.ToString(objACIManagement_ProjectCost_Invoice.Comments);
     }
 
     #endregion

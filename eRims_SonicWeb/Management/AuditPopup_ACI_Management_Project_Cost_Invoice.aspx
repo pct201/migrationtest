@@ -104,6 +104,9 @@
                                         <span style="display: inline-block; width: 100px;">Vendor Email</span>
                                     </th>
                                     <th class="cols">
+                                        <span style="display: inline-block; width: 100px;">Comments</span>
+                                    </th>
+                                    <th class="cols">
                                         <span style="display: inline-block; width: 100px;">Updated By</span>
                                     </th>
                                     <th class="cols">
@@ -249,6 +252,13 @@
                                     <ItemStyle CssClass="cols" />
                                     <ItemTemplate>
                                         <asp:Label ID="lblVendor_Email" runat="server" Text='<%#Eval("Vendor_Email")%>'
+                                            Width="100px" CssClass="TextClip"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Comments">
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblComments" runat="server" Text='<%#Eval("Comments")%>'
                                             Width="100px" CssClass="TextClip"></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
