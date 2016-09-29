@@ -158,11 +158,11 @@ public partial class SONIC_Purchasing_RptPurchasingAssetReport : clsBasePage
             // create a table cell to be added in row
             TableCell Cell = new TableCell();
             Cell.HorizontalAlign = HorizontalAlign.Center;
-            Cell.Text = "<table width='100%' cellspacing=0 cellpadding=0><tr><td width='100%'>" +
-                            "<table width='100%' style='font-weight: bold;' cellspacing=0 cellpadding=0><tr><td width='100%' colspan='8'>" +
-                                "<table width='100%' cellpadding=4 cellspacing=0 style='font-weight: bold;'>" +
-                                    "<tr  style='font-weight: bold;'><td align='left'>Sonic Automotive</td><td align='center' colspan='5'>Asset Detail</td>" +
-                                    "<td align='right' colspan='2'> " + DateTime.Now + "</td></tr></table>" +
+            Cell.Text = "<table width='100%' style='border: black 0.5px solid;' cellspacing='0' cellpadding='0'><tr><td width='100%'>" +
+                            "<table width='100%' style='border: black 0.5px solid;font-weight: bold;' cellspacing='0' cellpadding='0'><tr><td width='100%' colspan='8'>" +
+                                "<table width='100%' cellpadding='4' cellspacing='0' style='border: black 0.5px solid;font-weight: bold;'>" +
+                                    "<tr style='font-weight: bold;'><td align='left' >Sonic Automotive</td><td align='center' >Asset Detail</td>" +
+                                    "<td align='right' style='border: black 0.5px solid;'> " + DateTime.Now + "</td></tr></table>" +
                                 "</td></tr></table>" +
                             "</td></tr></table>";
             // add cell in row

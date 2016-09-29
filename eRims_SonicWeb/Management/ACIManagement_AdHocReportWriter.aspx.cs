@@ -3572,11 +3572,11 @@ public partial class Management_ACIManagement_AdHocReportWriter : clsBasePage
                     sbRecord.Replace("<tr><td><b>Report Title : Management Ad-Hoc Report</b></td></tr>", "");
                 }
 
-                sbRecord.Append("<table border='1' cellpadding='0' cellspacing='0' width='" + (150 * lstSelectedFields.Items.Count).ToString() + "' style='font-size:10pt'>");
+                sbRecord.Append("<table border='1' cellpadding='0' cellspacing='0' width='" + (150 * lstSelectedFields.Items.Count).ToString() + "' style='font-size:10pt;border-right:black 0.5px solid;'>");
 
                 #region "Header"
                 // If reader found a records 
-                sbRecord.Append("<tr>");
+                sbRecord.Append("<tr >");
                 if (IsGroupBySelected)
                     sbRecord.Append("<td>&nbsp;</td>");
                 dtHeader = new DataTable();

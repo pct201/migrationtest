@@ -2991,7 +2991,7 @@ public partial class Pollution_AdHocReportWriter : clsBasePage
                     {
                         //Remove Group By 
                         if (strFirstGroupBy != Convert.ToString(drHeader["ColumnName"]) && strSecGroupBy != Convert.ToString(drHeader["ColumnName"]))
-                            sbRecord.Append("<td width='180'><b>" + drHeader["ColumnName"] + "</b></td>");
+                            sbRecord.Append("<td style='width: 250px'><b>" + drHeader["ColumnName"] + "</b></td>");
                         //Get First and Second Group By Field's Data Type
                         if (strFirstGroupBy == Convert.ToString(drHeader["ColumnName"]))
                             strFormatFirstGroupBy = drHeader["DataTypeName"].ToString();
