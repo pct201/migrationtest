@@ -1015,27 +1015,27 @@ public partial class Management_ACIManagement_AdHocReportWriter : clsBasePage
         strExport.Append("</tr>");
         strExport.Append("<tr><td>&nbsp;</td></tr>");
         if (drpGroupByFirst.SelectedIndex > 0)
-            strExport.Append("<tr><td nowrap='nowrap' colspan='4'><b> First Group By : </b>" + Convert.ToString(drpGroupByFirst.SelectedItem.Text) + " <b>Sorting :</b> " + Convert.ToString(rdblGroupSortByFirst.SelectedItem.Text).ToUpper() + " </td></tr>");
+            strExport.Append("<tr><td nowrap='nowrap' colspan='4'><b> First Group By : </b> &nbsp;" + Convert.ToString(drpGroupByFirst.SelectedItem.Text) + " &nbsp; <b>Sorting : </b>&nbsp; " + Convert.ToString(rdblGroupSortByFirst.SelectedItem.Text).ToUpper() + " </td></tr>");
         else
             strExport.Append("<tr><td ><b> First Group By : </b> &nbsp; </td></tr>");
 
         if (drpGroupBySecond.SelectedIndex > 0)
-            strExport.Append("<tr><td nowrap='nowrap' colspan='4'><b> Second Group By : </b>" + Convert.ToString(drpGroupBySecond.SelectedItem.Text) + " <b>Sorting :</b> " + Convert.ToString(rdblGroupSortBySecond.SelectedItem.Text).ToUpper() + " </td></tr>");
+            strExport.Append("<tr><td nowrap='nowrap' colspan='4'><b> Second Group By : </b>&nbsp;" + Convert.ToString(drpGroupBySecond.SelectedItem.Text) + " &nbsp; <b>Sorting : </b>&nbsp; " + Convert.ToString(rdblGroupSortBySecond.SelectedItem.Text).ToUpper() + " </td></tr>");
         else
             strExport.Append("<tr><td ><b> Second Group By : </b> &nbsp; </td></tr>");
 
         if (drpGroupByThird.SelectedIndex > 0)
-            strExport.Append("<tr><td nowrap='nowrap' colspan='4'><b> Third Group By : </b>" + Convert.ToString(drpGroupByThird.SelectedItem.Text) + " <b>Sorting :</b> " + Convert.ToString(rdblGroupSortByThird.SelectedItem.Text).ToUpper() + " </td></tr>");
+            strExport.Append("<tr><td nowrap='nowrap' colspan='4'><b> Third Group By : </b>&nbsp;" + Convert.ToString(drpGroupByThird.SelectedItem.Text) + " &nbsp; <b>Sorting : </b> &nbsp;" + Convert.ToString(rdblGroupSortByThird.SelectedItem.Text).ToUpper() + " </td></tr>");
         else
             strExport.Append("<tr><td ><b> Third Group By : </b> &nbsp; </td></tr>");
 
         if (drpGroupByFourth.SelectedIndex > 0)
-            strExport.Append("<tr><td nowrap='nowrap' colspan='4'><b> Fourth Group By : </b>" + Convert.ToString(drpGroupByFourth.SelectedItem.Text) + " <b>Sorting :</b> " + Convert.ToString(rdblGroupSortByFourth.SelectedItem.Text).ToUpper() + " </td></tr>");
+            strExport.Append("<tr><td nowrap='nowrap' colspan='4'><b> Fourth Group By : </b>&nbsp;" + Convert.ToString(drpGroupByFourth.SelectedItem.Text) + " &nbsp; <b>Sorting : </b>&nbsp; " + Convert.ToString(rdblGroupSortByFourth.SelectedItem.Text).ToUpper() + " </td></tr>");
         else
             strExport.Append("<tr><td ><b> Fourth Group By : </b> &nbsp; </td></tr>");
 
         if (drpGroupByFifth.SelectedIndex > 0)
-            strExport.Append("<tr><td nowrap='nowrap' colspan='4'><b> Fifth Group By : </b>" + Convert.ToString(drpGroupByFifth.SelectedItem.Text) + " <b>Sorting :</b> " + Convert.ToString(rdblGroupSortByFifth.SelectedItem.Text).ToUpper() + " </td></tr>");
+            strExport.Append("<tr><td nowrap='nowrap' colspan='4'><b> Fifth Group By : </b>&nbsp;" + Convert.ToString(drpGroupByFifth.SelectedItem.Text) + " &nbsp; <b>Sorting : </b>&nbsp; " + Convert.ToString(rdblGroupSortByFifth.SelectedItem.Text).ToUpper() + " </td></tr>");
         else
             strExport.Append("<tr><td ><b> Fifth Group By : </b> &nbsp; </td></tr>");
 

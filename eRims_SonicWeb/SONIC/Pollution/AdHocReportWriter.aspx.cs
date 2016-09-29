@@ -84,7 +84,9 @@ public partial class Pollution_AdHocReportWriter : clsBasePage
         {
             string data = File.ReadAllText(strFilePath);
             data = data.Trim();
-            AdhocHTML2Excel objHtml2Excel = new AdhocHTML2Excel(data);
+            //AdhocHTML2Excel objHtml2Excel = new AdhocHTML2Excel(data);
+            HTML2Excel objHtml2Excel = new HTML2Excel(data);
+            
             outputFiles = Path.GetFullPath(strFilePath) + ".xlsx";
             blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
         }
