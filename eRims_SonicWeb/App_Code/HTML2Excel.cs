@@ -546,6 +546,15 @@ public class HTML2Excel
 
                                         }
                                     break;
+                                case "border-left":
+                                    //if (NoOfCol > 0 && tdAttrib.Value != "0")
+                                    using (ExcelRange range = excelWorksheet.Cells[currRowNumber, currColumnNumber, currRowNumber, currColumnNumber + noOfColspan])
+                                    {
+                                        //range.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
+                                        Border border = range.Style.Border;
+                                        border.Left.Style = ExcelBorderStyle.Thin;
+                                    }
+                                    break;
                             }
                         }
 
