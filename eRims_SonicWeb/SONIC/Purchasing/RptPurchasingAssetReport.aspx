@@ -29,7 +29,7 @@
             </td>
         </tr>
         <tr>
-            <td>
+            <td align="left">
                 <table cellpadding="3" cellspacing="0" width="50%" align="center">
                     <tr>
                         <td align="left" valign="top">
@@ -132,7 +132,7 @@
                                     AutoGenerateColumns="false" OnRowDataBound="gvReport_RowDataBound">
                                     <HeaderStyle CssClass="HeaderStyle" VerticalAlign="top" />
                                     <RowStyle BackColor="White" VerticalAlign="top" />
-                                    <FooterStyle BackColor="#507CD1" ForeColor="White" Font-Bold="true" HorizontalAlign="left"/>
+                                    <FooterStyle BackColor="#507CD1" ForeColor="White" Font-Bold="true" HorizontalAlign="left" />
                                     <AlternatingRowStyle BackColor="White" VerticalAlign="top" />
                                     <EmptyDataRowStyle BackColor="#EAEAEA" HorizontalAlign="Center" Height="22px" />
                                     <Columns>
@@ -140,7 +140,7 @@
                                             <HeaderTemplate>
                                                 <table cellpadding="0" cellspacing="0" width="2100px">
                                                     <tr>
-                                                        <td>
+                                                        <td align="left">
                                                             <table cellpadding="4" cellspacing="0" width="2100px" style="font-weight: bold;"
                                                                 id="tblHeader" runat="server">
                                                                 <tr>
@@ -194,8 +194,8 @@
                                                                 CellPadding="4" GridLines="None" CssClass="GridClass" AutoGenerateColumns="false"
                                                                 EnableTheming="false" ShowFooter="true">
                                                                 <FooterStyle BackColor="white" ForeColor="Black" Font-Bold="true" />
-                                                                <RowStyle  CssClass="RowStyle" VerticalAlign="top" />
-                                                                <AlternatingRowStyle  CssClass="AlterRowStyle" VerticalAlign="top" />
+                                                                <RowStyle CssClass="RowStyle" VerticalAlign="top" />
+                                                                <AlternatingRowStyle CssClass="AlterRowStyle" VerticalAlign="top" />
                                                                 <Columns>
                                                                     <asp:TemplateField>
                                                                         <ItemStyle Width="150px" HorizontalAlign="left" />
@@ -251,10 +251,10 @@
                                                                             <%#Eval("Acquisition_Date") != DBNull.Value ? clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("Acquisition_Date"))) : ""%></ItemTemplate>
                                                                     </asp:TemplateField>
                                                                     <asp:TemplateField>
-                                                                        <ItemStyle Width="150px" HorizontalAlign="Right"/>
+                                                                        <ItemStyle Width="150px" HorizontalAlign="right" />
                                                                         <ItemTemplate>
                                                                             <%# string.Format("{0:C2}", Eval("Acquisition_Cost") )%></ItemTemplate>
-                                                                        <FooterStyle  HorizontalAlign="Right" />
+                                                                        <FooterStyle HorizontalAlign="Right" Width="150px" />
                                                                         <FooterTemplate>
                                                                             <asp:Label ID="lblAcquisition_Cost" runat="server" />
                                                                         </FooterTemplate>
@@ -287,10 +287,10 @@
                                             <FooterTemplate>
                                                 <table cellpadding="0" cellspacing="0" width="2100px">
                                                     <tr>
-                                                        <td width="100%">
-                                                            <table cellpadding="4" cellspacing="0" width="2100px" style="font-weight: bold; color: White;"
+                                                        <td width="100%" align="left">
+                                                            <table cellpadding="4" cellspacing="0" width="2100px" style="font-weight: bold; color: White;background-color:#507CD1;"
                                                                 id="tblFooter" runat="server">
-                                                                <tr style="background-color:#507CD1;">
+                                                                <tr>
                                                                     <td style="width: 150px;">
                                                                         <asp:Label ID="lblH1" runat="server" Text='Grand Total' />
                                                                     </td>
