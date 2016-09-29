@@ -595,6 +595,9 @@ public class HTML2Excel
                         excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
                     }
                     break;
+                case "height":
+                    excelWorksheet.Row(currRowNumber).Height = Convert.ToDouble(tdAttrib.Value.ToUpper().Replace("PX", ""));
+                    break;
             }
         }
         #endregion
