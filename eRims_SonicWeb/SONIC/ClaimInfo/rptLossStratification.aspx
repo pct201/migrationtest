@@ -95,7 +95,7 @@
                                         <tr>
                                             <table width="100%" style="font-weight: bold;" id="tblHeader" runat="server">
                                                 <tr>
-                                                    <td align="center" style="width: 50%;" valign="middle">Claim Size (in $)
+                                                    <td align="center" style="width: 50%;">Claim Size (in $)
                                                     </td>
                                                     <td align="right">Number Of Claims
                                                     </td>
