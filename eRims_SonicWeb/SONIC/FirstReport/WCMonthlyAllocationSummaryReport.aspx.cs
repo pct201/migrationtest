@@ -137,6 +137,25 @@ public partial class SONIC_FirstReport_WCMonthlyAllocationSummaryReport : clsBas
     protected void lnkExportToExcel_Click(object sender, EventArgs e)
     {
         gvworkers_comp_summary.GridLines = GridLines.Both;
+
+
+        gvworkers_comp_summary.HeaderRow.Cells[4].HorizontalAlign = HorizontalAlign.Right;
+        gvworkers_comp_summary.HeaderRow.Cells[5].HorizontalAlign = HorizontalAlign.Right;
+        gvworkers_comp_summary.HeaderRow.Cells[6].HorizontalAlign = HorizontalAlign.Right;
+        gvworkers_comp_summary.HeaderRow.Cells[7].HorizontalAlign = HorizontalAlign.Right;
+        gvworkers_comp_summary.HeaderRow.Cells[8].HorizontalAlign = HorizontalAlign.Right;
+        gvworkers_comp_summary.HeaderRow.Cells[9].HorizontalAlign = HorizontalAlign.Right;
+        gvworkers_comp_summary.HeaderRow.Cells[10].HorizontalAlign = HorizontalAlign.Right;
+        gvworkers_comp_summary.HeaderRow.Cells[11].HorizontalAlign = HorizontalAlign.Right;
+        gvworkers_comp_summary.HeaderRow.Cells[12].HorizontalAlign = HorizontalAlign.Right;
+        gvworkers_comp_summary.HeaderRow.Cells[13].HorizontalAlign = HorizontalAlign.Right;
+        gvworkers_comp_summary.HeaderRow.Cells[14].HorizontalAlign = HorizontalAlign.Right;
+        gvworkers_comp_summary.HeaderRow.Cells[15].HorizontalAlign = HorizontalAlign.Right;
+        gvworkers_comp_summary.HeaderRow.Cells[16].HorizontalAlign = HorizontalAlign.Right;
+        gvworkers_comp_summary.HeaderRow.Cells[17].HorizontalAlign = HorizontalAlign.Right;
+        gvworkers_comp_summary.HeaderRow.Cells[18].HorizontalAlign = HorizontalAlign.Right;
+        gvworkers_comp_summary.HeaderRow.Cells[19].HorizontalAlign = HorizontalAlign.Right;
+
         if (rdoRunBy.SelectedValue == "Region")
         {
             gvworkers_comp_summary.HeaderRow.Cells[3].Visible = false;
@@ -144,6 +163,22 @@ public partial class SONIC_FirstReport_WCMonthlyAllocationSummaryReport : clsBas
             {
                 GridViewRow row = gvworkers_comp_summary.Rows[i];
                 row.Cells[3].Visible = false;
+                row.Cells[4].HorizontalAlign = HorizontalAlign.Right;
+                row.Cells[5].HorizontalAlign = HorizontalAlign.Right;
+                row.Cells[6].HorizontalAlign = HorizontalAlign.Right;
+                row.Cells[7].HorizontalAlign = HorizontalAlign.Right;
+                row.Cells[8].HorizontalAlign = HorizontalAlign.Right;
+                row.Cells[9].HorizontalAlign = HorizontalAlign.Right;
+                row.Cells[10].HorizontalAlign = HorizontalAlign.Right;
+                row.Cells[11].HorizontalAlign = HorizontalAlign.Right;
+                row.Cells[12].HorizontalAlign = HorizontalAlign.Right;
+                row.Cells[13].HorizontalAlign = HorizontalAlign.Right;
+                row.Cells[14].HorizontalAlign = HorizontalAlign.Right;
+                row.Cells[15].HorizontalAlign = HorizontalAlign.Right;
+                row.Cells[16].HorizontalAlign = HorizontalAlign.Right;
+                row.Cells[17].HorizontalAlign = HorizontalAlign.Right;
+                row.Cells[18].HorizontalAlign = HorizontalAlign.Right;
+                row.Cells[19].HorizontalAlign = HorizontalAlign.Right;
             }
 
         }
@@ -154,6 +189,22 @@ public partial class SONIC_FirstReport_WCMonthlyAllocationSummaryReport : clsBas
             {
                 GridViewRow row = gvworkers_comp_summary.Rows[i];
                 row.Cells[3].Visible = true;
+                row.Cells[4].HorizontalAlign = HorizontalAlign.Right;
+                row.Cells[5].HorizontalAlign = HorizontalAlign.Right;
+                row.Cells[6].HorizontalAlign = HorizontalAlign.Right;
+                row.Cells[7].HorizontalAlign = HorizontalAlign.Right;
+                row.Cells[8].HorizontalAlign = HorizontalAlign.Right;
+                row.Cells[9].HorizontalAlign = HorizontalAlign.Right;
+                row.Cells[10].HorizontalAlign = HorizontalAlign.Right;
+                row.Cells[11].HorizontalAlign = HorizontalAlign.Right;
+                row.Cells[12].HorizontalAlign = HorizontalAlign.Right;
+                row.Cells[13].HorizontalAlign = HorizontalAlign.Right;
+                row.Cells[14].HorizontalAlign = HorizontalAlign.Right;
+                row.Cells[15].HorizontalAlign = HorizontalAlign.Right;
+                row.Cells[16].HorizontalAlign = HorizontalAlign.Right;
+                row.Cells[17].HorizontalAlign = HorizontalAlign.Right;
+                row.Cells[18].HorizontalAlign = HorizontalAlign.Right;
+                row.Cells[19].HorizontalAlign = HorizontalAlign.Right;
             }
         }
         string htmlContent = GridViewExportUtil.ExportAdHoc_New(gvworkers_comp_summary);
@@ -192,8 +243,8 @@ public partial class SONIC_FirstReport_WCMonthlyAllocationSummaryReport : clsBas
             {
                 if (File.Exists(outputFiles))
                     File.Delete(outputFiles);
-                if (File.Exists(strPath))
-                    File.Delete(strPath);
+                //if (File.Exists(strPath))
+                //    File.Delete(strPath);
 
                 HttpContext.Current.Response.End();
             }
@@ -233,5 +284,11 @@ public partial class SONIC_FirstReport_WCMonthlyAllocationSummaryReport : clsBas
 
         }
 
+    }
+
+    public override void VerifyRenderingInServerForm(Control control)
+    {
+        /* Confirms that an HtmlForm control is rendered for the specified ASP.NET
+           server control at run time. */
     }
 }
