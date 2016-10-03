@@ -61,7 +61,7 @@ public partial class UserAccessRequest_rptUATerminatedInactiveUsers : clsBasePag
     /// <param name="e"></param>
     protected void lbtExportToExcel_Click(object sender, EventArgs e)
     {
-        GridViewExportUtil.ExportGrid("New User Approved/Denied Report.xlsx", lblReport);
+        GridViewExportUtil.ExportGrid("Terminated/Inactive Users Report.xlsx", lblReport);
     }
     /// <summary>
     /// Back hrom report to Criteria
