@@ -213,7 +213,7 @@ public partial class SONIC_Exposures_Project_Management_Add : clsBasePage
             decimal PK_EPM_Identification = 0;
             PK_EPM_Identification = Convert.ToDecimal(e.CommandArgument);
             if (!string.IsNullOrEmpty(BuildingName.ToString()))
-            Session["BuildingName"] = BuildingName; 
+                Session["BuildingName"] = BuildingName.Replace("</br>", ",");
             Response.Redirect("Project_Management.aspx?loc=" + Request.QueryString["loc"].ToString() + "&id=" + Encryption.Encrypt(PK_EPM_Identification.ToString()) + "&op=view", true);
         }
         else if (e.CommandName == "RemoveProjectManagement")
