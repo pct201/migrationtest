@@ -2242,24 +2242,33 @@ public partial class PropertyClaims_Property_Claims_AdHocReportWriter : System.W
                     }
 
                     #endregion
+
+                    int groupByColumnCount = 0;
+                    if (!string.IsNullOrEmpty(strFirstGroupBy))
+                        groupByColumnCount++;
+                    if (!string.IsNullOrEmpty(strSecGroupBy))
+                        groupByColumnCount++;
+                    if (!string.IsNullOrEmpty(strThirdGroupBy))
+                        groupByColumnCount++;
+
                     #region First Group By
                     //First Group By
                     if (!string.IsNullOrEmpty(strFirstGroupBy))
                     {
-                        int colcount = Reader.FieldCount-1;
+                        int colcount = Reader.FieldCount;
                         if (strGroupByValue_1 != Convert.ToString(Reader[strFirstGroupBy]))
                         {
                             strGroupByValue_1 = Convert.ToString(Reader[strFirstGroupBy]);
                             if (strFormatFirstGroupBy == "decimal")
-                                sbRecord.Append("<tr><td style='font-weight: bold;' align='right' colspan='" + (colcount - 1) + "'>" + strFirstGroupBy + ": " + string.Format("{0:c2}", strGroupByValue_1) + "</td></tr>");
+                                sbRecord.Append("<tr><td style='font-weight: bold;' align='left'>" + strFirstGroupBy + ": " + string.Format("{0:c2}", strGroupByValue_1) + "</td><td colspan='" + (colcount - groupByColumnCount) + "'></td></tr>");
                             else if (strFormatFirstGroupBy == "datetime")
                             {
                                 // it display only Time
                                 if (strFirstGroupBy == "Time Theft Reported")
-                                    sbRecord.Append("<tr><td style='font-weight: bold;' colspan='" + (colcount - 1) + "'>" + strFirstGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strFirstGroupBy]) + "</td></tr>");
-                                else sbRecord.Append("<tr><td style='font-weight: bold;' colspan='" + (colcount - 1) + "'>" + strFirstGroupBy + ": " + clsGeneral.FormatDBNullDateToDisplay(strGroupByValue_1) + "</td></tr>");
+                                    sbRecord.Append("<tr><td style='font-weight: bold;' >" + strFirstGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strFirstGroupBy]) + "</td><td colspan='" + (colcount - groupByColumnCount) + "'></td></tr>");
+                                else sbRecord.Append("<tr><td style='font-weight: bold;'>" + strFirstGroupBy + ": " + clsGeneral.FormatDBNullDateToDisplay(strGroupByValue_1) + "</td><td colspan='" + (colcount - groupByColumnCount) + "'></td></tr>");
                             }
-                            else sbRecord.Append("<tr><td style='font-weight: bold;' colspan='" + (colcount - 1) + "'>&nbsp;" + strFirstGroupBy + ": " + strGroupByValue_1 + "</td></tr>");
+                            else sbRecord.Append("<tr><td style='font-weight: bold;'>&nbsp;" + strFirstGroupBy + ": " + strGroupByValue_1 + "</td><td colspan='" + (colcount - groupByColumnCount) + "'></td></tr>");
                             //Change Second Group By when First Groupby is Change
                             strGroupByValue_2 = string.Empty;
                         }
@@ -2267,7 +2276,7 @@ public partial class PropertyClaims_Property_Claims_AdHocReportWriter : System.W
                         else if ((Reader[strFirstGroupBy] == DBNull.Value || string.IsNullOrEmpty(Convert.ToString(Reader[strFirstGroupBy]))) && strNOGroup1 == string.Empty)
                         {
                             strNOGroup1 = "No " + strFirstGroupBy;
-                            sbRecord.Append("<tr><td style='font-weight: bold;' colspan='" + (colcount - 1) + "'>&nbsp;" + strFirstGroupBy + ": " + strNOGroup1 + "</td></tr>");
+                            sbRecord.Append("<tr><td style='font-weight: bold;'>&nbsp;" + strFirstGroupBy + ": " + strNOGroup1 + "</td><td colspan='" + (colcount - groupByColumnCount) + "'></td></tr>");
                             // When Group by 1 value find as Null
                             strNOGroup1 = strFirstGroupBy;
                             //Change Second Group By when First Groupby is Change
@@ -2279,25 +2288,25 @@ public partial class PropertyClaims_Property_Claims_AdHocReportWriter : System.W
                     //Second Group By
                     if (!string.IsNullOrEmpty(strSecGroupBy))
                     {
-                        int colcount = Reader.FieldCount - 1;
+                        int colcount = Reader.FieldCount;
                         if (strGroupByValue_2 != Convert.ToString(Reader[strSecGroupBy]))
                         {
                             strGroupByValue_2 = Convert.ToString(Reader[strSecGroupBy]);
                             if (strFormatSecGroupBy == "decimal")
-                                sbRecord.Append("<tr><td style='font-weight: bold;' align='right' colspan='" + (colcount - 1) + "'>" + strSecGroupBy + ": " + string.Format("{0:c2}", strGroupByValue_2) + "</td></tr>");
+                                sbRecord.Append("<tr><td style='font-weight: bold;' align='left'>" + strSecGroupBy + ": " + string.Format("{0:c2}", strGroupByValue_2) + "</td><td colspan='" + (colcount - groupByColumnCount) + "'></td></tr>");
                             else if (strFormatSecGroupBy == "datetime")
                             {
                                 // it display only Time
                                 if (strSecGroupBy == "Time Theft Reported")
-                                    sbRecord.Append("<tr><td style='font-weight: bold;' colspan='" + (colcount - 1) + "'>" + strSecGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strSecGroupBy]) + "</td></tr>");
-                                else sbRecord.Append("<tr><td style='font-weight: bold;' colspan='" + (colcount - 1) + "'>" + strSecGroupBy + ": " + clsGeneral.FormatDBNullDateToDisplay(strGroupByValue_2) + "</td></tr>");
+                                    sbRecord.Append("<tr><td style='font-weight: bold;' >" + strSecGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strSecGroupBy]) + "</td><td colspan='" + (colcount - groupByColumnCount) + "'></td></tr>");
+                                else sbRecord.Append("<tr><td style='font-weight: bold;' >" + strSecGroupBy + ": " + clsGeneral.FormatDBNullDateToDisplay(strGroupByValue_2) + "</td><td colspan='" + (colcount - groupByColumnCount) + "'></td></tr>");
                             }
-                            else sbRecord.Append("<tr><td style='font-weight: bold;' colspan='" + (colcount - 1) + "'>&nbsp;" + strSecGroupBy + ": " + strGroupByValue_2 + "</td></tr>");
+                            else sbRecord.Append("<tr><td style='font-weight: bold;' >&nbsp;" + strSecGroupBy + ": " + strGroupByValue_2 + "</td><td colspan='" + (colcount - groupByColumnCount) + "'></td></tr>");
                         }
                         else if (Reader[strSecGroupBy] == DBNull.Value && strNOGroup2 == string.Empty)
                         {
                             strNOGroup2 = "No " + strSecGroupBy;
-                            sbRecord.Append("<tr><td style='font-weight: bold;' colspan='" + (colcount - 1) + "'>&nbsp;" + strSecGroupBy + ": " + strNOGroup2 + "</td></tr>");
+                            sbRecord.Append("<tr><td style='font-weight: bold;'>&nbsp;" + strSecGroupBy + ": " + strNOGroup2 + "</td><td colspan='" + (colcount - groupByColumnCount) + "'></td></tr>");
                             //No Group by assign
                             strNOGroup2 = strGroupByValue_2;
                         }
@@ -2306,25 +2315,25 @@ public partial class PropertyClaims_Property_Claims_AdHocReportWriter : System.W
                     #region Third Group By
                     if (!string.IsNullOrEmpty(strThirdGroupBy))
                     {
-                        int colcount = Reader.FieldCount - 1;
+                        int colcount = Reader.FieldCount;
                         if (strGroupByValue_3 != Convert.ToString(Reader[strThirdGroupBy]))
                         {
                             strGroupByValue_3 = Convert.ToString(Reader[strThirdGroupBy]);
                             if (strFormatThirdGroupBy == "decimal")
-                                sbRecord.Append("<tr><td style='font-weight: bold;' align='right' colspan='" + (colcount - 1) + "'>" + strThirdGroupBy + ": " + string.Format("{0:c2}", strGroupByValue_3) + "</td></tr>");
+                                sbRecord.Append("<tr><td style='font-weight: bold;' align='left'>" + strThirdGroupBy + ": " + string.Format("{0:c2}", strGroupByValue_3) + "</td><td colspan='" + (colcount - groupByColumnCount) + "'></td></tr>");
                             else if (strFormatThirdGroupBy == "datetime")
                             {
                                 // it display only Time
                                 if (strThirdGroupBy == "Time Theft Reported")
-                                    sbRecord.Append("<tr><td style='font-weight: bold;' colspan='" + (colcount - 1) + "'>" + strThirdGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strThirdGroupBy]) + "</td></tr>");
-                                else sbRecord.Append("<tr><td style='font-weight: bold;' colspan='" + (colcount - 1) + "'>" + strThirdGroupBy + ": " + clsGeneral.FormatDBNullDateToDisplay(strGroupByValue_3) + "</td></tr>");
+                                    sbRecord.Append("<tr><td style='font-weight: bold;' >" + strThirdGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strThirdGroupBy]) + "</td><td colspan='" + (colcount - groupByColumnCount) + "'></td></tr>");
+                                else sbRecord.Append("<tr><td style='font-weight: bold;' >" + strThirdGroupBy + ": " + clsGeneral.FormatDBNullDateToDisplay(strGroupByValue_3) + "</td><td colspan='" + (colcount - groupByColumnCount) + "'></td></tr>");
                             }
-                            else sbRecord.Append("<tr><td style='font-weight: bold;' colspan='" + (colcount - 1) + "'>&nbsp;" + strThirdGroupBy + ": " + strGroupByValue_3 + "</td></tr>");
+                            else sbRecord.Append("<tr><td style='font-weight: bold;' >&nbsp;" + strThirdGroupBy + ": " + strGroupByValue_3 + "</td><td colspan='" + (colcount - groupByColumnCount) + "'></td></tr>");
                         }
                         else if (Reader[strThirdGroupBy] == DBNull.Value && strNOGroup3 == string.Empty)
                         {
                             strNOGroup3 = "No " + strThirdGroupBy;
-                            sbRecord.Append("<tr><td style='font-weight: bold;' colspan='" + (colcount - 1) + "'>&nbsp;" + strThirdGroupBy + ": " + strNOGroup3 + "</td></tr>");
+                            sbRecord.Append("<tr><td style='font-weight: bold;'>&nbsp;" + strThirdGroupBy + ": " + strNOGroup3 + "</td><td colspan='" + (colcount - groupByColumnCount) + "'></td></tr>");
                             //No Group by assign
                             strNOGroup3 = strGroupByValue_3;
                         }
