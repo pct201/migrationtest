@@ -126,7 +126,7 @@
                                             <ItemTemplate>
                                                 <table width="100%" cellpadding="0" cellspacing="0" border="0">
                                                     <tr>
-                                                        <td align="left" style="border:solid 0.5px;background-color: White; height: 25px; color: Black;" colspan="19">
+                                                        <td align="left" style="border:thin;background-color: White; height: 25px; color: Black;" colspan="19">
                                                             <b><%= ReportLabel %> : <asp:Label align="left" ID="lblDescription" runat="server"><%#Eval("ReportLabel")%></asp:Label>
                                                             </b>
                                                         </td>
