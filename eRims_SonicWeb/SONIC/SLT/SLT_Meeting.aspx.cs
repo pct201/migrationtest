@@ -1882,7 +1882,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
     {
         if (StrOperation != "view" && meetingIsEditable == true)
         {
-            DataTable dtProcedure = SLT_New_Procedure.SelectByFK(PK_SLT_Meeting_Schedule, Convert.ToInt32(drpProcedureYear.SelectedValue)).Tables[0];
+            DataTable dtProcedure = SLT_New_Procedure.SelectByFKBuildingAndFKSchedule(PK_SLT_Meeting_Schedule, Convert.ToInt32(drpProcedureYear.SelectedValue),FK_LU_Location_ID).Tables[0];
             gvNewProcedures.DataSource = dtProcedure;
             gvNewProcedures.DataBind();
             btnNewProcedureAudit_Edit.Visible = false;
@@ -1892,7 +1892,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         {
             if (!Is_For_Edit)
                 BindDropDownsForView();
-            DataTable dtProcedure = SLT_New_Procedure.SelectByFK(PK_SLT_Meeting_Schedule, Convert.ToInt32(drpProcedureYearView.SelectedValue)).Tables[0];
+            DataTable dtProcedure = SLT_New_Procedure.SelectByFKBuildingAndFKSchedule(PK_SLT_Meeting_Schedule, Convert.ToInt32(drpProcedureYearView.SelectedValue),FK_LU_Location_ID).Tables[0];
             gvNewProceduresView.DataSource = dtProcedure;
             gvNewProceduresView.DataBind();
             btnNewProcedureAudit_Edit.Visible = true;
@@ -1952,7 +1952,8 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
     #region "Suggestions"
     private void BindGridSuggestions()
     {
-        DataTable dtSuggestion = SLT_Suggestion.SelectByFK(PK_SLT_Meeting_Schedule).Tables[0];
+       //DataTable dtSuggestion = SLT_Suggestion.SelectByFK(PK_SLT_Meeting_Schedule).Tables[0];
+        DataTable dtSuggestion = SLT_Suggestion.SelectByFKLocationAndFKSchedule(FK_LU_Location_ID, PK_SLT_Meeting_Schedule).Tables[0];
         if (StrOperation != "view" && meetingIsEditable == true)
         {
             gvSuggestions.DataSource = dtSuggestion;

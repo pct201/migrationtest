@@ -433,5 +433,21 @@ namespace ERIMS.DAL
 
             return db.ExecuteDataSet(dbCommand);
         }
+
+        /// <summary>
+        /// select meeting suggestions by PK_location
+        /// </summary>
+        /// <param name="FK_LU_Location_ID"></param>
+        /// <returns></returns>
+        public static DataSet SelectByFKLocationAndFKSchedule(decimal FK_LU_Location_ID, decimal PK_SLT_Meeting_Schedule)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("SLT_SuggestionSelectByFKLocationAndFKSchedule");
+
+            db.AddInParameter(dbCommand, "PK_LU_Location_ID", DbType.Decimal, FK_LU_Location_ID);
+            db.AddInParameter(dbCommand, "PK_SLT_Meeting_Schedule", DbType.Decimal, PK_SLT_Meeting_Schedule);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
 	}
 }
