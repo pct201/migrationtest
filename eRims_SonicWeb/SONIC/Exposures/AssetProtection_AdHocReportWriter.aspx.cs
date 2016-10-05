@@ -136,9 +136,10 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
         {
             string data = File.ReadAllText(strFilePath);
             data = data.Trim();
-            HTML2Excel objHtml2Excel = new HTML2Excel(data);
+            //HTML2Excel objHtml2Excel = new HTML2Excel(data);
+            AdhocHTML2Excel objHtml2Excel = new AdhocHTML2Excel(data);
             outputFiles = Path.GetFullPath(strFilePath) + ".xlsx";
-            objHtml2Excel.isGrid = false;
+            //objHtml2Excel.isGrid = false;
             blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
         }
   
@@ -156,10 +157,10 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
             }
             finally
             {
-                //if (File.Exists(outputFiles))
-                //    File.Delete(outputFiles);
-                //if (File.Exists(strFilePath))
-                //    File.Delete(strFilePath);
+                if (File.Exists(outputFiles))
+                    File.Delete(outputFiles);
+                if (File.Exists(strFilePath))
+                    File.Delete(strFilePath);
 
                 HttpContext.Current.Response.End();
             }
