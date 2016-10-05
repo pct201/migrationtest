@@ -84,8 +84,8 @@ public partial class Pollution_AdHocReportWriter : clsBasePage
         {
             string data = File.ReadAllText(strFilePath);
             data = data.Trim();
-            //AdhocHTML2Excel objHtml2Excel = new AdhocHTML2Excel(data);
-            HTML2Excel objHtml2Excel = new HTML2Excel(data);
+            AdhocHTML2Excel objHtml2Excel = new AdhocHTML2Excel(data);
+            //HTML2Excel objHtml2Excel = new HTML2Excel(data);
             
             outputFiles = Path.GetFullPath(strFilePath) + ".xlsx";
             blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
@@ -2993,7 +2993,7 @@ public partial class Pollution_AdHocReportWriter : clsBasePage
                     {
                         //Remove Group By 
                         if (strFirstGroupBy != Convert.ToString(drHeader["ColumnName"]) && strSecGroupBy != Convert.ToString(drHeader["ColumnName"]))
-                            sbRecord.Append("<td style='width: 250px'><b>" + drHeader["ColumnName"] + "</b></td>");
+                            sbRecord.Append("<td style='width: 300px;border-right:black 1px solid;'><b>" + drHeader["ColumnName"] + "</b></td>");
                         //Get First and Second Group By Field's Data Type
                         if (strFirstGroupBy == Convert.ToString(drHeader["ColumnName"]))
                             strFormatFirstGroupBy = drHeader["DataTypeName"].ToString();
