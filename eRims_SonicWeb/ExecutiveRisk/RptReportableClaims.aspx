@@ -124,7 +124,7 @@
                                             <ItemTemplate>
                                                 <table width="100%" cellpadding="0" cellspacing="0" border="0">
                                                     <tr>
-                                                        <td align="left" style="background-color: White; height: 25px; color: Black;" width="100%">
+                                                        <td align="left" style="background-color: White; height: 25px; color: Black;border:thin;" width="100%" colspan="19">
                                                             <b>
                                                                 <asp:Label ID="lblRegion" runat="server"><%#Eval("Region")%></asp:Label>
                                                             </b>

@@ -268,7 +268,7 @@
                                                         <tr>
                                                             <td>
                                                                 <table style="border: black 0.5px solid;font-weight: bold; background-color: #507cd1; color: White">
-                                                                    <tr align="left">
+                                                                    <tr>
                                                                         <td style="width: 200px;">Grand Total
                                                                         </td>
                                                                         <td align="left" style="width: 400px" colspan="2">

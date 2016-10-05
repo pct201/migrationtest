@@ -271,10 +271,10 @@
                                                                                     </td>
                                                                                     <td width="100px" align="left">&nbsp;
                                                                                     </td>
-                                                                                    <td width="100px" align="right">
+                                                                                    <td width="100px" align="right" style="border:thin">
                                                                                         <asp:Label ID="lblMonthlyRent" runat="server"></asp:Label>
                                                                                     </td>
-                                                                                    <td width="340px" align="left">&nbsp;
+                                                                                    <td width="340px" align="left" style="border:thin">&nbsp;
                                                                                     </td>
                                                                                 </tr>
 

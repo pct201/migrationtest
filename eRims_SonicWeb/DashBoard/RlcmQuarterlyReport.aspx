@@ -456,7 +456,7 @@
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
                                                         <asp:TemplateField HeaderText="Date of Last Meeting Scored" SortExpression="Date_Scored"
-                                                            ItemStyle-HorizontalAlign="Left">
+                                                            ItemStyle-HorizontalAlign="Left" HeaderStyle-Width="30%">
                                                             <ItemTemplate>
                                                                 <asp:Label ID="lblDateScored" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "Date_Scored")%>'></asp:Label>
                                                             </ItemTemplate>

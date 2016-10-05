@@ -255,11 +255,11 @@
                         AutoGenerateColumns="false" Width="100%" HorizontalAlign="Left" GridLines="None"
                         ShowHeader="true" ShowFooter="true" EmptyDataText="No Record Found !" CellPadding="0"
                         CellSpacing="0" Style="word-wrap: normal; word-break: break-all;">
-                        <HeaderStyle HorizontalAlign="Center" CssClass="HeaderStyle" />
-                        <RowStyle CssClass="RowStyle" HorizontalAlign="Left" />
-                        <AlternatingRowStyle CssClass="AlterRowStyle" BackColor="White" HorizontalAlign="Left" />
+                        <HeaderStyle CssClass="HeaderStyle" />
+                        <RowStyle CssClass="RowStyle"/>
+                        <AlternatingRowStyle CssClass="AlterRowStyle" BackColor="White"/>
                         <FooterStyle ForeColor="Black" Font-Bold="true" />
-                        <EmptyDataRowStyle BackColor="#EAEAEA" HorizontalAlign="Center" Height="22px" />
+                        <EmptyDataRowStyle BackColor="#EAEAEA" Height="22px" />
                         <Columns>
                             <asp:TemplateField>
                                 <HeaderTemplate>
@@ -324,7 +324,7 @@
                                 </HeaderTemplate>
                                 <ItemTemplate>
                                     <table width="2630px" cellpadding="4" cellspacing="0" border="0" id="tblHeader" runat="server">
-                                        <tr align="left" valign="top">
+                                        <tr valign="top">
                                             <td width="150px" align="left"> 
                                                 <%# Eval("dba")%>
                                             </td>
