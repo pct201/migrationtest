@@ -123,10 +123,10 @@
                                             <span style="display: inline-block; width: 160px">CCTV Company Contact EMail</span>
                                         </th>
                                         <th class="cols">
-                                            <span style="display: inline-block; width: 160px">ACI System</span>  <%--Change Header text from Cal Atlantic to ACI as per client's request Bug ID = 2552--%>
+                                            <span style="display: inline-block; width: 160px">ACI Camera System</span>  <%--Change Header text from Cal Atlantic to ACI as per client's request Bug ID = 2552--%>
                                         </th>
                                         <th class="cols">
-                                            <span style="display: inline-block; width: 160px">Live Monitoring</span>
+                                            <span style="display: inline-block; width: 160px">Live Camera Monitoring</span>
                                         </th>
                                         <th class="cols">
                                             <span style="display: inline-block; width: 160px">Hours Monitored From</span>

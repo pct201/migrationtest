@@ -799,7 +799,7 @@ function SetRiskCategory() {
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">ACI System <%--Change Header text from Cal Atlantic to ACI as per client's request Bug ID = 2552--%>
+                                                        <td align="left" valign="top">ACI Camera System <%--Change Header text from Cal Atlantic to ACI as per client's request Bug ID = 2552--%>
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
@@ -815,7 +815,7 @@ function SetRiskCategory() {
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">Live Monitoring
+                                                        <td align="left" valign="top">Live Camera Monitoring
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
@@ -5484,7 +5484,7 @@ function SetRiskCategory() {
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">ACI System <%--Change Header text from Cal Atlantic to ACI as per client's request Bug ID = 2552--%>
+                                                        <td align="left" valign="top">ACI Camera System <%--Change Header text from Cal Atlantic to ACI as per client's request Bug ID = 2552--%>
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
@@ -5499,7 +5499,7 @@ function SetRiskCategory() {
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">Live Monitoring
+                                                        <td align="left" valign="top">Live Camera Monitoring
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
