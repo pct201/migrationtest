@@ -377,7 +377,7 @@ namespace ERIMS_Sonic_ReportScheduler
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetLease_Rental_Detail_Report(string strRegion, string strMarket, string strLocation, string strEquipmentType, string strLeaseRentalType, Nullable<DateTime> dtStartToDate, Nullable<DateTime> dtStartFromDate, Nullable<DateTime> dtEndToDate, Nullable<DateTime> dtEndFromDate)
+        public static DataSet GetLease_Rental_Detail_Report(string strRegion, string strMarket, string strLocation, string strEquipmentType, string strLeaseRentalType, Nullable<DateTime> dtStartToDate, Nullable<DateTime> dtStartFromDate, Nullable<DateTime> dtEndToDate, Nullable<DateTime> dtEndFromDate, decimal FK_Security_Id)
         {
             SqlDatabase db = new SqlDatabase(strConn);
             DbCommand dbCommand = db.GetStoredProcCommand("Purchase_Rental_Lease_Detail_Report");
@@ -390,12 +390,13 @@ namespace ERIMS_Sonic_ReportScheduler
             db.AddInParameter(dbCommand, "StartFromDate", DbType.DateTime, dtStartFromDate);
             db.AddInParameter(dbCommand, "EndToDate", DbType.DateTime, dtEndToDate);
             db.AddInParameter(dbCommand, "EndFromDate", DbType.DateTime, dtEndFromDate);
+            db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Decimal, FK_Security_Id);
             dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
         // public static DataSet Get_Purchase_Report(int FK_LU_Location_Id,string Type,string strRegion,string Manufacturer)
-        public static DataSet Get_Purchase_Report(string strRegion, string strMarket, string Manufacturer, string Type, string Location)
+        public static DataSet Get_Purchase_Report(string strRegion, string strMarket, string Manufacturer, string Type, string Location, decimal FK_Security_Id)
         {
             SqlDatabase db = new SqlDatabase(strConn);
             DbCommand dbCommand = db.GetStoredProcCommand("Purchasing_Asset_Report");
@@ -405,6 +406,7 @@ namespace ERIMS_Sonic_ReportScheduler
             db.AddInParameter(dbCommand, "Manufacturer", DbType.String, Manufacturer);
             db.AddInParameter(dbCommand, "Type", DbType.String, Type);
             db.AddInParameter(dbCommand, "Location", DbType.String, Location);
+            db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Decimal, FK_Security_Id);
             dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }

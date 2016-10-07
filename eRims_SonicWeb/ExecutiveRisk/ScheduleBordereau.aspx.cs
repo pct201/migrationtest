@@ -52,8 +52,9 @@ public partial class ExecutiveRisk_ScheduleBordereau : clsBasePage
             obj.Start_Date = Convert.ToDateTime(txtStartDate.Text);
             obj.End_Date = Convert.ToDateTime(txtEndDate.Text);
             obj.Region = drpRegion.SelectedValue;
-            obj.Market = Convert.ToDecimal(ddlMarket.SelectedValue);
-
+            if (ddlMarket.SelectedIndex > 0)
+                obj.Market = Convert.ToDecimal(ddlMarket.SelectedValue);
+            
             //Report Schedule Details
             obj.FK_Report = Convert.ToDecimal(Request.QueryString["PK_ReportID"]);
             obj.Scheduled_Date = Convert.ToDateTime(txtScheduleDate.Text);
