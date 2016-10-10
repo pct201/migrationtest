@@ -3519,7 +3519,11 @@ namespace ERIMS_Sonic_ReportScheduler
                                 strHTML.Append("</tr></table>");                                                             
                                 strHTML.Append("</td></tr>");
                             }
+
+                            strHTML.Append("<tr style='background-color:#507cd1;font-family:Calibri;color:White;border:thin'>");
+
                             strHTML.Append("<tr style='background-color:#507cd1;font-family:Calibri;color:White;border:thin;'>");
+
                             strHTML.Append("<td align='left'><b>Grand Total</b></td>");
                             strHTML.Append("<td  align='left'><b>" + dtTotal.Rows[0]["Total"].ToString() + "</b></td>");
                             strHTML.Append("<td style='width: 100px;' align='left'>&nbsp;</td>");
@@ -3751,7 +3755,7 @@ namespace ERIMS_Sonic_ReportScheduler
                                 //strHTML.Append("</table>");
                                 //strHTML.Append("</td></tr>");
                             }
-                            strHTML.Append("<tr style='background-color:#507cd1;font-family:Calibri;color:White;'>");
+                            strHTML.Append("<tr style='background-color:#507cd1;border:thin;font-family:Calibri;color:White;'>");
                             strHTML.Append("<td style='width: 150px;' align='left'><b>Grand Total</b></td>");
                             strHTML.Append("<td style='width: 250px;' align='left'><b>" + dtTotal.Rows[0]["Total"].ToString() + "</b></td>");
                             strHTML.Append("<td style='width: 120px;' align='left'>&nbsp;</td>");
@@ -8302,7 +8306,16 @@ namespace ERIMS_Sonic_ReportScheduler
                                     strHTML.Append("<tr valign='top' style='font-weight: bold;'>");
                                     strHTML.Append("<td> Sub Total </td>");
                                     strHTML.Append("<td>" + dtReportDetail.Rows.Count.ToString() + "</td>");
-                                    strHTML.Append("<td> <td> <td> <td> <td> <td><td><td><td>");
+                                    strHTML.Append("<td> &nbsp;</td>");
+                            strHTML.Append("<td> &nbsp;</td>");
+                            strHTML.Append("<td> &nbsp;</td>");
+                            strHTML.Append("<td> &nbsp;</td>");
+                            strHTML.Append("<td> &nbsp;</td>");
+                            strHTML.Append("<td> &nbsp;</td>");
+                            strHTML.Append("<td> &nbsp;</td>");
+                            strHTML.Append("<td> &nbsp;</td>");
+                            strHTML.Append("<td> &nbsp;</td>");
+                            strHTML.Append("<td> &nbsp;</td>");
                                     strHTML.Append("<td align='right'> " + string.Format("{0:C2}", dtReportDetail.Compute("SUM(Initial_Charge)", "")) + " </td>");
                                     strHTML.Append("<td align='right'> " + string.Format("{0:C2}", dtReportDetail.Compute("SUM(Total_Credits)", "")) + " </td>");
                                     strHTML.Append("<td align='right'> " + string.Format("{0:C2}", dtReportDetail.Compute("SUM(Total_Penalties)", "")) + " </td>");
@@ -8318,10 +8331,19 @@ namespace ERIMS_Sonic_ReportScheduler
                             }
 
                             // print Grand Total for Whole Report
-                            strHTML.Append("<tr valign='top' align='left' style='font-weight: bold; background-color: #507CD1;color: White;'>");
+                            strHTML.Append("<tr valign='top' style='font-weight: bold; background-color: #507CD1;color: White;'>");
                             strHTML.Append("<td> Grand Total </td>");
                             strHTML.Append("<td>" + dsResult.Tables[0].Rows.Count.ToString() + "</td>");
-                            //strHTML.Append("<td> <td> <td> <td> <td> <td><td><td><td>");
+                            strHTML.Append("<td> &nbsp;</td>");
+                            strHTML.Append("<td> &nbsp;</td>");
+                            strHTML.Append("<td> &nbsp;</td>");
+                            strHTML.Append("<td> &nbsp;</td>");
+                            strHTML.Append("<td> &nbsp;</td>");
+                            strHTML.Append("<td> &nbsp;</td>");
+                            strHTML.Append("<td> &nbsp;</td>");
+                            strHTML.Append("<td> &nbsp;</td>");
+                            strHTML.Append("<td> &nbsp;</td>");
+                            strHTML.Append("<td> &nbsp;</td>");
                             strHTML.Append("<td align='right'> " + string.Format("{0:C2}", dsResult.Tables[0].Compute("SUM(Initial_Charge)", "")) + " </td>");
                             strHTML.Append("<td align='right'> " + string.Format("{0:C2}", dsResult.Tables[0].Compute("SUM(Total_Credits)", "")) + " </td>");
                             strHTML.Append("<td align='right'> " + string.Format("{0:C2}", dsResult.Tables[0].Compute("SUM(Total_Penalties)", "")) + " </td>");
@@ -12044,7 +12066,11 @@ namespace ERIMS_Sonic_ReportScheduler
                 //Send Mail
                 SendMail("Inspections By Inspector", "Inspections_By_Inspector_Report.xls", strFirstName, strLastName, strMailFrom, stringWrite, dtRecipients);
             }
+
+        }        
+
         }
+
         //Report 57
         private void BindRiskManagementWorkSheet(DataRow drReportSchedule)
         {
@@ -12250,6 +12276,7 @@ namespace ERIMS_Sonic_ReportScheduler
 
             }
         }          
+       
        
      
 
