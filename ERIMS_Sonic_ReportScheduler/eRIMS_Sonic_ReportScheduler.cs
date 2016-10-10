@@ -8896,17 +8896,26 @@ namespace ERIMS_Sonic_ReportScheduler
 
                         #region "Grid Data"
 
-                        //strHTML.Append("<table cellspacing='0' cellpadding='0' align='Left' border='0' style='width: 2200px; border-collapse: collapse;'>");
-                        ////Header Row
-                        //strHTML.Append("<tr align='left'><td align='left'>");
-                        //strHTML.Append("<table width='2035px' cellpadding='0' cellspacing='0' border='0'>");
-                        //strHTML.Append("<tr><td align='left'>");
+                       
+
                         strHTML.Append("<table width='2035px' cellpadding='0' cellspacing='0' border='1'>");
+
+
                         strHTML.Append("<tr style='font-weight: bold;'>");
+                        strHTML.Append("<td><table><tr>");
+                        strHTML.Append("<td align='left' style='width: 180px;font-weight:bold;'>Sonic Automotive</td>");
                         strHTML.Append("<td><table border='1'><tr style='font-weight: bold;'>");
-                        strHTML.Append("<td align='left' colspan='4' style='font-weight: bold;'>Sonic Automotive</td>");
-                        strHTML.Append("<td align='center' colspan='3' style='font-weight: bold;'>Lease Report</td>");
-                        strHTML.Append("<td align='right' colspan='6' style='font-weight: bold;border:thin'>" + FormatDBNullDateToDisplay(DateTime.Now) + " </td>");
+                        //strHTML.Append("<td align='left' style='width: 180px;'>Location</td>");
+                        strHTML.Append("<td align='left' style='width: 560px'>");
+                        strHTML.Append("<table width='100%' cellpadding='0' cellspacing='0' border='none' style='font-weight: bold;'>");
+                        strHTML.Append("<tr style='font-weight: bold;'>");
+                        strHTML.Append("<td align='left' style='width: 40%'></td>");
+                        strHTML.Append("<td align='left' style='width: 30%'>Lease Report</td>");
+                        strHTML.Append("<td align='left' style='width: 30%'></td>");
+                        strHTML.Append("</tr>");
+                        strHTML.Append("</table>");
+                        strHTML.Append("</td>");
+                        strHTML.Append("<td align='right' colspan='9' style='font-weight: bold;border:thin;'>" + FormatDBNullDateToDisplay(DateTime.Now) + " </td>");                                                
                         strHTML.Append("</tr></table></td>");
                         strHTML.Append("</tr>");
 
