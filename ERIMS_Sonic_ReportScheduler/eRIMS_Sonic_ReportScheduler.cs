@@ -3519,7 +3519,7 @@ namespace ERIMS_Sonic_ReportScheduler
                                 strHTML.Append("</tr></table>");                                                             
                                 strHTML.Append("</td></tr>");
                             }
-                            strHTML.Append("<tr style='background-color:#507cd1;font-family:Calibri;color:White;'>");
+                            strHTML.Append("<tr style='background-color:#507cd1;font-family:Calibri;color:White;border:thin;'>");
                             strHTML.Append("<td align='left'><b>Grand Total</b></td>");
                             strHTML.Append("<td  align='left'><b>" + dtTotal.Rows[0]["Total"].ToString() + "</b></td>");
                             strHTML.Append("<td style='width: 100px;' align='left'>&nbsp;</td>");
@@ -3739,6 +3739,9 @@ namespace ERIMS_Sonic_ReportScheduler
                                 strHTML.Append("<td style='width: 150px;' align='left'><b>Total</b></td>");
                                 strHTML.Append("<td style='width: 250px;' align='left'><b>" + drRegion["Total"].ToString() + "</b></td>");
                                 strHTML.Append("<td style='width: 100px;' align='left'>&nbsp;</td>");
+                                strHTML.Append("<td style='width: 120px;' align='left'>&nbsp;</td>");
+                                strHTML.Append("<td style='width: 120px;' align='left'>&nbsp;</td>");
+                                strHTML.Append("<td style='width: 120px;' align='left'>&nbsp;</td>");
                                 strHTML.Append("<td style='width: 150px;' align='right'><b>$ " + string.Format("{0:N2}", drRegion["Total_DefenseCost"]) + "</b></td>");
                                 strHTML.Append("<td style='width: 150px;' align='left'>&nbsp;</td>");
                                 strHTML.Append("<td style='width: 250px;' align='left'>&nbsp;</td>");
@@ -8915,7 +8918,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("</tr>");
                         strHTML.Append("</table>");
                         strHTML.Append("</td>");
-                        strHTML.Append("<td align='right' colspan='9' style='font-weight: bold;border:thin;'>" + FormatDBNullDateToDisplay(DateTime.Now) + " </td>");                                                
+                        strHTML.Append("<td align='right' colspan='9' style='font-weight: bold;border:thin;'>" + FormatDBNullDateToDisplay(DateTime.Now) + " </td>");
                         strHTML.Append("</tr></table></td>");
                         strHTML.Append("</tr>");
 
@@ -12042,7 +12045,6 @@ namespace ERIMS_Sonic_ReportScheduler
                 SendMail("Inspections By Inspector", "Inspections_By_Inspector_Report.xls", strFirstName, strLastName, strMailFrom, stringWrite, dtRecipients);
             }
         }
-
         //Report 57
         private void BindRiskManagementWorkSheet(DataRow drReportSchedule)
         {
@@ -12247,7 +12249,8 @@ namespace ERIMS_Sonic_ReportScheduler
                 SendMail("Risk Management Worksheet", "Risk_Management_Worksheet_Report.xls", strFirstName, strLastName, strMailFrom, stringWrite, dtRecipients);
 
             }
-        }
+        }          
+       
      
 
         //Report 59
@@ -12563,7 +12566,7 @@ namespace ERIMS_Sonic_ReportScheduler
                     }
 
                     //Add Report Title and Schedule Date
-                    strHTML.Append("<table><tr><td colspan='11'>");
+                    strHTML.Append("<table><tr><td colspan='9'>");
                     strHTML.Append("<br />");
                     strHTML.Append("<b>Report Title : FROI Recapt Report</b>");
                     strHTML.Append("<br /><br />");
@@ -12597,7 +12600,7 @@ namespace ERIMS_Sonic_ReportScheduler
                     strHTML.Append("<table border='1'>");
                     strHTML.Append("<tr style='font-weight: bold;' valign='bottom'>");
                     strHTML.Append("<td align='left' >Sonic Automotive</td>");
-                    strHTML.Append("<td align='center' colspan='9'>FROI Recap Report</td>");
+                    strHTML.Append("<td align='center' colspan='7'>FROI Recap Report</td>");
                     strHTML.Append("<td align='right' > " + DateTime.Now.ToString() + " </td>");
                     strHTML.Append("</tr>");
                     strHTML.Append("</table>");
