@@ -3246,6 +3246,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 EventLog.WriteEntry("ERROR in Three Point-in-Time Summary Report, " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
+
         //Report 14
         private void BindBordereauReport(DataRow drReportSchedule)
         {
@@ -3338,30 +3339,32 @@ namespace ERIMS_Sonic_ReportScheduler
                         //Add Header HTML
                         strHTML.Append("<div style=\"overflow-x:scroll;overflow-y:hidden;width:1200px;\">");
                         strHTML.Append("<table cellpadding='4' cellspacing='0' style='font-weight: bold;font-family:Calibri;' width='3150px' border='1'><tr valign='top'>");
-                        strHTML.Append("<td style='width: 150px;' align='left' style='border:thin'>Claim Number</td>");
-                        strHTML.Append("<td style='width: 150px;' align='left' style='border:thin'>Type of Allegation</td>");
-                        strHTML.Append("<td style='width: 150px;' align='left' style='border:thin'>Complainant/Plaintiff</td>");
-                        strHTML.Append("<td style='width: 250px;' align='left' style='border:thin'>Claim Description</td>");
-                        strHTML.Append("<td style='width: 100px;' align='left' style='border:thin'>Carrier</td>");
-                        strHTML.Append("<td style='width: 150px;' align='left' style='border:thin'>Type of Claim</td>");
-                        strHTML.Append("<td style='width: 150px;' align='left' style='border:thin'>Other Type Description</td>");
-                        strHTML.Append("<td style='width: 150px;' align='left' style='border:thin'>Policy Number</td>");
-                        strHTML.Append("<td style='width: 250px;' align='right' style='border:thin'>Deductible</td>");
-                        strHTML.Append("<td style='width: 150px;' align='left' style='border:thin'>Date of Alleged Wrongful Act</td>");
-                        strHTML.Append("<td style='width: 200px;' align='left' style='border:thin'>Date Claim Opened</td>");
-                        strHTML.Append("<td style='width: 200px;' align='left' style='border:thin'>Policy Effective Date</td>");
-                        strHTML.Append("<td style='width: 150px;' align='left' style='border:thin'>Policy Expiration Date</td>");
-                        strHTML.Append("<td style='width: 250px;' align='right' style='border:thin'>Estimated Demand Exposure</td>");
-                        strHTML.Append("<td style='width: 350px;' align='left' style='border:thin'>Claim Status/Comments</td>");
-                        strHTML.Append("<td style='width: 150px;' align='left' style='border:thin'>Internal Counsel</td>");
-                        strHTML.Append("<td style='width: 200px;' align='left' style='border:thin'>Internal Counsel Phone</td>");
-                        strHTML.Append("<td style='width: 200px;' align='left' style='border:thin'>Location Code</td>");
-                        strHTML.Append("<td style='width: 250px;' align='left' style='border:thin'>Sonic Location Name</td>");
-                        strHTML.Append("<td style='width: 250px;' align='left' style='border:thin'>Location dba</td>");
-                        strHTML.Append("<td style='width: 250px;' align='left' style='border:thin'>Entity</td>");
-                        strHTML.Append("<td style='width: 200px;' align='left' style='border:thin'>Defense Attorney</td>");
+
+                        //strHTML.Append("<table cellpadding='4' cellspacing='0' style='font-weight: bold;font-family:Calibri;' width='3150px' border='1'><tr valign='top'>");
+                        strHTML.Append("<td style='width: 80px;border:thin;' align='left' >Claim Number</td>");
+                        strHTML.Append("<td style='width: 150px;border:thin;' align='left' >Type of Allegation</td>");
+                        strHTML.Append("<td style='width: 150px;border:thin;' align='left' >Complainant/Plaintiff</td>");
+                        strHTML.Append("<td style='width: 250px;border:thin;' align='left' >Claim Description</td>");
+                        strHTML.Append("<td style='width: 100px;border:thin;' align='left' >Carrier</td>");
+                        strHTML.Append("<td style='width: 150px;border:thin;' align='left' >Type of Claim</td>");
+                        strHTML.Append("<td style='width: 150px;border:thin;' align='left' >Other Type Description</td>");
+                        strHTML.Append("<td style='width: 150px;border:thin;' align='left' >Policy Number</td>");
+                        strHTML.Append("<td style='width: 250px;border:thin;' align='right' >Deductible</td>");
+                        strHTML.Append("<td style='width: 150px;border:thin;' align='left' >Date of Alleged Wrongful Act</td>");
+                        strHTML.Append("<td style='width: 200px;border:thin;' align='left' >Date Claim Opened</td>");
+                        strHTML.Append("<td style='width: 200px;border:thin;' align='left' >Policy Effective Date</td>");
+                        strHTML.Append("<td style='width: 150px;border:thin;' align='left' >Policy Expiration Date</td>");
+                        strHTML.Append("<td style='width: 250px;border:thin;' align='right' >Estimated Demand Exposure</td>");
+                        strHTML.Append("<td style='width: 350px;border:thin;' align='left' >Claim Status/Comments</td>");
+                        strHTML.Append("<td style='width: 150px;border:thin;' align='left' >Internal Counsel</td>");
+                        strHTML.Append("<td style='width: 200px;border:thin;' align='left' >Internal Counsel Phone</td>");
+                        strHTML.Append("<td style='width: 200px;border:thin;' align='left' >Location Code</td>");
+                        strHTML.Append("<td style='width: 250px;border:thin;' align='left' >Sonic Location Name</td>");
+                        strHTML.Append("<td style='width: 250px;border:thin;' align='left' >Location dba</td>");
+                        strHTML.Append("<td style='width: 250px;border:thin;' align='left' >Entity</td>");
+                        strHTML.Append("<td style='width: 200px;border:thin;' align='left' >Defense Attorney</td>");
                         strHTML.Append("<td style='border:thin'>");
-                        strHTML.Append("<table style='font-weight: bold'> <tr valign='top'> <td colspan='4' style='border:thin'>Plaintiff Attorney Information</td></tr><tr valign='top'>");
+                        strHTML.Append("<table style='font-weight: bold'> <tr valign='top'> <td colspan='4' style='border:thin'>Plaintiff Attorney Information</td></tr><tr valign='top'>");                        
                         strHTML.Append("<td style='width: 200px;border:thin' align='left' >Firm</td>");
                         strHTML.Append("<td style='width: 200px;border:thin' align='left' >Name</td>");
                         strHTML.Append("<td style='width: 200px;border:thin' align='left' >Address</td>");
@@ -3370,34 +3373,40 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("</td>");
                         strHTML.Append("</tr></table>");
                         #endregion
-
+                        //strHTML.Append("</tr>");
+                        //strHTML.Append("<tr>");
                         DataTable dtReportData = dsReport.Tables[0];
                         DataTable dtRegion = dsReport.Tables[1];
                         DataTable dtTotal = dsReport.Tables[2];
                         if (dtRegion.Rows.Count > 0)
                         {
-                            //Add Report Data Table 
-                            strHTML.Append("<table style='width: 3150px;' border='1' cellpadding='4' cellspacing='0'>");
+                            //    //Add Report Data Table 
+                            strHTML.Append("<table style='width: 3150px;' border='1' cellpadding='4' cellspacing='0'>");  
                             foreach (DataRow drRegion in dtRegion.Rows)
                             {
-                                strHTML.Append("<tr><td colspan='26' style='font-family:Calibri; border:thin'><b>");
+                                strHTML.Append("<tr><td colspan='22' style='font-family:Calibri; border:thin'><b>");
                                 strHTML.Append(drRegion["Region"].ToString());
-                                strHTML.Append("</b></td></tr>");
-                                strHTML.Append("<tr><td colspan='26' style='border:thin'>");
-                                strHTML.Append("<table style='width: 3150px;font-family:Calibri;' border='1' cellpadding='4' cellspacing='0'>");
+                                strHTML.Append("</b></td>");
+                                strHTML.Append("<td colspan='4' style='border:thin'>");
+                                strHTML.Append("<table style='font-weight: bold'> <tr valign='top'> <td style='border:thin'></td><td style='border:thin'></td><td style='border:thin'></td><td style='border:thin'></td>");
+                                strHTML.Append("</tr></table></td></tr>");
+                                
+
+                                //strHTML.Append("<tr><td colspan='26' style='border:thin'>");
+                                //strHTML.Append("<table style='width: 3150px;font-family:Calibri;' border='1' cellpadding='4' cellspacing='0'>");
                                 DataRow[] drDataByRegion = dtReportData.Select("Region='" + drRegion["Region"].ToString() + "'");
                                 foreach (DataRow drData in drDataByRegion)
                                 {
                                     strHTML.Append("<tr style='background-color:#FFFFFF;' valign='top'>");
-                                    strHTML.Append("<td style='width: 150px;' align='left' style='border:thin'>" + drData["Claim_Number"] + "</td>");
-                                    strHTML.Append("<td style='width: 150px;' align='left' style='border:thin'>" + drData["Type_of_Allegation"] + "</td>");
-                                    strHTML.Append("<td style='width: 150px;' align='left' style='border:thin'>" + drData["Complainant_Plaintiff"] + "</td>");
-                                    strHTML.Append("<td style='width: 250px;' align='left' style='border:thin'>" + drData["Claim_Description"] + "</td>");
-                                    strHTML.Append("<td style='width: 100px;' align='left' style='border:thin'>" + drData["Carrier"] + "</td>");
-                                    strHTML.Append("<td style='width: 150px;' align='left' style='border:thin'>" + drData["Type_Of_Claim"] + "</td>");
-                                    strHTML.Append("<td style='width: 150px;' align='left' style='border:thin'>" + drData["Claim_Type_Other"] + "</td>");
-                                    strHTML.Append("<td style='width: 150px;' align='left' style='border:thin'>" + drData["Primary_Insurance_Policy_Number"] + "</td>");
-                                    strHTML.Append("<td style='width: 250px;' align='right' style='border:thin'>$ " + string.Format("{0:N2}", drData["Primary_Deductable"]) + "</td>");
+                                    strHTML.Append("<td style='width: 80px;border:thin;' align='left'>" + drData["Claim_Number"] + "</td>");
+                                    strHTML.Append("<td style='width: 150px;border:thin;' align='left' >" + drData["Type_of_Allegation"] + "</td>");
+                                    strHTML.Append("<td style='width: 150px;border:thin;' align='left' >" + drData["Complainant_Plaintiff"] + "</td>");
+                                    strHTML.Append("<td style='width: 250px;border:thin;' align='left' >" + drData["Claim_Description"] + "</td>");
+                                    strHTML.Append("<td style='width: 100px;border:thin;' align='left' >" + drData["Carrier"] + "</td>");
+                                    strHTML.Append("<td style='width: 150px;border:thin;' align='left' >" + drData["Type_Of_Claim"] + "</td>");
+                                    strHTML.Append("<td style='width: 150px;border:thin;' align='left'>" + drData["Claim_Type_Other"] + "</td>");
+                                    strHTML.Append("<td style='width: 150px;border:thin;' align='left' >" + drData["Primary_Insurance_Policy_Number"] + "</td>");
+                                    strHTML.Append("<td style='width: 250px;border:thin;' align='right' >$ " + string.Format("{0:N2}", drData["Primary_Deductable"]) + "</td>");
                                     //Convert.ToDateTime(System.Data.SqlTypes.SqlDateTime.MinValue.ToString())
                                     if (Convert.ToDateTime(drData["Date_Alleged_Wrongful_Act"]) != Convert.ToDateTime(System.Data.SqlTypes.SqlDateTime.MinValue.ToString()))
                                     {
@@ -3445,7 +3454,7 @@ namespace ERIMS_Sonic_ReportScheduler
 
                                     strHTML.Append("<td style='width: 250px;' align='left'>" + drData["Entity"] + "</td>");
                                     strHTML.Append("<td style='width: 200px;' align='left'>" + drData["Firm"] + "</td>");
-                                    strHTML.Append("<td colspan=4>");
+                                    strHTML.Append("<td >");
 
                                     strHTML.Append("<table border=1>");
 
@@ -3457,10 +3466,10 @@ namespace ERIMS_Sonic_ReportScheduler
                                     foreach (DataRow dr in drTADtl)
                                     {
                                         strHTML.Append("<tr align='left' valign='top'>");
-                                        strHTML.Append("<td align='left'>" + dr["Firm"] + "</td>");
-                                        strHTML.Append("<td align='left'>" + dr["Name"] + "</td>");
-                                        strHTML.Append("<td align='left'>" + dr["Full_Address"] + "</td>");
-                                        strHTML.Append("<td align='left'>" + dr["Telephone"] + "</td>");
+                                        strHTML.Append("<td align='left' style='border:thin'>" + dr["Firm"] + "</td>");
+                                        strHTML.Append("<td align='left' style='border:thin'>" + dr["Name"] + "</td>");
+                                        strHTML.Append("<td align='left' style='border:thin'>" + dr["Full_Address"].ToString().Replace("<br>", "<br/>") + "</td>");
+                                        strHTML.Append("<td align='left' style='border:thin'>" + dr["Telephone"] + "</td>");
                                         strHTML.Append("</tr>");
                                     }
 
@@ -3477,7 +3486,7 @@ namespace ERIMS_Sonic_ReportScheduler
                                     strHTML.Append("</td>");
                                     strHTML.Append("</tr>");
                                 }
-                                strHTML.Append("<tr style='background-color:#FFFFFF;'>");
+                                strHTML.Append("<tr style='background-color:#FFFFFF;border=1;'>");
                                 strHTML.Append("<td style='width: 150px;' align='left'><b>Total</b></td>");
                                 strHTML.Append("<td style='width: 250px;' align='left'><b>" + drRegion["Total"].ToString() + "</b></td>");
                                 strHTML.Append("<td style='width: 100px;' align='left'>&nbsp;</td>");
@@ -3500,53 +3509,58 @@ namespace ERIMS_Sonic_ReportScheduler
                                 strHTML.Append("<td style='width: 250px;' align='left'>&nbsp;</td>");
                                 strHTML.Append("<td style='width: 250px;' align='left'>&nbsp;</td>");
                                 strHTML.Append("<td style='width: 200px;' align='left'>&nbsp;</td>");
-                                strHTML.Append("<td align='left'></td>");
-                                strHTML.Append("<td align='left'></td>");
-                                strHTML.Append("<td align='left'></td>");
-                                strHTML.Append("<td align='left'></td>");
-                                strHTML.Append("</tr>");
-                                strHTML.Append("</table>");
+                                strHTML.Append("<td align='left'>");
+                                strHTML.Append("<table border=1>");
+                                strHTML.Append("<tr>");
+                                strHTML.Append("<td>&nbsp;</td>");
+                                strHTML.Append("<td>&nbsp;</td>");
+                                strHTML.Append("<td>&nbsp;</td>");
+                                strHTML.Append("<td>&nbsp;</td>");
+                                strHTML.Append("</tr></table>");                                                             
                                 strHTML.Append("</td></tr>");
                             }
                             strHTML.Append("<tr style='background-color:#507cd1;font-family:Calibri;color:White;'>");
-                            strHTML.Append("<td  align='left'><b>Grand Total</b></td>");
+                            strHTML.Append("<td align='left'><b>Grand Total</b></td>");
                             strHTML.Append("<td  align='left'><b>" + dtTotal.Rows[0]["Total"].ToString() + "</b></td>");
-                            strHTML.Append("<td  align='left'>&nbsp;</td>");
-                            strHTML.Append("<td  align='left'>&nbsp;</td>");
-                            strHTML.Append("<td  align='left'>&nbsp;</td>");
-                            strHTML.Append("<td  align='left'>&nbsp;</td>");
-                            strHTML.Append("<td  align='left'>&nbsp;</td>");
-                            strHTML.Append("<td  align='left'>&nbsp;</td>");
-                            strHTML.Append("<td  align='left'>&nbsp;</td>");
-                            strHTML.Append("<td  align='left'>&nbsp;</td>");
-                            strHTML.Append("<td  align='left'>&nbsp;</td>");
+                            strHTML.Append("<td style='width: 100px;' align='left'>&nbsp;</td>");
+                            strHTML.Append("<td style='width: 150px;' align='left'>&nbsp;</td>");
+                            strHTML.Append("<td style='width: 150px;' align='left'>&nbsp;</td>");
+                            strHTML.Append("<td style='width: 250px;' align='right'>&nbsp;</td>");
+                            strHTML.Append("<td style='width: 150px;' align='left'>&nbsp;</td>");
+                            strHTML.Append("<td style='width: 200px;' align='left'>&nbsp;</td>");
+                            strHTML.Append("<td style='width: 200px;' align='left'>&nbsp;</td>");
+                            strHTML.Append("<td style='width: 150px;' align='left'>&nbsp;</td>");
                             strHTML.Append("<td align='left'>&nbsp;</td>");
                             strHTML.Append("<td align='left'>&nbsp;</td>");
+                            strHTML.Append("<td  align='left'>&nbsp;</td>");
                             strHTML.Append("<td  align='right'><b>$ " + string.Format("{0:N2}", dtTotal.Rows[0]["Total_Exposure"]) + "</b></td>");
-                            strHTML.Append("<td align='left'>&nbsp;</td>");
-                            strHTML.Append("<td align='left'>&nbsp;</td>");
-                            strHTML.Append("<td align='left'>&nbsp;</td>");
-                            strHTML.Append("<td align='left'>&nbsp;</td>");
-                            strHTML.Append("<td align='left'>&nbsp;</td>");
-                            strHTML.Append("<td align='left'>&nbsp;</td>");
-                            strHTML.Append("<td align='left'>&nbsp;</td>");
-                            strHTML.Append("<td align='left'>&nbsp;</td>");
-                            strHTML.Append("<td align='left'></td>");
-                            strHTML.Append("<td align='left'></td>");
-                            strHTML.Append("<td align='left'></td>");
-                            strHTML.Append("<td align='left'></td>");
+                            strHTML.Append("<td style='width: 350px;' align='left'>&nbsp;</td>");
+                            strHTML.Append("<td style='width: 150px;' align='left'>&nbsp;</td>");
+                            strHTML.Append("<td style='width: 200px;' align='left'>&nbsp;</td>");
+                            strHTML.Append("<td style='width: 200px;' align='left'>&nbsp;</td>");
+                            strHTML.Append("<td style='width: 250px;' align='left'>&nbsp;</td>");
+                            strHTML.Append("<td style='width: 250px;' align='left'>&nbsp;</td>");
+                            strHTML.Append("<td style='width: 250px;' align='left'>&nbsp;</td>");
+                            strHTML.Append("<td style='width: 200px;' align='left'>&nbsp;</td>");
+                            strHTML.Append("<td style='width: 200px;' align='left'>&nbsp;</td>");
+                            strHTML.Append("<td style='width: 200px;' align='left'>&nbsp;</td>");
+                            strHTML.Append("<td style='width: 200px;' align='left'>&nbsp;</td>");
+                            strHTML.Append("<td style='width: 200px;' align='left'>&nbsp;</td>");                            
                             strHTML.Append("</tr>");
                             strHTML.Append("</table>");
-                            strHTML.Append("</td></tr>");
-                            strHTML.Append("</table>");
+                            strHTML.Append("</div>");                           
+                            
+                            //strHTML.Append("</td></tr>");
+                            
                         }
                         else
                         {
                             //Add No record found line for year
-                            strHTML.Append("<tr><td align='left' style='border:thin' colspan='26'>No Record Found!</td></tr>");
+                            strHTML.Append("<tr><td align='left' style='border:thin' colspan='26'>No Record Found!</td></tr></table>");
+                            strHTML.Append("</div>");
                         }
+                        //strHTML.Append("</tr></table>");
 
-                        strHTML.Append("</div>");
 
                         //Write HTML in to HtmlWriter
                         htmlWrite.WriteLine(strHTML.ToString());
@@ -3563,7 +3577,6 @@ namespace ERIMS_Sonic_ReportScheduler
                 EventLog.WriteEntry("ERROR in Bordereau Report, " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
-
       
         //Report 15
         private void BindNotif_BordereauReport(DataRow drReportSchedule)
@@ -3689,11 +3702,11 @@ namespace ERIMS_Sonic_ReportScheduler
                             strHTML.Append("<table style='width: 1400px;' border='1' cellpadding='4' cellspacing='0'>");
                             foreach (DataRow drRegion in dtRegion.Rows)
                             {
-                                strHTML.Append("<tr><td colspan='8' style='font-family:Calibri;'><b>");
+                                strHTML.Append("<tr><td colspan='11' style='font-family:Calibri;'><b>");
                                 strHTML.Append(drRegion["Region"].ToString());
                                 strHTML.Append("</b></td></tr>");
-                                strHTML.Append("<tr><td colspan='8'>");
-                                strHTML.Append("<table style='width: 1400px;font-family:Calibri;' border='1' cellpadding='4' cellspacing='0'>");
+                                //strHTML.Append("<tr><td colspan='8'>");
+                                //strHTML.Append("<table style='width: 1400px;font-family:Calibri;' border='1' cellpadding='4' cellspacing='0'>");
                                 DataRow[] drDataByRegion = dtReportData.Select("Region='" + drRegion["Region"].ToString() + "'");
                                 foreach (DataRow drData in drDataByRegion)
                                 {
@@ -3732,8 +3745,8 @@ namespace ERIMS_Sonic_ReportScheduler
                                 strHTML.Append("<td style='width: 150px;' align='left'>&nbsp;</td>");
                                 strHTML.Append("<td style='width: 200px;' align='left'>&nbsp;</td>");
                                 strHTML.Append("</tr>");
-                                strHTML.Append("</table>");
-                                strHTML.Append("</td></tr>");
+                                //strHTML.Append("</table>");
+                                //strHTML.Append("</td></tr>");
                             }
                             strHTML.Append("<tr style='background-color:#507cd1;font-family:Calibri;color:White;'>");
                             strHTML.Append("<td style='width: 150px;' align='left'><b>Grand Total</b></td>");
@@ -3748,8 +3761,8 @@ namespace ERIMS_Sonic_ReportScheduler
                             strHTML.Append("<td style='width: 150px;' align='left'>&nbsp;</td>");
                             strHTML.Append("<td style='width: 200px;' align='left'>&nbsp;</td>");
                             strHTML.Append("</tr>");
-                            strHTML.Append("</table>");
-                            strHTML.Append("</td></tr>");
+                            //strHTML.Append("</table>");
+                            //strHTML.Append("</td></tr>");
                             strHTML.Append("</table>");
                         }
                         else
@@ -8848,7 +8861,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         }
 
                         //Add Report Title and Schedule Date
-                        strHTML.Append("<table><tr><td colspan='9'>");
+                        strHTML.Append("<table><tr><td colspan='13'>");
                         strHTML.Append("<br />");
                         strHTML.Append("<b>Report Title : Lease Report</b>");
                         strHTML.Append("<br /><br />");
@@ -12226,6 +12239,7 @@ namespace ERIMS_Sonic_ReportScheduler
 
             }
         }
+     
 
         //Report 59
         private void BindInspectionLagTime(DataRow drReportSchedule)
