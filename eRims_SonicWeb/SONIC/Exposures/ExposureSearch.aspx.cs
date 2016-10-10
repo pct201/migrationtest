@@ -30,7 +30,7 @@ public partial class Exposures_ExposureSearch : clsBasePage
         if (!IsPostBack)
         {
             //used to fill RM Location Number Dropdown
-            ComboHelper.FillLocationdbaOnly(new DropDownList[] { ddlRMLocationNumber }, 0, true, true);
+            ComboHelper.FillLocationdba(new DropDownList[] { ddlRMLocationNumber }, 0, true, true);
             ddlRMLocationNumber.Style.Remove("font-size");
             //used to fill Legal Entity Dropdown
             //ComboHelper.FillLocationLegal_Entity(new DropDownList[] { ddlLegalEntity }, 0, true, true);
