@@ -245,6 +245,7 @@ public partial class SONIC_RealEstate_DealershipDBA_Pupup : clsBasePage
         objLocation.LE_Operations_FEIN = Convert.ToString(txtLegalEntityOperationsFEIN.Text);
         objLocation.LE_Properties = Convert.ToString(txtLegalEntityProperties.Text);
         objLocation.LE_Properties_FEIN = Convert.ToString(txtLegalEntityPropertiesFEIN.Text);
+        if (!string.IsNullOrEmpty(txtActivation_Date.Text))
         objLocation.Activation_Date = Convert.ToDateTime(txtActivation_Date.Text);
     }
 
