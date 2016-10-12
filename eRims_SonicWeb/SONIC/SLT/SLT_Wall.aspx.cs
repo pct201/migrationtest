@@ -184,7 +184,7 @@ public partial class SONIC_SLT_SLT_Wall : clsBasePage
         else
             Regional = string.Empty;
         DataTable dtData = ERIMS.DAL.LU_Location.SelectAll_SLT(CurrentEmployee, Regional.ToString().TrimEnd(Convert.ToChar(","))).Tables[0];
-        dtData.DefaultView.RowFilter = " Active = 'Y' AND Show_On_Dashboard= 'Y' ";
+        dtData.DefaultView.RowFilter = " Active = 'Y' AND Show_On_Dashboard= 'Y' AND Activation_Date <= '" + DateTime.Now + "'" ;
         dtData.DefaultView.Sort = "dba";
         dtData = dtData.DefaultView.ToTable();
         ddlRMLocationNumber.Items.Clear();

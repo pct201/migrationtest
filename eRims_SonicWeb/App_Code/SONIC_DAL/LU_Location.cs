@@ -692,7 +692,7 @@ namespace ERIMS.DAL
         public static DataSet SelectByRegionForDashboard(string Region)
         {
             Database db = DatabaseFactory.CreateDatabase();
-            DbCommand dbCommand = db.GetSqlStringCommand("select dba, Sonic_Location_Code,Region from LU_Location where Region = '" + Region + "' and Show_On_Dashboard = 'Y'");
+            DbCommand dbCommand = db.GetSqlStringCommand("select dba, Sonic_Location_Code,Region from LU_Location where Region = '" + Region + "' and Show_On_Dashboard = 'Y' and Active = 'Y' AND Activation_Date <= '" + DateTime.Now + "'");
             return db.ExecuteDataSet(dbCommand);
         }
         
