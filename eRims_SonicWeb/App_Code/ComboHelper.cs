@@ -2392,8 +2392,8 @@ public class ComboHelper
         foreach (ListBox lstToFill in lstBox)
         {
             lstToFill.Items.Clear();
-            lstToFill.DataTextField = "FK_Cost_Center";
-            lstToFill.DataValueField = "FK_Cost_Center";
+            lstToFill.DataTextField = "Payroll_Code";
+            lstToFill.DataValueField = "Payroll_Code";
             lstToFill.DataSource = dsData;
             lstToFill.DataBind();
             //check require to add "-- select --" at first item of dropdown.
