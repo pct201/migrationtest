@@ -8,6 +8,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
+     <meta http-equiv="X-UA-Compatible" content="IE=7" />
     <title>Untitled Page</title>
     <style type="text/css">
         .style1
@@ -25,6 +26,12 @@
     <script type="text/javascript" language="javascript" src="../../JavaScript/calendar-en.js"></script>
     <script type="text/javascript" language="javascript" src="../../JavaScript/Calendar.js"></script>
     <script language="javascript" type="text/javascript">
+
+     function CheckValidation() {
+
+            if (Page_ClientValidate("vsErrorGrid")) {
+            }
+     }
         
      function scrolldown()
      {
@@ -42,6 +49,16 @@
         obj.focus();
         return false;
      }
+
+     function PayrollPopUp() {
+         var winHeight = window.screen.availHeight - 480;
+         var winWidth = window.screen.availWidth - 890;
+
+         var Lu_Location_ID = document.getElementById("hdLocationID").value;
+         obj = window.open("../RealEstate/PayrollCodesPopup.aspx?id=" + Lu_Location_ID, 'AuditPopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
+         obj.focus();
+         return false;
+     }
     </script>
 
 </head>
@@ -50,7 +67,7 @@
     <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
         HeaderText="Verify the following fields:" BorderWidth="1" BorderColor="DimGray"
         ValidationGroup="vsErrorGroup" CssClass="errormessage"></asp:ValidationSummary>
-    <div>
+    <div runat="server" id="dvLocation">
         <table width="100%" cellpadding="2" cellspacing="1" border="0">
             <tr>
                 <td align="left" class="ghc" colspan="2">
@@ -59,7 +76,7 @@
             </tr>
             <tr>
                 <td>
-                    &nbsp;
+                    &nbsp;  
                 </td>
                 <td align="left">
                     <asp:Panel ID="pnlEdit" runat="server">
@@ -419,6 +436,8 @@
                                     <asp:Button ID="btnCancel" Text="Cancel" runat="server" OnClientClick="javascript:parent.parent.GB_hide();" />
                                     &nbsp;&nbsp;
                                     <asp:Button ID="btnViewAudit" runat="server" Text="View Audit Trail" OnClientClick="javascript:return AuditPopUp();" />
+                                     &nbsp;&nbsp;
+                                    <asp:Button ID="btnManage" runat="server" Text="Manage Location Codes" OnClick="btnManage_Click" />
                                 </td>
                             </tr>
                         </table>
@@ -707,6 +726,224 @@
             </tr>
         </table>
     </div>
+    <div runat="server" id="dvPayroll">
+        <table width="100%" cellpadding="2" cellspacing="1" border="0">
+            <tr>
+                <td align="left">
+                    <div>
+                    <asp:ValidationSummary ID="ValidationSummary1" runat="server" ShowSummary="false" ShowMessageBox="true"
+                        HeaderText="Verify the following fields :" BorderWidth="1" BorderColor="DimGray"
+                        ValidationGroup="vsErrorGrid" CssClass="errormessage"></asp:ValidationSummary>
+                     </div>
+             <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+             <asp:UpdatePanel runat="server" ID="updStatus">
+             <ContentTemplate>
+                <table cellspacing="0" cellpadding="0" width="100%">
+                    <tbody>
+                        <tr>
+                            <td colspan="3">&nbsp;
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="bandHeaderRow" align="left" colspan="3">Payroll Codes
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">&nbsp;
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 20%">&nbsp;
+                            </td>
+                            <td align="center">
+                                <table cellspacing="0" cellpadding="0" width="100%" border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td align="left">&nbsp;
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center">
+                                                <asp:GridView ID="gvPayrollCode" runat="server" Width="100%" AutoGenerateColumns="false"
+                                                    PageSize="10" EnableViewState="true" AllowPaging="true" OnRowCommand="gvPayrollCode_RowCommand"
+                                                    OnPageIndexChanging="gvPayrollCode_PageIndexChanging" >
+                                                    <Columns>
+                                                        <asp:TemplateField>
+                                                            <ItemTemplate>
+                                                                <asp:HiddenField ID="hdn" runat="server" Value='<%# Eval("PK_LU_Location_2_Organization_Id") %>' />
+                                                                <asp:HiddenField ID="hdnPayrollCodes" runat="server" Value='<%# Eval("PK_PayrollCodes") %>' />
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="Sonic Location Code" HeaderStyle-HorizontalAlign="Center">
+                                                            <ItemStyle Width="15%" HorizontalAlign="Center" />
+                                                            <ItemTemplate>
+                                                                <%#Eval("Sonic_Location_Code") %>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="ADP DMS" HeaderStyle-HorizontalAlign="Center">
+                                                            <ItemStyle Width="15%" HorizontalAlign="Center" />
+                                                            <ItemTemplate>
+                                                                <%#Eval("ADP_DMS") %>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="Organization Code" HeaderStyle-HorizontalAlign="Center">
+                                                            <ItemStyle Width="15%" HorizontalAlign="Center" />
+                                                            <ItemTemplate>
+                                                                <%#Eval("Organization_Code") %>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="Organization Name" HeaderStyle-HorizontalAlign="Center">
+                                                            <ItemStyle Width="40%" HorizontalAlign="Center" />
+                                                            <ItemTemplate>
+                                                                <%#Eval("Organization_Name") %>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="Edit" HeaderStyle-HorizontalAlign="Center">
+                                                            <ItemStyle Width="15%" HorizontalAlign="Center" />
+                                                            <ItemTemplate>
+                                                                <asp:LinkButton runat="server" ID="lnkEdit" Text="Edit" CommandName="EditRecord" OnClientClick="scrolldown();"
+                                                                    CommandArgument='<%#Eval("PK_PayrollCodes") %>'></asp:LinkButton>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="Delete">
+                                                            <ItemStyle Width="15%" HorizontalAlign="Center" />
+                                                            <ItemTemplate>
+                                                                <asp:LinkButton runat="server" ID="lnkDelete" Text="Delete" CommandName="DeleteRecord"
+                                                                    CommandArgument='<%#Eval("PK_PayrollCodes") %>' OnClientClick="return confirm('Are you sure that you want to delete selected record(s)?');"></asp:LinkButton>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                    </Columns>
+                                                    <EmptyDataTemplate>
+                                                        <table cellpadding="4" cellspacing="0" width="100%">
+                                                            <tr>
+                                                                <td width="100%" align="center" style="border: 1px solid #cccccc;">
+                                                                    <asp:Label ID="lblEmptyHeaderGridMessage" runat="server" Text="No Record Found"></asp:Label>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </EmptyDataTemplate>
+                                                </asp:GridView>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td style="width: 20%;">&nbsp;
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">&nbsp;
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 20%" align="right">
+                                &nbsp;
+                            </td>
+                            <td>
+                                <div style=" float:left; display:inline;">
+                                <asp:Button ID="btnBack"  runat="server" Text="Back" OnClick="btnBack_Click"/>
+                                </div>
+                                <div style="float:right;">
+                                <asp:LinkButton Style="display: inline" ID="lnkAddNew" OnClick="lnkAddNew_Click"
+                                    runat="server" Text="Add New" OnClientClick="scrolldown();"></asp:LinkButton>&nbsp;&nbsp;&nbsp;<asp:LinkButton
+                                        Style="display: none" ID="lnkCancel" OnClick="lnkCancel_Click" runat="server"
+                                        Text="Cancel"></asp:LinkButton>
+                                </div>
+                            </td>
+                            <td style="width: 20%">
+                               &nbsp;
+                            </td>
+                        </tr>
+                        <tr style="display: none" id="trStatusAdd" runat="server">
+                            <td>&nbsp;
+                            </td>
+                            <td  align="center">
+                                <table cellspacing="1" cellpadding="3" width="100%" border="0" align="center" style="margin-left:100px;">
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="3">
+                                                &nbsp;
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 25%" align="left">Sonic Location Code
+                                            </td>
+                                            <td style="width: 4%" align="center">:
+                                            </td>
+                                            <td align="left">
+                                                <asp:Label ID="lblSonicLocationCode" runat="server" MaxLength="50"></asp:Label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 25%" align="left">ADP DMS<span class="mf">*</span>
+                                            </td>
+                                            <td style="width: 4%" align="center">:
+                                            </td>
+                                            <td align="left">
+                                                <asp:TextBox ID="txtADP" runat="server" MaxLength="50"></asp:TextBox>
+                                                <asp:RequiredFieldValidator ID="rfvStatus" runat="server" ValidationGroup="vsErrorGrid"
+                                                    SetFocusOnError="true" ErrorMessage="Please Enter ADP DMS" Display="none"
+                                                    ControlToValidate="txtADP"></asp:RequiredFieldValidator>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 25%" align="left">Organization Code<span class="mf">*</span>
+                                            </td>
+                                            <td style="width: 4%" align="center">:
+                                            </td>
+                                            <td align="left">
+                                                <asp:TextBox ID="txtOrganization_Code" runat="server" MaxLength="50"></asp:TextBox>
+                                                <asp:RequiredFieldValidator ID="RequiredFieldValidator11" runat="server" ValidationGroup="vsErrorGrid"
+                                                    SetFocusOnError="true" ErrorMessage="Please Enter Organization Code" Display="none"
+                                                    ControlToValidate="txtOrganization_Code"></asp:RequiredFieldValidator>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 25%" align="left">Organization Name<span class="mf">*</span>
+                                            </td>
+                                            <td style="width: 4%" align="center">:
+                                            </td>
+                                            <td align="left">
+                                                <asp:TextBox ID="txtOrganization_Name" runat="server" MaxLength="50"></asp:TextBox>
+                                                <asp:RequiredFieldValidator ID="RequiredFieldValidator12" runat="server" ValidationGroup="vsErrorGrid"
+                                                    SetFocusOnError="true" ErrorMessage="Please Enter Organization Name" Display="none"
+                                                    ControlToValidate="txtOrganization_Name"></asp:RequiredFieldValidator>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" colspan="3">
+                                                <asp:Label ID="lblError" runat="server" SkinID="lblError" EnableViewState="false"></asp:Label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 25%" align="left"></td>
+                                            <td style="width: 4%" align="center"></td>
+                                            <td align="left">
+                                                <asp:Button ID="btnAdd" OnClick="btnAdd_Click" runat="server" ValidationGroup="vsErrorGrid"
+                                                    Text="Add" CausesValidation="false" OnClientClick="return CheckValidation();"></asp:Button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                             <td style="width: 20%">&nbsp;
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">&nbsp;
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </ContentTemplate>
+                 <Triggers>
+                     <asp:PostBackTrigger ControlID="btnBack" />
+                 </Triggers>
+        </asp:UpdatePanel>
+                </td>
+            </tr>
+        </table>
+        </div>
     </form>
 
     <script type="text/javascript">

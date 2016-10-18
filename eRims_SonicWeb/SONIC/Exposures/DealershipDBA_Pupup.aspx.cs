@@ -25,6 +25,42 @@ public partial class SONIC_RealEstate_DealershipDBA_Pupup : clsBasePage
         }
     }
 
+    /// <summary>
+    /// Denotes the Primary Key
+    /// </summary>
+    public decimal _PK_LU_Location_2_Organization_Id
+    {
+        get
+        {
+            return clsGeneral.GetInt(ViewState["PK_LU_Location_2_Organization_Id"]);
+        }
+        set { ViewState["PK_LU_Location_2_Organization_Id"] = value; }
+    }
+
+    /// <summary>
+    /// Denotes the Primary Key
+    /// </summary>
+    public decimal _PK_PayrollCodes
+    {
+        get
+        {
+            return clsGeneral.GetInt(ViewState["PK_PayrollCodes"]);
+        }
+        set { ViewState["PK_PayrollCodes"] = value; }
+    }
+
+    /// <summary>
+    /// Denotes the Primary Key
+    /// </summary>
+    public decimal PK_LU_Location
+    {
+        get
+        {
+            return clsGeneral.GetInt(ViewState["PK_LU_Location"]);
+        }
+        set { ViewState["PK_LU_Location"] = value; }
+    }
+
     #endregion
 
     #region "Page Load"
@@ -40,7 +76,10 @@ public partial class SONIC_RealEstate_DealershipDBA_Pupup : clsBasePage
             _PK_LU_Location = 0;
             rdbActive.SelectedIndex = 0;
             BinDropDownList();
+            //bind Payroll Grid
+            BindGrid();
             lblHeader.Text = "Add Location";
+            dvPayroll.Visible = false;
             if (Request.QueryString["id"] != null)
             {
                 decimal index;
@@ -246,7 +285,7 @@ public partial class SONIC_RealEstate_DealershipDBA_Pupup : clsBasePage
         objLocation.LE_Properties = Convert.ToString(txtLegalEntityProperties.Text);
         objLocation.LE_Properties_FEIN = Convert.ToString(txtLegalEntityPropertiesFEIN.Text);
         if (!string.IsNullOrEmpty(txtActivation_Date.Text))
-        objLocation.Activation_Date = Convert.ToDateTime(txtActivation_Date.Text);
+            objLocation.Activation_Date = Convert.ToDateTime(txtActivation_Date.Text);
     }
 
     private void InsertPayroll()
@@ -259,6 +298,29 @@ public partial class SONIC_RealEstate_DealershipDBA_Pupup : clsBasePage
                 _PayrollCodes += lstPayrollCodes.Items[currentIndex].Value + ",";
         }
         _PayrollCodes = _PayrollCodes.TrimEnd(',');
+
+        //Save the new added Payroll into database
+        DataTable dtPayroll = (DataTable)ViewState["PayrollCodes"];
+        LU_Location_2_Organization objLU_Location_2_Organization = new LU_Location_2_Organization();
+
+          if (dtPayroll != null && dtPayroll.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dtPayroll.Rows)
+                {
+                    if (string.IsNullOrEmpty(Convert.ToString(dr["PK_LU_Location_2_Organization_Id"])))
+                    {
+                        objLU_Location_2_Organization.ADP_DMS=Convert.ToString(dr["ADP_DMS"]);
+                        objLU_Location_2_Organization.Organization_Code = Convert.ToString(dr["Organization_Code"]);
+                        objLU_Location_2_Organization.Organization_Name = Convert.ToString(dr["Organization_Name"]);
+                        if (string.IsNullOrEmpty(Convert.ToString(dr["Sonic_Location_Code"])) || Convert.ToInt32(dr["Sonic_Location_Code"])==0)
+                            objLU_Location_2_Organization.Sonic_Location_Code = Convert.ToInt32(txtSonicLocationCode.Text);
+                        else
+                            objLU_Location_2_Organization.Sonic_Location_Code = Convert.ToInt32(dr["Sonic_Location_Code"]);
+                        objLU_Location_2_Organization.Insert();
+                    }
+                }
+            }
+
         LU_Location objLU_Location = new LU_Location();
         objLU_Location.PK_LU_Location_ID = _PK_LU_Location;
         objLU_Location.Payroll_Codes = _PayrollCodes;
@@ -317,7 +379,260 @@ public partial class SONIC_RealEstate_DealershipDBA_Pupup : clsBasePage
         }
     }
 
+    /// <summary>
+    /// Add new button link event   
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void lnkAddNew_Click(object sender, EventArgs e)
+    {
+        btnAdd.Text = "Add";
+        _PK_LU_Location_2_Organization_Id = 0;
+        _PK_PayrollCodes = 0;
+        trStatusAdd.Style.Add("display", "block");
+        lnkCancel.Style.Add("display", "inline");
+        txtADP.Text = "";
+        txtOrganization_Code.Text = "";
+        txtOrganization_Name.Text = "";
+
+        if (Request.QueryString["id"] != null)
+            PK_LU_Location = Convert.ToInt32(Request.QueryString["id"]);
+        DataTable dt = LU_Location.SelectByPK(PK_LU_Location).Tables[0];
+
+        if (dt!=null && dt.Rows.Count>0)
+        lblSonicLocationCode.Text = Convert.ToString(dt.Rows[0]["Sonic_Location_Code"]);
+        //((ScriptManager)this.Master.FindControl("scMain")).SetFocus(txtADP);
+        //((ScriptManager)this.Master.FindControl("scMain")).SetFocus(txtOrganization_Code);
+        //((ScriptManager)this.Master.FindControl("scMain")).SetFocus(txtOrganization_Name);
+    }
+
+    /// <summary>
+    /// Cancel button click event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void lnkCancel_Click(object sender, EventArgs e)
+    {
+        trStatusAdd.Style.Add("display", "none");
+        lnkCancel.Style.Add("display", "none");
+        txtADP.Text = "";
+        txtOrganization_Code.Text = "";
+        txtOrganization_Name.Text = "";
+    }
+
+    /// <summary>
+    /// Add new button to save data
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnAdd_Click(object sender, EventArgs e)
+    {
+        if (_PK_PayrollCodes > 0)
+        {
+            DataTable dt = (DataTable)ViewState["PayrollCodes"];
+            DataRow[] dr = dt.Select(" Organization_Code = '" + Convert.ToString(txtOrganization_Code.Text) + "' AND PK_PayrollCodes NOT IN (" + _PK_PayrollCodes + ")");
+            //DataRow[] dr = dt.Select(" Organization_Code = '" + Convert.ToString(txtOrganization_Code.Text) + "'");
+            if (dr.Length > 0)
+            {
+                lblError.Text = "The Payroll Code that you are trying to add already exists.";
+                //btnAdd.Text = "Add";
+                return;
+            }
+            else
+            {
+                DataRow[] drTemp =  dt.Select(" PK_PayrollCodes = '" + _PK_PayrollCodes + "'");
+                drTemp[0]["ADP_DMS"] = txtADP.Text;
+                drTemp[0]["Organization_Code"] = Convert.ToString(txtOrganization_Code.Text);
+                drTemp[0]["Organization_Name"] = Convert.ToString(txtOrganization_Name.Text);
+                drTemp[0]["Sonic_Location_Code"] = !string.IsNullOrEmpty(Convert.ToString(lblSonicLocationCode.Text)) ? Convert.ToInt32(lblSonicLocationCode.Text) : 0;
+                gvPayrollCode.DataSource = dt;
+                gvPayrollCode.DataBind();
+
+                //update records which are in db
+                if (_PK_LU_Location_2_Organization_Id > 0)
+                {
+                    LU_Location_2_Organization objLU_Location_2_Organization = new LU_Location_2_Organization();
+                    objLU_Location_2_Organization.ADP_DMS = txtADP.Text.Trim();
+                    objLU_Location_2_Organization.PK_LU_Location_2_Organization_Id = _PK_LU_Location_2_Organization_Id;
+                    objLU_Location_2_Organization.Organization_Code = txtOrganization_Code.Text;
+                    objLU_Location_2_Organization.Organization_Name = txtOrganization_Name.Text;
+                    objLU_Location_2_Organization.Sonic_Location_Code = Convert.ToInt32(lblSonicLocationCode.Text);
+                    objLU_Location_2_Organization.Update();
+                }
+
+            }
+        }
+        else
+        {
+            DataTable dtPayrollcodes = (DataTable)ViewState["PayrollCodes"];
+            DataRow[] dr = dtPayrollcodes.Select(" Organization_Code = '" + Convert.ToString(txtOrganization_Code.Text) + "'");
+
+            if (dr.Length > 0)
+            {
+                lblError.Text = "The Payroll Code that you are trying to add already exists.";
+                //((ScriptManager)this.Master.FindControl("scMain")).SetFocus(txtOrganization_Code);
+                btnAdd.Text = "Add";
+                return;
+            }
+            else
+            {
+                dtPayrollcodes.Rows.Add(null, !string.IsNullOrEmpty(lblSonicLocationCode.Text) ? Convert.ToInt32(lblSonicLocationCode.Text) : 0, txtADP.Text, txtOrganization_Code.Text, txtOrganization_Name.Text, null);
+
+                //saving databale into viewstate   
+                ViewState["PayrollCodes"] = dtPayrollcodes;
+
+                //bind Gridview  
+                gvPayrollCode.DataSource = dtPayrollcodes;
+                gvPayrollCode.DataBind();
+            }
+        }
+
+        //claer Control
+        ClearControls();
+        //Cancel CLick
+        lnkCancel_Click(null, null);
+    }
+
     #endregion
 
+    #region "Grid Event"
 
+    protected void gvPayrollCode_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        gvPayrollCode.PageIndex = e.NewPageIndex; //Page new index call
+        DataTable dtPayrollcodes = (DataTable)ViewState["PayrollCodes"];
+        //saving databale into viewstate   
+        ViewState["PayrollCodes"] = dtPayrollcodes;
+        //bind Gridview  
+        gvPayrollCode.DataSource = dtPayrollcodes;
+        gvPayrollCode.DataBind();
+    }
+    protected void gvPayrollCode_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        if (e.CommandName == "EditRecord")
+        {
+            _PK_PayrollCodes = Convert.ToDecimal(e.CommandArgument);
+
+            // show and hide Add-edit row
+            trStatusAdd.Style.Add("display", "block");
+            lnkCancel.Style.Add("display", "inline");
+            btnAdd.Text = "Update";
+
+            DataTable dtPayrollcodes = (DataTable)ViewState["PayrollCodes"];
+            DataRow[] drPayroll = dtPayrollcodes.Select(" PK_PayrollCodes = '" + _PK_PayrollCodes + "'");
+            if (!string.IsNullOrEmpty(Convert.ToString(drPayroll[0]["PK_LU_Location_2_Organization_Id"])))
+                _PK_LU_Location_2_Organization_Id = Convert.ToInt32(drPayroll[0]["PK_LU_Location_2_Organization_Id"]);
+            txtADP.Text = Convert.ToString(drPayroll[0]["ADP_DMS"]);
+            txtOrganization_Code.Text = Convert.ToString(drPayroll[0]["Organization_Code"]);
+            txtOrganization_Name.Text = Convert.ToString(drPayroll[0]["Organization_Name"]);
+            lblSonicLocationCode.Text = Convert.ToString(drPayroll[0]["Sonic_Location_Code"]);
+        }
+        else if (e.CommandName == "DeleteRecord")
+        {
+            _PK_PayrollCodes = Convert.ToDecimal(e.CommandArgument);
+
+            DataTable dtPayrollcodes = (DataTable)ViewState["PayrollCodes"];
+            DataRow[] drr = dtPayrollcodes.Select(" PK_PayrollCodes = '" + _PK_PayrollCodes + "'");
+
+            //delete for the old Records
+            if (!string.IsNullOrEmpty(Convert.ToString(drr[0]["PK_LU_Location_2_Organization_Id"])) && Convert.ToInt32(drr[0]["PK_LU_Location_2_Organization_Id"]) > 0)
+            {
+                LU_Location_2_Organization.DeleteByPK(Convert.ToInt32(drr[0]["PK_LU_Location_2_Organization_Id"]));
+            }
+
+            for (int i = 0; i < drr.Length; i++)
+                drr[i].Delete();
+
+            gvPayrollCode.DataSource = dtPayrollcodes;
+            gvPayrollCode.DataBind();
+            ViewState["PayrollCodes"] = dtPayrollcodes;
+        }
+    }
+
+    #endregion
+
+    #region Methods
+    /// <summary>
+    /// Bind PayRoll Grid
+    /// </summary>
+    private void BindGrid()
+    {
+
+        DataTable dtPayroll = LU_Location_2_Organization.SelectAll().Tables[0];
+        DataTable dtPayrollcodes = new DataTable();
+        dtPayrollcodes = dtPayroll.Clone();
+
+        //add new Primary key column
+        dtPayrollcodes.PrimaryKey = new DataColumn[] { dtPayrollcodes.Columns["PK_PayrollCodes"] };
+        dtPayrollcodes.Columns.Add(new DataColumn("PK_PayrollCodes", typeof(decimal)));
+        dtPayrollcodes.Columns["PK_PayrollCodes"].AutoIncrement = true;
+        dtPayrollcodes.Columns["PK_PayrollCodes"].AutoIncrementSeed = 1;
+        dtPayrollcodes.Columns["PK_PayrollCodes"].AutoIncrementStep = 1;
+
+        for (int i = 0; i < dtPayroll.Rows.Count; i++)
+        {
+            string PK_LU_Location_2_Organization_Id = Convert.ToString(dtPayroll.Rows[i]["PK_LU_Location_2_Organization_Id"]);
+            Int32 Sonic_Location_Code = !string.IsNullOrEmpty(Convert.ToString(dtPayroll.Rows[i]["Sonic_Location_Code"])) ? Convert.ToInt32(dtPayroll.Rows[i]["Sonic_Location_Code"]) : 0;
+            string ADP_DMS = Convert.ToString(dtPayroll.Rows[i]["ADP_DMS"]);
+            string Organization_Code = Convert.ToString(dtPayroll.Rows[i]["Organization_Code"]);
+            string Organization_Name = Convert.ToString(dtPayroll.Rows[i]["Organization_Name"]);
+            dtPayrollcodes.Rows.Add(PK_LU_Location_2_Organization_Id, Sonic_Location_Code, ADP_DMS, Organization_Code, Organization_Name, null);
+        }
+
+        //Apply Datatable to Grid
+        gvPayrollCode.DataSource = dtPayrollcodes;
+        gvPayrollCode.DataBind();
+
+        //save datatable in the view state
+        ViewState["PayrollCodes"] = dtPayrollcodes;
+    }
+
+    /// Used to Claer the controls
+    /// </summary>
+    private void ClearControls()
+    {
+        //clear control
+        _PK_LU_Location_2_Organization_Id = 0;
+        _PK_PayrollCodes = 0;
+    }
+    #endregion
+
+    protected void btnManage_Click(object sender, EventArgs e)
+    {
+        dvPayroll.Visible = true;
+        dvLocation.Visible = false;
+        //ViewState["PayrollCodes"] = null;
+    }
+    protected void btnBack_Click(object sender, EventArgs e)
+    {
+        dvLocation.Visible = true;
+        dvPayroll.Visible = false;
+
+        DataTable dtPayroll = LU_Location.SelectPayrollByLocation(_PK_LU_Location).Tables[0];
+        //DataSet dsPayroll = LU_Location.SelectPayrollByLocation(_PK_LU_Location);
+        if (dtPayroll != null && dtPayroll.Rows.Count > 0 )
+        {
+            lstPayrollCodes.ClearSelection();
+            foreach (DataRow dr in dtPayroll.Rows)
+            {
+                if (lstPayrollCodes.Items.FindByValue(dr["Payroll_Code"].ToString()) != null)
+                    lstPayrollCodes.Items.FindByValue(dr["Payroll_Code"].ToString()).Selected = true;
+            }
+        }
+
+        //Rebind the Payroll Data
+       
+        DataTable dtPay = (DataTable)ViewState["PayrollCodes"];
+        
+        if (dtPay != null && dtPay.Rows.Count > 0)
+        {
+            foreach (DataRow dr in dtPay.Rows)
+            {
+                if (string.IsNullOrEmpty(Convert.ToString(dr["PK_LU_Location_2_Organization_Id"])))
+                {
+                    lstPayrollCodes.Items.Add(dr["Organization_Code"].ToString());
+                }
+            }
+        }
+    }
 }
