@@ -608,6 +608,7 @@ public partial class SONIC_RealEstate_DealershipDBA_Pupup : clsBasePage
         dvLocation.Visible = true;
         dvPayroll.Visible = false;
 
+        ComboHelper.FillPayrollCodesListbox(new ListBox[] { lstPayrollCodes }, false);
         DataTable dtPayroll = LU_Location.SelectPayrollByLocation(_PK_LU_Location).Tables[0];
         //DataSet dsPayroll = LU_Location.SelectPayrollByLocation(_PK_LU_Location);
         if (dtPayroll != null && dtPayroll.Rows.Count > 0 )
