@@ -465,20 +465,20 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
 
             if (!string.IsNullOrEmpty(selectedBuildings))
             {
-                DataTable dtAssignedBuildings = Facility_Construction_PM_Buildings.SelectAssignedProjectsByBuilding(selectedBuildings.Substring(0, selectedBuildings.LastIndexOf(",")), ConstructionProjectId > 0 ? ConstructionProjectId : 0).Tables[0];
+                //DataTable dtAssignedBuildings = Facility_Construction_PM_Buildings.SelectAssignedProjectsByBuilding(selectedBuildings.Substring(0, selectedBuildings.LastIndexOf(",")), ConstructionProjectId > 0 ? ConstructionProjectId : 0).Tables[0];
 
-                if (dtAssignedBuildings != null && dtAssignedBuildings.Rows.Count > 0)
-                {
-                    string associatedBuildings = string.Empty;
-                    foreach (DataRow dr in dtAssignedBuildings.Rows)
-                    {
-                        associatedBuildings += " " + Convert.ToString(dr["Building_Number"]) + " is already tied to " + HttpUtility.UrlEncode(Convert.ToString(dr["Project_Number"]).Replace("'", "")) + " project. \\n";
-                    }
+                //if (dtAssignedBuildings != null && dtAssignedBuildings.Rows.Count > 0)
+                //{
+                //    string associatedBuildings = string.Empty;
+                //    foreach (DataRow dr in dtAssignedBuildings.Rows)
+                //    {
+                //        associatedBuildings += " " + Convert.ToString(dr["Building_Number"]) + " is already tied to " + HttpUtility.UrlEncode(Convert.ToString(dr["Project_Number"]).Replace("'", "")) + " project. \\n";
+                //    }
 
-                    Page.ClientScript.RegisterStartupScript(this.GetType(), "Message", "javascript:alert('" + associatedBuildings + "');", true);
-                }
-                else
-                {
+                //    Page.ClientScript.RegisterStartupScript(this.GetType(), "Message", "javascript:alert('" + associatedBuildings + "');", true);
+                //}
+                //else
+                //{
                     if (ConstructionProjectId > 0)
                     {
                         facility_Construction_Project.PK_Facility_construction_Project = ConstructionProjectId;
@@ -502,7 +502,7 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
                     btnReturnto_View_Mode.Visible = false;
                     btnEdit.Visible = true;
                     btnAuditTrail.Visible = true;
-                }
+               // }
             }
             else
             {
