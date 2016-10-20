@@ -289,6 +289,7 @@ namespace ERIMS.DAL
 			
 			db.AddInParameter(dbCommand, "FK_Virtual_Folder", DbType.Decimal, this._FK_Virtual_Folder);
 
+            dbCommand.CommandTimeout = 10000;
 			// Execute the query and return the new identity value
 			int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
 
@@ -368,7 +369,7 @@ namespace ERIMS.DAL
 			db.AddInParameter(dbCommand, "Page_Count", DbType.Int32, this._Page_Count);
 			
 			db.AddInParameter(dbCommand, "FK_Virtual_Folder", DbType.Decimal, this._FK_Virtual_Folder);
-
+            dbCommand.CommandTimeout = 10000;
 			db.ExecuteNonQuery(dbCommand);
 		}
 
@@ -381,7 +382,7 @@ namespace ERIMS.DAL
 			DbCommand dbCommand = db.GetStoredProcCommand("Attachment_EventDeleteByPK");
 
 			db.AddInParameter(dbCommand, "PK_Attachment_Event", DbType.Decimal, pK_Attachment_Event);
-
+            dbCommand.CommandTimeout = 10000;
 			db.ExecuteNonQuery(dbCommand);
 		}
 
