@@ -506,5 +506,44 @@ namespace ERIMS.DAL
 
             return db.ExecuteDataSet(dbCommand);
         }
+
+        /// <summary>
+        /// Get Attachment Detail from ACI
+        /// </summary>
+        public static DataSet Get_ACI_Attachments(decimal pK_Attachment_Event)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Get_ACI_Attachments");
+
+            db.AddInParameter(dbCommand, "PK_Attachment_Event", DbType.Decimal, pK_Attachment_Event);
+
+            return db.ExecuteDataSet(dbCommand);
+
+        }
+
+        public static DataSet Attachment_Event_ACISelectBy_Attachement_ID(string pK_Attachments)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Attachment_Event_ACISelectBy_Attachement_ID");
+
+            db.AddInParameter(dbCommand, "Attachment_IDs", DbType.String, pK_Attachments);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        /// <summary>
+        /// Get management attachments name by pk
+        /// </summary>
+        /// <param name="str_PK_Attachment"></param>
+        /// <returns></returns>
+        public static string GetAttachmentsNameACI(string str_PK_Attachment)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Get_Attachmets_NameACI");
+            db.AddInParameter(dbCommand, "str_PK_Attachment", DbType.String, str_PK_Attachment);
+            string returnValue = Convert.ToString(db.ExecuteScalar(dbCommand));
+
+            return returnValue;
+        }
 	}
 }

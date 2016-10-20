@@ -75,6 +75,23 @@ public partial class EventAttachmentMail : System.Web.UI.Page
                 DocName = m_arrGlobalPath;
                 lblAttachment.Text = strFileNameList;
             }
+            else if (!string.IsNullOrEmpty(Request.QueryString["ACIAttIds"]))
+            {
+                m_strGlobalPath = AppConfig.DocumentsPath + "Attach\\";
+                DataTable dtAttachments = ERIMS.DAL.clsAttachment_Event.Attachment_Event_ACISelectBy_Attachement_ID(Request.QueryString["ACIAttIds"].ToString()).Tables[0];
+                m_arrGlobalPath = new string[Request.QueryString["ACIAttIds"].ToString().Split(',').Length];
+                string[] strOriginal = new string[m_arrGlobalPath.Length];
+
+                string strFileNameList = string.Empty;
+                for (int i = 0; i < dtAttachments.Rows.Count; i++)
+                {
+                    m_arrGlobalPath[i] = m_strGlobalPath + Convert.ToString(dtAttachments.Rows[i]["Attachment_Name"]);
+                    strFileNameList += Convert.ToString(dtAttachments.Rows[i]["Attachment_Description"]) + ",";
+                }
+                strFileNameList = strFileNameList.TrimEnd(',');
+                DocName = m_arrGlobalPath;
+                lblAttachment.Text = strFileNameList;
+            }
             else
             {
                 lblError.Text = "Invalid Parameter. Please retry to re-open this page or Contact Administrator. ";

@@ -242,6 +242,138 @@ public partial class Download : System.Web.UI.Page
                     }
                 }
             }
+            else if (!string.IsNullOrEmpty(Request.QueryString["ACIID"]))//For event
+            {
+                decimal _Pk_ID;
+                string strFilePath = string.Empty, strFileName = string.Empty, strUserFileName = string.Empty;
+
+                if (decimal.TryParse(Encryption.Decrypt(Convert.ToString(Request.QueryString["ACIID"])), out _Pk_ID))
+                {
+                    try
+                    {
+                        DataSet dsAttachment = clsAttachment_Event.Get_ACI_Attachments(_Pk_ID);
+
+                        if (dsAttachment != null && dsAttachment.Tables.Count > 0 && dsAttachment.Tables[0].Rows.Count > 0)
+                        {
+                            if (!string.IsNullOrEmpty(Request.QueryString["claimtbl"]))
+                            {
+                                strFilePath = AppConfig.DocumentsPath + "Attach";
+                                strUserFileName =  Convert.ToString(dsAttachment.Tables[0].Rows[0]["Attachment_Description"]);
+                            }
+
+                        }
+                        
+                        //else if (!string.IsNullOrEmpty(Request.QueryString["tbl"]))
+                        //{
+                        //    foreach (clsGeneral.Tables tbl in Enum.GetValues(typeof(clsGeneral.Tables)))
+                        //    {
+                        //        if (tbl.ToString() == Request.QueryString["tbl"].ToString())
+                        //        {
+                        //            strFilePath = clsGeneral.GetAttachmentDocPath(tbl.ToString());
+                        //            break;
+                        //        }
+                        //    }
+                        //    strUserFileName = objAttachment.Attachment_Name.Substring(12);
+                        //}
+
+                        // Append "\" if not 
+                        if (!strFilePath.EndsWith("\\"))
+                            strFilePath = strFilePath + "\\";
+
+                        strFileName = strFilePath + Convert.ToString(dsAttachment.Tables[0].Rows[0]["Attachment_Name"]);
+                        System.IO.FileInfo file = new System.IO.FileInfo(strFileName);
+                        if (file.Exists)
+                        {
+                            // Transfer File
+                            HttpContext.Current.Response.Clear();
+                            HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", strUserFileName));
+                            HttpContext.Current.Response.AddHeader("Content-Length", file.Length.ToString());
+                            HttpContext.Current.Response.ContentType = "application/octet-stream";//ReturnExtension(clsGeneral.GetExtension(objAttachment.Attachment_Name));
+                            HttpContext.Current.Response.TransmitFile(strFileName);
+                            HttpContext.Current.Response.Flush();
+                            //HttpContext.Current.ApplicationInstance.CompleteRequest();
+                            HttpContext.Current.Response.End();
+                        }
+                        else
+                        {
+                            this.Page.ClientScript.RegisterStartupScript(this.GetType(), DateTime.Now.ToString(), "alert('Selected attachment(s) are not found.','false');close();", true);
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        string str = ex.Message;
+                        //throw ex;
+                    }
+                    finally
+                    {
+                    }
+                }
+            }
+            else if (!string.IsNullOrEmpty(Request.QueryString["ACIDWID"]))
+            {
+                try
+                {
+                    string strAttachments_Name = clsAttachment_Event.GetAttachmentsNameACI(Encryption.Decrypt(Request.QueryString["ACIDWID"].ToString()));
+                    if (!string.IsNullOrEmpty(strAttachments_Name))
+                    {
+                        string[] strRow = strAttachments_Name.Split(':');
+                        string[] strAttachments = new string[strRow.Length];
+                        for (int i = 0; i < strRow.Length; i++)
+                        {
+                            strAttachments[i] = AppConfig.DocumentsPath + @"Attach\" + strRow[i];
+                        }
+                        string strzipDir = AppConfig.DocumentsPath + "\\Attachments";
+                        clsGeneral.SetZipDirectory(strAttachments, strzipDir);
+
+                        int TotalfileCount = Directory.GetFiles(strzipDir, "*.*", SearchOption.AllDirectories).Length;
+                        decimal FileSize = 0;
+
+                        if (TotalfileCount > 0)
+                        {
+                            FileSize = clsGeneral.GetMailAttachmentSize(strAttachments);
+                        }
+
+                        if (FileSize > Convert.ToDecimal(9.9))
+                        {
+                            this.Page.ClientScript.RegisterStartupScript(this.GetType(), DateTime.Now.ToString(), "alert('The selected attachments exceeds 9.9 megabytes. Please remove some of the attachment.','false');", true);
+                        }
+                        else if (TotalfileCount == 0)
+                        {
+                            this.Page.ClientScript.RegisterStartupScript(this.GetType(), DateTime.Now.ToString(), "alert('Selected attachment(s) are not found.','false');", true);
+                        }
+                        else if (TotalfileCount == 1)
+                        {
+                            string[] filePaths = Directory.GetFiles(AppConfig.DocumentsPath + "\\Attachments");
+
+                            System.IO.FileInfo file = new System.IO.FileInfo(filePaths[0]);
+
+                            HttpContext.Current.Response.Clear();
+                            HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename=\"" + file.Name + "\""));
+                            HttpContext.Current.Response.AddHeader("Content-Length", file.Length.ToString());
+                            HttpContext.Current.Response.ContentType = "application/octet-stream";//ReturnExtension(clsGeneral.GetExtension(objAttachment.Attachment_Name));
+                            HttpContext.Current.Response.TransmitFile(filePaths[0]);
+                            HttpContext.Current.Response.Flush();
+                            HttpContext.Current.Response.End();
+                        }
+                        else
+                        {
+                            clsGeneral.ConvertZIP(strzipDir);
+                            System.IO.FileInfo file = new System.IO.FileInfo(strzipDir + ".Zip");
+                            clsGeneral.DownloadZIP(AppConfig.DocumentsPath + "Attachments");
+                        }
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    string str = ex.Message;
+                    //throw ex;
+                }
+                finally
+                {
+                }
+            }
             else if (!string.IsNullOrEmpty(clsSession.UserID) && !string.IsNullOrEmpty(Request.QueryString["Property_Claims_ID"]))//For event
             {
                 decimal _Pk_ID;
