@@ -255,8 +255,18 @@ public partial class Management_Management : clsBasePage
         else
             objRecord.FK_LU_Record_Type = null;
 
-        objRecord.No_Approval_Needed = chkNoApprovalNeeded.Checked;
-        objRecord.Approval_Needed = chkApprovalNeeded.Checked;
+        //objRecord.No_Approval_Needed = chkNoApprovalNeeded.Checked;
+
+       // if (clsGeneral.GetDecimalValue(txtService_Repair_Cost) > 1000)
+       // {
+           // objRecord.Approval_Needed = chkApprovalNeeded.Checked;
+            objRecord.No_Approval_Needed = chkNoApprovalNeeded.Checked;
+       // }
+       // else if (clsGeneral.GetDecimalValue(txtService_Repair_Cost) < 1000)
+       // {
+            objRecord.Approval_Needed = chkApprovalNeeded.Checked;
+       //     objRecord.No_Approval_Needed = chkNoApprovalNeeded.Checked;
+       // }
 
         if (chkNoApprovalNeeded.Checked)
             objRecord.FK_LU_Approval_Submission = Convert.ToDecimal(drpFK_LU_Approval_Submission.Items.FindByText("Yes").Value);
@@ -340,6 +350,7 @@ public partial class Management_Management : clsBasePage
         objRecord.FK_LU_Maintenance_Status = Convert.ToDecimal(drpMaintenanceStatus.SelectedValue.ToString());
 
         objRecord.Comment = txtComments.Text;
+        objRecord.Service_Repair_Cost = (!string.IsNullOrEmpty(Convert.ToString(objRecord.Previous_Contract_Amount)) ? objRecord.Previous_Contract_Amount : 0) + (!string.IsNullOrEmpty(Convert.ToString(objRecord.Revised_Contract_Amount)) ? objRecord.Revised_Contract_Amount : 0);
         //**************Approval Screen Fields Ends********************//
 
         objRecord.Update_Date = DateTime.Now;
@@ -444,6 +455,19 @@ public partial class Management_Management : clsBasePage
                 showHideRepairEstimate(false);
             }
 
+            //if (clsGeneral.GetDecimalValue(txtService_Repair_Cost) < 1000)
+            //{
+            //    chkNoApprovalNeeded.Checked = true;
+            //    chkApprovalNeeded.Checked = false;
+            //    chkApprovalNeeded.Enabled = false;
+            //}
+            //else if (clsGeneral.GetDecimalValue(txtService_Repair_Cost) > 1000)
+            //{
+            //    chkApprovalNeeded.Checked = true;
+            //    chkNoApprovalNeeded.Checked = false;
+            //    chkNoApprovalNeeded.Enabled = false;
+            //}
+
             // Logic for setting RPM row and radio button visible and set to its value
             if (objRecord.RPM_Approval.HasValue)
             {
@@ -503,6 +527,16 @@ public partial class Management_Management : clsBasePage
                 rdoDRM_Decision.ClearSelection();
 
             txtComments.Text = Convert.ToString(objRecord.Comment);
+
+            if (chkApprovalNeeded.Checked || !chkNoApprovalNeeded.Checked)
+            {
+                trApprovals.Style.Add("display", "block");
+            }
+            else
+            {
+                trApprovals.Style.Add("display", "none");
+            }
+
             //********************* Approval screen end**********************//
             BindManagementNoteGrid(ctrlPageSonicNotes.CurrentPage, ctrlPageSonicNotes.PageSize);
         }
@@ -773,6 +807,16 @@ public partial class Management_Management : clsBasePage
             }
            
             lblComments.Text = Convert.ToString(objRecord.Comment);
+
+            if (chkApprovalNeededView.Checked || !chkNoAppovalNeededView.Checked)
+            {
+                trApprovals.Style.Add("display", "block");
+            }
+            else
+            {
+                trApprovals.Style.Add("display", "none");
+            }
+
             //********************* Approval screen end**********************//
 
             BindManagementNoteGridView(ctrlPageSonicNotes.CurrentPage, ctrlPageSonicNotes.PageSize);
@@ -2301,6 +2345,15 @@ public partial class Management_Management : clsBasePage
         showHideRepairEstimate(chkApprovalNeeded.Checked);
         hdnApprovalSubmission.Value = "0";
         drpFK_LU_Approval_Submission.SelectedValue = "0";
+
+        if (chkApprovalNeeded.Checked)
+        {
+            trApprovals.Style.Add("display", "block");
+        }
+        else
+        {
+            trApprovals.Style.Add("display", "none");
+        }
     }
 
     private void showHideRepairEstimate(bool isVisible)
@@ -2343,6 +2396,7 @@ public partial class Management_Management : clsBasePage
         {
             trApprovals.Style.Add("display", "block");
             txtPreviousContractAmount.Visible = false;
+            txtPreviousContractAmount.Text = string.Empty;
             spOriginalService.Style.Add("display", "none");
             lblOriginalService.Style.Add("display", "none");
             lblOriginalServiceCol.Style.Add("display", "none");

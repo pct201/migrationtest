@@ -262,7 +262,7 @@
                 {
                     if($('#ctl00_ContentPlaceHolder1_chkNoApprovalNeeded').attr('checked') == false && $('#ctl00_ContentPlaceHolder1_chkApprovalNeeded').attr('checked') == false)
                     {
-                        alert("Either No approval needed and Approval needed checkbox needs to be cheched");
+                        alert("Either No approval needed and Approval needed checkbox needs to be checked");
                         return false;
                     }
                 }
@@ -844,7 +844,7 @@
                                                                     <asp:ListItem Text="Yes" Value="1"></asp:ListItem>
                                                                     <asp:ListItem Text="No" Value="0" Selected="True"></asp:ListItem>
                                                                 </asp:RadioButtonList>--%>
-                                                                <asp:DropDownList runat="server" ID="drpMaintenanceStatus"></asp:DropDownList>
+                                                                <asp:DropDownList runat="server" ID="drpMaintenanceStatus" Width="175px"></asp:DropDownList>
                                                                 <asp:RequiredFieldValidator ID="rfvMaintenanceStatus" runat="server" ControlToValidate="drpMaintenanceStatus"
                                                                  InitialValue="0" ErrorMessage="Please Select Status" Display="None" SetFocusOnError="true"
                                                                  ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
@@ -873,7 +873,7 @@
                                                             </td>
                                                             <td align="left" valign="top"><label runat="server" id="lblOriginalServiceDollar" style="display:none">$</label> 
                                                                 <asp:TextBox ID="txtPreviousContractAmount" autocomplete="off" onpaste="return false;" OnBlur="CheckNumericVal(this,20);" Visible="false"
-                                                                runat="server" Width="165px" onkeypress="javascript:return FormatNumber(event,this.id,12,false,true);" Enabled="false" />
+                                                                runat="server" Width="165px" onkeypress="javascript:return FormatNumber(event,this.id,12,false,true);" />
                                                             </td>
                                                             <td align="left" valign="top"><label runat="server" id="lblRepairEstimate" style="display:none"> Repair and Estimate Amount<span class="mf" id="spRepairEstimate" runat="server" style="display:none">*</span></label>
                                                             </td>
@@ -881,7 +881,7 @@
                                                             </td>
                                                             <td align="left" valign="top"><label runat="server" id="lblRepairEstimateDollar" style="display:none">$</label> 
                                                                 <asp:TextBox ID="txtRevisedContractAmount" autocomplete="off" onpaste="return false;" OnBlur="CheckNumericVal(this,20);"  Visible="false"
-                                                                runat="server" Width="165px" onkeypress="javascript:return FormatNumber(event,this.id,12,false,true);" Enabled="false" />
+                                                                runat="server" Width="165px" onkeypress="javascript:return FormatNumber(event,this.id,12,false,true);" />
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -3005,6 +3005,33 @@
                 else
                     Ctl.innerText = formatCurrency_New(Ctl.value);
             }
+
+            var originalAmount =  $('#<%= txtPreviousContractAmount.ClientID %>').length > 0 ? $('#<%= txtPreviousContractAmount.ClientID %>').val().trim() : "";
+            var estimatedAmount = $('#<%= txtRevisedContractAmount.ClientID %>').length > 0 ? $('#<%= txtRevisedContractAmount.ClientID %>').val().trim() : "";
+            var total = 0;
+
+            originalAmount = originalAmount.replace(/,/g , "");
+            estimatedAmount = estimatedAmount.replace(/,/g,"");
+
+            originalAmount = parseFloat(originalAmount);
+            estimatedAmount = parseFloat(estimatedAmount);
+
+            if(!isNaN(originalAmount) && !isNaN(estimatedAmount))
+            {
+                total = originalAmount + estimatedAmount;
+            }
+            else if(isNaN(originalAmount) && isNaN(estimatedAmount))
+            {
+                total = 0;
+            }
+            else if(isNaN(originalAmount)){
+                total = estimatedAmount;
+            }
+            else if(isNaN(estimatedAmount)){
+                total = originalAmount;
+            }
+
+            $('#<%= txtService_Repair_Cost.ClientID %>').val(formatCurrency_New(total));
         }
         function formatCurrency_New(num) {
             num = num.toString().replace(/\$|\,/g, '');
