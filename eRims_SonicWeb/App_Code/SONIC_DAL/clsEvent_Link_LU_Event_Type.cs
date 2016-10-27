@@ -220,7 +220,7 @@ namespace ERIMS.DAL
             DbCommand dbCommand = db.GetStoredProcCommand("Event_Link_LU_Event_TypeDeleteByFK_Event");
 
             db.AddInParameter(dbCommand, "FK_Event", DbType.Decimal, FK_Event);
-
+            dbCommand.CommandTimeout = 50000;
             db.ExecuteNonQuery(dbCommand);
         }
 
