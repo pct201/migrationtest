@@ -874,6 +874,9 @@
                                                             <td align="left" valign="top"><label runat="server" id="lblOriginalServiceDollar" style="display:none">$</label> 
                                                                 <asp:TextBox ID="txtPreviousContractAmount" autocomplete="off" onpaste="return false;" OnBlur="CheckNumericVal(this,20);" Visible="false"
                                                                 runat="server" Width="165px" onkeypress="javascript:return FormatNumber(event,this.id,12,false,true);" />
+                                                                <asp:RequiredFieldValidator ID="rfvPreviousContractAmount" runat="server" ControlToValidate="txtPreviousContractAmount"
+                                                                    InitialValue="" ErrorMessage="Please Enter Original Service Estimate" Display="None" SetFocusOnError="true"
+                                                                    ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
                                                             </td>
                                                             <td align="left" valign="top"><label runat="server" id="lblRepairEstimate" style="display:none"> Repair and Estimate Amount<span class="mf" id="spRepairEstimate" runat="server" style="display:none">*</span></label>
                                                             </td>
@@ -882,6 +885,9 @@
                                                             <td align="left" valign="top"><label runat="server" id="lblRepairEstimateDollar" style="display:none">$</label> 
                                                                 <asp:TextBox ID="txtRevisedContractAmount" autocomplete="off" onpaste="return false;" OnBlur="CheckNumericVal(this,20);"  Visible="false"
                                                                 runat="server" Width="165px" onkeypress="javascript:return FormatNumber(event,this.id,12,false,true);" />
+                                                               <asp:RequiredFieldValidator ID="rfvRevisedContractAmount" runat="server" ControlToValidate="txtRevisedContractAmount"
+                                                                    InitialValue="" ErrorMessage="Please Enter Repair and Estimate Amount" Display="None" SetFocusOnError="true"
+                                                                    ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
                                                             </td>
                                                         </tr>
                                                         <tr>

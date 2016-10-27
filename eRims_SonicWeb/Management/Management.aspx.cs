@@ -2363,6 +2363,7 @@ public partial class Management_Management : clsBasePage
             chkNoApprovalNeeded.Enabled = false;
             //chkNoApprovalNeeded.Checked = false;
             txtRevisedContractAmount.Visible = true;
+            rfvRevisedContractAmount.Enabled = true;
             spRepairEstimate.Style.Add("display", "inline-block");
             lblRepairEstimate.Style.Add("display", "inline-block");
             lblRepairEstimateCol.Style.Add("display", "inline-block");
@@ -2373,6 +2374,7 @@ public partial class Management_Management : clsBasePage
         {
             chkNoApprovalNeeded.Enabled = true;
             txtRevisedContractAmount.Visible = false;
+            rfvRevisedContractAmount.Enabled = false;
             txtRevisedContractAmount.Text = string.Empty;
             spRepairEstimate.Style.Add("display", "none");
             lblRepairEstimate.Style.Add("display", "none");
@@ -2387,6 +2389,7 @@ public partial class Management_Management : clsBasePage
         {
             trApprovals.Style.Add("display", "none");
             txtPreviousContractAmount.Visible = true;
+            rfvPreviousContractAmount.Enabled = true;
             lblOriginalService.Style.Add("display", "inline-block");
             lblOriginalServiceCol.Style.Add("display", "inline-block");
             lblOriginalServiceDollar.Style.Add("display", "inline-block");
@@ -2396,6 +2399,7 @@ public partial class Management_Management : clsBasePage
         {
             trApprovals.Style.Add("display", "block");
             txtPreviousContractAmount.Visible = false;
+            rfvPreviousContractAmount.Enabled = false;
             txtPreviousContractAmount.Text = string.Empty;
             spOriginalService.Style.Add("display", "none");
             lblOriginalService.Style.Add("display", "none");
