@@ -201,7 +201,7 @@
                 var lstOutput = document.getElementById('ctl00_ContentPlaceHolder1_lstOutputFields').options;
                 var outf = "";
                 for (i = 0; i < lstOutput.length; i++)
-                    outf += (outf == "") ? lstOutput.options[i].value : "," + lstOutput.options[i].value;
+                    outf += (outf == "") ? lstOutput[i].value : "," + lstOutput[i].value;
                 document.getElementById('<%=hdnOutputList.ClientID%>').value = outf;
             }
 

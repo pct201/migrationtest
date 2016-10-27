@@ -147,7 +147,7 @@
         return false;
     }
 
-    function MoveItemDown() {
+        function MoveItemDown() {
         var obj = document.getElementById('<%=lstOutputFields.ClientID %>');
 
             if (obj.selectedIndex > -1) {
@@ -188,8 +188,8 @@
             }
 
             if (document.getElementById('ctl00_ContentPlaceHolder1_chkWC').checked &&
-            !document.getElementById('ctl00_ContentPlaceHolder1_chkAl').checked &&
-            !document.getElementById('ctl00_ContentPlaceHolder1_chkPl').checked) {
+            !document.getElementById('ctl00_ContentPlaceHolder1_chkAL').checked &&
+            !document.getElementById('ctl00_ContentPlaceHolder1_chkPL').checked) {
                 RadioDate("rdbLstMO", "txtMO1", "txtMO2", "Medical/BI Outstanding", "P", '<%=lblMP1.Text %>');
                 RadioDate("rdbLstMP", "txtMP1", "txtMP2", "Medical/BI Paid", "P", '<%=lblMP1.Text %>');
                 RadioDate("rdbLstMI", "txtMI1", "txtMI2", "Medical/BI Incurred", "P", '<%=lblMI1.Text %>');
@@ -210,7 +210,7 @@
                 var lstOutput = document.getElementById('ctl00_ContentPlaceHolder1_lstOutputFields').options;
                 var outf = "";
                 for (i = 0; i < lstOutput.length; i++)
-                    outf += (outf == "") ? lstOutput.options[i].value : "," + lstOutput.options[i].value;
+                    outf += (outf == "") ? lstOutput[i].value : "," + lstOutput[i].value;
                 document.getElementById('<%=hdnOutputList.ClientID%>').value = outf;
             }
             if (ErrMessage != "") {
