@@ -1792,6 +1792,7 @@ namespace ERIMS.DAL
             else
                 db.AddInParameter(dbCommand, "Incident_Report_Desc", DbType.String, this._Incident_Report_Desc);
 
+            dbCommand.CommandTimeout = 50000;
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
 
@@ -2198,6 +2199,7 @@ namespace ERIMS.DAL
             else
                 db.AddInParameter(dbCommand, "Incident_Report_Desc", DbType.String, this._Incident_Report_Desc);
 
+            dbCommand.CommandTimeout = 50000;
             db.ExecuteNonQuery(dbCommand);
         }
 
@@ -2211,6 +2213,7 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "PK_Event", DbType.Decimal, pK_Event);
 
+            dbCommand.CommandTimeout = 50000;
             db.ExecuteNonQuery(dbCommand);
         }
 

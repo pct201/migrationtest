@@ -141,6 +141,7 @@ namespace ERIMS.DAL
 			else
 				db.AddInParameter(dbCommand, "Note", DbType.String, this._Note);
 
+            dbCommand.CommandTimeout = 50000;
 			// Execute the query and return the new identity value
 			int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
 
@@ -193,6 +194,7 @@ namespace ERIMS.DAL
 			else
 				db.AddInParameter(dbCommand, "Note", DbType.String, this._Note);
 
+            dbCommand.CommandTimeout = 50000;
 			db.ExecuteNonQuery(dbCommand);
 		}
 
@@ -206,6 +208,7 @@ namespace ERIMS.DAL
 
 			db.AddInParameter(dbCommand, "PK_ACI_Event_Notes", DbType.Decimal, pK_ACI_Event_Notes);
 
+            dbCommand.CommandTimeout = 50000;
 			db.ExecuteNonQuery(dbCommand);
 		}
 

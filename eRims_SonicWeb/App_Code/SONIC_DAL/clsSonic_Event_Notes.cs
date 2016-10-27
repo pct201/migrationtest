@@ -158,6 +158,7 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "Updated_by", DbType.Decimal, this._Updated_by);
 
+            dbCommand.CommandTimeout = 50000;
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
 
@@ -212,6 +213,7 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "Updated_by", DbType.Decimal, this._Updated_by);
 
+            dbCommand.CommandTimeout = 50000;
             db.ExecuteNonQuery(dbCommand);
         }
 
@@ -225,6 +227,7 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "PK_Sonic_Event_Notes", DbType.Decimal, pK_Sonic_Event_Notes);
 
+            dbCommand.CommandTimeout = 50000;
             db.ExecuteNonQuery(dbCommand);
         }
 

@@ -221,6 +221,7 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "FK_Event", DbType.Decimal, this._FK_Event);
 
+            dbCommand.CommandTimeout = 50000;
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
 
@@ -293,6 +294,7 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "FK_Event", DbType.Decimal, this._FK_Event);
 
+            dbCommand.CommandTimeout = 50000;
             db.ExecuteNonQuery(dbCommand);
         }
 
@@ -306,6 +308,7 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "PK_Vehicle_Information", DbType.Decimal, pK_Vehicle_Information);
 
+            dbCommand.CommandTimeout = 50000;
             db.ExecuteNonQuery(dbCommand);
         }
 

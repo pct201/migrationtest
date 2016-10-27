@@ -184,6 +184,7 @@ namespace ERIMS.DAL
             else
                 db.AddInParameter(dbCommand, "Event_Time_To", DbType.String, this._Event_Time_To);
 
+            dbCommand.CommandTimeout = 50000;
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
 
@@ -249,6 +250,7 @@ namespace ERIMS.DAL
             else
                 db.AddInParameter(dbCommand, "Event_Time_To", DbType.String, this._Event_Time_To);
 
+            dbCommand.CommandTimeout = 50000;
             db.ExecuteNonQuery(dbCommand);
         }
 
@@ -262,6 +264,7 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "PK_Event_Camera", DbType.Decimal, pK_Event_Camera);
 
+            dbCommand.CommandTimeout = 50000;
             db.ExecuteNonQuery(dbCommand);
         }
 
