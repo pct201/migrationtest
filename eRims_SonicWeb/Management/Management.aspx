@@ -230,8 +230,8 @@
                     if (CheckChangeVal == false)
                         CheckChangeVal = true;
                 }
-                __doPostBack('ctl00$ContentPlaceHolder1$btnSave', '');
             }
+            __doPostBack('ctl00$ContentPlaceHolder1$btnSave', '');
 
         }
 
