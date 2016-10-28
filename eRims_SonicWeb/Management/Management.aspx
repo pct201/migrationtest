@@ -198,24 +198,23 @@
             var Ctl = document.getElementById('<%=hdnApprovalVal.ClientID %>').value;
             var EmailList = document.getElementById('<%=hdnEmailList.ClientID %>').value;
             var EMailDate = document.getElementById('<%=hdnEmailDate.ClientID %>').value;
-            if (Ctl == 0) {
-                if (EmailList != '' && EMailDate != '') {
-                    //GM
-                    document.getElementById('<%=txtGM_Email_To.ClientID %>').value = EmailList.substring(0, EmailList.length - 2);;
-                    document.getElementById('<%=txtGM_Last_Email_Date.ClientID %>').value = EMailDate;
-                    //RLCM
-                    document.getElementById('<%=txtRLCM_Email_To.ClientID %>').value = EmailList.substring(0, EmailList.length - 2);;
-                    document.getElementById('<%=txtRLCM_Last_Email_Date.ClientID %>').value = EMailDate;
-                    //NAPM
-                    document.getElementById('<%=txtNAPM_Email_To.ClientID %>').value = EmailList.substring(0, EmailList.length - 2);;
-                    document.getElementById('<%=txtNAPM_Last_Email_Date.ClientID %>').value = EMailDate;
-                    //DRM
-                    document.getElementById('<%=txtDRM_Email_To.ClientID %>').value = EmailList.substring(0, EmailList.length - 2);;
-                    document.getElementById('<%=txtDRM_Last_Email_Date.ClientID %>').value = EMailDate;
+            if (EmailList != '' && EMailDate != '') { if (Ctl == 0) {
+                
+                //GM
+                document.getElementById('<%=txtGM_Email_To.ClientID %>').value = EmailList.substring(0, EmailList.length - 2);;
+                document.getElementById('<%=txtGM_Last_Email_Date.ClientID %>').value = EMailDate;
+                //RLCM
+                document.getElementById('<%=txtRLCM_Email_To.ClientID %>').value = EmailList.substring(0, EmailList.length - 2);;
+                document.getElementById('<%=txtRLCM_Last_Email_Date.ClientID %>').value = EMailDate;
+                //NAPM
+                document.getElementById('<%=txtNAPM_Email_To.ClientID %>').value = EmailList.substring(0, EmailList.length - 2);;
+                document.getElementById('<%=txtNAPM_Last_Email_Date.ClientID %>').value = EMailDate;
+                //DRM
+                document.getElementById('<%=txtDRM_Email_To.ClientID %>').value = EmailList.substring(0, EmailList.length - 2);;
+                document.getElementById('<%=txtDRM_Last_Email_Date.ClientID %>').value = EMailDate;
 
-                    if (CheckChangeVal == false)
-                        CheckChangeVal = true;
-                }
+                if (CheckChangeVal == false)
+                    CheckChangeVal = true;
             }
             else {
                 var ListCtrl = 'ctl00_ContentPlaceHolder1_txt' + Ctl + '_Email_To';
@@ -231,8 +230,8 @@
                         CheckChangeVal = true;
                 }
             }
-            __doPostBack('ctl00$ContentPlaceHolder1$btnSave', '');
-
+                __doPostBack('ctl00$ContentPlaceHolder1$btnSave', '');
+            }
         }
 
         function SetCRApprovedDate(selectedText) {
@@ -829,12 +828,12 @@
                                                             <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
-                                                               <%-- <asp:RadioButtonList ID="rdoWork_Completed_By" runat="server">
+                                                                <%-- <asp:RadioButtonList ID="rdoWork_Completed_By" runat="server">
                                                                     <asp:ListItem Text="ACI" Value="1"></asp:ListItem>
                                                                     <asp:ListItem Text="Sonic" Value="0"></asp:ListItem>
                                                                 </asp:RadioButtonList>--%>
-                                                              <asp:DropDownList ID="drpFK_Work_To_Be_Completed_By" runat="server" Width="175px" SkinID="dropGen">
-                                                              </asp:DropDownList>
+                                                                <asp:DropDownList ID="drpFK_Work_To_Be_Completed_By" runat="server" Width="175px" SkinID="dropGen">
+                                                                </asp:DropDownList>
                                                             </td>
                                                             <td align="left" valign="top">Status<span class="mf">*</span>
                                                             </td>
@@ -847,8 +846,8 @@
                                                                 </asp:RadioButtonList>--%>
                                                                 <asp:DropDownList runat="server" ID="drpMaintenanceStatus" Width="175px"></asp:DropDownList>
                                                                 <asp:RequiredFieldValidator ID="rfvMaintenanceStatus" runat="server" ControlToValidate="drpMaintenanceStatus"
-                                                                 InitialValue="0" ErrorMessage="Please Select Status" Display="None" SetFocusOnError="true"
-                                                                 ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                                                                    InitialValue="0" ErrorMessage="Please Select Status" Display="None" SetFocusOnError="true"
+                                                                    ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -868,25 +867,31 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td align="left" valign="top"><label runat="server" id="lblOriginalService" style="display:none"> Original Service Estimate<span class="mf" id="spOriginalService" runat="server"  style="display:none">*</span></label>
+                                                            <td align="left" valign="top">
+                                                                <label runat="server" id="lblOriginalService" style="display: none">Original Service Estimate<span class="mf" id="spOriginalService" runat="server" style="display: none">*</span></label>
                                                             </td>
-                                                            <td align="center" valign="top"><label runat="server" id="lblOriginalServiceCol" style="display:none">:</label> 
+                                                            <td align="center" valign="top">
+                                                                <label runat="server" id="lblOriginalServiceCol" style="display: none">:</label>
                                                             </td>
-                                                            <td align="left" valign="top"><label runat="server" id="lblOriginalServiceDollar" style="display:none">$</label> 
+                                                            <td align="left" valign="top">
+                                                                <label runat="server" id="lblOriginalServiceDollar" style="display: none">$</label>
                                                                 <asp:TextBox ID="txtPreviousContractAmount" autocomplete="off" onpaste="return false;" OnBlur="CheckNumericVal(this,20);" Visible="false"
-                                                                runat="server" Width="165px" onkeypress="javascript:return FormatNumber(event,this.id,12,false,true);" />
+                                                                    runat="server" Width="165px" onkeypress="javascript:return FormatNumber(event,this.id,12,false,true);" />
                                                                 <asp:RequiredFieldValidator ID="rfvPreviousContractAmount" runat="server" ControlToValidate="txtPreviousContractAmount"
                                                                     InitialValue="" ErrorMessage="Please Enter Original Service Estimate" Display="None" SetFocusOnError="true"
                                                                     ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
                                                             </td>
-                                                            <td align="left" valign="top"><label runat="server" id="lblRepairEstimate" style="display:none"> Repair and Estimate Amount<span class="mf" id="spRepairEstimate" runat="server" style="display:none">*</span></label>
+                                                            <td align="left" valign="top">
+                                                                <label runat="server" id="lblRepairEstimate" style="display: none">Repair and Estimate Amount<span class="mf" id="spRepairEstimate" runat="server" style="display: none">*</span></label>
                                                             </td>
-                                                            <td align="center" valign="top"><label runat="server" id="lblRepairEstimateCol" style="display:none">:</label> 
+                                                            <td align="center" valign="top">
+                                                                <label runat="server" id="lblRepairEstimateCol" style="display: none">:</label>
                                                             </td>
-                                                            <td align="left" valign="top"><label runat="server" id="lblRepairEstimateDollar" style="display:none">$</label> 
-                                                                <asp:TextBox ID="txtRevisedContractAmount" autocomplete="off" onpaste="return false;" OnBlur="CheckNumericVal(this,20);"  Visible="false"
-                                                                runat="server" Width="165px" onkeypress="javascript:return FormatNumber(event,this.id,12,false,true);" />
-                                                               <asp:RequiredFieldValidator ID="rfvRevisedContractAmount" runat="server" ControlToValidate="txtRevisedContractAmount"
+                                                            <td align="left" valign="top">
+                                                                <label runat="server" id="lblRepairEstimateDollar" style="display: none">$</label>
+                                                                <asp:TextBox ID="txtRevisedContractAmount" autocomplete="off" onpaste="return false;" OnBlur="CheckNumericVal(this,20);" Visible="false"
+                                                                    runat="server" Width="165px" onkeypress="javascript:return FormatNumber(event,this.id,12,false,true);" />
+                                                                <asp:RequiredFieldValidator ID="rfvRevisedContractAmount" runat="server" ControlToValidate="txtRevisedContractAmount"
                                                                     InitialValue="" ErrorMessage="Please Enter Repair and Estimate Amount" Display="None" SetFocusOnError="true"
                                                                     ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
                                                             </td>
@@ -921,7 +926,7 @@
                                                             <td align="left" valign="top">
                                                                 <asp:DropDownList ID="drpFK_Record_Type" runat="server" Width="175px" SkinID="dropGen">
                                                                 </asp:DropDownList>
-                                                                 <asp:RequiredFieldValidator ID="rfvFK_Record_Type" runat="server" ControlToValidate="drpFK_Record_Type"
+                                                                <asp:RequiredFieldValidator ID="rfvFK_Record_Type" runat="server" ControlToValidate="drpFK_Record_Type"
                                                                     InitialValue="0" ErrorMessage="Please Select Record Type" Display="None" SetFocusOnError="true"
                                                                     ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
                                                             </td>
@@ -1034,13 +1039,13 @@
                                                             </td>
                                                             <td align="left" valign="top">
                                                                 <asp:TextBox ID="txtCreatedBy" MaxLength="50" runat="server" Width="170px"></asp:TextBox>
-                                                                
+
                                                                 <asp:RequiredFieldValidator ID="rfvCreatedBy" runat="server" ControlToValidate="txtCreatedBy"
                                                                     InitialValue="" ErrorMessage="Please Enter Created By" Display="None" SetFocusOnError="true"
                                                                     ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
                                                             </td>
                                                         </tr>
-                                                        
+
                                                         <%--  <tr>
                                                         <td align="left" valign="top">Cost
                                                         </td>
@@ -2163,7 +2168,7 @@
                                                             <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
-                                                                <asp:CheckBox runat="server" ID="chkNoAppovalNeededView" Enabled="false"/>
+                                                                <asp:CheckBox runat="server" ID="chkNoAppovalNeededView" Enabled="false" />
                                                             </td>
                                                             <td align="left" valign="top">Approval Needed<br />
                                                                 (Repair Est. Exceed $1000)</td>
@@ -2255,7 +2260,7 @@
                                                             <td align="left" valign="top">
                                                                 <asp:Label ID="lblJob" runat="server"></asp:Label>
                                                             </td>
-                                                             <td align="left" valign="top">Order Date
+                                                            <td align="left" valign="top">Order Date
                                                             </td>
                                                             <td align="center" valign="top">:
                                                             </td>
@@ -2263,7 +2268,7 @@
                                                                 <asp:Label ID="lblOrderDate" runat="server" />
                                                             </td>
                                                         </tr>
-                                                     <%--   <tr>
+                                                        <%--   <tr>
                                                             <td align="left" valign="top">Other
                                                             </td>
                                                             <td align="center" valign="top">:
@@ -2296,7 +2301,7 @@
                                                                 <asp:Label ID="lblCreatedBy" runat="server" Width="170px"></asp:Label>
                                                             </td>
                                                         </tr>
-                                                        
+
                                                         <tr>
                                                             <td align="left" valign="top">Reason for Request
                                                             </td>
