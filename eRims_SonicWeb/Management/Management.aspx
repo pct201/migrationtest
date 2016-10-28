@@ -118,7 +118,7 @@
         function ShowPanelView(index) {
             SetMenuStyle(index);
             for (i = 1; i <= 4; i++) {
-                document.getElementById('ctl00_ContentPlaceHolder1_pnl' + i + 'view').style.display = (i == index) ? "block" : "none";
+                document.getElementById('ctl00_ContentPlaceHolder1_pnl' + i + 'View').style.display = (i == index) ? "block" : "none";
             }
         }
 
@@ -230,6 +230,7 @@
                     if (CheckChangeVal == false)
                         CheckChangeVal = true;
                 }
+                __doPostBack('ctl00$ContentPlaceHolder1$btnSave', '');
             }
 
         }
