@@ -364,7 +364,7 @@ function openGenereteAbstract() {
     else if (document.getElementById('<%= hdnPanel.ClientID %>').value == 3) {
         PKID = '<%=ViewState["FK_AL_FR_ID"]%>';
     }
-        //else if (document.getElementById('<%= hdnPanel.ClientID %>').value == 4) {
+        //else if (document.getElementById('<= hdnPanel.ClientID %>').value == 4) {
         //    PKID = '<=ViewState["PK_AP_Cal_Atlantic"]%>';
         //}
     else if (document.getElementById('<%= hdnPanel.ClientID %>').value == 4) {
@@ -484,10 +484,6 @@ function SetRiskCategory() {
             return confirm("Are you sure you want to remove the data from Building " + BuildingNumber + " at Location " + Loc + " ?" );
             
         }
-
-        
-
-
     </script>
     <div>
         <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
@@ -798,38 +794,7 @@ function SetRiskCategory() {
                                                                 ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*"></asp:RegularExpressionValidator>
                                                         </td>
                                                     </tr>
-                                                    <tr>
-                                                        <td align="left" valign="top">ACI Camera System <%--Change Header text from Cal Atlantic to ACI as per client's request Bug ID = 2552--%>
-                                                        </td>
-                                                        <td align="center" valign="top">:
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            <asp:RadioButtonList ID="rdoCal_Atlantic_System" runat="server" SkinID="YesNoType">
-                                                            </asp:RadioButtonList>
-                                                        </td>
-                                                        <td align="left" valign="top">&nbsp;
-                                                        </td>
-                                                        <td align="center" valign="top">&nbsp;
-                                                        </td>
-                                                        <td align="left" valign="top">&nbsp;
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="left" valign="top">Live Camera Monitoring
-                                                        </td>
-                                                        <td align="center" valign="top">:
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            <asp:RadioButtonList ID="rdoLive_Monitoring" runat="server" SkinID="YesNoType">
-                                                            </asp:RadioButtonList>
-                                                        </td>
-                                                        <td align="left" valign="top">&nbsp;
-                                                        </td>
-                                                        <td align="center" valign="top">&nbsp;
-                                                        </td>
-                                                        <td align="left" valign="top">&nbsp;
-                                                        </td>
-                                                    </tr>
+                                                    
                                                     <tr>
                                                         <td align="left" valign="top">CCTV Hours Monitoring Grid<br />
                                                             <asp:LinkButton ID="lnkbtnAddCCTVHoursMonitoringGrid" runat="server" Text="--Add--"
@@ -1151,7 +1116,7 @@ function SetRiskCategory() {
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            <asp:RadioButtonList ID="rdoBuglar_Alarm_System" runat="server" SkinID="YesNoType">
+                                                            <asp:RadioButtonList ID="rdoBuglar_Alarm_System" runat="server" SkinID="YesNoType" AutoPostBack="true" OnSelectedIndexChanged="rdoBuglar_Alarm_System_SelectedIndexChanged">
                                                             </asp:RadioButtonList>
                                                         </td>
                                                         <td align="left" valign="top">Is System Active and Functioning Properly?
@@ -1162,6 +1127,38 @@ function SetRiskCategory() {
                                                             <asp:RadioButtonList ID="rdoIs_System_Active_and_Function_Properly" runat="server"
                                                                 SkinID="YesNoType">
                                                             </asp:RadioButtonList>
+                                                        </td>
+                                                    </tr>
+                                                    <tr id="trACICamera_Edit" runat="server">
+                                                        <td align="left" valign="top">ACI Camera System <%--Change Header text from Cal Atlantic to ACI as per client's request Bug ID = 2552--%>
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:RadioButtonList ID="rdoCal_Atlantic_System" runat="server" SkinID="YesNoType">
+                                                            </asp:RadioButtonList>
+                                                        </td>
+                                                        <td align="left" valign="top">&nbsp;
+                                                        </td>
+                                                        <td align="center" valign="top">&nbsp;
+                                                        </td>
+                                                        <td align="left" valign="top">&nbsp;
+                                                        </td>
+                                                    </tr>
+                                                    <tr id="trLiveCamera_Edit" runat="server">
+                                                        <td align="left" valign="top">Live Camera Monitoring
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:RadioButtonList ID="rdoLive_Monitoring" runat="server" SkinID="YesNoType">
+                                                            </asp:RadioButtonList>
+                                                        </td>
+                                                        <td align="left" valign="top">&nbsp;
+                                                        </td>
+                                                        <td align="center" valign="top">&nbsp;
+                                                        </td>
+                                                        <td align="left" valign="top">&nbsp;
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -5484,36 +5481,6 @@ function SetRiskCategory() {
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">ACI Camera System <%--Change Header text from Cal Atlantic to ACI as per client's request Bug ID = 2552--%>
-                                                        </td>
-                                                        <td align="center" valign="top">:
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            <asp:Label ID="lblCal_Atlantic_System" runat="server"></asp:Label>
-                                                        </td>
-                                                        <td align="left" valign="top">&nbsp;
-                                                        </td>
-                                                        <td align="center" valign="top">&nbsp;
-                                                        </td>
-                                                        <td align="left" valign="top">&nbsp;
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="left" valign="top">Live Camera Monitoring
-                                                        </td>
-                                                        <td align="center" valign="top">:
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            <asp:Label ID="lblLive_Monitoring" runat="server"></asp:Label>
-                                                        </td>
-                                                        <td align="left" valign="top">&nbsp;
-                                                        </td>
-                                                        <td align="center" valign="top">&nbsp;
-                                                        </td>
-                                                        <td align="left" valign="top">&nbsp;
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
                                                         <td align="left" valign="top">CCTV Hours Monitoring Grid
                                                         </td>
                                                         <td align="center" valign="top">:
@@ -5836,6 +5803,36 @@ function SetRiskCategory() {
                                                         </td>
                                                         <td align="left" valign="top">
                                                             <asp:Label ID="lblIs_System_Active_and_Function_Properly" runat="server"></asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                    <tr id="trACICamera_View" runat="server">
+                                                        <td align="left" valign="top">ACI Camera System <%--Change Header text from Cal Atlantic to ACI as per client's request Bug ID = 2552--%>
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:Label ID="lblCal_Atlantic_System" runat="server"></asp:Label>
+                                                        </td>
+                                                        <td align="left" valign="top">&nbsp;
+                                                        </td>
+                                                        <td align="center" valign="top">&nbsp;
+                                                        </td>
+                                                        <td align="left" valign="top">&nbsp;
+                                                        </td>
+                                                    </tr>
+                                                    <tr id="trLiveCamera_View" runat="server">
+                                                        <td align="left" valign="top">Live Camera Monitoring
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:Label ID="lblLive_Monitoring" runat="server"></asp:Label>
+                                                        </td>
+                                                        <td align="left" valign="top">&nbsp;
+                                                        </td>
+                                                        <td align="center" valign="top">&nbsp;
+                                                        </td>
+                                                        <td align="left" valign="top">&nbsp;
                                                         </td>
                                                     </tr>
                                                     <tr>

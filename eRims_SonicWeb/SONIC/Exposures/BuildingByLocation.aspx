@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>>Risk Insurance Management System :: Asset Management</title>
+    <title>Risk Insurance Management System :: Asset Management</title>
     <script src="../../JavaScript/jquery-1.5.min.js"></script>
      <script language="javascript" type="text/javascript">
          function ClosePopup() {

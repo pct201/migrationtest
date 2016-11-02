@@ -9,11 +9,28 @@ using Winnovative.WnvHtmlConvert;
 using System.IO;
 using System.Collections;
 using System.Text;
+using System.Text.RegularExpressions;
 
 public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System.Web.UI.Page
 {
 
     #region Properties
+
+    string strCamera = "<table> <tr>" +
+            "<td align='left' valign='top'> <span style='font-family: Arial; font-size: 13.5px;'>ACI Camera System</span></td>" +
+            "<td align='center' valign='top'>:</td>" +
+            "<td align='left' valign='top'><span style='font-family: Arial; font-size: 13.5px;'>[Cal_Atlantic_System]</span></td>" +
+            "<td align='left' valign='top'>&nbsp;</td>" +
+            "<td align='center' valign='top'>&nbsp;</td>" +
+            "<td align='left' valign='top'>&nbsp;</td>" +
+            "</tr>" + "<tr>" +
+            "<td align='left' valign='top'><span style='font-family: Arial; font-size: 13.5px;'>Live Camera Monitoring</span></td>" +
+            "<td align='center' valign='top'>:</td>" +
+            "<td align='left' valign='top'><span style='font-family: Arial; font-size: 13.5px;'>[Live_Monitoring]</span></td>" +
+            "<td align='left' valign='top'>&nbsp;</td>" +
+            "<td align='center' valign='top'>&nbsp;</td>" +
+            "<td align='left' valign='top'>&nbsp;</td></table>" +
+        "</tr>";
 
     public decimal LocationID
     {
@@ -643,7 +660,7 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
             sbHtml = new System.Text.StringBuilder("");
             GenerateFinancialGrid(sbHtml);
             htFindAndReplace.Add("[Financial_Grid]", sbHtml.ToString());
-
+            htFindAndReplace.Add("[CameraRow]", objAP_Property_Security.Buglar_Alarm_System == "Y" ? strCamera : "");
             htFindAndReplace.Add("[CCTV_Company_Name]", objAP_Property_Security.CCTV_Company_Name);
 
             htFindAndReplace.Add("[CCTV_Company_Address_1]", objAP_Property_Security.CCTV_Company_Address_1);
@@ -774,6 +791,8 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
             else { htFindAndReplace.Add("[imgAC_Door_Restrictions]", ImgUnchecked); }
 
             htFindAndReplace.Add("[Burglar_Alarm_System]", objAP_Property_Security.Buglar_Alarm_System == "Y" ? "Yes" : "No");
+           
+            
             htFindAndReplace.Add("[Is_System_Active_Functioning]", objAP_Property_Security.Is_System_Active_and_Function_Properly == "Y" ? "Yes" : "No");
             htFindAndReplace.Add("[Burglar_Alarm_Company_Name]", objAP_Property_Security.Burglar_Alarm_Company_Name);
             htFindAndReplace.Add("[Burglar_Alarm_Company_Address1]", objAP_Property_Security.Burglar_Alarm_Company_Address_1);
@@ -1539,6 +1558,7 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
 
             clsAP_Property_Security objAP_Property_Security = new clsAP_Property_Security(PK_AP_Property_Security);
             htFindAndReplace.Add("[CCTV_Company_Name]", objAP_Property_Security.CCTV_Company_Name);
+            htFindAndReplace.Add("[CameraRow]", objAP_Property_Security.Buglar_Alarm_System == "Y" ? strCamera : "");
             htFindAndReplace.Add("[CCTV_Company_Address_1]", objAP_Property_Security.CCTV_Company_Address_1);
             htFindAndReplace.Add("[CCTV_Company_Address_2]", objAP_Property_Security.CCTV_Company_Address_2);
             htFindAndReplace.Add("[CCTV_Company_City]", objAP_Property_Security.CCTV_Company_City);

@@ -1121,6 +1121,29 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         }
     }
 
+    /// <summary>
+    /// Show Hide Camera rows #Issue 3784 comment 37437
+    /// </summary>
+    private void ShoHideCameraRow()
+    {
+        //If user select Burglar Alarm system No Then this two fields should not show up in screen. 
+        //If user select Burglar Alarm System YE then this two field should show up in the screen. 
+        if (StrOperation == "view")
+        {
+            if (lblBuglar_Alarm_System.Text == "Yes")
+                trACICamera_View.Visible = trLiveCamera_View.Visible = true;
+            else
+                trACICamera_View.Visible = trLiveCamera_View.Visible = false;
+        }
+        else
+        {
+            if (rdoBuglar_Alarm_System.SelectedValue == "Y")
+                trACICamera_Edit.Visible = trLiveCamera_Edit.Visible = true;
+            else
+                trACICamera_Edit.Visible = trLiveCamera_Edit.Visible = false;
+        }
+    }
+
     #endregion
 
     #region "DPD_FROIs"
@@ -3624,6 +3647,11 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         Response.Redirect("Asset_Protection.aspx?loc=" + Request.QueryString["loc"] + "&pnl=" + hdnPanel.Value + "&op=view");
     }
 
+    protected void rdoBuglar_Alarm_System_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        ShoHideCameraRow();
+        //Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
+    }
     #endregion
 
     #region " DPD_FROIs "
@@ -5292,7 +5320,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             tblMainPropertySecurityGrid.Style["display"] = "none";
             tblMainPropertySecurity.Style["display"] = "";
             dvProperty_SecuritySave.Style["display"] = "";
-            
+            ShoHideCameraRow();
         }
         else if (e.CommandName == "gvView")
         {
@@ -5311,7 +5339,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             tblMainPropertySecurityGridView.Style["display"] = "none";
             tblMainPropertySecurityView.Style["display"] = "";            
             //dvProperty_SecuritySave.Style["display"] = "";
-
+            ShoHideCameraRow();
         }
         if (e.CommandName == "Remove")
         {
@@ -5356,6 +5384,5 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     //        }
     //    }
     //}
-
 
 }
