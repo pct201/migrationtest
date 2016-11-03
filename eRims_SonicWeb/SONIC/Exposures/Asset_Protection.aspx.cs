@@ -589,6 +589,8 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         txtCCTV_Company_Contact_EMail.Text = objAP_Property_Security.CCTV_Company_Contact_EMail;
         rdoCal_Atlantic_System.SelectedValue = objAP_Property_Security.Cal_Atlantic_System;
         rdoLive_Monitoring.SelectedValue = objAP_Property_Security.Live_Monitoring;
+        rdoACI_Burglary_System.SelectedValue = objAP_Property_Security.ACI_Burglary_System;
+        rdoLive_Burglary_Monitoring.SelectedValue = objAP_Property_Security.Live_Burglary_Monitoring;
         //txtHours_Monitored_From.Text = objAP_Property_Security.Hours_Monitored_From;
         //txtHours_Monitored_To.Text = objAP_Property_Security.Hours_Monitored_To;
         txtExterior_Camera_Coverage_Other_Description.Text = objAP_Property_Security.Exterior_Camera_Coverage_Other_Description;
@@ -740,6 +742,10 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             lblCal_Atlantic_System.Text = objAP_Property_Security.Cal_Atlantic_System == "Y" ? "Yes" : "No";
         else
             lblCal_Atlantic_System.Text = string.Empty;
+
+        lblLive_Burglary_Monitoring.Text = objAP_Property_Security.Live_Burglary_Monitoring == null ? string.Empty : objAP_Property_Security.Live_Burglary_Monitoring == "Y" ? "Yes" : "No";
+        lblACI_Burglary_System.Text = objAP_Property_Security.ACI_Burglary_System == null ? string.Empty : objAP_Property_Security.ACI_Burglary_System == "Y" ? "Yes" : "No";
+
         if (objAP_Property_Security.Live_Monitoring != null)
             lblLive_Monitoring.Text = objAP_Property_Security.Live_Monitoring == "Y" ? "Yes" : "No";
         else
@@ -906,6 +912,8 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         objAP_Property_Security.CCTV_Company_Contact_EMail = txtCCTV_Company_Contact_EMail.Text.Trim();
         objAP_Property_Security.Cal_Atlantic_System = rdoCal_Atlantic_System.SelectedValue;
         objAP_Property_Security.Live_Monitoring = rdoLive_Monitoring.SelectedValue;
+        objAP_Property_Security.ACI_Burglary_System = rdoACI_Burglary_System.SelectedValue;
+        objAP_Property_Security.Live_Burglary_Monitoring = rdoLive_Burglary_Monitoring.SelectedValue;
         //objAP_Property_Security.Hours_Monitored_From = txtHours_Monitored_From.Text.Trim();
         //objAP_Property_Security.Hours_Monitored_To = txtHours_Monitored_To.Text.Trim();
         objAP_Property_Security.Exterior_Camera_Coverage_Other_Description = txtExterior_Camera_Coverage_Other_Description.Text.Trim();

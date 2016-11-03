@@ -794,7 +794,38 @@ function SetRiskCategory() {
                                                                 ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*"></asp:RegularExpressionValidator>
                                                         </td>
                                                     </tr>
-                                                    
+                                                     <tr>
+                                                        <td align="left" valign="top">ACI Camera System <%--Change Header text from Cal Atlantic to ACI as per client's request Bug ID = 2552--%>
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:RadioButtonList ID="rdoCal_Atlantic_System" runat="server" SkinID="YesNoType">
+                                                            </asp:RadioButtonList>
+                                                        </td>
+                                                        <td align="left" valign="top">&nbsp;
+                                                        </td>
+                                                        <td align="center" valign="top">&nbsp;
+                                                        </td>
+                                                        <td align="left" valign="top">&nbsp;
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" valign="top">Live Camera Monitoring
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:RadioButtonList ID="rdoLive_Monitoring" runat="server" SkinID="YesNoType">
+                                                            </asp:RadioButtonList>
+                                                        </td>
+                                                        <td align="left" valign="top">&nbsp;
+                                                        </td>
+                                                        <td align="center" valign="top">&nbsp;
+                                                        </td>
+                                                        <td align="left" valign="top">&nbsp;
+                                                        </td>
+                                                    </tr>
                                                     <tr>
                                                         <td align="left" valign="top">CCTV Hours Monitoring Grid<br />
                                                             <asp:LinkButton ID="lnkbtnAddCCTVHoursMonitoringGrid" runat="server" Text="--Add--"
@@ -1130,12 +1161,12 @@ function SetRiskCategory() {
                                                         </td>
                                                     </tr>
                                                     <tr id="trACICamera_Edit" runat="server">
-                                                        <td align="left" valign="top">ACI Camera System <%--Change Header text from Cal Atlantic to ACI as per client's request Bug ID = 2552--%>
+                                                        <td align="left" valign="top">ACI Burglary System
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            <asp:RadioButtonList ID="rdoCal_Atlantic_System" runat="server" SkinID="YesNoType">
+                                                            <asp:RadioButtonList ID="rdoACI_Burglary_System" runat="server" SkinID="YesNoType">
                                                             </asp:RadioButtonList>
                                                         </td>
                                                         <td align="left" valign="top">&nbsp;
@@ -1146,12 +1177,12 @@ function SetRiskCategory() {
                                                         </td>
                                                     </tr>
                                                     <tr id="trLiveCamera_Edit" runat="server">
-                                                        <td align="left" valign="top">Live Camera Monitoring
+                                                        <td align="left" valign="top">ACI Live Burglary Monitoring
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            <asp:RadioButtonList ID="rdoLive_Monitoring" runat="server" SkinID="YesNoType">
+                                                            <asp:RadioButtonList ID="rdoLive_Burglary_Monitoring" runat="server" SkinID="YesNoType">
                                                             </asp:RadioButtonList>
                                                         </td>
                                                         <td align="left" valign="top">&nbsp;
@@ -5481,6 +5512,36 @@ function SetRiskCategory() {
                                                         </td>
                                                     </tr>
                                                     <tr>
+                                                        <td align="left" valign="top">ACI Camera System <%--Change Header text from Cal Atlantic to ACI as per client's request Bug ID = 2552--%>
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:Label ID="lblCal_Atlantic_System" runat="server"></asp:Label>
+                                                        </td>
+                                                        <td align="left" valign="top">&nbsp;
+                                                        </td>
+                                                        <td align="center" valign="top">&nbsp;
+                                                        </td>
+                                                        <td align="left" valign="top">&nbsp;
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" valign="top">Live Camera Monitoring
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:Label ID="lblLive_Monitoring" runat="server"></asp:Label>
+                                                        </td>
+                                                        <td align="left" valign="top">&nbsp;
+                                                        </td>
+                                                        <td align="center" valign="top">&nbsp;
+                                                        </td>
+                                                        <td align="left" valign="top">&nbsp;
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
                                                         <td align="left" valign="top">CCTV Hours Monitoring Grid
                                                         </td>
                                                         <td align="center" valign="top">:
@@ -5806,12 +5867,12 @@ function SetRiskCategory() {
                                                         </td>
                                                     </tr>
                                                     <tr id="trACICamera_View" runat="server">
-                                                        <td align="left" valign="top">ACI Camera System <%--Change Header text from Cal Atlantic to ACI as per client's request Bug ID = 2552--%>
+                                                        <td align="left" valign="top">ACI Burglary System
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            <asp:Label ID="lblCal_Atlantic_System" runat="server"></asp:Label>
+                                                            <asp:Label ID="lblACI_Burglary_System" runat="server"></asp:Label>
                                                         </td>
                                                         <td align="left" valign="top">&nbsp;
                                                         </td>
@@ -5821,12 +5882,12 @@ function SetRiskCategory() {
                                                         </td>
                                                     </tr>
                                                     <tr id="trLiveCamera_View" runat="server">
-                                                        <td align="left" valign="top">Live Camera Monitoring
+                                                        <td align="left" valign="top">ACI Live Burglary Monitoring
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            <asp:Label ID="lblLive_Monitoring" runat="server"></asp:Label>
+                                                            <asp:Label ID="lblLive_Burglary_Monitoring" runat="server"></asp:Label>
                                                         </td>
                                                         <td align="left" valign="top">&nbsp;
                                                         </td>

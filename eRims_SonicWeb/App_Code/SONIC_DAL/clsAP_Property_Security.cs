@@ -121,7 +121,9 @@ namespace ERIMS.DAL
         private string _AC_Door_Restrictions;
         private string _Total_Hours_CCTV_Monitored_Per_Week;
         private string _SITS_Supra_Key_Advantage;
-        private string _FK_Building_Id; 
+        private string _FK_Building_Id;
+        private string _ACI_Burglary_System;
+        private string _Live_Burglary_Monitoring;
 
         #endregion
 
@@ -1108,7 +1110,24 @@ namespace ERIMS.DAL
             get { return _FK_Building_Id; }
             set { _FK_Building_Id = value; }
         }
+        
+        /// <summary>
+        /// Gets or sets the ACI_Burglary_System value.
+        /// </summary>
+        public string ACI_Burglary_System
+        {
+            get { return _ACI_Burglary_System; }
+            set { _ACI_Burglary_System = value; }
+        }
 
+        /// <summary>
+        /// Gets or sets the Live_Burglary_Monitoring value.
+        /// </summary>
+        public string Live_Burglary_Monitoring
+        {
+            get { return _Live_Burglary_Monitoring; }
+            set { _Live_Burglary_Monitoring = value; }
+        }
         #endregion
 
         #region Default Constructors
@@ -1687,6 +1706,16 @@ namespace ERIMS.DAL
                 this._SITS_Supra_Key_Advantage = null;
             else
                 this._SITS_Supra_Key_Advantage = (string)drAP_Property_Security["SITS_Supra_Key_Advantage"];
+
+            if (drAP_Property_Security["ACI_Burglary_System"] == DBNull.Value)
+                this._ACI_Burglary_System = null;
+            else
+                this._ACI_Burglary_System = (string)drAP_Property_Security["ACI_Burglary_System"];
+
+            if (drAP_Property_Security["Live_Burglary_Monitoring"] == DBNull.Value)
+                this._Live_Burglary_Monitoring = null;
+            else
+                this._Live_Burglary_Monitoring = (string)drAP_Property_Security["Live_Burglary_Monitoring"];
         }
 
 
@@ -2214,6 +2243,16 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "SITS_Supra_Key_Advantage", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "SITS_Supra_Key_Advantage", DbType.String, this._SITS_Supra_Key_Advantage);
+
+            if (string.IsNullOrEmpty(this._ACI_Burglary_System))
+                db.AddInParameter(dbCommand, "ACI_Burglary_System", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "ACI_Burglary_System", DbType.String, this._ACI_Burglary_System);
+
+            if (string.IsNullOrEmpty(this._Live_Burglary_Monitoring))
+                db.AddInParameter(dbCommand, "Live_Burglary_Monitoring", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Live_Burglary_Monitoring", DbType.String, this._Live_Burglary_Monitoring);
 
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -2765,6 +2804,16 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "SITS_Supra_Key_Advantage", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "SITS_Supra_Key_Advantage", DbType.String, this._SITS_Supra_Key_Advantage);
+
+            if (string.IsNullOrEmpty(this._ACI_Burglary_System))
+                db.AddInParameter(dbCommand, "ACI_Burglary_System", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "ACI_Burglary_System", DbType.String, this._ACI_Burglary_System);
+
+            if (string.IsNullOrEmpty(this._Live_Burglary_Monitoring))
+                db.AddInParameter(dbCommand, "Live_Burglary_Monitoring", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Live_Burglary_Monitoring", DbType.String, this._Live_Burglary_Monitoring);
 
             db.ExecuteNonQuery(dbCommand);
         }

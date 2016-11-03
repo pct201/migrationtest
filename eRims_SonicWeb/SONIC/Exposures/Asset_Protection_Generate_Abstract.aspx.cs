@@ -16,17 +16,17 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
 
     #region Properties
 
-    string strCamera = "<table> <tr>" +
-            "<td align='left' valign='top'> <span style='font-family: Arial; font-size: 13.5px;'>ACI Camera System</span></td>" +
+    string strBurglar = "<table> <tr>" +
+            "<td align='left' valign='top'> <span style='font-family: Arial; font-size: 13.5px;'>ACI Burglary System</span></td>" +
             "<td align='center' valign='top'>:</td>" +
-            "<td align='left' valign='top'><span style='font-family: Arial; font-size: 13.5px;'>[Cal_Atlantic_System]</span></td>" +
+            "<td align='left' valign='top'><span style='font-family: Arial; font-size: 13.5px;'>[ACI_Burglary_System]</span></td>" +
             "<td align='left' valign='top'>&nbsp;</td>" +
             "<td align='center' valign='top'>&nbsp;</td>" +
             "<td align='left' valign='top'>&nbsp;</td>" +
             "</tr>" + "<tr>" +
-            "<td align='left' valign='top'><span style='font-family: Arial; font-size: 13.5px;'>Live Camera Monitoring</span></td>" +
+            "<td align='left' valign='top'><span style='font-family: Arial; font-size: 13.5px;'>ACI Live Burglary Monitoring</span></td>" +
             "<td align='center' valign='top'>:</td>" +
-            "<td align='left' valign='top'><span style='font-family: Arial; font-size: 13.5px;'>[Live_Monitoring]</span></td>" +
+            "<td align='left' valign='top'><span style='font-family: Arial; font-size: 13.5px;'>[Live_Burglary_Monitoring]</span></td>" +
             "<td align='left' valign='top'>&nbsp;</td>" +
             "<td align='center' valign='top'>&nbsp;</td>" +
             "<td align='left' valign='top'>&nbsp;</td></table>" +
@@ -660,7 +660,7 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
             sbHtml = new System.Text.StringBuilder("");
             GenerateFinancialGrid(sbHtml);
             htFindAndReplace.Add("[Financial_Grid]", sbHtml.ToString());
-            htFindAndReplace.Add("[CameraRow]", objAP_Property_Security.Buglar_Alarm_System == "Y" ? strCamera : "");
+            htFindAndReplace.Add("[CameraRow]", objAP_Property_Security.Buglar_Alarm_System == "Y" ? strBurglar : "");
             htFindAndReplace.Add("[CCTV_Company_Name]", objAP_Property_Security.CCTV_Company_Name);
 
             htFindAndReplace.Add("[CCTV_Company_Address_1]", objAP_Property_Security.CCTV_Company_Address_1);
@@ -679,6 +679,8 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
             htFindAndReplace.Add("[CCTV_Company_Contact_EMail]", objAP_Property_Security.CCTV_Company_Contact_EMail);
             htFindAndReplace.Add("[Cal_Atlantic_System]", objAP_Property_Security.Cal_Atlantic_System == "Y" ? "Yes" : "No");
             htFindAndReplace.Add("[Live_Monitoring]", objAP_Property_Security.Live_Monitoring == "Y" ? "Yes" : "No");
+            htFindAndReplace.Add("[ACI_Burglary_System]", objAP_Property_Security.ACI_Burglary_System == "Y" ? "Yes" : "No");
+            htFindAndReplace.Add("[Live_Burglary_Monitoring]", objAP_Property_Security.Live_Burglary_Monitoring == "Y" ? "Yes" : "No");
             htFindAndReplace.Add("[Hours_Monitored_From]", objAP_Property_Security.Hours_Monitored_From);
             htFindAndReplace.Add("[Hours_Monitored_To]", objAP_Property_Security.Hours_Monitored_To);
             if (objAP_Property_Security.ECC_Back == "Y")
@@ -1558,7 +1560,7 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
 
             clsAP_Property_Security objAP_Property_Security = new clsAP_Property_Security(PK_AP_Property_Security);
             htFindAndReplace.Add("[CCTV_Company_Name]", objAP_Property_Security.CCTV_Company_Name);
-            htFindAndReplace.Add("[CameraRow]", objAP_Property_Security.Buglar_Alarm_System == "Y" ? strCamera : "");
+            htFindAndReplace.Add("[CameraRow]", objAP_Property_Security.Buglar_Alarm_System == "Y" ? strBurglar : "");
             htFindAndReplace.Add("[CCTV_Company_Address_1]", objAP_Property_Security.CCTV_Company_Address_1);
             htFindAndReplace.Add("[CCTV_Company_Address_2]", objAP_Property_Security.CCTV_Company_Address_2);
             htFindAndReplace.Add("[CCTV_Company_City]", objAP_Property_Security.CCTV_Company_City);
@@ -1575,6 +1577,8 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
             htFindAndReplace.Add("[CCTV_Company_Contact_EMail]", objAP_Property_Security.CCTV_Company_Contact_EMail);
             htFindAndReplace.Add("[Cal_Atlantic_System]", objAP_Property_Security.Cal_Atlantic_System == "Y" ? "Yes" : "No");
             htFindAndReplace.Add("[Live_Monitoring]", objAP_Property_Security.Live_Monitoring == "Y" ? "Yes" : "No");
+            htFindAndReplace.Add("[ACI_Burglary_System]", objAP_Property_Security.ACI_Burglary_System == "Y" ? "Yes" : "No");
+            htFindAndReplace.Add("[Live_Burglary_Monitoring]", objAP_Property_Security.Live_Burglary_Monitoring == "Y" ? "Yes" : "No");
             htFindAndReplace.Add("[Hours_Monitored_From]", objAP_Property_Security.Hours_Monitored_From);
             htFindAndReplace.Add("[Hours_Monitored_To]", objAP_Property_Security.Hours_Monitored_To);
             if (objAP_Property_Security.ECC_Back == "Y")
