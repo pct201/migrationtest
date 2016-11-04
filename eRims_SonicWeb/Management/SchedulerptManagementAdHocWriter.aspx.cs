@@ -20,7 +20,12 @@ public partial class Management_SchedulerptManagementAdHocWriter : System.Web.UI
     /// </summary>
     public int PK_Schedule
     {
-        get { return (!clsGeneral.IsNull(Request.QueryString["PKID"]) ? Convert.ToInt32(Request.QueryString["PKID"]) : -1); }
+        //get { return (!clsGeneral.IsNull(Request.QueryString["PKID"]) ? Convert.ToInt32(Request.QueryString["PKID"]) : -1); }
+        get
+        {
+            return clsGeneral.GetInt(ViewState["PK_Schedule"]);
+        }
+        set { ViewState["PK_Schedule"] = value; }
     }
     /// Used To manipulate PK_Schedule(PKID) Parameter
     /// </summary>
@@ -35,8 +40,9 @@ public partial class Management_SchedulerptManagementAdHocWriter : System.Web.UI
     {
         if (!IsPostBack)
         {
-            //Receoipient List
+            //Recipient List
             ComboHelper.GetRecipientList(drpRecipientList);
+            PK_Schedule = !clsGeneral.IsNull(Request.QueryString["PKID"]) ? Convert.ToInt32(Request.QueryString["PKID"]) : -1;
             if (PK_Schedule > 0)
             {
                 BindControlsEdit();
@@ -129,7 +135,7 @@ public partial class Management_SchedulerptManagementAdHocWriter : System.Web.UI
     /// </summary>
     private void BindControlsEdit()
     {
-        //Get Shecuduler record PK_Scheduler Id Wise  
+        //Get Scheduler record PK_Scheduler Id Wise  
         DataSet dsReportSchedule = Tatva_ReportSchedule.SelectAllDetailsBy_PK_Scheduler(PK_Schedule);
         if (dsReportSchedule != null && dsReportSchedule.Tables.Count > 0 && dsReportSchedule.Tables[0].Rows.Count > 0)
         {
@@ -140,6 +146,8 @@ public partial class Management_SchedulerptManagementAdHocWriter : System.Web.UI
             drpRecipientList.SelectedValue = Convert.ToString(dtReportSchedule.Rows[0]["Fk_RecipientList"]);
             txtReportName.Text = Convert.ToString(dtReportSchedule.Rows[0]["ReportSchedulerName"]); ;
         }
+        else
+            PK_Schedule = -1;
     }
 
     #endregion
