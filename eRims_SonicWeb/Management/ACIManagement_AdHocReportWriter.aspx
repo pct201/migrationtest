@@ -1934,7 +1934,7 @@
                                 :
                             </td>
                             <td align="left" style="width: 34%;">
-                                <asp:DropDownList ID="ddlReports" runat="server" AutoPostBack="True" AppendDataBoundItems="true"
+                                <asp:DropDownList ID="ddlReports" runat="server" AutoPostBack="True" AppendDataBoundItems="true" SkinID="dropGen"
                                     OnSelectedIndexChanged="ddlReports_SelectedIndexChanged" Width="250px" onchange="SaveScrollPositions();AskfForLogoff=false;Page_ClientValidate('dummy');">
                                     <asp:ListItem Text="---Select---" Value="0"></asp:ListItem>
                                 </asp:DropDownList>

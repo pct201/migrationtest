@@ -781,7 +781,7 @@ public partial class Management_ACIManagement_AdHocReportWriter : clsBasePage
             lstFilter = new ERIMS.DAL.Management_AdHocFilter().GetAdHocReportFieldByPk(_dcSelectedReport.Value);
 
             ERIMS.DAL.Management_AdHocReport ObjAdHocReport = new ERIMS.DAL.Management_AdHocReport(_dcSelectedReport.Value);
-
+            PK_SID = ObjAdHocReport.FK_Schedule.HasValue ? Convert.ToDecimal(ObjAdHocReport.FK_Schedule) : 0;
             // Clear All Panels to bank
             ClearAllFilterPanel();
 
@@ -977,6 +977,7 @@ public partial class Management_ACIManagement_AdHocReportWriter : clsBasePage
         }
         else
         {
+            PK_SID = 0;
             txtReportName.Text = "";
             btnDeleteReport.Enabled = false;
             //Get Major Coverage IDs Before Clear it
