@@ -421,8 +421,10 @@ namespace ERIMS.DAL
                 else
                     this._FifthGroupBy = (decimal?)drAdHocReport["FifthGroupBy"];
 
-
-
+                if (drAdHocReport["FK_Schedule"] == DBNull.Value)
+                    this._FK_Schedule = null;
+                else
+                    this._FK_Schedule = (decimal?)drAdHocReport["FK_Schedule"];
 
                 if (drAdHocReport["FirstSortBy"] == DBNull.Value)
                     this._FirstSortBy = null;
@@ -474,7 +476,6 @@ namespace ERIMS.DAL
                     this._FifthSortBy = null;
                 else
                     this._FifthSortBy = (decimal?)drAdHocReport["FifthSortBy"];
-
 
                 if (drAdHocReport["PriorValuationDate"] == DBNull.Value)
                     this._PriorValuationDate = null;
