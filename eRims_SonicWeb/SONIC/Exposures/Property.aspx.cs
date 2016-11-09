@@ -3268,14 +3268,14 @@ public partial class Exposures_Property : clsBasePage
             DataTable dtLocation = LU_Location.SelectByPK(fk_Location_Id).Tables[0];
             DataTable dtBuilding;
 
-            if (Convert.ToInt64(dtLocation.Rows[0]["Sonic_Location_Code"]) == 503)
-            {
-                dtBuilding = Building.BuildingBySelectedFKLocation(fk_Location_Id).Tables[0];
-            }
-            else
-            {
-                 dtBuilding = Building.BuildingByFKLocation(fk_Location_Id).Tables[0];
-            }
+            //if (Convert.ToInt64(dtLocation.Rows[0]["Sonic_Location_Code"]) == 503)
+            //{
+            //    dtBuilding = Building.BuildingBySelectedFKLocation(fk_Location_Id).Tables[0];
+            //}
+            //else
+            //{
+            dtBuilding = Building.BuildingByFKLocation(fk_Location_Id).Tables[0];
+            //}
             cblBuildingList.DataSource = dtBuilding;
             cblBuildingList.DataTextField = "Building_Occupacy";
             cblBuildingList.DataValueField = "PK_Building_ID";
