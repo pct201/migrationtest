@@ -147,9 +147,11 @@
         BorderColor="DimGray" BorderWidth="1" HeaderText="Verify the following fields:"
         ShowMessageBox="true" ShowSummary="false"></asp:ValidationSummary>
     <div>
-        &nbsp;</div>
+        &nbsp;
+    </div>
     <div class="bandHeaderRow">
-        Investigation: Ad Hoc Report Writer</div>
+        Investigation: Ad Hoc Report Writer
+    </div>
     <asp:Panel ID="pnl_Container" runat="server">
         <asp:UpdatePanel ID="upOutput" runat="server" RenderMode="Inline" UpdateMode="Conditional">
             <ContentTemplate>
@@ -160,17 +162,31 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 8%">
-                            &nbsp;
+                        <td colspan="2">
+                            <table width="100%" cellpadding="2" cellspacing="2">
+                                <tr valign="top">
+                                      <td style="width: 8%">&nbsp;
+                                     </td>
+                                    <td style="width: 16%">What is the Nature of this Incident?</td>
+                                    <td style="width: 2%;" align="center">:
+                                    </td>
+                                    <td style="width: 72%">
+                                        <asp:DropDownList ID="drpCauseOfIncident" runat="server" AutoPostBack="true" OnSelectedIndexChanged="drpCauseOfIncident_SelectedIndexChanged">
+                                        </asp:DropDownList>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 8%">&nbsp;
                         </td>
                         <td>
                             <table width="100%" cellpadding="2" cellspacing="2">
                                 <tr valign="top">
-                                    <td style="width: 16%">
-                                        Select Output Fields
+                                    <td style="width: 16%">Select Output Fields
                                     </td>
-                                    <td style="width: 2%;" align="center">
-                                        :
+                                    <td style="width: 2%;" align="center">:
                                     </td>
                                     <td style="width: 72%">
                                         <table width="100%">
@@ -222,17 +238,14 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>
-                            &nbsp;
+                        <td>&nbsp;
                         </td>
                         <td>
                             <table width="100%">
                                 <tr>
-                                    <td style="width: 16%">
-                                        First Level Group By
+                                    <td style="width: 16%">First Level Group By
                                     </td>
-                                    <td style="width: 2%;" align="center">
-                                        :
+                                    <td style="width: 2%;" align="center">:
                                     </td>
                                     <td width="32%">
                                         <asp:DropDownList ID="drpGroupByFirst" runat="server" EnableTheming="false" Width="250px">
@@ -248,11 +261,9 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>
-                                        Second Level Group By
+                                    <td>Second Level Group By
                                     </td>
-                                    <td align="center">
-                                        :
+                                    <td align="center">:
                                     </td>
                                     <td>
                                         <asp:DropDownList ID="drpGroupBySecond" runat="server" Width="250px" EnableTheming="false">
@@ -280,17 +291,14 @@
                         </td>
                     </tr>
                     <tr align="left">
-                        <td>
-                            &nbsp;
+                        <td>&nbsp;
                         </td>
                         <td>
                             <table width="100%" cellpadding="2" cellspacing="2">
                                 <tr>
-                                    <td style="width: 16%">
-                                        First Level Sorting
+                                    <td style="width: 16%">First Level Sorting
                                     </td>
-                                    <td style="width: 2%;" align="center">
-                                        :
+                                    <td style="width: 2%;" align="center">:
                                     </td>
                                     <td width="32%">
                                         <asp:DropDownList ID="drpSortingFirst" runat="server" EnableTheming="false" Width="250px">
@@ -306,11 +314,9 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>
-                                        Second Level Sorting
+                                    <td>Second Level Sorting
                                     </td>
-                                    <td align="center">
-                                        :
+                                    <td align="center">:
                                     </td>
                                     <td>
                                         <asp:DropDownList ID="drpSortingSecond" runat="server" Width="250px" EnableTheming="false">
@@ -326,11 +332,9 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>
-                                        Third Level Sorting
+                                    <td>Third Level Sorting
                                     </td>
-                                    <td align="center">
-                                        :
+                                    <td align="center">:
                                     </td>
                                     <td>
                                         <asp:DropDownList ID="drpSortingThird" runat="server" Width="250px" EnableTheming="false">
@@ -371,23 +375,21 @@
                 <asp:AsyncPostBackTrigger ControlID="btnDeselectFields" EventName="Click"></asp:AsyncPostBackTrigger>
                 <asp:AsyncPostBackTrigger ControlID="imgDown" EventName="Click"></asp:AsyncPostBackTrigger>
                 <asp:AsyncPostBackTrigger ControlID="imgUp" EventName="Click"></asp:AsyncPostBackTrigger>
+                <asp:AsyncPostBackTrigger ControlID="drpCauseOfIncident" EventName="SelectedIndexChanged"></asp:AsyncPostBackTrigger>
             </Triggers>
         </asp:UpdatePanel>
         <asp:UpdatePanel ID="upFilter" runat="server" RenderMode="Inline" UpdateMode="Always">
             <ContentTemplate>
                 <table width="100%" cellpadding="4" cellspacing="2">
                     <tr>
-                        <td colspan="2" class="bandHeaderRow">
-                            Filter Criteria
+                        <td colspan="2" class="bandHeaderRow">Filter Criteria
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2" class="Spacer" style="height: 5px;">
-                        </td>
+                        <td colspan="2" class="Spacer" style="height: 5px;"></td>
                     </tr>
                     <tr>
-                        <td valign="top" width="8%">
-                            &nbsp;<b>Filter 1 :</b>
+                        <td valign="top" width="8%">&nbsp;<b>Filter 1 :</b>
                         </td>
                         <td>
                             <table cellpadding="2" cellspacing="1" width="100%" align="center">
@@ -445,8 +447,7 @@
                                                 </tr>
                                             </table>
                                         </asp:Panel>
-                                        <asp:ListBox ID="lst_F1" runat="server" Rows="5" Width="400px" SelectionMode="Multiple">
-                                        </asp:ListBox>
+                                        <asp:ListBox ID="lst_F1" runat="server" Rows="5" Width="400px" SelectionMode="Multiple"></asp:ListBox>
                                         <asp:Panel ID="pnlAmount_F1" runat="server">
                                             <table cellpadding="1">
                                                 <tr>
@@ -495,8 +496,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td valign="top">
-                            &nbsp;<b>Filter 2 :</b>
+                        <td valign="top">&nbsp;<b>Filter 2 :</b>
                         </td>
                         <td>
                             <table cellpadding="2" cellspacing="1" width="100%" align="center">
@@ -555,8 +555,7 @@
                                                 </tr>
                                             </table>
                                         </asp:Panel>
-                                        <asp:ListBox ID="lst_F2" runat="server" Rows="5" Width="400px" SelectionMode="Multiple">
-                                        </asp:ListBox>
+                                        <asp:ListBox ID="lst_F2" runat="server" Rows="5" Width="400px" SelectionMode="Multiple"></asp:ListBox>
                                         <asp:Panel ID="pnlAmount_F2" runat="server">
                                             <table cellpadding="1">
                                                 <tr>
@@ -605,8 +604,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td valign="top">
-                            &nbsp;<b>Filter 3 :</b>
+                        <td valign="top">&nbsp;<b>Filter 3 :</b>
                         </td>
                         <td>
                             <table cellpadding="2" cellspacing="1" width="100%" align="center">
@@ -665,8 +663,7 @@
                                                 </tr>
                                             </table>
                                         </asp:Panel>
-                                        <asp:ListBox ID="lst_F3" runat="server" Rows="5" Width="400px" SelectionMode="Multiple">
-                                        </asp:ListBox>
+                                        <asp:ListBox ID="lst_F3" runat="server" Rows="5" Width="400px" SelectionMode="Multiple"></asp:ListBox>
                                         <asp:Panel ID="pnlAmount_F3" runat="server">
                                             <table cellpadding="1">
                                                 <tr>
@@ -715,8 +712,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td valign="top">
-                            &nbsp;<b>Filter 4 :</b>
+                        <td valign="top">&nbsp;<b>Filter 4 :</b>
                         </td>
                         <td>
                             <table cellpadding="2" cellspacing="1" width="100%" align="center">
@@ -775,8 +771,7 @@
                                                 </tr>
                                             </table>
                                         </asp:Panel>
-                                        <asp:ListBox ID="lst_F4" runat="server" Rows="5" Width="400px" SelectionMode="Multiple">
-                                        </asp:ListBox>
+                                        <asp:ListBox ID="lst_F4" runat="server" Rows="5" Width="400px" SelectionMode="Multiple"></asp:ListBox>
                                         <asp:Panel ID="pnlAmount_F4" runat="server">
                                             <table cellpadding="1">
                                                 <tr>
@@ -825,8 +820,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td valign="top">
-                            &nbsp;<b>Filter 5 :</b>
+                        <td valign="top">&nbsp;<b>Filter 5 :</b>
                         </td>
                         <td>
                             <table cellpadding="2" cellspacing="1" width="100%" align="center">
@@ -885,8 +879,7 @@
                                                 </tr>
                                             </table>
                                         </asp:Panel>
-                                        <asp:ListBox ID="lst_F5" runat="server" Rows="5" Width="400px" SelectionMode="Multiple">
-                                        </asp:ListBox>
+                                        <asp:ListBox ID="lst_F5" runat="server" Rows="5" Width="400px" SelectionMode="Multiple"></asp:ListBox>
                                         <asp:Panel ID="pnlAmount_F5" runat="server">
                                             <table cellpadding="1">
                                                 <tr>
@@ -935,8 +928,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td valign="top">
-                            &nbsp;<b>Filter 6 :</b>
+                        <td valign="top">&nbsp;<b>Filter 6 :</b>
                         </td>
                         <td>
                             <table cellpadding="2" cellspacing="1" width="100%" align="center">
@@ -995,8 +987,7 @@
                                                 </tr>
                                             </table>
                                         </asp:Panel>
-                                        <asp:ListBox ID="lst_F6" runat="server" Rows="5" Width="400px" SelectionMode="Multiple">
-                                        </asp:ListBox>
+                                        <asp:ListBox ID="lst_F6" runat="server" Rows="5" Width="400px" SelectionMode="Multiple"></asp:ListBox>
                                         <asp:Panel ID="pnlAmount_F6" runat="server">
                                             <table cellpadding="1">
                                                 <tr>
@@ -1045,8 +1036,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td valign="top">
-                            &nbsp;<b>Filter 7 :</b>
+                        <td valign="top">&nbsp;<b>Filter 7 :</b>
                         </td>
                         <td>
                             <table cellpadding="2" cellspacing="1" width="100%" align="center">
@@ -1105,8 +1095,7 @@
                                                 </tr>
                                             </table>
                                         </asp:Panel>
-                                        <asp:ListBox ID="lst_F7" runat="server" Rows="5" Width="400px" SelectionMode="Multiple">
-                                        </asp:ListBox>
+                                        <asp:ListBox ID="lst_F7" runat="server" Rows="5" Width="400px" SelectionMode="Multiple"></asp:ListBox>
                                         <asp:Panel ID="pnlAmount_F7" runat="server">
                                             <table cellpadding="1">
                                                 <tr>
@@ -1155,8 +1144,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td valign="top">
-                            &nbsp;<b>Filter 8 :</b>
+                        <td valign="top">&nbsp;<b>Filter 8 :</b>
                         </td>
                         <td>
                             <table cellpadding="2" cellspacing="1" width="100%" align="center">
@@ -1215,8 +1203,7 @@
                                                 </tr>
                                             </table>
                                         </asp:Panel>
-                                        <asp:ListBox ID="lst_F8" runat="server" Rows="5" Width="400px" SelectionMode="Multiple">
-                                        </asp:ListBox>
+                                        <asp:ListBox ID="lst_F8" runat="server" Rows="5" Width="400px" SelectionMode="Multiple"></asp:ListBox>
                                         <asp:Panel ID="pnlAmount_F8" runat="server">
                                             <table cellpadding="1">
                                                 <tr>
@@ -1265,8 +1252,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td valign="top">
-                            &nbsp;<b>Filter 9 :</b>
+                        <td valign="top">&nbsp;<b>Filter 9 :</b>
                         </td>
                         <td>
                             <table cellpadding="2" cellspacing="1" width="100%" align="center">
@@ -1325,8 +1311,7 @@
                                                 </tr>
                                             </table>
                                         </asp:Panel>
-                                        <asp:ListBox ID="lst_F9" runat="server" Rows="5" Width="400px" SelectionMode="Multiple">
-                                        </asp:ListBox>
+                                        <asp:ListBox ID="lst_F9" runat="server" Rows="5" Width="400px" SelectionMode="Multiple"></asp:ListBox>
                                         <asp:Panel ID="pnlAmount_F9" runat="server">
                                             <table cellpadding="1">
                                                 <tr>
@@ -1375,8 +1360,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td valign="top">
-                            &nbsp;<b>Filter 10 :</b>
+                        <td valign="top">&nbsp;<b>Filter 10 :</b>
                         </td>
                         <td>
                             <table cellpadding="2" cellspacing="1" width="100%" align="center">
@@ -1435,8 +1419,7 @@
                                                 </tr>
                                             </table>
                                         </asp:Panel>
-                                        <asp:ListBox ID="lst_F10" runat="server" Rows="5" Width="400px" SelectionMode="Multiple">
-                                        </asp:ListBox>
+                                        <asp:ListBox ID="lst_F10" runat="server" Rows="5" Width="400px" SelectionMode="Multiple"></asp:ListBox>
                                         <asp:Panel ID="pnlAmount_F10" runat="server">
                                             <table cellpadding="1">
                                                 <tr>
@@ -1489,19 +1472,16 @@
         </asp:UpdatePanel>
         <table width="100%" cellpadding="4" cellspacing="2">
             <tr>
-                <td class="bandHeaderRow">
-                    Saved Reports
+                <td class="bandHeaderRow">Saved Reports
                 </td>
             </tr>
             <tr>
                 <td>
                     <table cellspacing="1" cellpadding="2" style="width: 100%">
                         <tr>
-                            <td align="left" style="width: 12%;">
-                                Report Name
+                            <td align="left" style="width: 12%;">Report Name
                             </td>
-                            <td align="center" style="width: 4%;">
-                                :
+                            <td align="center" style="width: 4%;">:
                             </td>
                             <td align="left" colspan="4" style="width: 84%;">
                                 <asp:TextBox ID="txtReportName" runat="server" ValidationGroup="vsErrorGroup" MaxLength="200"
@@ -1513,11 +1493,9 @@
                             </td>
                         </tr>
                         <tr>
-                            <td align="left" style="width: 12%;">
-                                Select Report
+                            <td align="left" style="width: 12%;">Select Report
                             </td>
-                            <td align="center" style="width: 4%;">
-                                :
+                            <td align="center" style="width: 4%;">:
                             </td>
                             <td align="left" style="width: 34%;">
                                 <asp:DropDownList ID="ddlReports" runat="server" AutoPostBack="True" AppendDataBoundItems="true"
@@ -1525,11 +1503,9 @@
                                     <asp:ListItem Text="---Select---" Value="0"></asp:ListItem>
                                 </asp:DropDownList>
                             </td>
-                            <td align="left" style="width: 12%;">
-                                &nbsp;Select Recipients
+                            <td align="left" style="width: 12%;">&nbsp;Select Recipients
                             </td>
-                            <td align="center" style="width: 4%;">
-                                :
+                            <td align="center" style="width: 4%;">:
                             </td>
                             <td align="left" style="width: 34%;">
                                 <asp:DropDownList ID="ddlRecipientList" runat="server" EnableTheming="false" AutoPostBack="false"
@@ -1544,8 +1520,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="Spacer" style="height: 5px;">
-                </td>
+                <td class="Spacer" style="height: 5px;"></td>
             </tr>
             <tr>
                 <td align="center">
@@ -1566,8 +1541,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="Spacer" style="height: 10px;">
-                </td>
+                <td class="Spacer" style="height: 10px;"></td>
             </tr>
         </table>
     </asp:Panel>

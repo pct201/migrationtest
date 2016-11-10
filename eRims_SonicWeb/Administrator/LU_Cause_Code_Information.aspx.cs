@@ -96,7 +96,7 @@ public partial class Administrator_LU_Cause_Code_Information : clsBasePage
         {
             objCauseCodeInfo.Insert();
         }
-
+        
         BindGrid();
         btnCancel_Click(null, null);
     }

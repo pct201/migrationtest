@@ -218,14 +218,16 @@ namespace ERIMS.DAL
         /// <param name="strCoverage"></param>
         /// <param name="strFieldType"></param>
         /// <returns></returns>
-        public static DataSet GetAdHocFilterFields(string strFieldType)
+        public static DataSet GetAdHocFilterFields(string strFieldType,int masterOrder )
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("SelectInvestAdHocFilterFileds");
                        
             db.AddInParameter(dbCommand, "FieldType", DbType.String, strFieldType);
+            db.AddInParameter(dbCommand, "Master_Order", DbType.Int32, masterOrder);
 
             return db.ExecuteDataSet(dbCommand);
         }
+
     }
 }

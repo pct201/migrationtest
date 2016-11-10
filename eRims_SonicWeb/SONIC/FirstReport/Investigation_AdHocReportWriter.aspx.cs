@@ -38,11 +38,12 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
     {
         if (!IsPostBack)
         {
+            ComboHelper.FillFocusAreaCauseCode(new DropDownList[] { drpCauseOfIncident }, true);
             SetDefaults();
             ClearAllFilterPanel();
             // Reset Scroll Position
             ResetScrollPosition();
-            //Receoipient List
+            //Recipient List
             ComboHelper.GetRecipientList(ddlRecipientList);
             //Hide Hidden Button
             btnHdnScheduling.Style["display"] = "none";
@@ -827,6 +828,18 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
         ResetScrollPosition();
     }
 
+    /// <summary>
+    /// On change of What is the Nature of this Incident? 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void drpCauseOfIncident_SelectedIndexChanged(object sender, EventArgs e)
+    {
+       SetDefaults();
+       ClearAllFilterPanel();
+       ClearControls();
+    }
+
     #endregion
 
     #region "Methods"
@@ -1068,6 +1081,7 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
             btnSelectFields.Enabled = true;
             btnSelectAllFields.Enabled = true;
         }
+        clsGeneral.SetListBoxToolTip(new ListBox[] { lstSelectedFields });
     }
 
     /// <summary>
@@ -1432,7 +1446,11 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
         string strWhere = string.Empty;
         string[] arrwhere = strCondition.Split(',');
         //When Match with Char like [filed_name] in ('O,C')
-        if (!string.IsNullOrEmpty(lstWhereFiels) && !string.IsNullOrEmpty(strCondition))
+        if (!string.IsNullOrEmpty(lstWhereFiels) && !string.IsNullOrEmpty(strCondition) && lstWhereFiels.IndexOf("LCCI") > 0 && strCondition == "'Y'")
+            strWhere = " And " + lstWhereFiels + " IN (" + "'Yes'" + ") ";
+        else if (!string.IsNullOrEmpty(lstWhereFiels) && !string.IsNullOrEmpty(strCondition) && lstWhereFiels.IndexOf("LCCI") > 0 && strCondition == "'N'")
+            strWhere = " And " + lstWhereFiels + " IN (" + "'No'" + ") ";
+        else if (!string.IsNullOrEmpty(lstWhereFiels) && !string.IsNullOrEmpty(strCondition))
             strWhere = " And " + lstWhereFiels + " IN (" + strCondition + ") ";
 
         return strWhere;
@@ -1573,13 +1591,14 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
     /// <param name="strTypes"></param>
     private void BindFilterCombo()
     {
+        DataSet dsTemp = Invest_AdhocReportFields.GetAdHocFilterFields("F", Convert.ToInt32(drpCauseOfIncident.SelectedValue));
         for (int intI = 1; intI <= 10; intI++)
         {
             DropDownList drpFilter = (DropDownList)pnl_Container.FindControl("drpFilter" + intI.ToString());
             if (drpFilter != null)
             {
                 drpFilter.Items.Clear();
-                drpFilter.DataSource = Invest_AdhocReportFields.GetAdHocFilterFields("F");
+                drpFilter.DataSource = dsTemp;
                 drpFilter.DataTextField = "Field_Header";
                 drpFilter.DataValueField = "Pk_AdhocReportFields";
                 drpFilter.DataBind();
@@ -1896,12 +1915,13 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
     private void BindOutpuFields()
     {
         lstOutputFields.Items.Clear();
-        lstOutputFields.DataSource = Invest_AdhocReportFields.GetAdHocFilterFields("O");
+        lstOutputFields.DataSource = Invest_AdhocReportFields.GetAdHocFilterFields("O", Convert.ToInt32(drpCauseOfIncident.SelectedValue));
         lstOutputFields.DataTextField = "Field_Header";
         lstOutputFields.DataValueField = "Pk_AdhocReportFields";
         lstOutputFields.DataBind();
         //Didable button
         btnDeselectFields.Enabled = btnDeselectAllFields.Enabled = imgUp.Enabled = imgDown.Enabled = false;
+        clsGeneral.SetListBoxToolTip(new ListBox[] { lstOutputFields });
     }
 
     /// <summary>
