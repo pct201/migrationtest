@@ -661,6 +661,47 @@ function ShowAuditPopUp(url) {
                                                                     </asp:GridView>
                                                                 </td>
                                                             </tr>
+                                                             <tr>
+                                                                <td colspan="6" width="100%">
+                                                                    <b>SureGrip Footwear Penetration</b>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                 <td align="left" valign="top">SureGrip Footwear Grid
+                                                                    <br />
+                                                                </td>
+                                                                <td align="center" valign="top">:
+                                                                </td>
+                                                                <td colspan="4" align="left" valign="top">
+                                                                    <asp:HiddenField ID="hdnPKSureGripFootwear" runat="server" />
+                                                                    <div style ="height:125px;width:640px;overflow-y:scroll;" runat="server" id="dvSuperGrip">
+                                                                    <asp:GridView ID="gvSureGripFootwear" runat="server" Width="620px" AutoGenerateColumns="false"
+                                                                        AlternatingRowStyle-BackColor="White"  >
+                                                                        <Columns>
+                                                                            <asp:TemplateField HeaderText="Year">
+                                                                                <HeaderStyle CssClass="PropertyInfoBG" />
+                                                                                <ItemStyle BackColor="White" />
+                                                                                <ItemStyle Width="12%" />
+                                                                                <ItemTemplate>
+                                                                                    <asp:Label ID="lblDate" runat="server"  Text='<%# Eval("Year") %>'></asp:Label>
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>
+                                                                            <asp:TemplateField HeaderText="Percentage of Associates">
+                                                                                <HeaderStyle CssClass="PropertyInfoBG" />
+                                                                                <ItemStyle BackColor="White" />
+                                                                                <ItemStyle Width="10%" />
+                                                                                <ItemTemplate>
+                                                                                    <asp:Label ID="lblPercentageOfassociates" runat="server" Text='<%# Eval("SureGripPercent") %>'></asp:Label>
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>
+                                                                        </Columns>
+                                                                        <EmptyDataTemplate>
+                                                                            No Record Found !
+                                                                        </EmptyDataTemplate>
+                                                                    </asp:GridView>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
                                                             <tr>
                                                                 <td colspan="6" width="100%" align="center">
                                                                     <asp:Button ID="btnViewAuditPropertyCOPE" runat="server" Text="View Audit Trail"

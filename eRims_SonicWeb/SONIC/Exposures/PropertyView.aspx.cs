@@ -631,6 +631,13 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
         gvSabaTraining.DataBind();
 
         #endregion
+
+        #region " Bind SureGrip Footwear Grid"
+
+        gvSureGripFootwear.DataSource = Property_COPE_SureGrip.SelectByProperty_Cope(PK_Property_Cope_ID);
+        gvSureGripFootwear.DataBind();
+       
+        #endregion
     }
 
     /// <summary>

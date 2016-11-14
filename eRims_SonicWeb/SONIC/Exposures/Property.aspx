@@ -453,6 +453,41 @@ function ValidateFieldsST(sender, args) {
     }
 }
 
+
+ function ValidateFieldsSG(sender, args) {
+     var msg = '';
+     var ctrlIDs = document.getElementById('<%=hdnControlIDsSG.ClientID%>').value.split(',');
+     var Messages = document.getElementById('<%=hdnErrorMsgsSG.ClientID%>').value.split(',');
+     var focusCtrlID = "";
+    if (document.getElementById('<%=hdnControlIDsSG.ClientID%>').value != "") {
+        var i = 0;
+        for (i = 0; i < ctrlIDs.length; i++) {
+            var bEmpty = false;
+            var ctrl = document.getElementById(ctrlIDs[i]);
+            switch (ctrl.type) {
+                case "textarea":
+                case "text":
+                    if (ctrl.value == '') bEmpty = true; break;
+                case "select-one": if (ctrl.selectedIndex == 0) bEmpty = true; break;
+                case "select-multiple": if (ctrl.selectedIndex == -1) bEmpty = true; break;
+                    case "input": if(ctrl.)
+            }
+            if (bEmpty && focusCtrlID == "") focusCtrlID = ctrlIDs[i];
+            if (bEmpty) msg += (msg.length > 0 ? "- " : "") + Messages[i] + (i == ctrlIDs.length - 1 ? "" : "\n");
+        }
+        if (msg.length > 0) {
+            //sender.errormessage = msg;
+            sender.errormessage = msg;
+            args.IsValid = false;
+        }
+        else
+            args.IsValid = true;
+    }
+    else {
+        args.IsValid = true;
+    }
+}
+
 function ValidateFieldsAdditionalInsured(sender, args) {
     var msg = '';
     var ctrlIDs = document.getElementById('<%=hdnControlIDsAI.ClientID%>').value.split(',');
@@ -581,6 +616,9 @@ function ValidateFieldsBuildindOwnerSubLease(sender, args) {
         ShowMessageBox="true" ShowSummary="false" HeaderText="Verify the following fields"
         BorderWidth="1" BorderColor="DimGray" CssClass="errormessage" />
     <asp:ValidationSummary ID="ValidationSummary6" runat="server" ValidationGroup="vsErrorSabaTraining"
+        ShowMessageBox="true" ShowSummary="false" HeaderText="Verify the following fields"
+        BorderWidth="1" BorderColor="DimGray" CssClass="errormessage" />
+     <asp:ValidationSummary ID="ValidationSummary9" runat="server" ValidationGroup="vsErrorSureGrip"
         ShowMessageBox="true" ShowSummary="false" HeaderText="Verify the following fields"
         BorderWidth="1" BorderColor="DimGray" CssClass="errormessage" />
     <asp:ValidationSummary ID="ValidationSummary8" runat="server" ValidationGroup="vsErrorACIContact"
@@ -1217,6 +1255,58 @@ function ValidateFieldsBuildindOwnerSubLease(sender, args) {
                                                                     </asp:GridView>
                                                                 </td>
                                                             </tr>
+                                                              <tr>
+                                                                <td colspan="6" width="100%">
+                                                                    <b>SureGrip Footwear Penetration</b>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                 <td align="left" valign="top">SureGrip Footwear Grid
+                                                                    <br />
+                                                                    <asp:LinkButton ID="lnkAddSureGripFootwear" runat="server" Text="--Add--" OnClick="lnkAddSureGripFootwear_Click"
+                                                                        CausesValidation="true" ValidationGroup="vsErrorPropertyCope"></asp:LinkButton>
+                                                                </td>
+                                                                <td align="center" valign="top">:
+                                                                </td>
+                                                                <td colspan="4" align="left" valign="top">
+                                                                    <asp:HiddenField ID="hdnPKSureGripFootwear" runat="server" />
+                                                                    <div style ="height:115px;width:600px;overflow-x:none; overflow-y: scroll;" runat="server" id="dvSuperGrip">
+                                                                    <asp:GridView ID="gvSureGripFootwear" runat="server" Width="580px" AutoGenerateColumns="false"
+                                                                        OnRowCommand="gvSureGripFootwear_RowCommand" AlternatingRowStyle-BackColor="White" >
+                                                                        <Columns>
+                                                                            <asp:TemplateField HeaderText="Year">
+                                                                                <HeaderStyle CssClass="PropertyInfoBG" />
+                                                                                <ItemStyle BackColor="White" />
+                                                                                <ItemStyle Width="12%" />
+                                                                                <ItemTemplate>
+                                                                                    <asp:Label ID="lblDate" runat="server"  Text='<%# Eval("Year") %>'></asp:Label>
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>
+                                                                            <asp:TemplateField HeaderText="Percentage of Associates">
+                                                                                <HeaderStyle CssClass="PropertyInfoBG" />
+                                                                                <ItemStyle BackColor="White" />
+                                                                                <ItemStyle Width="10%" />
+                                                                                <ItemTemplate>
+                                                                                    <asp:Label ID="lblPercentageOfassociates" runat="server" Text='<%# Eval("SureGripPercent") %>'></asp:Label>
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>
+                                                                            <asp:TemplateField HeaderText="Remove">
+                                                                                <HeaderStyle CssClass="PropertyInfoBG" />
+                                                                                <ItemStyle BackColor="White" />
+                                                                                <ItemStyle Width="8%" />
+                                                                                <ItemTemplate>
+                                                                                    <asp:LinkButton ID="lbRemove" runat="server" Text="Remove" OnClientClick="return returnConfirm();"
+                                                                                        CommandName="Remove" CommandArgument='<%# Eval("PK_Property_COPE_SureGrip") %>'></asp:LinkButton>
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>
+                                                                        </Columns>
+                                                                        <EmptyDataTemplate>
+                                                                            No Record Found !
+                                                                        </EmptyDataTemplate>
+                                                                    </asp:GridView>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
                                                             <tr>
                                                                 <td colspan="6" width="100%" align="center">
                                                                     <asp:Button runat="server" ID="btnPropertyCopeSave" Text="Save & Next" OnClick="btnPropertyCopeSave_Click"
@@ -1322,6 +1412,54 @@ function ValidateFieldsBuildindOwnerSubLease(sender, args) {
                                                                                 </td>
                                                                                 <td>
                                                                                     <asp:Button ID="btnBackSabaTraing" runat="server" Text="Back" OnClick="btnBackProperty_Click" />
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </asp:Panel>
+                                                        <asp:Panel ID="pnlSureGrip" runat="server" Width="100%">
+                                                             <div class="bandHeaderRow">
+                                                                SureGrip Footwear Penetration
+                                                            </div>
+                                                            <table width="100%" border="0"> 
+                                                                 <tr>
+                                                                    <td colspan="6"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" valign="top" width="18%">Year&nbsp;<span id="Span118" style="color: Red; display: none;" runat="server">*</span>
+                                                                    </td>
+                                                                <td align="center" valign="top" width="4%">:
+                                                                </td>
+                                                                <td align="left" valign="top" width="28%">
+                                                                     <asp:DropDownList ID="drpSureGripYear" runat="server" Width="175px" SkinID="dropGen" />
+                                                                </td>
+                                                                <td align="left" valign="top" width="18%">Percentage of Associates with SureGrip Footwear at Location for Year&nbsp;<span id="Span119" style="color: Red; display: none;" runat="server">*</span>
+                                                                </td>
+                                                                <td align="center" valign="top" width="4%">:
+                                                                </td>
+                                                                <td align="left" valign="top" width="28%">
+                                                                   <asp:RadioButtonList ID="rblSureGripPercent" runat="server" RepeatLayout="Flow" RepeatColumns="1" RepeatDirection="Vertical">
+                                                                        <asp:ListItem Text="10%" Value="10" Selected="True"></asp:ListItem>
+                                                                        <asp:ListItem Text="15%" Value="15"></asp:ListItem>
+                                                                        <asp:ListItem Text="30%" Value="30"></asp:ListItem>
+                                                                    </asp:RadioButtonList>
+                                                                </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="6"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="6" align="left" valign="top">
+                                                                        <table border="0" align="center" cellpadding="0" cellspacing="5">
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <asp:Button ID="btnSaveSureGrip" runat="server" Text="Save" OnClick="btnSaveSureGrip_Click"
+                                                                                        CausesValidation="true" ValidationGroup="vsErrorSureGrip" />
+                                                                                </td>
+                                                                                <td>
+                                                                                    <asp:Button ID="btnBackSureGrip" runat="server" Text="Back" OnClick="btnBackProperty_Click" />
                                                                                 </td>
                                                                             </tr>
                                                                         </table>
@@ -6095,6 +6233,10 @@ function ValidateFieldsBuildindOwnerSubLease(sender, args) {
         Display="None" ValidationGroup="vsErrorSabaTraining" />
     <input id="hdnControlIDsST" runat="server" type="hidden" />
     <input id="hdnErrorMsgsST" runat="server" type="hidden" />
+    <asp:CustomValidator ID="CustomValidatorSG" runat="server" ErrorMessage="" ClientValidationFunction="ValidateFieldsSG"
+        Display="None" ValidationGroup="vsErrorSureGrip" />
+    <input id="hdnControlIDsSG" runat="server" type="hidden" />
+    <input id="hdnErrorMsgsSG" runat="server" type="hidden" />
     <script language="javascript" type="text/javascript">
         window.onscroll = getScrollHeight;
         //window.onload=getScrollHeight;
@@ -6337,6 +6479,7 @@ function ValidateFieldsBuildindOwnerSubLease(sender, args) {
                     document.getElementById("<%=pnlOwnershipDetails.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlBuildingImprovements.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlContacts.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlSureGrip.ClientID%>").style.display = "none";
                 }
                 //check if index is 2 than display Building Informaiton Section.
                 if (index == 2) {
@@ -6346,6 +6489,7 @@ function ValidateFieldsBuildindOwnerSubLease(sender, args) {
                     document.getElementById("<%=pnlOwnershipDetails.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlBuildingImprovements.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlContacts.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlSureGrip.ClientID%>").style.display = "none";
                 }
                 //check if index is 3 than display Owner ship Details Section.
                 if (index == 3) {
@@ -6355,6 +6499,7 @@ function ValidateFieldsBuildindOwnerSubLease(sender, args) {
                     document.getElementById("<%=pnlOwnershipDetails.ClientID%>").style.display = "";
                     document.getElementById("<%=pnlBuildingImprovements.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlContacts.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlSureGrip.ClientID%>").style.display = "none";
                 }
                 //check if index is 4 than display Building Improvement Section.
                 if (index == 4) {
@@ -6364,6 +6509,7 @@ function ValidateFieldsBuildindOwnerSubLease(sender, args) {
                     document.getElementById("<%=pnlOwnershipDetails.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlBuildingImprovements.ClientID%>").style.display = "";
                     document.getElementById("<%=pnlContacts.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlSureGrip.ClientID%>").style.display = "none";
                 }
                 //check if index is 5 than display Contacts Section.
                 if (index == 5) {
@@ -6376,6 +6522,7 @@ function ValidateFieldsBuildindOwnerSubLease(sender, args) {
                     document.getElementById("<%=pnlACIContacts.ClientID%>").style.display = "none";
                     document.getElementById("<%=hdrContacts.ClientID%>").style.display = "";
                     document.getElementById("<%=tblContacts.ClientID%>").style.display = "";
+                    document.getElementById("<%=pnlSureGrip.ClientID%>").style.display = "none";
                 }
             }
         }

@@ -230,6 +230,7 @@ public partial class Exposures_Property : clsBasePage
                 SetValidationsOwnershipDetails();
                 //
                 SetValidationsContact();
+                SetValidationsSureGrip();
                 SetValidationsSabaTraining();
                 SetValidationsAdditionalInsureds();
                 SetValidationsLossPayee();
@@ -333,6 +334,44 @@ public partial class Exposures_Property : clsBasePage
             }
             else if (retValue == -2)
                 ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:alert('Saba Training for selected Year and Quarter already exists in current Property Cope');", true);
+        }
+    }
+
+    /// <summary>
+    /// Button Save SureGrip
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnSaveSureGrip_Click(object sender, EventArgs e)
+    {
+        int year=0;
+        Property_COPE_SureGrip objProperty_COPE_SureGrip = new Property_COPE_SureGrip();
+        objProperty_COPE_SureGrip.PK_Property_COPE_SureGrip = 0;
+        objProperty_COPE_SureGrip.FK_Property_COPE = PK_Property_Cope_ID;
+        objProperty_COPE_SureGrip.SureGripPercent = Convert.ToInt32(rblSureGripPercent.SelectedValue);
+
+        if(Convert.ToInt32(drpSureGripYear.SelectedValue) > 0)
+        objProperty_COPE_SureGrip.Year = year= Convert.ToInt32(drpSureGripYear.SelectedValue);
+
+        if (!string.IsNullOrEmpty(hdnPKSureGripFootwear.Value))
+            objProperty_COPE_SureGrip.PK_Property_COPE_SureGrip = Convert.ToDecimal(hdnPKSureGripFootwear.Value);
+
+        objProperty_COPE_SureGrip.Update_Date = DateTime.Now;
+        objProperty_COPE_SureGrip.Updated_By = clsSession.UserID;
+
+        DataTable dtProperty_COPE_SureGrip = Property_COPE_SureGrip.SelectByYear(PK_Property_Cope_ID,year).Tables[0];
+
+        if (dtProperty_COPE_SureGrip.Rows.Count > 0 && dtProperty_COPE_SureGrip != null )
+        {
+            ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:alert('Please Select different Year');", true);
+        }
+        else
+        {
+            objProperty_COPE_SureGrip.Insert();
+            //bind SureGrip grid
+            gvSureGripFootwear.DataSource = Property_COPE_SureGrip.SelectByProperty_Cope(PK_Property_Cope_ID);
+            gvSureGripFootwear.DataBind();
+            ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
         }
     }
 
@@ -1213,6 +1252,7 @@ public partial class Exposures_Property : clsBasePage
     protected void btnBackProperty_Click(object sender, EventArgs e)
     {
         hdnPKPropertySabaTraning.Value = "";
+        hdnPKSureGripFootwear.Value = "";
         ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
     }
 
@@ -1377,6 +1417,7 @@ public partial class Exposures_Property : clsBasePage
         CLearsabaTrainingControls();
         hdrPropertyCope.Style["display"] = tblPropertyCope.Style["display"] = "none";
         pnlSabaTraining.Style["display"] = "";
+        pnlSureGrip.Style["display"] = "none";
     }
 
     protected void lnkAddNewGGKL_Click(object sender, EventArgs e)
@@ -1396,7 +1437,21 @@ public partial class Exposures_Property : clsBasePage
     protected void lnkAddNewImprovement_Click(object sender, EventArgs e)
     {
         Response.Redirect("BuildingImprovements.aspx?FK_Property_Cope=" + Encryption.Encrypt(PK_Property_Cope_ID.ToString()) + "&op=add");
-    }   
+    }
+
+    /// <summary>
+    /// link Add SureGrip Footwear
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void lnkAddSureGripFootwear_Click(object sender, EventArgs e)
+    {
+        SavePropertyCope();
+        CLearSureGripControls();
+        hdrPropertyCope.Style["display"] = tblPropertyCope.Style["display"] = "none";
+        pnlSureGrip.Style["display"] = "";
+        pnlSabaTraining.Style["display"] = "none";
+    }
 
     #endregion
 
@@ -1706,6 +1761,20 @@ public partial class Exposures_Property : clsBasePage
         }
     }
 
+    protected void gvSureGripFootwear_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        int index;
+        if (e.CommandName == "Remove")
+        {
+            index = Convert.ToInt32(e.CommandArgument);
+            DeleteSureGrip(index);
+
+            gvSureGripFootwear.DataSource = Property_COPE_SureGrip.SelectByProperty_Cope(PK_Property_Cope_ID);
+            gvSureGripFootwear.DataBind();
+            ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "ShowPanel(1);", true);
+        }
+    }
+
     protected void gvSubLease_OnRowCommand(object sender, GridViewCommandEventArgs e)
     {
         if (e.CommandName == "ViewSubLeaseDetails")
@@ -1780,6 +1849,15 @@ public partial class Exposures_Property : clsBasePage
     private void DeleteSabaTraining(int index)
     {
         Property_COPE_Saba_Training.DeleteByPK(index);
+    }
+
+    /// <summary>
+    /// Delete SurGrip data
+    /// </summary>
+    /// <param name="index"></param>
+    private void DeleteSureGrip(int index)
+    {
+        Property_COPE_SureGrip.DeleteByPK(index);
     }
 
     #region "Attachment Grids"
@@ -2058,6 +2136,14 @@ public partial class Exposures_Property : clsBasePage
 
         gvSabaTraining.DataSource = Property_COPE_Saba_Training.SelectByProperty_Cope(PK_Property_Cope_ID);
         gvSabaTraining.DataBind();
+
+        #endregion
+
+        #region " Bind SureGrip Footwear Grid"
+
+        gvSureGripFootwear.DataSource = Property_COPE_SureGrip.SelectByProperty_Cope(PK_Property_Cope_ID);
+        gvSureGripFootwear.DataBind();
+        dvSuperGrip.Style["overflow-x"] = "none";
 
         #endregion
     }
@@ -2826,6 +2912,12 @@ public partial class Exposures_Property : clsBasePage
         ddlRequiredCableLength.DataValueField = "PK_LU_Cable_Length";
         ddlRequiredCableLength.DataBind();
         ddlRequiredCableLength.Items.Insert(0, new ListItem("--SELECT--", "0"));
+
+        //Bind SureGrip dropdown
+        drpSureGripYear.Items.Insert(0, new ListItem("--SELECT--", "0"));
+        drpSureGripYear.Items.Add(new ListItem(System.DateTime.Now.Year.ToString(), System.DateTime.Now.Year.ToString()));
+        drpSureGripYear.Items.Add(new ListItem((System.DateTime.Now.Year-1).ToString(), (System.DateTime.Now.Year-1).ToString()));
+        drpSureGripYear.SelectedValue = System.DateTime.Now.Year.ToString();
     }
 
     /// <summary>
@@ -3240,6 +3332,14 @@ public partial class Exposures_Property : clsBasePage
         trSabaTrainingQuarter.Style["display"] = "";
     }
 
+    /// <summary>
+    /// Clear SurGrip controls
+    /// </summary>
+    private void CLearSureGripControls()
+    {
+        drpSureGripYear.SelectedValue = DateTime.Now.Year.ToString();
+        hdnPKSureGripFootwear.Value = "";
+    }
     /// <summary>
     /// Clear ACI Contacts controls
     /// </summary>
@@ -4514,6 +4614,42 @@ public partial class Exposures_Property : clsBasePage
 
         hdnControlIDsContact.Value = strCtrlsIDsContact;
         hdnErrorMsgsContact.Value = strMessagesContact;
+    }
+
+    /// <summary>
+    /// Set all Validations-Sure Grip  Details
+    /// </summary>
+    private void SetValidationsSureGrip()
+    {
+        string strCtrlsIDsSG = "";
+        string strMessagesSG = "";
+
+        #region ""
+        DataTable dtFields = clsScreen_Validators.SelectByScreen(54).Tables[0];
+        dtFields.DefaultView.RowFilter = "IsRequired = '1'";
+        dtFields = dtFields.DefaultView.ToTable();
+
+        MenuAsterisk2.Style["display"] = (dtFields.Select("LeftMenuIndex = 2").Length > 0) ? "inline-block" : "none";
+
+        foreach (DataRow drField in dtFields.Rows)
+        {
+            #region " set validation control IDs and messages "
+            switch (Convert.ToString(drField["Field_Name"]))
+            {
+                // Sure Grip             
+                case "YEAR": strCtrlsIDsSG += drpSureGripYear.ClientID + ","; strMessagesSG += "Please enter [Property Cope]/Year" + ","; Span118.Style["display"] = "inline-block"; break;
+                //case "SureGripPercent": strCtrlsIDsSG += rblSureGripPercent.ClientID + ","; strMessagesSG += "Please enter [Property Cope]/Percentage of Associates with SureGrip Footwear at Location for Year" + ","; Span119.Style["display"] = "inline-block"; break;
+            }
+
+            #endregion
+        }
+        #endregion
+
+        strCtrlsIDsSG = strCtrlsIDsSG.TrimEnd(',');
+        strMessagesSG = strMessagesSG.TrimEnd(',');
+
+        hdnControlIDsSG.Value = strCtrlsIDsSG;
+        hdnErrorMsgsSG.Value = strMessagesSG;
     }
 
     /// <summary>
