@@ -137,7 +137,7 @@ namespace ERIMS.DAL
         private string _Activity_Before_Incident;
         private string _Object_Substance_Involved;
         private Nullable<bool> _Admitted_to_Hospital;
-
+        private string _Slipping;
         #endregion
 
 
@@ -1276,6 +1276,14 @@ namespace ERIMS.DAL
             set { _Admitted_to_Hospital = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the Slipping value.
+        /// </summary>
+        public string Slipping
+        {
+            get { return _Slipping; }
+            set { _Slipping = value; }
+        }
         #endregion
 
         #region Constructors
@@ -1330,6 +1338,7 @@ namespace ERIMS.DAL
             this._Activity_Before_Incident = string.Empty;
             this._Object_Substance_Involved = string.Empty;
             this._Admitted_to_Hospital = false;
+            this._Slipping = string.Empty;
         }
 
         /// <summary> 
@@ -1594,6 +1603,10 @@ namespace ERIMS.DAL
                 if (drInvestigation["Admitted_to_Hospital"] != DBNull.Value)
                     this._Admitted_to_Hospital = Convert.ToBoolean(drInvestigation["Admitted_to_Hospital"]);
 
+                if (drInvestigation["Slipping"] == DBNull.Value)
+                    this._Slipping = null;
+                else
+                    this._Slipping = (string)drInvestigation["Slipping"];
             }
             else
             {
@@ -1659,6 +1672,7 @@ namespace ERIMS.DAL
                 this._Activity_Before_Incident = string.Empty;
                 this._Object_Substance_Involved = string.Empty;
                 this._Admitted_to_Hospital = false;
+                this._Slipping = string.Empty;
             }
         }
 
@@ -1858,6 +1872,11 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Activity_Before_Incident", DbType.String, this._Activity_Before_Incident);
             db.AddInParameter(dbCommand, "Object_Substance_Involved", DbType.String, this._Object_Substance_Involved);
             db.AddInParameter(dbCommand, "Admitted_to_Hospital", DbType.Boolean, this._Admitted_to_Hospital);
+
+            if (string.IsNullOrEmpty(this._Slipping))
+                db.AddInParameter(dbCommand, "Slipping", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Slipping", DbType.String, this._Slipping);
 
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -2088,6 +2107,11 @@ namespace ERIMS.DAL
             {
                 db.AddInParameter(dbCommand, "Admitted_to_Hospital", DbType.Boolean, this._Admitted_to_Hospital);
             }
+
+            if (string.IsNullOrEmpty(this._Slipping))
+                db.AddInParameter(dbCommand, "Slipping", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Slipping", DbType.String, this._Slipping);
 
             db.ExecuteNonQuery(dbCommand);
         }

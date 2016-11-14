@@ -470,7 +470,6 @@ function ValidateFieldsST(sender, args) {
                     if (ctrl.value == '') bEmpty = true; break;
                 case "select-one": if (ctrl.selectedIndex == 0) bEmpty = true; break;
                 case "select-multiple": if (ctrl.selectedIndex == -1) bEmpty = true; break;
-                    case "input": if(ctrl.)
             }
             if (bEmpty && focusCtrlID == "") focusCtrlID = ctrlIDs[i];
             if (bEmpty) msg += (msg.length > 0 ? "- " : "") + Messages[i] + (i == ctrlIDs.length - 1 ? "" : "\n");

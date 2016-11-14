@@ -922,6 +922,7 @@ public partial class Exposures_Investigation : clsBasePage
             objInvestigation.Focus_Area = drpCauseOfIncident.SelectedIndex > 0 ? drpCauseOfIncident.SelectedItem.Text : string.Empty;
 
             hdnOriginalSonicCode.Value = ddlSonic_Cause_Code.SelectedItem.Text;
+            objInvestigation.Slipping = rdoSlipping.SelectedValue;
             // insert or update the Investigation record as per the PK available
             if (PK_Investigation_ID > 0)
                 objInvestigation.Update();
@@ -1192,6 +1193,7 @@ public partial class Exposures_Investigation : clsBasePage
             hdnOSHARecordable.Value = lblOSHARecordableView.Text;
         }
         lblSonic_Cause_Code.Text = objInvestigation.Sonic_Cause_Code;
+        lblSlipping.Text = objInvestigation.Slipping == null ? string.Empty : objInvestigation.Slipping == "Y" ? "Yes" : "No";
         lblOriginalSonicCode.Text = objInvestigation.Original_Sonic_S0_Cause_Code;
         lblSonicCodePromoted.Text = objInvestigation.Sonic_S0_Cause_Code_Promoted == "Y" ? "Yes" : "No";
         lblDateSonicCodePromoted.Text = clsGeneral.FormatDBNullDateToDisplay(objInvestigation.Date_Sonic_S0_Cause_Code_Promoted);
@@ -1573,7 +1575,8 @@ public partial class Exposures_Investigation : clsBasePage
         rdoSonicCodePromoted.SelectedValue = objInvestigation.Sonic_S0_Cause_Code_Promoted == "Y" ? "Y" : "N";
         txtDateSonicCodePromoted.Text = clsGeneral.FormatDBNullDateToDisplay(objInvestigation.Date_Sonic_S0_Cause_Code_Promoted);
         txtConclusions.Text = objInvestigation.Conclusions;
-
+        rdoSlipping.SelectedValue = objInvestigation.Slipping;
+        ChangeSlippingValue(true);
         #endregion
 
         #region " CORRECTIVE ACTIONS "
@@ -2369,6 +2372,24 @@ public partial class Exposures_Investigation : clsBasePage
         ddlSonic_Cause_Code.Items.Add(new ListItem("S-5 Denied"));
     }
 
+    /// <summary>
+    /// Slipping Enable/Disable based on Cause Code Determination #Issue 3817 Part 2
+    /// </summary>
+    private void ChangeSlippingValue(bool bEdit)
+    {
+        if (ddlSonic_Cause_Code.SelectedValue.Contains("S-2")|| ddlSonic_Cause_Code.SelectedValue.Contains("S-02"))
+        {
+            rdoSlipping.Enabled = true;
+            if(!bEdit)
+                rdoSlipping.SelectedValue = "N";
+        }
+        else
+        {
+            rdoSlipping.Enabled = false;
+            if (!bEdit)
+                rdoSlipping.ClearSelection();
+        }
+    }
     #endregion
 
     #region Dynamic Validations
@@ -2672,6 +2693,8 @@ public partial class Exposures_Investigation : clsBasePage
     /// <param name="e"></param>
     protected void ddlSonic_Cause_Code_SelectedIndexChanged(object sender, EventArgs e)
     {
+        ChangeSlippingValue(false);
+        
         if (hdnOriginalSonicCode.Value != ddlSonic_Cause_Code.SelectedItem.Text && ddlSonic_Cause_Code.SelectedItem.Text.IndexOf("--SELECT--") == -1)
         {
             ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:OpenWizardPopup();", true);

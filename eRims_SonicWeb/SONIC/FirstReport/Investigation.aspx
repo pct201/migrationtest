@@ -1110,7 +1110,15 @@
                                                                     <input type="hidden" id="hdnOriginalSonicCode" runat="server" />
                                                                 </td>
                                                             </tr>
-                                                       
+                                                            <tr>
+                                                                <td align="left" valign="top">Incident Involved an Associate SLIPPING
+                                                                </td>
+                                                                <td align="center" valign="top">:
+                                                                </td>
+                                                                <td align="left" valign="top" colspan="4">
+                                                                    <asp:RadioButtonList ID="rdoSlipping" runat="server" SkinID="YesNoType"></asp:RadioButtonList>
+                                                                </td>
+                                                            </tr>
                                                             <tr>
                                                                 <td align="left" valign="top">Original Sonic S0 Cause Code
                                                                 </td>
@@ -2298,7 +2306,16 @@
                                                                 </td>
                                                                 <td align="left" colspan="4">
                                                                     <asp:Label runat="server" ID="lblSonic_Cause_Code">
-                                            
+                                                                    </asp:Label>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left" style="width: 24%">Incident Involved an Associate SLIPPING
+                                                                </td>
+                                                                <td align="center" style="width: 2%">:
+                                                                </td>
+                                                                <td align="left" colspan="4">
+                                                                    <asp:Label runat="server" ID="lblSlipping">
                                                                     </asp:Label>
                                                                 </td>
                                                             </tr>
