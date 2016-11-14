@@ -165,8 +165,8 @@
                         <td colspan="2">
                             <table width="100%" cellpadding="2" cellspacing="2">
                                 <tr valign="top">
-                                      <td style="width: 8%">&nbsp;
-                                     </td>
+                                    <td style="width: 8%">&nbsp;
+                                    </td>
                                     <td style="width: 16%">What is the Nature of this Incident?</td>
                                     <td style="width: 2%;" align="center">:
                                     </td>
@@ -191,36 +191,40 @@
                                     <td style="width: 72%">
                                         <table width="100%">
                                             <tr>
-                                                <td align="left" style="width: 250px">
+                                                <td align="left">
                                                     <asp:ListBox ID="lstOutputFields" runat="server" Rows="10" SelectionMode="Multiple"
-                                                        Width="250px"></asp:ListBox>
+                                                        Width="82%"></asp:ListBox>
                                                 </td>
-                                                <td valign="middle" align="center" style="width: 125px">
+                                            </tr>
+                                            <tr>
+                                                <td valign="middle" align="center" style="width: 82%">
                                                     <table width="100%">
                                                         <tr>
                                                             <td align="center">
-                                                                <asp:Button ID="btnSelectFields" runat="server" Text=">" Width="50px" OnClick="btnSelectFields_Click"
-                                                                    Enabled="false" OnClientClick="javascript:return CheckListItemOutput();" ValidationGroup="vsErrorAvailFieldss" />
-                                                                <br />
-                                                                <br />
-                                                                <asp:Button ID="btnSelectAllFields" runat="server" Text=">>" Width="50px" Enabled="false"
-                                                                    OnClick="btnSelectAllFields_Click" />
+                                                                <asp:Button ID="btnSelectFields" runat="server" Text="" Width="50px" OnClick="btnSelectFields_Click"
+                                                                    Enabled="false" OnClientClick="javascript:return CheckListItemOutput();" ValidationGroup="vsErrorAvailFieldss"
+                                                                    style="background-image:url('../../Images/Down.png');background-repeat:no-repeat;background-position:center;" />
+                                                                 &nbsp;&nbsp;
+                                                                <asp:Button ID="btnSelectAllFields" runat="server" Text="" Width="50px" Enabled="false" OnClick="btnSelectAllFields_Click" 
+                                                                    style="background-image:url('../../Images/DoubleDown.png');background-repeat:no-repeat;background-position:center;"/>
                                                                 <%--OnClientClick="javascript:return CheckListItemOutputAll();"--%>
-                                                                <br />
-                                                                <br />
-                                                                <asp:Button ID="btnDeselectFields" runat="server" Text="<" Width="50px" OnClick="btnDeselectFields_Click"
-                                                                    Enabled="false" OnClientClick="javascript:return CheckListItemSelected();" ValidationGroup="vsErrorSelectFieldss" />
-                                                                <br />
-                                                                <br />
-                                                                <asp:Button ID="btnDeselectAllFields" runat="server" Text="<<" Width="50px" OnClientClick="javascript:return CheckListItemSelectedAll();"
-                                                                    Enabled="false" OnClick="btnDeselectAllFields_Click" />
+                                                               &nbsp;&nbsp;
+                                                                <asp:Button ID="btnDeselectFields" runat="server" Text="" Width="50px" OnClick="btnDeselectFields_Click"
+                                                                    Enabled="false" OnClientClick="javascript:return CheckListItemSelected();" ValidationGroup="vsErrorSelectFieldss" 
+                                                                     style="background-image:url('../../Images/up.png');background-repeat:no-repeat;background-position:center;"/>
+                                                              &nbsp;&nbsp;
+                                                                <asp:Button ID="btnDeselectAllFields" runat="server" Text="" Width="50px" OnClientClick="javascript:return CheckListItemSelectedAll();"
+                                                                    Enabled="false" OnClick="btnDeselectAllFields_Click" 
+                                                                    style="background-image:url('../../Images/DoubleUp.png');background-repeat:no-repeat;background-position:center;"/>
                                                             </td>
                                                         </tr>
                                                     </table>
                                                 </td>
+                                            </tr>
+                                            <tr>
                                                 <td align="left">
                                                     <asp:ListBox ID="lstSelectedFields" runat="server" Rows="10" SelectionMode="Multiple"
-                                                        Width="250px"></asp:ListBox>
+                                                        Width="82%"></asp:ListBox>
                                                     <asp:ImageButton ID="imgUp" ImageUrl="~/Images/up-arrow.gif" runat="server" ImageAlign="top"
                                                         OnClientClick="javascript:return CheckListItemSelected();" OnClick="imgUp_Click" />
                                                     <%--OnClientClick="return MoveItemUp();"--%>
