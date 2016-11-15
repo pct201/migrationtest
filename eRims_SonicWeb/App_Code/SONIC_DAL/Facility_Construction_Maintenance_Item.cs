@@ -51,6 +51,8 @@ namespace ERIMS.DAL
         private string _FK_Contact;
         private string _Repair_Description;        
         private DateTime? _Update_Date;
+        private decimal? _Updated_By;
+        private decimal? _FK_LU_Maintenance_Priority;
 
         #endregion
 
@@ -398,6 +400,20 @@ namespace ERIMS.DAL
             set { _Update_Date = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the FK_LU_Maintenance_Priority value.
+        /// </summary>
+        public decimal? FK_LU_Maintenance_Priority
+        {
+            get { return _FK_LU_Maintenance_Priority; }
+            set { _FK_LU_Maintenance_Priority = value; }
+        }
+
+        public decimal? Updated_By
+        {
+            get { return _Updated_By; }
+            set { _Updated_By = value; }
+        }
 
         #endregion
 
@@ -481,6 +497,11 @@ namespace ERIMS.DAL
                 this._FK_Facility_Maintenance_Status = null;
             else
                 this._FK_Facility_Maintenance_Status = (decimal?)drFacility_Construction_Maintenance_Item["FK_Facility_Maintenance_Status"];
+
+            if (drFacility_Construction_Maintenance_Item["FK_LU_Maintenance_Priority"] == DBNull.Value)
+                this._FK_LU_Maintenance_Priority = null;
+            else
+                this._FK_LU_Maintenance_Priority = (decimal?)drFacility_Construction_Maintenance_Item["FK_LU_Maintenance_Priority"];
 
             if (drFacility_Construction_Maintenance_Item["FK_Requester"] == DBNull.Value)
                 this._FK_Requester = null;
@@ -745,8 +766,12 @@ namespace ERIMS.DAL
             else
                 db.AddInParameter(dbCommand, "Repair_Description", DbType.String, this._Repair_Description);
 
-            db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);            
+            db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);
 
+            db.AddInParameter(dbCommand, "FK_LU_Maintenance_Priority", DbType.Decimal, this._FK_LU_Maintenance_Priority);
+
+            db.AddInParameter(dbCommand, "Source", DbType.String, "ERIMS");
+            db.AddInParameter(dbCommand, "Updated_By", DbType.Decimal, this._Updated_By);
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
 
@@ -906,7 +931,13 @@ namespace ERIMS.DAL
             else
                 db.AddInParameter(dbCommand, "Repair_Description", DbType.String, this._Repair_Description);
 
-            db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);            
+            db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);
+
+            db.AddInParameter(dbCommand, "FK_LU_Maintenance_Priority", DbType.Decimal, this._FK_LU_Maintenance_Priority);
+
+            db.AddInParameter(dbCommand, "Source", DbType.String, "ERIMS");
+
+            db.AddInParameter(dbCommand, "Updated_By", DbType.Decimal, this._Updated_By);
 
             db.ExecuteNonQuery(dbCommand);
         }
