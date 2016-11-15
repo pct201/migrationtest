@@ -197,8 +197,8 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td valign="middle" align="center" style="width: 82%">
-                                                    <table width="100%">
+                                                <td valign="middle" align="left" style="width: 82%">
+                                                    <table width="82%">
                                                         <tr>
                                                             <td align="center">
                                                                 <asp:Button ID="btnSelectFields" runat="server" Text="" Width="50px" OnClick="btnSelectFields_Click"
