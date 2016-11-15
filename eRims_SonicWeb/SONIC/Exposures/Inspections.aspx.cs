@@ -292,10 +292,16 @@ public partial class Exposures_Inspections : clsBasePage
 
             // Settings for hiding or displaying the response details
             RadioButtonList rdoDefeciancy = (RadioButtonList)e.Row.FindControl("rdoDefeciancy");
+            RadioButtonList rdoMaintenance = (RadioButtonList)e.Row.FindControl("rdoMaintenance");
             HtmlTableCell tdResponseDetails = ((HtmlTableCell)e.Row.FindControl("tdResponseDetails"));
+            HtmlTableCell tdMaintDetails = ((HtmlTableCell)e.Row.FindControl("tdMaintDetails"));
             HtmlInputHidden hdnDeficientAnswer = (HtmlInputHidden)e.Row.FindControl("hdnDeficientAnswer");
+            HtmlInputHidden hdnMaintenance = (HtmlInputHidden)e.Row.FindControl("hdnMaintenance");
+            TextBox txtTitle = (TextBox)e.Row.FindControl("txtTitle");
+            Controls_LongDescription_LongDescription txtProblemDescription = (Controls_LongDescription_LongDescription)e.Row.FindControl("txtProblemDescription");
 
             rdoDefeciancy.Attributes.Add("onclick", "javascript:ShowHideDetails(this.id," + tdResponseDetails.ClientID + ",'" + hdnDeficientAnswer.Value + "');");
+            rdoMaintenance.Attributes.Add("onclick", "javascript:ShowHideMaintenanceDetails(this.id," + tdMaintDetails.ClientID + ",'" + hdnMaintenance.Value + "','" + txtTitle.ClientID + "','" + txtProblemDescription.ClientID + "');");
 
             // calendar controls settings
             HtmlImage imgDateOpened = (HtmlImage)e.Row.FindControl("imgDateOpened");
@@ -324,7 +330,11 @@ public partial class Exposures_Inspections : clsBasePage
                 hdnResponseID.Value = DataBinder.Eval(e.Row.DataItem, "PK_Inspection_Responses_ID").ToString();
                 string strDeficiency_Noted = DataBinder.Eval(e.Row.DataItem, "Deficiency_Noted").ToString();
                 string strDeficient_Answer = DataBinder.Eval(e.Row.DataItem, "Deficient_Answer").ToString();
+                string strMaintenance = !string.IsNullOrEmpty(Convert.ToString(DataBinder.Eval(e.Row.DataItem, "Title"))) ? "Y" : "N";
+
                 rdoDefeciancy.SelectedValue = strDeficiency_Noted;
+                rdoMaintenance.SelectedValue = strMaintenance;
+
                 if (strDeficiency_Noted == "Y" && strDeficient_Answer == "Y")
                 {
                     tdResponseDetails.Style["display"] = "";
@@ -380,6 +390,16 @@ public partial class Exposures_Inspections : clsBasePage
                     }
 
                     rdoRepeatDeficiency.SelectedValue = strRepeatDeficiency == "Y" ? "Y" : "N";
+                }
+
+                if (strMaintenance == "Y")
+                {
+                    tdMaintDetails.Style["display"] = "";
+                    // get values for the record
+                    string strProblemDescription = DataBinder.Eval(e.Row.DataItem, "Problem_Description").ToString();
+                    string strTitle = DataBinder.Eval(e.Row.DataItem, "Title").ToString();
+                    txtProblemDescription.Text = strProblemDescription;
+                    txtTitle.Text = strTitle;
                 }
             }
 
@@ -793,16 +813,20 @@ public partial class Exposures_Inspections : clsBasePage
             // get the primary key for Inspection Response record
             HtmlInputHidden hdnResponseID = (HtmlInputHidden)gvInspectionEdit.Rows[i].FindControl("hdnResponseID");
             HtmlInputHidden hdnDeficientAnswer = (HtmlInputHidden)gvInspectionEdit.Rows[i].FindControl("hdnDeficientAnswer");
+            HtmlInputHidden hdnMaintenance = (HtmlInputHidden)gvInspectionEdit.Rows[i].FindControl("hdnMaintenance");
 
             int PK_Inspection_Responses_ID = hdnResponseID.Value != "" ? Convert.ToInt32(hdnResponseID.Value) : 0;
             if (strOperation == "") PK_Inspection_Responses_ID = 0;
             // create object for the inspection response 
             Inspection_Responses objResponse = new Inspection_Responses();
 
+            //create object for the facility construction maintenance item 
+            Facility_Construction_Maintenance_Item objMaintItem = new Facility_Construction_Maintenance_Item();
+
             // get values from page controls
             objResponse.PK_Inspection_Responses_ID = PK_Inspection_Responses_ID;
             objResponse.FK_Inspection_ID = PK_Inspection_ID;
-            objResponse.FK_Inspection_Question_ID = Convert.ToInt32(gvInspectionEdit.DataKeys[i].Value);            
+            objResponse.FK_Inspection_Question_ID = Convert.ToInt32(gvInspectionEdit.DataKeys[i].Value);
 
             if (!chkNoDeficiency.Checked)
                 objResponse.Deficiency_Noted = ((RadioButtonList)gvInspectionEdit.Rows[i].FindControl("rdoDefeciancy")).SelectedValue;
@@ -832,14 +856,36 @@ public partial class Exposures_Inspections : clsBasePage
                 objResponse.Actual_Completion_Date = clsGeneral.FormatDateToStore((TextBox)gvInspectionEdit.Rows[i].FindControl("txtActualCompletionDate"));
                 objResponse.Notes = ((Controls_LongDescription_LongDescription)gvInspectionEdit.Rows[i].FindControl("txtNotes")).Text;
             }
+
+            //RadioButtonList rdoMaintenance = (RadioButtonList)e.Row.FindControl("rdoMaintenance");
+            //if (rdoMaintenance. == "Y")
+            //{
+                objResponse.Problem_Description = ((Controls_LongDescription_LongDescription)gvInspectionEdit.Rows[i].FindControl("txtProblemDescription")).Text;
+                objResponse.Title = ((TextBox)gvInspectionEdit.Rows[i].FindControl("txtTitle")).Text;
+            //}
+
             objResponse.UniqueVal = strGUID;
             objResponse.Updated_By = Convert.ToDecimal(clsSession.UserID);
             objResponse.Updated_Date = DateTime.Now;
+
+            objMaintItem.FK_LU_Location_ID = FK_LU_Location_ID;
+            objMaintItem.Title = ((TextBox)gvInspectionEdit.Rows[i].FindControl("txtTitle")).Text;
+            objMaintItem.Requester_Table = "Security";
+            objMaintItem.Repair_Description = ((Controls_LongDescription_LongDescription)gvInspectionEdit.Rows[i].FindControl("txtProblemDescription")).Text;
+            objMaintItem.Update_Date = DateTime.Now;
+           
             // insert or update the record depending on the primary key for inspection response
             if (PK_Inspection_Responses_ID > 0)
                 objResponse.Update();
             else
+            { 
                 objResponse.Insert();
+            }
+
+            objMaintItem.PK_Facility_Construction_Maintenance_Item = objMaintItem.Insert();
+            Int32 itemNumber = Convert.ToInt32(objMaintItem.PK_Facility_Construction_Maintenance_Item.Value);
+            objMaintItem.Item_Number = "M" + itemNumber.ToString("D4");
+            objMaintItem.UpdateItemNumberByPrimaryKey();
         }
 
         #endregion
@@ -1426,7 +1472,7 @@ public partial class Exposures_Inspections : clsBasePage
                 cell.RemoveAllChildren();
             }
         }
-        
+
         Aspose.Words.Tables.Table table = (Aspose.Words.Tables.Table)doc.GetChild(NodeType.Table, 0, true);
         table.AllowAutoFit = false;
 

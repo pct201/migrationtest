@@ -75,6 +75,16 @@
                         document.getElementById('ctl00_ContentPlaceHolder1_gvInspectionEdit_ctl' + xzzy + (i + 2) + '_cmptxtActualCompletionDate').enabled = false;
                     }
 
+                    if (document.getElementById('ctl00_ContentPlaceHolder1_gvInspectionEdit_ctl' + xzzy + (i + 2) + '_rdoMaintenance_0').checked) {
+                        document.getElementById('ctl00_ContentPlaceHolder1_gvInspectionEdit_ctl' + xzzy + (i + 2) + '_revTitle').enabled = true;
+                        document.getElementById('ctl00_ContentPlaceHolder1_gvInspectionEdit_ctl' + xzzy + (i + 2) + '_txtProblemDescription_rfvNotes').enabled = true;
+                    }
+                    else
+                    {
+                        document.getElementById('ctl00_ContentPlaceHolder1_gvInspectionEdit_ctl' + xzzy + (i + 2) + '_revTitle').enabled = false;
+                        document.getElementById('ctl00_ContentPlaceHolder1_gvInspectionEdit_ctl' + xzzy + (i + 2) + '_txtProblemDescription_rfvNotes').enabled = false;
+
+                    }
                 }
             }
             if (Page_ClientValidate('vsInspection')) {
@@ -370,26 +380,26 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td colspan="6">
+                                                      <%--  <td colspan="6">
                                                             <table cellpadding="0" cellspacing="0" width="100%" align="center">
-                                                                <tr>
-                                                                    <td align="left" width="15%" valign="middle">
+                                                                <tr>--%>
+                                                                    <td align="left" valign="middle">
                                                                         <b>Select Focus Area</b>
                                                                     </td>
-                                                                    <td align="center" width="4%" valign="middle">
+                                                                    <td align="center" valign="middle">
                                                                         :
                                                                     </td>
-                                                                    <td align="left" width="36%">
+                                                                    <td align="left"  width="37%">
                                                                         <asp:DropDownList ID="drpFocusAreasEdit" runat="server" AutoPostBack="true" CausesValidation="false"
                                                                             OnSelectedIndexChanged="drpFocusAreas_SelectedIndedChanged" />
                                                                     </td>
-                                                                    <td>
+                                                                <td colspan="3">
                                                                         &nbsp;
                                                                     </td>
-                                                                </tr>
+                                                               <%--     </tr>
                                                             </table>
                                                         </td>
-                                                    </tr>
+                                                    </tr>--%>
                                                     <tr>
                                                         <td class="Spacer" style="height: 10px;">
                                                         </td>
@@ -411,8 +421,20 @@
                                                             &nbsp;
                                                         </td>
                                                         <td align="center">
-                                                            <asp:Label ID="lblTmp" runat="server" Width="46px">&nbsp;</asp:Label>
-                                                            <b>Deficiency</b>
+                                                            <table>
+                                                                <tr>
+                                                                    <td align="left">
+                                                                        <div style="width:80px;">
+                                                                        <b>Deficiency</b>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td align="right">
+                                                                         <div style="width:100px;">
+                                                                        <b>Maintenance</b>
+                                                                             </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -442,9 +464,20 @@
                                                                                                 <td width="75%" align="left">
                                                                                                     <%#Eval("Question_Text")%>
                                                                                                 </td>
-                                                                                                <td align="left">
-                                                                                                    <asp:RadioButtonList ID="rdoDefeciancy" runat="server" SkinID="YesNoType" Width="100px" />
-                                                                                                    <input type="hidden" id="hdnDeficientAnswer" runat="server" value='<%#Eval("Deficient_Answer")%>' />
+                                                                                                <td align="left" width="22%">
+                                                                                                    <table>
+                                                                                                        <tr>
+                                                                                                            <td>
+                                                                                                                <asp:RadioButtonList ID="rdoDefeciancy" runat="server" SkinID="YesNoType" Width="100px" />
+                                                                                                                <input type="hidden" id="hdnDeficientAnswer" runat="server" value='<%#Eval("Deficient_Answer")%>' />
+                                                                                                            </td>
+                                                                                                            <td>&nbsp;&nbsp;</td>
+                                                                                                            <td>
+                                                                                                                <asp:RadioButtonList ID="rdoMaintenance" runat="server" SkinID="YesNoType" Width="100px" />
+                                                                                                                <input type="hidden" id="hdnMaintenance" runat="server" value='<%# !string.IsNullOrEmpty(Convert.ToString(Eval("Title"))) ? "Y" : "N" %>' />
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                    </table>
                                                                                                 </td>
                                                                                             </tr>
                                                                                             <tr>
@@ -582,6 +615,46 @@
                                                                                                                         </td>
                                                                                                                     </tr>
                                                                                                                 </table>
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                        <tr>
+                                                                                                            <td colspan="6">
+                                                                                                                &nbsp;
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                       <tr>
+                                                                                                           <td width="100%" id="tdMaintDetails" runat="server" style="display: none;">
+                                                                                                                <table cellpadding="3" cellspacing="1" width="100%">
+                                                                                                                 <tr>
+                                                                                                                     <td width="18%" align="left" valign="top">
+                                                                                                                         <b>Title</b>&nbsp;<span id="Span1" style="color: Red;" runat="server">*</span>
+                                                                                                                     </td>
+                                                                                                                     <td width="4%" align="center" valign="top">
+                                                                                                                         :
+                                                                                                                     </td>
+                                                                                                                     <td align="left" valign="top" colspan="4" width="78%">
+                                                                                                                         <asp:TextBox ID="txtTitle" runat="server" Width="400px"></asp:TextBox>
+                                                                                                                         <asp:RequiredFieldValidator ID="revTitle" ControlToValidate="txtTitle" runat="server" ErrorMessage="Please Enter Title" SetFocusOnError="true" Display="none" ValidationGroup="vsInspection">
+                                                                                                                         </asp:RequiredFieldValidator>
+                                                                                                                     </td>
+                                                                                                                 </tr>
+                                                                                                                 <tr>
+                                                                                                                     <td  align="left" valign="top" width="18%">
+                                                                                                                         <b>Problem Description</b>&nbsp;<span id="Span4" style="color: Red;" runat="server">*</span>
+                                                                                                                     </td>
+                                                                                                                     <td  align="center" valign="top" width="4%">
+                                                                                                                         :
+                                                                                                                     </td>
+                                                                                                                     <td align="left" valign="top" colspan="4" width="78%">
+                                                                                                                     </td>
+                                                                                                                 </tr>
+                                                                                                                    <tr>
+                                                                                                                        <td colspan="6">
+                                                                                                                             <uc:ctrlMultiLineTextBox ID="txtProblemDescription" runat="server" MaxLength="300" ControlType="TextBox" ValidationGroup="vsInspection" IsRequired="true" 
+                                                                                                                                 RequiredFieldMessage="Please Enter Problem Description" SetFocusOnError="true" />
+                                                                                                                        </td>
+                                                                                                                    </tr>
+                                                                                                              </table>
                                                                                                             </td>
                                                                                                         </tr>
                                                                                                     </table>
@@ -864,7 +937,20 @@
                                                     </td>
                                                     <td align="center">
                                                         <%--<asp:Label ID="Label1" runat="server" Width="20px">&nbsp;</asp:Label>--%>
-                                                        <b>Deficiency</b>
+                                                        <table>
+                                                            <tr>
+                                                                <td align="right">
+                                                                     <div style="width:130px;">
+                                                                        <b>Deficiency</b>
+                                                                      </div>
+                                                                </td>
+                                                                <td align="right">
+                                                                    <div style="width:80px;">
+                                                                    <b>Maintenance</b>
+                                                                     </div>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -889,12 +975,23 @@
                                                                                             <td width="3%" align="left">
                                                                                                 <%#Eval("Question_Number")%>
                                                                                             </td>
-                                                                                            <td width="75%" align="left">
+                                                                                            <td width="73%" align="left">
                                                                                                 <%#Eval("Question_Text")%>
                                                                                             </td>
-                                                                                            <td align="left">
-                                                                                                <%# Eval("Deficiency_Noted") != DBNull.Value ? (Convert.ToString(Eval("Deficiency_Noted")) == "Y" ? "YES" : "NO") : "NO" %>
-                                                                                                <input type="hidden" id="hdnDeficientAnswer" runat="server" value='<%#Eval("Deficient_Answer")%>' />
+                                                                                            <td align="left" width="22%">
+                                                                                                <table>
+                                                                                                    <tr>
+                                                                                                        <td>
+                                                                                                            <%# Eval("Deficiency_Noted") != DBNull.Value ? (Convert.ToString(Eval("Deficiency_Noted")) == "Y" ? "YES" : "NO") : "NO" %>
+                                                                                                            <input type="hidden" id="hdnDeficientAnswer" runat="server" value='<%#Eval("Deficient_Answer")%>' />
+                                                                                                        </td>
+                                                                                                        <td align="right" style="padding-left:25px;">
+                                                                                                            <asp:Label ID="Label1" runat="server" Width="70px" Text=' <%# !String.IsNullOrEmpty(Convert.ToString(Eval("Title"))) ? "YES" : "NO" %> ' ></asp:Label>
+                                                                                                             <input type="hidden" id="hdnMaintenance" runat="server" value=' <%# !String.IsNullOrEmpty(Convert.ToString(Eval("Title"))) ? "YES" : "NO" %> ' />
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                </table>
+                                                                                               
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
@@ -1033,8 +1130,44 @@
                                                                                                                     </td>
                                                                                                                 </tr>
                                                                                                             </table>
+
                                                                                                         </td>
                                                                                                     </tr>
+                                                                                                    <tr>
+                                                                                                    <td width="100%" id="tdMaintDetails" style='display: <%# !String.IsNullOrEmpty(Convert.ToString(Eval("Title"))) ? "" : "none" %>;'>
+                                                                                                          <table cellpadding="3" cellspacing="1" width="100%">
+                                                                                                              <tr>
+                                                                                                                  <td width="18%" align="left" valign="top">
+                                                                                                                      <b>Title</b>
+                                                                                                                  </td>
+                                                                                                                  <td width="4%" align="center" valign="top">
+                                                                                                                      :
+                                                                                                                  </td>
+                                                                                                                  <td align="left" valign="top" colspan="4" width="78%">
+                                                                                                                      <%# Eval("Title") != DBNull.Value ? (Eval("Title")) : string.Empty %>
+                                                                                                                     <%-- <asp:Label ID="lblTitle" runat="server"></asp:Label>--%>
+                                                                                                                  </td>
+                                                                                                                <%--  <td colspan="3">
+                                                                                                                  </td>--%>
+                                                                                                               </tr>
+                                                                                                               <tr>
+                                                                                                                  <td width="18%" align="left" valign="top">
+                                                                                                                      <b>Problem Description</b>
+                                                                                                                  </td>
+                                                                                                                  <td width="4%" align="center" valign="top">
+                                                                                                                      :
+                                                                                                                  </td>
+                                                                                                                  <td width="78%" align="left" valign="top" colspan="4">
+                                                                                                                  </td>
+                                                                                                              </tr>
+                                                                                                              <tr>
+                                                                                                                  <td colspan="6">
+                                                                                                                      <uc:ctrlMultiLineTextBox ID="lblProblemDescription" ControlType="Label" runat="server" MaxLength="4000" Text='<%# Eval("Problem_Description")%>' />
+                                                                                                                  </td>
+                                                                                                              </tr>
+                                                                                                         </table>
+                                                                                                      </td>
+                                                                                                  </tr>
                                                                                                 </table>
                                                                                             </td>
                                                                                         </tr>
@@ -1253,7 +1386,18 @@
                                                         &nbsp;
                                                     </td>
                                                     <td align="center">
-                                                        <b>Deficiency</b>
+                                                        <table>
+                                                            <tr>
+                                                                <td>
+                                                                    <asp:Label ID="Label2" runat="server" Width="36px">&nbsp;</asp:Label>
+                                                                    <b>Deficiency</b>
+                                                                </td>
+                                                                <td>
+                                                                    <asp:Label ID="Label3" runat="server" Width="36px">&nbsp;</asp:Label>
+                                                                    <b>Maintenance</b>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -1279,12 +1423,23 @@
                                                                                             <td width="3%" align="left">
                                                                                                 <%#Eval("Question_Number")%>
                                                                                             </td>
-                                                                                            <td width="75%" align="left">
+                                                                                            <td width="73%" align="left">
                                                                                                 <%#Eval("Question_Text")%>
                                                                                             </td>
                                                                                             <td align="left">
-                                                                                                <%# Convert.ToString(Eval("Deficiency_Noted")) == "Y" ? "YES" : "NO" %>
-                                                                                                <input type="hidden" id="hdnDeficientAnswer" runat="server" value='<%#Eval("Deficient_Answer")%>' />
+                                                                                                <table>
+                                                                                                    <tr>
+                                                                                                        <td>
+                                                                                                            <%# Convert.ToString(Eval("Deficiency_Noted")) == "Y" ? "YES" : "NO" %>
+                                                                                                            <input type="hidden" id="hdnDeficientAnswer" runat="server" value='<%#Eval("Deficient_Answer")%>' />
+                                                                                                        </td>
+                                                                                                        <td>
+                                                                                                            <asp:Label ID="Label1" runat="server" Width="70px">&nbsp;</asp:Label>
+                                                                                                            <%# !string.IsNullOrEmpty(Convert.ToString(Eval("Title"))) ? "Y" : "N" %>
+                                                                                                            <input type="hidden" id="hdnMaintenance" runat="server" value=' <%# !string.IsNullOrEmpty(Convert.ToString(Eval("Title"))) ? "Y" : "N" %>' />
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                </table>
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
@@ -1515,6 +1670,20 @@
             }
         }
 
+        function ShowHideMaintenanceDetails(rdoID, tdDtl, strDefcientAnswer,txtTitle,txtProblemDescription) {
+           
+            var rdoYes = document.getElementById(rdoID + "_0");
+            var grid = document.getElementById("<%= gvInspectionEdit.ClientID %>");
+            if (rdoYes.checked) {
+                tdDtl.style.display = "";
+            }
+            else {
+                tdDtl.style.display = "none";
+                document.getElementById(txtTitle).value = '';
+                document.getElementById(txtProblemDescription).value = '';
+            }
+        }
+
         function ValidateDateOpened(ctrlIDs) {
             var arrCtrlIDs = ctrlIDs.split(',');
             var txtID = arrCtrlIDs[0];
@@ -1591,7 +1760,7 @@
         //            }
         //            
         //        }
-    
+
     </script>
     <script type="text/javascript">
         var GB_ROOT_DIR = '<%=AppConfig.SiteURL%>greybox/';
@@ -1602,7 +1771,7 @@
                 GB_showCenter('Email Inspection Report', "<%=AppConfig.SiteURL%>SONIC/Exposures/InspectionsEmail.aspx?Pk_Inspection=" + PK_Inspection + "&fpath=" + filepath, 350, 500);
             else
                 alert("Report cannot be sent as mailing option is disabled");
-        }  
+        }
     </script>
     <link href="<%=AppConfig.SiteURL%>greybox/gb_styles.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="<%=AppConfig.SiteURL%>greybox/AJS.js"></script>

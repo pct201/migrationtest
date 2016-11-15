@@ -27,6 +27,8 @@ namespace ERIMS.DAL
         private decimal _Updated_By;
         private DateTime _Updated_Date;
         private string _Repeat_Deficiency;
+        private string _Problem_Description;
+        private string _Title;
         #endregion
 
 
@@ -169,6 +171,24 @@ namespace ERIMS.DAL
             get { return _Repeat_Deficiency; }
             set { _Repeat_Deficiency = value; }
         }
+
+        /// <summary> 
+        /// Gets or sets the Problem_Description value.
+        /// </summary>
+        public string Problem_Description
+        {
+            get { return _Problem_Description; }
+            set { _Problem_Description = value; }
+        }
+
+        /// <summary> 
+        /// Gets or sets the Title value.
+        /// </summary>
+        public string Title
+        {
+            get { return _Title; }
+            set { _Title = value; }
+        }
         
         #endregion
 
@@ -196,6 +216,8 @@ namespace ERIMS.DAL
             this._Updated_By = -1;
             this._Updated_Date = (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue;
             this._Repeat_Deficiency = null;
+            this._Title = "";
+            this._Problem_Description = "";
         }
 
 
@@ -233,6 +255,8 @@ namespace ERIMS.DAL
                     this._Repeat_Deficiency = null;
                 else
                     this._Repeat_Deficiency = (string)drInspection_Responses["Repeat_Deficiency"];
+                this._Title = Convert.ToString(drInspection_Responses["Title"]);
+                this._Problem_Description = Convert.ToString(drInspection_Responses["Problem_Description"]);
             }
 
             else
@@ -252,6 +276,8 @@ namespace ERIMS.DAL
                 this._Updated_By = -1;
                 this._Updated_Date = (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue;
                 this._Repeat_Deficiency = null;
+                this._Title = "";
+                this._Problem_Description = "";
             }
 
         }
@@ -279,6 +305,8 @@ namespace ERIMS.DAL
                 this._UniqueVal = Convert.ToString(drInspection_Responses["UniqueVal"]);
                 this._Updated_By = drInspection_Responses["Updated_By"] != DBNull.Value ? Convert.ToDecimal(drInspection_Responses["Updated_By"]) : 0;
                 this._Updated_Date = drInspection_Responses["Updated_Date"] != DBNull.Value ? Convert.ToDateTime(drInspection_Responses["Updated_Date"]) : (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue;
+                this._Title = Convert.ToString(drInspection_Responses["Title"]);
+                this._Problem_Description = Convert.ToString(drInspection_Responses["Problem_Description"]);
             }
 
             else
@@ -297,6 +325,8 @@ namespace ERIMS.DAL
                 this._UniqueVal = "";
                 this._Updated_By = -1;
                 this._Updated_Date = (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue;
+                this._Problem_Description = "";
+                this._Title = "";
             }
 
         }
@@ -345,6 +375,9 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Repeat_Deficiency", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Repeat_Deficiency", DbType.String, this._Repeat_Deficiency);
+
+            db.AddInParameter(dbCommand, "Title", DbType.String, this._Title);
+            db.AddInParameter(dbCommand, "Problem_Description", DbType.String, this._Problem_Description);
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
 
@@ -432,6 +465,9 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Repeat_Deficiency", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Repeat_Deficiency", DbType.String, this._Repeat_Deficiency);
+
+            db.AddInParameter(dbCommand, "Title", DbType.String, this._Title);
+            db.AddInParameter(dbCommand, "Problem_Description", DbType.String, this._Problem_Description);
             db.ExecuteNonQuery(dbCommand);
         }
 
