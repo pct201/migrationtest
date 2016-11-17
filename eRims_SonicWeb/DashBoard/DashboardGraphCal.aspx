@@ -67,11 +67,17 @@
                 <td align="left" style="width: 50%">
                     <div style="border: solid 1px #666666;">
                         <%=GetAggregatePerformanceByRegion() %>
+                        <div style="color:grey;text-align:center;margin-left:90px;">
+                            <b>T</b>-Tin &nbsp; <b>B</b>-Bronze&nbsp; <b>S</b>-Silver&nbsp; <b>G</b>-Gold&nbsp; <b>P</b>-Platinum 
+                        </div>
                     </div>
                 </td>
                 <td align="left" style="width: 50%">
                     <div style="border: solid 1px #666666;">
                         <%=GetChartSLTByRegion()%>
+                        <div style="color:grey;text-align:center;margin-left:90px;">
+                            <b>T</b>-Tin &nbsp; <b>B</b>-Bronze&nbsp; <b>S</b>-Silver&nbsp; <b>G</b>-Gold&nbsp; <b>P</b>-Platinum 
+                        </div>
                     </div>
                 </td>
             </tr>
@@ -79,11 +85,17 @@
                 <td align="right" style="width: 50%">
                     <div style="border: solid 1px #666666;">
                         <%= GetChartFacilityInspectionByRegion()%>
+                        <div style="color:grey;text-align:center;margin-left:90px;">
+                            <b>T</b>-Tin &nbsp; <b>B</b>-Bronze&nbsp; <b>S</b>-Silver&nbsp; <b>G</b>-Gold&nbsp; <b>P</b>-Platinum 
+                        </div>
                     </div>
                 </td>
                 <td align="left" style="width: 50%">
                     <div style="border: solid 1px #666666;">
                         <%= GetChartSabaTrainingByRegion()%>
+                        <div style="color:grey;text-align:center;margin-left:90px;">
+                            <b>T</b>-Tin &nbsp; <b>B</b>-Bronze&nbsp; <b>S</b>-Silver&nbsp; <b>G</b>-Gold&nbsp; <b>P</b>-Platinum 
+                        </div>
                     </div>
                 </td>
             </tr>
@@ -91,11 +103,17 @@
                 <td align="right" style="width: 50%">
                     <div style="border: solid 1px #666666;">
                         <%= GetChartIncidentInvestigationByRegion()%>
+                        <div style="color:grey;text-align:center;margin-left:90px;">
+                            <b>T</b>-Tin &nbsp; <b>B</b>-Bronze&nbsp; <b>S</b>-Silver&nbsp; <b>G</b>-Gold&nbsp; <b>P</b>-Platinum 
+                        </div>
                     </div>
                 </td>
                 <td align="left" style="width: 50%">
                     <div style="border: solid 1px #666666;">
                         <%=GetChartWCCLaimMgmtByRegion() %>
+                        <div style="color:grey;text-align:center;margin-left:90px;">
+                            <b>T</b>-Tin &nbsp; <b>B</b>-Bronze&nbsp; <b>S</b>-Silver&nbsp; <b>G</b>-Gold&nbsp; <b>P</b>-Platinum 
+                        </div>
                     </div>
                 </td>
             </tr>
@@ -103,6 +121,9 @@
                 <td align="right" style="width: 50%">
                     <div style="border: solid 1px #666666;">
                         <%= GetChartIncidentReductionByRegion()%>
+                        <div style="color:grey;text-align:center;margin-left:90px;">
+                            <b>T</b>-Tin &nbsp; <b>B</b>-Bronze&nbsp; <b>S</b>-Silver&nbsp; <b>G</b>-Gold&nbsp; <b>P</b>-Platinum 
+                        </div>
                     </div>
                 </td>
                 <td>

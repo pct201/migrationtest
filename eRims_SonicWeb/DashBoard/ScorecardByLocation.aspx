@@ -30,6 +30,9 @@
     <form id="form1" runat="server">
     <div>
         <%= GetDetailChart()%>
+        <div style="color:grey;margin-left:200px;">
+             <b>T</b>-Tin &nbsp; <b>B</b>-Bronze&nbsp; <b>S</b>-Silver&nbsp; <b>G</b>-Gold&nbsp; <b>P</b>-Platinum 
+        </div>
     </div>
     </form>
 </body>
