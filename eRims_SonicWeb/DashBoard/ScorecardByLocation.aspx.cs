@@ -205,27 +205,27 @@ public partial class ScorecardByLocation : System.Web.UI.Page
 
             if (_intScore >= 95 && _intScore <= 100)
             {
-                dtRegion.Rows[_iRow]["Performance"] = Charts.Platinum_Label; 
+                dtRegion.Rows[_iRow]["Performance"] = Charts.Platinum_Label_Graph; 
                 dtRegion.Rows[_iRow]["Score"] = _intScore;
             }
             else if (_intScore >= 90 && _intScore < 95)
             {
-                dtRegion.Rows[_iRow]["Performance"] = Charts.Gold_Label;
+                dtRegion.Rows[_iRow]["Performance"] = Charts.Gold_Label_Graph;
                 dtRegion.Rows[_iRow]["Score"] = _intScore;
             }
             else if (_intScore >= 80 && _intScore < 90)
             {
-                dtRegion.Rows[_iRow]["Performance"] = Charts.Silver_Label;
+                dtRegion.Rows[_iRow]["Performance"] = Charts.Silver_Label_Graph;
                 dtRegion.Rows[_iRow]["Score"] = _intScore;
             }
             else if (_intScore >= 70 && _intScore < 80)
             {
-                dtRegion.Rows[_iRow]["Performance"] = Charts.Bronze_Label;
+                dtRegion.Rows[_iRow]["Performance"] = Charts.Bronze_Label_Graph;
                 dtRegion.Rows[_iRow]["Score"] = _intScore;
             }
             else if (_intScore >= 0 && _intScore < 70)
             {
-                dtRegion.Rows[_iRow]["Performance"] = Charts.Tin_Label;
+                dtRegion.Rows[_iRow]["Performance"] = Charts.Tin_Label_Graph;
                 dtRegion.Rows[_iRow]["Score"] = _intScore;
             }
 
@@ -519,11 +519,11 @@ public partial class ScorecardByLocation : System.Web.UI.Page
 
         // set Tread Lines
         strChartXML.Append("<trendLines>");
-        strChartXML.Append("<line startValue='2' color='666666' displayvalue='" + Charts.Tin_Label + "' /> ");
-        strChartXML.Append("<line startValue='5' color='666666' displayvalue='" + Charts.Bronze_Label + "' /> ");
-        strChartXML.Append("<line startValue='8' color='666666' displayvalue='" + Charts.Silver_Label + "' /> ");
-        strChartXML.Append("<line startValue='11' color='666666' displayvalue='" + Charts.Gold_Label + "' /> ");
-        strChartXML.Append("<line startValue='14' color='666666' displayvalue='"+ Charts.Platinum_Label +"' /> ");
+        strChartXML.Append("<line startValue='2' color='666666' displayvalue='" + Charts.Tin_Label_Graph + "' /> ");
+        strChartXML.Append("<line startValue='5' color='666666' displayvalue='" + Charts.Bronze_Label_Graph + "' /> ");
+        strChartXML.Append("<line startValue='8' color='666666' displayvalue='" + Charts.Silver_Label_Graph + "' /> ");
+        strChartXML.Append("<line startValue='11' color='666666' displayvalue='" + Charts.Gold_Label_Graph + "' /> ");
+        strChartXML.Append("<line startValue='14' color='666666' displayvalue='"+ Charts.Platinum_Label_Graph +"' /> ");
 
         strChartXML.Append("<line startValue='13.3' color='FF0000' displayvalue='{br}Cross The Line' valueOnRight='1' thickness='2' /> ");
 
@@ -568,11 +568,11 @@ public partial class ScorecardByLocation : System.Web.UI.Page
 
         // set Tread Lines
         strChartXML.Append("<trendLines>");
-        strChartXML.Append("<line startValue='70' color='666666' displayvalue='" + Charts.Tin_Label + "' /> ");
-        strChartXML.Append("<line startValue='80' color='666666' displayvalue='" + Charts.Bronze_Label + "' /> ");
-        strChartXML.Append("<line startValue='90' color='666666' displayvalue='" + Charts.Silver_Label + "' /> ");
-        strChartXML.Append("<line startValue='95' color='666666' displayvalue='" + Charts.Gold_Label + "' /> ");
-        strChartXML.Append("<line startValue='100' color='666666' displayvalue='" + Charts.Platinum_Label + "' /> ");
+        strChartXML.Append("<line startValue='70' color='666666' displayvalue='" + Charts.Tin_Label_Graph_Graph + "' /> ");
+        strChartXML.Append("<line startValue='80' color='666666' displayvalue='" + Charts.Bronze_Label_Graph + "' /> ");
+        strChartXML.Append("<line startValue='90' color='666666' displayvalue='" + Charts.Silver_Label_Graph + "' /> ");
+        strChartXML.Append("<line startValue='95' color='666666' displayvalue='" + Charts.Gold_Label_Graph + "' /> ");
+        strChartXML.Append("<line startValue='100' color='666666' displayvalue='" + Charts.Platinum_Label_Graph + "' /> ");
         strChartXML.Append("<line startValue='95' color='FF0000' displayvalue='{br}Cross The Line' valueOnRight='1' thickness='2' /> ");
 
         //if (Average != 0 && decCompAverage > 0 && (Math.Abs(Average - decCompAverage) <= 0.75M))
@@ -616,11 +616,11 @@ public partial class ScorecardByLocation : System.Web.UI.Page
 
         // set Tread Lines
         strChartXML.Append("<trendLines>");
-        strChartXML.Append("<line startValue='11.5' color='666666' displayvalue='" + Charts.Tin_Label + "' /> ");
-        strChartXML.Append("<line startValue='17.5' color='666666' displayvalue='" + Charts.Bronze_Label + "' /> ");
-        strChartXML.Append("<line startValue='23.5' color='666666' displayvalue='" + Charts.Silver_Label + "' /> ");
-        strChartXML.Append("<line startValue='29' color='666666' displayvalue='" + Charts.Gold_Label + "' /> ");
-        strChartXML.Append("<line startValue='30' color='666666' displayvalue='" + Charts.Platinum_Label + "' /> ");
+        strChartXML.Append("<line startValue='11.5' color='666666' displayvalue='" + Charts.Tin_Label_Graph_Graph + "' /> ");
+        strChartXML.Append("<line startValue='17.5' color='666666' displayvalue='" + Charts.Bronze_Label_Graph + "' /> ");
+        strChartXML.Append("<line startValue='23.5' color='666666' displayvalue='" + Charts.Silver_Label_Graph + "' /> ");
+        strChartXML.Append("<line startValue='29' color='666666' displayvalue='" + Charts.Gold_Label_Graph + "' /> ");
+        strChartXML.Append("<line startValue='30' color='666666' displayvalue='" + Charts.Platinum_Label_Graph + "' /> ");
 
         strChartXML.Append("<line startValue='28.5' color='FF0000' displayvalue='{br}Cross The Line' valueOnRight='1' thickness='2' /> ");
 

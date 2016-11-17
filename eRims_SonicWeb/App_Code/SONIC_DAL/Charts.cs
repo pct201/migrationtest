@@ -18,11 +18,16 @@ public class Charts
     public static string Bronze = "FFA500";//Orange
     public static string Tin = "FF0000";//Red
     public static string White = "FFFFFF";
-    public static string Platinum_Label = "P";
-    public static string Gold_Label = "G";
-    public static string Silver_Label = "S";
-    public static string Bronze_Label = "B";
-    public static string Tin_Label = "T";
+    public static string Platinum_Label = "Platinum";
+    public static string Gold_Label = "Gold";
+    public static string Silver_Label = "Silver";
+    public static string Bronze_Label = "Bronze";
+    public static string Tin_Label = "Tin";
+    public static string Platinum_Label_Graph = "P";
+    public static string Gold_Label_Graph = "G";
+    public static string Silver_Label_Graph = "S";
+    public static string Bronze_Label_Graph = "B";
+    public static string Tin_Label_Graph = "T";
     
     public Charts()
     {

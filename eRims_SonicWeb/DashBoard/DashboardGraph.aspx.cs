@@ -209,27 +209,27 @@ public partial class DashboardGraph : clsBasePage
 
             if (_intScore >= 95 && _intScore <= 100)
             {
-                dtRegion.Rows[_iRow][2] = Charts.Platinum_Label;
+                dtRegion.Rows[_iRow][2] = Charts.Platinum_Label_Graph;
                 dtRegion.Rows[_iRow][1] = _intScore;
             }
             else if (_intScore >= 90 && _intScore < 95)
             {
-                dtRegion.Rows[_iRow][2] = Charts.Gold_Label;
+                dtRegion.Rows[_iRow][2] = Charts.Gold_Label_Graph;
                 dtRegion.Rows[_iRow][1] = _intScore;
             }
             else if (_intScore >= 80 && _intScore < 90)
             {
-                dtRegion.Rows[_iRow][2] = Charts.Silver_Label;
+                dtRegion.Rows[_iRow][2] = Charts.Silver_Label_Graph;
                 dtRegion.Rows[_iRow][1] = _intScore;
             }
             else if (_intScore >= 70 && _intScore < 80)
             {
-                dtRegion.Rows[_iRow][2] = Charts.Bronze_Label;
+                dtRegion.Rows[_iRow][2] = Charts.Bronze_Label_Graph;
                 dtRegion.Rows[_iRow][1] = _intScore;
             }
             else if (_intScore >= 0 && _intScore < 70)
             {
-                dtRegion.Rows[_iRow][2] = Charts.Tin_Label;
+                dtRegion.Rows[_iRow][2] = Charts.Tin_Label_Graph;
                 dtRegion.Rows[_iRow][1] = _intScore;
             }
         }
@@ -258,11 +258,11 @@ public partial class DashboardGraph : clsBasePage
 
         // set Tread Lines
         strChartXML.Append("<trendLines>");
-        strChartXML.Append("<line startValue='70' showOnTop='0' color='49563A' displayvalue='" + Charts.Tin_Label + "' /> ");
-        strChartXML.Append("<line startValue='80' color='49563A' displayvalue='" + Charts.Bronze_Label + "' /> ");
-        strChartXML.Append("<line startValue='90' color='49563A' displayvalue='" + Charts.Silver_Label + "' /> ");
-        strChartXML.Append("<line startValue='95' color='49563A' displayvalue='" + Charts.Gold_Label + "' /> ");
-        strChartXML.Append("<line startValue='100' color='49563A' displayvalue='" + Charts.Platinum_Label + "' /> ");
+        strChartXML.Append("<line startValue='70' showOnTop='0' color='49563A' displayvalue='" + Charts.Tin_Label_Graph + "' /> ");
+        strChartXML.Append("<line startValue='80' color='49563A' displayvalue='" + Charts.Bronze_Label_Graph + "' /> ");
+        strChartXML.Append("<line startValue='90' color='49563A' displayvalue='" + Charts.Silver_Label_Graph + "' /> ");
+        strChartXML.Append("<line startValue='95' color='49563A' displayvalue='" + Charts.Gold_Label_Graph + "' /> ");
+        strChartXML.Append("<line startValue='100' color='49563A' displayvalue='" + Charts.Platinum_Label_Graph + "' /> ");
         //strChartXML.Append("<line startValue='" + string.Format("{0:N2}", _devAvg) + "' color='FF0000' displayvalue='Company Average' valueOnRight='1' thickness='2' /> ");
         strChartXML.Append("<line startValue='95' color='FF0000' displayvalue='{br}Cross The Line' valueOnRight='1' thickness='2' /> ");
         strChartXML.Append("</trendLines>");
@@ -497,11 +497,11 @@ public partial class DashboardGraph : clsBasePage
     {
         // set Tread Lines
         strChartXML.Append("<trendLines>");
-        strChartXML.Append("<line startValue='2' color='49563A' displayvalue='" + Charts.Tin_Label + "' /> ");
-        strChartXML.Append("<line startValue='5' color='49563A' displayvalue='" + Charts.Bronze_Label + "' /> ");
-        strChartXML.Append("<line startValue='8' color='49563A' displayvalue='" + Charts.Silver_Label + "' /> ");
-        strChartXML.Append("<line startValue='11' color='49563A' displayvalue='" + Charts.Gold_Label + "' /> ");
-        strChartXML.Append("<line startValue='14' color='49563A' displayvalue='" + Charts.Platinum_Label + "' /> ");
+        strChartXML.Append("<line startValue='2' color='49563A' displayvalue='" + Charts.Tin_Label_Graph + "' /> ");
+        strChartXML.Append("<line startValue='5' color='49563A' displayvalue='" + Charts.Bronze_Label_Graph + "' /> ");
+        strChartXML.Append("<line startValue='8' color='49563A' displayvalue='" + Charts.Silver_Label_Graph + "' /> ");
+        strChartXML.Append("<line startValue='11' color='49563A' displayvalue='" + Charts.Gold_Label_Graph + "' /> ");
+        strChartXML.Append("<line startValue='14' color='49563A' displayvalue='" + Charts.Platinum_Label_Graph + "' /> ");
         //strChartXML.Append("<line startValue='" + string.Format("{0:N2}", Average) + "' color='FF0000' displayvalue='Company Average' valueOnRight='1' thickness='2' /> ");
         strChartXML.Append("<line startValue='13.3' color='FF0000' displayvalue='{br}Cross The Line' valueOnRight='1' thickness='2' /> ");
         strChartXML.Append("</trendLines>");
@@ -528,11 +528,11 @@ public partial class DashboardGraph : clsBasePage
     {
         // set Tread Lines
         strChartXML.Append("<trendLines>");
-        strChartXML.Append("<line startValue='11.5' valueOnRight='1' color='49563A' displayvalue='" + Charts.Tin_Label + "' /> ");
-        strChartXML.Append("<line startValue='17.5' color='49563A' displayvalue='" + Charts.Bronze_Label + "' /> ");
-        strChartXML.Append("<line startValue='23.5' color='49563A' displayvalue='" + Charts.Silver_Label + "' /> ");
-        strChartXML.Append("<line startValue='29' color='49563A' displayvalue='" + Charts.Gold_Label + "' /> ");
-        strChartXML.Append("<line startValue='30' color='49563A' displayvalue='" + Charts.Platinum_Label + "' /> ");
+        strChartXML.Append("<line startValue='11.5' valueOnRight='1' color='49563A' displayvalue='" + Charts.Tin_Label_Graph + "' /> ");
+        strChartXML.Append("<line startValue='17.5' color='49563A' displayvalue='" + Charts.Bronze_Label_Graph + "' /> ");
+        strChartXML.Append("<line startValue='23.5' color='49563A' displayvalue='" + Charts.Silver_Label_Graph + "' /> ");
+        strChartXML.Append("<line startValue='29' color='49563A' displayvalue='" + Charts.Gold_Label_Graph + "' /> ");
+        strChartXML.Append("<line startValue='30' color='49563A' displayvalue='" + Charts.Platinum_Label_Graph + "' /> ");
         //strChartXML.Append("<line startValue='" + string.Format("{0:N2}", Average) + "' color='FF0000' displayvalue='Company Average' valueOnRight='1' thickness='2' /> ");
         strChartXML.Append("<line startValue='28.5' color='FF0000' displayvalue='{br}Cross The Line' valueOnRight='1' thickness='2' /> ");
         strChartXML.Append("</trendLines>");
