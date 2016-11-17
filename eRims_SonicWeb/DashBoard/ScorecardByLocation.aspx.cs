@@ -568,7 +568,7 @@ public partial class ScorecardByLocation : System.Web.UI.Page
 
         // set Tread Lines
         strChartXML.Append("<trendLines>");
-        strChartXML.Append("<line startValue='70' color='666666' displayvalue='" + Charts.Tin_Label_Graph_Graph + "' /> ");
+        strChartXML.Append("<line startValue='70' color='666666' displayvalue='" + Charts.Tin_Label_Graph + "' /> ");
         strChartXML.Append("<line startValue='80' color='666666' displayvalue='" + Charts.Bronze_Label_Graph + "' /> ");
         strChartXML.Append("<line startValue='90' color='666666' displayvalue='" + Charts.Silver_Label_Graph + "' /> ");
         strChartXML.Append("<line startValue='95' color='666666' displayvalue='" + Charts.Gold_Label_Graph + "' /> ");
@@ -616,7 +616,7 @@ public partial class ScorecardByLocation : System.Web.UI.Page
 
         // set Tread Lines
         strChartXML.Append("<trendLines>");
-        strChartXML.Append("<line startValue='11.5' color='666666' displayvalue='" + Charts.Tin_Label_Graph_Graph + "' /> ");
+        strChartXML.Append("<line startValue='11.5' color='666666' displayvalue='" + Charts.Tin_Label_Graph + "' /> ");
         strChartXML.Append("<line startValue='17.5' color='666666' displayvalue='" + Charts.Bronze_Label_Graph + "' /> ");
         strChartXML.Append("<line startValue='23.5' color='666666' displayvalue='" + Charts.Silver_Label_Graph + "' /> ");
         strChartXML.Append("<line startValue='29' color='666666' displayvalue='" + Charts.Gold_Label_Graph + "' /> ");
