@@ -365,7 +365,7 @@
                     </div>
 
                 </td>
-                <td align="left" style="width: 50%;">
+                <td align="left" style="width: 50%">
                     <div style="border: solid 1px #666666;">
                         <%=GetAggregatePerformanceByRegion() %>
                         <div style="color:grey;text-align:center;margin-left:90px;">
