@@ -248,7 +248,7 @@ public partial class DashboardGraphCal : clsBasePage
         strChartXML.Append("<line startValue='80' color='49563A' displayvalue='" + Charts.Bronze_Label_Graph + "' /> ");
         strChartXML.Append("<line startValue='90' color='49563A' displayvalue='" + Charts.Silver_Label_Graph + "' /> ");
         strChartXML.Append("<line startValue='95' color='49563A' displayvalue='" + Charts.Gold_Label_Graph + "' /> ");
-        strChartXML.Append("<line startValue='100' color='49563A' displayvalue='   " + Charts.Platinum_Label_Graph + "' /> ");
+        strChartXML.Append("<line startValue='100' color='49563A' displayvalue='" + Charts.Platinum_Label_Graph + "' /> ");
         //strChartXML.Append("<line startValue='" + string.Format("{0:N2}", _devAvg) + "' color='FF0000' displayvalue='Company Average' valueOnRight='1' thickness='2' /> ");
         strChartXML.Append("<line startValue='95'  color='FF0000' displayvalue='{br}Cross The Line' valueOnRight='1' thickness='2' /> ");
 
@@ -559,7 +559,7 @@ public partial class DashboardGraphCal : clsBasePage
         strChartXML.Append("<line startValue='17.5' color='49563A' displayvalue='" + Charts.Bronze_Label_Graph + "' /> ");
         strChartXML.Append("<line startValue='23.5' color='49563A' displayvalue='" + Charts.Silver_Label_Graph + "' /> ");
         strChartXML.Append("<line startValue='29'  color='49563A' displayvalue='" + Charts.Gold_Label_Graph + "' /> ");
-        strChartXML.Append("<line startValue='30'  color='49563A' displayvalue='               " + Charts.Platinum_Label_Graph + "' /> ");
+        strChartXML.Append("<line startValue='30'  color='49563A' displayvalue='" + Charts.Platinum_Label_Graph + "' /> ");
         //strChartXML.Append("<line startValue='" + string.Format("{0:N2}", Average) + "' color='FF0000' displayvalue='Company Average' valueOnRight='1' thickness='2' /> ");
         strChartXML.Append("<line startValue='28.5' color='FF0000' displayvalue='{br}Cross The Line' valueOnRight='1' thickness='2' /> ");
         strChartXML.Append("</trendLines>");
