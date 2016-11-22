@@ -257,16 +257,16 @@
             if (rdoClaim_Questionable == '1')//1==Yes
             {
                 //ValidatorEnable(valClaim, true);
-                if (hdnIncidentID.length > 0 && hdnIncidentID.indexOf(',' + valClaim) == 0)
+                if (hdnIncidentID.length > 0 && hdnIncidentID.indexOf(',' + valClaim) < 0)
                     hdnIncidentID = hdnIncidentID + ',' + valClaim;
-                else
+                else if (hdnIncidentID.length == 0)
                     hdnIncidentID = valClaim;
 
                 document.getElementById('<%=hdnIncidentID.ClientID%>').value = hdnIncidentID;
 
-                if (hdnIncidentErrorMsgs.length > 0 && hdnIncidentErrorMsgs.indexOf(',' + 'Please enter [Incident/Information]/Was the claim Questionable? If Yes Why?') == 0)
+                if (hdnIncidentErrorMsgs.length > 0 && hdnIncidentErrorMsgs.indexOf(',' + 'Please enter [Incident/Information]/Was the claim Questionable? If Yes Why?') < 0)
                     hdnIncidentErrorMsgs = hdnIncidentErrorMsgs + ',' + 'Please enter [Incident/Information]/Was the claim Questionable? If Yes Why?';
-                else
+                else if(hdnIncidentErrorMsgs.length == 0)
                     hdnIncidentErrorMsgs = 'Please enter [Incident/Information]/Was the claim Questionable? If Yes Why?';
 
                 document.getElementById('<%=hdnIncidentErrorMsgs.ClientID%>').value = hdnIncidentErrorMsgs;
