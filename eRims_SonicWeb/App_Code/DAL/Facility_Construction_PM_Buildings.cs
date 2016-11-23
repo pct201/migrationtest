@@ -225,5 +225,21 @@ namespace ERIMS.DAL
 
             return db.ExecuteDataSet(dbCommand);
         }
+
+        /// <summary>
+        /// Selects a single record from the Facility_Construction_PM_Buildings table.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static int SelectBuildingsByFK(decimal FK_Facility_Construction_PM)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("SelectBuildingsByFK");
+
+            db.AddInParameter(dbCommand, "FK_Facility_Construction_PM", DbType.Decimal, FK_Facility_Construction_PM);
+
+            int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
+
+            return returnValue;
+        }
 	}
 }

@@ -341,6 +341,8 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
     private void SaveBuildingImprovement()
     {
         Building_Improvements building_Improvements = new Building_Improvements();
+        //get the old data
+        DataTable dtImprovment = building_Improvements.SelectBuildingByProjectNumber(Convert.ToString(txtProjectNumber.Text.Trim())).Tables[0];
         if (!string.IsNullOrEmpty(txtProjectNumber.Text.Trim()))
         {
             building_Improvements.Project_Number = Convert.ToString(txtProjectNumber.Text.Trim());
@@ -361,11 +363,11 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
 
         if (!string.IsNullOrEmpty(txtEstimatedEndDate.Text.Trim()))
         {
-            building_Improvements.Completion_Date = Convert.ToDateTime(txtEstimatedEndDate.Text.Trim());
+            building_Improvements.Target_Completion_Date = Convert.ToDateTime(txtEstimatedEndDate.Text.Trim());
         }
         else
         {
-            building_Improvements.Completion_Date = null;
+            building_Improvements.Target_Completion_Date = null;
         }
 
         if (!string.IsNullOrEmpty(txtProjectDescription.Text.Trim()))
@@ -376,7 +378,17 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
         {
             building_Improvements.Improvement_Description = null;
         }
-        building_Improvements.Insert();
+        if (dtImprovment.Rows.Count > 0 && dtImprovment != null)
+        {
+            building_Improvements.FK_LU_Facility_Project_Type = Convert.ToDecimal(ddProjectType.SelectedValue);
+            building_Improvements.PK_Building_Improvements = Convert.ToDecimal(dtImprovment.Rows[0]["PK_Building_Improvements"]);
+            building_Improvements.FK_Property_Cope = Convert.ToDecimal(dtImprovment.Rows[0]["FK_Property_Cope"]);
+            building_Improvements.FK_Building = Convert.ToDecimal(dtImprovment.Rows[0]["FK_Building"]);
+        }
+               
+        building_Improvements.Updated_By = clsSession.UserID;
+        building_Improvements.Updated_Date = DateTime.Now;
+        building_Improvements.Update();
     }
 
     #endregion
@@ -393,7 +405,7 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
         int checkProjectNumberExists = 0;
         if (!string.IsNullOrEmpty(txtProjectNumber.Text))
         {
-            checkProjectNumberExists = Facility_Construction_Project.CheckProjectNumberAlreadyExists(ConstructionProjectId > 0 ? ConstructionProjectId : 0, txtProjectNumber.Text.Trim());            
+            checkProjectNumberExists = Facility_Construction_Project.CheckProjectNumberAlreadyExists(ConstructionProjectId > 0 ? ConstructionProjectId : 0, txtProjectNumber.Text.Trim());
         }
 
         if (checkProjectNumberExists > 0)
@@ -479,30 +491,81 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
                 //}
                 //else
                 //{
-                    if (ConstructionProjectId > 0)
+                if (ConstructionProjectId > 0)
+                {
+                    facility_Construction_Project.PK_Facility_construction_Project = ConstructionProjectId;
+                    //get the old data
+                    DataTable dtFacility_Construction_Project = facility_Construction_Project.Select(ConstructionProjectId).Tables[0];
+                    facility_Construction_Project.Update();
+                    DeleteBuildings();
+                    SaveBuildings();
+
+                    Building_Improvements building_Improvements = new Building_Improvements();
+                    DataTable dtImprovment = building_Improvements.SelectBuildingByProjectNumber(Convert.ToString(dtFacility_Construction_Project.Rows[0]["Project_Number"])).Tables[0];
+
+                    if (!string.IsNullOrEmpty(txtProjectNumber.Text.Trim()))
                     {
-                        facility_Construction_Project.PK_Facility_construction_Project = ConstructionProjectId;
-                        facility_Construction_Project.Update();
-                        DeleteBuildings();
-                        SaveBuildings();
+                        building_Improvements.Project_Number = Convert.ToString(txtProjectNumber.Text.Trim());
                     }
                     else
                     {
-                        ConstructionProjectId = facility_Construction_Project.Insert();
-                        SaveBuildings();
-                        SaveBuildingImprovement();
-                        Session["ConstructionProjectId"] = ConstructionProjectId;
+                        building_Improvements.Project_Number = null;
                     }
 
-                    Session.Remove("IsEditable");
-                    hdnPanelSpaire.Value = "0";
-                    BindBuildings();
-                    FillConstructionProjectDetail();
-                    hdnPanel.Value = "1";
-                    btnReturnto_View_Mode.Visible = false;
-                    btnEdit.Visible = true;
-                    btnAuditTrail.Visible = true;
-               // }
+                    if (!string.IsNullOrEmpty(txtEstimatedStartDate.Text.Trim()))
+                    {
+                        building_Improvements.Start_Date = Convert.ToDateTime(txtEstimatedStartDate.Text.Trim());
+                    }
+                    else
+                    {
+                        building_Improvements.Start_Date = null;
+                    }
+
+                    if (!string.IsNullOrEmpty(txtEstimatedEndDate.Text.Trim()))
+                    {
+                        building_Improvements.Target_Completion_Date = Convert.ToDateTime(txtEstimatedEndDate.Text.Trim());
+                    }
+                    else
+                    {
+                        building_Improvements.Target_Completion_Date = null;
+                    }
+
+                    if (!string.IsNullOrEmpty(txtProjectDescription.Text.Trim()))
+                    {
+                        building_Improvements.Improvement_Description = Convert.ToString(txtProjectDescription.Text.Trim());
+                    }
+                    else
+                    {
+                        building_Improvements.Improvement_Description = null;
+                    }
+                    if (dtImprovment.Rows.Count > 0 && dtImprovment != null)
+                    {
+                        building_Improvements.FK_LU_Facility_Project_Type = Convert.ToDecimal(ddProjectType.SelectedValue);
+                        building_Improvements.PK_Building_Improvements = Convert.ToDecimal(dtImprovment.Rows[0]["PK_Building_Improvements"]);
+                        building_Improvements.FK_Property_Cope = Convert.ToDecimal(dtImprovment.Rows[0]["FK_Property_Cope"]);
+                    }
+                    building_Improvements.FK_Building = Facility_Construction_PM_Buildings.SelectBuildingsByFK(ConstructionProjectId);
+                    building_Improvements.Updated_By = clsSession.UserID;
+                    building_Improvements.Updated_Date = DateTime.Now;
+                    building_Improvements.Update();
+                }
+                else
+                {
+                    ConstructionProjectId = facility_Construction_Project.Insert();
+                    SaveBuildings();
+                    SaveBuildingImprovement();
+                    Session["ConstructionProjectId"] = ConstructionProjectId;
+                }
+
+                Session.Remove("IsEditable");
+                hdnPanelSpaire.Value = "0";
+                BindBuildings();
+                FillConstructionProjectDetail();
+                hdnPanel.Value = "1";
+                btnReturnto_View_Mode.Visible = false;
+                btnEdit.Visible = true;
+                btnAuditTrail.Visible = true;
+                // }
             }
             else
             {

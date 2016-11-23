@@ -1083,5 +1083,20 @@ namespace ERIMS.DAL
 
             return db.ExecuteDataSet(dbCommand);
         }
+
+        /// <summary>
+        /// Method to Select Building By Building_Improvements Foreign Key Id
+        /// </summary>
+        /// <param name="FK_Building_Improvements"></param>
+        /// <returns></returns>
+        public DataSet SelectBuildingByProjectNumber(string strProjectNumber)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Building_ImprovementsSelectByProjectNumber");
+
+            db.AddInParameter(dbCommand, "Project_Number", DbType.String, strProjectNumber);
+
+           return db.ExecuteDataSet(dbCommand);
+        }
     }
 }
