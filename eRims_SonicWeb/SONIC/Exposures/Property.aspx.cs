@@ -371,6 +371,16 @@ public partial class Exposures_Property : clsBasePage
             //bind SureGrip grid
             gvSureGripFootwear.DataSource = Property_COPE_SureGrip.SelectByProperty_Cope(PK_Property_Cope_ID);
             gvSureGripFootwear.DataBind();
+            if (gvSureGripFootwear.Rows.Count == 0)
+            {
+                dvSuperGrip.Style["overflow-y"] = "none";
+                dvSuperGrip.Style["Height"] = "20px";
+            }
+            else
+            {
+                dvSuperGrip.Style["Height"] = "115px";
+                dvSuperGrip.Style["overflow-y"] = "scroll";
+            }
             ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
         }
     }
@@ -1771,6 +1781,16 @@ public partial class Exposures_Property : clsBasePage
 
             gvSureGripFootwear.DataSource = Property_COPE_SureGrip.SelectByProperty_Cope(PK_Property_Cope_ID);
             gvSureGripFootwear.DataBind();
+            if (gvSureGripFootwear.Rows.Count == 0)
+            {
+                dvSuperGrip.Style["overflow-y"] = "none";
+                dvSuperGrip.Style["Height"] = "20px";
+            }
+            else
+            {
+                dvSuperGrip.Style["Height"] = "115px";
+                dvSuperGrip.Style["overflow-y"] = "scroll";
+            }
             ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "ShowPanel(1);", true);
         }
     }
@@ -2143,8 +2163,16 @@ public partial class Exposures_Property : clsBasePage
 
         gvSureGripFootwear.DataSource = Property_COPE_SureGrip.SelectByProperty_Cope(PK_Property_Cope_ID);
         gvSureGripFootwear.DataBind();
-        dvSuperGrip.Style["overflow-x"] = "none";
 
+        if (gvSureGripFootwear.Rows.Count == 0)
+        {
+            dvSuperGrip.Style["overflow-y"] = "none";
+            dvSuperGrip.Style["Height"] = "20px";
+        }
+        else { 
+        dvSuperGrip.Style["Height"] = "115px";
+        dvSuperGrip.Style["overflow-y"] = "scroll";
+        }
         #endregion
     }
 

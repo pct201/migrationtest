@@ -636,6 +636,17 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
 
         gvSureGripFootwear.DataSource = Property_COPE_SureGrip.SelectByProperty_Cope(PK_Property_Cope_ID);
         gvSureGripFootwear.DataBind();
+
+        if (gvSureGripFootwear.Rows.Count == 0)
+        {
+            dvSuperGrip.Style["overflow-y"] = "none";
+            dvSuperGrip.Style["Height"] = "20px";
+        }
+        else
+        {
+            dvSuperGrip.Style["Height"] = "125px";
+            dvSuperGrip.Style["overflow-y"] = "scroll";
+        }
        
         #endregion
     }

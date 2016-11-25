@@ -676,7 +676,7 @@
                                                                                                         Wrap="true" />
                                                                                                     <ItemStyle Width="100px" HorizontalAlign="right" />
                                                                                                     <ItemTemplate>
-                                                                                                        <asp:Label ID="Total_Charge" runat="server" Text='<%# String.Format("{0:C2}",Eval("Total_Charge"))%>'
+                                                                                                        <asp:Label ID="Total_Charge" runat="server" Text='<%# String.Format("{0:C2}",Eval("SureGrip_Total_Charge"))%>'
                                                                                                             Width="100px"></asp:Label>
                                                                                                     </ItemTemplate>
                                                                                                 </asp:TemplateField>
