@@ -135,7 +135,7 @@
                                                                         </td>
                                                                         <td colspan="4">WC Allocation YTD Charge Report 
                                                                         </td>
-                                                                        <td colspan="8" align="right">Accident Year :
+                                                                        <td colspan="10" align="right">Accident Year :
                                                                             <asp:Label runat="server" ID="lblAccYear"></asp:Label>
                                                                         </td>
                                                                     </tr>
@@ -170,6 +170,8 @@
                                                                         </td>
                                                                         <td style="width: 120px;" align="Right">Total Penalties
                                                                         </td>
+                                                                        <td style="width: 120px;" align="Right">SureGrip Discount
+                                                                        </td>
                                                                         <td style="width: 120px;" align="Right">Total Charge Amount
                                                                         </td>
                                                                     </tr>
@@ -181,7 +183,7 @@
                                                 <ItemTemplate>
                                                     <table width="100%" cellpadding="0" cellspacing="0" border="0">
                                                         <tr>
-                                                            <td align="left" colspan="16" style="background-color: White; height: 25px; color: Black;border:thin">
+                                                            <td align="left" colspan="17" style="background-color: White; height: 25px; color: Black;border:thin">
                                                                 <b>&nbsp;Location :
                                                                     <asp:Label ID="lblRegion" runat="server"><%#Eval("DBA")%></asp:Label>
                                                                 </b>
@@ -305,9 +307,15 @@
                                                                                 <asp:Label ID="lblTotalPanalties" runat="server"></asp:Label>
                                                                             </FooterTemplate>
                                                                         </asp:TemplateField>
+                                                                           <asp:TemplateField ItemStyle-VerticalAlign="Top" ItemStyle-HorizontalAlign="Right" FooterStyle-HorizontalAlign="Right">
+                                                                            <ItemTemplate>
+                                                                                <asp:Label ID="SureGrip_Footwear" runat="server" Text='<%# string.Format("{0}%", Eval("SureGrip_Footwear"))%>'
+                                                                                    Width="120px"></asp:Label>
+                                                                            </ItemTemplate>
+                                                                        </asp:TemplateField>
                                                                         <asp:TemplateField ItemStyle-VerticalAlign="Top" ItemStyle-HorizontalAlign="Right" FooterStyle-HorizontalAlign="Right">
                                                                             <ItemTemplate>
-                                                                                <asp:Label ID="Total_Charge" runat="server" Text='<%# string.Format("{0:C2}", Eval("Total_Charge"))%>'
+                                                                                <asp:Label ID="Total_Charge" runat="server" Text='<%# string.Format("{0:C2}", Eval("SureGrip_Total_Charge"))%>'
                                                                                     Width="120px"></asp:Label>
                                                                             </ItemTemplate>
                                                                             <FooterTemplate>
@@ -353,6 +361,7 @@
                                                                         <td style="width: 120px;" align="Right">
                                                                             <asp:Label ID="lblGTotalPanalties" runat="server"></asp:Label>
                                                                         </td>
+                                                                        <td style="width: 120px;"></td>
                                                                         <td style="width: 120px;" align="Right">
                                                                             <asp:Label ID="lblGTotalAmount" runat="server"></asp:Label>
                                                                         </td>

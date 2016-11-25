@@ -217,7 +217,7 @@ public partial class SONIC_FirstReport_WCAllocationMonthlyDetailReport : clsBase
             Cell.HorizontalAlign = HorizontalAlign.Center;
             Cell.Text = "<table width='100%' cellspacing=0 cellpadding=0><tr><td width='100%'>" +
                             "<table width='100%' style='border: black 0.5px solid;font-weight: bold;' cellspacing=0 cellpadding=0>" +
-                                "<tr style='font-weight: bold;' ><td width='100%' align='center' colspan='19'>WC Allocation Monthly Detail Report </td></tr></table>" +
+                                "<tr style='font-weight: bold;' ><td width='100%' align='center' colspan='20'>WC Allocation Monthly Detail Report </td></tr></table>" +
                             "</td></tr></table>";
             // add cell in row
             gRow.Cells.Add(Cell);
@@ -263,7 +263,7 @@ public partial class SONIC_FirstReport_WCAllocationMonthlyDetailReport : clsBase
                 gvReport.FooterRow.Cells[13].Text = String.Format("{0:C2}", drTotal["Incident_Investigation_Credit"]);
                 gvReport.FooterRow.Cells[15].Text = String.Format("{0:C2}", drTotal["Early_Close_Credit"]);
                 gvReport.FooterRow.Cells[17].Text = String.Format("{0:C2}", drTotal["Reopen_Charge"]);
-                gvReport.FooterRow.Cells[18].Text = String.Format("{0:C2}", drTotal["Total_Charge"]);
+                gvReport.FooterRow.Cells[19].Text = String.Format("{0:C2}", drTotal["Total_Charge"]);
             }
         }
     }
@@ -379,7 +379,7 @@ public partial class SONIC_FirstReport_WCAllocationMonthlyDetailReport : clsBase
                 gvReport.FooterRow.Cells[13].Text = String.Format("{0:C2}", drTotal["Incident_Investigation_Credit"]);
                 gvReport.FooterRow.Cells[15].Text = String.Format("{0:C2}", drTotal["Early_Close_Credit"]);
                 gvReport.FooterRow.Cells[17].Text = String.Format("{0:C2}", drTotal["Reopen_Charge"]);
-                gvReport.FooterRow.Cells[18].Text = String.Format("{0:C2}", drTotal["Total_Charge"]);
+                gvReport.FooterRow.Cells[19].Text = String.Format("{0:C2}", drTotal["Total_Charge"]);
             }
         }
     }

@@ -109,7 +109,7 @@ public partial class SONIC_FirstReport_RptAllocationYTDChargeReport : clsBasePag
             ((Label)gvReport.FooterRow.FindControl("lblGInitialCharge")).Text = string.Format("{0:C2}", dtDetails.Compute("SUM(Initial_Charge)", ""));
             ((Label)gvReport.FooterRow.FindControl("lblGTotalCredits")).Text = string.Format("{0:C2}", dtDetails.Compute("SUM(Total_Credits)", ""));
             ((Label)gvReport.FooterRow.FindControl("lblGTotalPanalties")).Text = string.Format("{0:C2}", dtDetails.Compute("SUM(Total_Penalties)", ""));
-            ((Label)gvReport.FooterRow.FindControl("lblGTotalAmount")).Text = string.Format("{0:C2}", dtDetails.Compute("SUM(Total_Charge)", ""));
+            ((Label)gvReport.FooterRow.FindControl("lblGTotalAmount")).Text = string.Format("{0:C2}", dtDetails.Compute("SUM(SureGrip_Total_Charge)", ""));
         }
         else
             lnkExportToExcel.Visible = false;
@@ -164,7 +164,7 @@ public partial class SONIC_FirstReport_RptAllocationYTDChargeReport : clsBasePag
                 ((Label)gvDetail.FooterRow.FindControl("lblInitialCharge")).Text = string.Format("{0:C2}", dvDetails.ToTable().Compute("SUM(Initial_Charge)", "PK_LU_Location_ID = " + STR_Location));
                 ((Label)gvDetail.FooterRow.FindControl("lblTotalCredits")).Text = string.Format("{0:C2}", dvDetails.ToTable().Compute("SUM(Total_Credits)", "PK_LU_Location_ID = " + STR_Location));
                 ((Label)gvDetail.FooterRow.FindControl("lblTotalPanalties")).Text = string.Format("{0:C2}", dvDetails.ToTable().Compute("SUM(Total_Penalties)", "PK_LU_Location_ID = " + STR_Location));
-                ((Label)gvDetail.FooterRow.FindControl("lblTotalAmount")).Text = string.Format("{0:C2}", dvDetails.ToTable().Compute("SUM(Total_Charge)", "PK_LU_Location_ID = " + STR_Location));
+                ((Label)gvDetail.FooterRow.FindControl("lblTotalAmount")).Text = string.Format("{0:C2}", dvDetails.ToTable().Compute("SUM(SureGrip_Total_Charge)", "PK_LU_Location_ID = " + STR_Location));
             }
         }
     }
