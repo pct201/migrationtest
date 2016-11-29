@@ -2319,7 +2319,7 @@ public partial class SLT_AdHocReportWriter : clsBasePage
                                 strFormat = dtSchema.Rows[intColumn]["DataTypeName"].ToString();
                                 if (strFormat == "decimal")
                                 {
-                                    if (Convert.ToString(dtSchema.Rows[intColumn]["ColumnName"]) == "Investigations - First Report Number" || Convert.ToString(dtSchema.Rows[intColumn]["ColumnName"]) == "Investigation ID")
+                                    if (Convert.ToString(dtSchema.Rows[intColumn]["ColumnName"]) == "Investigations - First Report Number" || Convert.ToString(dtSchema.Rows[intColumn]["ColumnName"]) == "Investigation ID" || Convert.ToString(dtSchema.Rows[intColumn]["ColumnName"]) == "Quality Review Points" || Convert.ToString(dtSchema.Rows[intColumn]["ColumnName"]) == "SLT Score" || Convert.ToString(dtSchema.Rows[intColumn]["ColumnName"]) == "Quality Review - Overwrite Points") 
                                     {
                                         //sbRecord.Append("<td align='right'>" + string.Format("{0:c2}", Reader[intColumn]) + "</td>");
                                         sbRecord.Append("<td align='right'>" + Reader[intColumn].ToString() + "</td>");
