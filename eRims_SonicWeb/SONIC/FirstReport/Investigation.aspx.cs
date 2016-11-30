@@ -2377,7 +2377,7 @@ public partial class Exposures_Investigation : clsBasePage
     /// </summary>
     private void ChangeSlippingValue(bool bEdit)
     {
-        if (ddlSonic_Cause_Code.SelectedValue.Contains("S-2")|| ddlSonic_Cause_Code.SelectedValue.Contains("S-02"))
+        if (ddlSonic_Cause_Code.SelectedValue.Contains("S0-2") || ddlSonic_Cause_Code.SelectedValue.Contains("S2"))
         {
             rdoSlipping.Enabled = true;
             if(!bEdit)
@@ -2764,6 +2764,7 @@ public partial class Exposures_Investigation : clsBasePage
 
         #endregion
 
+        ChangeSlippingValue(false);
     }
 
     #endregion
