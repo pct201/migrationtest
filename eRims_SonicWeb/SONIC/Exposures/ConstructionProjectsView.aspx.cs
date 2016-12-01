@@ -343,52 +343,53 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
         Building_Improvements building_Improvements = new Building_Improvements();
         //get the old data
         DataTable dtImprovment = building_Improvements.SelectBuildingByProjectNumber(Convert.ToString(txtProjectNumber.Text.Trim())).Tables[0];
-        if (!string.IsNullOrEmpty(txtProjectNumber.Text.Trim()))
-        {
-            building_Improvements.Project_Number = Convert.ToString(txtProjectNumber.Text.Trim());
-        }
-        else
-        {
-            building_Improvements.Project_Number = null;
-        }
 
-        if (!string.IsNullOrEmpty(txtEstimatedStartDate.Text.Trim()))
+        foreach (DataRow drImprovement in dtImprovment.Rows)
         {
-            building_Improvements.Start_Date = Convert.ToDateTime(txtEstimatedStartDate.Text.Trim());
-        }
-        else
-        {
-            building_Improvements.Start_Date = null;
-        }
+            if (!string.IsNullOrEmpty(txtProjectNumber.Text.Trim()))
+            {
+                building_Improvements.Project_Number = Convert.ToString(txtProjectNumber.Text.Trim());
+            }
+            else
+            {
+                building_Improvements.Project_Number = null;
+            }
 
-        if (!string.IsNullOrEmpty(txtEstimatedEndDate.Text.Trim()))
-        {
-            building_Improvements.Target_Completion_Date = Convert.ToDateTime(txtEstimatedEndDate.Text.Trim());
-        }
-        else
-        {
-            building_Improvements.Target_Completion_Date = null;
-        }
+            if (!string.IsNullOrEmpty(txtEstimatedStartDate.Text.Trim()))
+            {
+                building_Improvements.Start_Date = Convert.ToDateTime(txtEstimatedStartDate.Text.Trim());
+            }
+            else
+            {
+                building_Improvements.Start_Date = null;
+            }
 
-        if (!string.IsNullOrEmpty(txtProjectDescription.Text.Trim()))
-        {
-            building_Improvements.Improvement_Description = Convert.ToString(txtProjectDescription.Text.Trim());
-        }
-        else
-        {
-            building_Improvements.Improvement_Description = null;
-        }
-        if (dtImprovment.Rows.Count > 0 && dtImprovment != null)
-        {
+            if (!string.IsNullOrEmpty(txtEstimatedEndDate.Text.Trim()))
+            {
+                building_Improvements.Target_Completion_Date = Convert.ToDateTime(txtEstimatedEndDate.Text.Trim());
+            }
+            else
+            {
+                building_Improvements.Target_Completion_Date = null;
+            }
+
+            if (!string.IsNullOrEmpty(txtProjectDescription.Text.Trim()))
+            {
+                building_Improvements.Improvement_Description = Convert.ToString(txtProjectDescription.Text.Trim());
+            }
+            else
+            {
+                building_Improvements.Improvement_Description = null;
+            }
             building_Improvements.FK_LU_Facility_Project_Type = Convert.ToDecimal(ddProjectType.SelectedValue);
-            building_Improvements.PK_Building_Improvements = Convert.ToDecimal(dtImprovment.Rows[0]["PK_Building_Improvements"]);
-            building_Improvements.FK_Property_Cope = Convert.ToDecimal(dtImprovment.Rows[0]["FK_Property_Cope"]);
-            building_Improvements.FK_Building = Convert.ToDecimal(dtImprovment.Rows[0]["FK_Building"]);
+            building_Improvements.PK_Building_Improvements = Convert.ToDecimal(drImprovement["PK_Building_Improvements"]);
+            building_Improvements.FK_Property_Cope = Convert.ToDecimal(drImprovement["FK_Property_Cope"]);
+            building_Improvements.FK_Building = Convert.ToDecimal(drImprovement["FK_Building"]);
+
+            building_Improvements.Updated_By = clsSession.UserID;
+            building_Improvements.Updated_Date = DateTime.Now;
+            building_Improvements.Update();
         }
-               
-        building_Improvements.Updated_By = clsSession.UserID;
-        building_Improvements.Updated_Date = DateTime.Now;
-        building_Improvements.Update();
     }
 
     #endregion
@@ -477,20 +478,6 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
 
             if (!string.IsNullOrEmpty(selectedBuildings))
             {
-                //DataTable dtAssignedBuildings = Facility_Construction_PM_Buildings.SelectAssignedProjectsByBuilding(selectedBuildings.Substring(0, selectedBuildings.LastIndexOf(",")), ConstructionProjectId > 0 ? ConstructionProjectId : 0).Tables[0];
-
-                //if (dtAssignedBuildings != null && dtAssignedBuildings.Rows.Count > 0)
-                //{
-                //    string associatedBuildings = string.Empty;
-                //    foreach (DataRow dr in dtAssignedBuildings.Rows)
-                //    {
-                //        associatedBuildings += " " + Convert.ToString(dr["Building_Number"]) + " is already tied to " + HttpUtility.UrlEncode(Convert.ToString(dr["Project_Number"]).Replace("'", "")) + " project. \\n";
-                //    }
-
-                //    Page.ClientScript.RegisterStartupScript(this.GetType(), "Message", "javascript:alert('" + associatedBuildings + "');", true);
-                //}
-                //else
-                //{
                 if (ConstructionProjectId > 0)
                 {
                     facility_Construction_Project.PK_Facility_construction_Project = ConstructionProjectId;
@@ -501,53 +488,69 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
                     SaveBuildings();
 
                     Building_Improvements building_Improvements = new Building_Improvements();
+                    //Delete the buildings which are no longer selected in Checkbox
+                    Building_Improvements.DeleteByProjectNumberAndFKBuilding(Convert.ToString(dtFacility_Construction_Project.Rows[0]["Project_Number"]), selectedBuildings);
+                    //select the buildings which are not previously selected in checkbox
+                    DataTable dtInsert = building_Improvements.CheckForTheBuildingExistance(Convert.ToString(dtFacility_Construction_Project.Rows[0]["Project_Number"]), selectedBuildings).Tables[0];
+
+                    if (dtInsert.Rows.Count > 0 && dtInsert!= null)
+                    {
+                        foreach (DataRow drInsert in dtInsert.Rows)
+                        {
+                            building_Improvements.Project_Number = Convert.ToString(dtFacility_Construction_Project.Rows[0]["Project_Number"]);
+                            building_Improvements.FK_Property_Cope = Property_COPE.SelectPKByLocation(Convert.ToInt32(LocationID));
+                            building_Improvements.FK_Building = Convert.ToDecimal(drInsert["FK_Building"]);
+                            building_Improvements.Insert();
+                        }
+                    }
+
                     DataTable dtImprovment = building_Improvements.SelectBuildingByProjectNumber(Convert.ToString(dtFacility_Construction_Project.Rows[0]["Project_Number"])).Tables[0];
 
-                    if (!string.IsNullOrEmpty(txtProjectNumber.Text.Trim()))
+                    foreach (DataRow drImprovement in dtImprovment.Rows)
                     {
-                        building_Improvements.Project_Number = Convert.ToString(txtProjectNumber.Text.Trim());
-                    }
-                    else
-                    {
-                        building_Improvements.Project_Number = null;
-                    }
+                        if (!string.IsNullOrEmpty(txtProjectNumber.Text.Trim()))
+                        {
+                            building_Improvements.Project_Number = Convert.ToString(txtProjectNumber.Text.Trim());
+                        }
+                        else
+                        {
+                            building_Improvements.Project_Number = null;
+                        }
 
-                    if (!string.IsNullOrEmpty(txtEstimatedStartDate.Text.Trim()))
-                    {
-                        building_Improvements.Start_Date = Convert.ToDateTime(txtEstimatedStartDate.Text.Trim());
-                    }
-                    else
-                    {
-                        building_Improvements.Start_Date = null;
-                    }
+                        if (!string.IsNullOrEmpty(txtEstimatedStartDate.Text.Trim()))
+                        {
+                            building_Improvements.Start_Date = Convert.ToDateTime(txtEstimatedStartDate.Text.Trim());
+                        }
+                        else
+                        {
+                            building_Improvements.Start_Date = null;
+                        }
 
-                    if (!string.IsNullOrEmpty(txtEstimatedEndDate.Text.Trim()))
-                    {
-                        building_Improvements.Target_Completion_Date = Convert.ToDateTime(txtEstimatedEndDate.Text.Trim());
-                    }
-                    else
-                    {
-                        building_Improvements.Target_Completion_Date = null;
-                    }
+                        if (!string.IsNullOrEmpty(txtEstimatedEndDate.Text.Trim()))
+                        {
+                            building_Improvements.Target_Completion_Date = Convert.ToDateTime(txtEstimatedEndDate.Text.Trim());
+                        }
+                        else
+                        {
+                            building_Improvements.Target_Completion_Date = null;
+                        }
 
-                    if (!string.IsNullOrEmpty(txtProjectDescription.Text.Trim()))
-                    {
-                        building_Improvements.Improvement_Description = Convert.ToString(txtProjectDescription.Text.Trim());
-                    }
-                    else
-                    {
-                        building_Improvements.Improvement_Description = null;
-                    }
-                    if (dtImprovment.Rows.Count > 0 && dtImprovment != null)
-                    {
+                        if (!string.IsNullOrEmpty(txtProjectDescription.Text.Trim()))
+                        {
+                            building_Improvements.Improvement_Description = Convert.ToString(txtProjectDescription.Text.Trim());
+                        }
+                        else
+                        {
+                            building_Improvements.Improvement_Description = null;
+                        }
                         building_Improvements.FK_LU_Facility_Project_Type = Convert.ToDecimal(ddProjectType.SelectedValue);
-                        building_Improvements.PK_Building_Improvements = Convert.ToDecimal(dtImprovment.Rows[0]["PK_Building_Improvements"]);
-                        building_Improvements.FK_Property_Cope = Convert.ToDecimal(dtImprovment.Rows[0]["FK_Property_Cope"]);
+                        building_Improvements.PK_Building_Improvements = Convert.ToDecimal(drImprovement["PK_Building_Improvements"]);
+                        building_Improvements.FK_Property_Cope = Convert.ToDecimal(drImprovement["FK_Property_Cope"]);
+                        building_Improvements.FK_Building = Convert.ToDecimal(drImprovement["FK_Building"]);
+                        building_Improvements.Updated_By = clsSession.UserID;
+                        building_Improvements.Updated_Date = DateTime.Now;
+                        building_Improvements.Update();
                     }
-                    building_Improvements.FK_Building = Facility_Construction_PM_Buildings.SelectBuildingsByFK(ConstructionProjectId);
-                    building_Improvements.Updated_By = clsSession.UserID;
-                    building_Improvements.Updated_Date = DateTime.Now;
-                    building_Improvements.Update();
                 }
                 else
                 {
@@ -565,7 +568,6 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
                 btnReturnto_View_Mode.Visible = false;
                 btnEdit.Visible = true;
                 btnAuditTrail.Visible = true;
-                // }
             }
             else
             {

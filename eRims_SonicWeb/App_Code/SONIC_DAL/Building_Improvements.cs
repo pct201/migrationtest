@@ -1098,5 +1098,33 @@ namespace ERIMS.DAL
 
            return db.ExecuteDataSet(dbCommand);
         }
+
+        /// <summary>
+        /// Deletes a record from the Building_Improvements table by Project Number and FK_Building
+        /// </summary>
+        public static void DeleteByProjectNumberAndFKBuilding(string projectNumber,string fkBuilding)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Building_ImprovementsDeleteByProjectNumberAndFKBuilding");
+
+            db.AddInParameter(dbCommand, "Project_Number", DbType.String, projectNumber);
+            db.AddInParameter(dbCommand, "FK_Building", DbType.String, fkBuilding);
+
+            db.ExecuteNonQuery(dbCommand);
+        }
+
+        /// <summary>
+        /// Check for the building existance
+        /// </summary>
+        public DataSet CheckForTheBuildingExistance(string projectNumber, string fkBuilding)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Building_ImprovementsCheckForTheBuildingExistance");
+
+            db.AddInParameter(dbCommand, "Project_Number", DbType.String, projectNumber);
+            db.AddInParameter(dbCommand, "FK_Building", DbType.String, fkBuilding);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
     }
 }
