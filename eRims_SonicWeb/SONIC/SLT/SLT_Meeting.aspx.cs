@@ -938,6 +938,11 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         }
         else
         {
+            if (objSchedule.Scheduled_Meeting_Date == null && (txtActual_Meeting_Date != null || txtActual_Meeting_Date.Text != ""))
+            {
+                objSchedule.Scheduled_Meeting_Date = Convert.ToDateTime(txtActual_Meeting_Date.Text);
+            }
+
             if (PK_SLT_Meeting_Schedule > 0)
             {
                 objSchedule.Update();
@@ -3255,6 +3260,11 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         else
             objSLT_Meeting_Schedule.Date_Scored = null;
 
+        if(objSLT_Meeting_Schedule.Scheduled_Meeting_Date == null && (txtActual_Meeting_Date!= null || txtActual_Meeting_Date.Text != ""))
+        {
+            objSLT_Meeting_Schedule.Scheduled_Meeting_Date = Convert.ToDateTime(txtActual_Meeting_Date.Text); 
+        }
+
         objSLT_Meeting_Schedule.Update_Date = System.DateTime.Now;
         objSLT_Meeting_Schedule.Updated_By = clsSession.UserID;
         //objSLT_Meeting_Schedule.UniqueVal = UniqueVal;
@@ -3811,6 +3821,11 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             objSLT_Meeting_Schedule.Update_Date = System.DateTime.Now;
             objSLT_Meeting_Schedule.Updated_By = clsSession.UserID;
             objSLT_Meeting_Schedule.SLT_Meeting_CutOff_Day = AppConfig.SLT_Meeting_CutOff_Day;
+
+            if (objSLT_Meeting_Schedule.Scheduled_Meeting_Date == null && (txtActual_Meeting_Date != null || txtActual_Meeting_Date.Text != ""))
+            {
+                objSLT_Meeting_Schedule.Scheduled_Meeting_Date = Convert.ToDateTime(txtActual_Meeting_Date.Text);
+            }
 
             if (drpTime_Zone.SelectedIndex > 0)
                 objSLT_Meeting_Schedule.Time_Zone = drpTime_Zone.SelectedValue.ToString();
