@@ -91,6 +91,7 @@
                                     <asp:ListItem Text="Reopen Charge" Value="Reopen Charge"></asp:ListItem>
                                     <asp:ListItem Text="Nurse Triage Credit" Value="Nurse Triage Credit"></asp:ListItem>
                                     <asp:ListItem Text="Incident Investigation Credit" Value="Incident Investigation Credit"></asp:ListItem>
+                                    <asp:ListItem Text="SureGrip Credit" Value="SureGrip Credit"></asp:ListItem>
                                 </asp:DropDownList>
                                 <asp:RequiredFieldValidator ID="rfvChargeType" runat="server" ControlToValidate="ddlChargeType"
                                     InitialValue="0" SetFocusOnError="true" ErrorMessage="Please select Charge Type."

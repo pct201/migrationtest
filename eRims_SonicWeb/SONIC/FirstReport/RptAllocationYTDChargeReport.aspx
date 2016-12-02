@@ -309,7 +309,7 @@
                                                                         </asp:TemplateField>
                                                                            <asp:TemplateField ItemStyle-VerticalAlign="Top" ItemStyle-HorizontalAlign="Right" FooterStyle-HorizontalAlign="Right">
                                                                             <ItemTemplate>
-                                                                                <asp:Label ID="SureGrip_Footwear" runat="server" Text='<%# string.Format("{0}%", Eval("SureGrip_Footwear"))%>'
+                                                                                <asp:Label ID="SureGrip_Footwear" runat="server" Text='<%# string.Format("{0:C2}", Eval("SureGrip_Charge"))%>'
                                                                                     Width="120px"></asp:Label>
                                                                             </ItemTemplate>
                                                                         </asp:TemplateField>
