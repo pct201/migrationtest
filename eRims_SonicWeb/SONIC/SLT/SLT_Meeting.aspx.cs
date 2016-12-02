@@ -941,6 +941,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             if (objSchedule.Scheduled_Meeting_Date == null && (txtActual_Meeting_Date != null || txtActual_Meeting_Date.Text != ""))
             {
                 objSchedule.Scheduled_Meeting_Date = Convert.ToDateTime(txtActual_Meeting_Date.Text);
+                lblScheduled_Meeting_Date.Text = Convert.ToString(txtActual_Meeting_Date.Text);
             }
 
             if (PK_SLT_Meeting_Schedule > 0)
@@ -3262,7 +3263,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
 
         if(objSLT_Meeting_Schedule.Scheduled_Meeting_Date == null && (txtActual_Meeting_Date!= null || txtActual_Meeting_Date.Text != ""))
         {
-            objSLT_Meeting_Schedule.Scheduled_Meeting_Date = Convert.ToDateTime(txtActual_Meeting_Date.Text); 
+            objSLT_Meeting_Schedule.Scheduled_Meeting_Date = Convert.ToDateTime(txtActual_Meeting_Date.Text);
         }
 
         objSLT_Meeting_Schedule.Update_Date = System.DateTime.Now;
