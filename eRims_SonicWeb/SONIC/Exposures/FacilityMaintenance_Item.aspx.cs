@@ -90,6 +90,7 @@ public partial class SONIC_Exposures_FacilityMaintenance_Item : System.Web.UI.Pa
 
                 if (PK_Facility_Construction_Maintenance_Item > 0)
                 {
+                    //btnMaintenanceSubmit.Enabled = false;
                     BindMaintenanceDetails();
                 }
                 else
@@ -111,6 +112,11 @@ public partial class SONIC_Exposures_FacilityMaintenance_Item : System.Web.UI.Pa
             else
             {
                 Response.Redirect("ExposureSearch.aspx");
+            }
+            string Status = ddlStatus.Items[ddlStatus.SelectedIndex].Text;
+            if (Status == "Closed")
+            {
+                btnCloseTicket.Style.Add("display", "none");
             }
         }
     }
@@ -166,9 +172,29 @@ public partial class SONIC_Exposures_FacilityMaintenance_Item : System.Web.UI.Pa
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
+    protected void btnMaintenanceSubmit_Click(object sender, EventArgs e)
+    {
+        SubmitMaintenanceDetails();
+    }
+
+    /// <summary>
+    /// Save Maintenance Details
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void btnMaintenanceSave_Click(object sender, EventArgs e)
     {
         SaveMaintenanceDetails();
+    }
+
+    /// <summary>
+    /// Close Ticket
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnCloseTicket_Click(object sender, EventArgs e)
+    {
+        CloseTicket();
     }
 
     /// <summary>
@@ -310,7 +336,7 @@ public partial class SONIC_Exposures_FacilityMaintenance_Item : System.Web.UI.Pa
     /// Method to Bind Maintenance Details
     /// </summary>
     private void BindMaintenanceDetails()
-    {
+           {
         Facility_Construction_Maintenance_Item facility_Construction_Maintenance_Item = new Facility_Construction_Maintenance_Item(PK_Facility_Construction_Maintenance_Item);
         txtActionNumber.Text = lblActionNumber.Text = facility_Construction_Maintenance_Item.Item_Number;
         //ddlProject.SelectedValue = facility_Construction_Maintenance_Item.FK_Facility_Construction_Project.HasValue ? facility_Construction_Maintenance_Item.FK_Facility_Construction_Project.Value.ToString() : "0";
@@ -360,7 +386,7 @@ public partial class SONIC_Exposures_FacilityMaintenance_Item : System.Web.UI.Pa
         //ddlResponsibleParty.SelectedValue = facility_Construction_Maintenance_Item.FK_Assigned.HasValue ? facility_Construction_Maintenance_Item.FK_Assigned.Value.ToString() : "0";
         //lblResponsibleParty.Text = ddlResponsibleParty.SelectedIndex > 0 ? ddlResponsibleParty.SelectedItem.Text : "";
         //BindFirm();
-        ddlStatus.SelectedValue = facility_Construction_Maintenance_Item.FK_Facility_Maintenance_Status.HasValue ? facility_Construction_Maintenance_Item.FK_Facility_Maintenance_Status.Value.ToString() : "0";
+        ddlStatus.SelectedValue = facility_Construction_Maintenance_Item.FK_Facility_Maintenance_Status.HasValue ? facility_Construction_Maintenance_Item.FK_Facility_Maintenance_Status.Value.ToString() : "1";
         ddlPriority.SelectedValue = facility_Construction_Maintenance_Item.FK_LU_Maintenance_Priority.HasValue ? facility_Construction_Maintenance_Item.FK_LU_Maintenance_Priority.Value.ToString() : "0";
         lblStatus.Text = ddlStatus.SelectedIndex > 0 ? ddlStatus.SelectedItem.Text : "";
         lblPriority.Text = ddlPriority.SelectedIndex > 0 ? ddlPriority.SelectedItem.Text : "";
@@ -375,6 +401,19 @@ public partial class SONIC_Exposures_FacilityMaintenance_Item : System.Web.UI.Pa
         //txtVariance.Text = lblVariance.Text = clsGeneral.FormatCommaSeperatorCurrency(facility_Construction_Maintenance_Item.Amount_Variance);
         txtTitle.Text = lblTitle.Text = facility_Construction_Maintenance_Item.Title;
         txtRepairDescription.Text = lblRepairDescription.Text = facility_Construction_Maintenance_Item.Repair_Description;
+        if (facility_Construction_Maintenance_Item.Source == "ERIMS")
+        {
+            ddlSource.SelectedValue = "0";
+        }
+        if (facility_Construction_Maintenance_Item.Source == "Facility Construction")
+        {
+            ddlSource.SelectedValue = "1";
+        }
+        if (facility_Construction_Maintenance_Item.Source == "Sonic Mobile")
+        {
+            ddlSource.SelectedValue = "2";
+        }
+        lblSource.Text = ddlSource.SelectedItem.Text;
     }
 
     /// <summary>
@@ -572,6 +611,126 @@ public partial class SONIC_Exposures_FacilityMaintenance_Item : System.Web.UI.Pa
     //    ddlFirm.Items.Insert(0, new ListItem("-- Select --", "0"));
     //}
 
+
+    /// <summary>
+    /// Submit Maintenance Details
+    /// </summary>
+    private void SubmitMaintenanceDetails()
+    {
+        Facility_Construction_Maintenance_Item facility_Construction_Maintenance_Item = new Facility_Construction_Maintenance_Item();
+        facility_Construction_Maintenance_Item.PK_Facility_Construction_Maintenance_Item = PK_Facility_Construction_Maintenance_Item;
+        facility_Construction_Maintenance_Item.Item_Number = txtActionNumber.Text;
+        //if (ddlProject.SelectedIndex > 0)
+        //{
+        //    facility_Construction_Maintenance_Item.FK_Facility_Construction_Project = Convert.ToInt32(ddlProject.SelectedValue);
+        //}
+
+        if (ddlLocation.SelectedIndex > 0)
+        {
+            facility_Construction_Maintenance_Item.FK_LU_Location_ID = Convert.ToInt32(ddlLocation.SelectedValue);
+        }
+
+        if (ddlRequester.SelectedIndex > 0)
+        {
+            facility_Construction_Maintenance_Item.FK_Requester = Convert.ToInt32(ddlRequester.SelectedValue);
+            facility_Construction_Maintenance_Item.Requester_Table = "Contractor_Security";
+        }
+
+
+        facility_Construction_Maintenance_Item.Requester_Telephone = null;
+
+
+        if (ddlBuilding.SelectedIndex > 0)
+        {
+            facility_Construction_Maintenance_Item.FK_Building = Convert.ToInt32(ddlBuilding.SelectedValue);
+        }
+
+        //facility_Construction_Maintenance_Item.Requester_Email = txtEmail.Text;
+        facility_Construction_Maintenance_Item.Inspection_Date = clsGeneral.FormatNullDateToStore(txtInspectionDate.Text);
+
+        facility_Construction_Maintenance_Item.FK_Inspected_By = null;
+        facility_Construction_Maintenance_Item.Inspected_By_Table = null;
+
+        //facility_Construction_Maintenance_Item.Date_PCA_Ordered = clsGeneral.FormatNullDateToStore(txtDatePCAOrdered.Text);
+        //facility_Construction_Maintenance_Item.Date_PCA_Conducted = clsGeneral.FormatNullDateToStore(txtDatePCAConducted.Text);
+        facility_Construction_Maintenance_Item.Estimated_Start_Date = null;
+        facility_Construction_Maintenance_Item.Estimated_End_Date = null;
+        facility_Construction_Maintenance_Item.Actual_Start_Date = null;
+        //if (ddlPCAConductedBy.SelectedIndex > 0)
+        //{
+        //    facility_Construction_Maintenance_Item.FK_PCA_Conducted_By = Convert.ToInt32(ddlPCAConductedBy.SelectedValue);
+        //}
+        facility_Construction_Maintenance_Item.FK_Scope_Of_Work = null;
+
+        if (ddlFocusArea.SelectedIndex > 0)
+        {
+            facility_Construction_Maintenance_Item.FK_Focus_Area = Convert.ToInt32(ddlFocusArea.SelectedValue);
+        }
+
+        if (ddlFocusAreaItem.SelectedIndex > 0)
+        {
+            facility_Construction_Maintenance_Item.FK_Facility_Inspection_Item = Convert.ToInt32(ddlFocusAreaItem.SelectedValue);
+        }
+
+
+        facility_Construction_Maintenance_Item.FK_Facility_Maintenance_Type = null;
+
+        facility_Construction_Maintenance_Item.FK_Assigned = null;
+        facility_Construction_Maintenance_Item.Assigned_Table = null;
+
+        if (ddlStatus.SelectedIndex > 0)
+        {
+            facility_Construction_Maintenance_Item.FK_Facility_Maintenance_Status = Convert.ToInt32(ddlStatus.SelectedValue);
+        }
+        else
+        {
+            facility_Construction_Maintenance_Item.FK_Facility_Maintenance_Status = 1;
+        }
+
+        if (ddlPriority.SelectedIndex > 0)
+        {
+            facility_Construction_Maintenance_Item.FK_LU_Maintenance_Priority = Convert.ToInt32(ddlPriority.SelectedValue);
+        }
+
+        facility_Construction_Maintenance_Item.FK_Approved_By = null;
+        facility_Construction_Maintenance_Item.Approved_By_Table = null;
+        facility_Construction_Maintenance_Item.FK_Firm = null;
+        facility_Construction_Maintenance_Item.FK_Contact = null;
+        facility_Construction_Maintenance_Item.Estimated_Amount = null;
+        facility_Construction_Maintenance_Item.Actual_Amount = null;
+        facility_Construction_Maintenance_Item.Proposed_Amount = null;
+        //facility_Construction_Maintenance_Item.Amount_Variance = clsGeneral.GetDecimalNullableValue(txtVariance);
+        facility_Construction_Maintenance_Item.Title = txtTitle.Text;
+        facility_Construction_Maintenance_Item.Repair_Description = txtRepairDescription.Text;
+        if (Convert.ToInt32(ddlSource.SelectedValue) == 0)
+        {
+            facility_Construction_Maintenance_Item.Source = "ERIMS";
+        }
+        if (Convert.ToInt32(ddlSource.SelectedValue) == 1)
+        {
+            facility_Construction_Maintenance_Item.Source = "Facility Maintenance";
+        }
+        if (Convert.ToInt32(ddlSource.SelectedValue) == 2)
+        {
+            facility_Construction_Maintenance_Item.Source = "Sonic Mobile";
+        }
+        facility_Construction_Maintenance_Item.Update_Date = DateTime.Now;
+        facility_Construction_Maintenance_Item.Updated_By = 101;
+
+        if (PK_Facility_Construction_Maintenance_Item > 0)
+        {
+            facility_Construction_Maintenance_Item.Update();
+        }
+        else
+        {
+            PK_Facility_Construction_Maintenance_Item = facility_Construction_Maintenance_Item.Insert();
+        }
+        Security objsecurity = new Security(!string.IsNullOrEmpty(clsSession.UserID) ? Convert.ToDecimal(clsSession.UserID) : 0);
+        string EmailTO = objsecurity.Email;
+        clsGeneral.SendMailMessageForNewTicket(AppConfig.MailFrom, EmailTO, string.Empty, "", "Ticket Number " + facility_Construction_Maintenance_Item.Item_Number, "Ticket has been generated. <br><br>Title: " + facility_Construction_Maintenance_Item.Title + "<br> Problem Description: " + facility_Construction_Maintenance_Item.Repair_Description + "<br><br> Thanks", true, new string[] { }, Convert.ToString(facility_Construction_Maintenance_Item.PK_Facility_Construction_Maintenance_Item));
+        ScriptManager.RegisterStartupScript(this, GetType(), "btnSave", "javascript: alert('Maintenance Details Saved Successfully.'); location.href = '" + String.Format("FacilityMaintenance_Item.aspx?loc={0}&item={1}&op={2}", Request.QueryString["loc"].ToString(), Encryption.Encrypt(PK_Facility_Construction_Maintenance_Item.ToString()), "View") + "'", true);
+    }
+
     /// <summary>
     /// Saves Maintenance Details
     /// </summary>
@@ -611,7 +770,6 @@ public partial class SONIC_Exposures_FacilityMaintenance_Item : System.Web.UI.Pa
         facility_Construction_Maintenance_Item.FK_Inspected_By = null;
         facility_Construction_Maintenance_Item.Inspected_By_Table = null;
 
-
         //facility_Construction_Maintenance_Item.Date_PCA_Ordered = clsGeneral.FormatNullDateToStore(txtDatePCAOrdered.Text);
         //facility_Construction_Maintenance_Item.Date_PCA_Conducted = clsGeneral.FormatNullDateToStore(txtDatePCAConducted.Text);
         facility_Construction_Maintenance_Item.Estimated_Start_Date = null;
@@ -643,23 +801,38 @@ public partial class SONIC_Exposures_FacilityMaintenance_Item : System.Web.UI.Pa
         {
             facility_Construction_Maintenance_Item.FK_Facility_Maintenance_Status = Convert.ToInt32(ddlStatus.SelectedValue);
         }
+        else
+        {
+            facility_Construction_Maintenance_Item.FK_Facility_Maintenance_Status = 1;
+        }
 
         if (ddlPriority.SelectedIndex > 0)
         {
             facility_Construction_Maintenance_Item.FK_LU_Maintenance_Priority = Convert.ToInt32(ddlPriority.SelectedValue);
         }
 
-            facility_Construction_Maintenance_Item.FK_Approved_By = null;
-            facility_Construction_Maintenance_Item.Approved_By_Table = null;
-            facility_Construction_Maintenance_Item.FK_Firm = null;
-            facility_Construction_Maintenance_Item.FK_Contact = null;
-            facility_Construction_Maintenance_Item.Estimated_Amount = null;
-            facility_Construction_Maintenance_Item.Actual_Amount = null;
-            facility_Construction_Maintenance_Item.Proposed_Amount = null;
+        facility_Construction_Maintenance_Item.FK_Approved_By = null;
+        facility_Construction_Maintenance_Item.Approved_By_Table = null;
+        facility_Construction_Maintenance_Item.FK_Firm = null;
+        facility_Construction_Maintenance_Item.FK_Contact = null;
+        facility_Construction_Maintenance_Item.Estimated_Amount = null;
+        facility_Construction_Maintenance_Item.Actual_Amount = null;
+        facility_Construction_Maintenance_Item.Proposed_Amount = null;
         //facility_Construction_Maintenance_Item.Amount_Variance = clsGeneral.GetDecimalNullableValue(txtVariance);
         facility_Construction_Maintenance_Item.Title = txtTitle.Text;
         facility_Construction_Maintenance_Item.Repair_Description = txtRepairDescription.Text;
-
+        if (Convert.ToInt32(ddlSource.SelectedValue) == 0)
+        {
+            facility_Construction_Maintenance_Item.Source = "ERIMS";
+        }
+        if (Convert.ToInt32(ddlSource.SelectedValue) == 1)
+        {
+            facility_Construction_Maintenance_Item.Source = "Facility Maintenance";
+        }
+        if (Convert.ToInt32(ddlSource.SelectedValue) == 2)
+        {
+            facility_Construction_Maintenance_Item.Source = "Sonic Mobile";
+        }
         facility_Construction_Maintenance_Item.Update_Date = DateTime.Now;
         facility_Construction_Maintenance_Item.Updated_By = 101;
 
@@ -673,6 +846,115 @@ public partial class SONIC_Exposures_FacilityMaintenance_Item : System.Web.UI.Pa
         }
 
         ScriptManager.RegisterStartupScript(this, GetType(), "btnSave", "javascript: alert('Maintenance Details Saved Successfully.'); location.href = '" + String.Format("FacilityMaintenance_Item.aspx?loc={0}&item={1}&op={2}", Request.QueryString["loc"].ToString(), Encryption.Encrypt(PK_Facility_Construction_Maintenance_Item.ToString()), "View") + "'", true);
+    }
+
+    /// <summary>
+    /// Saves Maintenance Details
+    /// </summary>
+    private void CloseTicket()
+    {
+        Facility_Construction_Maintenance_Item facility_Construction_Maintenance_Item = new Facility_Construction_Maintenance_Item();
+        facility_Construction_Maintenance_Item.PK_Facility_Construction_Maintenance_Item = PK_Facility_Construction_Maintenance_Item;
+        facility_Construction_Maintenance_Item.Item_Number = txtActionNumber.Text;
+        //if (ddlProject.SelectedIndex > 0)
+        //{
+        //    facility_Construction_Maintenance_Item.FK_Facility_Construction_Project = Convert.ToInt32(ddlProject.SelectedValue);
+        //}
+
+        if (ddlLocation.SelectedIndex > 0)
+        {
+            facility_Construction_Maintenance_Item.FK_LU_Location_ID = Convert.ToInt32(ddlLocation.SelectedValue);
+        }
+
+        if (ddlRequester.SelectedIndex > 0)
+        {
+            facility_Construction_Maintenance_Item.FK_Requester = Convert.ToInt32(ddlRequester.SelectedValue);
+            facility_Construction_Maintenance_Item.Requester_Table = "Contractor_Security";
+        }
+
+
+        facility_Construction_Maintenance_Item.Requester_Telephone = null;
+
+
+        if (ddlBuilding.SelectedIndex > 0)
+        {
+            facility_Construction_Maintenance_Item.FK_Building = Convert.ToInt32(ddlBuilding.SelectedValue);
+        }
+
+        //facility_Construction_Maintenance_Item.Requester_Email = txtEmail.Text;
+        facility_Construction_Maintenance_Item.Inspection_Date = clsGeneral.FormatNullDateToStore(txtInspectionDate.Text);
+
+        facility_Construction_Maintenance_Item.FK_Inspected_By = null;
+        facility_Construction_Maintenance_Item.Inspected_By_Table = null;
+
+        //facility_Construction_Maintenance_Item.Date_PCA_Ordered = clsGeneral.FormatNullDateToStore(txtDatePCAOrdered.Text);
+        //facility_Construction_Maintenance_Item.Date_PCA_Conducted = clsGeneral.FormatNullDateToStore(txtDatePCAConducted.Text);
+        facility_Construction_Maintenance_Item.Estimated_Start_Date = null;
+        facility_Construction_Maintenance_Item.Estimated_End_Date = null;
+        facility_Construction_Maintenance_Item.Actual_Start_Date = null;
+        //if (ddlPCAConductedBy.SelectedIndex > 0)
+        //{
+        //    facility_Construction_Maintenance_Item.FK_PCA_Conducted_By = Convert.ToInt32(ddlPCAConductedBy.SelectedValue);
+        //}
+        facility_Construction_Maintenance_Item.FK_Scope_Of_Work = null;
+
+        if (ddlFocusArea.SelectedIndex > 0)
+        {
+            facility_Construction_Maintenance_Item.FK_Focus_Area = Convert.ToInt32(ddlFocusArea.SelectedValue);
+        }
+
+        if (ddlFocusAreaItem.SelectedIndex > 0)
+        {
+            facility_Construction_Maintenance_Item.FK_Facility_Inspection_Item = Convert.ToInt32(ddlFocusAreaItem.SelectedValue);
+        }
+
+
+        facility_Construction_Maintenance_Item.FK_Facility_Maintenance_Type = null;
+
+        facility_Construction_Maintenance_Item.FK_Assigned = null;
+        facility_Construction_Maintenance_Item.Assigned_Table = null;
+        facility_Construction_Maintenance_Item.FK_Facility_Maintenance_Status = 3;
+        
+        if (ddlPriority.SelectedIndex > 0)
+        {
+            facility_Construction_Maintenance_Item.FK_LU_Maintenance_Priority = Convert.ToInt32(ddlPriority.SelectedValue);
+        }
+
+        facility_Construction_Maintenance_Item.FK_Approved_By = null;
+        facility_Construction_Maintenance_Item.Approved_By_Table = null;
+        facility_Construction_Maintenance_Item.FK_Firm = null;
+        facility_Construction_Maintenance_Item.FK_Contact = null;
+        facility_Construction_Maintenance_Item.Estimated_Amount = null;
+        facility_Construction_Maintenance_Item.Actual_Amount = null;
+        facility_Construction_Maintenance_Item.Proposed_Amount = null;
+        //facility_Construction_Maintenance_Item.Amount_Variance = clsGeneral.GetDecimalNullableValue(txtVariance);
+        facility_Construction_Maintenance_Item.Title = txtTitle.Text;
+        facility_Construction_Maintenance_Item.Repair_Description = txtRepairDescription.Text;
+        if (Convert.ToInt32(ddlSource.SelectedValue) == 0)
+        {
+            facility_Construction_Maintenance_Item.Source = "ERIMS";
+        }
+        if (Convert.ToInt32(ddlSource.SelectedValue) == 1)
+        {
+            facility_Construction_Maintenance_Item.Source = "Facility Maintenance";
+        }
+        if (Convert.ToInt32(ddlSource.SelectedValue) == 2)
+        {
+            facility_Construction_Maintenance_Item.Source = "Sonic Mobile";
+        }
+        facility_Construction_Maintenance_Item.Update_Date = DateTime.Now;
+        facility_Construction_Maintenance_Item.Updated_By = 101;
+
+        if (PK_Facility_Construction_Maintenance_Item > 0)
+        {
+            facility_Construction_Maintenance_Item.Update();
+        }
+        else
+        {
+            PK_Facility_Construction_Maintenance_Item = facility_Construction_Maintenance_Item.Insert();
+        }
+
+        ScriptManager.RegisterStartupScript(this, GetType(), "btnCloseTicket", "javascript: alert('Ticket Closed Successfully.'); location.href = '" + String.Format("FacilityMaintenance_Item.aspx?loc={0}&item={1}&op={2}", Request.QueryString["loc"].ToString(), Encryption.Encrypt(PK_Facility_Construction_Maintenance_Item.ToString()), "View") + "'", true);
     }
 
     #endregion
