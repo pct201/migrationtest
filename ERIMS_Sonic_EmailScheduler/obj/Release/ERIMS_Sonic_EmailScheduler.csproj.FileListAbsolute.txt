@@ -1,0 +1,11 @@
+C:\Users\pci93\Documents\Visual Studio 2013\Projects\ERIMS_Sonic_EmailScheduler\ERIMS_Sonic_EmailScheduler\bin\Release\ERIMS_Sonic_EmailScheduler.exe.config
+C:\Users\pci93\Documents\Visual Studio 2013\Projects\ERIMS_Sonic_EmailScheduler\ERIMS_Sonic_EmailScheduler\bin\Release\ERIMS_Sonic_EmailScheduler.exe
+C:\Users\pci93\Documents\Visual Studio 2013\Projects\ERIMS_Sonic_EmailScheduler\ERIMS_Sonic_EmailScheduler\bin\Release\ERIMS_Sonic_EmailScheduler.pdb
+C:\Users\pci93\Documents\Visual Studio 2013\Projects\ERIMS_Sonic_EmailScheduler\ERIMS_Sonic_EmailScheduler\bin\Release\Microsoft.Practices.EnterpriseLibrary.Common.dll
+C:\Users\pci93\Documents\Visual Studio 2013\Projects\ERIMS_Sonic_EmailScheduler\ERIMS_Sonic_EmailScheduler\bin\Release\Microsoft.Practices.EnterpriseLibrary.Data.dll
+C:\Users\pci93\Documents\Visual Studio 2013\Projects\ERIMS_Sonic_EmailScheduler\ERIMS_Sonic_EmailScheduler\bin\Release\Microsoft.Practices.ObjectBuilder.dll
+C:\Users\pci93\Documents\Visual Studio 2013\Projects\ERIMS_Sonic_EmailScheduler\ERIMS_Sonic_EmailScheduler\bin\Release\OpenPop.dll
+C:\Users\pci93\Documents\Visual Studio 2013\Projects\ERIMS_Sonic_EmailScheduler\ERIMS_Sonic_EmailScheduler\obj\Release\ERIMS_Sonic_EmailScheduler.ProjectInstaller.resources
+C:\Users\pci93\Documents\Visual Studio 2013\Projects\ERIMS_Sonic_EmailScheduler\ERIMS_Sonic_EmailScheduler\obj\Release\ERIMS_Sonic_EmailScheduler.csproj.GenerateResource.Cache
+C:\Users\pci93\Documents\Visual Studio 2013\Projects\ERIMS_Sonic_EmailScheduler\ERIMS_Sonic_EmailScheduler\obj\Release\ERIMS_Sonic_EmailScheduler.exe
+C:\Users\pci93\Documents\Visual Studio 2013\Projects\ERIMS_Sonic_EmailScheduler\ERIMS_Sonic_EmailScheduler\obj\Release\ERIMS_Sonic_EmailScheduler.pdb

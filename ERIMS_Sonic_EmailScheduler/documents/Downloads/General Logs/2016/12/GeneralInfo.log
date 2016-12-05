@@ -1,0 +1,1712 @@
+02-12-2016 20:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+02-12-2016 20:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+02-12-2016 20:00:00 :- Connecting to SMTP server
+
+02-12-2016 20:00:11 :- Connected to SMTP server
+
+02-12-2016 20:00:25 :- Unread Mail Count to be processed : 11
+
+02-12-2016 20:00:25 :-  Message Details :
+						Message Subject :Re: Ticket Number M0525
+						Reply From :erims2@yahoo.com
+						Reply Time :02-12-2016 13:30:08
+
+02-12-2016 20:00:25 :-  Message Details :
+						Message Subject :Re: Ticket Number M0524
+						Reply From :erims2@yahoo.com
+						Reply Time :02-12-2016 13:25:42
+
+02-12-2016 20:00:25 :- Record already exists
+
+02-12-2016 20:00:25 :-  Message Details :
+						Message Subject :Re: Ticket Number M0524
+						Reply From :"sonal parekh" <sonalpareekh@gmail.com>
+						Reply Time :02-12-2016 13:26:28
+
+02-12-2016 20:00:25 :- Record already exists
+
+02-12-2016 20:00:25 :-  Message Details :
+						Message Subject :Re: Ticket Number M0523
+						Reply From :erims2@yahoo.com
+						Reply Time :02-12-2016 13:01:48
+
+02-12-2016 20:00:25 :-  Message Details :
+						Message Subject :Re: Ticket Number M0523
+						Reply From :"sonal parekh" <sonalpareekh@gmail.com>
+						Reply Time :02-12-2016 13:05:31
+
+02-12-2016 20:00:25 :-  Message Details :
+						Message Subject :Re: Ticket Number M0523
+						Reply From :"Hitendra Parekh" <parekhpoonam@ymail.com>
+						Reply Time :02-12-2016 13:04:57
+
+02-12-2016 20:00:25 :-  Details of message not inserted :
+						Message Subject :Your Apple ID was used to sign in to iCloud via a web browser.
+						Reply From :"Apple" <noreply@email.apple.com>
+						Reply Time :02-12-2016 12:35:32
+
+02-12-2016 20:00:25 :-  Details of message not inserted :
+						Message Subject :Your Apple ID was used to sign in to iCloud via a web browser.
+						Reply From :"Apple" <noreply@email.apple.com>
+						Reply Time :02-12-2016 11:42:37
+
+02-12-2016 20:00:25 :-  Details of message not inserted :
+						Message Subject :Your Apple ID was used to sign in to iCloud on an iPad.
+						Reply From :"Apple" <noreply@email.apple.com>
+						Reply Time :02-12-2016 11:42:20
+
+02-12-2016 20:00:25 :-  Details of message not inserted :
+						Message Subject :Welcome to iCloud Mail.
+						Reply From :"iCloud" <noreply@email.apple.com>
+						Reply Time :02-12-2016 11:42:05
+
+02-12-2016 20:00:25 :-  Details of message not inserted :
+						Message Subject :Welcome to iCloud.
+						Reply From :"iCloud" <noreply@email.apple.com>
+						Reply Time :02-12-2016 11:42:05
+
+02-12-2016 20:00:25 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+02-12-2016 20:00:25 :- Thread is going to sleep.
+
+02-12-2016 20:00:26 :- Thread sleeps for next 59 Minutes
+
+02-12-2016 21:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+02-12-2016 21:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+02-12-2016 21:00:00 :- Connecting to SMTP server
+
+02-12-2016 21:00:12 :- Connected to SMTP server
+
+02-12-2016 21:00:26 :- Unread Mail Count to be processed : 11
+
+02-12-2016 21:00:26 :-  Message Details :
+						Message Subject :Re: Ticket Number M0525
+						Reply From :erims2@yahoo.com
+						Reply Time :02-12-2016 13:30:08
+
+02-12-2016 21:00:26 :-  Message Details :
+						Message Subject :Re: Ticket Number M0524
+						Reply From :erims2@yahoo.com
+						Reply Time :02-12-2016 13:25:42
+
+02-12-2016 21:00:26 :- Record already exists
+
+02-12-2016 21:00:26 :-  Message Details :
+						Message Subject :Re: Ticket Number M0524
+						Reply From :"sonal parekh" <sonalpareekh@gmail.com>
+						Reply Time :02-12-2016 13:26:28
+
+02-12-2016 21:00:26 :- Record already exists
+
+02-12-2016 21:00:26 :-  Message Details :
+						Message Subject :Re: Ticket Number M0523
+						Reply From :erims2@yahoo.com
+						Reply Time :02-12-2016 13:01:48
+
+02-12-2016 21:00:27 :-  Message Details :
+						Message Subject :Re: Ticket Number M0523
+						Reply From :"sonal parekh" <sonalpareekh@gmail.com>
+						Reply Time :02-12-2016 13:05:31
+
+02-12-2016 21:00:27 :-  Message Details :
+						Message Subject :Re: Ticket Number M0523
+						Reply From :"Hitendra Parekh" <parekhpoonam@ymail.com>
+						Reply Time :02-12-2016 13:04:57
+
+02-12-2016 21:00:27 :-  Details of message not inserted :
+						Message Subject :Your Apple ID was used to sign in to iCloud via a web browser.
+						Reply From :"Apple" <noreply@email.apple.com>
+						Reply Time :02-12-2016 12:35:32
+
+02-12-2016 21:00:27 :-  Details of message not inserted :
+						Message Subject :Your Apple ID was used to sign in to iCloud via a web browser.
+						Reply From :"Apple" <noreply@email.apple.com>
+						Reply Time :02-12-2016 11:42:37
+
+02-12-2016 21:00:27 :-  Details of message not inserted :
+						Message Subject :Your Apple ID was used to sign in to iCloud on an iPad.
+						Reply From :"Apple" <noreply@email.apple.com>
+						Reply Time :02-12-2016 11:42:20
+
+02-12-2016 21:00:27 :-  Details of message not inserted :
+						Message Subject :Welcome to iCloud Mail.
+						Reply From :"iCloud" <noreply@email.apple.com>
+						Reply Time :02-12-2016 11:42:05
+
+02-12-2016 21:00:27 :-  Details of message not inserted :
+						Message Subject :Welcome to iCloud.
+						Reply From :"iCloud" <noreply@email.apple.com>
+						Reply Time :02-12-2016 11:42:05
+
+02-12-2016 21:00:27 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+02-12-2016 21:00:27 :- Thread is going to sleep.
+
+02-12-2016 21:00:27 :- Thread sleeps for next 59 Minutes
+
+02-12-2016 22:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+02-12-2016 22:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+02-12-2016 22:00:00 :- Connecting to SMTP server
+
+02-12-2016 22:00:11 :- Connected to SMTP server
+
+02-12-2016 22:00:26 :- Unread Mail Count to be processed : 11
+
+02-12-2016 22:00:26 :-  Message Details :
+						Message Subject :Re: Ticket Number M0525
+						Reply From :erims2@yahoo.com
+						Reply Time :02-12-2016 13:30:08
+
+02-12-2016 22:00:26 :-  Message Details :
+						Message Subject :Re: Ticket Number M0524
+						Reply From :erims2@yahoo.com
+						Reply Time :02-12-2016 13:25:42
+
+02-12-2016 22:00:26 :- Record already exists
+
+02-12-2016 22:00:26 :-  Message Details :
+						Message Subject :Re: Ticket Number M0524
+						Reply From :"sonal parekh" <sonalpareekh@gmail.com>
+						Reply Time :02-12-2016 13:26:28
+
+02-12-2016 22:00:26 :- Record already exists
+
+02-12-2016 22:00:26 :-  Message Details :
+						Message Subject :Re: Ticket Number M0523
+						Reply From :erims2@yahoo.com
+						Reply Time :02-12-2016 13:01:48
+
+02-12-2016 22:00:26 :-  Message Details :
+						Message Subject :Re: Ticket Number M0523
+						Reply From :"sonal parekh" <sonalpareekh@gmail.com>
+						Reply Time :02-12-2016 13:05:31
+
+02-12-2016 22:00:26 :-  Message Details :
+						Message Subject :Re: Ticket Number M0523
+						Reply From :"Hitendra Parekh" <parekhpoonam@ymail.com>
+						Reply Time :02-12-2016 13:04:57
+
+02-12-2016 22:00:26 :-  Details of message not inserted :
+						Message Subject :Your Apple ID was used to sign in to iCloud via a web browser.
+						Reply From :"Apple" <noreply@email.apple.com>
+						Reply Time :02-12-2016 12:35:32
+
+02-12-2016 22:00:26 :-  Details of message not inserted :
+						Message Subject :Your Apple ID was used to sign in to iCloud via a web browser.
+						Reply From :"Apple" <noreply@email.apple.com>
+						Reply Time :02-12-2016 11:42:37
+
+02-12-2016 22:00:26 :-  Details of message not inserted :
+						Message Subject :Your Apple ID was used to sign in to iCloud on an iPad.
+						Reply From :"Apple" <noreply@email.apple.com>
+						Reply Time :02-12-2016 11:42:20
+
+02-12-2016 22:00:26 :-  Details of message not inserted :
+						Message Subject :Welcome to iCloud Mail.
+						Reply From :"iCloud" <noreply@email.apple.com>
+						Reply Time :02-12-2016 11:42:05
+
+02-12-2016 22:00:26 :-  Details of message not inserted :
+						Message Subject :Welcome to iCloud.
+						Reply From :"iCloud" <noreply@email.apple.com>
+						Reply Time :02-12-2016 11:42:05
+
+02-12-2016 22:00:26 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+02-12-2016 22:00:26 :- Thread is going to sleep.
+
+02-12-2016 22:00:26 :- Thread sleeps for next 59 Minutes
+
+02-12-2016 23:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+02-12-2016 23:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+02-12-2016 23:00:00 :- Connecting to SMTP server
+
+02-12-2016 23:00:11 :- Connected to SMTP server
+
+02-12-2016 23:00:25 :- Unread Mail Count to be processed : 11
+
+02-12-2016 23:00:25 :-  Message Details :
+						Message Subject :Re: Ticket Number M0525
+						Reply From :erims2@yahoo.com
+						Reply Time :02-12-2016 13:30:08
+
+02-12-2016 23:00:25 :-  Message Details :
+						Message Subject :Re: Ticket Number M0524
+						Reply From :erims2@yahoo.com
+						Reply Time :02-12-2016 13:25:42
+
+02-12-2016 23:00:25 :- Record already exists
+
+02-12-2016 23:00:25 :-  Message Details :
+						Message Subject :Re: Ticket Number M0524
+						Reply From :"sonal parekh" <sonalpareekh@gmail.com>
+						Reply Time :02-12-2016 13:26:28
+
+02-12-2016 23:00:25 :- Record already exists
+
+02-12-2016 23:00:25 :-  Message Details :
+						Message Subject :Re: Ticket Number M0523
+						Reply From :erims2@yahoo.com
+						Reply Time :02-12-2016 13:01:48
+
+02-12-2016 23:00:25 :-  Message Details :
+						Message Subject :Re: Ticket Number M0523
+						Reply From :"sonal parekh" <sonalpareekh@gmail.com>
+						Reply Time :02-12-2016 13:05:31
+
+02-12-2016 23:00:25 :-  Message Details :
+						Message Subject :Re: Ticket Number M0523
+						Reply From :"Hitendra Parekh" <parekhpoonam@ymail.com>
+						Reply Time :02-12-2016 13:04:57
+
+02-12-2016 23:00:25 :-  Details of message not inserted :
+						Message Subject :Your Apple ID was used to sign in to iCloud via a web browser.
+						Reply From :"Apple" <noreply@email.apple.com>
+						Reply Time :02-12-2016 12:35:32
+
+02-12-2016 23:00:25 :-  Details of message not inserted :
+						Message Subject :Your Apple ID was used to sign in to iCloud via a web browser.
+						Reply From :"Apple" <noreply@email.apple.com>
+						Reply Time :02-12-2016 11:42:37
+
+02-12-2016 23:00:25 :-  Details of message not inserted :
+						Message Subject :Your Apple ID was used to sign in to iCloud on an iPad.
+						Reply From :"Apple" <noreply@email.apple.com>
+						Reply Time :02-12-2016 11:42:20
+
+02-12-2016 23:00:25 :-  Details of message not inserted :
+						Message Subject :Welcome to iCloud Mail.
+						Reply From :"iCloud" <noreply@email.apple.com>
+						Reply Time :02-12-2016 11:42:05
+
+02-12-2016 23:00:25 :-  Details of message not inserted :
+						Message Subject :Welcome to iCloud.
+						Reply From :"iCloud" <noreply@email.apple.com>
+						Reply Time :02-12-2016 11:42:05
+
+02-12-2016 23:00:25 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+02-12-2016 23:00:25 :- Thread is going to sleep.
+
+02-12-2016 23:00:26 :- Thread sleeps for next 59 Minutes
+
+03-12-2016 00:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+03-12-2016 00:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+03-12-2016 00:00:00 :- Connecting to SMTP server
+
+03-12-2016 00:00:13 :- Connected to SMTP server
+
+03-12-2016 00:00:14 :- Unread Mail Count to be processed : 0
+
+03-12-2016 00:00:14 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+03-12-2016 00:00:14 :- Thread is going to sleep.
+
+03-12-2016 00:00:14 :- Thread sleeps for next 59 Minutes
+
+03-12-2016 01:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+03-12-2016 01:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+03-12-2016 01:00:00 :- Connecting to SMTP server
+
+03-12-2016 01:00:12 :- Connected to SMTP server
+
+03-12-2016 01:00:13 :- Unread Mail Count to be processed : 0
+
+03-12-2016 01:00:13 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+03-12-2016 01:00:13 :- Thread is going to sleep.
+
+03-12-2016 01:00:14 :- Thread sleeps for next 59 Minutes
+
+03-12-2016 02:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+03-12-2016 02:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+03-12-2016 02:00:00 :- Connecting to SMTP server
+
+03-12-2016 02:00:12 :- Connected to SMTP server
+
+03-12-2016 02:00:12 :- Unread Mail Count to be processed : 0
+
+03-12-2016 02:00:12 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+03-12-2016 02:00:13 :- Thread is going to sleep.
+
+03-12-2016 02:00:13 :- Thread sleeps for next 59 Minutes
+
+03-12-2016 03:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+03-12-2016 03:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+03-12-2016 03:00:00 :- Connecting to SMTP server
+
+03-12-2016 03:00:12 :- Connected to SMTP server
+
+03-12-2016 03:00:13 :- Unread Mail Count to be processed : 0
+
+03-12-2016 03:00:13 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+03-12-2016 03:00:13 :- Thread is going to sleep.
+
+03-12-2016 03:00:13 :- Thread sleeps for next 59 Minutes
+
+03-12-2016 04:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+03-12-2016 04:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+03-12-2016 04:00:00 :- Connecting to SMTP server
+
+03-12-2016 04:00:11 :- Connected to SMTP server
+
+03-12-2016 04:00:12 :- Unread Mail Count to be processed : 0
+
+03-12-2016 04:00:12 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+03-12-2016 04:00:12 :- Thread is going to sleep.
+
+03-12-2016 04:00:13 :- Thread sleeps for next 59 Minutes
+
+03-12-2016 05:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+03-12-2016 05:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+03-12-2016 05:00:00 :- Connecting to SMTP server
+
+03-12-2016 05:00:11 :- Connected to SMTP server
+
+03-12-2016 05:00:12 :- Unread Mail Count to be processed : 0
+
+03-12-2016 05:00:12 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+03-12-2016 05:00:12 :- Thread is going to sleep.
+
+03-12-2016 05:00:13 :- Thread sleeps for next 59 Minutes
+
+03-12-2016 06:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+03-12-2016 06:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+03-12-2016 06:00:00 :- Connecting to SMTP server
+
+03-12-2016 06:00:11 :- Connected to SMTP server
+
+03-12-2016 06:00:12 :- Unread Mail Count to be processed : 0
+
+03-12-2016 06:00:12 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+03-12-2016 06:00:12 :- Thread is going to sleep.
+
+03-12-2016 06:00:12 :- Thread sleeps for next 59 Minutes
+
+03-12-2016 06:59:59 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+03-12-2016 06:59:59 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+03-12-2016 06:59:59 :- Connecting to SMTP server
+
+03-12-2016 07:00:11 :- Connected to SMTP server
+
+03-12-2016 07:00:12 :- Unread Mail Count to be processed : 0
+
+03-12-2016 07:00:12 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+03-12-2016 07:00:12 :- Thread is going to sleep.
+
+03-12-2016 07:00:12 :- Thread sleeps for next 59 Minutes
+
+03-12-2016 08:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+03-12-2016 08:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+03-12-2016 08:00:00 :- Connecting to SMTP server
+
+03-12-2016 08:00:12 :- Connected to SMTP server
+
+03-12-2016 08:00:12 :- Unread Mail Count to be processed : 0
+
+03-12-2016 08:00:12 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+03-12-2016 08:00:12 :- Thread is going to sleep.
+
+03-12-2016 08:00:13 :- Thread sleeps for next 59 Minutes
+
+03-12-2016 09:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+03-12-2016 09:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+03-12-2016 09:00:00 :- Connecting to SMTP server
+
+03-12-2016 09:00:11 :- Connected to SMTP server
+
+03-12-2016 09:00:12 :- Unread Mail Count to be processed : 0
+
+03-12-2016 09:00:12 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+03-12-2016 09:00:12 :- Thread is going to sleep.
+
+03-12-2016 09:00:12 :- Thread sleeps for next 59 Minutes
+
+03-12-2016 10:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+03-12-2016 10:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+03-12-2016 10:00:00 :- Connecting to SMTP server
+
+03-12-2016 10:00:11 :- Connected to SMTP server
+
+03-12-2016 10:00:12 :- Unread Mail Count to be processed : 0
+
+03-12-2016 10:00:12 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+03-12-2016 10:00:12 :- Thread is going to sleep.
+
+03-12-2016 10:00:12 :- Thread sleeps for next 59 Minutes
+
+03-12-2016 11:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+03-12-2016 11:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+03-12-2016 11:00:00 :- Connecting to SMTP server
+
+03-12-2016 11:00:12 :- Connected to SMTP server
+
+03-12-2016 11:00:13 :- Unread Mail Count to be processed : 0
+
+03-12-2016 11:00:13 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+03-12-2016 11:00:13 :- Thread is going to sleep.
+
+03-12-2016 11:00:13 :- Thread sleeps for next 59 Minutes
+
+03-12-2016 12:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+03-12-2016 12:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+03-12-2016 12:00:00 :- Connecting to SMTP server
+
+03-12-2016 12:00:11 :- Connected to SMTP server
+
+03-12-2016 12:00:12 :- Unread Mail Count to be processed : 0
+
+03-12-2016 12:00:12 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+03-12-2016 12:00:12 :- Thread is going to sleep.
+
+03-12-2016 12:00:12 :- Thread sleeps for next 59 Minutes
+
+03-12-2016 13:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+03-12-2016 13:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+03-12-2016 13:00:00 :- Connecting to SMTP server
+
+03-12-2016 13:00:12 :- Connected to SMTP server
+
+03-12-2016 13:00:13 :- Unread Mail Count to be processed : 0
+
+03-12-2016 13:00:13 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+03-12-2016 13:00:13 :- Thread is going to sleep.
+
+03-12-2016 13:00:13 :- Thread sleeps for next 59 Minutes
+
+03-12-2016 14:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+03-12-2016 14:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+03-12-2016 14:00:00 :- Connecting to SMTP server
+
+03-12-2016 14:00:12 :- Connected to SMTP server
+
+03-12-2016 14:00:13 :- Unread Mail Count to be processed : 0
+
+03-12-2016 14:00:13 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+03-12-2016 14:00:13 :- Thread is going to sleep.
+
+03-12-2016 14:00:13 :- Thread sleeps for next 59 Minutes
+
+03-12-2016 15:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+03-12-2016 15:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+03-12-2016 15:00:00 :- Connecting to SMTP server
+
+03-12-2016 15:00:11 :- Connected to SMTP server
+
+03-12-2016 15:00:12 :- Unread Mail Count to be processed : 0
+
+03-12-2016 15:00:12 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+03-12-2016 15:00:12 :- Thread is going to sleep.
+
+03-12-2016 15:00:13 :- Thread sleeps for next 59 Minutes
+
+03-12-2016 15:59:59 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+03-12-2016 15:59:59 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+03-12-2016 15:59:59 :- Connecting to SMTP server
+
+03-12-2016 16:00:12 :- Connected to SMTP server
+
+03-12-2016 16:00:14 :- Unread Mail Count to be processed : 1
+
+03-12-2016 16:00:14 :-  Message Details :
+						Message Subject :Re: Ticket Number M0525
+						Reply From :"Hitendra Parekh" <parekhpoonam@ymail.com>
+						Reply Time :03-12-2016 10:10:11
+
+03-12-2016 16:00:14 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+03-12-2016 16:00:14 :- Thread is going to sleep.
+
+03-12-2016 16:00:14 :- Thread sleeps for next 59 Minutes
+
+03-12-2016 17:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+03-12-2016 17:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+03-12-2016 17:00:00 :- Connecting to SMTP server
+
+03-12-2016 17:00:12 :- Connected to SMTP server
+
+03-12-2016 17:00:15 :- Unread Mail Count to be processed : 1
+
+03-12-2016 17:00:15 :-  Message Details :
+						Message Subject :Re: Ticket Number M0525
+						Reply From :"Hitendra Parekh" <parekhpoonam@ymail.com>
+						Reply Time :03-12-2016 10:10:11
+
+03-12-2016 17:00:15 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+03-12-2016 17:00:15 :- Thread is going to sleep.
+
+03-12-2016 17:00:15 :- Thread sleeps for next 59 Minutes
+
+03-12-2016 18:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+03-12-2016 18:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+03-12-2016 18:00:00 :- Connecting to SMTP server
+
+03-12-2016 18:00:12 :- Connected to SMTP server
+
+03-12-2016 18:00:14 :- Unread Mail Count to be processed : 1
+
+03-12-2016 18:00:14 :-  Message Details :
+						Message Subject :Re: Ticket Number M0525
+						Reply From :"Hitendra Parekh" <parekhpoonam@ymail.com>
+						Reply Time :03-12-2016 10:10:11
+
+03-12-2016 18:00:14 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+03-12-2016 18:00:14 :- Thread is going to sleep.
+
+03-12-2016 18:00:15 :- Thread sleeps for next 59 Minutes
+
+03-12-2016 19:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+03-12-2016 19:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+03-12-2016 19:00:00 :- Connecting to SMTP server
+
+03-12-2016 19:00:13 :- Connected to SMTP server
+
+03-12-2016 19:00:16 :- Unread Mail Count to be processed : 1
+
+03-12-2016 19:00:16 :-  Message Details :
+						Message Subject :Re: Ticket Number M0525
+						Reply From :"Hitendra Parekh" <parekhpoonam@ymail.com>
+						Reply Time :03-12-2016 10:10:11
+
+03-12-2016 19:00:16 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+03-12-2016 19:00:16 :- Thread is going to sleep.
+
+03-12-2016 19:00:16 :- Thread sleeps for next 59 Minutes
+
+03-12-2016 20:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+03-12-2016 20:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+03-12-2016 20:00:00 :- Connecting to SMTP server
+
+03-12-2016 20:00:11 :- Connected to SMTP server
+
+03-12-2016 20:00:14 :- Unread Mail Count to be processed : 1
+
+03-12-2016 20:00:14 :-  Message Details :
+						Message Subject :Re: Ticket Number M0525
+						Reply From :"Hitendra Parekh" <parekhpoonam@ymail.com>
+						Reply Time :03-12-2016 10:10:11
+
+03-12-2016 20:00:14 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+03-12-2016 20:00:14 :- Thread is going to sleep.
+
+03-12-2016 20:00:14 :- Thread sleeps for next 59 Minutes
+
+03-12-2016 20:59:59 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+03-12-2016 20:59:59 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+03-12-2016 20:59:59 :- Connecting to SMTP server
+
+03-12-2016 21:00:11 :- Connected to SMTP server
+
+03-12-2016 21:00:13 :- Unread Mail Count to be processed : 1
+
+03-12-2016 21:00:13 :-  Message Details :
+						Message Subject :Re: Ticket Number M0525
+						Reply From :"Hitendra Parekh" <parekhpoonam@ymail.com>
+						Reply Time :03-12-2016 10:10:11
+
+03-12-2016 21:00:13 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+03-12-2016 21:00:13 :- Thread is going to sleep.
+
+03-12-2016 21:00:13 :- Thread sleeps for next 59 Minutes
+
+03-12-2016 22:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+03-12-2016 22:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+03-12-2016 22:00:00 :- Connecting to SMTP server
+
+03-12-2016 22:00:11 :- Connected to SMTP server
+
+03-12-2016 22:00:13 :- Unread Mail Count to be processed : 1
+
+03-12-2016 22:00:13 :-  Message Details :
+						Message Subject :Re: Ticket Number M0525
+						Reply From :"Hitendra Parekh" <parekhpoonam@ymail.com>
+						Reply Time :03-12-2016 10:10:11
+
+03-12-2016 22:00:13 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+03-12-2016 22:00:13 :- Thread is going to sleep.
+
+03-12-2016 22:00:13 :- Thread sleeps for next 59 Minutes
+
+03-12-2016 23:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+03-12-2016 23:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+03-12-2016 23:00:00 :- Connecting to SMTP server
+
+03-12-2016 23:00:11 :- Connected to SMTP server
+
+03-12-2016 23:00:13 :- Unread Mail Count to be processed : 1
+
+03-12-2016 23:00:13 :-  Message Details :
+						Message Subject :Re: Ticket Number M0525
+						Reply From :"Hitendra Parekh" <parekhpoonam@ymail.com>
+						Reply Time :03-12-2016 10:10:11
+
+03-12-2016 23:00:13 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+03-12-2016 23:00:13 :- Thread is going to sleep.
+
+03-12-2016 23:00:14 :- Thread sleeps for next 59 Minutes
+
+04-12-2016 00:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+04-12-2016 00:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+04-12-2016 00:00:00 :- Connecting to SMTP server
+
+04-12-2016 00:00:12 :- Connected to SMTP server
+
+04-12-2016 00:00:13 :- Unread Mail Count to be processed : 0
+
+04-12-2016 00:00:13 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+04-12-2016 00:00:13 :- Thread is going to sleep.
+
+04-12-2016 00:00:13 :- Thread sleeps for next 59 Minutes
+
+04-12-2016 00:59:59 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+04-12-2016 00:59:59 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+04-12-2016 00:59:59 :- Connecting to SMTP server
+
+04-12-2016 01:00:11 :- Connected to SMTP server
+
+04-12-2016 01:00:12 :- Unread Mail Count to be processed : 0
+
+04-12-2016 01:00:12 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+04-12-2016 01:00:12 :- Thread is going to sleep.
+
+04-12-2016 01:00:12 :- Thread sleeps for next 59 Minutes
+
+04-12-2016 02:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+04-12-2016 02:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+04-12-2016 02:00:00 :- Connecting to SMTP server
+
+04-12-2016 02:00:12 :- Connected to SMTP server
+
+04-12-2016 02:00:13 :- Unread Mail Count to be processed : 0
+
+04-12-2016 02:00:13 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+04-12-2016 02:00:13 :- Thread is going to sleep.
+
+04-12-2016 02:00:13 :- Thread sleeps for next 59 Minutes
+
+04-12-2016 03:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+04-12-2016 03:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+04-12-2016 03:00:00 :- Connecting to SMTP server
+
+04-12-2016 03:00:12 :- Connected to SMTP server
+
+04-12-2016 03:00:13 :- Unread Mail Count to be processed : 0
+
+04-12-2016 03:00:13 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+04-12-2016 03:00:13 :- Thread is going to sleep.
+
+04-12-2016 03:00:13 :- Thread sleeps for next 59 Minutes
+
+04-12-2016 04:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+04-12-2016 04:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+04-12-2016 04:00:00 :- Connecting to SMTP server
+
+04-12-2016 04:00:12 :- Connected to SMTP server
+
+04-12-2016 04:00:13 :- Unread Mail Count to be processed : 0
+
+04-12-2016 04:00:13 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+04-12-2016 04:00:13 :- Thread is going to sleep.
+
+04-12-2016 04:00:13 :- Thread sleeps for next 59 Minutes
+
+04-12-2016 05:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+04-12-2016 05:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+04-12-2016 05:00:00 :- Connecting to SMTP server
+
+04-12-2016 05:00:12 :- Connected to SMTP server
+
+04-12-2016 05:00:13 :- Unread Mail Count to be processed : 0
+
+04-12-2016 05:00:13 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+04-12-2016 05:00:13 :- Thread is going to sleep.
+
+04-12-2016 05:00:13 :- Thread sleeps for next 59 Minutes
+
+04-12-2016 06:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+04-12-2016 06:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+04-12-2016 06:00:00 :- Connecting to SMTP server
+
+04-12-2016 06:00:12 :- Connected to SMTP server
+
+04-12-2016 06:00:13 :- Unread Mail Count to be processed : 0
+
+04-12-2016 06:00:13 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+04-12-2016 06:00:13 :- Thread is going to sleep.
+
+04-12-2016 06:00:13 :- Thread sleeps for next 59 Minutes
+
+04-12-2016 07:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+04-12-2016 07:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+04-12-2016 07:00:00 :- Connecting to SMTP server
+
+04-12-2016 07:00:11 :- Connected to SMTP server
+
+04-12-2016 07:00:12 :- Unread Mail Count to be processed : 0
+
+04-12-2016 07:00:12 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+04-12-2016 07:00:12 :- Thread is going to sleep.
+
+04-12-2016 07:00:12 :- Thread sleeps for next 59 Minutes
+
+04-12-2016 08:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+04-12-2016 08:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+04-12-2016 08:00:00 :- Connecting to SMTP server
+
+04-12-2016 08:00:11 :- Connected to SMTP server
+
+04-12-2016 08:00:12 :- Unread Mail Count to be processed : 0
+
+04-12-2016 08:00:12 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+04-12-2016 08:00:12 :- Thread is going to sleep.
+
+04-12-2016 08:00:12 :- Thread sleeps for next 59 Minutes
+
+04-12-2016 09:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+04-12-2016 09:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+04-12-2016 09:00:00 :- Connecting to SMTP server
+
+04-12-2016 09:00:11 :- Connected to SMTP server
+
+04-12-2016 09:00:12 :- Unread Mail Count to be processed : 0
+
+04-12-2016 09:00:12 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+04-12-2016 09:00:12 :- Thread is going to sleep.
+
+04-12-2016 09:00:12 :- Thread sleeps for next 59 Minutes
+
+04-12-2016 09:59:59 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+04-12-2016 09:59:59 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+04-12-2016 09:59:59 :- Connecting to SMTP server
+
+04-12-2016 10:00:12 :- Connected to SMTP server
+
+04-12-2016 10:00:12 :- Unread Mail Count to be processed : 0
+
+04-12-2016 10:00:13 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+04-12-2016 10:00:13 :- Thread is going to sleep.
+
+04-12-2016 10:00:13 :- Thread sleeps for next 59 Minutes
+
+04-12-2016 11:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+04-12-2016 11:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+04-12-2016 11:00:00 :- Connecting to SMTP server
+
+04-12-2016 11:00:12 :- Connected to SMTP server
+
+04-12-2016 11:00:13 :- Unread Mail Count to be processed : 0
+
+04-12-2016 11:00:13 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+04-12-2016 11:00:13 :- Thread is going to sleep.
+
+04-12-2016 11:00:13 :- Thread sleeps for next 59 Minutes
+
+04-12-2016 12:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+04-12-2016 12:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+04-12-2016 12:00:00 :- Connecting to SMTP server
+
+04-12-2016 12:00:11 :- Connected to SMTP server
+
+04-12-2016 12:00:12 :- Unread Mail Count to be processed : 0
+
+04-12-2016 12:00:12 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+04-12-2016 12:00:12 :- Thread is going to sleep.
+
+04-12-2016 12:00:12 :- Thread sleeps for next 59 Minutes
+
+04-12-2016 13:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+04-12-2016 13:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+04-12-2016 13:00:00 :- Connecting to SMTP server
+
+04-12-2016 13:00:11 :- Connected to SMTP server
+
+04-12-2016 13:00:12 :- Unread Mail Count to be processed : 0
+
+04-12-2016 13:00:12 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+04-12-2016 13:00:12 :- Thread is going to sleep.
+
+04-12-2016 13:00:12 :- Thread sleeps for next 59 Minutes
+
+04-12-2016 14:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+04-12-2016 14:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+04-12-2016 14:00:00 :- Connecting to SMTP server
+
+04-12-2016 14:00:12 :- Connected to SMTP server
+
+04-12-2016 14:00:13 :- Unread Mail Count to be processed : 0
+
+04-12-2016 14:00:13 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+04-12-2016 14:00:13 :- Thread is going to sleep.
+
+04-12-2016 14:00:13 :- Thread sleeps for next 59 Minutes
+
+04-12-2016 15:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+04-12-2016 15:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+04-12-2016 15:00:00 :- Connecting to SMTP server
+
+04-12-2016 15:00:12 :- Connected to SMTP server
+
+04-12-2016 15:00:13 :- Unread Mail Count to be processed : 0
+
+04-12-2016 15:00:13 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+04-12-2016 15:00:13 :- Thread is going to sleep.
+
+04-12-2016 15:00:13 :- Thread sleeps for next 59 Minutes
+
+04-12-2016 16:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+04-12-2016 16:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+04-12-2016 16:00:00 :- Connecting to SMTP server
+
+04-12-2016 16:00:12 :- Connected to SMTP server
+
+04-12-2016 16:00:13 :- Unread Mail Count to be processed : 0
+
+04-12-2016 16:00:13 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+04-12-2016 16:00:13 :- Thread is going to sleep.
+
+04-12-2016 16:00:14 :- Thread sleeps for next 59 Minutes
+
+04-12-2016 17:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+04-12-2016 17:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+04-12-2016 17:00:00 :- Connecting to SMTP server
+
+04-12-2016 17:00:11 :- Connected to SMTP server
+
+04-12-2016 17:00:12 :- Unread Mail Count to be processed : 0
+
+04-12-2016 17:00:12 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+04-12-2016 17:00:12 :- Thread is going to sleep.
+
+04-12-2016 17:00:12 :- Thread sleeps for next 59 Minutes
+
+04-12-2016 18:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+04-12-2016 18:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+04-12-2016 18:00:00 :- Connecting to SMTP server
+
+04-12-2016 18:00:11 :- Connected to SMTP server
+
+04-12-2016 18:00:12 :- Unread Mail Count to be processed : 0
+
+04-12-2016 18:00:12 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+04-12-2016 18:00:12 :- Thread is going to sleep.
+
+04-12-2016 18:00:12 :- Thread sleeps for next 59 Minutes
+
+04-12-2016 18:59:59 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+04-12-2016 18:59:59 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+04-12-2016 18:59:59 :- Connecting to SMTP server
+
+04-12-2016 19:00:11 :- Connected to SMTP server
+
+04-12-2016 19:00:12 :- Unread Mail Count to be processed : 0
+
+04-12-2016 19:00:12 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+04-12-2016 19:00:12 :- Thread is going to sleep.
+
+04-12-2016 19:00:13 :- Thread sleeps for next 59 Minutes
+
+04-12-2016 20:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+04-12-2016 20:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+04-12-2016 20:00:00 :- Connecting to SMTP server
+
+04-12-2016 20:00:11 :- Connected to SMTP server
+
+04-12-2016 20:00:12 :- Unread Mail Count to be processed : 0
+
+04-12-2016 20:00:12 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+04-12-2016 20:00:12 :- Thread is going to sleep.
+
+04-12-2016 20:00:13 :- Thread sleeps for next 59 Minutes
+
+04-12-2016 21:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+04-12-2016 21:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+04-12-2016 21:00:00 :- Connecting to SMTP server
+
+04-12-2016 21:00:11 :- Connected to SMTP server
+
+04-12-2016 21:00:12 :- Unread Mail Count to be processed : 0
+
+04-12-2016 21:00:12 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+04-12-2016 21:00:12 :- Thread is going to sleep.
+
+04-12-2016 21:00:12 :- Thread sleeps for next 59 Minutes
+
+04-12-2016 22:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+04-12-2016 22:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+04-12-2016 22:00:00 :- Connecting to SMTP server
+
+04-12-2016 22:00:11 :- Connected to SMTP server
+
+04-12-2016 22:00:12 :- Unread Mail Count to be processed : 0
+
+04-12-2016 22:00:12 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+04-12-2016 22:00:12 :- Thread is going to sleep.
+
+04-12-2016 22:00:13 :- Thread sleeps for next 59 Minutes
+
+04-12-2016 23:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+04-12-2016 23:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+04-12-2016 23:00:00 :- Connecting to SMTP server
+
+04-12-2016 23:00:11 :- Connected to SMTP server
+
+04-12-2016 23:00:12 :- Unread Mail Count to be processed : 0
+
+04-12-2016 23:00:12 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+04-12-2016 23:00:12 :- Thread is going to sleep.
+
+04-12-2016 23:00:13 :- Thread sleeps for next 59 Minutes
+
+05-12-2016 00:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+05-12-2016 00:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+05-12-2016 00:00:00 :- Connecting to SMTP server
+
+05-12-2016 00:00:12 :- Connected to SMTP server
+
+05-12-2016 00:00:13 :- Unread Mail Count to be processed : 0
+
+05-12-2016 00:00:13 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+05-12-2016 00:00:13 :- Thread is going to sleep.
+
+05-12-2016 00:00:13 :- Thread sleeps for next 59 Minutes
+
+05-12-2016 01:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+05-12-2016 01:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+05-12-2016 01:00:00 :- Connecting to SMTP server
+
+05-12-2016 01:00:11 :- Connected to SMTP server
+
+05-12-2016 01:00:12 :- Unread Mail Count to be processed : 0
+
+05-12-2016 01:00:12 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+05-12-2016 01:00:12 :- Thread is going to sleep.
+
+05-12-2016 01:00:13 :- Thread sleeps for next 59 Minutes
+
+05-12-2016 02:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+05-12-2016 02:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+05-12-2016 02:00:00 :- Connecting to SMTP server
+
+05-12-2016 02:00:12 :- Connected to SMTP server
+
+05-12-2016 02:00:13 :- Unread Mail Count to be processed : 0
+
+05-12-2016 02:00:13 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+05-12-2016 02:00:13 :- Thread is going to sleep.
+
+05-12-2016 02:00:13 :- Thread sleeps for next 59 Minutes
+
+05-12-2016 03:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+05-12-2016 03:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+05-12-2016 03:00:00 :- Connecting to SMTP server
+
+05-12-2016 03:00:12 :- Connected to SMTP server
+
+05-12-2016 03:00:13 :- Unread Mail Count to be processed : 0
+
+05-12-2016 03:00:13 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+05-12-2016 03:00:13 :- Thread is going to sleep.
+
+05-12-2016 03:00:13 :- Thread sleeps for next 59 Minutes
+
+05-12-2016 03:59:59 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+05-12-2016 03:59:59 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+05-12-2016 03:59:59 :- Connecting to SMTP server
+
+05-12-2016 04:00:12 :- Connected to SMTP server
+
+05-12-2016 04:00:13 :- Unread Mail Count to be processed : 0
+
+05-12-2016 04:00:13 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+05-12-2016 04:00:13 :- Thread is going to sleep.
+
+05-12-2016 04:00:13 :- Thread sleeps for next 59 Minutes
+
+05-12-2016 05:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+05-12-2016 05:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+05-12-2016 05:00:00 :- Connecting to SMTP server
+
+05-12-2016 05:00:12 :- Connected to SMTP server
+
+05-12-2016 05:00:13 :- Unread Mail Count to be processed : 0
+
+05-12-2016 05:00:13 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+05-12-2016 05:00:13 :- Thread is going to sleep.
+
+05-12-2016 05:00:14 :- Thread sleeps for next 59 Minutes
+
+05-12-2016 06:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+05-12-2016 06:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+05-12-2016 06:00:00 :- Connecting to SMTP server
+
+05-12-2016 06:00:13 :- Connected to SMTP server
+
+05-12-2016 06:00:14 :- Unread Mail Count to be processed : 0
+
+05-12-2016 06:00:14 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+05-12-2016 06:00:14 :- Thread is going to sleep.
+
+05-12-2016 06:00:14 :- Thread sleeps for next 59 Minutes
+
+05-12-2016 07:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+05-12-2016 07:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+05-12-2016 07:00:00 :- Connecting to SMTP server
+
+05-12-2016 07:00:12 :- Connected to SMTP server
+
+05-12-2016 07:00:13 :- Unread Mail Count to be processed : 0
+
+05-12-2016 07:00:13 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+05-12-2016 07:00:13 :- Thread is going to sleep.
+
+05-12-2016 07:00:13 :- Thread sleeps for next 59 Minutes
+
+05-12-2016 08:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+05-12-2016 08:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+05-12-2016 08:00:00 :- Connecting to SMTP server
+
+05-12-2016 08:00:13 :- Connected to SMTP server
+
+05-12-2016 08:00:14 :- Unread Mail Count to be processed : 0
+
+05-12-2016 08:00:14 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+05-12-2016 08:00:14 :- Thread is going to sleep.
+
+05-12-2016 08:00:14 :- Thread sleeps for next 59 Minutes
+
+05-12-2016 09:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+05-12-2016 09:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+05-12-2016 09:00:00 :- Connecting to SMTP server
+
+05-12-2016 09:00:11 :- Connected to SMTP server
+
+05-12-2016 09:00:12 :- Unread Mail Count to be processed : 0
+
+05-12-2016 09:00:12 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+05-12-2016 09:00:12 :- Thread is going to sleep.
+
+05-12-2016 09:00:12 :- Thread sleeps for next 59 Minutes
+
+05-12-2016 09:36:43 :- ERIMS Sonic Mail Scheduler Started
+
+05-12-2016 09:36:45 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+05-12-2016 09:36:46 :- Connecting to SMTP server
+
+05-12-2016 09:36:58 :- Connected to SMTP server
+
+05-12-2016 09:36:59 :- Unread Mail Count to be processed : 0
+
+05-12-2016 09:36:59 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+05-12-2016 09:36:59 :- Thread is going to sleep.
+
+05-12-2016 09:37:00 :- Thread sleeps for next 22 Minutes
+
+12/5/2016 09:42:48 :- ERIMS Sonic Mail Scheduler Started
+
+12/5/2016 09:42:50 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+12/5/2016 09:42:50 :- Connecting to SMTP server
+
+12/5/2016 09:43:02 :- Connected to SMTP server
+
+12/5/2016 09:43:14 :- Unread Mail Count to be processed : 0
+
+12/5/2016 09:46:19 :- Unread Mail Count to be processed : 1
+
+12/5/2016 09:46:27 :-  Message Details :
+						Message Subject :Re: Ticket Number M0525
+						Reply From :"Hitendra Parekh" <parekhpoonam@ymail.com>
+						Reply Time :12/5/2016 04:14:02
+
+12/5/2016 09:56:22 :- ERIMS Sonic Mail Scheduler Started
+
+12/5/2016 09:56:23 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+12/5/2016 09:56:23 :- Connecting to SMTP server
+
+12/5/2016 09:56:35 :- Connected to SMTP server
+
+12/5/2016 09:56:39 :- Unread Mail Count to be processed : 1
+
+12/5/2016 09:56:42 :-  Message Details :
+						Message Subject :Re: Ticket Number M0525
+						Reply From :"Hitendra Parekh" <parekhpoonam@ymail.com>
+						Reply Time :12/5/2016 04:14:02
+
+12/5/2016 09:57:51 :- ERIMS Sonic Mail Scheduler Started
+
+12/5/2016 09:57:52 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+12/5/2016 09:57:52 :- Connecting to SMTP server
+
+12/5/2016 09:58:51 :- ERIMS Sonic Mail Scheduler Started
+
+12/5/2016 09:58:52 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+12/5/2016 09:58:52 :- Connecting to SMTP server
+
+12/5/2016 09:59:05 :- Connected to SMTP server
+
+12/5/2016 09:59:14 :- Unread Mail Count to be processed : 1
+
+12/5/2016 09:59:17 :-  Message Details :
+						Message Subject :Re: Ticket Number M0525
+						Reply From :"Hitendra Parekh" <parekhpoonam@ymail.com>
+						Reply Time :12/5/2016 04:14:02
+
+05-12-2016 09:59:59 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+05-12-2016 09:59:59 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+05-12-2016 09:59:59 :- Connecting to SMTP server
+
+05-12-2016 10:00:11 :- Connected to SMTP server
+
+05-12-2016 10:00:13 :- Unread Mail Count to be processed : 1
+
+05-12-2016 10:00:13 :-  Message Details :
+						Message Subject :Re: Ticket Number M0525
+						Reply From :"Hitendra Parekh" <parekhpoonam@ymail.com>
+						Reply Time :05-12-2016 04:14:02
+
+05-12-2016 10:00:13 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+05-12-2016 10:00:13 :- Thread is going to sleep.
+
+05-12-2016 10:00:14 :- Thread sleeps for next 59 Minutes
+
+05-12-2016 10:00:53 :- ERIMS Sonic Mail Scheduler Stopped 
+
+05-12-2016 10:02:42 :- ERIMS Sonic Mail Scheduler Started
+
+05-12-2016 10:02:42 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+05-12-2016 10:02:42 :- Connecting to SMTP server
+
+05-12-2016 10:02:53 :- Connected to SMTP server
+
+05-12-2016 10:02:55 :- Unread Mail Count to be processed : 1
+
+05-12-2016 10:02:55 :-  Message Details :
+						Message Subject :Re: Ticket Number M0525
+						Reply From :"Hitendra Parekh" <parekhpoonam@ymail.com>
+						Reply Time :05-12-2016 04:14:02
+
+05-12-2016 10:02:56 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+05-12-2016 10:02:56 :- Thread is going to sleep.
+
+05-12-2016 10:02:56 :- Thread sleeps for next 57 Minutes
+
+05-12-2016 10:09:30 :- ERIMS Sonic Mail Scheduler Stopped 
+
+05-12-2016 10:10:14 :- ERIMS Sonic Mail Scheduler Started
+
+05-12-2016 10:10:14 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+05-12-2016 10:10:14 :- Connecting to SMTP server
+
+05-12-2016 10:10:26 :- Connected to SMTP server
+
+05-12-2016 10:10:28 :- Unread Mail Count to be processed : 1
+
+05-12-2016 10:10:28 :-  Message Details :
+						Message Subject :Re: Ticket Number M0525
+						Reply From :"Hitendra Parekh" <parekhpoonam@ymail.com>
+						Reply Time :05-12-2016 04:14:02
+
+05-12-2016 10:10:28 :- User does not exist
+
+05-12-2016 10:10:28 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+05-12-2016 10:10:28 :- Thread is going to sleep.
+
+05-12-2016 10:10:29 :- Thread sleeps for next 49 Minutes
+
+12/5/2016 10:11:22 :- ERIMS Sonic Mail Scheduler Started
+
+12/5/2016 10:11:23 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+12/5/2016 10:11:23 :- Connecting to SMTP server
+
+12/5/2016 10:11:35 :- Connected to SMTP server
+
+12/5/2016 10:11:38 :- Unread Mail Count to be processed : 1
+
+12/5/2016 10:11:38 :-  Message Details :
+						Message Subject :Re: Ticket Number M0525
+						Reply From :"Hitendra Parekh" <parekhpoonam@ymail.com>
+						Reply Time :12/5/2016 04:14:02
+
+05-12-2016 10:16:40 :- ERIMS Sonic Mail Scheduler Stopped 
+
+05-12-2016 10:16:41 :- ERIMS Sonic Mail Scheduler Started
+
+05-12-2016 10:16:41 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+05-12-2016 10:16:41 :- Connecting to SMTP server
+
+05-12-2016 10:16:53 :- Connected to SMTP server
+
+05-12-2016 10:16:55 :- Unread Mail Count to be processed : 1
+
+05-12-2016 10:16:55 :-  Message Details :
+						Message Subject :Re: Ticket Number M0525
+						Reply From :"Hitendra Parekh" <parekhpoonam@ymail.com>
+						Reply Time :05-12-2016 04:14:02
+
+05-12-2016 10:16:55 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+05-12-2016 10:16:55 :- Thread is going to sleep.
+
+05-12-2016 10:16:56 :- Thread sleeps for next 43 Minutes
+
+12/5/2016 10:18:40 :- ERIMS Sonic Mail Scheduler Started
+
+12/5/2016 10:18:41 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+12/5/2016 10:18:41 :- Connecting to SMTP server
+
+12/5/2016 10:18:52 :- Connected to SMTP server
+
+12/5/2016 10:18:54 :- Unread Mail Count to be processed : 1
+
+12/5/2016 10:18:59 :-  Message Details :
+						Message Subject :Re: Ticket Number M0525
+						Reply From :"Hitendra Parekh" <parekhpoonam@ymail.com>
+						Reply Time :12/5/2016 04:14:02
+
+05-12-2016 10:19:34 :- ERIMS Sonic Mail Scheduler Stopped 
+
+12/5/2016 10:20:18 :- ERIMS Sonic Mail Scheduler Started
+
+05-12-2016 10:20:55 :- ERIMS Sonic Mail Scheduler Started
+
+05-12-2016 10:20:55 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+05-12-2016 10:20:55 :- Connecting to SMTP server
+
+05-12-2016 10:21:08 :- Connected to SMTP server
+
+05-12-2016 10:21:10 :- Unread Mail Count to be processed : 1
+
+05-12-2016 10:21:10 :-  Message Details :
+						Message Subject :Re: Ticket Number M0525
+						Reply From :"Hitendra Parekh" <parekhpoonam@ymail.com>
+						Reply Time :05-12-2016 04:14:02
+
+05-12-2016 10:21:10 :- Facility Management Note Record Inserted
+
+05-12-2016 10:21:10 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+05-12-2016 10:21:10 :- Thread is going to sleep.
+
+05-12-2016 10:21:11 :- Thread sleeps for next 38 Minutes
+
+05-12-2016 10:24:49 :- ERIMS Sonic Mail Scheduler Started
+
+05-12-2016 10:24:49 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+05-12-2016 10:24:49 :- Connecting to SMTP server
+
+05-12-2016 10:25:01 :- Connected to SMTP server
+
+05-12-2016 10:25:03 :- Unread Mail Count to be processed : 1
+
+05-12-2016 10:25:03 :-  Message Details :
+						Message Subject :Re: Ticket Number M0525
+						Reply From :"Hitendra Parekh" <parekhpoonam@ymail.com>
+						Reply Time :05-12-2016 04:14:02
+
+05-12-2016 10:25:03 :- Facility Management Note Record Inserted
+
+05-12-2016 10:25:03 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+05-12-2016 10:25:03 :- Thread is going to sleep.
+
+05-12-2016 10:25:03 :- Thread sleeps for next 34 Minutes
+
+05-12-2016 11:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+05-12-2016 11:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+05-12-2016 11:00:00 :- Connecting to SMTP server
+
+05-12-2016 11:00:12 :- Connected to SMTP server
+
+05-12-2016 11:00:14 :- Unread Mail Count to be processed : 1
+
+05-12-2016 11:00:14 :-  Message Details :
+						Message Subject :Re: Ticket Number M0525
+						Reply From :"Hitendra Parekh" <parekhpoonam@ymail.com>
+						Reply Time :05-12-2016 04:14:02
+
+05-12-2016 11:00:14 :- Record already exists
+
+05-12-2016 11:00:14 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+05-12-2016 11:00:14 :- Thread is going to sleep.
+
+05-12-2016 11:00:14 :- Thread sleeps for next 59 Minutes
+
+05-12-2016 12:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+05-12-2016 12:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+05-12-2016 12:00:00 :- Connecting to SMTP server
+
+05-12-2016 12:00:11 :- Connected to SMTP server
+
+05-12-2016 12:00:13 :- Unread Mail Count to be processed : 1
+
+05-12-2016 12:00:13 :-  Message Details :
+						Message Subject :Re: Ticket Number M0525
+						Reply From :"Hitendra Parekh" <parekhpoonam@ymail.com>
+						Reply Time :05-12-2016 04:14:02
+
+05-12-2016 12:00:13 :- Record already exists
+
+05-12-2016 12:00:13 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+05-12-2016 12:00:13 :- Thread is going to sleep.
+
+05-12-2016 12:00:14 :- Thread sleeps for next 59 Minutes
+
+05-12-2016 13:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+05-12-2016 13:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+05-12-2016 13:00:00 :- Connecting to SMTP server
+
+05-12-2016 13:00:11 :- Connected to SMTP server
+
+05-12-2016 13:00:13 :- Unread Mail Count to be processed : 1
+
+05-12-2016 13:00:13 :-  Message Details :
+						Message Subject :Re: Ticket Number M0525
+						Reply From :"Hitendra Parekh" <parekhpoonam@ymail.com>
+						Reply Time :05-12-2016 04:14:02
+
+05-12-2016 13:00:13 :- Record already exists
+
+05-12-2016 13:00:13 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+05-12-2016 13:00:13 :- Thread is going to sleep.
+
+05-12-2016 13:00:14 :- Thread sleeps for next 59 Minutes
+
+05-12-2016 14:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+05-12-2016 14:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+05-12-2016 14:00:00 :- Connecting to SMTP server
+
+05-12-2016 14:00:12 :- Connected to SMTP server
+
+05-12-2016 14:00:14 :- Unread Mail Count to be processed : 1
+
+05-12-2016 14:00:14 :-  Message Details :
+						Message Subject :Re: Ticket Number M0525
+						Reply From :"Hitendra Parekh" <parekhpoonam@ymail.com>
+						Reply Time :05-12-2016 04:14:02
+
+05-12-2016 14:00:14 :- Record already exists
+
+05-12-2016 14:00:14 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+05-12-2016 14:00:14 :- Thread is going to sleep.
+
+05-12-2016 14:00:14 :- Thread sleeps for next 59 Minutes
+
+05-12-2016 15:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+05-12-2016 15:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+05-12-2016 15:00:00 :- Connecting to SMTP server
+
+05-12-2016 15:00:11 :- Connected to SMTP server
+
+05-12-2016 15:00:14 :- Unread Mail Count to be processed : 1
+
+05-12-2016 15:00:14 :-  Message Details :
+						Message Subject :Re: Ticket Number M0525
+						Reply From :"Hitendra Parekh" <parekhpoonam@ymail.com>
+						Reply Time :05-12-2016 04:14:02
+
+05-12-2016 15:00:14 :- Record already exists
+
+05-12-2016 15:00:14 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+05-12-2016 15:00:14 :- Thread is going to sleep.
+
+05-12-2016 15:00:14 :- Thread sleeps for next 59 Minutes
+
+05-12-2016 16:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+05-12-2016 16:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+05-12-2016 16:00:00 :- Connecting to SMTP server
+
+05-12-2016 16:00:12 :- Connected to SMTP server
+
+05-12-2016 16:00:17 :- Unread Mail Count to be processed : 4
+
+05-12-2016 16:00:17 :-  Message Details :
+						Message Subject :Re: Ticket Number M0540
+						Reply From :"Hitendra Parekh" <parekhpoonam@ymail.com>
+						Reply Time :05-12-2016 09:58:21
+
+05-12-2016 16:00:17 :- Facility Management Note Record Inserted
+
+05-12-2016 16:00:17 :-  Message Details :
+						Message Subject :Re: Ticket Number M0540
+						Reply From :erims2@yahoo.com
+						Reply Time :05-12-2016 09:56:41
+
+05-12-2016 16:00:17 :- Facility Management Note Record Inserted
+
+05-12-2016 16:00:17 :-  Message Details :
+						Message Subject :Re: Ticket Number M0540
+						Reply From :"sonal parekh" <sonalpareekh@gmail.com>
+						Reply Time :05-12-2016 09:54:50
+
+05-12-2016 16:00:17 :- Facility Management Note Record Inserted
+
+05-12-2016 16:00:17 :-  Message Details :
+						Message Subject :Re: Ticket Number M0525
+						Reply From :"Hitendra Parekh" <parekhpoonam@ymail.com>
+						Reply Time :05-12-2016 04:14:02
+
+05-12-2016 16:00:17 :- Record already exists
+
+05-12-2016 16:00:17 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+05-12-2016 16:00:18 :- Thread is going to sleep.
+
+05-12-2016 16:00:18 :- Thread sleeps for next 59 Minutes
+
+05-12-2016 17:00:00 :- //////////////////////////////////Email Reading from SMTP server resumes  ////////////////////////////////////////////////////
+
+05-12-2016 17:00:00 :- //////////////////////////////////Email Reading from SMTP server Starts Now ///////////////////////////////////////////////
+
+05-12-2016 17:00:00 :- Connecting to SMTP server
+
+05-12-2016 17:00:12 :- Connected to SMTP server
+
+05-12-2016 17:00:19 :- Unread Mail Count to be processed : 4
+
+05-12-2016 17:00:19 :-  Message Details :
+						Message Subject :Re: Ticket Number M0540
+						Reply From :"Hitendra Parekh" <parekhpoonam@ymail.com>
+						Reply Time :05-12-2016 09:58:21
+
+05-12-2016 17:00:19 :- Record already exists
+
+05-12-2016 17:00:19 :-  Message Details :
+						Message Subject :Re: Ticket Number M0540
+						Reply From :erims2@yahoo.com
+						Reply Time :05-12-2016 09:56:41
+
+05-12-2016 17:00:19 :- Record already exists
+
+05-12-2016 17:00:19 :-  Message Details :
+						Message Subject :Re: Ticket Number M0540
+						Reply From :"sonal parekh" <sonalpareekh@gmail.com>
+						Reply Time :05-12-2016 09:54:50
+
+05-12-2016 17:00:19 :- Record already exists
+
+05-12-2016 17:00:19 :-  Message Details :
+						Message Subject :Re: Ticket Number M0525
+						Reply From :"Hitendra Parekh" <parekhpoonam@ymail.com>
+						Reply Time :05-12-2016 04:14:02
+
+05-12-2016 17:00:19 :- Record already exists
+
+05-12-2016 17:00:19 :- //////////////////////////////////Email Reading from SMTP server Ends ////////////////////////////////////////////////////
+
+05-12-2016 17:00:19 :- Thread is going to sleep.
+
+05-12-2016 17:00:19 :- Thread sleeps for next 59 Minutes
+

@@ -1,0 +1,10 @@
+C:\Users\pci93\documents\visual studio 2013\Projects\ERIMS_Sonic_EmailScheduler\ERIMS_Sonic_EmailScheduler\bin\Debug\ERIMS_Sonic_EmailScheduler.exe.config
+C:\Users\pci93\documents\visual studio 2013\Projects\ERIMS_Sonic_EmailScheduler\ERIMS_Sonic_EmailScheduler\bin\Debug\ERIMS_Sonic_EmailScheduler.exe
+C:\Users\pci93\documents\visual studio 2013\Projects\ERIMS_Sonic_EmailScheduler\ERIMS_Sonic_EmailScheduler\bin\Debug\ERIMS_Sonic_EmailScheduler.pdb
+C:\Users\pci93\documents\visual studio 2013\Projects\ERIMS_Sonic_EmailScheduler\ERIMS_Sonic_EmailScheduler\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Common.dll
+C:\Users\pci93\documents\visual studio 2013\Projects\ERIMS_Sonic_EmailScheduler\ERIMS_Sonic_EmailScheduler\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Data.dll
+C:\Users\pci93\documents\visual studio 2013\Projects\ERIMS_Sonic_EmailScheduler\ERIMS_Sonic_EmailScheduler\bin\Debug\Microsoft.Practices.ObjectBuilder.dll
+C:\Users\pci93\documents\visual studio 2013\Projects\ERIMS_Sonic_EmailScheduler\ERIMS_Sonic_EmailScheduler\bin\Debug\OpenPop.dll
+C:\Users\pci93\documents\visual studio 2013\Projects\ERIMS_Sonic_EmailScheduler\ERIMS_Sonic_EmailScheduler\obj\Debug\ERIMS_Sonic_EmailScheduler.exe
+C:\Users\pci93\documents\visual studio 2013\Projects\ERIMS_Sonic_EmailScheduler\ERIMS_Sonic_EmailScheduler\obj\Debug\ERIMS_Sonic_EmailScheduler.pdb
+C:\Users\pci93\Documents\Visual Studio 2013\Projects\ERIMS_Sonic_EmailScheduler\ERIMS_Sonic_EmailScheduler\obj\Debug\ERIMS_Sonic_EmailScheduler.csprojResolveAssemblyReference.cache

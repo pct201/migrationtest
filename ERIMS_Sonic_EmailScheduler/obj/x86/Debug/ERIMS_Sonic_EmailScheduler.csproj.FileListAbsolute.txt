@@ -1,0 +1,16 @@
+C:\Users\pci93\Documents\Visual Studio 2013\Projects\ERIMS_Sonic_EmailScheduler\ERIMS_Sonic_EmailScheduler\bin\x86\Debug\ERIMS_Sonic_EmailScheduler.exe.config
+C:\Users\pci93\Documents\Visual Studio 2013\Projects\ERIMS_Sonic_EmailScheduler\ERIMS_Sonic_EmailScheduler\bin\x86\Debug\ERIMS_Sonic_EmailScheduler.exe
+C:\Users\pci93\Documents\Visual Studio 2013\Projects\ERIMS_Sonic_EmailScheduler\ERIMS_Sonic_EmailScheduler\bin\x86\Debug\ERIMS_Sonic_EmailScheduler.pdb
+C:\Users\pci93\Documents\Visual Studio 2013\Projects\ERIMS_Sonic_EmailScheduler\ERIMS_Sonic_EmailScheduler\bin\x86\Debug\ActiveUp.Net.Common.dll
+C:\Users\pci93\Documents\Visual Studio 2013\Projects\ERIMS_Sonic_EmailScheduler\ERIMS_Sonic_EmailScheduler\bin\x86\Debug\ActiveUp.Net.Imap4.dll
+C:\Users\pci93\Documents\Visual Studio 2013\Projects\ERIMS_Sonic_EmailScheduler\ERIMS_Sonic_EmailScheduler\bin\x86\Debug\Microsoft.Practices.EnterpriseLibrary.Common.dll
+C:\Users\pci93\Documents\Visual Studio 2013\Projects\ERIMS_Sonic_EmailScheduler\ERIMS_Sonic_EmailScheduler\bin\x86\Debug\Microsoft.Practices.EnterpriseLibrary.Data.dll
+C:\Users\pci93\Documents\Visual Studio 2013\Projects\ERIMS_Sonic_EmailScheduler\ERIMS_Sonic_EmailScheduler\bin\x86\Debug\Microsoft.Practices.ObjectBuilder.dll
+C:\Users\pci93\Documents\Visual Studio 2013\Projects\ERIMS_Sonic_EmailScheduler\ERIMS_Sonic_EmailScheduler\bin\x86\Debug\ActiveUp.Net.Dns.dll
+C:\Users\pci93\Documents\Visual Studio 2013\Projects\ERIMS_Sonic_EmailScheduler\ERIMS_Sonic_EmailScheduler\bin\x86\Debug\ActiveUp.Net.Common.xml
+C:\Users\pci93\Documents\Visual Studio 2013\Projects\ERIMS_Sonic_EmailScheduler\ERIMS_Sonic_EmailScheduler\bin\x86\Debug\ActiveUp.Net.Imap4.xml
+C:\Users\pci93\Documents\Visual Studio 2013\Projects\ERIMS_Sonic_EmailScheduler\ERIMS_Sonic_EmailScheduler\bin\x86\Debug\ActiveUp.Net.Dns.xml
+C:\Users\pci93\Documents\Visual Studio 2013\Projects\ERIMS_Sonic_EmailScheduler\ERIMS_Sonic_EmailScheduler\obj\x86\Debug\ERIMS_Sonic_EmailScheduler.ProjectInstaller.resources
+C:\Users\pci93\Documents\Visual Studio 2013\Projects\ERIMS_Sonic_EmailScheduler\ERIMS_Sonic_EmailScheduler\obj\x86\Debug\ERIMS_Sonic_EmailScheduler.csproj.GenerateResource.Cache
+C:\Users\pci93\Documents\Visual Studio 2013\Projects\ERIMS_Sonic_EmailScheduler\ERIMS_Sonic_EmailScheduler\obj\x86\Debug\ERIMS_Sonic_EmailScheduler.exe
+C:\Users\pci93\Documents\Visual Studio 2013\Projects\ERIMS_Sonic_EmailScheduler\ERIMS_Sonic_EmailScheduler\obj\x86\Debug\ERIMS_Sonic_EmailScheduler.pdb
