@@ -400,6 +400,8 @@ public partial class Exposures_Inspections : clsBasePage
                     string strTitle = DataBinder.Eval(e.Row.DataItem, "Title").ToString();
                     txtProblemDescription.Text = strProblemDescription;
                     txtTitle.Text = strTitle;
+                    txtProblemDescription.Enable = false;
+                    txtTitle.Enabled = false;
                 }
             }
 
@@ -857,12 +859,14 @@ public partial class Exposures_Inspections : clsBasePage
                 objResponse.Notes = ((Controls_LongDescription_LongDescription)gvInspectionEdit.Rows[i].FindControl("txtNotes")).Text;
             }
 
-            //RadioButtonList rdoMaintenance = (RadioButtonList)e.Row.FindControl("rdoMaintenance");
-            //if (rdoMaintenance. == "Y")
-            //{
+            RadioButtonList rdoMaintenance = (RadioButtonList)gvInspectionEdit.Rows[i].FindControl("rdoMaintenance");
+            string strMaintenance = !string.IsNullOrEmpty(((TextBox)gvInspectionEdit.Rows[i].FindControl("txtTitle")).Text) ? "Y" : "N";
+            //rdoMaintenance.SelectedValue = strMaintenance;
+            if (strMaintenance == "Y")
+            {
                 objResponse.Problem_Description = ((Controls_LongDescription_LongDescription)gvInspectionEdit.Rows[i].FindControl("txtProblemDescription")).Text;
                 objResponse.Title = ((TextBox)gvInspectionEdit.Rows[i].FindControl("txtTitle")).Text;
-            //}
+            }
 
             objResponse.UniqueVal = strGUID;
             objResponse.Updated_By = Convert.ToDecimal(clsSession.UserID);

@@ -1679,8 +1679,8 @@
             }
             else {
                 tdDtl.style.display = "none";
-                document.getElementById(txtTitle).value = '';
-                document.getElementById(txtProblemDescription).value = '';
+                //document.getElementById(txtTitle).value = '';
+                //document.getElementById(txtProblemDescription).value = '';
             }
         }
 

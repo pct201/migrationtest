@@ -14,17 +14,24 @@
     <div align="center" style="width: 100%">
 
     </div>
-    <table cellpadding="3" cellspacing="3" width="60%" border="0" align="center">
+    <table cellpadding="3" cellspacing="3" width="100%" border="0" align="center">
             <tr>
+                <td align="left" style="width: 20%" class="heading">Maintenance Dashboard
+                </td>
                 <td align="right" style="width: 10%">Sonic Location Code
                 </td>
                 <td align="center" style="width: 4%">:
                 </td>
                 <td align="left" style="width: 30%">
                    <asp:DropDownList ID="ddlRMLocationNumber" AutoPostBack="true" SkinID="Default" Width="90%"
-                                                        runat="server" OnSelectedIndexChanged="ddlRMLocationNumber_SelectedIndexChanged">
-                                                    </asp:DropDownList>
+                     runat="server" OnSelectedIndexChanged="ddlRMLocationNumber_SelectedIndexChanged"> </asp:DropDownList>
                 </td>
+                <td align="right" style="width: 30%">
+                    <a href="<%=AppConfig.SiteURL%>DashBoard/DashBoard.aspx">Sonic Dealership Map</a>&nbsp;&nbsp;
+                    <a href="<%=AppConfig.SiteURL%>DashBoard/DashBoardGraph.aspx">Page 1</a>&nbsp;&nbsp;
+                    <a href="<%=AppConfig.SiteURL%>DashBoard/DashBoardGraphCal.aspx">Page 2</a>&nbsp;&nbsp;
+                    <a href="<%=AppConfig.SiteURL%>DashBoard/DashBoardGraphACI.aspx">Page 3</a>                               
+               </td>
             </tr>
         </table>
        <div align="center" style="width: 100%">

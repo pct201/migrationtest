@@ -88,7 +88,8 @@
                             <td align="right" style="width: 30%">
                                 <a href="<%=AppConfig.SiteURL%>DashBoard/DashBoard.aspx">Sonic Dealership Map</a>&nbsp;&nbsp;
                                 <a href="<%=AppConfig.SiteURL%>DashBoard/DashBoardGraphCal.aspx">Page 2</a>&nbsp;&nbsp;
-                                <a href="<%=AppConfig.SiteURL%>DashBoard/DashBoardGraphACI.aspx">Page 3</a>
+                                <a href="<%=AppConfig.SiteURL%>DashBoard/DashBoardGraphACI.aspx">Page 3</a>&nbsp;&nbsp;
+                                <a href="<%=AppConfig.SiteURL%>DashBoard\MaintenanceDashboardGraph.aspx">Maintenance DashBoard</a>
                             </td>
                         </tr>
                     </table>
@@ -365,7 +366,7 @@
                     </div>
 
                 </td>
-                <td align="left" style="width: 50%">
+                <td align="left" style="width: 50%;">
                     <div style="border: solid 1px #666666;">
                         <%=GetAggregatePerformanceByRegion() %>
                         <div style="color:grey;text-align:center;margin-left:90px;">

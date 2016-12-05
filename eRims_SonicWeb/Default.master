@@ -56,11 +56,11 @@
                         <asp:Button runat="server" ID="btnHdnStatusPage" Style="display: none;" OnClick="btnHdnStatusPage_Click" />
                     </td>
                 </tr>
-                <tr>
+               <%-- <tr>
                     <td align="right" style="text-align: right">
                         <a href="<%=AppConfig.SiteURL%>DashBoard\MaintenanceDashboardGraph.aspx" class="top_link">Maintenance DashBoard&nbsp;</a>
                     </td>
-                </tr>
+                </tr>--%>
                 <tr>
                     <td>
                         &nbsp;

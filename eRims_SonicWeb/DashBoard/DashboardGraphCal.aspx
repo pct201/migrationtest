@@ -57,7 +57,8 @@
                             <td align="right" style="width: 30%">
                                 <a href="<%=AppConfig.SiteURL%>DashBoard/DashBoard.aspx">Sonic Dealership Map</a>&nbsp;&nbsp;
                                 <a href="<%=AppConfig.SiteURL%>DashBoard/DashBoardGraph.aspx">Page 1</a>&nbsp;&nbsp;
-                                <a href="<%=AppConfig.SiteURL%>DashBoard/DashBoardGraphACI.aspx">Page 3</a>
+                                <a href="<%=AppConfig.SiteURL%>DashBoard/DashBoardGraphACI.aspx">Page 3</a>&nbsp;&nbsp;
+                                <a href="<%=AppConfig.SiteURL%>DashBoard\MaintenanceDashboardGraph.aspx">Maintenance DashBoard</a>
                             </td>
                         </tr>
                     </table>
