@@ -698,6 +698,28 @@ namespace ERIMS.DAL
         }
 
         /// <summary>
+        /// Select Management User
+        /// </summary>
+        public DataSet GetContractorSecurityForManagementUser()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("GetContractorSecurityForManagementUser");
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        /// <summary>
+        /// Select EVP User
+        /// </summary>
+        public DataSet GetContractorSecurityForEVPUser()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("GetContractorSecurityForEVPUser");
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        /// <summary>
         /// Updates a record in the Contractor_Security table.
         /// </summary>
         public int Update()

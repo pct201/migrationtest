@@ -280,7 +280,8 @@ public partial class Administrator_Contractor_Security : clsBasePage
         objContractorSecurity.Vendor_Number = txtVendorNumber.Text;
         objContractorSecurity.IS_SRM = chkIsSRM.Checked ? 1 : 0;
         objContractorSecurity.IS_GC = chkISGC.Checked ? 1 : 0;
-
+        DataTable dtobjContractorSecurityManagement = objContractorSecurity.GetContractorSecurityForManagementUser().Tables[0];
+        DataTable dtobjContractorSecurityEVP = objContractorSecurity.GetContractorSecurityForEVPUser().Tables[0];
         if (PK_Contactor_Security > 0)
         {
             int RtnVal = objContractorSecurity.Update();
@@ -299,6 +300,19 @@ public partial class Administrator_Contractor_Security : clsBasePage
                 ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "alert('Password must have at least 7 characters, one character, one digit and one special character!')", true);
                 return;
             }
+
+            if ((dtobjContractorSecurityManagement.Rows.Count > 0) && (ddlContractoType.SelectedItem.Text.ToString().ToUpper().Equals("MANAGEMENT")))
+            {
+                ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "alert('Management User already exists. Please Select another Contractor Type')", true);
+                return;
+            }
+
+            if ((dtobjContractorSecurityEVP.Rows.Count > 0) && (ddlContractoType.SelectedItem.Text.ToString().ToUpper().Equals("EVP")))
+            {
+                ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "alert('Uper Management User already exists. Please Select another Contractor Type')", true);
+                return;
+            }
+
             PK_Contactor_Security = objContractorSecurity.Insert();
             // Used to Check Duplicate User ID?
             if (PK_Contactor_Security == -2)

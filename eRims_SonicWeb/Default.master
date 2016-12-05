@@ -32,7 +32,7 @@
         </div>
         <div id="top2">
         </div>
-        <div id="header" class="header_text" runat="server" style="padding-top: 15px;">
+        <div id="header" class="header_text" runat="server" style="padding-top: 5px;">
             <table width="100%" border="0" style="text-align: right;" cellpadding="0" cellspacing="0">
                 <tr>
                     <td align="right" style="text-align: right; color: red;">
@@ -47,13 +47,18 @@
                 </tr>
                 <tr>
                     <td align="right" style="text-align: right">
-                        <a href="<%=AppConfig.SiteURL%>DashBoard\DashboardGraph.aspx" class="top_link">DashBoard</a>
+                      <a href="<%=AppConfig.SiteURL%>DashBoard\DashboardGraph.aspx" class="top_link">DashBoard</a>
                         | <a href="<%=AppConfig.SiteURL%>Logoff.aspx" class="top_link" id="hrefLogoff" runat="server"
                             onserverclick="HrefClick">Logoff</a> | <a href="<%=AppConfig.SiteURL%>Help.aspx"
                                 class="top_link">Help&nbsp;</a>
                         <input type="hidden" id="hdntext" name="hdntext" value="" />
                         <asp:Button runat="server" ID="btnHdnSearchPage" Style="display: none;" OnClick="btnHdnSearchPage_Click" />
                         <asp:Button runat="server" ID="btnHdnStatusPage" Style="display: none;" OnClick="btnHdnStatusPage_Click" />
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" style="text-align: right">
+                        <a href="<%=AppConfig.SiteURL%>DashBoard\MaintenanceDashboardGraph.aspx" class="top_link">Maintenance DashBoard&nbsp;</a>
                     </td>
                 </tr>
                 <tr>

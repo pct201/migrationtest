@@ -2174,6 +2174,97 @@ public class clsGeneral : System.Web.UI.Page
 
     }
 
+    public static bool SendMailMessageForNewTicket(string strFrom, string strTo, string strBCC, string strCC, string strSubject, string strBody, bool boolIsHTML, string[] strAttachments, string PK_Facility_Construction_Maintenance_Item)
+    {
+        if (!AppConfig.AllowMailSending)
+            return false;
+        // Instantiate a new instance of MailMessage
+        MailMessage mMailMessage = new MailMessage();
+
+        if (!clsGeneral.IsNull(strFrom))
+        {
+            // Set the sender address of the mail message
+            mMailMessage.From = new MailAddress(strFrom);
+        }
+
+        char[] arrSplitChar = { ',' };
+        if (!clsGeneral.IsNull(strTo))
+        {
+            string[] arrTo = strTo.Split(arrSplitChar);
+            foreach (string strTOID in arrTo)
+            {
+                // Set the recepient address of the mail message
+                mMailMessage.To.Add(new MailAddress(strTOID));
+            }
+        }
+
+
+        // Check if the bcc value is nothing or an empty string
+        if (!clsGeneral.IsNull(strBCC))
+        {
+            string[] arrBCC = strBCC.Split(arrSplitChar);
+            foreach (string strBCCID in arrBCC)
+            {
+                // Set the recepient address of the mail message
+                mMailMessage.Bcc.Add(new MailAddress(strBCCID));
+            }
+        }
+
+        // Check if the cc value is nothing or an empty value
+        if (!string.IsNullOrEmpty(strCC))
+        {
+            string[] arrCC = strCC.Split(arrSplitChar);
+            foreach (string strCCID in arrCC)
+            {
+                // Set the recepient address of the mail message
+                mMailMessage.CC.Add(new MailAddress(strCCID));
+            }
+        }
+        foreach (string strAttachment in strAttachments)
+        {
+            if (File.Exists(strAttachment))
+            {
+                mMailMessage.Attachments.Add(new Attachment(strAttachment));
+            }
+        }
+
+
+        // Set the subject of the mail message
+        mMailMessage.Subject = strSubject;
+        // Set the body of the mail message
+        mMailMessage.Body = strBody;
+
+        // Set the format of the mail message body as HTML
+        mMailMessage.IsBodyHtml = boolIsHTML;
+        // Set the priority of the mail message to normal
+        mMailMessage.Priority = MailPriority.Normal;
+        
+        mMailMessage.Headers.Add("Message-ID", PK_Facility_Construction_Maintenance_Item + "-" + Guid.NewGuid() + "@me.com ");
+        // Instantiate a new instance of SmtpClient
+        SmtpClient mSmtpClient = new SmtpClient(AppConfig.SMTPServer, Convert.ToInt32(AppConfig.Port));
+        mSmtpClient.EnableSsl = true;
+        mSmtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+        mSmtpClient.Credentials = new NetworkCredential(strFrom, AppConfig.SMTPpwd);
+
+        try
+        {
+            // Send the mail message
+            mSmtpClient.Send(mMailMessage);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            return false;
+        }
+        finally
+        {
+            mMailMessage.Dispose();
+            mMailMessage = null;
+            mSmtpClient = null;
+            //CommonHelper.DisposeOf(mMailMessage);
+            //CommonHelper.DisposeOf(mSmtpClient);
+        }
+    }
     /// <summary>
     /// Used to Send EMail with Attachment
     /// </summary>
@@ -2267,7 +2358,7 @@ public class clsGeneral : System.Web.UI.Page
             mSmtpClient.Send(mMailMessage);
             return true;
         }
-        catch (Exception ex)
+        catch(Exception ex)
         {
             return false;
         }

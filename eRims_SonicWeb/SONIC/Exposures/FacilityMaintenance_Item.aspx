@@ -1,4 +1,4 @@
-﻿<%@ Page Title="eRIMS Sonic :: Exposures :: Repair And Maintenance" Language="C#" MasterPageFile="~/Default.master" AutoEventWireup="true" CodeFile="FacilityMaintenance_Item.aspx.cs" Inherits="SONIC_Exposures_FacilityMaintenance_Item" %>
+﻿    <%@ Page Title="eRIMS Sonic :: Exposures :: Repair And Maintenance" Language="C#" MasterPageFile="~/Default.master" AutoEventWireup="true" CodeFile="FacilityMaintenance_Item.aspx.cs" Inherits="SONIC_Exposures_FacilityMaintenance_Item" %>
 
 <%@ Register Src="~/Controls/ExposuresTab/ExposuresTab.ascx" TagName="CtlTab" TagPrefix="uc" %>
 <%@ Register Src="~/Controls/Notes/Notes.ascx" TagName="ctrlMultiLineTextBox" TagPrefix="uc" %>
@@ -562,6 +562,21 @@
                                                                 </td>
                                                             </tr>
                                                             <tr>
+                                                                <td align="left" width="18%" valign="top">Source
+                                                                </td>
+                                                                <td align="center" width="4%" valign="top">:
+                                                                </td>
+                                                                <td align="left" width="28%" valign="top">
+                                                                    <%--<asp:DropDownList runat="server" ID="ddlProject" AutoPostBack="true" SkinID="ddlExposure" OnSelectedIndexChanged="ddlProject_SelectedIndexChanged">
+                                                                    </asp:DropDownList>--%>
+                                                                    <asp:DropDownList ID="ddlSource" runat="server" Width="200px" Enabled="false">
+                                                                        <asp:ListItem Text="ERIMS" Value="0"></asp:ListItem>
+                                                                        <asp:ListItem Text="Facility Maintenance" Value="1"></asp:ListItem>
+                                                                        <asp:ListItem Text="Sonic Mobile" Value="2"></asp:ListItem>
+                                                                    </asp:DropDownList>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
                                                                 <td align="left" colspan="6">Repair Description&nbsp;<span id="Span104" style="color: Red; display: none;"
                                                                     runat="server">*</span>
                                                                 </td>
@@ -683,7 +698,9 @@
                                                         <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                             <tr>
                                                                 <td colspan="6" width="100%" align="center">
+                                                                    <asp:Button runat="server" ID="btnMaintenanceSubmit" Text="Submit" CausesValidation="true" ValidationGroup="vsErrorPropertyCope" OnClick="btnMaintenanceSubmit_Click" />&nbsp;
                                                                     <asp:Button runat="server" ID="btnMaintenanceSave" Text="Save & View" CausesValidation="true" ValidationGroup="vsErrorPropertyCope" OnClick="btnMaintenanceSave_Click" />&nbsp;
+                                                                     <asp:Button runat="server" ID="btnCloseTicket" Text="Close Ticket" CausesValidation="true" ValidationGroup="vsErrorPropertyCope" OnClick="btnCloseTicket_Click" />&nbsp;
                                                                     <asp:Button runat="server" ID="btnBindAttachmentGrid" Text="Bind Attachment" CausesValidation="true" ValidationGroup="vsErrorPropertyCope" OnClick="btnBindAttachmentGrid_Click" Style="display: none" />&nbsp;
                                                                     <asp:Button ID="btnViewAuditPropertyCOPE" runat="server" Text="View Audit Trail"
                                                                         OnClientClick="javascript:return AuditPopUp('COPE');" Visible="false" />
@@ -810,7 +827,7 @@
                                                         <td align="left" width="28%" valign="top">
                                                             <asp:Label ID="lblFocusAreaItem" Width="170px" runat="server" SkinID="lblText"></asp:Label>
                                                         </td>
-                                                         <td align="left" valign="top">Status
+                                                        <td align="left" valign="top">Status
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
@@ -941,6 +958,15 @@
                                                         </td>
                                                         <td align="left" valign="top">
                                                             <asp:Label ID="lblPriority" Width="170px" runat="server" SkinID="lblText"></asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" valign="top">Source
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:Label ID="lblSource" Width="170px" runat="server" SkinID="lblText"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>

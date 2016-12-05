@@ -125,11 +125,15 @@
                         </td>
                     </tr>
                     <tr>
-                        <td align="left">
-                            <div style="display: none; text-align: left;" id="divReport_Grid" runat="server" width="999px">
+                        <td>
+                            <div style="display: none;" id="divReport_Grid" runat="server" width="999px">
                                 <asp:GridView ID="gvReport" runat="server" Width="100%" EmptyDataText="No Records Found"
                                     OnRowCreated="gvReport_RowCreated" EnableTheming="false" GridLines="None" ShowFooter="true"
                                     AutoGenerateColumns="false" OnRowDataBound="gvReport_RowDataBound">
+                                    <HeaderStyle CssClass="HeaderStyle" VerticalAlign="top" />
+                                    <RowStyle BackColor="White" VerticalAlign="top" />
+                                    <FooterStyle BackColor="#507CD1" ForeColor="White" Font-Bold="true" />
+                                    <AlternatingRowStyle BackColor="White" VerticalAlign="top" />
                                     <HeaderStyle HorizontalAlign="Left" CssClass="HeaderStyle" VerticalAlign="top" />
                                     <RowStyle BackColor="White" VerticalAlign="top" />
                                     <FooterStyle BackColor="#507CD1" ForeColor="White" Font-Bold="true" />
@@ -196,7 +200,10 @@
                                                         <td>
                                                             <asp:GridView ID="gvClaimData" runat="server" ShowHeader="false" Width="100%" OnRowDataBound="gvClaimData_RowDataBound"
                                                                 CellPadding="4" GridLines="None" CssClass="GridClass" AutoGenerateColumns="false"
-                                                                EnableTheming="false"  ShowFooter="true">
+                                                                EnableTheming="false" ShowFooter="true">
+                                                                <FooterStyle BackColor="white" ForeColor="black" Font-Bold="true" />
+                                                                <RowStyle CssClass="RowStyle" VerticalAlign="top" />
+                                                                <AlternatingRowStyle CssClass="AlterRowStyle" VerticalAlign="top" />
                                                                 <FooterStyle BackColor="white" ForeColor="black" Font-Bold="true" />
                                                                 <RowStyle CssClass="RowStyle" VerticalAlign="top" />
                                                                 <AlternatingRowStyle CssClass="AlterRowStyle" VerticalAlign="top" />

@@ -53,6 +53,7 @@ namespace ERIMS.DAL
         private DateTime? _Update_Date;
         private decimal? _Updated_By;
         private decimal? _FK_LU_Maintenance_Priority;
+        private string _Source;
 
         #endregion
 
@@ -415,6 +416,15 @@ namespace ERIMS.DAL
             set { _Updated_By = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the Source value.
+        /// </summary>
+        public string Source
+        {
+            get { return _Source; }
+            set { _Source = value; }
+        }
+
         #endregion
 
         #region Default Constructors
@@ -647,6 +657,11 @@ namespace ERIMS.DAL
                 this._Update_Date = null;
             else
                 this._Update_Date = (DateTime?)drFacility_Construction_Maintenance_Item["Update_Date"];
+
+            if (drFacility_Construction_Maintenance_Item["Source"] == DBNull.Value)
+                this._Source = null;
+            else
+                this._Source = (string)drFacility_Construction_Maintenance_Item["Source"];     
         }
 
         #endregion
@@ -770,7 +785,8 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "FK_LU_Maintenance_Priority", DbType.Decimal, this._FK_LU_Maintenance_Priority);
 
-            db.AddInParameter(dbCommand, "Source", DbType.String, "ERIMS");
+            db.AddInParameter(dbCommand, "Source", DbType.String, this._Source);
+
             db.AddInParameter(dbCommand, "Updated_By", DbType.Decimal, this._Updated_By);
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -935,7 +951,7 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "FK_LU_Maintenance_Priority", DbType.Decimal, this._FK_LU_Maintenance_Priority);
 
-            db.AddInParameter(dbCommand, "Source", DbType.String, "ERIMS");
+            db.AddInParameter(dbCommand, "Source", DbType.String, this._Source);
 
             db.AddInParameter(dbCommand, "Updated_By", DbType.Decimal, this._Updated_By);
 

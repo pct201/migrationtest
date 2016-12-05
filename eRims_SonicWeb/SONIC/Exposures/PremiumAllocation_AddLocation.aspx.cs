@@ -264,7 +264,7 @@ public partial class SONIC_Exposures_PremiumAllocation_AddLocation : clsBasePage
 
     public void SavePA_Imported()
     {
-        clsPA_Values_Imported ObjPA_Values_Imported = new clsPA_Values_Imported();
+        ERIMS_DAL.clsPA_Values_Imported ObjPA_Values_Imported = new ERIMS_DAL.clsPA_Values_Imported();
         if (drpLocation.SelectedIndex > 0)
         {
             LU_Location objlocation = new LU_Location(Convert.ToDecimal(drpLocation.SelectedValue));

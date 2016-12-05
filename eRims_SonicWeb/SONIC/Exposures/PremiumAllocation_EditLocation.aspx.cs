@@ -6,7 +6,7 @@ using System.Web.UI.WebControls;
 using System.Data;
 using System.IO;
 using System.Text;
-using ERIMS_DAL;
+//using ERIMS_DAL;
 using ERIMS.DAL;
 
 public partial class SONIC_Exposures_PremiumAllocation_EditLocation : clsBasePage
@@ -252,7 +252,6 @@ public partial class SONIC_Exposures_PremiumAllocation_EditLocation : clsBasePag
             sbRecorords.Append("</div>");
             sbRecorords.Append("</table>");
             trGrid.Visible = true;
-
         }
         else
         {

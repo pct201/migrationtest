@@ -516,6 +516,31 @@ public class Charts
         return db.ExecuteDataSet(dbCommand);
     }
 
+    public static DataSet GetPriorityWiseActiveUsers(decimal LocationID)
+    {
+        Database db = DatabaseFactory.CreateDatabase();
+        DbCommand dbCommand = db.GetStoredProcCommand("rptBar_Priority_MaintenanceDashboardGraph_Mobile");
+        db.AddInParameter(dbCommand, "LocationID", DbType.Decimal, LocationID);
+        return db.ExecuteDataSet(dbCommand);
+    }
+
+    public static DataSet GetAssigneeWiseActiveUsers(decimal LocationID)
+    {
+        Database db = DatabaseFactory.CreateDatabase();
+        DbCommand dbCommand = db.GetStoredProcCommand("rptBar_Assignee_MaintenanceDashboardGraph_Mobile");
+        db.AddInParameter(dbCommand, "LocationID", DbType.Decimal, LocationID);
+        return db.ExecuteDataSet(dbCommand);
+    }
+
+    public static DataSet GetTop10CustomersWiseActiveUsers(decimal LocationID)
+    {
+        Database db = DatabaseFactory.CreateDatabase();
+        DbCommand dbCommand = db.GetStoredProcCommand("rptBar_Top10Customers_MaintenanceDashboardGraph_Mobile");
+        db.AddInParameter(dbCommand, "LocationID", DbType.Decimal, LocationID);
+        return db.ExecuteDataSet(dbCommand);
+    }
+
+
     public static DataSet RLCMIncidentInvestigation_ByRLCM(decimal pk_Security_ID, string Regions, string Markets, int idState, DateTime FromDate, DateTime ToDate, DateTime PreviousFromDate, DateTime PreviousToDate, string Rlcms)
     {
         Database db = DatabaseFactory.CreateDatabase();
