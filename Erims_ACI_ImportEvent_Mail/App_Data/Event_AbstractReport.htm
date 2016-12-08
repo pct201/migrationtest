@@ -1,0 +1,478 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style type="text/css">
+        .td
+        {
+            font-size: 12px;
+        }
+        .HeaderRow
+        {
+            margin: 0;
+            vertical-align: middle;
+            background-color: #9a9a9a;
+            padding-left: 5px;
+            font-weight: bold;
+            color: White;
+            text-decoration: none;
+            font-family: Arial;
+            font-size: 14px;
+        }
+        .ValueCell
+        {
+            font-family: Arial;
+            font-size: 12px;
+            text-align: left;
+        }
+        .TitleCell
+        {
+            font-family: Arial;
+            font-size: 12px;
+            text-align: left;
+            font-weight: bold;
+            width: 18%;
+        }
+    </style>
+</head>
+<body>
+    <table width="100%" cellpadding="0" cellspacing="0" style="font-family: Arial">
+        <tr>
+            <td style="font-size: 12px; font-family: Arial;">
+                <table width="100%" style="font-weight: bold">
+                    <tr>
+                        <td style="border-bottom: 1px solid #000000; font-size: large">
+                            ACI System, Inc.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 14px; font-family: Arial; font-weight: bold">
+                            Event Abstract
+                        </td>
+                    </tr>
+                </table>
+                <br />
+            </td>
+        </tr>
+        <tr>
+            <td style="font-size: 12px; font-family: Arial;">
+                <table width="100%" cellpadding="1" cellspacing="1">
+                    <tr>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold;" colspan="6" class="HeaderRow">
+                            Event Information
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold;" width="18%">
+                            Location
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;"
+                            width="4%">
+                            :
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial;" width="28%">
+                            [Location]
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold;" width="18%">
+                            ACI Event ID
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; text-align: center; vertical-align: top;"
+                            width="4%">
+                            :
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial;" width="32%">
+                            [ACI_Event_ID]
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold;" colspan="3">
+                            <u><b>Actionable Event Type</b></u>
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold;" colspan="3">
+                            <u><b>Description of Event</b></u>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 12px; font-family: Arial;" colspan="3">
+                            [Actionable_Event_Type]
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: text-top;" colspan="3">
+                            [Description_of_Event]
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold;">
+                            Date of Event
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;">
+                            :
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial;">
+                            [Date_of_Event]
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold;">
+                            Event Start Time
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;">
+                            :
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial;">
+                            [Event_Start_Time]
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold;">
+                            Event End Time
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;">
+                            :
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial;">
+                            [Event_End_Time]
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold;">
+                            Event Level
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;">
+                            :
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial;" colspan="4">
+                            [Event_Level]
+                        </td>
+                    </tr>
+                    [BuildingInformation]
+                    <tr style="page-break-inside: avoid">
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; vertical-align: top">
+                            Camera Grid
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;">
+                            :
+                        </td>
+                        <td colspan="4" style="font-size: 12px; font-family: Arial;">
+                            <table width="100%" cellpadding="3" cellspacing="1">
+                                <tr style="page-break-inside: avoid">
+                                    <td style="font-size: 12px; font-family: Arial;" colspan="6">
+                                        [Camera_Grid]
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" style="font-size: 12px; font-family: Arial;">
+                            <table width="100%" cellpadding="3" cellspacing="1">
+                                <tr style="page-break-inside: avoid">
+                                    <td style="font-size: 12px; font-family: Arial; font-weight: bold;" width="18%">
+                                        Acadian Investigator Name
+                                    </td>
+                                    <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;"
+                                        width="4%">
+                                        :
+                                    </td>
+                                    <td style="font-size: 12px; font-family: Arial;" width="28%">
+                                        [Acadian_Investigator_Name]
+                                    </td>
+                                </tr>
+                                <tr style="page-break-inside: avoid">
+                                    <td style="font-size: 12px; font-family: Arial; font-weight: bold;" width="18%">
+                                        Acadian Investigator Email Address
+                                    </td>
+                                    <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;"
+                                        width="4%">
+                                        :
+                                    </td>
+                                    <td style="font-size: 12px; font-family: Arial;" width="28%">
+                                        [Acadian_Investigator_Email_Address]
+                                    </td>
+                                </tr>
+                                <tr style="page-break-inside: avoid">
+                                    <td style="font-size: 12px; font-family: Arial; font-weight: bold;" width="18%">
+                                        Acadian Investigator Phone #
+                                    </td>
+                                    <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;"
+                                        width="4%">
+                                        :
+                                    </td>
+                                    <td style="font-size: 12px; font-family: Arial;" width="28%">
+                                        [Acadian_Investigator_Phone]
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; vertical-align: text-top;">
+                            Event Image
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;">
+                            :
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial;" colspan="4">
+                            [Event_Image]
+                        </td>
+                    </tr>
+                    <tr style="page-break-inside: avoid">
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold;" colspan="6" class="HeaderRow">
+                            Acadian Investigations
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold;">
+                            Video Requested By Sonic?
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;">
+                            :
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial;">
+                            [Video_Requested_By_Sonic]
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold;">
+                            Police Called?
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;">
+                            :
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial;">
+                            [Police_Called]
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" style="font-size: 12px; font-family: Arial;">
+                            <table width="100%" cellpadding="3" cellspacing="1">
+                                <tr style="page-break-inside: avoid">
+                                    <td style="font-size: 12px; font-family: Arial; font-weight: bold; padding-left: 25px;"
+                                        width="18%">
+                                        If Yes:
+                                    </td>
+                                    <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;"
+                                        width="4%">
+                                        &nbsp;
+                                    </td>
+                                    <td style="font-size: 12px; font-family: Arial;" width="28%">
+                                        &nbsp;
+                                    </td>
+                                    <td style="font-size: 12px; font-family: Arial; font-weight: bold;" width="18%">
+                                        &nbsp;
+                                    </td>
+                                    <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;"
+                                        width="4%">
+                                        &nbsp;
+                                    </td>
+                                    <td style="font-size: 12px; font-family: Arial;" width="28%">
+                                        &nbsp;
+                                    </td>
+                                </tr>
+                                <tr style="page-break-inside: avoid">
+                                    <td style="font-size: 12px; font-family: Arial; font-weight: bold; padding-left: 60px;"
+                                        width="18%">
+                                        Agency Name
+                                    </td>
+                                    <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;"
+                                        width="4%">
+                                        :
+                                    </td>
+                                    <td style="font-size: 12px; font-family: Arial;" width="28%">
+                                        [Agency_Name]
+                                    </td>
+                                </tr>
+                                <tr style="page-break-inside: avoid">
+                                    <td style="font-size: 12px; font-family: Arial; font-weight: bold; padding-left: 60px;"
+                                        width="18%">
+                                        Officer Name
+                                    </td>
+                                    <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;"
+                                        width="4%">
+                                        :
+                                    </td>
+                                    <td style="font-size: 12px; font-family: Arial;" width="28%">
+                                        [Officer_Name]
+                                    </td>
+                                </tr>
+                                <tr style="page-break-inside: avoid">
+                                    <td style="font-size: 12px; font-family: Arial; font-weight: bold; padding-left: 60px;"
+                                        width="18%">
+                                        Phone #
+                                    </td>
+                                    <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;"
+                                        width="4%">
+                                        :
+                                    </td>
+                                    <td style="font-size: 12px; font-family: Arial;" width="28%">
+                                        [Phone_#]
+                                    </td>
+                                </tr>
+                                <tr style="page-break-inside: avoid">
+                                    <td style="font-size: 12px; font-family: Arial; font-weight: bold; padding-left: 60px;"
+                                        width="18%">
+                                        Police Report #
+                                    </td>
+                                    <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;"
+                                        width="4%">
+                                        :
+                                    </td>
+                                    <td style="font-size: 12px; font-family: Arial;" width="28%">
+                                        [Police_Report_#]
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr style="page-break-inside: avoid">
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; vertical-align: text-top;">
+                            Vehicle Information Grid
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;">
+                            :
+                        </td>
+                        <td colspan="4" style="font-size: 12px; font-family: Arial;">
+                            <table width="100%" cellpadding="3" cellspacing="1">
+                                <tr style="page-break-inside: avoid">
+                                    <td style="font-size: 12px; font-family: Arial;" colspan="6">
+                                        [Vehicle_Information_Grid]
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr style="page-break-inside: avoid">
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; vertical-align: text-top;">
+                            Suspect Information Grid
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;">
+                            :
+                        </td>
+                        <td colspan="4" style="font-size: 12px; font-family: Arial;">
+                            <table width="100%" cellpadding="3" cellspacing="1">
+                                <tr style="page-break-inside: avoid">
+                                    <td style="font-size: 12px; font-family: Arial;" colspan="6">
+                                        [Suspect_Information_Grid]
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold;">
+                            Incident Report
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;">
+                            :
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial;" colspan="4">
+                            [Incident_Report_Desc]
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">
+                            &nbsp;
+                        </td>
+                    </tr>
+                    <tr style="page-break-inside: avoid">
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; vertical-align: text-top;">
+                            Acadian Notes Grid
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;">
+                            :
+                        </td>
+                        <td colspan="4" style="font-size: 12px; font-family: Arial;">
+                            <table width="100%" cellpadding="3" cellspacing="1">
+                                <tr style="page-break-inside: avoid">
+                                    <td style="font-size: 12px; font-family: Arial;" colspan="6">
+                                        [Acadian_Notes_Grid]
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                                        <tr>
+                        <td colspan="6">
+                            &nbsp;
+                        </td>
+                    </tr>
+                    <tr style="page-break-inside: avoid">
+                        <td colspan="6">
+                            <table width="100%">
+                                <tr style="page-break-inside: avoid">
+                                    <td style="font-size: 12px; font-family: Arial; font-weight: bold;" colspan="6" class="HeaderRow">
+                                        Sonic Notes
+                                    </td>
+                                </tr>
+                                <tr style="page-break-inside: avoid">
+                                    <td style="font-size: 12px; font-family: Arial; font-weight: bold; vertical-align:text-top;" width="18%">
+                                        Sonic Notes Grid
+                                    </td>
+                                    <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;" width="4%">
+                                        :
+                                    </td>    
+                                    <td colspan="4" style="font-size: 12px; font-family: Arial;">
+                                        <table width="100%" cellpadding="3" cellspacing="1">
+                                            <tr style="page-break-inside: avoid">
+                                                <td style="font-size: 12px; font-family: Arial;" colspan="6">
+                                                    [Sonic_Notes_Grid]
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">
+                            &nbsp;
+                        </td>
+                    </tr>
+                    <tr style="page-break-inside: avoid">
+                        <td colspan="6">
+                            <table width="100%">
+                                <tr style="page-break-inside: avoid">
+                                    <td style="font-size: 12px; font-family: Arial; font-weight: bold;" colspan="6" class="HeaderRow">
+                                        Sonic Notes
+                                    </td>
+                                </tr>
+                                <tr style="page-break-inside: avoid">
+                                    <td style="font-size: 12px; font-family: Arial; font-weight: bold; vertical-align:text-top;" width="18%">
+                                        Sonic Notes Grid
+                                    </td>
+                                    <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;" width="4%">
+                                        :
+                                    </td>    
+                                    <td colspan="4" style="font-size: 12px; font-family: Arial;">
+                                        <table width="100%" cellpadding="3" cellspacing="1">
+                                            <tr style="page-break-inside: avoid">
+                                                <td style="font-size: 12px; font-family: Arial;" colspan="6">
+                                                    [Sonic_Notes_Grid]
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>-->
+                    <tr>
+                        <td align="left" valign="top">
+                            <b>Images of Event : </b>
+                        </td>
+                        <td align="center" valign="top" colspan="5">
+                            &nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" align="center">
+                            <div style="width: 95%; border: 3px solid;">
+                                [Images_of_Event]
+                            </div>
+                        </td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
