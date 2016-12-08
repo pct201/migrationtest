@@ -100,13 +100,6 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="bin\Debug\ERIMS_Sonic_EmailScheduler.exe.config" />
-    <None Include="bin\Debug\ERIMS_Sonic_EmailScheduler.vshost.exe.config" />
-    <None Include="bin\Release\ERIMS_Sonic_EmailScheduler.exe.config" />
-    <None Include="bin\Release\ERIMS_Sonic_EmailScheduler.vshost.exe.config" />
-    <None Include="bin\Release\ERIMS_Sonic_EmailScheduler.vshost.exe.manifest" />
-    <None Include="bin\x86\Debug\ERIMS_Sonic_EmailScheduler.exe.config" />
-    <None Include="bin\x86\Debug\ERIMS_Sonic_EmailScheduler.vshost.exe.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -117,37 +110,7 @@
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="bin\Debug\ERIMS_Sonic_EmailScheduler.exe" />
-    <Content Include="bin\Debug\ERIMS_Sonic_EmailScheduler.pdb" />
-    <Content Include="bin\Debug\ERIMS_Sonic_EmailScheduler.vshost.exe" />
-    <Content Include="bin\Debug\Microsoft.Practices.EnterpriseLibrary.Common.dll" />
-    <Content Include="bin\Debug\Microsoft.Practices.EnterpriseLibrary.Data.dll" />
-    <Content Include="bin\Debug\Microsoft.Practices.ObjectBuilder.dll" />
-    <Content Include="bin\Debug\OpenPop.dll" />
-    <Content Include="bin\Release\ERIMS_Sonic_EmailScheduler.exe" />
-    <Content Include="bin\Release\ERIMS_Sonic_EmailScheduler.pdb" />
-    <Content Include="bin\Release\ERIMS_Sonic_EmailScheduler.vshost.exe" />
-    <Content Include="bin\Release\Microsoft.Practices.EnterpriseLibrary.Common.dll" />
-    <Content Include="bin\Release\Microsoft.Practices.EnterpriseLibrary.Data.dll" />
-    <Content Include="bin\Release\Microsoft.Practices.ObjectBuilder.dll" />
-    <Content Include="bin\Release\OpenPop.dll" />
-    <Content Include="bin\x86\Debug\ActiveUp.Net.Common.dll" />
-    <Content Include="bin\x86\Debug\ActiveUp.Net.Common.xml" />
-    <Content Include="bin\x86\Debug\ActiveUp.Net.Dns.dll" />
-    <Content Include="bin\x86\Debug\ActiveUp.Net.Dns.xml" />
-    <Content Include="bin\x86\Debug\ActiveUp.Net.Imap4.dll" />
-    <Content Include="bin\x86\Debug\ActiveUp.Net.Imap4.xml" />
-    <Content Include="bin\x86\Debug\ERIMS_Sonic_EmailScheduler.exe" />
-    <Content Include="bin\x86\Debug\ERIMS_Sonic_EmailScheduler.pdb" />
-    <Content Include="bin\x86\Debug\ERIMS_Sonic_EmailScheduler.vshost.exe" />
-    <Content Include="bin\x86\Debug\Microsoft.Practices.EnterpriseLibrary.Common.dll" />
-    <Content Include="bin\x86\Debug\Microsoft.Practices.EnterpriseLibrary.Data.dll" />
-    <Content Include="bin\x86\Debug\Microsoft.Practices.ObjectBuilder.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="bin\x86\Release\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
