@@ -54,6 +54,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ERIMS_Sonic_EmailScheduler"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "ERIMS_Sonic_EmailSchedulerSetup", "ERIMS_Sonic_EmailSchedulerSetup\ERIMS_Sonic_EmailSchedulerSetup.vdproj", "{DF84EE5B-FC4F-48AC-B06F-69233A4A72F1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Erims_ACI_ImportEvent_Mail", "Erims_ACI_ImportEvent_Mail\Erims_ACI_ImportEvent_Mail.csproj", "{762046F0-8F41-40D9-9868-1022C4C218A9}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "ERIMS_ACI_Import_Event__MailSetup", "ERIMS_ACI_Import_Event__MailSetup\ERIMS_ACI_Import_Event__MailSetup.vdproj", "{1117678D-6940-4F33-8A5C-69BB40FF7DF5}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -198,6 +202,34 @@ Global
 		{DF84EE5B-FC4F-48AC-B06F-69233A4A72F1}.Release|Mixed Platforms.Build.0 = Release
 		{DF84EE5B-FC4F-48AC-B06F-69233A4A72F1}.Release|x86.ActiveCfg = Release
 		{DF84EE5B-FC4F-48AC-B06F-69233A4A72F1}.Release|x86.Build.0 = Release
+		{762046F0-8F41-40D9-9868-1022C4C218A9}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{762046F0-8F41-40D9-9868-1022C4C218A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{762046F0-8F41-40D9-9868-1022C4C218A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{762046F0-8F41-40D9-9868-1022C4C218A9}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{762046F0-8F41-40D9-9868-1022C4C218A9}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{762046F0-8F41-40D9-9868-1022C4C218A9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{762046F0-8F41-40D9-9868-1022C4C218A9}.Release|.NET.ActiveCfg = Release|Any CPU
+		{762046F0-8F41-40D9-9868-1022C4C218A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{762046F0-8F41-40D9-9868-1022C4C218A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{762046F0-8F41-40D9-9868-1022C4C218A9}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{762046F0-8F41-40D9-9868-1022C4C218A9}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{762046F0-8F41-40D9-9868-1022C4C218A9}.Release|x86.ActiveCfg = Release|Any CPU
+		{1117678D-6940-4F33-8A5C-69BB40FF7DF5}.Debug|.NET.ActiveCfg = Debug
+		{1117678D-6940-4F33-8A5C-69BB40FF7DF5}.Debug|.NET.Build.0 = Debug
+		{1117678D-6940-4F33-8A5C-69BB40FF7DF5}.Debug|Any CPU.ActiveCfg = Debug
+		{1117678D-6940-4F33-8A5C-69BB40FF7DF5}.Debug|Any CPU.Build.0 = Debug
+		{1117678D-6940-4F33-8A5C-69BB40FF7DF5}.Debug|Mixed Platforms.ActiveCfg = Debug
+		{1117678D-6940-4F33-8A5C-69BB40FF7DF5}.Debug|Mixed Platforms.Build.0 = Debug
+		{1117678D-6940-4F33-8A5C-69BB40FF7DF5}.Debug|x86.ActiveCfg = Debug
+		{1117678D-6940-4F33-8A5C-69BB40FF7DF5}.Debug|x86.Build.0 = Debug
+		{1117678D-6940-4F33-8A5C-69BB40FF7DF5}.Release|.NET.ActiveCfg = Release
+		{1117678D-6940-4F33-8A5C-69BB40FF7DF5}.Release|.NET.Build.0 = Release
+		{1117678D-6940-4F33-8A5C-69BB40FF7DF5}.Release|Any CPU.ActiveCfg = Release
+		{1117678D-6940-4F33-8A5C-69BB40FF7DF5}.Release|Any CPU.Build.0 = Release
+		{1117678D-6940-4F33-8A5C-69BB40FF7DF5}.Release|Mixed Platforms.ActiveCfg = Release
+		{1117678D-6940-4F33-8A5C-69BB40FF7DF5}.Release|Mixed Platforms.Build.0 = Release
+		{1117678D-6940-4F33-8A5C-69BB40FF7DF5}.Release|x86.ActiveCfg = Release
+		{1117678D-6940-4F33-8A5C-69BB40FF7DF5}.Release|x86.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
