@@ -52,20 +52,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ActiveUp.Net.Common">
-      <HintPath>..\..\..\..\..\Downloads\ActiveUp.MailSystem_May2013_Binaries\Release\ActiveUp.Net.Common.dll</HintPath>
+      <HintPath>C:\Users\pci120\Desktop\bin\x86\Debug\ActiveUp.Net.Common.dll</HintPath>
     </Reference>
     <Reference Include="ActiveUp.Net.Imap4">
-      <HintPath>..\..\..\..\..\Downloads\ActiveUp.MailSystem_May2013_Binaries\Release\ActiveUp.Net.Imap4.dll</HintPath>
+      <HintPath>C:\Users\pci120\Desktop\bin\x86\Debug\ActiveUp.Net.Imap4.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=4.1.0.0, Culture=neutral, PublicKeyToken=e44a2bc38ed2c13c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\Downloads\Microsoft.Practices.EnterpriseLibrary.Common\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
+      <HintPath>C:\Users\pci120\Desktop\bin\x86\Debug\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.EnterpriseLibrary.Data">
-      <HintPath>..\..\..\..\..\Downloads\Microsoft.Practices.EnterpriseLibrary.Common\Microsoft.Practices.EnterpriseLibrary.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Practices.ObjectBuilder">
-      <HintPath>D:\Shared\ServerMailReader\Microsoft.Practices.ObjectBuilder.dll</HintPath>
+      <HintPath>C:\Users\pci120\Desktop\bin\x86\Debug\Microsoft.Practices.EnterpriseLibrary.Data.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />
