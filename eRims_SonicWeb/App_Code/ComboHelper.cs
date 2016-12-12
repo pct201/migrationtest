@@ -6653,6 +6653,29 @@ public class ComboHelper
     }
 
     /// <summary>
+    /// Fill Group Id
+    /// </summary>
+    /// <param name="dropDowns"></param>
+    /// <param name="booladdSelectAsFirstElement"></param>
+    public static void FillGroupID(DropDownList[] dropDowns, bool booladdSelectAsFirstElement)
+    {
+        DataSet dsData = clsGroups.SelectAll();
+        foreach (DropDownList ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "TITLE";
+            ddlToFill.DataValueField = "GROUPID";
+            ddlToFill.DataSource = dsData.Tables[0].DefaultView;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+    /// <summary>
     /// Used to bind Approval Submission dropdown of ACI Management screen
     /// </summary>
     /// <param name="dropDownList"></param>
