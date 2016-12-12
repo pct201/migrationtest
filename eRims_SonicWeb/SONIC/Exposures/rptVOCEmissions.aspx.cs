@@ -254,9 +254,11 @@ public partial class UserAccessRequest_rptVOCEmissions : clsBasePage
     private void BindDropdowns()
     {
         //ComboHelper.FillLocationDBA_All( new DropDownList[] { ddlLocation }, 0, true);
-        ComboHelper.FillLocationDBA_All(new ListBox[] { lstLocation }, 0, false);
+        //ComboHelper.FillLocationDBA_All(new ListBox[] { lstLocation }, 0, false);
+        ComboHelper.Fill_VOC_Location(new ListBox[] { lstLocation }, 0, false);
     }
 
+    
     private void FillVocReportRows(StringBuilder sbRecorords, string category, DataRow[] drVOCEmissions, bool isAllCategories)
     {
         decimal totalGallons = 0, totalVOC_Emissions = 0;

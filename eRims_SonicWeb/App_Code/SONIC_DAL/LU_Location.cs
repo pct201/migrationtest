@@ -953,6 +953,14 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
+        public static DataSet SelectVocDBA()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("LU_Location_SelectVocDBA");
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
 
         public static DataSet SelectSonicLocationDBA()
         {
