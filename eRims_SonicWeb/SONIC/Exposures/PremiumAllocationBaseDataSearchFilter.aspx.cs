@@ -8,10 +8,8 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
-
 using ERIMS.DAL;
-//using ERIMS_DAL;
-
+using ERIMS_DAL;
 
 public partial class SONIC_Exposures_PremiumAllocationBaseDataSearchFilter : clsBasePage
 {
