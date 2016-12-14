@@ -19,7 +19,6 @@
     <script type="text/javascript" language="javascript" src="../JavaScript/jquery.maskedinput.js"></script>
     <script type="text/javascript" language="javascript" src="../JavaScript/Date_Validation.js"></script>
     <script type="text/javascript" language="javascript" src="../JavaScript/GridViewScroll/gridviewScroll.min.js"></script>
-
     <script type="text/javascript">
         
         var GB_ROOT_DIR = '<%=AppConfig.SiteURL%>' + 'greybox/';
@@ -427,7 +426,6 @@
                 var bValid = false;
                 if (Page_ClientValidate("vsErrorGroup")) {
                     bValid = true;
-
                 }
                 if (bValid)
                     CallSave(id);
@@ -525,7 +523,7 @@
 
         function setIncidentReportSonic()
         {
-            alert('98647');
+            //alert('98647');
         }
 
         function setPolicecalledSonic()
@@ -544,6 +542,34 @@
             else
                 rdoSonicNo.checked = true;
             
+        }
+
+        var eventtypechecked = false;
+        function SetUniqueRadioButton(nameregex, current)
+        {
+            //Get the group name of checkBox
+            var re = nameregex;
+ 
+            //Looping through the all the control on the page
+            for(i = 0; i < document.forms[0].elements.length; i++)
+            {
+                //get the current control
+                elm = document.forms[0].elements[i]
+       
+                //check for the type(if it’s radio button then go inside the loop)
+                if (elm.type == 'radio')
+                {
+                    //if radiobutton belong to same Groupname
+                    if(re.match(elm.value))
+                    {
+                        //set selected to false for all
+                        elm.checked = false;
+                    }
+                }
+            }
+            //Set currently click Radio Button selected as true.
+            current.checked = true;
+            eventtypechecked = true;
         }
         
     </script>
@@ -704,17 +730,23 @@
                                                     </tr>
                                                     <tr>
                                                         <td align="left" valign="top" colspan="3">
-                                                            <asp:Repeater ID="rptEventType" runat="server" OnItemDataBound="rptEventType_ItemDataBound">
+                                                            <asp:RadioButtonList ID="rdoEventType" TabIndex="1" Width="100%" runat="server" Style="margin-left: 5px;"
+                                                                RepeatDirection="Vertical" RepeatColumns="1" RepeatLayout="Table" CssClass="radioButtonList">
+                                                            </asp:RadioButtonList>
+                                                            <asp:RequiredFieldValidator ID="rfvrdoEventType" runat="server" ControlToValidate="rdoEventType"
+                                                                    ErrorMessage="[ACI Reported Event] / Please Select Actionable Event Type" Display="None" SetFocusOnError="true"
+                                                                    ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                                                            <%--<asp:Repeater ID="rptEventType" runat="server" OnItemDataBound="rptEventType_ItemDataBound">
                                                                 <ItemTemplate>
                                                                     <table cellpadding="4" cellspacing="0" width="100%">
                                                                         <tr>
                                                                             <td width="100%" align="left" valign="top" colspan="2">
-                                                                                <asp:CheckBox ID="chkEventType" runat="server" />
+                                                                                <asp:RadioButton ID="chkEventType" runat="server" />
                                                                                 &nbsp;&nbsp;&nbsp;&nbsp;
                                                                                 <asp:Label ID="lblEventType" Text='<%#Eval("Fld_Desc") %>' runat="server"></asp:Label>
                                                                                 <asp:Label ID="lblPK_LU_Event_Type" Text='<%#Eval("PK_LU_Event_Type") %>' runat="server"
                                                                                     Style="display: none;"></asp:Label>
-                                                                            </td>
+                                                                            </td>--%>
                                                                             <%--<td width="18%" align="left" valign="top">
                                                                                 <asp:TextBox ID="txtEventDesciption" runat="server" MaxLength="100" Width="170px"></asp:TextBox>
                                                                             </td>
@@ -724,10 +756,10 @@
                                                                             <td width="28%" align="left" valign="top">
                                                                                 &nbsp;
                                                                             </td>--%>
-                                                                        </tr>
+                                                            <%--            </tr>
                                                                     </table>
                                                                 </ItemTemplate>
-                                                            </asp:Repeater>
+                                                            </asp:Repeater>--%>
                                                         </td>
                                                         <td colspan="3" valign="top">
                                                             <uc:ctrlMultiLineTextBox ID="txtEventDesciption" runat="server" Width="450" />
@@ -2157,17 +2189,23 @@
                                                     </tr>
                                                     <tr runat="server" id="trrptEventTypeSonic">
                                                         <td align="left" valign="top" colspan="3">
-                                                            <asp:Repeater ID="rptEventTypeSonic" runat="server" OnItemDataBound="rptEventTypeSonic_ItemDataBound">
+                                                            <asp:RadioButtonList ID="rdoEventTypeSonic" TabIndex="1" Width="100%" runat="server" Style="margin-left: 5px;"
+                                                                RepeatDirection="Vertical" RepeatColumns="1" RepeatLayout="Table" CssClass="radioButtonList">
+                                                            </asp:RadioButtonList>
+                                                            <asp:RequiredFieldValidator ID="rfvrdoEventTypeSonic" runat="server" ControlToValidate="rdoEventTypeSonic"
+                                                                    ErrorMessage="[Sonic Reported Event] / Please Select Actionable Event Type" Display="None" SetFocusOnError="true"
+                                                                    ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                                                           <%-- <asp:Repeater ID="rptEventTypeSonic" runat="server" OnItemDataBound="rptEventTypeSonic_ItemDataBound">
                                                                 <ItemTemplate>
                                                                     <table cellpadding="4" cellspacing="0" width="100%">
                                                                         <tr>
                                                                             <td width="100%" align="left" valign="top" colspan="2">
-                                                                                <asp:CheckBox ID="chkEventTypeSonic" runat="server" />
+                                                                                <asp:RadioButton ID="chkEventTypeSonic" runat="server" GroupName="grpEventTypeSonic" />
                                                                                 &nbsp;&nbsp;&nbsp;&nbsp;
                                                                                 <asp:Label ID="lblEventTypeSonic" Text='<%#Eval("Fld_Desc") %>' runat="server"></asp:Label>
                                                                                 <asp:Label ID="lblPK_LU_Event_TypeSonic" Text='<%#Eval("PK_LU_Event_Type") %>' runat="server"
                                                                                     Style="display: none;"></asp:Label>
-                                                                            </td>
+                                                                            </td>--%>
                                                                             <%--  <td width="18%" align="left" valign="top">
                                                                                 <asp:TextBox ID="txtEventDesciptionSonic" runat="server" MaxLength="100" Width="170px"></asp:TextBox>
                                                                             </td>
@@ -2177,10 +2215,11 @@
                                                                             <td width="28%" align="left" valign="top">
                                                                                 &nbsp;
                                                                             </td>--%>
-                                                                        </tr>
+                                                   <%--                     </tr>
                                                                     </table>
                                                                 </ItemTemplate>
-                                                            </asp:Repeater>
+                                                            </asp:Repeater>--%>
+                                                          
                                                         </td>
                                                         <td colspan="3" valign="top">
                                                             <uc:ctrlMultiLineTextBox ID="txtEventDesciptionSonic" runat="server" Width="450" />

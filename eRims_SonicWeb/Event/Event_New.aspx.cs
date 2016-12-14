@@ -993,33 +993,51 @@ public partial class Event_Event_New : clsBasePage
 
         if (PK_Event > 0)
         {
-            DataSet dsEventType = clsEvent_Link_LU_Event_Type.SelectByFK_Event(PK_Event);
+            //DataSet dsEventType = clsEvent_Link_LU_Event_Type.SelectByFK_Event(PK_Event);
+            DataSet dsEventType = clsEvent.LU_Event_TypeSelectByFK_Event(PK_Event);
 
             decimal eventLevelCodeOld = 0;
             decimal eventLevelCodeNew = 0;
+
             if (dsEventType.Tables.Count > 0 && dsEventType.Tables[0].Rows.Count > 0)
             {
-                foreach (DataRow drEvent_Type in dsEventType.Tables[0].Rows)
-                {
-                    foreach (RepeaterItem rptEvent in rptEventType.Items)
-                    {
-                        Label lblType = (Label)rptEvent.FindControl("lblPK_LU_Event_Type");
-                        if (!string.IsNullOrEmpty(lblType.Text) && lblType.Text == drEvent_Type["FK_LU_Event_Type"].ToString())
-                        {
-                            CheckBox chkEvent = (CheckBox)rptEvent.FindControl("chkEventType");
-                            chkEvent.Checked = true;
-                            eventLevelCodeNew = Convert.ToDecimal(drEvent_Type["EventLevel_Fld_Code"]);
+                if (!string.IsNullOrEmpty(Convert.ToString(dsEventType.Tables[0].Rows[0]["FK_LU_Event_Type"])))
+                    rdoEventType.SelectedValue = Convert.ToString(dsEventType.Tables[0].Rows[0]["FK_LU_Event_Type"]);
 
-                            if (eventLevelCodeNew > eventLevelCodeOld)
-                            {
-                                eventLevelCodeOld = eventLevelCodeNew;
-                            }
-                            //TextBox txtDesc = (TextBox)rptEvent.FindControl("txtEventDesciption");
-                            //txtDesc.Text = drEvent_Type["Description"].ToString();
-                        }
+                if (!string.IsNullOrEmpty(Convert.ToString(dsEventType.Tables[0].Rows[0]["EventLevel_Fld_Code"])))
+                {
+                    eventLevelCodeNew = Convert.ToDecimal(dsEventType.Tables[0].Rows[0]["EventLevel_Fld_Code"]);
+
+                    if (eventLevelCodeNew > eventLevelCodeOld)
+                    {
+                        eventLevelCodeOld = eventLevelCodeNew;
                     }
                 }
             }
+
+            //if (dsEventType.Tables.Count > 0 && dsEventType.Tables[0].Rows.Count > 0)
+            //{
+            //    foreach (DataRow drEvent_Type in dsEventType.Tables[0].Rows)
+            //    {
+            //        foreach (RepeaterItem rptEvent in rptEventType.Items)
+            //        {
+            //            Label lblType = (Label)rptEvent.FindControl("lblPK_LU_Event_Type");
+            //            if (!string.IsNullOrEmpty(lblType.Text) && lblType.Text == drEvent_Type["FK_LU_Event_Type"].ToString())
+            //            {
+            //                RadioButton chkEvent = (RadioButton)rptEvent.FindControl("chkEventType");
+            //                chkEvent.Checked = true;
+            //                eventLevelCodeNew = Convert.ToDecimal(drEvent_Type["EventLevel_Fld_Code"]);
+
+            //                if (eventLevelCodeNew > eventLevelCodeOld)
+            //                {
+            //                    eventLevelCodeOld = eventLevelCodeNew;
+            //                }
+            //                //TextBox txtDesc = (TextBox)rptEvent.FindControl("txtEventDesciption");
+            //                //txtDesc.Text = drEvent_Type["Description"].ToString();
+            //            }
+            //        }
+            //    }
+            //}
 
             clsGeneral.SetDropdownValue(ddlEvent_Level, eventLevelCodeOld, true);
             clsGeneral.SetDropdownValue(ddlEvent_Level_Sonic, eventLevelCodeOld, true);
@@ -1031,24 +1049,29 @@ public partial class Event_Event_New : clsBasePage
             BindReapterInvest_Images();
             BindBuilding_ACI();
 
-            if (dsEventType.Tables.Count > 0 && dsEventType.Tables[0].Rows.Count > 0)
-            {
-                foreach (DataRow drEvent_Type in dsEventType.Tables[0].Rows)
-                {
-                    foreach (RepeaterItem rptEvent in rptEventTypeSonic.Items)
-                    {
-                        Label lblType = (Label)rptEvent.FindControl("lblPK_LU_Event_TypeSonic");
-                        if (!string.IsNullOrEmpty(lblType.Text) && lblType.Text == drEvent_Type["FK_LU_Event_Type"].ToString())
-                        {
-                            CheckBox chkEvent = (CheckBox)rptEvent.FindControl("chkEventTypeSonic");
-                            chkEvent.Checked = true;
 
-                            //TextBox txtDesc = (TextBox)rptEvent.FindControl("txtEventDesciptionSonic");
-                            //txtDesc.Text = drEvent_Type["Description"].ToString();
-                        }
-                    }
-                }
-            }
+
+            //if (dsEventType.Tables.Count > 0 && dsEventType.Tables[0].Rows.Count > 0)
+            //{
+            //    foreach (DataRow drEvent_Type in dsEventType.Tables[0].Rows)
+            //    {
+            //        foreach (RepeaterItem rptEvent in rptEventTypeSonic.Items)
+            //        {
+            //            Label lblType = (Label)rptEvent.FindControl("lblPK_LU_Event_TypeSonic");
+            //            if (!string.IsNullOrEmpty(lblType.Text) && lblType.Text == drEvent_Type["FK_LU_Event_Type"].ToString())
+            //            {
+            //                RadioButton chkEvent = (RadioButton)rptEvent.FindControl("chkEventTypeSonic");
+            //                chkEvent.Checked = true;
+
+            //                //TextBox txtDesc = (TextBox)rptEvent.FindControl("txtEventDesciptionSonic");
+            //                //txtDesc.Text = drEvent_Type["Description"].ToString();
+            //            }
+            //        }
+            //    }
+            //}
+
+            if (objEvent.FK_LU_Event_Type != null)
+                rdoEventTypeSonic.SelectedValue = Convert.ToString(objEvent.FK_LU_Event_Type);
 
             txtEventDesciptionSonic.Text = txtEventDesciption.Text = objEvent.Event_Desc;
 
@@ -1114,6 +1137,19 @@ public partial class Event_Event_New : clsBasePage
                 objEvent.FK_LU_Location = Convert.ToDecimal(ddlLocation.SelectedValue);
 
             objEvent.Event_Desc = txtEventDesciption.Text.Trim();
+
+            //foreach (RepeaterItem rpt in rptEventType.Items)
+            //{
+            //    RadioButton chkEvent = (RadioButton)rpt.FindControl("chkEventType");
+            //    if (chkEvent.Checked)
+            //    {
+            //        Label lblType = (Label)rpt.FindControl("lblPK_LU_Event_Type");
+            //        if (!string.IsNullOrEmpty(lblType.Text))
+            //            objEvent.FK_LU_Event_Type = Convert.ToDecimal(lblType.Text);
+            //    }
+            //}
+            if (!string.IsNullOrEmpty(rdoEventType.SelectedValue))
+                objEvent.FK_LU_Event_Type = Convert.ToDecimal(rdoEventType.SelectedValue);
         }
         objEvent.Status = rdoStatus.SelectedValue;
         objEvent.Date_Closed = clsGeneral.FormatNullDateToStore(txtDate_Closed.Text);
@@ -1136,6 +1172,19 @@ public partial class Event_Event_New : clsBasePage
                 objEvent.FK_LU_Location = Convert.ToDecimal(ddlLocation_Sonic.SelectedValue);
 
             objEvent.Event_Desc = txtEventDesciptionSonic.Text.Trim();
+
+            //foreach (RepeaterItem rpt in rptEventTypeSonic.Items)
+            //{
+            //    RadioButton chkEvent = (RadioButton)rpt.FindControl("chkEventTypeSonic");
+            //    if (chkEvent.Checked)
+            //    {
+            //        Label lblType = (Label)rpt.FindControl("lblPK_LU_Event_TypeSonic");
+            //        if (!string.IsNullOrEmpty(lblType.Text))
+            //            objEvent.FK_LU_Event_Type = Convert.ToDecimal(lblType.Text);
+            //    }
+            //}
+            if (!string.IsNullOrEmpty(rdoEventTypeSonic.SelectedValue))
+                objEvent.FK_LU_Event_Type = Convert.ToDecimal(rdoEventTypeSonic.SelectedValue);
         }
 
         objEvent.Video_Requested_By_Sonic = rblVideoRequestedBySonic.SelectedValue;
@@ -1175,61 +1224,61 @@ public partial class Event_Event_New : clsBasePage
             ViewState["EmailAbsratact"] = PK_Event;
         }
 
-        #region "ACI Reported Event"
+        //#region "ACI Reported Event"
 
 
-        if (!Is_Sonic_Event)
-        {
-            clsEvent_Link_LU_Event_Type.DeleteByFK_Event(PK_Event);
+        //if (!Is_Sonic_Event)
+        //{
+        //    clsEvent_Link_LU_Event_Type.DeleteByFK_Event(PK_Event);
 
-            foreach (RepeaterItem rpt in rptEventType.Items)
-            {
-                CheckBox chkEvent = (CheckBox)rpt.FindControl("chkEventType");
-                if (chkEvent.Checked)
-                {
-                    clsEvent_Link_LU_Event_Type objEvent_Link_Event_Type = new clsEvent_Link_LU_Event_Type();
-                    objEvent_Link_Event_Type.FK_Event = PK_Event;
-                    Label lblType = (Label)rpt.FindControl("lblPK_LU_Event_Type");
-                    if (!string.IsNullOrEmpty(lblType.Text))
-                        objEvent_Link_Event_Type.FK_LU_Event_Type = Convert.ToDecimal(lblType.Text);
+        //    foreach (RepeaterItem rpt in rptEventType.Items)
+        //    {
+        //        RadioButton chkEvent = (RadioButton)rpt.FindControl("chkEventType");
+        //        if (chkEvent.Checked)
+        //        {
+        //            clsEvent_Link_LU_Event_Type objEvent_Link_Event_Type = new clsEvent_Link_LU_Event_Type();
+        //            objEvent_Link_Event_Type.FK_Event = PK_Event;
+        //            Label lblType = (Label)rpt.FindControl("lblPK_LU_Event_Type");
+        //            if (!string.IsNullOrEmpty(lblType.Text))
+        //                objEvent_Link_Event_Type.FK_LU_Event_Type = Convert.ToDecimal(lblType.Text);
 
-                    //TextBox txtDesc = (TextBox)rpt.FindControl("txtEventDesciption");
-                    //if (!string.IsNullOrEmpty(txtDesc.Text))
-                    //    objEvent_Link_Event_Type.Description = txtDesc.Text;
+        //            //TextBox txtDesc = (TextBox)rpt.FindControl("txtEventDesciption");
+        //            //if (!string.IsNullOrEmpty(txtDesc.Text))
+        //            //    objEvent_Link_Event_Type.Description = txtDesc.Text;
 
-                    objEvent_Link_Event_Type.Insert();
-                }
-            }
-        }
+        //            objEvent_Link_Event_Type.Insert();
+        //        }
+        //    }
+        //}
 
-        #endregion
+        //#endregion
 
-        #region "Sonic Reported Event"
+        //#region "Sonic Reported Event"
 
-        if (Is_Sonic_Event)
-        {
-            clsEvent_Link_LU_Event_Type.DeleteByFK_Event(PK_Event);
-            foreach (RepeaterItem rpt in rptEventTypeSonic.Items)
-            {
-                CheckBox chkEvent = (CheckBox)rpt.FindControl("chkEventTypeSonic");
-                if (chkEvent.Checked)
-                {
-                    clsEvent_Link_LU_Event_Type objEvent_Link_Event_Type = new clsEvent_Link_LU_Event_Type();
-                    objEvent_Link_Event_Type.FK_Event = PK_Event;
-                    Label lblType = (Label)rpt.FindControl("lblPK_LU_Event_TypeSonic");
-                    if (!string.IsNullOrEmpty(lblType.Text))
-                        objEvent_Link_Event_Type.FK_LU_Event_Type = Convert.ToDecimal(lblType.Text);
+        //if (Is_Sonic_Event)
+        //{
+        //    clsEvent_Link_LU_Event_Type.DeleteByFK_Event(PK_Event);
+        //    foreach (RepeaterItem rpt in rptEventTypeSonic.Items)
+        //    {
+        //        RadioButton chkEvent = (RadioButton)rpt.FindControl("chkEventTypeSonic");
+        //        if (chkEvent.Checked)
+        //        {
+        //            clsEvent_Link_LU_Event_Type objEvent_Link_Event_Type = new clsEvent_Link_LU_Event_Type();
+        //            objEvent_Link_Event_Type.FK_Event = PK_Event;
+        //            Label lblType = (Label)rpt.FindControl("lblPK_LU_Event_TypeSonic");
+        //            if (!string.IsNullOrEmpty(lblType.Text))
+        //                objEvent_Link_Event_Type.FK_LU_Event_Type = Convert.ToDecimal(lblType.Text);
 
-                    //TextBox txtDesc = (TextBox)rpt.FindControl("txtEventDesciptionSonic");
-                    //if (!string.IsNullOrEmpty(txtDesc.Text))
-                    //    objEvent_Link_Event_Type.Description = txtDesc.Text;
+        //            //TextBox txtDesc = (TextBox)rpt.FindControl("txtEventDesciptionSonic");
+        //            //if (!string.IsNullOrEmpty(txtDesc.Text))
+        //            //    objEvent_Link_Event_Type.Description = txtDesc.Text;
 
-                    objEvent_Link_Event_Type.Insert();
-                }
-            }
-        }
+        //            objEvent_Link_Event_Type.Insert();
+        //        }
+        //    }
+        //}
 
-        #endregion
+        //#endregion
     }
 
     /// <summary>
@@ -1441,8 +1490,12 @@ public partial class Event_Event_New : clsBasePage
         DataSet dsData = clsLU_Event_Type.SelectAll();
         dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y' AND Is_Actionable = 'Y' AND Fld_Desc <> 'FROI Event/Other'"; //#Issue 3422
 
-        rptEventType.DataSource = dsData.Tables[0].DefaultView.ToTable();
-        rptEventType.DataBind();
+        //rptEventType.DataSource = dsData.Tables[0].DefaultView.ToTable();
+        //rptEventType.DataBind();
+        rdoEventType.DataSource = dsData.Tables[0].DefaultView.ToTable();
+        rdoEventType.DataTextField = "Fld_Desc";
+        rdoEventType.DataValueField = "PK_LU_Event_Type";
+        rdoEventType.DataBind();
 
     }
 
@@ -1451,9 +1504,12 @@ public partial class Event_Event_New : clsBasePage
         DataSet dsData = clsLU_Event_Type.SelectAll();
         dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y' AND Is_Actionable = 'Y' AND Fld_Desc <> 'Voice Down' ";//#Issue 3190
 
-        rptEventTypeSonic.DataSource = dsData.Tables[0].DefaultView.ToTable();
-        rptEventTypeSonic.DataBind();
-
+        //rptEventTypeSonic.DataSource = dsData.Tables[0].DefaultView.ToTable();
+        //rptEventTypeSonic.DataBind();
+        rdoEventTypeSonic.DataSource = dsData.Tables[0].DefaultView.ToTable();
+        rdoEventTypeSonic.DataTextField = "Fld_Desc";
+        rdoEventTypeSonic.DataValueField = "PK_LU_Event_Type";
+        rdoEventTypeSonic.DataBind();
     }
 
     private void BindReapterInvest_Images()
@@ -1466,24 +1522,26 @@ public partial class Event_Event_New : clsBasePage
 
     private void ClearControl()
     {
-        foreach (RepeaterItem rptEvent in rptEventType.Items)
-        {
-            CheckBox chkEvent = (CheckBox)rptEvent.FindControl("chkEventType");
-            chkEvent.Checked = false;
+        //foreach (RepeaterItem rptEvent in rptEventType.Items)
+        //{
+        //    RadioButton chkEvent = (RadioButton)rptEvent.FindControl("chkEventType");
+        //    chkEvent.Checked = false;
 
-            //TextBox txtDesc = (TextBox)rptEvent.FindControl("txtEventDesciption");
-            //txtDesc.Text = string.Empty;
-        }
+        //    //TextBox txtDesc = (TextBox)rptEvent.FindControl("txtEventDesciption");
+        //    //txtDesc.Text = string.Empty;
+        //}
+        rdoEventType.ClearSelection();
 
 
-        foreach (RepeaterItem rptEvent in rptEventTypeSonic.Items)
-        {
-            CheckBox chkEvent = (CheckBox)rptEvent.FindControl("chkEventTypeSonic");
-            chkEvent.Checked = false;
+        //foreach (RepeaterItem rptEvent in rptEventTypeSonic.Items)
+        //{
+        //    RadioButton chkEvent = (RadioButton)rptEvent.FindControl("chkEventTypeSonic");
+        //    chkEvent.Checked = false;
 
-            //TextBox txtDesc = (TextBox)rptEvent.FindControl("txtEventDesciptionSonic");
-            //txtDesc.Text = string.Empty;
-        }
+        //    //TextBox txtDesc = (TextBox)rptEvent.FindControl("txtEventDesciptionSonic");
+        //    //txtDesc.Text = string.Empty;
+        //}
+        rdoEventTypeSonic.ClearSelection();
     }
 
     protected void rptEventType_ItemDataBound(object sender, RepeaterItemEventArgs e)
@@ -1492,6 +1550,9 @@ public partial class Event_Event_New : clsBasePage
         {
             //DropDownList drpNoteType = (DropDownList)e.Item.FindControl("drpNoteType");
             //ComboHelper.FillAdjNoteType(new DropDownList[] { drpNoteType }, true);
+            RadioButton rdo = (RadioButton)e.Item.FindControl("chkEventType");
+            string script = "SetUniqueRadioButton('chkEventType',this)";
+            rdo.Attributes.Add("onclick", script);
         }
     }
 
@@ -1575,6 +1636,9 @@ public partial class Event_Event_New : clsBasePage
         {
             //DropDownList drpNoteType = (DropDownList)e.Item.FindControl("drpNoteType");
             //ComboHelper.FillAdjNoteType(new DropDownList[] { drpNoteType }, true);
+            RadioButton rdo = (RadioButton)e.Item.FindControl("chkEventTypeSonic");
+            string script = "SetUniqueRadioButton('chkEventTypeSonic',this)";
+            rdo.Attributes.Add("onclick", script);
         }
     }
 
@@ -1585,14 +1649,16 @@ public partial class Event_Event_New : clsBasePage
         ddlLocation.Enabled = Is_Enable;
         txtACI_EventID.Enabled = Is_Enable;
         ddlEvent_Level.Enabled = Is_Enable;
-        foreach (RepeaterItem rpt in rptEventType.Items)
-        {
-            CheckBox chkEvent = (CheckBox)rpt.FindControl("chkEventType");
-            chkEvent.Enabled = Is_Enable;
+        //foreach (RepeaterItem rpt in rptEventType.Items)
+        //{
+        //    RadioButton chkEvent = (RadioButton)rpt.FindControl("chkEventType");
+        //    chkEvent.Enabled = Is_Enable;
 
-            //TextBox txtDesc = (TextBox)rpt.FindControl("txtEventDesciption");
-            //txtDesc.Enabled = Is_Enable;
-        }
+        //    //TextBox txtDesc = (TextBox)rpt.FindControl("txtEventDesciption");
+        //    //txtDesc.Enabled = Is_Enable;
+        //}
+        rdoEventType.Enabled = Is_Enable;
+        rfvrdoEventType.Enabled = Is_Enable;
         txtEventDesciption.Enable = Is_Enable;
         txtEvent_Start_Date.Enabled = Is_Enable;
         txtEvent_Start_Time.Enabled = Is_Enable;
@@ -1666,14 +1732,16 @@ public partial class Event_Event_New : clsBasePage
             txtSource_Of_Information.Enabled = false;
             ddlEvent_Level_Sonic.Enabled = false;
             lnkAddEvent_CameraNew_Sonic.Visible = false;
-            foreach (RepeaterItem rpt in rptEventTypeSonic.Items)
-            {
-                CheckBox chkEvent = (CheckBox)rpt.FindControl("chkEventTypeSonic");
-                chkEvent.Enabled = false;
+            //foreach (RepeaterItem rpt in rptEventTypeSonic.Items)
+            //{
+            //    RadioButton chkEvent = (RadioButton)rpt.FindControl("chkEventTypeSonic");
+            //    chkEvent.Enabled = false;
 
-                //TextBox txtDesc = (TextBox)rpt.FindControl("txtEventDesciptionSonic");
-                //txtDesc.Enabled = false;
-            }
+            //    //TextBox txtDesc = (TextBox)rpt.FindControl("txtEventDesciptionSonic");
+            //    //txtDesc.Enabled = false;
+            //}
+            rdoEventTypeSonic.Enabled = false;
+            rfvrdoEventTypeSonic.Enabled = false;
             //txtEventDesciptionSonic.Attributes.Add("class", "readOnlyTextBox");
             txtEventDesciptionSonic.Enable = false;
             rdoPolice_Called_Sonic.Enabled = false;
@@ -2646,5 +2714,4 @@ public partial class Event_Event_New : clsBasePage
         BindSonicNoteGrid(ctrlPageSonicNotes.CurrentPage, ctrlPageSonicNotes.PageSize);
     }
     #endregion
-
 }

@@ -2561,5 +2561,19 @@ namespace ERIMS.DAL
 
             return db.ExecuteDataSet(dbCommand);
         }
+
+        /// <summary>
+        /// Selects a single record from the LU_Event_Typet table by a FK_Event.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static DataSet LU_Event_TypeSelectByFK_Event(decimal FK_Event)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("LU_Event_TypeSelectByFK_Event");
+
+            db.AddInParameter(dbCommand, "FK_Event", DbType.Decimal, FK_Event);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
     }
 }

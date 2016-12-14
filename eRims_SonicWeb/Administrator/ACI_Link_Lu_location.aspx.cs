@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using ERIMS.DAL;
 
-public partial class Administrator_LU_Event_DBA : System.Web.UI.Page
+public partial class Administrator_ACI_Link_Lu_location : System.Web.UI.Page
 {
     #region "Properties"
 
@@ -58,10 +59,9 @@ public partial class Administrator_LU_Event_DBA : System.Web.UI.Page
         _PK_ID = 0;
         trStatusAdd.Style.Add("display", "block");
         lnkCancel.Style.Add("display", "inline");
-        txtDescription.Text = "";
-        txtCode.Text = "";
-        txtDBA.Text = string.Empty;
-        ((ScriptManager)this.Master.FindControl("scMain")).SetFocus(txtDescription);
+        txtGroup_ID.Text = "";
+        drpFK_LU_Location.SelectedIndex = 0;
+        ((ScriptManager)this.Master.FindControl("scMain")).SetFocus(drpFK_LU_Location);
     }
 
     /// <summary>
@@ -73,9 +73,8 @@ public partial class Administrator_LU_Event_DBA : System.Web.UI.Page
     {
         trStatusAdd.Style.Add("display", "none");
         lnkCancel.Style.Add("display", "none");
-        txtDescription.Text = "";
-        txtCode.Text = "";
-        txtDBA.Text = string.Empty;
+        txtGroup_ID.Text = "";
+        drpFK_LU_Location.SelectedIndex = 0;
     }
 
     /// <summary>
@@ -85,36 +84,35 @@ public partial class Administrator_LU_Event_DBA : System.Web.UI.Page
     /// <param name="e"></param>
     protected void btnAdd_Click(object sender, EventArgs e)
     {
-        LU_Location_Old objLu_Location = new LU_Location_Old();
-
+        clsACI_Link_LU_Location objLU_Location = new clsACI_Link_LU_Location();
+        
         decimal _retVal;
 
-        objLu_Location.PK_LU_Location = _PK_ID;
-        objLu_Location.Fld_Desc = txtDescription.Text.Trim();
-        objLu_Location.Fld_Code = txtCode.Text.Trim();
-        objLu_Location.dba = txtDBA.Text.Trim();
-        if (ddlGroupId.SelectedIndex > 0)
-            objLu_Location.Group_ID = Convert.ToDecimal(ddlGroupId.SelectedValue);
+        objLU_Location.PK_ACI_Link_LU_Location = _PK_ID;
+        if (txtGroup_ID.Text.Trim() != string.Empty)
+            objLU_Location.Group_ID = Convert.ToDecimal(txtGroup_ID.Text.Trim());
+        if (drpFK_LU_Location.SelectedIndex > 0)
+            objLU_Location.FK_LU_Location = Convert.ToDecimal(drpFK_LU_Location.SelectedValue);
 
         if (_PK_ID > 0)
         {
-            _retVal = objLu_Location.Update();
+            _retVal = objLU_Location.Update();
         }
         else
         {
-            _retVal = objLu_Location.Insert();
+            _retVal = objLU_Location.Insert();
         }
         if (_retVal < 0)
         {
             if (_retVal == -2)
             {
-                lblError.Text = "The Description you are trying to enter already exists";
-                ((ScriptManager)this.Master.FindControl("scMain")).SetFocus(txtDescription);
+                lblError.Text = "The Group ID you are trying to enter already exists";
+                ((ScriptManager)this.Master.FindControl("scMain")).SetFocus(txtGroup_ID);
             }
             else if (_retVal == -3)
             {
-                lblError.Text = "The Code you are trying to enter already exists";
-                ((ScriptManager)this.Master.FindControl("scMain")).SetFocus(txtCode);
+                lblError.Text = "The Location you are trying to enter already exists";
+                ((ScriptManager)this.Master.FindControl("scMain")).SetFocus(drpFK_LU_Location);
             }
             return;
         }
@@ -161,16 +159,12 @@ public partial class Administrator_LU_Event_DBA : System.Web.UI.Page
             btnAdd.Text = "Update";
             // get record from database
 
-            LU_Location_Old objLocation = new LU_Location_Old(_PK_ID);
+            clsACI_Link_LU_Location objLocation = new clsACI_Link_LU_Location(_PK_ID);
 
-            txtDescription.Text = Convert.ToString(objLocation.Fld_Desc);
-            txtCode.Text = Convert.ToString(objLocation.Fld_Code);
-            txtDBA.Text = Convert.ToString(objLocation.dba);
-            //if (objLocation.Group_ID != null) ddlGroupId.SelectedValue = Convert.ToString(objLocation.Group_ID);
-            clsGeneral.SetDropdownValue(ddlGroupId, objLocation.Group_ID, true);
+            txtGroup_ID.Text = Convert.ToString(objLocation.Group_ID);
+            clsGeneral.SetDropdownValue(drpFK_LU_Location, objLocation.FK_LU_Location, true);
 
-
-            ((ScriptManager)this.Master.FindControl("scMain")).SetFocus(txtDescription);
+            ((ScriptManager)this.Master.FindControl("scMain")).SetFocus(txtGroup_ID);
         }
     }
 
@@ -183,7 +177,7 @@ public partial class Administrator_LU_Event_DBA : System.Web.UI.Page
     /// </summary>
     private void BindDropDownList()
     {
-        ComboHelper.FillGroupID(new DropDownList[] { ddlGroupId }, true);
+        ComboHelper.FillLocationDBA_All(new DropDownList[] { drpFK_LU_Location }, 0, true);
     }
 
     /// <summary>
@@ -192,7 +186,7 @@ public partial class Administrator_LU_Event_DBA : System.Web.UI.Page
     private void BindGrid()
     {
         //Get Record into Grid
-        gvEvent_Description.DataSource = LU_Location_Old.SelectAll(1);
+        gvEvent_Description.DataSource = clsACI_Link_LU_Location.SelectAll();
         gvEvent_Description.DataBind();
     }
 
@@ -202,9 +196,8 @@ public partial class Administrator_LU_Event_DBA : System.Web.UI.Page
     {
         //clear control
         _PK_ID = 0;
-        txtDescription.Text = string.Empty;
-        txtCode.Text = txtDBA.Text = string.Empty;
-        ddlGroupId.SelectedIndex = 0;
+        txtGroup_ID.Text = string.Empty;
+        drpFK_LU_Location.SelectedIndex = 0;
     }
     #endregion
 }
