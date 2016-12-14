@@ -173,7 +173,10 @@
       <siteMapNode url="Administrator/AttachmentFolders.aspx" title ="Document Folder Maintenance" description="Document Folder Maintenance" roles=""/>
       <siteMapNode url="" title="Lookup Table Maintenance"  description="" roles="">
         <siteMapNode url="" title="ACI" description="">
+          <siteMapNode url="Administrator/LU_Event_Description.aspx" title="Event Description" description=""></siteMapNode>
+          <siteMapNode url="Administrator/LU_Event_DBA.aspx" title="Event Named DBA" description=""></siteMapNode>
           <siteMapNode url="Administrator/LU_Incident_Type.aspx" title="Event Type" description=""></siteMapNode>
+          <siteMapNode url="Administrator/ACI_Link_Lu_location.aspx" title="ADD Group ID" description=""></siteMapNode>
         </siteMapNode>
         <siteMapNode url="" title="Asset Protection" description="">
           <siteMapNode url="Administrator/LU_AM_Attachment_Type.aspx" title="Attachment Type" description=""></siteMapNode>
@@ -296,7 +299,8 @@
           <!--<siteMapNode url="Administrator/LU_Approval_Submission.aspx" title="Approval Submission" description="" roles=""></siteMapNode>-->
           <siteMapNode url="Administrator/LU_Record_Type.aspx" title ="Record Type" description="" roles="" />
           <siteMapNode url="Administrator/LU_Work_Completed.aspx" title ="Work Completed" description="" roles="" />
-         <siteMapNode url="Administrator/LU_Work_To_Be_Completed_By.aspx" title ="Work To Be Completed By" description="" roles="" />
+          <siteMapNode url="Administrator/LU_Work_To_Be_Completed_By.aspx" title ="Work To Be Completed By" description="" roles="" />
+          <siteMapNode url="Administrator/LU_Maintenance_Status.aspx" title="Maintenance Status" description="" roles=""></siteMapNode>
         </siteMapNode>
         <siteMapNode url="" title ="Policy" description="" roles="" >
           <siteMapNode url="Administrator/Policy_Type.aspx" title ="Policy Type" description="" roles="" />
