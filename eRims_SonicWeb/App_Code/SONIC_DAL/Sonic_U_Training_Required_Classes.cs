@@ -434,6 +434,21 @@ namespace ERIMS.DAL
         }
 
         /// <summary>
+        /// Selects a single record from the Employee table by a primary key.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public DataSet SelectByCode(string Code)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Sonic_U_Training_Required_ClassesSelectByCode");
+
+            db.AddInParameter(dbCommand, "Code", DbType.String, Code);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+
+        /// <summary>
         /// Import XML 
         /// </summary>
         /// <param name="xml"></param>

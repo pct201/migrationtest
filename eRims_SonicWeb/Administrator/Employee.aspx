@@ -201,13 +201,15 @@
                                 <asp:TextBox runat="server" ID="txtAddress_1" Width="170px" MaxLength="50"></asp:TextBox>
                             </td>
                             <td align="left">
-                                Social Security Number
+                                Social Security Number <span style="color: Red;">*</span>                            
                             </td>
                             <td align="center">
                                 :
                             </td>
                             <td align="left">
-                                <asp:TextBox runat="server" ID="txtSocial_Security_Number" Width="170px" MaxLength="9"></asp:TextBox>
+                                <asp:TextBox runat="server" ID="txtSocial_Security_Number" Width="170px" MaxLength="9"></asp:TextBox>                                
+                                <asp:RequiredFieldValidator ID="rfvSocial_Security_Number" runat="server" Display="None" ErrorMessage="Please Enter Social Security Number."
+                                    ControlToValidate="txtSocial_Security_Number" SetFocusOnError="true"></asp:RequiredFieldValidator>
                             </td>
                         </tr>
                         <tr>
@@ -231,7 +233,7 @@
                                 <asp:TextBox ID="txtDate_of_Hire" runat="server" Width="170px" SkinID="txtDate" MaxLength="10"></asp:TextBox>
                                 <img alt="Date of Hire" onclick="return showCalendar('<%= txtDate_of_Hire.ClientID %>', 'mm/dd/y');"
                                     onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
-                                    align="middle" id="img1" /><br />
+                                    align="middle" id="img1" /><br />                                  
                                 <asp:RegularExpressionValidator ID="rvtxtDate_of_Hire" runat="server" ControlToValidate="txtDate_of_Hire"
                                     ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$"
                                     ErrorMessage="Date of Hire is Not Valid Date." Display="none" SetFocusOnError="true">
@@ -349,13 +351,15 @@
                                     Display="None" ErrorMessage="Please Select Cost Center" InitialValue="0"></asp:RequiredFieldValidator>
                             </td>
                             <td align="left">
-                                Department
+                                Department <span style="color: Red;">*</span>
                             </td>
                             <td align="center">
                                 :
                             </td>
                             <td align="left">
                                 <asp:TextBox ID="txtDepartment" runat="server" Width="170px" MaxLength="50"></asp:TextBox>
+                                 <asp:RequiredFieldValidator ID="rfvDepartment" runat="server" ControlToValidate="txtDepartment"
+                                    Display="None" ErrorMessage="Please enter Department" InitialValue="0"></asp:RequiredFieldValidator>
                             </td>
                         </tr>
                         <tr>
@@ -550,7 +554,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>
+                            <%--<td>
                                 Bank Number
                             </td>
                             <td align="center">
@@ -559,9 +563,21 @@
                             <td>
                                 <asp:DropDownList ID="ddlBankNumber" runat="server" Width="170px" SkinID="ddlSONIC">
                                 </asp:DropDownList>
+                            </td>--%>
+                             <td>
+                                Job Code <span style="color: Red;">*</span>
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td>
+                                <asp:DropDownList ID="ddlJobCode" runat="server" Width="170px" SkinID="ddlSONIC">
+                                </asp:DropDownList>
+                                <asp:RequiredFieldValidator ID="rfvJobCode" runat="server" ControlToValidate="ddlJobCode"
+                                    Display="None" ErrorMessage="Please Select Job Code" InitialValue="0"></asp:RequiredFieldValidator>
                             </td>
                             <td align="left">
-                                Last Date of Hire
+                                Last Date of Hire<span style="color: Red;">*</span>
                             </td>
                             <td align="center">
                                 :
@@ -571,10 +587,13 @@
                                 <img alt="Last Date of Hire" onclick="return showCalendar('<%= txtLast_Date_Of_Hire.ClientID %>', 'mm/dd/y');"
                                     onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
                                     align="middle" id="img0" /><br />
+                                <asp:RequiredFieldValidator ID="rfvLastDateOfHire" runat="server" ControlToValidate="txtLast_Date_Of_Hire"
+                                    Display="None" ErrorMessage="Please select Last Date Of Hire" ></asp:RequiredFieldValidator>
                                 <asp:RegularExpressionValidator ID="rfvLast_Date_of_Hire" runat="server" ControlToValidate="txtLast_Date_Of_Hire"
                                     ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$"
                                     ErrorMessage="Last Date of Hire is Not Valid Date." Display="none" SetFocusOnError="true">
                                 </asp:RegularExpressionValidator>
+
                             </td>
                         </tr>
                         <tr>
@@ -998,13 +1017,13 @@
                         </tr>
                         <tr>
                             <td>
-                                Bank Number
+                                Job Code
                             </td>
                             <td align="center">
                                 :
                             </td>
                             <td>
-                                <asp:Label ID="lblBankNumber" runat="server"></asp:Label>
+                                <asp:Label ID="lblJobCode" runat="server"></asp:Label>
                             </td>
                             <td align="left">
                                 Last Date of Hire

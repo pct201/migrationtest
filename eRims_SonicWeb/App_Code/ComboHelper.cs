@@ -2458,6 +2458,31 @@ public class ComboHelper
     }
 
     /// <summary>
+    /// Fill Cost Center Drop Down
+    /// </summary>
+    /// <param name="dropDowns"></param>
+    /// <param name="booladdSelectAsFirstElement"></param>
+    public static void FillJobCode(DropDownList[] dropDowns, bool booladdSelectAsFirstElement)
+    {
+        DataTable dtData = ERIMS.DAL.Sonic_U_Training_Required_Classes.SelectAll().Tables[0];
+
+        foreach (DropDownList ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "JobDescription";
+            ddlToFill.DataValueField = "Code";
+            ddlToFill.DataSource = dtData;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+
+    /// <summary>
     /// Fill Claim Sub Status Drop Down
     /// </summary>
     /// <param name="dropDowns"></param>

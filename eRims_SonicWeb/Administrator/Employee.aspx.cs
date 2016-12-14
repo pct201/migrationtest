@@ -20,6 +20,12 @@ public partial class Administrator_Employee : clsBasePage
         set { ViewState["PK_Employee_ID"] = value; }
     }
 
+    /// <summary>
+    /// Denotes the Primary Key for Employee_Codes
+    /// </summary>
+    public string PK_Employee_Codes;
+    
+
     #endregion
 
     protected void Page_Load(object sender, EventArgs e)
@@ -113,9 +119,9 @@ public partial class Administrator_Employee : clsBasePage
         if (ddlJobClassification.SelectedIndex > 0)
             objEmployee.FK_Job_Classification = Convert.ToDecimal(ddlJobClassification.SelectedValue);
 
-        if (ddlBankNumber.SelectedIndex > 0)
-            objEmployee.FK_Bank_Number = Convert.ToDecimal(ddlBankNumber.SelectedValue);
-
+        //if (ddlBankNumber.SelectedIndex > 0)
+        //    objEmployee.FK_Bank_Number = Convert.ToDecimal(ddlBankNumber.SelectedValue);
+                
         if (!string.IsNullOrEmpty(txtDrivers_License_Expires.Text.Trim()))
             objEmployee.Drivers_License_Expires = Convert.ToDateTime(txtDrivers_License_Expires.Text);
 
@@ -164,11 +170,25 @@ public partial class Administrator_Employee : clsBasePage
         if (PK_Employee_ID > 0)
         {
             objEmployee.PK_Employee_ID = PK_Employee_ID;
-            objEmployee.Update();
+            objEmployee.Update();            
         }
         else
         {
             PK_Employee_ID = objEmployee.Insert();
+        }
+        Employee_Codes objEmployee_Codes = new Employee_Codes();
+        DataSet ds = Employee_Codes.SelectByEmployeeCodes(txtEmployeeID.Text);
+        if (ds.Tables[0].Rows.Count > 0)
+        {
+            objEmployee_Codes.Code = ddlJobCode.SelectedValue;
+            objEmployee_Codes.Employee_Id = txtEmployeeID.Text;
+            objEmployee_Codes.Update();
+        }
+        else
+        {
+            objEmployee_Codes.Code = ddlJobCode.SelectedValue;
+            objEmployee_Codes.Employee_Id = txtEmployeeID.Text;
+            objEmployee_Codes.Insert();
         }
 
         clsSession.Str_Employee_Operation = "view";
@@ -196,8 +216,9 @@ public partial class Administrator_Employee : clsBasePage
     {
         ComboHelper.FillMaritalStatus(new DropDownList[] { ddlMaritalStatus }, 0, true);
         ComboHelper.FillState(new DropDownList[] { ddlState }, 0, true);
-        ComboHelper.FillCostCenter(new DropDownList[] { ddlCostCenter }, true);
-        ComboHelper.FillBank_Detail(new DropDownList[] { ddlBankNumber }, true);
+        ComboHelper.FillCostCenter(new DropDownList[] { ddlCostCenter }, true);        
+        ComboHelper.FillJobCode(new DropDownList[] { ddlJobCode }, true);
+
 
         DataSet dsData = State.SelectAll();
         ddlDriver_License_state.DataValueField = "FLD_abbreviation";
@@ -260,8 +281,19 @@ public partial class Administrator_Employee : clsBasePage
         if (objEmployee.FK_Job_Classification != null)
             lblJobClassification.Text = new Job_Classification(Convert.ToDecimal(objEmployee.FK_Job_Classification)).Fld_Desc;
 
-        if (objEmployee.FK_Bank_Number != null)
-            lblBankNumber.Text = new Bank_Details(Convert.ToDecimal(objEmployee.FK_Bank_Number)).Fld_AccountNo;
+        //if (objEmployee.FK_Bank_Number != null)
+        //    lblBankNumber.Text = new Bank_Details(Convert.ToDecimal(objEmployee.FK_Bank_Number)).Fld_AccountNo;
+
+         DataSet ds = Employee_Codes.SelectByEmployeeCodes(objEmployee.Employee_Id);
+        if (ds.Tables[0].Rows.Count>0)        
+        {
+            PK_Employee_Codes = ds.Tables[0].Rows[0]["Code"].ToString();
+            Sonic_U_Training_Required_Classes objSonic_U_Training_Required_Classes=new Sonic_U_Training_Required_Classes();
+            ds = objSonic_U_Training_Required_Classes.SelectByCode(PK_Employee_Codes);
+            if (ds.Tables[0].Rows.Count > 0)
+                lblJobCode.Text = Convert.ToString(ds.Tables[0].Rows[0]["JobDescription"]);
+        }
+
 
         if (objEmployee.Number_Of_Dependents != null)
             lblNumber_of_Dependents.Text = string.Format("{0:N0}", objEmployee.Number_Of_Dependents);
@@ -432,8 +464,16 @@ public partial class Administrator_Employee : clsBasePage
         if (objEmployee.FK_Job_Classification != null)
             ddlJobClassification.SelectedValue = objEmployee.FK_Job_Classification.ToString();
 
-        if (objEmployee.FK_Bank_Number != null)
-            ddlBankNumber.SelectedValue = objEmployee.FK_Bank_Number.ToString();
+        //if (objEmployee.FK_Bank_Number != null)
+        //    ddlBankNumber.SelectedValue = objEmployee.FK_Bank_Number.ToString();
+
+        //Employee_Codes objEmployee_Codes = new Employee_Codes(objEmployee.Employee_Id);
+        DataSet ds = Employee_Codes.SelectByEmployeeCodes(objEmployee.Employee_Id);
+        if (ds.Tables[0].Rows.Count>0)
+        {
+            ddlJobCode.SelectedValue = ds.Tables[0].Rows[0]["Code"].ToString();
+            PK_Employee_Codes = ds.Tables[0].Rows[0]["Code"].ToString();
+        }
 
         if (objEmployee.Number_Of_Dependents != null)
             txtNumber_of_Dependents.Text = string.Format("{0:N0}", objEmployee.Number_Of_Dependents);
