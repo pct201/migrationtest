@@ -55,6 +55,7 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
         }
 
         ComboHelper.FillLocationByRLCM(new DropDownList[] { ddlLocation }, null, true, false);
+        Session["location"] = ddlLocation.SelectedValue;
     }
 
     /// <summary>
@@ -65,9 +66,9 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
         decimal? Associate = null;
         int year = 0, Qaurter = 0;
 
-        if (ddlQuarter.SelectedIndex > 0) Qaurter = Convert.ToInt32(ddlQuarter.SelectedValue);
+        if (ddlQuarter.SelectedIndex > 0) Session["Quater"] = Qaurter = Convert.ToInt32(ddlQuarter.SelectedValue);
         //if (ddlYear.SelectedIndex > 0)
-        year = Convert.ToInt32(ddlYear.SelectedValue);
+        Session["Year"] = year = Convert.ToInt32(ddlYear.SelectedValue);
         if (ddlAssociate.SelectedIndex > 0) Associate = Convert.ToDecimal(ddlAssociate.SelectedValue);
 
 
@@ -80,7 +81,7 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
 
         gvTraining.DataSource = dsSearchResult.Tables[0];
         gvTraining.DataBind();
-
+        Session["location"] = ddlLocation.SelectedValue;
         lblLocation.Text = ddlLocation.SelectedIndex > 0 ? ddlLocation.SelectedItem.Text : string.Empty;
         lblYear.Text = Convert.ToString(year);
         lblQuarter.Text = Convert.ToString(Qaurter);
@@ -146,7 +147,7 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
                     Label lblClass_Name = (Label)gvTrain.FindControl("lblClass_Name");
                     HiddenField hdnFK_Employee = (HiddenField)gvTrain.FindControl("hdnFK_Employee");
                     HiddenField hdnFK_LU_Location_ID = (HiddenField)gvTrain.FindControl("hdnFK_LU_Location_ID");
-                    
+
                     RadioButtonList rblIs_Complete = (RadioButtonList)gvTrain.FindControl("rblIs_Complete");
 
                     Sonic_U_Training.Manage_Training_Data_InsertUpdate(hdnEmployee_ID.Value, hdnCode.Value, year, Qaurter, Convert.ToDecimal(hdnFK_Employee.Value), lblClass_Name.Text, Convert.ToBoolean(Convert.ToInt16(rblIs_Complete.SelectedValue)), Convert.ToDecimal(hdnFK_LU_Location_ID.Value));
@@ -205,19 +206,74 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
             ddlAssociate.Items.Add(new ListItem("-- Select --", "0"));
         }
     }
+
+    /// <summary>
+    /// button Add click
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>n
+    protected void btnAdd_Click(object sender, EventArgs e)
+    {
+
+    }
     #endregion
 
     #region "Grid Event"
 
+    /// <summary>
+    /// Training grid Row data bound
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void gvTraining_RowDataBound(object sender, GridViewRowEventArgs e)
     {
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
             RadioButtonList rblIs_Complete = (RadioButtonList)e.Row.FindControl("rblIs_Complete");
             rblIs_Complete.SelectedValue = Convert.ToString(DataBinder.Eval(e.Row.DataItem, "Is_Complete"));
+            HiddenField hdnPK_Sonic_U_Associate_Training_Manual = (HiddenField)e.Row.FindControl("hdnPK_Sonic_U_Associate_Training_Manual");
+            LinkButton lnkEdit = (LinkButton)e.Row.FindControl("lknEdit");
+            LinkButton lnkDelete = (LinkButton)e.Row.FindControl("lnkDelete");
+
+            if (!string.IsNullOrEmpty(Convert.ToString(hdnPK_Sonic_U_Associate_Training_Manual.Value)))
+            {
+                //make edit and delete link visible for Manual entry data only
+                lnkEdit.Enabled = true;
+                lnkDelete.Enabled = true;
+            }
+            else
+            {
+                lnkEdit.Visible = false;
+                lnkDelete.Visible = false;
+            }
         }
     }
 
     #endregion
 
+    /// <summary>
+    /// Row Command
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gvTraining_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        if (e.CommandName == "EditRecord")
+        {
+            int PK_ID = Convert.ToInt32(e.CommandArgument.ToString());
+            ScriptManager.RegisterStartupScript(this, typeof(string), DateTime.Now.ToString(), "openPopUp('" + Encryption.Encrypt(Convert.ToString(PK_ID)) + "');", true);
+            BindSearchResult();
+        }
+        else if (e.CommandName == "Remove")
+        {
+            int PK_ID = Convert.ToInt32(e.CommandArgument.ToString());
+            Sonic_U_Associate_Training_Manual.DeleteByPK(PK_ID, Convert.ToDecimal(Session["location"]));
+            BindSearchResult();
+        }
+    }
+
+    protected void btnhdnReload_Click(object sender, EventArgs e)
+    {
+        BindSearchResult();
+    }
 }

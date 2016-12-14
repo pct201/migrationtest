@@ -2,6 +2,25 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <script type="text/javascript" src="../../JavaScript/jquery-1.10.2.min.js"></script>
+    <script language="javascript" type="text/javascript">
+
+        function openPopUp(pkID) {
+            var w = 500, h = 300;
+
+            if (document.all || document.layers) {
+                w = screen.availWidth;
+                h = screen.availHeight;
+            }
+            var leftPos, topPos;
+            var popW = 530, popH = 300;
+            if (document.all)
+            { leftPos = (w - popW) / 2; topPos = (h - popH) / 2; }
+            else
+            { leftPos = w / 2; topPos = h / 2; }
+
+            window.open("ManualUpdateTrainingPopup.aspx?id=" + pkID, "popup", "toolbar=no,menubar=no,scrollbars=yes,resizable=yes,width=" + popW + ",height=" + popH + ",top=" + topPos + ",left=" + leftPos);
+        }
+    </script>
     <div>
         <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
             HeaderText="Verify the following fields:" BorderWidth="1" BorderColor="DimGray"
@@ -88,7 +107,7 @@
                         <asp:DropDownList ID="ddlAssociate" runat="server" Width="180px" SkinID="ddlSONIC">
                             <asp:ListItem Selected="True" Text="-- Select --" Value="0"></asp:ListItem>
                         </asp:DropDownList>
-                       <%-- <asp:RequiredFieldValidator ID="rfvAssociate" Display="none" runat="server" ControlToValidate="ddlAssociate"
+                        <%-- <asp:RequiredFieldValidator ID="rfvAssociate" Display="none" runat="server" ControlToValidate="ddlAssociate"
                             ErrorMessage="Please Select Associate." Text="*" ValidationGroup="vsErrorGroup" InitialValue="0">
                         </asp:RequiredFieldValidator>--%>
                     </td>
@@ -165,7 +184,7 @@
                     <td align="center" valign="top">:
                     </td>
                     <td align="left" colspan="4" valign="top">
-                        <asp:GridView ID="gvTraining" runat="server" AutoGenerateColumns="false" Width="97%" EmptyDataText="No Record Found." OnRowDataBound="gvTraining_RowDataBound" BorderWidth="1px" GridLines="Both">
+                        <asp:GridView ID="gvTraining" runat="server" AutoGenerateColumns="false" Width="97%" EmptyDataText="No Record Found." OnRowDataBound="gvTraining_RowDataBound" BorderWidth="1px" GridLines="Both" OnRowCommand="gvTraining_RowCommand">
                             <Columns>
                                 <asp:TemplateField HeaderText="Associate Name" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
                                     <ItemStyle Width="30%" />
@@ -189,6 +208,14 @@
                                         <asp:RadioButtonList ID="rblIs_Complete" runat="server" SkinID="YesNoTypeNullSelection"></asp:RadioButtonList>
                                     </ItemTemplate>
                                 </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Disposition" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
+                                    <ItemStyle Width="20%" />
+                                    <ItemTemplate>
+                                        <asp:HiddenField ID="hdnPK_Sonic_U_Associate_Training_Manual" runat="server" Value='<%# Eval("PK_Sonic_U_Associate_Training_Manual")%>' />
+                                        <asp:LinkButton ID="lknEdit" runat="server" Text="Edit" CommandArgument='<%# Eval("PK_Sonic_U_Associate_Training_Manual")%>' CommandName="EditRecord"></asp:LinkButton>
+                                        <asp:LinkButton runat="server" ID="lnkDelete" Text="Delete" CommandName="Remove" OnClientClick="return confirm('Do you want to REMOVE the selected Manually Input Training from eRIMS2?');" CommandArgument='<%# Eval("PK_Sonic_U_Associate_Training_Manual")%>'></asp:LinkButton>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                             </Columns>
                         </asp:GridView>
                     </td>
@@ -202,9 +229,12 @@
                 </tr>
                 <tr>
                     <td align="center" style="padding-left: 35px" width="100%">
+                        <asp:Button ID="btnAdd" runat="server" Text="Add" ValidationGroup="vsErrorGroup" OnClick="btnAdd_Click" OnClientClick="return openPopUp(0);" />
+                        &nbsp;&nbsp;&nbsp;
                         <asp:Button ID="btnSave" runat="server" Text="Save" ValidationGroup="vsErrorGroup" OnClick="btnSave_Click" />
                         &nbsp;&nbsp;&nbsp;
                         <asp:Button ID="btnCancel" runat="server" Text="Cancel" ValidationGroup="vsErrorGroup" OnClick="btnCancel_Click" />
+                        <asp:Button ID="btnhdnReload" runat="server" OnClick="btnhdnReload_Click" Style="display: none;" />
                     </td>
                 </tr>
                 <tr>

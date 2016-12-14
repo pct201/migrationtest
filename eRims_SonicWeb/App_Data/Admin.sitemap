@@ -43,7 +43,7 @@
         <siteMapNode url="SONIC/Purchasing/PurchasingSearch.aspx" title="Search" description="" roles="" />
         <siteMapNode url="SONIC/Purchasing/ManageContacts.aspx" title="Manage Contacts" description="" roles="" />
       </siteMapNode>
-<!--change Reverted for sonic u training. ticket #3503-->
+      <!--change Reverted for sonic u training. ticket #3503-->
       <siteMapNode url="" title="Training" description="" roles="">
         <siteMapNode url="SONIC/Exposures/Manually_Update_Training.aspx" title="Manually Update Training Data"  description="" roles="" />
         <siteMapNode url="SONIC/Exposures/Learning_Program_Items_Report.aspx" title="Learning Program Items Report"  description="" roles="" />
@@ -349,6 +349,11 @@
         <siteMapNode title ="Sedgwick Claim File Review" description="" roles="">
           <siteMapNode url="Administrator\LU_Sedgwick_Evaluation.aspx" title ="RLCM Comments Evaluation Criteria" description="" roles="" />
           <siteMapNode url="Administrator\LU_Sedgwick_Scoring.aspx" title ="Scoring Notes" description="" roles="" />
+        </siteMapNode>
+        <siteMapNode
+          title="Sonic U Training" description="">
+          <siteMapNode url="Administrator/Sonic_U_Training.aspx" title ="Sonic U Training" description="" roles="" />
+          <siteMapNode url="Administrator/Sonic_U_Training_Classes.aspx" title ="Sonic U Training Classes" description="" roles="" />
         </siteMapNode>
         <siteMapNode title ="SLT Safety Walk" description="" roles="">
           <siteMapNode title ="SLT Focus Area" description="" roles="">

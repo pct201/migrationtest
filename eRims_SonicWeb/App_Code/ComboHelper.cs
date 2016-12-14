@@ -6751,4 +6751,39 @@ public class ComboHelper
             }
         }
     }
+
+    /// <summary>
+    /// Used to bind Class Name
+    /// </summary>
+    /// <param name="dropDownList"></param>
+    /// <param name="p"></param>
+    public static void FillClassName(DropDownList[] dropDownList, int intID, bool p)
+    {
+        DataSet dsData = Sonic_U_Training_Classes.SelectAll();
+        dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y'";
+        foreach (DropDownList ddlToFill in dropDownList)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Class_Name";
+            ddlToFill.DataValueField = "PK_Sonic_U_Training_Classes";
+            ddlToFill.DataSource = dsData.Tables[0].DefaultView;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (p)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+
+            //check id greater 0 than find the value in dropdown list. if find than select the item.
+            if (intID > 0)
+            {
+                ListItem lst = new ListItem();
+                lst = ddlToFill.Items.FindByValue(intID.ToString());
+                if (lst != null)
+                {
+                    lst.Selected = true;
+                }
+            }
+        }
+    }
 }
