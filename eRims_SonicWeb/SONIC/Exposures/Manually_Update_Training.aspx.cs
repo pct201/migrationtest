@@ -172,7 +172,7 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
                 {
                     Sonic_U_Training.Complete_Sonic_U_Training(year, Qaurter, Associate, strCode[j], is_AllTraining_Completed);
                 }
-            }
+            }            
 
             ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:alert('Data saved successfully.')", true);
         }
@@ -180,6 +180,7 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
         {
             ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:alert('No training data found.')", true);
         }
+        BindSearchResult();
     }
 
 

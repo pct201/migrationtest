@@ -164,7 +164,7 @@
                                         <td align="center">
                                             <asp:GridView ID="gvTrainingEdit" runat="server" Width="100%" AutoGenerateColumns="false"
                                                 PageSize="10" EnableViewState="true" AllowPaging="true" OnRowCommand="gvTraining_RowCommand"
-                                                OnPageIndexChanging="gvTraining_PageIndexChanging"  OnRowDataBound="gvTrainingEdit_RowDataBound">
+                                                OnPageIndexChanging="gvTrainingEdit_PageIndexChanging"  OnRowDataBound="gvTrainingEdit_RowDataBound">
                                                 <Columns>
                                                     <asp:TemplateField ItemStyle-Width="40px" HeaderText="Code" HeaderStyle-HorizontalAlign="Center">
                                                         <ItemTemplate>

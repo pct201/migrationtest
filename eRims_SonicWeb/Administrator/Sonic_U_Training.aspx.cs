@@ -78,11 +78,26 @@ public partial class Administrator_Sonic_U_Training_Required_Classes : clsBasePa
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
+    protected void gvTrainingEdit_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        gvTrainingEdit.PageIndex = e.NewPageIndex; //Page new index call
+        Sonic_U_Training_Required_Classes objSonic_U_Training = new Sonic_U_Training_Required_Classes();
+        //bind Grid 
+        gvTrainingEdit.DataSource = Sonic_U_Training_Required_Classes.SelectRecords();
+        gvTrainingEdit.DataBind();
+    }
+
+    /// <summary>
+    /// Page Index Change Event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void gvTraining_PageIndexChanging(object sender, GridViewPageEventArgs e)
     {
         gvTraining.PageIndex = e.NewPageIndex; //Page new index call
         BindGrid();
     }
+
 
     /// <summary>
     /// Row Command Event

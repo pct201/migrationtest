@@ -67,7 +67,7 @@
             <tr>
                 <td align="center" colspan="6">
                     <asp:Button ID="btnSave" runat="server" Text="Save" ValidationGroup="vsErrorGroup" CausesValidation="true" OnClick="btnSave_Click" />
-                    <asp:Button ID="btnCancel" runat="server" Text="Cancel" ValidationGroup="vsErrorGroup" CausesValidation="true" OnClientClick="closepopup();" OnClick="btnCancel_Click" />
+                    <asp:Button ID="btnCancel" runat="server" Text="Cancel" OnClientClick="closepopup();" OnClick="btnCancel_Click" />
                 </td>
             </tr>
             <tr>

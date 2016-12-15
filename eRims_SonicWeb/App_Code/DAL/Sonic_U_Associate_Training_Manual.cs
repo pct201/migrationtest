@@ -304,5 +304,28 @@ namespace ERIMS.DAL
 
 			db.ExecuteNonQuery(dbCommand);
 		}
+
+        /// <summary>
+        /// Selects all records from the Sonic_U_Associate_Training_Manual table.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static int Sonic_U_Associate_Training_ManualDuplicateRecord(decimal FK_Employee, decimal Year, decimal Quarter, decimal FK_Sonic_U_Training_Class, bool Completed, decimal FK_Location)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Sonic_U_Associate_Training_ManualDuplicateRecord");
+            db.AddInParameter(dbCommand, "FK_Employee", DbType.Decimal, FK_Employee);
+            db.AddInParameter(dbCommand, "Year", DbType.Decimal, Year);
+            db.AddInParameter(dbCommand, "Quarter", DbType.Decimal, Quarter);
+            db.AddInParameter(dbCommand, "FK_Sonic_U_Training_Class", DbType.Decimal, FK_Sonic_U_Training_Class);
+            db.AddInParameter(dbCommand, "Completed", DbType.Boolean, Completed);
+            db.AddInParameter(dbCommand, "FK_Location", DbType.Decimal, FK_Location);            
+
+            //return db.ExecuteDataSet(dbCommand);
+            // Execute the query and return the new identity value
+            int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
+
+            return returnValue;
+        }
+
 	}
 }

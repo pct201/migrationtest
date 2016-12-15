@@ -91,23 +91,30 @@ public partial class SONIC_Exposures_ManualUpdateTrainingPopup : clsBasePage
     /// <param name="e"></param>
     protected void btnSave_Click(object sender, EventArgs e)
     {
-        Sonic_U_Associate_Training_Manual objSonic_U_Training = new Sonic_U_Associate_Training_Manual();
-        objSonic_U_Training.Year = Convert.ToInt16(Session["Year"]);
-        objSonic_U_Training.Train_Quarter = Convert.ToInt16(Session["Quater"]);
-        objSonic_U_Training.Completed = false;
-        if (ddlAssociate.SelectedIndex > 0) objSonic_U_Training.FK_Employee = Convert.ToInt32(ddlAssociate.SelectedValue);
-        if (ddlClass.SelectedIndex > 0) objSonic_U_Training.FK_Sonic_U_Training_Class = Convert.ToInt32(ddlClass.SelectedValue);
-        objSonic_U_Training.Update_Date = DateTime.Now;
-        objSonic_U_Training.Updated_By = clsSession.UserID;
-        objSonic_U_Training.FK_Location = Convert.ToInt16(Session["location"]);
-        objSonic_U_Training.PK_Sonic_U_Associate_Training_Manual = PK_ID;
-
-        if(PK_ID >0)
-           objSonic_U_Training.Update();
+        if (Sonic_U_Associate_Training_Manual.Sonic_U_Associate_Training_ManualDuplicateRecord(Convert.ToInt32(ddlAssociate.SelectedValue), Convert.ToInt16(Session["Year"]), Convert.ToInt16(Session["Quater"]), Convert.ToInt32(ddlClass.SelectedValue), false, Convert.ToInt16(Session["location"])) != 0)
+        {
+            ScriptManager.RegisterStartupScript(this, Page.GetType(), DateTime.Now.ToString(), "javascript:alert('Record already exists');", true);
+        }
         else
-           objSonic_U_Training.Insert();
+        {
+            Sonic_U_Associate_Training_Manual objSonic_U_Training = new Sonic_U_Associate_Training_Manual();
+            objSonic_U_Training.Year = Convert.ToInt16(Session["Year"]);
+            objSonic_U_Training.Train_Quarter = Convert.ToInt16(Session["Quater"]);
+            objSonic_U_Training.Completed = false;
+            if (ddlAssociate.SelectedIndex > 0) objSonic_U_Training.FK_Employee = Convert.ToInt32(ddlAssociate.SelectedValue);
+            if (ddlClass.SelectedIndex > 0) objSonic_U_Training.FK_Sonic_U_Training_Class = Convert.ToInt32(ddlClass.SelectedValue);
+            objSonic_U_Training.Update_Date = DateTime.Now;
+            objSonic_U_Training.Updated_By = clsSession.UserID;
+            objSonic_U_Training.FK_Location = Convert.ToInt16(Session["location"]);
+            objSonic_U_Training.PK_Sonic_U_Associate_Training_Manual = PK_ID;
 
-        ScriptManager.RegisterStartupScript(this, typeof(string), DateTime.Now.ToString(), "closepopup();", true);
+            if (PK_ID > 0)
+                objSonic_U_Training.Update();
+            else
+                objSonic_U_Training.Insert();
+
+            ScriptManager.RegisterStartupScript(this, typeof(string), DateTime.Now.ToString(), "closepopup();", true);
+        }
     }
 
     #endregion
