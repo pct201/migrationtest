@@ -164,7 +164,7 @@
                                         <td align="center">
                                             <asp:GridView ID="gvTrainingEdit" runat="server" Width="100%" AutoGenerateColumns="false"
                                                 PageSize="10" EnableViewState="true" AllowPaging="true" OnRowCommand="gvTraining_RowCommand"
-                                                OnPageIndexChanging="gvTrainingEdit_PageIndexChanging"  OnRowDataBound="gvTrainingEdit_RowDataBound">
+                                                OnPageIndexChanging="gvTrainingEdit_PageIndexChanging" OnRowDataBound="gvTrainingEdit_RowDataBound">
                                                 <Columns>
                                                     <asp:TemplateField ItemStyle-Width="40px" HeaderText="Code" HeaderStyle-HorizontalAlign="Center">
                                                         <ItemTemplate>
@@ -177,7 +177,7 @@
                                                             <asp:Label ID="lblAssociate_Safety_Certification_Edit" runat="server" Text=' <%#Eval("Associate_Safety_Certification")%>' Visible="false"> </asp:Label>
                                                             <asp:DropDownList ID="drpAssociate_Safety_Certification" runat="server" Width="90px">
                                                                 <asp:ListItem Value="Annual">Annual</asp:ListItem>
-                                                               <asp:ListItem Value="Blank" Text=" "></asp:ListItem>
+                                                                <asp:ListItem Value="Blank" Text=" "></asp:ListItem>
                                                             </asp:DropDownList>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
@@ -216,7 +216,7 @@
                                                             <asp:DropDownList ID="drpPowered_Industrial_Trucks" runat="server">
                                                                 <asp:ListItem Value="Every Three Years">Every Three Years</asp:ListItem>
                                                                 <asp:ListItem Value="If / as needed">If / as needed</asp:ListItem>
-                                                               <asp:ListItem Value="Blank" Text=" "></asp:ListItem>
+                                                                <asp:ListItem Value="Blank" Text=" "></asp:ListItem>
                                                             </asp:DropDownList>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
@@ -279,6 +279,19 @@
                     </tr>
                 </tbody>
             </table>
+            <asp:UpdateProgress runat="server" ID="upProgress">
+                <ProgressTemplate>
+                    <div class="UpdatePanelloading" id="divProgress" style="width: 100%;">
+                        <table id="ProgressTable" cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: 100%;">
+                            <tr align="center" valign="middle">
+                                <td class="LoadingText" align="center" valign="middle">
+                                    <img src="../Images/indicator.gif" alt="Loading" />&nbsp;&nbsp;&nbsp;Please Wait..
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </ProgressTemplate>
+            </asp:UpdateProgress>
         </ContentTemplate>
     </asp:UpdatePanel>
 </asp:Content>
