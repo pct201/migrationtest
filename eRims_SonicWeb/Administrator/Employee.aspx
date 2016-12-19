@@ -62,7 +62,7 @@
                         </tr>
                         <tr valign="top">
                             <td>
-                                Employee ID <span style="color: Red;">*</span>
+                                Employee ID <%--<span style="color: Red;">*</span>--%>
                             </td>
                             <td align="center">
                                 :
@@ -70,8 +70,8 @@
                             <td>
                                 <asp:TextBox ID="txtEmployeeID" runat="server" MaxLength="50" Width="170px">
                                 </asp:TextBox>
-                                <asp:RequiredFieldValidator ID="rfvtxtEmployeeID" runat="server" Display="None" ErrorMessage="Please Enter Employee ID."
-                                    ControlToValidate="txtEmployeeID" SetFocusOnError="true"></asp:RequiredFieldValidator>
+                               <%-- <asp:RequiredFieldValidator ID="rfvtxtEmployeeID" runat="server" Display="None" ErrorMessage="Please Enter Employee ID."
+                                    ControlToValidate="txtEmployeeID" SetFocusOnError="true"></asp:RequiredFieldValidator>--%>
                             </td>
                         </tr>
                         <tr>
