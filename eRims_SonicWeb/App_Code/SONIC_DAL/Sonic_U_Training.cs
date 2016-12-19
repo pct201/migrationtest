@@ -36,7 +36,7 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static void Manage_Training_Data_InsertUpdate(string Employee_Id, string Code, int year, int quarter, decimal FK_Employee, string Class_Name, bool Completed, decimal? fk_LU_Location)
+        public static void Manage_Training_Data_InsertUpdate(string Employee_Id, string Code, int year, int quarter, decimal FK_Employee, string Class_Name, bool Completed, decimal? fk_LU_Location, decimal? PK_Sonic_U_Associate_Training_Manual)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("Manage_Training_Data_InsertUpdate");
@@ -48,6 +48,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Class_Name", DbType.String, Class_Name);
             db.AddInParameter(dbCommand, "Completed", DbType.Boolean, Completed);
             db.AddInParameter(dbCommand, "FK_LU_Location_ID", DbType.Decimal, fk_LU_Location);
+            db.AddInParameter(dbCommand, "PK_Sonic_U_Associate_Training_Manual", DbType.Decimal, PK_Sonic_U_Associate_Training_Manual);           
 
             dbCommand.CommandTimeout = 10000;
             db.ExecuteNonQuery(dbCommand);
@@ -181,5 +182,21 @@ namespace ERIMS.DAL
             dbCommand.CommandTimeout = 10000;
             return db.ExecuteDataSet(dbCommand);
         }
+
+        /// <summary>
+        ///Check for Admin or RLCM User
+        /// </summary>
+        /// <returns></returns>
+        public static int  CheckForAdminOrRLCMUser(int pk_Security_ID)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("CheckAdminORRLCMUser");
+
+            db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Int32, pk_Security_ID);
+
+            //dbCommand.CommandTimeout = 10000;
+            return Convert.ToInt16(db.ExecuteScalar(dbCommand));
+        }
+
     }
 }

@@ -72,19 +72,6 @@ namespace ERIMS_SonicUTrainingEmailScheduler
         }
 
         /// <summary>
-        /// Get the data for the Report
-        /// </summary>
-        /// <returns></returns>
-        public static DataSet GetReport()
-        {
-            SqlDatabase db = new SqlDatabase(strConn);
-            DbCommand dbCommand = db.GetStoredProcCommand("GetSystemAdministratorList");
-
-            dbCommand.CommandTimeout = 1000;
-            return db.ExecuteDataSet(dbCommand);
-        }
-
-        /// <summary>
         /// Selects a single record from the LU_Location table by a primary key.
         /// </summary>
         /// <returns>DataSet</returns>

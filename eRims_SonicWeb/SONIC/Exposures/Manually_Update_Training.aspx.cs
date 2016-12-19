@@ -147,10 +147,16 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
                     Label lblClass_Name = (Label)gvTrain.FindControl("lblClass_Name");
                     HiddenField hdnFK_Employee = (HiddenField)gvTrain.FindControl("hdnFK_Employee");
                     HiddenField hdnFK_LU_Location_ID = (HiddenField)gvTrain.FindControl("hdnFK_LU_Location_ID");
+                    HiddenField hdnPK_Sonic_U_Associate_Training_Manual = (HiddenField)gvTrain.FindControl("hdnPK_Sonic_U_Associate_Training_Manual");
+
+                    if (hdnPK_Sonic_U_Associate_Training_Manual.Value == "" || hdnPK_Sonic_U_Associate_Training_Manual.Value == null)
+                    {
+                        hdnPK_Sonic_U_Associate_Training_Manual.Value = "0";
+                    }
 
                     RadioButtonList rblIs_Complete = (RadioButtonList)gvTrain.FindControl("rblIs_Complete");
 
-                    Sonic_U_Training.Manage_Training_Data_InsertUpdate(hdnEmployee_ID.Value, hdnCode.Value, year, Qaurter, Convert.ToDecimal(hdnFK_Employee.Value), lblClass_Name.Text, Convert.ToBoolean(Convert.ToInt16(rblIs_Complete.SelectedValue)), Convert.ToDecimal(hdnFK_LU_Location_ID.Value));
+                    Sonic_U_Training.Manage_Training_Data_InsertUpdate(hdnEmployee_ID.Value, hdnCode.Value, year, Qaurter, Convert.ToDecimal(hdnFK_Employee.Value), lblClass_Name.Text, Convert.ToBoolean(Convert.ToInt16(rblIs_Complete.SelectedValue)), Convert.ToDecimal(hdnFK_LU_Location_ID.Value), Convert.ToDecimal(hdnPK_Sonic_U_Associate_Training_Manual.Value));
 
                     strCode[i] = hdnCode.Value;
                     ///Mark as completed in Sonic_U_Training_Associate_Training if all training is manually completed. 
@@ -172,7 +178,7 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
                 {
                     Sonic_U_Training.Complete_Sonic_U_Training(year, Qaurter, Associate, strCode[j], is_AllTraining_Completed);
                 }
-            }            
+            }
 
             ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:alert('Data saved successfully.')", true);
         }
@@ -239,8 +245,17 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
             if (!string.IsNullOrEmpty(Convert.ToString(hdnPK_Sonic_U_Associate_Training_Manual.Value)))
             {
                 //make edit and delete link visible for Manual entry data only
-                lnkEdit.Enabled = true;
-                lnkDelete.Enabled = true;
+                if (Sonic_U_Training.CheckForAdminOrRLCMUser(Convert.ToInt16(clsSession.UserID)) == -1)
+                {
+                    lnkEdit.Enabled = false;
+                    lnkDelete.Enabled = false;
+                    rblIs_Complete.Enabled = false;
+                }
+                else
+                {
+                    lnkEdit.Enabled = true;
+                    lnkDelete.Enabled = true;
+                }
             }
             else
             {

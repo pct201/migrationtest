@@ -25,7 +25,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="bandHeaderRow" align="left" colspan="4">Administrator :: Sonic U Training
+                        <td class="bandHeaderRow" align="left" colspan="4">Administrator :: Sonic U Training Required Classes
                         </td>
                     </tr>
                     <tr>
@@ -112,7 +112,7 @@
                                                             <asp:TextBox ID="txtStormwater_Pollution" runat="server" Text='<%# Eval("Stormwater_Pollution")%>'></asp:TextBox>
                                                         </EditItemTemplate>
                                                     </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="Edit">
+                                                    <asp:TemplateField>
                                                         <ItemTemplate>
                                                             <asp:LinkButton runat="server" ID="lnkEdit" Text="Edit" CommandName="EditRecord" CommandArgument='<%#Eval("PK_Sonic_U_Training") %>'></asp:LinkButton>
                                                         </ItemTemplate>
