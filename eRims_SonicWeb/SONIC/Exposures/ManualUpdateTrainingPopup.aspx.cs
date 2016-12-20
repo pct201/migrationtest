@@ -91,6 +91,8 @@ public partial class SONIC_Exposures_ManualUpdateTrainingPopup : clsBasePage
     /// <param name="e"></param>
     protected void btnSave_Click(object sender, EventArgs e)
     {
+        int Result=0;
+
         if (Sonic_U_Associate_Training_Manual.Sonic_U_Associate_Training_ManualDuplicateRecord(Convert.ToInt32(ddlAssociate.SelectedValue), Convert.ToInt16(Session["Year"]), Convert.ToInt16(Session["Quater"]), Convert.ToInt32(ddlClass.SelectedValue), false, Convert.ToInt16(Session["location"])) != 0)
         {
             ScriptManager.RegisterStartupScript(this, Page.GetType(), DateTime.Now.ToString(), "javascript:alert('Record already exists');", true);
@@ -109,11 +111,18 @@ public partial class SONIC_Exposures_ManualUpdateTrainingPopup : clsBasePage
             objSonic_U_Training.PK_Sonic_U_Associate_Training_Manual = PK_ID;
 
             if (PK_ID > 0)
-                objSonic_U_Training.Update();
+                Result = objSonic_U_Training.Update();
             else
-                objSonic_U_Training.Insert();
+                Result = objSonic_U_Training.Insert();
 
-            ScriptManager.RegisterStartupScript(this, typeof(string), DateTime.Now.ToString(), "closepopup();", true);
+            if(Result==1)
+            {
+                ScriptManager.RegisterStartupScript(this, typeof(string), DateTime.Now.ToString(), "closepopup();", true);
+            }
+            else
+            {
+                ScriptManager.RegisterStartupScript(this, typeof(string), DateTime.Now.ToString(), "javascript:alert('Automated Training already exists for Current Employee,Class,Year and Quarter');", true);
+            }
         }
     }
 

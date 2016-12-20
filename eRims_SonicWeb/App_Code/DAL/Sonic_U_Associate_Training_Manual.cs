@@ -261,7 +261,7 @@ namespace ERIMS.DAL
 		/// <summary>
 		/// Updates a record in the Sonic_U_Associate_Training_Manual table.
 		/// </summary>
-		public void Update()
+		public int Update()
 		{
 			Database db = DatabaseFactory.CreateDatabase();
 			DbCommand dbCommand = db.GetStoredProcCommand("Sonic_U_Associate_Training_ManualUpdate");
@@ -288,7 +288,10 @@ namespace ERIMS.DAL
 			
 			db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);
 
-			db.ExecuteNonQuery(dbCommand);
+            // Execute the query and return the new identity value
+            int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
+
+            return returnValue;
 		}
 
 		/// <summary>
