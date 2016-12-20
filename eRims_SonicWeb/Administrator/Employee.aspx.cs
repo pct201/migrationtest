@@ -176,19 +176,22 @@ public partial class Administrator_Employee : clsBasePage
         {
             PK_Employee_ID = objEmployee.Insert();
         }
-        Employee_Codes objEmployee_Codes = new Employee_Codes();
-        DataSet ds = Employee_Codes.SelectByEmployeeCodes(txtEmployeeID.Text);
-        if (ds.Tables[0].Rows.Count > 0)
+        if (txtEmployeeID.Text.Length > 0)
         {
-            objEmployee_Codes.Code = ddlJobCode.SelectedValue;
-            objEmployee_Codes.Employee_Id = txtEmployeeID.Text;
-            objEmployee_Codes.Update();
-        }
-        else
-        {
-            objEmployee_Codes.Code = ddlJobCode.SelectedValue;
-            objEmployee_Codes.Employee_Id = txtEmployeeID.Text;
-            objEmployee_Codes.Insert();
+            Employee_Codes objEmployee_Codes = new Employee_Codes();
+            DataSet ds = Employee_Codes.SelectByEmployeeCodes(txtEmployeeID.Text);
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                objEmployee_Codes.Code = ddlJobCode.SelectedValue;
+                objEmployee_Codes.Employee_Id = txtEmployeeID.Text;
+                objEmployee_Codes.Update();
+            }
+            else
+            {
+                objEmployee_Codes.Code = ddlJobCode.SelectedValue;
+                objEmployee_Codes.Employee_Id = txtEmployeeID.Text;
+                objEmployee_Codes.Insert();
+            }
         }
 
         clsSession.Str_Employee_Operation = "view";
