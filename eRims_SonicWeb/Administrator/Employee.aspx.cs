@@ -322,9 +322,9 @@ public partial class Administrator_Employee : clsBasePage
 
         if (objEmployee.Wages_YTD != null)
             lblWages_YTD.Text = string.Format("{0:N0}", objEmployee.Wages_YTD);
-
+                
         if (objEmployee.FK_Cost_Center != null)
-            lblCostCenter.Text = objEmployee.FK_Cost_Center.ToString();
+            lblCostCenter.Text = objEmployee.FK_Cost_Center.ToString().PadLeft(4, '0'); 
     }
 
     private void BindControlForEdit()
@@ -497,7 +497,7 @@ public partial class Administrator_Employee : clsBasePage
             txtWages_YTD.Text = string.Format("{0:N0}", objEmployee.Wages_YTD);
 
         if (objEmployee.FK_Cost_Center != null)
-            ddlCostCenter.SelectedValue = objEmployee.FK_Cost_Center.ToString();
+            ddlCostCenter.SelectedValue = objEmployee.FK_Cost_Center.ToString().PadLeft(4, '0');        
     }
 
     #endregion
