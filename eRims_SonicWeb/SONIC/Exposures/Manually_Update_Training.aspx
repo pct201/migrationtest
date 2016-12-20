@@ -21,15 +21,6 @@
             window.open("ManualUpdateTrainingPopup.aspx?id=" + pkID, "popup", "toolbar=no,menubar=no,scrollbars=yes,resizable=yes,width=" + popW + ",height=" + popH + ",top=" + topPos + ",left=" + leftPos);
         }
 
-        function EnableDisable()
-        {
-            if (document.getElementById("lnkDelete").disabled == true) { 
-                return false;
-            } else {
-                return confirm('Do you want to REMOVE the selected Manually Input Training from eRIMS2?');
-            }
-        }
-
     </script>
     <div>
         <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
@@ -223,7 +214,7 @@
                                     <ItemTemplate>
                                         <asp:HiddenField ID="hdnPK_Sonic_U_Associate_Training_Manual" runat="server" Value='<%# Eval("PK_Sonic_U_Associate_Training_Manual")%>' />
                                         <asp:LinkButton ID="lknEdit" runat="server" Text="Edit" CommandArgument='<%# Eval("PK_Sonic_U_Associate_Training_Manual")%>' CommandName="EditRecord"></asp:LinkButton>
-                                        <asp:LinkButton runat="server" ID="lnkDelete" Text="Delete" CommandName="Remove" OnClientClick="javascript:return EnableDisable();" CommandArgument='<%# Eval("PK_Sonic_U_Associate_Training_Manual")%>'></asp:LinkButton>
+                                        <asp:LinkButton runat="server" ID="lnkDelete" Text="Delete" CommandName="Remove" OnClientClick="javascript:return confirm('Do you want to REMOVE the selected Manually Input Training from eRIMS2?')" CommandArgument='<%# Eval("PK_Sonic_U_Associate_Training_Manual")%>'></asp:LinkButton>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>
