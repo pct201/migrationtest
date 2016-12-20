@@ -192,6 +192,14 @@ public partial class Administrator_Employee : clsBasePage
                 objEmployee_Codes.Employee_Id = txtEmployeeID.Text;
                 objEmployee_Codes.Insert();
             }
+            try
+            {
+                Sonic_U_Training.Import_Sonic_U_Training_Associate_Base();
+            }
+            catch (Exception)
+            {
+
+            }
         }
 
         clsSession.Str_Employee_Operation = "view";
