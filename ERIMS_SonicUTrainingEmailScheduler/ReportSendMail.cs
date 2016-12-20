@@ -7,7 +7,7 @@ using Microsoft.Practices.EnterpriseLibrary.Data.Sql;
 using Microsoft.Practices.EnterpriseLibrary.Common;
 using System.Data.Common;
 
-namespace ERIMS_SonicUTrainingEmailScheduler
+namespace ERIMS_SonicUTraining_EmailScheduler
 {
     class ReportSendMail
     {

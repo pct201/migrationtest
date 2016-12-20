@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ERIMS_SonicUTrainingEmailScheduler")]
+[assembly: AssemblyTitle("ERIMS_SonicUTraining_EmailScheduler")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ERIMS_SonicUTrainingEmailScheduler")]
+[assembly: AssemblyProduct("ERIMS_SonicUTraining_EmailScheduler")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

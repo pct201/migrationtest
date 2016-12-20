@@ -1,4 +1,4 @@
-﻿namespace ERIMS_SonicUTrainingEmailScheduler
+﻿namespace ERIMS_SonicUTraining_EmailScheduler
 {
     partial class ERIMS_SonicUTrainingEmailScheduler
     {
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             //components = new System.ComponentModel.Container();
-            this.ServiceName = "ERIMS_SonicUTrainingEmailScheduler";
+            this.ServiceName = "ERIMS_SonicUTraining_EmailScheduler";
         }
 
         #endregion

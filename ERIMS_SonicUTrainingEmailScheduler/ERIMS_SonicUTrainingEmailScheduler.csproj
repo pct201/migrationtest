@@ -58,7 +58,7 @@
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml" />
     <Reference Include="wnvhtmlconvert">
-      <HintPath>..\..\..\..\eRIMS_SONIC\eRims_SonicWeb\Bin\wnvhtmlconvert.dll</HintPath>
+      <HintPath>..\eRims_SonicWeb\Bin\wnvhtmlconvert.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -70,11 +70,22 @@
     </Compile>
     <Compile Include="ErrorLog.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="ProjectInstaller.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ProjectInstaller.Designer.cs">
+      <DependentUpon>ProjectInstaller.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReportSendMail.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ProjectInstaller.resx">
+      <DependentUpon>ProjectInstaller.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

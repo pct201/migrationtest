@@ -5,7 +5,7 @@ using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ERIMS_SonicUTrainingEmailScheduler
+namespace ERIMS_SonicUTraining_EmailScheduler
 {
     static class Program
     {
