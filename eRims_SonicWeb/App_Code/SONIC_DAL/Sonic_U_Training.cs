@@ -198,5 +198,14 @@ namespace ERIMS.DAL
             return Convert.ToInt16(db.ExecuteScalar(dbCommand));
         }
 
+        public static void Import_Sonic_U_Training_Associate_Base()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Import_Sonic_U_Training_Associate_Base");
+
+            dbCommand.CommandTimeout = 10000;
+            db.ExecuteScalar(dbCommand);
+        }
+
     }
 }
