@@ -54,7 +54,15 @@ public partial class SONIC_Exposures_ManualUpdateTrainingPopup : clsBasePage
     private void BindDropDownList()
     {
         //bind drop down for Associate
-        ComboHelper.FillEmployeeBY_Loc_Training(new DropDownList[] { ddlAssociate }, true, Convert.ToInt32(Session["location"]));
+        if (Session["PK_Employee_ID"] != null && Convert.ToDecimal(Session["PK_Employee_ID"]) > 0)
+        {
+            ComboHelper.FillEmployeeBY_Loc_Training(new DropDownList[] { ddlAssociate }, true, Convert.ToInt32(Session["location"]));
+            clsGeneral.SetDropdownValue(ddlAssociate, Convert.ToInt32(Session["PK_Employee_ID"]), true);
+        }
+        else
+        {
+            ComboHelper.FillEmployeeBY_Loc_Training(new DropDownList[] { ddlAssociate }, true, Convert.ToInt32(Session["location"]));
+        }
         //bind drop down Class Name
         ComboHelper.FillClassName(new DropDownList[] { ddlClass }, 0, true);
     }
@@ -82,6 +90,15 @@ public partial class SONIC_Exposures_ManualUpdateTrainingPopup : clsBasePage
     {
         ddlAssociate.SelectedIndex = 0;
         ddlClass.SelectedIndex = 0;
+
+        if (PK_ID > 0)
+        {
+            ScriptManager.RegisterStartupScript(this, typeof(string), DateTime.Now.ToString(), "closepopup('edit');", true);
+        }
+        else
+        {
+            ScriptManager.RegisterStartupScript(this, typeof(string), DateTime.Now.ToString(), "closepopup();", true);
+        }
     }
 
     /// <summary>
@@ -91,7 +108,7 @@ public partial class SONIC_Exposures_ManualUpdateTrainingPopup : clsBasePage
     /// <param name="e"></param>
     protected void btnSave_Click(object sender, EventArgs e)
     {
-        int Result=0;
+        int Result = 0;
 
         if (Sonic_U_Associate_Training_Manual.Sonic_U_Associate_Training_ManualDuplicateRecord(Convert.ToInt32(ddlAssociate.SelectedValue), Convert.ToInt16(Session["Year"]), Convert.ToInt16(Session["Quater"]), Convert.ToInt32(ddlClass.SelectedValue), false, Convert.ToInt16(Session["location"])) != 0)
         {
@@ -115,9 +132,16 @@ public partial class SONIC_Exposures_ManualUpdateTrainingPopup : clsBasePage
             else
                 Result = objSonic_U_Training.Insert();
 
-            if(Result==1)
+            if (Result == 1)
             {
-                ScriptManager.RegisterStartupScript(this, typeof(string), DateTime.Now.ToString(), "closepopup();", true);
+                if (PK_ID > 0)
+                {
+                    ScriptManager.RegisterStartupScript(this, typeof(string), DateTime.Now.ToString(), "closepopup('edit');", true);
+                }
+                else
+                {
+                    ScriptManager.RegisterStartupScript(this, typeof(string), DateTime.Now.ToString(), "closepopup();", true);
+                }
             }
             else
             {

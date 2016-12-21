@@ -69,8 +69,14 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
         if (ddlQuarter.SelectedIndex > 0) Session["Quater"] = Qaurter = Convert.ToInt32(ddlQuarter.SelectedValue);
         //if (ddlYear.SelectedIndex > 0)
         Session["Year"] = year = Convert.ToInt32(ddlYear.SelectedValue);
-        if (ddlAssociate.SelectedIndex > 0) Associate = Convert.ToDecimal(ddlAssociate.SelectedValue);
-
+        if (ddlAssociate.SelectedIndex > 0)
+        {
+            Session["PK_Employee_ID"] = Associate = Convert.ToDecimal(ddlAssociate.SelectedValue);
+        }
+        else
+        {
+            Session["PK_Employee_ID"] = null;
+        }
 
         DataSet dsSearchResult = Sonic_U_Training.Associate_Training_Search(Associate, year, Qaurter, Convert.ToDecimal(ddlLocation.SelectedValue));
 
@@ -221,7 +227,16 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
     /// <param name="e"></param>n
     protected void btnAdd_Click(object sender, EventArgs e)
     {
-
+        //BindSearchResult();
+        if (ddlAssociate.SelectedIndex > 0)
+        {
+            Session["PK_Employee_ID"] = Convert.ToDecimal(ddlAssociate.SelectedValue);
+        }
+        else
+        {
+            Session["PK_Employee_ID"] = null;
+        }
+        ScriptManager.RegisterStartupScript(this, typeof(string), DateTime.Now.ToString(), "openPopUp('" + 0 + "');", true);
     }
     #endregion
 
@@ -237,7 +252,7 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
             RadioButtonList rblIs_Complete = (RadioButtonList)e.Row.FindControl("rblIs_Complete");
-            rblIs_Complete.SelectedValue = Convert.ToString(DataBinder.Eval(e.Row.DataItem, "Is_Complete"));
+            rblIs_Complete.SelectedValue = (Convert.ToString(DataBinder.Eval(e.Row.DataItem, "Is_Complete")).ToLower()=="false") ? "0":"1";
             HiddenField hdnPK_Sonic_U_Associate_Training_Manual = (HiddenField)e.Row.FindControl("hdnPK_Sonic_U_Associate_Training_Manual");
             LinkButton lnkEdit = (LinkButton)e.Row.FindControl("lknEdit");
             LinkButton lnkDelete = (LinkButton)e.Row.FindControl("lnkDelete");
@@ -277,7 +292,7 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
         if (e.CommandName == "EditRecord")
         {
             int PK_ID = Convert.ToInt32(e.CommandArgument.ToString());
-            ScriptManager.RegisterStartupScript(this, typeof(string), DateTime.Now.ToString(), "openPopUp('" + Encryption.Encrypt(Convert.ToString(PK_ID)) + "');", true);
+            ScriptManager.RegisterStartupScript(this, typeof(string), DateTime.Now.ToString(), "openPopUp('" + Encryption.Encrypt(Convert.ToString(PK_ID)) + "','" + 0 + "');", true);
             BindSearchResult();
         }
         else if (e.CommandName == "Remove")

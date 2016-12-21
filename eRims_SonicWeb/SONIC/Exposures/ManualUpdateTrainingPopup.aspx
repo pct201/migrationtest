@@ -6,11 +6,16 @@
 </head>
 <script type="text/javascript">
 
-    function closepopup() {
+    function closepopup(mode) {
 
-        window.opener.document.getElementById('ctl00_ContentPlaceHolder1_btnhdnReload').click();
+        if (mode == 'edit')
+        {
+            window.opener.document.getElementById('ctl00_ContentPlaceHolder1_btnhdnReload').click();
+        }
+
         window.close();
     }
+
 </script>
 <body>
     <form id="form1" runat="server">
@@ -67,7 +72,7 @@
             <tr>
                 <td align="center" colspan="6">
                     <asp:Button ID="btnSave" runat="server" Text="Save" ValidationGroup="vsErrorGroup" CausesValidation="true" OnClick="btnSave_Click" />
-                    <asp:Button ID="btnCancel" runat="server" Text="Cancel" OnClientClick="closepopup();" OnClick="btnCancel_Click" />
+                    <asp:Button ID="btnCancel" runat="server" Text="Cancel" OnClick="btnCancel_Click" />
                 </td>
             </tr>
             <tr>

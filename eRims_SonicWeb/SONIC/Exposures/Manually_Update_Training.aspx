@@ -5,20 +5,40 @@
     <script language="javascript" type="text/javascript">
 
         function openPopUp(pkID) {
-            var w = 500, h = 300;
+            if (pkID == 0) {
+                if (Page_ClientValidate("vsErrorGroup")) {
+                    var w = 500, h = 300;
 
-            if (document.all || document.layers) {
-                w = screen.availWidth;
-                h = screen.availHeight;
+                    if (document.all || document.layers) {
+                        w = screen.availWidth;
+                        h = screen.availHeight;
+                    }
+                    var leftPos, topPos;
+                    var popW = 530, popH = 300;
+                    if (document.all)
+                    { leftPos = (w - popW) / 2; topPos = (h - popH) / 2; }
+                    else
+                    { leftPos = w / 2; topPos = h / 2; }
+
+                    window.open("ManualUpdateTrainingPopup.aspx?id=" + pkID, "popup", "toolbar=no,menubar=no,scrollbars=yes,resizable=yes,width=" + popW + ",height=" + popH + ",top=" + topPos + ",left=" + leftPos);
+                }
             }
-            var leftPos, topPos;
-            var popW = 530, popH = 300;
-            if (document.all)
-            { leftPos = (w - popW) / 2; topPos = (h - popH) / 2; }
-            else
-            { leftPos = w / 2; topPos = h / 2; }
+            else {
+                var w = 500, h = 300;
 
-            window.open("ManualUpdateTrainingPopup.aspx?id=" + pkID, "popup", "toolbar=no,menubar=no,scrollbars=yes,resizable=yes,width=" + popW + ",height=" + popH + ",top=" + topPos + ",left=" + leftPos);
+                if (document.all || document.layers) {
+                    w = screen.availWidth;
+                    h = screen.availHeight;
+                }
+                var leftPos, topPos;
+                var popW = 530, popH = 300;
+                if (document.all)
+                { leftPos = (w - popW) / 2; topPos = (h - popH) / 2; }
+                else
+                { leftPos = w / 2; topPos = h / 2; }
+
+                window.open("ManualUpdateTrainingPopup.aspx?id=" + pkID, "popup", "toolbar=no,menubar=no,scrollbars=yes,resizable=yes,width=" + popW + ",height=" + popH + ",top=" + topPos + ",left=" + leftPos);
+            }
         }
 
     </script>
@@ -53,7 +73,16 @@
             </table>
             <table border="0" cellpadding="2" cellspacing="2" width="80%">
                 <tr>
-
+                    <td colspan="6" align="left">
+                        <asp:Button ID="btnAdd" runat="server" Text="Add Training Courses for Associates" ValidationGroup="vsErrorGroup" CausesValidation="true" OnClick="btnAdd_Click"  />
+                        &nbsp;&nbsp;&nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td>&nbsp;
+                    </td>
+                </tr>
+                <tr>
                     <td align="left" class="lc">Year<span id="Span2" style="color: Red;" runat="server">*</span>
                     </td>
                     <td align="right" class="lc" valign="top">:
@@ -230,12 +259,12 @@
                 </tr>
                 <tr>
                     <td align="center" style="padding-left: 35px" width="100%">
-                        <asp:Button ID="btnAdd" runat="server" Text="Add" ValidationGroup="vsErrorGroup" OnClick="btnAdd_Click" OnClientClick="return openPopUp(0);" />
-                        &nbsp;&nbsp;&nbsp;
+                        <%--<asp:Button ID="btnAdd" runat="server" Text="Add" ValidationGroup="vsErrorGroup" OnClick="btnAdd_Click" OnClientClick="return openPopUp(0);" />
+                        &nbsp;&nbsp;&nbsp;--%>
                         <asp:Button ID="btnSave" runat="server" Text="Save" ValidationGroup="vsErrorGroup" OnClick="btnSave_Click" />
                         &nbsp;&nbsp;&nbsp;
                         <asp:Button ID="btnCancel" runat="server" Text="Cancel" ValidationGroup="vsErrorGroup" OnClick="btnCancel_Click" />
-                        <asp:Button ID="btnhdnReload" runat="server" OnClick="btnhdnReload_Click" Style="display: none;" />
+                         <asp:Button ID="btnhdnReload" runat="server" OnClick="btnhdnReload_Click" Style="display: none;" />
                     </td>
                 </tr>
                 <tr>
@@ -244,6 +273,5 @@
             </table>
         </asp:Panel>
     </div>
-
 </asp:Content>
 
