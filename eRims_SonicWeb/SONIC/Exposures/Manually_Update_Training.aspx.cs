@@ -212,6 +212,7 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
         if (ddlLocation.SelectedIndex > 0)
         {
             ComboHelper.FillEmployeeBY_Loc_Training(new DropDownList[] { ddlAssociate }, true, Convert.ToDecimal(ddlLocation.SelectedValue));
+            Session["location"] = ddlLocation.SelectedValue;
         }
         else
         {
