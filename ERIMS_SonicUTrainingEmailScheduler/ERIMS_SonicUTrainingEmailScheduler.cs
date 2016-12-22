@@ -60,7 +60,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
         #endregion
 
         public ERIMS_SonicUTrainingEmailScheduler()
-        {            
+        {
             InitializeComponent();
         }
 
@@ -69,6 +69,22 @@ namespace ERIMS_SonicUTraining_EmailScheduler
         /// </summary>
         /// <param name="args"></param>
         protected override void OnStart(string[] args)
+        {
+            ReadConfigSetting();
+            //Make event log entry to indicate starting of service
+            EventLog.WriteEntry("ERIMS Sonic U Training Email Scheduler Started at : " + DateTime.Now.ToString());
+            WriteLog("ERIMS Sonic U Training Email Scheduler Started", _strCsvPath, false);
+
+            //Create a thread for the function which send email
+            Thread TSendMail = default(Thread);
+            TSendMail = new System.Threading.Thread(SendReportAsAttachment);
+            //Start the thread
+            TSendMail.Start();
+            TSendMail.CurrentCulture = new System.Globalization.CultureInfo("en-US");
+
+        }
+
+        public void OnStartTest()
         {
             ReadConfigSetting();
             //Make event log entry to indicate starting of service
@@ -140,8 +156,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
         {
             try
             {
-                WriteLog("Reading config file",_strCsvPath,false);
-
+                WriteLog("Reading config file", _strCsvPath, false);
                 _strCsvPath = ConfigurationSettings.AppSettings.Get("CSVPath");
                 _strStartDate = ConfigurationSettings.AppSettings.Get("StartDate");
                 _strEndDate = ConfigurationSettings.AppSettings.Get("EndDate");
@@ -159,7 +174,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                 quarterDay = quarterDate.Day;
                 _strServiceRunTime = ConfigurationSettings.AppSettings.Get("ServiceRunTime");
             }
-            catch(Exception Ex)
+            catch (Exception Ex)
             {
                 WriteLog("Exception occurred while executing ReadConfigSetting() " + Ex.Message, _strCsvPath, false);
             }
@@ -172,8 +187,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
         /// </summary>
         public void SendReportAsAttachment()
         {
-            Thread.Sleep(1000);
-            //Thread.Sleep(3600000);
+            //Thread.Sleep(1000);            
             while (true)
             {
                 WriteLog("//////////////////////////////////Email Sending from SMTP server Starts Now ///////////////////////////////////////////////", _strCsvPath, false);
@@ -199,7 +213,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                         if (!string.IsNullOrEmpty(ConfigurationManager.ConnectionStrings[i].ConnectionString))
                         {
                             ReportSendMail.strConn = ConfigurationManager.ConnectionStrings[i].ConnectionString;
-                                                        
+
                             if ((quarterDay == 1) && (quarterMonth == 1 || quarterMonth == 4 || quarterMonth == 7 || quarterMonth == 10))
                             {
                                 //Send Email to the Employees having Training the the following Quarter
@@ -262,7 +276,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
 
                 //service start at 9:00 AM everyday
                 //get current date time and tomorrow date time with 9:00 am ::subtract that and get ms this is sleep time of thread
-                if (string.IsNullOrEmpty(_strEvent_Run_Time_Interval)) _strEvent_Run_Time_Interval = "09:00:00";
+                //if (string.IsNullOrEmpty(_strEvent_Run_Time_Interval)) _strEvent_Run_Time_Interval = "09:00:00";
 
                 DateTime dtNextDateTime = Convert.ToDateTime(DateTime.Now.AddDays(1).ToString("yyyy-MM-dd") + " " + _strServiceRunTime);
                 DateTime dtCurrentDateTime = DateTime.Now;
@@ -277,13 +291,6 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                     //dtSchduleDate = DateTime.Today;
                     flgSendEmail = true;
                 }
-
-                ////if date changes set schedule date to today's date(new schedule date)
-                //if (dtSchduleDate.Date < DateTime.Today.Date)
-                //{
-                //    dtSchduleDate = DateTime.Today;
-                //    flgSendEmail = true;
-                //}
             }
         }
 
@@ -318,7 +325,6 @@ namespace ERIMS_SonicUTraining_EmailScheduler
 
                 foreach (DataRow drLocationID in dtLocationIDs.Rows) //Location wise
                 {
-                    WriteLog("Location ID : " + drLocationID["PK_LU_Location_ID"], _strCsvPath, false);
                     sbRecorords.Clear();
                     try
                     {
@@ -329,38 +335,30 @@ namespace ERIMS_SonicUTraining_EmailScheduler
 
                             //WriteLog("Location ID : " + drLocationID["PK_LU_Location_ID"] + " Report Data Rows Count : " + dtLocationWiseData.Length, _strCsvPath, false);
                             sbRecorords.Append("<table style='padding-left:4px;font-size:8.5pt;font-family:Tahoma' cellpadding='4' cellspacing='0' Width='996px'>");
-                            sbRecorords.Append("<tr style='font-weight: bold;'><td align='left' style='font-size:9pt'  colspan='4'>Sonic U Training Report - Quarter " + ((quarterMonth - 1) / 3 + 1) + "</td></tr>");
-                            sbRecorords.Append("<tr style='font-weight: bold;'><td align='left' style='font-size:9pt'  colspan='4'>" + Convert.ToString(dtLocation.Rows[0]["Sonic_Location_Code"]) + " - " + Convert.ToString(dtLocation.Rows[0]["dba"]) + "</td></tr>");
-                            sbRecorords.Append("<tr style='font-weight: bold;'><td align='left' style='font-size:9pt'  colspan='4'>" + Convert.ToString(dtLocation.Rows[0]["City"]) + ", " + Convert.ToString(dtLocation.Rows[0]["StateName"]) + "</td></tr>");
-                            sbRecorords.Append("<tr style='font-weight: bold;'><td align='left' style='font-size:9pt'  colspan='4'>" + DateTime.Now.ToString("dd MMMM yyyy") + "</td></tr><tr>&nbsp;</tr>");
-                            sbRecorords.Append("<tr style='font-weight: bold;'><td><table border='1' cellspacing='0' cellpadding='0' style='border: black 0.5px solid'><tr style='font-weight: bold;background-color:#95B3D7;color:Black;font-size:11pt;height:25'>");
+                            sbRecorords.Append("<tr style='font-weight: bold;' valign='top'><td align='left' style='font-size:9pt' colspan='4'>Sonic U Remaining Training Report - Quarter " + ((quarterMonth - 1) / 3 + 1) + "</td></tr>");
+                            sbRecorords.Append("<tr style='font-weight: bold;' valign='top'><td align='left' style='font-size:9pt'  colspan='4'>" + Convert.ToString(dtLocation.Rows[0]["Sonic_Location_Code"]).PadLeft(4, '0') + " - " + Convert.ToString(dtLocation.Rows[0]["dba"]) + "</td></tr>");
+                            sbRecorords.Append("<tr style='font-weight: bold;' valign='top'><td align='left' style='font-size:9pt'  colspan='4'>" + Convert.ToString(dtLocation.Rows[0]["City"]) + ", " + Convert.ToString(dtLocation.Rows[0]["StateName"]) + "</td></tr>");
+                            sbRecorords.Append("<tr style='font-weight: bold;' valign='top'><td align='left' style='font-size:9pt'  colspan='4'>" + DateTime.Now.ToString("dd MMMM yyyy") + "</td></tr><tr>&nbsp;</tr>");
+                            sbRecorords.Append("<tr style='font-weight: bold;' valign='top'><td><table border='1' cellspacing='0' cellpadding='0' style='border: black 0.5px solid'><tr style='font-weight: bold;background-color:#95B3D7;color:Black;font-size:11pt;height:25'  valign='top'>");
                             sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt'>Department</td>");
                             sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt'>Associate</td>");
                             sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt'>Job Title</td>");
                             sbRecorords.Append("<td align='left' style='width=55%;font-size:9pt'>Remaining Training to be Taken</td></tr>");
 
-                            string str = string.Empty;
-
-
-                            //DataView dv = new DataView(dtReportData);
-                            //DataTable distinctValues = dv.ToTable(true, "Department");
-
-                            //DataRow[] dtTrainingData = dtReportData.Select("PK_LU_Location_ID ='" + drLocationID["PK_LU_Location_ID"].ToString() + "' AND Department='" + dtDept.Rows[i]["Department"].ToString() + "' AND Associate_Name='" + dtDistinctData.Rows[i]["Associate_Name"].ToString() + "' AND Job_Title='" + dtDistinctData.Rows[i]["Job_Title"].ToString() + "'");
-
                             DataTable dtLocationData = dtReportData.Select("PK_LU_Location_ID ='" + drLocationID["PK_LU_Location_ID"].ToString() + "'").CopyToDataTable<DataRow>();
                             dtUniqueDept = dtLocationData.AsDataView().ToTable(true, "Department");
+                            string str = "bgcolor=white";
+
                             for (int i = 0; i < dtUniqueDept.Rows.Count; i++) //Fetches unique departments for the current Location
                             {
-                                //sbRecorords.ToString().s
-                                if (i % 2 != 0)
-                                    str = "bgcolor=#eaeaea";
-                                else
-                                    str = "bgcolor=white";
-
                                 if (strPrevDept != "#" && strPrevDept != dtUniqueDept.Rows[i]["Department"].ToString())
-                                    sbRecorords.Append("<tr "+str +"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td align='left' style='width:55%;font-size:9pt'>&nbsp;</td></tr>");
+                                {
+                                    str = (str == "bgcolor=white") ? "bgcolor=#eaeaea" : "bgcolor=white";
+                                    sbRecorords.Append("<tr " + str + "><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td align='left' style='width:55%;font-size:9pt'>&nbsp;</td></tr>");
+                                }
 
-                                sbRecorords.Append("<tr align='left' style='width=15%;font-size:8.5pt' " + str + ">");
+                                str = (str == "bgcolor=white") ? "bgcolor=#eaeaea" : "bgcolor=white";
+                                sbRecorords.Append("<tr align='left' valign='top' style='width=15%;font-size:8.5pt' " + str + ">");
                                 sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt'>" + Convert.ToString(dtUniqueDept.Rows[i]["Department"]) + "</td>");
 
                                 //Fetch Data for current department and current location
@@ -370,33 +368,48 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                                 for (int j = 0; j < dtUniqueAssocName.Rows.Count; j++) //Fetches unique associates for the current Location and department
                                 {
                                     if (strPrevAssoName != "#" && strPrevAssoName != dtUniqueAssocName.Rows[j]["Associate_Name"].ToString()) //Add Blank row
-                                        sbRecorords.Append("<tr " + str + "><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td align='left' style='width:55%;font-size:9pt'>&nbsp;</td></tr>");
-
+                                    {
+                                        str = (str == "bgcolor=white") ? "bgcolor=#eaeaea" : "bgcolor=white";
+                                        sbRecorords.Append("<tr " + str + " valign='top' ><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td align='left' style='width:55%;font-size:9pt'>&nbsp;</td></tr>");
+                                    }
                                     if (j == 0)
                                         sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt'>" + Convert.ToString(dtUniqueAssocName.Rows[j]["Associate_Name"]) + "</td>");
                                     else
-                                        sbRecorords.Append("<tr " + str + "><td>&nbsp;</td><td align='left' style='width:55%;font-size:9pt'>" + Convert.ToString(dtUniqueAssocName.Rows[j]["Associate_Name"]) + "</td>");
+                                    {
+                                        str = (str == "bgcolor=white") ? "bgcolor=#eaeaea" : "bgcolor=white";
+                                        sbRecorords.Append("<tr " + str + " valign='top' ><td>&nbsp;</td><td align='left' style='width:55%;font-size:9pt'>" + Convert.ToString(dtUniqueAssocName.Rows[j]["Associate_Name"]) + "</td>");
+                                    }
 
                                     //Fetch Data for current Associate_Name and current location and department
-                                    dtRptDataForCurLocAndDeptAndAssocName = dtRptDataForCurLocAndDept.Select("Associate_Name='" + dtUniqueAssocName.Rows[j]["Associate_Name"].ToString() + "'").CopyToDataTable<DataRow>();
+                                    dtRptDataForCurLocAndDeptAndAssocName = dtRptDataForCurLocAndDept.Select("Associate_Name='" + dtUniqueAssocName.Rows[j]["Associate_Name"].ToString().Replace("'", "''") + "'").CopyToDataTable<DataRow>();
                                     dtUniqueJobTitle = dtRptDataForCurLocAndDeptAndAssocName.AsDataView().ToTable(true, "Job_Title");
                                     for (int k = 0; k < dtUniqueJobTitle.Rows.Count; k++) //Fetches unique associates for the current Location and department
                                     {
                                         if (strPrevJobTitle != "#" && strPrevJobTitle != dtUniqueJobTitle.Rows[k]["Job_Title"].ToString()) //Add Blank row
-                                            sbRecorords.Append("<tr " + str + "><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td align='left' style='width:55%;font-size:9pt'>&nbsp;</td></tr>");
+                                        {
+                                            str = (str == "bgcolor=white") ? "bgcolor=#eaeaea" : "bgcolor=white";
+                                            sbRecorords.Append("<tr " + str + " valign='top'><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td align='left' style='width:55%;font-size:9pt'>&nbsp;</td></tr>");
+                                        }
 
                                         if (k == 0)
                                             sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt'>" + Convert.ToString(dtUniqueJobTitle.Rows[k]["Job_Title"]) + "</td>");
                                         else
-                                            sbRecorords.Append("<tr " + str + "><td>&nbsp;</td><td>&nbsp;</td><td align='left' style='width:55%;font-size:9pt'>" + Convert.ToString(dtUniqueJobTitle.Rows[k]["Job_Title"]) + "</td>");
+                                        {
+                                            str = (str == "bgcolor=white") ? "bgcolor=#eaeaea" : "bgcolor=white";
+                                            sbRecorords.Append("<tr " + str + " valign='top'><td>&nbsp;</td><td>&nbsp;</td><td align='left' style='width:55%;font-size:9pt'>" + Convert.ToString(dtUniqueJobTitle.Rows[k]["Job_Title"]) + "</td>");
+                                        }
                                         //Fetches data for current location,Department,Associate_Name,Job title
                                         dtRptDataForClass = dtRptDataForCurLocAndDeptAndAssocName.Select("Job_Title='" + dtUniqueJobTitle.Rows[k]["Job_Title"].ToString() + "'").CopyToDataTable<DataRow>();
                                         for (int m = 0; m < dtRptDataForClass.Rows.Count; m++)
                                         {
+                                            WriteLog("Location ID : " + drLocationID["PK_LU_Location_ID"] + " Department : " + dtUniqueDept.Rows[i]["Department"].ToString() + " Associate_Name : " + dtUniqueAssocName.Rows[j]["Associate_Name"].ToString() + " Job_Title : " + dtUniqueJobTitle.Rows[k]["Job_Title"].ToString(), _strCsvPath, false);
                                             if (m == 0)
                                                 sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt'>" + Convert.ToString(dtRptDataForClass.Rows[m]["Class_Name"]) + "</td></tr>");
                                             else
-                                                sbRecorords.Append("<tr " + str + "><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td align='left' style='width:55%;font-size:9pt'>" + Convert.ToString(dtRptDataForClass.Rows[m]["Class_Name"]) + "</td></tr>");
+                                            {
+                                                str = (str == "bgcolor=white") ? "bgcolor=#eaeaea" : "bgcolor=white";
+                                                sbRecorords.Append("<tr " + str + " valign='top'><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td align='left' style='width:55%;font-size:9pt'>" + Convert.ToString(dtRptDataForClass.Rows[m]["Class_Name"]) + "</td></tr>");
+                                            }
                                         }
                                         //sbRecorords.Append("<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td align='left' style='width:55%;font-size:9pt'>&nbsp;</td></tr>");
                                         strPrevJobTitle = dtUniqueJobTitle.Rows[k]["Job_Title"].ToString();
@@ -413,7 +426,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                         {
                             WriteLog("No data exists for Location ID : " + drLocationID["PK_LU_Location_ID"], _strCsvPath, false);
                             sbRecorords.Append("<table style='font-family:Tahoma' cellpadding='4' cellspacing='0' Width='100%'>");
-                            sbRecorords.Append("<tr style='background-color:#F2F2F2;color:Black;'>");
+                            sbRecorords.Append("<tr valign='top' style='background-color:#F2F2F2;color:Black;'>");
                             sbRecorords.Append("<td align='center' style='font-size:9pt;'>No Records found.</td></tr></table>");
                         }
                     }
@@ -425,7 +438,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                     //Write HTML in to HtmlWriter
                     htmlWrite.WriteLine(sbRecorords.ToString());
                     DataRow[] drReceipientNew = dtReceipient.Select("PK_LU_Location_ID ='" + drLocationID["PK_LU_Location_ID"].ToString() + "'");
-                    SendMailPDF("Sonic U Remaining Training Report", "Sonic_U Remaining_Training_Report.pdf", sbRecorords.ToString(), drReceipientNew);
+                    SendMailPDF("Sonic U Remaining Training Report", "Sonic U Remaining Training Report.pdf", sbRecorords.ToString(), drReceipientNew);
                 }
                 WriteLog("Function SendMailToEarlyAlertLocationManagers executed", _strCsvPath, false);
             }
@@ -436,149 +449,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                 //event viewer
             }
         }
-
-        //{
-        //    try
-        //    {
-        //        WriteLog("Executing SendMailToEarlyAlertLocationManagers", _strCsvPath, false);
-
-        //        DataSet dsReportData = ReportSendMail.GetEmployeeTrainingDataForReport();
-        //        DataTable dtReportData = dsReportData.Tables[0];
-        //        DataTable dtReceipient = dsReportData.Tables[1];
-        //        DataTable dtLocationIDs = dsReportData.Tables[2];
-
-        //        WriteLog("Report Data Count : " + dtReportData.Rows.Count, _strCsvPath, false);
-        //        WriteLog("Recipient count : " + dtReceipient.Rows.Count, _strCsvPath, false);
-        //        WriteLog("Location count : " + dtLocationIDs.Rows.Count, _strCsvPath, false);
-
-        //        DataTable dtDepartFilter;
-
-        //        System.Text.StringBuilder sbRecorords = new System.Text.StringBuilder("");
-        //        System.IO.StringWriter stringWrite = new System.IO.StringWriter();
-        //        System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
-
-        //        string strPrevDept, strPrevAssoName, strPrevJobTitle;
-        //        strPrevDept = strPrevAssoName = strPrevJobTitle = "#";
-        //        DataView dvRptDataForCurLocAndDept, dvRptDataForCurLocAndDeptAndAssocName, dvRptDataForClass, dvLocationData;
-        //        DataTable dtUniqueDept, dtUniqueAssocName, dtUniqueJobTitle;       
-
-        //        foreach (DataRow drLocationID in dtLocationIDs.Rows) //Location wise
-        //        {
-        //            WriteLog("Location ID : " + drLocationID["PK_LU_Location_ID"], _strCsvPath, false);
-        //            sbRecorords.Clear();
-        //            try
-        //            {
-        //                if (dtReportData != null && dtReportData.Rows.Count > 0)
-        //                {
-        //                    //Gets location detail
-        //                    DataTable dtLocation = ReportSendMail.SelectByPK(Convert.ToDecimal(drLocationID["PK_LU_Location_ID"])).Tables[0];
-
-        //                    //WriteLog("Location ID : " + drLocationID["PK_LU_Location_ID"] + " Report Data Rows Count : " + dtLocationWiseData.Length, _strCsvPath, false);
-        //                    sbRecorords.Append("<table style='padding-left:4px;font-size:8.5pt;font-family:Tahoma' cellpadding='4' cellspacing='0' Width='996px'>");
-        //                    sbRecorords.Append("<tr style='font-weight: bold;'><td align='left' style='font-size:9pt'  colspan='4'>Sonic U Training Report - Quarter " + ((quarterMonth - 1) / 3 + 1) + "</td></tr>");
-        //                    sbRecorords.Append("<tr style='font-weight: bold;'><td align='left' style='font-size:9pt'  colspan='4'>" + Convert.ToString(dtLocation.Rows[0]["Sonic_Location_Code"]) + " - " + Convert.ToString(dtLocation.Rows[0]["dba"]) + "</td></tr>");
-        //                    sbRecorords.Append("<tr style='font-weight: bold;'><td align='left' style='font-size:9pt'  colspan='4'>" + Convert.ToString(dtLocation.Rows[0]["City"]) + ", " + Convert.ToString(dtLocation.Rows[0]["StateName"]) + "</td></tr>");
-        //                    sbRecorords.Append("<tr style='font-weight: bold;'><td align='left' style='font-size:9pt'  colspan='4'>" + DateTime.Now.ToString("dd MMMM yyyy") + "</td></tr><tr>&nbsp;</tr>");
-        //                    sbRecorords.Append("<tr style='font-weight: bold;'><td><table border='1' cellspacing='0' cellpadding='0' style='border: black 0.5px solid'><tr style='font-weight: bold;background-color:#95B3D7;color:Black;font-size:11pt;height:25'>");
-        //                    sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt'>Department</td>");
-        //                    sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt'>Associate</td>");
-        //                    sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt'>Job Title</td>");
-        //                    sbRecorords.Append("<td align='left' style='width=55%;font-size:9pt'>Remaining Training to be Taken</td></tr>");
-
-        //                    //DataView dv = new DataView(dtReportData);
-        //                    //DataTable distinctValues = dv.ToTable(true, "Department");
-
-        //                    //DataRow[] dtTrainingData = dtReportData.Select("PK_LU_Location_ID ='" + drLocationID["PK_LU_Location_ID"].ToString() + "' AND Department='" + dtDept.Rows[i]["Department"].ToString() + "' AND Associate_Name='" + dtDistinctData.Rows[i]["Associate_Name"].ToString() + "' AND Job_Title='" + dtDistinctData.Rows[i]["Job_Title"].ToString() + "'");
-
-        //                    //dvLocationData = dtReportData.Select("PK_LU_Location_ID ='" + drLocationID["PK_LU_Location_ID"].ToString() + "'").CopyToDataTable<DataRow>();
-        //                    dvLocationData = new DataView(dtReportData, "PK_LU_Location_ID ='" + drLocationID["PK_LU_Location_ID"].ToString() + "'", "Department", DataViewRowState.CurrentRows);
-        //                    dtUniqueDept = dvLocationData.ToTable(true, "Department");
-        //                    for (int i = 0; i < dtUniqueDept.Rows.Count; i++) //Fetches unique departments for the current Location
-        //                    {
-        //                        if(i!=0 && dtUniqueDept.Rows.Count>1)
-        //                            sbRecorords.Append("<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td align='left' style='width:55%;font-size:9pt'>&nbsp;</td></tr>");                                                                        
-
-        //                        if (strPrevDept != "#" && strPrevDept != dtUniqueDept.Rows[i]["Department"].ToString())
-        //                            sbRecorords.Append("<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td align='left' style='width:55%;font-size:9pt'>&nbsp;</td></tr>");
-
-        //                        sbRecorords.Append("<tr align='left'  style='width=15%;font-size:8.5pt' >");                                
-        //                        sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt'>" + Convert.ToString(dtUniqueDept.Rows[i]["Department"]) + "</td>");
-
-        //                        //Fetch Data for current department and current location
-        //                        //dtRptDataForCurLocAndDept = dvLocationData.ToTable().Select("Department='" + dtUniqueDept.Rows[i]["Department"].ToString() + "'").CopyToDataTable<DataRow>();
-        //                        dvRptDataForCurLocAndDept = new DataView(dvLocationData.ToTable(), "Department='" + dtUniqueDept.Rows[i]["Department"].ToString() + "'", "Associate_Name", DataViewRowState.CurrentRows);
-        //                        dtUniqueAssocName = dvRptDataForCurLocAndDept.ToTable(true, "Associate_Name");
-
-        //                        for (int j = 0; j < dtUniqueAssocName.Rows.Count; j++) //Fetches unique associates for the current Location and department
-        //                        {
-        //                            if(strPrevAssoName != "#" && strPrevAssoName != dtUniqueAssocName.Rows[j]["Associate_Name"].ToString()) //Add Blank row
-        //                                sbRecorords.Append("<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td align='left' style='width:55%;font-size:9pt'>&nbsp;</td></tr>");
-
-        //                            if(j==0)
-        //                                sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt'>" + Convert.ToString(dtUniqueAssocName.Rows[j]["Associate_Name"]) + "</td>");
-        //                            else
-        //                                sbRecorords.Append("<tr><td>&nbsp;</td><td align='left' style='width:55%;font-size:9pt'>" + Convert.ToString(dtUniqueAssocName.Rows[j]["Associate_Name"]) + "</td>");
-
-        //                            //Fetch Data for current Associate_Name and current location and department
-        //                            dvRptDataForCurLocAndDeptAndAssocName = dtRptDataForCurLocAndDept.Select("Associate_Name='" + dtUniqueAssocName.Rows[j]["Associate_Name"].ToString() + "'").CopyToDataTable<DataRow>();
-        //                            dtUniqueJobTitle = dtRptDataForCurLocAndDeptAndAssocName.AsDataView().ToTable(true, "Job_Title");
-        //                            for (int k = 0; k < dtUniqueJobTitle.Rows.Count; k++) //Fetches unique associates for the current Location and department
-        //                            {
-        //                                if (strPrevJobTitle!="#" && strPrevJobTitle != dtUniqueJobTitle.Rows[k]["Job_Title"].ToString()) //Add Blank row
-        //                                    sbRecorords.Append("<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td align='left' style='width:55%;font-size:9pt'>&nbsp;</td></tr>");
-
-        //                                if(k==0)
-        //                                    sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt'>" + Convert.ToString(dtUniqueJobTitle.Rows[k]["Job_Title"]) + "</td>");
-        //                                else
-        //                                    sbRecorords.Append("<tr><td>&nbsp;</td><td>&nbsp;</td><td align='left' style='width:55%;font-size:9pt'>" + Convert.ToString(dtUniqueJobTitle.Rows[k]["Job_Title"]) + "</td>");
-        //                                //Fetches data for current location,Department,Associate_Name,Job title
-        //                                dtRptDataForClass = dtRptDataForCurLocAndDeptAndAssocName.Select("Job_Title='" + dtUniqueJobTitle.Rows[k]["Job_Title"].ToString() + "'").CopyToDataTable<DataRow>();
-        //                                for(int m=0;m<dtRptDataForClass.Rows.Count;m++)
-        //                                {
-        //                                    if(m==0)
-        //                                        sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt'>" + Convert.ToString(dtRptDataForClass.Rows[m]["Class_Name"]) + "</td></tr>");
-        //                                    else
-        //                                        sbRecorords.Append("<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td align='left' style='width:55%;font-size:9pt'>" + Convert.ToString(dtRptDataForClass.Rows[m]["Class_Name"]) + "</td></tr>");
-        //                                }
-        //                                //sbRecorords.Append("<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td align='left' style='width:55%;font-size:9pt'>&nbsp;</td></tr>");                                        
-        //                                strPrevJobTitle = dtUniqueJobTitle.Rows[k]["Job_Title"].ToString();
-        //                            }
-        //                            strPrevJobTitle = "#";
-        //                            strPrevAssoName = dtUniqueAssocName.Rows[j]["Associate_Name"].ToString();
-        //                        }                                
-        //                        strPrevAssoName = "#";
-        //                        strPrevDept = dtUniqueDept.Rows[i]["Department"].ToString();                                
-        //                    }
-        //                    strPrevDept = "#";
-        //                }
-        //                else
-        //                {
-        //                    WriteLog("No data exists for Location ID : " + drLocationID["PK_LU_Location_ID"], _strCsvPath, false);
-        //                    sbRecorords.Append("<table style='font-family:Tahoma' cellpadding='4' cellspacing='0' Width='100%'>");
-        //                    sbRecorords.Append("<tr style='background-color:#F2F2F2;color:Black;'>");
-        //                    sbRecorords.Append("<td align='center' style='font-size:9pt;'>No Records found.</td></tr></table>");
-        //                }                        
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                WriteLog("Exception occurred : " + ex.Message, _strCsvPath, false);
-        //                EventLog.WriteEntry("Error in function SendMailToEarlyAlertLocationManagers()" + ex.Message + ",Stack Trace:" + ex.StackTrace);
-        //            }
-        //            //Write HTML in to HtmlWriter
-        //            htmlWrite.WriteLine(sbRecorords.ToString());
-        //            DataRow[] drReceipientNew = dtReceipient.Select("PK_LU_Location_ID ='" + drLocationID["PK_LU_Location_ID"].ToString() + "'");
-        //            SendMailPDF("Sonic U Remaining Training Report", "Sonic_U Remaining_Training_Report.pdf", sbRecorords.ToString(), drReceipientNew);
-        //        }
-        //        WriteLog("Function SendMailToEarlyAlertLocationManagers executed", _strCsvPath, false);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        EventLog.WriteEntry("Error in function SendMailToEarlyAlertLocationManagers()" + ex.Message + ",Stack Trace:" + ex.StackTrace);
-        //        WriteLog("Exception " + ex.Message + " occurred in SendMailToEarlyAlertLocationManagers", _strCsvPath, true);
-        //        //event viewer
-        //    }
-        //}
-
+               
         /// <summary>
         /// Send Mail To Location Managers(Associate Training Report)
         /// </summary>
@@ -586,7 +457,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
         {
             try
             {
-                WriteLog("Executing SendMailToLocationManagers", _strCsvPath, false);
+                WriteLog("Executing SendMailToRLCMLocationManagers", _strCsvPath, false);
                 DataTable dtReportData = ReportSendMail.GetEmployeeTrainingDataForReport().Tables[0];
                 //DataTable dtRLCMUsersWithLocation = ReportSendMail.GetRLCMUsers().Tables[0];
                 DataTable dtRLCMUsers = ReportSendMail.GetRLCMUsers().Tables[0];
@@ -623,7 +494,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
 
                                         //WriteLog("Location ID : " + drLocationID["PK_LU_Location_ID"] + " Report Data Rows Count : " + dtLocationWiseData.Length, _strCsvPath, false);
                                         sbRecorords.Append("<table style='padding-left:4px;font-size:8.5pt;font-family:Tahoma' cellpadding='4' cellspacing='0' Width='996px'>");
-                                        sbRecorords.Append("<tr style='font-weight: bold;'><td align='left' style='font-size:9pt'  colspan='4'>Sonic U Training Report - Quarter " + ((quarterMonth - 1) / 3 + 1) + "</td></tr>");
+                                        sbRecorords.Append("<tr style='font-weight: bold;'><td align='left' style='font-size:9pt'  colspan='4'>Associate Training Report - Quarter " + ((quarterMonth - 1) / 3 + 1) + "</td></tr>");
                                         sbRecorords.Append("<tr style='font-weight: bold;'><td align='left' style='font-size:9pt'  colspan='4'>" + Convert.ToString(drLocationID["dba1"]) + "</td></tr>");
                                         sbRecorords.Append("<tr style='font-weight: bold;'><td align='left' style='font-size:9pt'  colspan='4'>" + Convert.ToString(drLocationID["City"]) + ", " + Convert.ToString(drLocationID["FLD_state"]) + "</td></tr>");
                                         sbRecorords.Append("<tr style='font-weight: bold;'><td align='left' style='font-size:9pt'  colspan='4'>" + DateTime.Now.ToString("dd MMMM yyyy") + "</td></tr><tr>&nbsp;</tr>");
@@ -645,13 +516,18 @@ namespace ERIMS_SonicUTraining_EmailScheduler
 
                                         DataTable dtLocationData = new DataView(dtReportData, "PK_LU_Location_ID ='" + drLocationID["PK_LU_Location_ID"].ToString() + "'", "", DataViewRowState.CurrentRows).ToTable();
                                         dtUniqueDept = dtLocationData.AsDataView().ToTable(true, "Department");
+                                        string str = "bgcolor=white";
 
                                         for (int i = 0; i < dtUniqueDept.Rows.Count; i++) //Fetches unique departments for the current Location
                                         {
                                             if (strPrevDept != "#" && strPrevDept != dtUniqueDept.Rows[i]["Department"].ToString())
-                                                sbRecorords.Append("<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td align='left' style='width:55%;font-size:9pt'>&nbsp;</td></tr>");
+                                            {
+                                                str = (str == "bgcolor=white") ? "bgcolor=#eaeaea" : "bgcolor=white";
+                                                sbRecorords.Append("<tr " + str + "><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td align='left' style='width:55%;font-size:9pt'>&nbsp;</td></tr>");
+                                            }
 
-                                            sbRecorords.Append("<tr align='left'  style='width=15%;font-size:8.5pt'>");
+                                            str = (str == "bgcolor=white") ? "bgcolor=#eaeaea" : "bgcolor=white";
+                                            sbRecorords.Append("<tr " + str + " align='left'  style='width=15%;font-size:8.5pt'>");
                                             sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt'>" + Convert.ToString(dtUniqueDept.Rows[i]["Department"]) + "</td>");
 
                                             //Fetch Data for current department and current location
@@ -661,12 +537,18 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                                             for (int j = 0; j < dtUniqueAssocName.Rows.Count; j++) //Fetches unique associates for the current Location and department
                                             {
                                                 if (strPrevAssoName != "#" && strPrevAssoName != dtUniqueAssocName.Rows[j]["Associate_Name"].ToString()) //Add Blank row
-                                                    sbRecorords.Append("<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td align='left' style='width:55%;font-size:9pt'>&nbsp;</td></tr>");
+                                                {
+                                                    str = (str == "bgcolor=white") ? "bgcolor=#eaeaea" : "bgcolor=white";
+                                                    sbRecorords.Append("<tr " + str + "><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td align='left' style='width:55%;font-size:9pt'>&nbsp;</td></tr>");
+                                                }
 
                                                 if (j == 0)
                                                     sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt'>" + Convert.ToString(dtUniqueAssocName.Rows[j]["Associate_Name"]) + "</td>");
                                                 else
-                                                    sbRecorords.Append("<tr><td>&nbsp;</td><td align='left' style='width:55%;font-size:9pt'>" + Convert.ToString(dtUniqueAssocName.Rows[j]["Associate_Name"]) + "</td>");
+                                                {
+                                                    str = (str == "bgcolor=white") ? "bgcolor=#eaeaea" : "bgcolor=white";
+                                                    sbRecorords.Append("<tr " + str + "><td>&nbsp;</td><td align='left' style='width:55%;font-size:9pt'>" + Convert.ToString(dtUniqueAssocName.Rows[j]["Associate_Name"]) + "</td>");
+                                                }
 
                                                 //Fetch Data for current Associate_Name and current location and department
                                                 dtRptDataForCurLocAndDeptAndAssocName = dtRptDataForCurLocAndDept.Select("Associate_Name='" + dtUniqueAssocName.Rows[j]["Associate_Name"].ToString() + "'").CopyToDataTable<DataRow>();
@@ -674,22 +556,32 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                                                 for (int k = 0; k < dtUniqueJobTitle.Rows.Count; k++) //Fetches unique associates for the current Location and department
                                                 {
                                                     if (strPrevJobTitle != "#" && strPrevJobTitle != dtUniqueJobTitle.Rows[k]["Job_Title"].ToString()) //Add Blank row
-                                                        sbRecorords.Append("<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td align='left' style='width:55%;font-size:9pt'>&nbsp;</td></tr>");
+                                                    {
+                                                        str = (str == "bgcolor=white") ? "bgcolor=#eaeaea" : "bgcolor=white";
+                                                        sbRecorords.Append("<tr " + str + "><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td align='left' style='width:55%;font-size:9pt'>&nbsp;</td></tr>");
+                                                    }
 
                                                     if (k == 0)
                                                         sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt'>" + Convert.ToString(dtUniqueJobTitle.Rows[k]["Job_Title"]) + "</td>");
                                                     else
-                                                        sbRecorords.Append("<tr><td>&nbsp;</td><td>&nbsp;</td><td align='left' style='width:55%;font-size:9pt'>" + Convert.ToString(dtUniqueJobTitle.Rows[k]["Job_Title"]) + "</td>");
+                                                    {
+                                                        str = (str == "bgcolor=white") ? "bgcolor=#eaeaea" : "bgcolor=white";
+                                                        sbRecorords.Append("<tr " + str + "><td>&nbsp;</td><td>&nbsp;</td><td align='left' style='width:55%;font-size:9pt'>" + Convert.ToString(dtUniqueJobTitle.Rows[k]["Job_Title"]) + "</td>");
+                                                    }
                                                     //Fetches data for current location,Department,Associate_Name,Job title
                                                     dtRptDataForClass = dtRptDataForCurLocAndDeptAndAssocName.Select("Job_Title='" + dtUniqueJobTitle.Rows[k]["Job_Title"].ToString() + "'").CopyToDataTable<DataRow>();
                                                     for (int m = 0; m < dtRptDataForClass.Rows.Count; m++)
                                                     {
                                                         if (m == 0)
-                                                            sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt'>" + Convert.ToString(dtRptDataForClass.Rows[m]["Class_Name"]) + "</td></tr>");
+                                                            sbRecorords.Append("<td align='left' style='width=55%;font-size:9pt'>" + Convert.ToString(dtRptDataForClass.Rows[m]["Class_Name"]) + "</td></tr>");
                                                         else
-                                                            sbRecorords.Append("<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td align='left' style='width:55%;font-size:9pt'>" + Convert.ToString(dtRptDataForClass.Rows[m]["Class_Name"]) + "</td></tr>");
+                                                        {
+                                                            str = (str == "bgcolor=white") ? "bgcolor=#eaeaea" : "bgcolor=white";
+                                                            sbRecorords.Append("<tr " + str + "><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td align='left' style='width:55%;font-size:9pt'>" + Convert.ToString(dtRptDataForClass.Rows[m]["Class_Name"]) + "</td></tr>");
+                                                        }
                                                     }
-                                                    sbRecorords.Append("<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td align='left' style='width:55%;font-size:9pt'>&nbsp;</td></tr>");
+                                                    str = (str == "bgcolor=white") ? "bgcolor=#eaeaea" : "bgcolor=white";
+                                                    sbRecorords.Append("<tr " + str + "><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td align='left' style='width:55%;font-size:9pt'>&nbsp;</td></tr>");
                                                     strPrevJobTitle = dtUniqueJobTitle.Rows[k]["Job_Title"].ToString();
                                                 }
                                                 strPrevJobTitle = "#";
@@ -713,13 +605,11 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                                     WriteLog("Exception occurred : " + ex.Message, _strCsvPath, false);
                                 }
                             }
-
                         }
                         else
                         {
                             WriteLog("No location exists for RLCM user : " + drRLCM["FK_Employee_Id"], _strCsvPath, false);
                         }
-
                     }
                     else
                     {
@@ -734,7 +624,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                     //Write HTML in to HtmlWriter
                     htmlWrite.WriteLine(sbRecorords.ToString());
                     //DataRow[] drReceipientNew = dtReceipient.Select("PK_LU_Location_ID ='" + drLocationID["PK_LU_Location_ID"].ToString() + "'");
-                    SendMailPDF("Sonic U Remaining Training Report", "Sonic_U Remaining_Training_Report.pdf", sbRecorords.ToString(), drRLCM);
+                    SendMailPDF("Associate Training Report", "Associate Training Report.pdf", sbRecorords.ToString(), drRLCM);
                 }
                 WriteLog("function SendMailToLocationManagers() executed", _strCsvPath, false);
             }
@@ -760,15 +650,15 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                 MemoryStream memorystream = new MemoryStream();
                 MailMessage mail = new MailMessage();
                 decimal Fk_Employee = -1;
-                string strClassNameList="";
+                string strClassNameList = "";
 
-                DataTable temp = dtTraining.AsDataView().ToTable(true, "FK_Employee"); 
+                DataTable temp = dtTraining.AsDataView().ToTable(true, "FK_Employee");
 
                 WriteLog("No of employees having training in this Quarter : " + dtTraining.Rows.Count, _strCsvPath, false);
 
                 mail.From = new MailAddress(_strSMTPmailFrom);
                 mail.Subject = "Required Associated Sonic U Training This Quarter";
-                mail.IsBodyHtml = true;                        
+                mail.IsBodyHtml = true;
 
                 SmtpClient mSmtpClient = new SmtpClient();
                 mSmtpClient.Port = Convert.ToInt16(_strPort);
@@ -778,32 +668,37 @@ namespace ERIMS_SonicUTraining_EmailScheduler
 
                 for (int i = 0; i < dtTraining.Rows.Count; i++)
                 {
-                    if (Fk_Employee!=-1 && Fk_Employee != Convert.ToDecimal(dtTraining.Rows[i]["FK_Employee"]))
+                    if (Fk_Employee != -1 && Fk_Employee != Convert.ToDecimal(dtTraining.Rows[i]["FK_Employee"]))
                     {
-                        mail.Body = "You are scheduled to take and complete the following training this quarter:" + strClassNameList;
+                        mail.Body = "You are scheduled to take and complete the following training this quarter: <ul style='list-style-type:circle'>" + strClassNameList;
                         if (i != 0)
                         {
                             try
-                            {                               
+                            {
+                                mail.Body += "</ul>"; 
                                 mSmtpClient.Send(mail);
+                                mail.To.Clear();                                
+                                mail.Body = "";
+                            }
+                            catch (Exception Ex)
+                            {
+                                WriteLog("Exception occurred in SendMailEveryQuarterToEmployees while sending mail to : " + Ex.Message, _strCsvPath, false);
                                 mail.To.Clear();
                                 mail.Body = "";
                             }
-                            catch(Exception Ex)
-                            {
-                                WriteLog("Exception occurred in SendMailEveryQuarterToEmployees while sending mail to : " + Ex.Message, _strCsvPath, false);
-                            }
-                           
+
                             strClassNameList = "";
                         }
-                        strClassNameList += "<br/>" + (dtTraining.Rows[i]["Class_Name"].ToString()).Replace(",", "<br/>");
-                        mail.To.Add(new MailAddress(dtTraining.Rows[i]["EmailTo"].ToString()));                        
+                        strClassNameList += "<li>" + (dtTraining.Rows[i]["Class_Name"].ToString()).Replace(",", "</li>");
+                        if(!mail.To.Contains(new MailAddress(dtTraining.Rows[i]["EmailTo"].ToString())))
+                        mail.To.Add(new MailAddress(dtTraining.Rows[i]["EmailTo"].ToString()));
                         Fk_Employee = Convert.ToDecimal(dtTraining.Rows[i]["FK_Employee"]);
                     }
                     else
                     {
-                        strClassNameList += "<br/>" + (dtTraining.Rows[i]["Class_Name"].ToString()).Replace(",", "<br/>");
-                        mail.To.Add(new MailAddress(dtTraining.Rows[i]["EmailTo"].ToString()));                        
+                        strClassNameList += "<li>" + (dtTraining.Rows[i]["Class_Name"].ToString()).Replace(",", "</li>");
+                        if (!mail.To.Contains(new MailAddress(dtTraining.Rows[i]["EmailTo"].ToString())))
+                        mail.To.Add(new MailAddress(dtTraining.Rows[i]["EmailTo"].ToString()));
                         Fk_Employee = Convert.ToDecimal(dtTraining.Rows[i]["FK_Employee"]);
                     }
                 }
@@ -849,7 +744,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                     //Employee details having training in current quarter
                     if (dtTrainingAdministrator.Rows.Count > 0)
                     {
-                        mail.Body = "The following employees may have personal e-mails in their HR data:";
+                        mail.Body = "The following employees may have personal e-mails in their HR data:<br/>";
                         for (int i = 0; i < dtTrainingAdministrator.Rows.Count; i++)
                         {
                             mail.Body += "<br/>" + (dtTrainingAdministrator.Rows[i]["Email_Administrator"].ToString()).Replace(",", "");
@@ -891,182 +786,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
             }
         }
 
-        ///// <summary>
-        ///// Send Mail To System Administrator after importing the data for the Job Codes 
-        ///// </summary>
-        //public void SendMailToAdminFoNewJobCodes()
-        //{
-        //    DataTable dtAdminRecepient = ReportSendMail.GetAdminList().Tables[0];
-        //    MemoryStream memorystream = new MemoryStream();
-        //    MailMessage mail = new MailMessage();
-        //    mail.From = new MailAddress(_strSMTPmailFrom);
-        //    mail.Subject = "Sonic eRIMS2 - New Employee Job Codes Added";
-
-        //    SmtpClient mSmtpClient = new SmtpClient();
-        //    mSmtpClient.Port = Convert.ToInt16(System.Configuration.ConfigurationManager.AppSettings.Get("Port"));
-        //    mSmtpClient.Host = System.Configuration.ConfigurationManager.AppSettings.Get("SMTPServer");
-        //    mSmtpClient.Credentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings["SMTPmail"], ConfigurationManager.AppSettings["SMTPPwd"]);
-
-        //    try
-        //    {
-        //        foreach (DataRow dr in dtAdminRecepient.Rows)
-        //        {
-        //            mail.Body = "New Employee Job Codes were added during the Employee data import today that did not previously exist in the Sonic U Training Required Classes table. In order for eRIMS2 to assign classes properly, the Sonic U Training Required Classes table will need to be updated as soon as possible to keep training assignments current. Please edit the Required Classes table via the following Sonic eRIMS2 menu selection: Administrator, Lookup Table Maintenance, Sonic U Training, Required Classes and click on the 'Add Training for New Job Codes' button.";
-        //            mail.IsBodyHtml = true;
-        //            mail.To.Add(new MailAddress(Convert.ToString(dr["Email"])));
-        //            mSmtpClient.Send(mail);
-        //            mail.To.Clear();
-        //        }
-        //    }
-
-        //    catch (Exception ex)
-        //    {
-        //        EventLog.WriteEntry("Error in Sending Mail for" + ex.Message + ",Stack Trace:" + ex.StackTrace);
-        //    }
-        //}
-
         #region Mail Send Method
-
-        //private void SendMail(String strReportTitle, String strFileNameToSave, String strFirstName, String strLastName, String strMailFrom, StringWriter sw, DataTable dtRecipients)
-        //{
-
-        //    string strPath = AppDomain.CurrentDomain.BaseDirectory + @"temp\" + strFileNameToSave.Replace(".xls", "") + System.DateTime.Now.ToString("MMddyyhhmmss") + ".xls";
-
-        //    File.WriteAllText(strPath, sw.ToString());
-
-        //    bool blnHTML2Excel = false;
-        //    string outputFiles = string.Empty;
-        //    if (File.Exists(strPath))
-        //    {
-        //        string data = File.ReadAllText(strPath);
-        //        data = data.Trim();
-        //        HTML2Excel objHtml2Excel = new HTML2Excel(data);
-        //        outputFiles = Path.GetFullPath(strPath).Replace(".xls", ".xlsx");
-        //        objHtml2Excel.isGrid = isGrid;
-        //        objHtml2Excel.overwriteBorder = false;
-        //        blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
-        //    }
-
-        //    MemoryStream memorystream = new MemoryStream();
-        //    //byte[] _bytes = Encoding.UTF8.GetBytes(sw.ToString());
-        //    //memorystream.Write(_bytes, 0, _bytes.Length);
-        //    //memorystream.Seek(0, SeekOrigin.Begin);
-
-        //    //HTML2Excel objHtml2Excel = new HTML2Excel(data);
-        //    //strMailFrom = "kunal.dobaria@server1.com";
-        //    if (blnHTML2Excel)
-        //    {
-        //        MailMessage mail = new MailMessage();
-        //        mail.From = new MailAddress(strMailFrom);
-        //        mail.Subject = "eRIMS :: " + strReportTitle;
-        //        memorystream = new MemoryStream(File.ReadAllBytes(outputFiles));
-        //        Attachment atts = new Attachment(memorystream, strFileNameToSave.Replace(".xls", ".xlsx"));
-        //        mail.Attachments.Add(atts);
-
-        //        SmtpClient mSmtpClient = new SmtpClient();
-        //        mSmtpClient.Host = System.Configuration.ConfigurationManager.AppSettings.Get("SMTPServer");
-        //        mSmtpClient.Credentials = new System.Net.NetworkCredential(System.Configuration.ConfigurationManager.AppSettings.Get("SMTPmail"), System.Configuration.ConfigurationManager.AppSettings.Get("SMTPPwd"));
-        //        try
-        //        {
-        //            for (int i = 0; i < dtRecipients.Rows.Count; i++)
-        //            {
-        //                mail.Body = dtRecipients.Rows[i]["FirstName"].ToString() + " " + dtRecipients.Rows[i]["LastName"].ToString() + ",<br />Please find the " + strReportTitle + " Attached with this mail.<br /><br /><br />Thankyou!<br />" + strFirstName + " " + strLastName;
-        //                mail.Body += "<br /> This is system generated message. Please do not reply.";
-        //                mail.IsBodyHtml = true;
-        //                mail.To.Add(new MailAddress(dtRecipients.Rows[i]["Email"].ToString()));
-        //                mSmtpClient.Send(mail);
-        //                mail.To.Clear();
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            EventLog.WriteEntry("Error in Sending Mail for " + strReportTitle + ", " + ex.Message + ",Stack Trace:" + ex.StackTrace);
-        //        }
-        //        atts.Dispose();
-
-        //        //if (File.Exists(strPath))
-        //        //    File.Delete(strPath);
-        //        //if (File.Exists(outputFiles))
-        //        //    File.Delete(outputFiles);
-        //    }
-        //    else
-        //    {
-        //        EventLog.WriteEntry("Error in converting Report to excel for " + strReportTitle);
-        //    }
-        //}
-
-
-
-        ///// <summary>
-        ///// Send Mail Function
-        ///// </summary>
-        ///// <param name="strReportTitle"></param>
-        ///// <param name="strFileNameToSave"></param>
-        ///// <param name="strFirstName"></param>
-        ///// <param name="strLastName"></param>
-        ///// <param name="strMailFrom"></param>
-        ///// <param name="strFilePath"></param>
-        ///// <param name="dtRecipients"></param>
-        ///// <param name="FK_Security_Id"></param>
-        //private void SendMail(String strReportTitle, String strFileNameToSave, String strFirstName, String strLastName, String strMailFrom, string strFilePath, DataTable dtRecipients, decimal FK_Security_Id)
-        //{
-        //    DataTable dtTemp = null;
-        //    MemoryStream memorystream = new MemoryStream();
-        //    //strMailFrom = "kunal.dobaria@server1.com";
-
-        //    bool blnHTML2Excel = false;
-        //    string outputFiles = string.Empty;
-        //    if (File.Exists(strFilePath))
-        //    {
-        //        string data = File.ReadAllText(strFilePath);
-        //        data = data.Trim();
-        //        HTML2Excel objHtml2Excel = new HTML2Excel(data);
-        //        outputFiles = Path.GetFullPath(strFilePath).Replace(".xls", ".xlsx");
-        //        objHtml2Excel.isGrid = isGrid;
-        //        blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
-        //    }
-
-        //    if (blnHTML2Excel)
-        //    {
-        //        MailMessage mail = new MailMessage();
-        //        mail.From = new MailAddress(strMailFrom);
-        //        mail.Subject = "eRIMS Sonic :: " + strReportTitle;
-        //        memorystream = new MemoryStream(File.ReadAllBytes(outputFiles));
-        //        Attachment att = new Attachment(memorystream, strFileNameToSave.Replace(".xls", ".xlsx"));
-        //        mail.Attachments.Add(att);
-
-        //        SmtpClient mSmtpClient = new SmtpClient();
-        //        mSmtpClient.Port = Convert.ToInt16(System.Configuration.ConfigurationManager.AppSettings.Get("Port"));
-        //        mSmtpClient.Host = System.Configuration.ConfigurationManager.AppSettings.Get("SMTPServer");
-        //        mSmtpClient.Credentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings["SMTPmail"], ConfigurationManager.AppSettings["SMTPPwd"]);
-        //        try
-        //        {
-        //            dtTemp = dtRecipients.Copy();
-        //            //dtTemp.DefaultView.RowFilter = "ISNULL(Use_Folder,0) = 0";
-        //            DataTable dtRecipientMails = dtTemp.DefaultView.ToTable();
-
-        //            for (int i = 0; i < dtRecipientMails.Rows.Count; i++)
-        //            {
-        //                mail.Body = dtRecipientMails.Rows[i]["FirstName"].ToString() + " " + dtRecipientMails.Rows[i]["LastName"].ToString() + ",<br /><br />Please find the " + strReportTitle + " Attached with this mail.<br /><br /><br />Thank You!<br />" + strFirstName + " " + strLastName;
-        //                mail.Body += "<br /><br /> This is system generated message. Please do not reply.";
-        //                mail.IsBodyHtml = true;
-        //                mail.To.Add(new MailAddress(dtRecipientMails.Rows[i]["Email"].ToString()));
-        //                mSmtpClient.Send(mail);
-        //                mail.To.Clear();
-        //            }
-        //        }
-
-        //        catch (Exception ex)
-        //        {
-        //            EventLog.WriteEntry("Error in Sending Mail for " + strReportTitle + ", " + ex.Message + ",Stack Trace:" + ex.StackTrace);
-        //        }
-        //        att.Dispose();
-        //    }
-        //    else
-        //    {
-        //        EventLog.WriteEntry("Error in converting Report to excel for " + strReportTitle);
-        //    }
-        //}
 
         /// <summary>
         /// Send Mail PDF
@@ -1229,7 +949,8 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                     //{
                     // foreach (DataRow drRecipient in drRecipients)
                     //{
-                    mail.Body = drRecipients["First_Name"].ToString() + " " + drRecipients["Last_Name"].ToString() + ",<br />Please find the " + strReportTitle + " Attached with this mail.<br /><br /><br />Thankyou!<br />";
+                    //mail.Body = drRecipients["First_Name"].ToString() + " " + drRecipients["Last_Name"].ToString() + ",<br />Please find the " + strReportTitle + " Attached with this mail.<br /><br /><br />Thankyou!<br />";
+                    mail.Body = drRecipients["NAME"].ToString() + ",<br />Please find the " + strReportTitle + " Attached with this mail.<br /><br /><br />Thankyou!<br />";
                     mail.Body += "<br /> This is system generated message. Please do not reply.";
                     mail.IsBodyHtml = true;
                     mail.To.Add(new MailAddress(drRecipients["Email"].ToString()));
