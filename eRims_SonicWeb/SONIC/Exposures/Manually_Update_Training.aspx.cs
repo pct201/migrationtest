@@ -49,7 +49,7 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
     /// </summary>
     private void BindDropDownList()
     {
-        for (int i = DateTime.Now.Year; i >= 2013; i--)
+        for (int i = DateTime.Now.Year; i >= 2016; i--)
         {
             ddlYear.Items.Add(new ListItem(i.ToString(), i.ToString()));
         }
