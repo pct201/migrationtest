@@ -66,7 +66,7 @@ public partial class Administrator_Sonic_U_Training_Required_Classes : clsBasePa
         }
         btnCancel.Visible = true;
         trTraining.Style.Add("display", "none");
-        trTrainingAdd.Style.Add("display", "block");
+        trTrainingAdd.Style.Add("display", "");
         btnAddNew.Visible = false;
     }
 
@@ -111,7 +111,7 @@ public partial class Administrator_Sonic_U_Training_Required_Classes : clsBasePa
             PK_Sonic_U_Training = Convert.ToDecimal(e.CommandArgument);
             // show and hide Add-edit row
             trTraining.Style.Add("display", "none");
-            trTrainingAdd.Style.Add("display", "block");
+            trTrainingAdd.Style.Add("display", " ");
             btnAddNew.Visible = false;
             btnSave.Visible = true;
             btnCancel.Visible = true;
@@ -186,7 +186,7 @@ public partial class Administrator_Sonic_U_Training_Required_Classes : clsBasePa
         Sonic_U_Training_Required_Classes.ImportXML(strFinal);
 
         //show hide grid
-        trTraining.Style.Add("display", "block");
+        trTraining.Style.Add("display", " ");
         trTrainingAdd.Style.Add("display", "none");
         BindGrid();
         btnSave.Visible = false;
@@ -202,7 +202,7 @@ public partial class Administrator_Sonic_U_Training_Required_Classes : clsBasePa
     protected void btnCancel_Click(object sender, EventArgs e)
     {
         //show hide grid
-        trTraining.Style.Add("display", "block");
+        trTraining.Style.Add("display", " ");
         trTrainingAdd.Style.Add("display", "none");
         //hide buttons
         btnSave.Visible = false;
