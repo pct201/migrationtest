@@ -3,7 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <script type="text/javascript" src="../../JavaScript/jquery-1.10.2.min.js"></script>
     <script language="javascript" type="text/javascript">
-
+        var waivedIds = [];
         function openPopUp(pkID) {
             if (pkID == 0) {
                 if (Page_ClientValidate("vsErrorGroup")) {
@@ -41,11 +41,56 @@
             }
         }
 
+        function ConfirmWaive() {
+            var response; count = 0;
+            $('input:radio').each(function () {
+
+                var $this = $(this),
+                    id = $this.attr('id'),
+                    url = $this.attr('datasrc');
+
+                if ($(this).prop('checked')) {
+                    var selectedValue = $this.val();
+                    if (selectedValue == "1") {
+
+                        if ($.inArray(id, waivedIds) == -1) {
+                            count = count + 1;
+                        }
+
+
+                    }
+                }
+
+            });
+
+            if (count > 0) {
+                var response = confirm("Are you sure you want to waive the selected course for the selected associate; once it is waived, it will be removed from the training site. If the course is waived and later reinstated, the associate will need to restart the course.");
+                if (response == true)
+                    return true;
+                else
+                    return false;
+            }
+
+        }
+
+        $(document).ready(function () {
+
+            $('input:radio').each(function () {
+                var $this = $(this),
+                    id = $this.attr('id');
+                var selectedValue = $this.val();
+                if (selectedValue == "1" && $(this).prop('checked')) {
+                    waivedIds.push(id);
+                }
+            });
+        });
+
     </script>
     <div>
         <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
             HeaderText="Verify the following fields:" BorderWidth="1" BorderColor="DimGray"
             ValidationGroup="vsErrorGroup" CssClass="errormessage"></asp:ValidationSummary>
+        <asp:HiddenField ID="hdnWaivedClasses" runat="server" Value="0" />
     </div>
     <div align="center" style="width: 100%">
         <asp:Panel ID="pnlSearch" runat="server">
@@ -74,7 +119,7 @@
             <table border="0" cellpadding="2" cellspacing="2" width="80%">
                 <tr>
                     <td colspan="6" align="left">
-                        <asp:Button ID="btnAdd" runat="server" Text="Add Training Courses for Associates" ValidationGroup="vsErrorGroup" CausesValidation="true" OnClick="btnAdd_Click"  />
+                        <asp:Button ID="btnAdd" runat="server" Text="Add Training Courses for Associates" ValidationGroup="vsErrorGroup" CausesValidation="true" OnClick="btnAdd_Click" />
                         &nbsp;&nbsp;&nbsp;
                     </td>
                 </tr>
@@ -261,10 +306,10 @@
                     <td align="center" style="padding-left: 35px" width="100%">
                         <%--<asp:Button ID="btnAdd" runat="server" Text="Add" ValidationGroup="vsErrorGroup" OnClick="btnAdd_Click" OnClientClick="return openPopUp(0);" />
                         &nbsp;&nbsp;&nbsp;--%>
-                        <asp:Button ID="btnSave" runat="server" Text="Save" ValidationGroup="vsErrorGroup" OnClick="btnSave_Click" />
+                        <asp:Button ID="btnSave" runat="server" Text="Save" ValidationGroup="vsErrorGroup" OnClientClick="javascript:return ConfirmWaive();" OnClick="btnSave_Click" />
                         &nbsp;&nbsp;&nbsp;
                         <asp:Button ID="btnCancel" runat="server" Text="Cancel" ValidationGroup="vsErrorGroup" OnClick="btnCancel_Click" />
-                         <asp:Button ID="btnhdnReload" runat="server" OnClick="btnhdnReload_Click" Style="display: none;" />
+                        <asp:Button ID="btnhdnReload" runat="server" OnClick="btnhdnReload_Click" Style="display: none;" />
                     </td>
                 </tr>
                 <tr>
