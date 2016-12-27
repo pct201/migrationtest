@@ -43,6 +43,7 @@
 
         function ConfirmWaive() {
             var response; count = 0;
+            var newIds = [];
             $('input:radio').each(function () {
 
                 var $this = $(this),
@@ -54,6 +55,7 @@
                     if (selectedValue == "1") {
 
                         if ($.inArray(id, waivedIds) == -1) {
+                            newIds.push(id);
                             count = count + 1;
                         }
 
@@ -67,8 +69,15 @@
                 var response = confirm("Are you sure you want to waive the selected course for the selected associate; once it is waived, it will be removed from the training site. If the course is waived and later reinstated, the associate will need to restart the course.");
                 if (response == true)
                     return true;
-                else
+                else {
+                    newIds.forEach(function (item) {
+                        $("#" + item).prop('checked', false);
+                        $("#" + item.replace("_0", "_1")).prop('checked', true)
+                    });
+
                     return false;
+
+                }
             }
 
         }
