@@ -48,6 +48,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
         public DayOfWeek currentWeekDay;
         public DateTime nextMailSendDate;
         public string _strServiceRunTime = string.Empty;
+        public bool _isTesting = false;
 
         public static string PDFLicenseKey
         {
@@ -169,6 +170,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                 _ReadMailCount = Convert.ToInt32(ConfigurationSettings.AppSettings.Get("MailCount"));
                 _strSMTPmailFrom = ConfigurationSettings.AppSettings.Get("SMTPmailFrom");
                 _First_Run = true;
+                _isTesting = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("IsTesting"));
                 quarterDate = DateTime.Now;
                 quarterMonth = quarterDate.Month;
                 quarterDay = quarterDate.Day;
@@ -214,11 +216,19 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                         {
                             ReportSendMail.strConn = ConfigurationManager.ConnectionStrings[i].ConnectionString;
 
-                            if ((quarterDay == 1) && (quarterMonth == 1 || quarterMonth == 4 || quarterMonth == 7 || quarterMonth == 10))
-                            {
-                                //Send Email to the Employees having Training the the following Quarter
-                                SendMailEveryQuarterToEmployees();
-                            }
+                                //Send Mail for Testing if _isTesting True
+                                if (_isTesting)
+                                {
+                                    SendMailEveryQuarterToEmployees();
+                                    SendMailToEarlyAlertLocationManagers();
+                                    SendMailToRLCMLocationManagers();
+                                }
+                              
+                                if ((quarterDay == 1) && (quarterMonth == 1 || quarterMonth == 4 || quarterMonth == 7 || quarterMonth == 10))
+                                {
+                                    //Send Email to the Employees having Training the the following Quarter
+                                    SendMailEveryQuarterToEmployees();
+                                }
 
                             //For 1st and 2nd month of quarter send mail for first day of week
                             if (quarterMonth % 3 != 0)
@@ -449,7 +459,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                 //event viewer
             }
         }
-               
+
         /// <summary>
         /// Send Mail To Location Managers(Associate Training Report)
         /// </summary>
@@ -686,9 +696,9 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                         {
                             try
                             {
-                                mail.Body += "</ul>"; 
+                                mail.Body += "</ul>";
                                 mSmtpClient.Send(mail);
-                                mail.To.Clear();                                
+                                mail.To.Clear();
                                 mail.Body = "";
                             }
                             catch (Exception Ex)
@@ -702,14 +712,14 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                         }
                         strClassNameList += "<li>" + (dtTraining.Rows[i]["Class_Name"].ToString()).Replace(",", "</li>");
                         if(!mail.To.Contains(new MailAddress(dtTraining.Rows[i]["EmailTo"].ToString())))
-                        mail.To.Add(new MailAddress(dtTraining.Rows[i]["EmailTo"].ToString()));
+                            mail.To.Add(new MailAddress(dtTraining.Rows[i]["EmailTo"].ToString()));
                         Fk_Employee = Convert.ToDecimal(dtTraining.Rows[i]["FK_Employee"]);
                     }
                     else
                     {
                         strClassNameList += "<li>" + (dtTraining.Rows[i]["Class_Name"].ToString()).Replace(",", "</li>");
                         if (!mail.To.Contains(new MailAddress(dtTraining.Rows[i]["EmailTo"].ToString())))
-                        mail.To.Add(new MailAddress(dtTraining.Rows[i]["EmailTo"].ToString()));
+                            mail.To.Add(new MailAddress(dtTraining.Rows[i]["EmailTo"].ToString()));
                         Fk_Employee = Convert.ToDecimal(dtTraining.Rows[i]["FK_Employee"]);
                     }
                 }
