@@ -25,22 +25,14 @@ namespace ERIMS_SonicUTraining_EmailScheduler
         #region Public Variables
 
         bool flgSendEmail = true;
-        bool _bStartMailReading = true;
         public string _strCsvPath = string.Empty;
         public string _strEvent_Run_Time_Interval = string.Empty;
-        public string _strEvent_Run_Current_Date_Diff = string.Empty;
-        public string _strStartDate = string.Empty;
-        public string _strEndDate = string.Empty;
         public string _strFormatDateToDisplay = string.Empty;
         public string _strSMTPServer = string.Empty;
-        public string _strSMTPmail = string.Empty;
         public string _strSMTPPwd = string.Empty;
         public string _strPort = string.Empty;
         public string _strSentMailSubjectFrmt = string.Empty;
         public string _strSMTPmailFrom = string.Empty;
-        public int _ReadMailCount = -1;
-        //public Imap4Client objImap4Client;
-        public bool _First_Run = true;
         DateTime quarterDate;
         public int quarterMonth = 0;
         public int quarterDay = 0;
@@ -159,17 +151,12 @@ namespace ERIMS_SonicUTraining_EmailScheduler
             {
                 WriteLog("Reading config file", _strCsvPath, false);
                 _strCsvPath = ConfigurationSettings.AppSettings.Get("CSVPath");
-                _strStartDate = ConfigurationSettings.AppSettings.Get("StartDate");
-                _strEndDate = ConfigurationSettings.AppSettings.Get("EndDate");
                 _strFormatDateToDisplay = ConfigurationSettings.AppSettings.Get("DisplayDateFormat");
                 _strSMTPServer = ConfigurationSettings.AppSettings.Get("SMTPServer");
-                _strSMTPmail = ConfigurationSettings.AppSettings.Get("SMTPmail");
+                //_strSMTPmail = ConfigurationSettings.AppSettings.Get("SMTPmail");
                 _strSMTPPwd = ConfigurationSettings.AppSettings.Get("SMTPPwd");
                 _strPort = ConfigurationSettings.AppSettings.Get("Port");
-                _strSentMailSubjectFrmt = ConfigurationSettings.AppSettings.Get("SentMailSubjectFrmt");
-                _ReadMailCount = Convert.ToInt32(ConfigurationSettings.AppSettings.Get("MailCount"));
                 _strSMTPmailFrom = ConfigurationSettings.AppSettings.Get("SMTPmailFrom");
-                _First_Run = true;
                 _isTesting = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("IsTesting"));
                 quarterDate = DateTime.Now;
                 quarterMonth = quarterDate.Month;
@@ -178,7 +165,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
             }
             catch (Exception Ex)
             {
-                WriteLog("Exception occurred while executing ReadConfigSetting() " + Ex.Message, _strCsvPath, false);
+                WriteLog("Exception occurred while executing ReadConfigSetting() " + Ex.Message + ", Stack Trace:" + Ex.StackTrace, _strCsvPath , true);
             }
         }
 
@@ -209,6 +196,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                 if (flgSendEmail && _bAllowMailSending)
                 {
                     WriteLog("Total No of Database Connection String Found : " + ConfigurationManager.ConnectionStrings.Count.ToString(), _strCsvPath, false);
+                    EventLog.WriteEntry("Total No of Database Connection String Found : " + ConfigurationManager.ConnectionStrings.Count.ToString());
 
                     for (int i = 1; i < ConfigurationManager.ConnectionStrings.Count; i++)
                     {
@@ -297,6 +285,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                 if (ms > 0)
                 {
                     EventLog.WriteEntry("Thread sleeps for next " + ms / 3600000 + " Hours");
+                    WriteLog("Thread sleeps for next " + ms / 3600000 + " Hours",_strCsvPath,false);
                     Thread.Sleep(ms);
                     //dtSchduleDate = DateTime.Today;
                     flgSendEmail = true;
@@ -412,7 +401,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                                         dtRptDataForClass = dtRptDataForCurLocAndDeptAndAssocName.Select("Job_Title='" + dtUniqueJobTitle.Rows[k]["Job_Title"].ToString() + "'").CopyToDataTable<DataRow>();
                                         for (int m = 0; m < dtRptDataForClass.Rows.Count; m++)
                                         {
-                                            WriteLog("Location ID : " + drLocationID["PK_LU_Location_ID"] + " Department : " + dtUniqueDept.Rows[i]["Department"].ToString() + " Associate_Name : " + dtUniqueAssocName.Rows[j]["Associate_Name"].ToString() + " Job_Title : " + dtUniqueJobTitle.Rows[k]["Job_Title"].ToString(), _strCsvPath, false);
+                                           // WriteLog("Location ID : " + drLocationID["PK_LU_Location_ID"] + " Department : " + dtUniqueDept.Rows[i]["Department"].ToString() + " Associate_Name : " + dtUniqueAssocName.Rows[j]["Associate_Name"].ToString() + " Job_Title : " + dtUniqueJobTitle.Rows[k]["Job_Title"].ToString(), _strCsvPath, false);
                                             if (m == 0)
                                                 sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt'>" + Convert.ToString(dtRptDataForClass.Rows[m]["Class_Name"]) + "</td></tr>");
                                             else
@@ -442,7 +431,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                     }
                     catch (Exception ex)
                     {
-                        WriteLog("Exception occurred : " + ex.Message, _strCsvPath, false);
+                        WriteLog("Exception occurred  for Location ID: " + Convert.ToDecimal(drLocationID["PK_LU_Location_ID"]) + ", Exception Message :" + ex.Message + ", Stack Trace:" + ex.StackTrace, _strCsvPath, true);
                         EventLog.WriteEntry("Error in function SendMailToEarlyAlertLocationManagers()" + ex.Message + ",Stack Trace:" + ex.StackTrace);
                     }
                     //Write HTML in to HtmlWriter
@@ -455,7 +444,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
             catch (Exception ex)
             {
                 EventLog.WriteEntry("Error in function SendMailToEarlyAlertLocationManagers()" + ex.Message + ",Stack Trace:" + ex.StackTrace);
-                WriteLog("Exception " + ex.Message + " occurred in SendMailToEarlyAlertLocationManagers", _strCsvPath, true);
+                WriteLog("Exception " + ex.Message + " occurred in SendMailToEarlyAlertLocationManagers and Stack Trace:" + ex.StackTrace, _strCsvPath, true);
                 //event viewer
             }
         }
@@ -494,7 +483,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                         {
                             foreach (DataRow drLocationID in dtLocation.Rows) //Location wise
                             {
-                                WriteLog("Location ID : " + drLocationID["PK_LU_Location_ID"], _strCsvPath, false);
+                                //WriteLog("Location ID : " + drLocationID["PK_LU_Location_ID"], _strCsvPath, false);
                                 try
                                 {
                                     if (dtReportData != null && dtReportData.Rows.Count > 0)
@@ -623,7 +612,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                                 }
                                 catch (Exception ex)
                                 {
-                                    WriteLog("Exception occurred : " + ex.Message, _strCsvPath, false);
+                                    WriteLog("Exception occurred for Location ID: " + drLocationID["PK_LU_Location_ID"] + ", Exception Message :" + ex.Message + ", Stack Trace :" + ex.StackTrace, _strCsvPath, true);
                                 }
                             }
                         }
@@ -652,7 +641,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
             catch (Exception ex)
             {
                 EventLog.WriteEntry("Error in Sending Mail " + ex.Message + ",Stack Trace:" + ex.StackTrace);
-                WriteLog("Exception occurred : " + ex.Message, _strCsvPath, false);
+                WriteLog("Exception occurred : " + ex.Message + ",Stack Trace : " + ex.StackTrace, _strCsvPath, true);
             }
         }
 
@@ -703,7 +692,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                             }
                             catch (Exception Ex)
                             {
-                                WriteLog("Exception occurred in SendMailEveryQuarterToEmployees while sending mail to : " + Ex.Message, _strCsvPath, false);
+                                WriteLog("Exception occurred in SendMailEveryQuarterToEmployees while sending mail for Employee ID: " + Convert.ToDecimal(dtTraining.Rows[i]["FK_Employee"]) + " Message : " + Ex.Message + ", Stack Trace: " + Ex.StackTrace, _strCsvPath, true);
                                 mail.To.Clear();
                                 mail.Body = "";
                             }
@@ -727,7 +716,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
             }
             catch (Exception ex)
             {
-                WriteLog("Exception occurred while executing SendMailEveryQuarterToEmployees " + ex.Message, _strCsvPath, false);
+                WriteLog("Exception occurred while executing SendMailEveryQuarterToEmployees " + ex.Message, _strCsvPath + ", Stack Trace: " + ex.StackTrace, true);
             }
         }
 
@@ -886,6 +875,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                         catch (Exception Ex)
                         {
                             EventLog.WriteEntry("Error in Sending Mail for " + strReportTitle + ", " + Ex.Message + ",Stack Trace:" + Ex.StackTrace);
+                            WriteLog("Error in Sending Mail for " + strReportTitle + "Message: " + Ex.Message + " , Stack Trace:" + Ex.StackTrace, _strCsvPath, true);
                         }
                     }
 
@@ -897,12 +887,13 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                 else
                 {
                     EventLog.WriteEntry("Error in converting Report to PDF for " + strReportTitle);
+                    WriteLog("Error in converting Report to PDF for " + strReportTitle, _strCsvPath, false);
                 }
             }
             catch (Exception ex)
             {
                 EventLog.WriteEntry("Error in Sending Mail for " + strReportTitle + ", " + ex.Message + ",Stack Trace:" + ex.StackTrace);
-                WriteLog("Exception occurred " + ex.Message + " in SendMailPDF()", _strCsvPath, true);
+                WriteLog("Error in Sending Mail for " + ex.Message + " , Stack Trace:" + ex.StackTrace, _strCsvPath, true);
             }
         }
 
@@ -981,7 +972,8 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                 }
                 catch (Exception ex)
                 {
-                    EventLog.WriteEntry("Error in Sending Mail for " + strReportTitle + ", " + ex.Message + ",Stack Trace:" + ex.StackTrace);
+                    EventLog.WriteEntry("Error in Sending Mail for " + strReportTitle + ", " + ex.Message + ", Stack Trace:" + ex.StackTrace);
+                    WriteLog("Exception occurred " + ex.Message + " in SendMailPDF() , Stack Trace:" + ex.StackTrace, _strCsvPath, true);
                 }
                 atts.Dispose();
 
@@ -991,6 +983,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
             else
             {
                 EventLog.WriteEntry("Error in converting Report to PDF for " + strReportTitle);
+                WriteLog("Error in converting Report to PDF for " + strReportTitle, _strCsvPath, false);
             }
         }
         #endregion
