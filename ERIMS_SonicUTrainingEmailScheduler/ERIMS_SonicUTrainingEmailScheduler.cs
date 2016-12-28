@@ -321,6 +321,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                 strPrevDept = strPrevAssoName = strPrevJobTitle = "#";
                 DataTable dtRptDataForCurLocAndDept, dtRptDataForCurLocAndDeptAndAssocName, dtRptDataForClass;
                 DataTable dtUniqueDept, dtUniqueAssocName, dtUniqueJobTitle;
+                DataView dvReportData;
 
                 foreach (DataRow drLocationID in dtLocationIDs.Rows) //Location wise
                 {
@@ -340,11 +341,22 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                             sbRecorords.Append("<tr style='font-weight: bold;' valign='top'><td align='left' style='font-size:9pt'  colspan='4'>" + DateTime.Now.ToString("dd MMMM yyyy") + "</td></tr><tr>&nbsp;</tr>");
                             sbRecorords.Append("<tr style='font-weight: bold;' valign='top'><td><table border='1' cellspacing='0' cellpadding='0' style='border: black 0.5px solid'><tr style='font-weight: bold;background-color:#95B3D7;color:Black;font-size:11pt;height:25'  valign='top'>");
                             sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt;padding-left:10px;'>Department</td>");
-                            sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt;padding-left:10px;'>Associate</td>");
+                            sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt;padding-left:10px;'>Associate</td>");   
                             sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt;padding-left:10px;'>Job Title</td>");
                             sbRecorords.Append("<td align='left' style='width=55%;font-size:9pt;padding-left:10px;'>Remaining Training to be Taken</td></tr>");
 
-                            DataTable dtLocationData = dtReportData.Select("PK_LU_Location_ID ='" + drLocationID["PK_LU_Location_ID"].ToString() + "'").CopyToDataTable<DataRow>();
+                            
+
+
+                            //DataRow[] drLocationData = dtReportData.Select("PK_LU_Location_ID ='" + drLocationID["PK_LU_Location_ID"].ToString() + "'");
+                            //DataTable dtLocationData=new DataTable();
+                            //if(drLocationData!=null && drLocationData.Length>0)
+                            //{
+                            //    dtLocationData = drLocationData.CopyToDataTable<DataRow>();
+                            //}
+                            //DataTable dtLocationData = dtReportData.Select("PK_LU_Location_ID ='" + drLocationID["PK_LU_Location_ID"].ToString() + "'").CopyToDataTable<DataRow>();
+                            dvReportData = new DataView(dtReportData, "PK_LU_Location_ID ='" + drLocationID["PK_LU_Location_ID"].ToString() + "'", "PK_LU_Location_ID", DataViewRowState.CurrentRows);                            
+                            DataTable dtLocationData = dvReportData.ToTable();                            
                             dtUniqueDept = dtLocationData.AsDataView().ToTable(true, "Department");
                             string str = "bgcolor=white";
 
@@ -361,7 +373,9 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                                 sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt;padding-left:10px;'>" + Convert.ToString(dtUniqueDept.Rows[i]["Department"]) + "</td>");
 
                                 //Fetch Data for current department and current location
-                                dtRptDataForCurLocAndDept = dtLocationData.Select("Department='" + dtUniqueDept.Rows[i]["Department"].ToString() + "'").CopyToDataTable<DataRow>();
+                                //dtRptDataForCurLocAndDept = dtLocationData.Select("Department='" + dtUniqueDept.Rows[i]["Department"].ToString() + "'").CopyToDataTable<DataRow>();                                
+                                dvReportData = new DataView(dtLocationData, "Department='" + dtUniqueDept.Rows[i]["Department"].ToString() + "'", "Department", DataViewRowState.CurrentRows);
+                                dtRptDataForCurLocAndDept = dvReportData.ToTable();                                
 
                                 dtUniqueAssocName = dtRptDataForCurLocAndDept.AsDataView().ToTable(true, "Associate_Name");
                                 for (int j = 0; j < dtUniqueAssocName.Rows.Count; j++) //Fetches unique associates for the current Location and department
@@ -379,8 +393,11 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                                         sbRecorords.Append("<tr " + str + " valign='top' style='padding-left:10px;' ><td>&nbsp;</td><td align='left' style='width:15%;font-size:9pt'>" + Convert.ToString(dtUniqueAssocName.Rows[j]["Associate_Name"]) + "</td>");
                                     }
 
-                                    //Fetch Data for current Associate_Name and current location and department
-                                    dtRptDataForCurLocAndDeptAndAssocName = dtRptDataForCurLocAndDept.Select("Associate_Name='" + dtUniqueAssocName.Rows[j]["Associate_Name"].ToString().Replace("'", "''") + "'").CopyToDataTable<DataRow>();
+                                    //Fetch Data for current Associate_Name and current location and department Replace("'", "''" + "'")
+                                    //dtRptDataForCurLocAndDeptAndAssocName = dtRptDataForCurLocAndDept.Select("Associate_Name='" + dtUniqueAssocName.Rows[j]["Associate_Name"].ToString().Replace("'", "''") + "'").CopyToDataTable<DataRow>();
+                                    //dvReportData = new DataView(dtRptDataForCurLocAndDept, "Associate_Name='" + dtUniqueAssocName.Rows[j]["Associate_Name"].ToString().Replace("'", "'" + "'") + "'", "Associate_Name", DataViewRowState.CurrentRows);
+                                    dvReportData = new DataView(dtRptDataForCurLocAndDept, "Associate_Name='" + dtUniqueAssocName.Rows[j]["Associate_Name"].ToString().Replace("'", "''") + "'", "Associate_Name", DataViewRowState.CurrentRows);
+                                    dtRptDataForCurLocAndDeptAndAssocName = dvReportData.ToTable();                                
                                     dtUniqueJobTitle = dtRptDataForCurLocAndDeptAndAssocName.AsDataView().ToTable(true, "Job_Title");
                                     for (int k = 0; k < dtUniqueJobTitle.Rows.Count; k++) //Fetches unique associates for the current Location and department
                                     {
@@ -398,7 +415,9 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                                             sbRecorords.Append("<tr " + str + " valign='top' style='padding-left:10px;'><td>&nbsp;</td><td>&nbsp;</td><td align='left' style='width:15%;font-size:9pt'>" + Convert.ToString(dtUniqueJobTitle.Rows[k]["Job_Title"]) + "</td>");
                                         }
                                         //Fetches data for current location,Department,Associate_Name,Job title
-                                        dtRptDataForClass = dtRptDataForCurLocAndDeptAndAssocName.Select("Job_Title='" + dtUniqueJobTitle.Rows[k]["Job_Title"].ToString() + "'").CopyToDataTable<DataRow>();
+                                        //dtRptDataForClass = dtRptDataForCurLocAndDeptAndAssocName.Select("Job_Title='" + dtUniqueJobTitle.Rows[k]["Job_Title"].ToString() + "'").CopyToDataTable<DataRow>();
+                                        dvReportData = new DataView(dtRptDataForCurLocAndDeptAndAssocName, "Job_Title='" + dtUniqueJobTitle.Rows[k]["Job_Title"].ToString() + "'", "Job_Title", DataViewRowState.CurrentRows);
+                                        dtRptDataForClass = dvReportData.ToTable();                                
                                         for (int m = 0; m < dtRptDataForClass.Rows.Count; m++)
                                         {
                                            // WriteLog("Location ID : " + drLocationID["PK_LU_Location_ID"] + " Department : " + dtUniqueDept.Rows[i]["Department"].ToString() + " Associate_Name : " + dtUniqueAssocName.Rows[j]["Associate_Name"].ToString() + " Job_Title : " + dtUniqueJobTitle.Rows[k]["Job_Title"].ToString(), _strCsvPath, false);
@@ -512,6 +531,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                                         strPrevDept = strPrevAssoName = strPrevJobTitle = "#";
                                         DataTable dtRptDataForCurLocAndDept, dtRptDataForCurLocAndDeptAndAssocName, dtRptDataForClass;
                                         DataTable dtUniqueDept, dtUniqueAssocName, dtUniqueJobTitle;
+                                        DataView dvReportData;
 
                                         DataTable dtLocationData = new DataView(dtReportData, "PK_LU_Location_ID ='" + drLocationID["PK_LU_Location_ID"].ToString() + "'", "", DataViewRowState.CurrentRows).ToTable();
 
@@ -533,7 +553,9 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                                                 sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt'>" + Convert.ToString(dtUniqueDept.Rows[i]["Department"]) + "</td>");
 
                                                 //Fetch Data for current department and current location
-                                                dtRptDataForCurLocAndDept = dtLocationData.Select("Department='" + dtUniqueDept.Rows[i]["Department"].ToString() + "'").CopyToDataTable<DataRow>();
+                                                //dtRptDataForCurLocAndDept = dtLocationData.Select("Department='" + dtUniqueDept.Rows[i]["Department"].ToString() + "'").CopyToDataTable<DataRow>();
+                                                dvReportData = new DataView(dtLocationData, "Department='" + dtUniqueDept.Rows[i]["Department"].ToString() + "'", "Department", DataViewRowState.CurrentRows);
+                                                dtRptDataForCurLocAndDept = dvReportData.ToTable();         
 
                                                 dtUniqueAssocName = dtRptDataForCurLocAndDept.AsDataView().ToTable(true, "Associate_Name");
                                                 for (int j = 0; j < dtUniqueAssocName.Rows.Count; j++) //Fetches unique associates for the current Location and department
@@ -553,7 +575,10 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                                                     }
 
                                                     //Fetch Data for current Associate_Name and current location and department
-                                                    dtRptDataForCurLocAndDeptAndAssocName = dtRptDataForCurLocAndDept.Select("Associate_Name='" + dtUniqueAssocName.Rows[j]["Associate_Name"].ToString() + "'").CopyToDataTable<DataRow>();
+                                                    //dtRptDataForCurLocAndDeptAndAssocName = dtRptDataForCurLocAndDept.Select("Associate_Name='" + dtUniqueAssocName.Rows[j]["Associate_Name"].ToString() + "'").CopyToDataTable<DataRow>();
+                                                    dvReportData = new DataView(dtRptDataForCurLocAndDept, "Associate_Name='" + dtUniqueAssocName.Rows[j]["Associate_Name"].ToString().Replace("'", "''") + "'", "Associate_Name", DataViewRowState.CurrentRows);
+                                                    dtRptDataForCurLocAndDeptAndAssocName = dvReportData.ToTable();                                
+
                                                     dtUniqueJobTitle = dtRptDataForCurLocAndDeptAndAssocName.AsDataView().ToTable(true, "Job_Title");
                                                     for (int k = 0; k < dtUniqueJobTitle.Rows.Count; k++) //Fetches unique associates for the current Location and department
                                                     {
@@ -571,7 +596,9 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                                                             sbRecorords.Append("<tr " + str + " valign='top' style='padding-left:10px;'><td>&nbsp;</td><td>&nbsp;</td><td align='left' style='width:15%;font-size:9pt'>" + Convert.ToString(dtUniqueJobTitle.Rows[k]["Job_Title"]) + "</td>");
                                                         }
                                                         //Fetches data for current location,Department,Associate_Name,Job title
-                                                        dtRptDataForClass = dtRptDataForCurLocAndDeptAndAssocName.Select("Job_Title='" + dtUniqueJobTitle.Rows[k]["Job_Title"].ToString() + "'").CopyToDataTable<DataRow>();
+                                                        //dtRptDataForClass = dtRptDataForCurLocAndDeptAndAssocName.Select("Job_Title='" + dtUniqueJobTitle.Rows[k]["Job_Title"].ToString() + "'").CopyToDataTable<DataRow>();
+                                                        dvReportData = new DataView(dtRptDataForCurLocAndDeptAndAssocName, "Job_Title='" + dtUniqueJobTitle.Rows[k]["Job_Title"].ToString() + "'", "Job_Title", DataViewRowState.CurrentRows);
+                                                        dtRptDataForClass = dvReportData.ToTable();                                
                                                         for (int m = 0; m < dtRptDataForClass.Rows.Count; m++)
                                                         {
                                                             if (m == 0)
