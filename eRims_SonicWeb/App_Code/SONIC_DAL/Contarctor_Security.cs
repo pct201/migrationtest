@@ -735,6 +735,7 @@ namespace ERIMS.DAL
             else
                 db.AddInParameter(dbCommand, "User_Name", DbType.String, this._User_Name);
 
+
             if (string.IsNullOrEmpty(this._First_Name))
                 db.AddInParameter(dbCommand, "First_Name", DbType.String, DBNull.Value);
             else
@@ -1030,5 +1031,25 @@ namespace ERIMS.DAL
 
             return db.ExecuteDataSet(dbCommand);
         }
+        
+        /// <summary>
+        /// select user with EVP OR Management Role
+        /// </summary>
+        /// <param name="FK_LU_Contractor_Type"></param>
+        /// <returns></returns>
+        public DataSet SelectEVPMGMTRoleForUser(decimal? FK_LU_Contractor_Type, decimal? PK_Contactor_Security)
+        {
+
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Select_EVP_MGMT_RoleForUser");
+           
+            db.AddInParameter(dbCommand, "FK_LU_Contractor_Type", DbType.Decimal, FK_LU_Contractor_Type);
+            db.AddInParameter(dbCommand, "PK_Contactor_Security", DbType.Decimal, PK_Contactor_Security);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+    
+
     }
 }

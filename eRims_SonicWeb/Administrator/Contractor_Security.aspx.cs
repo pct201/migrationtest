@@ -213,7 +213,7 @@ public partial class Administrator_Contractor_Security : clsBasePage
     protected void btnEdit_Click(object sender, EventArgs e)
     {
         if (PK_Contactor_Security > 0)
-        
+
             Response.Redirect("Contractor_Security.aspx?op=edit&id=" + Encryption.Encrypt(Convert.ToString(PK_Contactor_Security)));
 
     }
@@ -227,6 +227,8 @@ public partial class Administrator_Contractor_Security : clsBasePage
     {
         Contractor_Security objContractorSecurity = new Contractor_Security(PK_Contactor_Security);
         // set value of Security object
+
+
         objContractorSecurity.PK_Contactor_Security = PK_Contactor_Security;
         objContractorSecurity.User_Name = txtLoginUserName.Text.Trim().Replace("'", "\'");
         objContractorSecurity.First_Name = txtFirstName.Text.Trim().Replace("'", "\'");
@@ -253,10 +255,12 @@ public partial class Administrator_Contractor_Security : clsBasePage
             objContractorSecurity.FK_State = Convert.ToDecimal(ddlState.SelectedValue);
         else
             objContractorSecurity.FK_State = 0;
+
         if (ddlContractoType.SelectedIndex > 0)
             objContractorSecurity.FK_LU_Contractor_Type = Convert.ToDecimal(ddlContractoType.SelectedValue);
         else
             objContractorSecurity.FK_LU_Contractor_Type = 0;
+
         if (ddlAlertMethod.SelectedIndex > 0)
             objContractorSecurity.FL_LU_FACILITY_CONSTRUCTION_ALERT_METHOD = Convert.ToDecimal(ddlAlertMethod.SelectedValue);
         else
@@ -280,8 +284,24 @@ public partial class Administrator_Contractor_Security : clsBasePage
         objContractorSecurity.Vendor_Number = txtVendorNumber.Text;
         objContractorSecurity.IS_SRM = chkIsSRM.Checked ? 1 : 0;
         objContractorSecurity.IS_GC = chkISGC.Checked ? 1 : 0;
-        DataTable dtobjContractorSecurityManagement = objContractorSecurity.GetContractorSecurityForManagementUser().Tables[0];
-        DataTable dtobjContractorSecurityEVP = objContractorSecurity.GetContractorSecurityForEVPUser().Tables[0];
+        //DataTable dtobjContractorSecurityManagement = objContractorSecurity.GetContractorSecurityForManagementUser().Tables[0];
+        //DataTable dtobjContractorSecurityEVP = objContractorSecurity.GetContractorSecurityForEVPUser().Tables[0];
+
+        if (ddlContractoType.SelectedIndex > 0 && (ddlContractoType.SelectedItem.Text == "EVP" || ddlContractoType.SelectedItem.Text == "Management"))
+        {
+            DataSet dsobjContractorSecurity = objContractorSecurity.SelectEVPMGMTRoleForUser(objContractorSecurity.FK_LU_Contractor_Type, PK_Contactor_Security);
+            DataTable dtobjContractorSecurity = dsobjContractorSecurity.Tables[0];
+
+            if (dtobjContractorSecurity != null && dtobjContractorSecurity.Rows.Count > 0)
+            {
+                ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "alert('" + ddlContractoType.SelectedItem.Text + " role  already exist in the system for " + dtobjContractorSecurity.Rows[0]["Name"] + ".')", true);
+                 return;
+            }
+        
+        }
+
+        
+
         if (PK_Contactor_Security > 0)
         {
             int RtnVal = objContractorSecurity.Update();
@@ -301,17 +321,17 @@ public partial class Administrator_Contractor_Security : clsBasePage
                 return;
             }
 
-            if ((dtobjContractorSecurityManagement.Rows.Count > 0) && (ddlContractoType.SelectedItem.Text.ToString().ToUpper().Equals("MANAGEMENT")))
-            {
-                ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "alert('Management User already exists. Please Select another Contractor Type')", true);
-                return;
-            }
+            //if ((dtobjContractorSecurityManagement.Rows.Count > 0) && (ddlContractoType.SelectedItem.Text.ToString().ToUpper().Equals("MANAGEMENT")))
+            //{
+            //    ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "alert('Management User already exists. Please Select another Contractor Type')", true);
+            //    return;
+            //}
 
-            if ((dtobjContractorSecurityEVP.Rows.Count > 0) && (ddlContractoType.SelectedItem.Text.ToString().ToUpper().Equals("EVP")))
-            {
-                ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "alert('Uper Management User already exists. Please Select another Contractor Type')", true);
-                return;
-            }
+            //if ((dtobjContractorSecurityEVP.Rows.Count > 0) && (ddlContractoType.SelectedItem.Text.ToString().ToUpper().Equals("EVP")))
+            //{
+            //    ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "alert('Uper Management User already exists. Please Select another Contractor Type')", true);
+            //    return;
+            //}
 
             PK_Contactor_Security = objContractorSecurity.Insert();
             // Used to Check Duplicate User ID?
@@ -459,9 +479,9 @@ public partial class Administrator_Contractor_Security : clsBasePage
             hdnPKContractorSecurity.Value = PK_Contactor_Security.ToString();
             EditRecords();
             //Page.RegisterStartupScript("close", "<script language=javascript>   window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtFirstName').value = '" + lbtnTempFirst.Text.Replace("''", "\\'") + "'; window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtLastName').value = '" + lbtnTempLast.Text.Replace("''", "\\'") + "';  window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtempid').value = '" + lbtnTempID.Text + "'; self.close(); </script>");
-           // Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ddlChangeValidator();", true);
+            // Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ddlChangeValidator();", true);
 
-            
+
         }
         else if (e.CommandName == "View")
         {
@@ -548,7 +568,7 @@ public partial class Administrator_Contractor_Security : clsBasePage
         ComboHelper.FillContractorType(new DropDownList[] { ddlContractoType }, 0, true);
         ComboHelper.FillContractorFirm(new DropDownList[] { ddlContractorfirm }, 0, true);
         ComboHelper.FillContractType(new DropDownList[] { ddlContractType }, true);
-        FillAlertMethod(new DropDownList[] { ddlAlertMethod }, 0, true);        
+        FillAlertMethod(new DropDownList[] { ddlAlertMethod }, 0, true);
 
     }
     /// <summary>
@@ -792,17 +812,17 @@ public partial class Administrator_Contractor_Security : clsBasePage
             ddlToFill.DataValueField = "PK_LU_Facility_Construction_Alert_Method";
             ddlToFill.DataSource = dsData;
             ddlToFill.DataBind();
-            
-            
+
+
             //check require to add "-- select --" at first item of dropdown.
             if (booladdSelectAsFirstElement)
             {
                 ddlToFill.Items.Insert(0, new ListItem("-- Select --", "0"));
             }
             //ddlToFill.SelectedValue = "2";
-            clsGeneral.SetDropdownValue(ddlToFill, "E-Mail", false);            
+            clsGeneral.SetDropdownValue(ddlToFill, "E-Mail", false);
         }
-        
+
     }
 
     /// <summary>
@@ -816,5 +836,5 @@ public partial class Administrator_Contractor_Security : clsBasePage
     }
     #endregion
 
-    
+
 }
