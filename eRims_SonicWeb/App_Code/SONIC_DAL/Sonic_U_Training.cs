@@ -207,5 +207,14 @@ namespace ERIMS.DAL
             db.ExecuteScalar(dbCommand);
         }
 
+        public static void Sonic_U_Training_Associate_Training_Assignment()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Sonic_U_Training_Associate_Training_Assignment");
+
+            dbCommand.CommandTimeout = 10000;
+            db.ExecuteScalar(dbCommand);
+        }
+
     }
 }

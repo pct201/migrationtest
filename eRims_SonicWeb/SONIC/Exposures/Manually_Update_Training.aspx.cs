@@ -200,7 +200,7 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
                     i++;
                 }
             }
-
+            
             strCode = RemoveDuplicates(strCode);
 
             ///update Sonic_U_Training_Associate_Training per employee training per training_Code.
@@ -211,6 +211,8 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
                     Sonic_U_Training.Complete_Sonic_U_Training(year, Qaurter, Associate, strCode[j], is_AllTraining_Completed);
                 }
             }
+
+            Sonic_U_Training.Sonic_U_Training_Associate_Training_Assignment();
 
             ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:alert('Data saved successfully.')", true);
         }
