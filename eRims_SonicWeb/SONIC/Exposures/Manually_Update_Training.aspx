@@ -126,12 +126,12 @@
                 </tr>
             </table>
             <table border="0" cellpadding="2" cellspacing="2" width="80%">
-                <tr>
+                <%-- <tr>
                     <td colspan="6" align="left">
                         <asp:Button ID="btnAdd" runat="server" Text="Add Training Courses for Associates" ValidationGroup="vsErrorGroup" CausesValidation="true" OnClick="btnAdd_Click" />
                         &nbsp;&nbsp;&nbsp;
                     </td>
-                </tr>
+                </tr>--%>
                 <tr>
                     <td>&nbsp;
                     </td>
@@ -198,13 +198,22 @@
                 </tr>
 
             </table>
-            <table>
+            <table width="100%">
                 <tr>
                     <td>&nbsp;</td>
                 </tr>
                 <tr>
-                    <td align="center">
-                        <asp:Button ID="btnSubmit" runat="server" Text="Submit" ValidationGroup="vsErrorGroup" CausesValidation="true" OnClick="btnSubmit_Click" />
+                    <td width="170">
+                         &nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td align="center" width="250">
+                        <asp:Button ID="btnAdd" runat="server" Width="240px" Text="Add Training Courses for Associates" ValidationGroup="vsErrorGroup" CausesValidation="true" OnClick="btnAdd_Click" />
+                    </td>
+                     <td width="80">
+                         &nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td align="left">
+                        <asp:Button ID="btnSubmit" runat="server" Text="Waive Training Class" ValidationGroup="vsErrorGroup" CausesValidation="true" OnClick="btnSubmit_Click" />
                     </td>
                 </tr>
                 <tr>

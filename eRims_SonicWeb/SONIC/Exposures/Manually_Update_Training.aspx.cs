@@ -14,6 +14,15 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
         set { ViewState["Is_RLCM_User"] = value; }
     }
 
+    /// <summary>
+    /// visible Panel
+    /// </summary>
+    private bool IsPnlVisible
+    {
+        get { return ViewState["IsPnlVisible"] != null ? Convert.ToBoolean(ViewState["IsPnlVisible"]) : true; }
+        set { ViewState["IsPnlVisible"] = value; }
+    }
+
     #region "Page Events"
 
     /// <summary>
@@ -81,9 +90,16 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
         DataSet dsSearchResult = Sonic_U_Training.Associate_Training_Search(Associate, year, Qaurter, Convert.ToDecimal(ddlLocation.SelectedValue));
 
         if (dsSearchResult.Tables[0].Rows.Count > 0)
+        {
             btnSave.Visible = true;
+            IsPnlVisible = true;
+        }
         else
+        {
             btnSave.Visible = false;
+            ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:alert('No Data Exists for the current selection.')", true);
+            IsPnlVisible = false;
+        }
 
         gvTraining.DataSource = dsSearchResult.Tables[0];
         gvTraining.DataBind();
@@ -120,8 +136,17 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
     protected void btnSubmit_Click(object sender, EventArgs e)
     {
         BindSearchResult();
-        pnlSearch.Visible = false;
-        pnlGrid.Visible = true;
+
+        if(IsPnlVisible)
+        {
+            pnlSearch.Visible = false;
+            pnlGrid.Visible = true;
+        }
+        else
+        {
+            pnlSearch.Visible = true;
+            pnlGrid.Visible = false;
+        }
     }
 
     /// <summary>
@@ -237,6 +262,8 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
         {
             Session["PK_Employee_ID"] = null;
         }
+        Session["Year"] = Convert.ToInt32(ddlYear.SelectedValue);
+        Session["Quater"] = Convert.ToInt32(ddlQuarter.SelectedValue);
         ScriptManager.RegisterStartupScript(this, typeof(string), DateTime.Now.ToString(), "openPopUp('" + 0 + "');", true);
     }
     #endregion

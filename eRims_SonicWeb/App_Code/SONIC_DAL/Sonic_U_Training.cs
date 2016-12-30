@@ -83,7 +83,7 @@ namespace ERIMS.DAL
         public static DataSet Learning_Program(int year,int quarter)
         {
             Database db = DatabaseFactory.CreateDatabase();
-            DbCommand dbCommand = db.GetStoredProcCommand("Learning_Program_Curr_Quarter");
+            DbCommand dbCommand = db.GetStoredProcCommand("Learning_Program_Current_Quarter_New");
 
             db.AddInParameter(dbCommand, "Year", DbType.Int32, year);
             db.AddInParameter(dbCommand, "Quarter", DbType.Int32, quarter);

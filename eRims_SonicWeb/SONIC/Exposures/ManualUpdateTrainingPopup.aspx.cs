@@ -110,43 +110,60 @@ public partial class SONIC_Exposures_ManualUpdateTrainingPopup : clsBasePage
     {
         int Result = 0;
 
-        if (Sonic_U_Associate_Training_Manual.Sonic_U_Associate_Training_ManualDuplicateRecord(Convert.ToInt32(ddlAssociate.SelectedValue), Convert.ToInt16(Session["Year"]), Convert.ToInt16(Session["Quater"]), Convert.ToInt32(ddlClass.SelectedValue), false, Convert.ToInt16(Session["location"])) != 0)
+        Sonic_U_Associate_Training_Manual objSonic_U_Training = new Sonic_U_Associate_Training_Manual();
+        objSonic_U_Training.Year = Convert.ToInt16(Session["Year"]);
+        objSonic_U_Training.Train_Quarter = Convert.ToInt16(Session["Quater"]);
+        // objSonic_U_Training.Completed = false;
+        if (ddlAssociate.SelectedIndex > 0) objSonic_U_Training.FK_Employee = Convert.ToInt32(ddlAssociate.SelectedValue);
+        if (ddlClass.SelectedIndex > 0) objSonic_U_Training.FK_Sonic_U_Training_Class = Convert.ToInt32(ddlClass.SelectedValue);
+        objSonic_U_Training.Update_Date = DateTime.Now;
+        objSonic_U_Training.Updated_By = clsSession.UserID;
+        objSonic_U_Training.FK_Location = Convert.ToInt16(Session["location"]);
+        objSonic_U_Training.PK_Sonic_U_Associate_Training_Manual = PK_ID;
+
+        if (PK_ID > 0)
         {
-            ScriptManager.RegisterStartupScript(this, Page.GetType(), DateTime.Now.ToString(), "javascript:alert('Record already exists');", true);
+            Sonic_U_Associate_Training_Manual objManual = new Sonic_U_Associate_Training_Manual(PK_ID);
+            objSonic_U_Training.Completed = objManual.Completed;
+
+            if (Sonic_U_Associate_Training_Manual.Sonic_U_Associate_Training_ManualDuplicateRecord(Convert.ToInt32(ddlAssociate.SelectedValue), Convert.ToInt16(Session["Year"]), Convert.ToInt16(Session["Quater"]), Convert.ToInt32(ddlClass.SelectedValue), Convert.ToBoolean(objSonic_U_Training.Completed), Convert.ToInt16(Session["location"]), PK_ID) == 0)
+            {
+                Result = objSonic_U_Training.Update();
+            }
+            else
+            {
+                ScriptManager.RegisterStartupScript(this, Page.GetType(), DateTime.Now.ToString(), "javascript:alert('Record already exists');", true);
+                return;
+            }
         }
         else
         {
-            Sonic_U_Associate_Training_Manual objSonic_U_Training = new Sonic_U_Associate_Training_Manual();
-            objSonic_U_Training.Year = Convert.ToInt16(Session["Year"]);
-            objSonic_U_Training.Train_Quarter = Convert.ToInt16(Session["Quater"]);
-            objSonic_U_Training.Completed = false;
-            if (ddlAssociate.SelectedIndex > 0) objSonic_U_Training.FK_Employee = Convert.ToInt32(ddlAssociate.SelectedValue);
-            if (ddlClass.SelectedIndex > 0) objSonic_U_Training.FK_Sonic_U_Training_Class = Convert.ToInt32(ddlClass.SelectedValue);
-            objSonic_U_Training.Update_Date = DateTime.Now;
-            objSonic_U_Training.Updated_By = clsSession.UserID;
-            objSonic_U_Training.FK_Location = Convert.ToInt16(Session["location"]);
-            objSonic_U_Training.PK_Sonic_U_Associate_Training_Manual = PK_ID;
-
-            if (PK_ID > 0)
-                Result = objSonic_U_Training.Update();
-            else
+            if (Sonic_U_Associate_Training_Manual.Sonic_U_Associate_Training_ManualDuplicateRecord(Convert.ToInt32(ddlAssociate.SelectedValue), Convert.ToInt16(Session["Year"]), Convert.ToInt16(Session["Quater"]), Convert.ToInt32(ddlClass.SelectedValue), false, Convert.ToInt16(Session["location"]), PK_ID) == 0)
+            {
+                objSonic_U_Training.Completed = false;
                 Result = objSonic_U_Training.Insert();
-
-            if (Result == 1)
-            {
-                if (PK_ID > 0)
-                {
-                    ScriptManager.RegisterStartupScript(this, typeof(string), DateTime.Now.ToString(), "closepopup('edit');", true);
-                }
-                else
-                {
-                    ScriptManager.RegisterStartupScript(this, typeof(string), DateTime.Now.ToString(), "closepopup();", true);
-                }
             }
             else
             {
-                ScriptManager.RegisterStartupScript(this, typeof(string), DateTime.Now.ToString(), "javascript:alert('Automated Training already exists for Current Employee,Class,Year and Quarter');", true);
+                ScriptManager.RegisterStartupScript(this, Page.GetType(), DateTime.Now.ToString(), "javascript:alert('Record already exists');", true);
+                return;
             }
+        }
+
+        if (Result == 1)
+        {
+            if (PK_ID > 0)
+            {
+                ScriptManager.RegisterStartupScript(this, typeof(string), DateTime.Now.ToString(), "closepopup('edit');", true);
+            }
+            else
+            {
+                ScriptManager.RegisterStartupScript(this, typeof(string), DateTime.Now.ToString(), "closepopup();", true);
+            }
+        }
+        else
+        {
+            ScriptManager.RegisterStartupScript(this, typeof(string), DateTime.Now.ToString(), "javascript:alert('Automated Training already exists for Current Employee,Class,Year and Quarter');", true);
         }
     }
 

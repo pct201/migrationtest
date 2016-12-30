@@ -15,7 +15,7 @@ public partial class SONIC_Exposures_Learning_Program_Items_Report : clsBasePage
 
     private void BindGrid()
     {
-        int year = (ddlYear.SelectedIndex>0 ? Convert.ToInt32(ddlYear.SelectedValue) : 0);
+        int year =  Convert.ToInt32(ddlYear.SelectedValue);
         int quarter = (ddlQuarter.SelectedIndex > 0 ? Convert.ToInt32(ddlQuarter.SelectedValue) : 0);
 
         DataTable dtDetail = Sonic_U_Training.Learning_Program(year,quarter).Tables[0];
