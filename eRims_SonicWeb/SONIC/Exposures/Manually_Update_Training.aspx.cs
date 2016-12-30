@@ -97,7 +97,7 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
         else
         {
             btnSave.Visible = false;
-            ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:alert('No Data Exists for the current selection.')", true);
+          // ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:alert('No Data Exists for the current selection.')", true);
             IsPnlVisible = false;
         }
 
@@ -144,6 +144,7 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
         }
         else
         {
+            ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:alert('No Data Exists for the current selection.')", true);
             pnlSearch.Visible = true;
             pnlGrid.Visible = false;
         }
