@@ -143,6 +143,7 @@ public partial class SONIC_Exposures_ExposureSearchResult : clsBasePage
             DataTable dtSearch = (DataTable)Session["dtExposureSearchTable"];
             //check datatable have atleast one row
             if (dtSearch.Rows.Count > 0)
+            
             {
                 DataRow drSearch = dtSearch.Rows[0];
                 //get the values from each column of row
@@ -157,7 +158,7 @@ public partial class SONIC_Exposures_ExposureSearchResult : clsBasePage
                 string strBuilding_City = Convert.ToString(drSearch["Building_City"]);
                 string strBuilding_State = Convert.ToString(drSearch["Building_State"]);
                 string strBuilding_Zip = Convert.ToString(drSearch["Building_Zip"]);
-
+                string strConstructionProject_Number = Convert.ToString(drSearch["Project_Number"]);
                 string Regional = string.Empty;
                 Nullable<decimal> CurrentEmployee = new Security(Convert.ToDecimal(clsSession.UserID)).Employee_Id;
                 DataSet dsRegion = Regional_Access.SelectBySecurityID(Convert.ToInt32(clsSession.UserID));
@@ -174,7 +175,8 @@ public partial class SONIC_Exposures_ExposureSearchResult : clsBasePage
 
                 // selects records depending on paging criteria and search values.
                 DataSet dsSearchResult = ExposureCommon.GetExposuresSearchResult(strLocationIDs, strFromDate, strToDate, SortBy, SortOrder, PageNumber, PageSize, Regional.TrimEnd(Convert.ToChar(",")), CurrentEmployee
-                                         , strMain_Address, strMain_City, strMain_State, strMain_Zip, strBuilding_Address, strBuilding_City, strBuilding_State, strBuilding_Zip);
+                                         , strMain_Address, strMain_City, strMain_State, strMain_Zip, strBuilding_Address, strBuilding_City, strBuilding_State, strBuilding_Zip ,strConstructionProject_Number
+                                         );
                 DataTable dtSearchResult = dsSearchResult.Tables[0];
 
                 //// set values for paging control,so it shows values as needed.

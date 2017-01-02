@@ -818,6 +818,12 @@ function ShowAuditPopUp(url) {
                                                                                     <%# Eval("Building_Number")%>
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
+                                                                             <asp:TemplateField HeaderText="Status">
+                                                                                <ItemStyle Width="20%" />
+                                                                                <ItemTemplate>
+                                                                                    <%# Eval("Location_Status")%>
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>
                                                                             <asp:TemplateField HeaderText="Address">
                                                                                 <ItemStyle Width="35%" />
                                                                                 <ItemTemplate>
@@ -4235,7 +4241,7 @@ function ShowAuditPopUp(url) {
                                                                                 <ItemStyle Width="15%" />
                                                                                 <ItemTemplate>
                                                                                     <asp:LinkButton ID="lnkProjectNumber" runat="server" Text='<%#Eval("Project_Number")%>'
-                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements")%>' CommandName="ShowDetails" />
+                                                                                        CommandArgument='<%#Eval("Project_Number")%>' CommandName="ShowDetails" />
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
                                                                             <asp:TemplateField HeaderText="Project Type" SortExpression="Type_Description">

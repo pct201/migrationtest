@@ -27,8 +27,9 @@ namespace ERIMS.DAL
         #region "Methods"
 
         public static DataSet GetExposuresSearchResult(string strPKLocationIDs, string strFromDate,string strToDate, string strOrderBy, string strOrder, int intPageNo, int intPageSize,
-                        string Regional, Nullable<decimal> CurrentEmployee, string strMainAddress, string strMainCity, string strMainState, string strMainZip, string strBuildingAddress, 
-                        string strBuildingCity, string strBuildingState, string strBuildingZip)
+                        string Regional, Nullable<decimal> CurrentEmployee, string strMainAddress, string strMainCity, string strMainState, string strMainZip, string strBuildingAddress,
+                        string strBuildingCity, string strBuildingState, string strBuildingZip,string strConstructionProjectNumber
+            )
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("ExposuresSearch");
@@ -50,6 +51,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "@BuildingCity", DbType.String, strBuildingCity);
             db.AddInParameter(dbCommand, "@BuildingState", DbType.String, strBuildingState);
             db.AddInParameter(dbCommand, "@BuildingZip", DbType.String, strBuildingZip);
+           db.AddInParameter(dbCommand, "@ConstructionProjectNumber", DbType.String, strConstructionProjectNumber);
             return db.ExecuteDataSet(dbCommand);
         }
 

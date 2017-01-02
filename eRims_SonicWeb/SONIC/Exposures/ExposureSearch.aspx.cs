@@ -76,8 +76,9 @@ public partial class Exposures_ExposureSearch : clsBasePage
         dtSearch.Columns.Add(new DataColumn("Building_Address", typeof(string)));
         dtSearch.Columns.Add(new DataColumn("Building_City", typeof(string)));
         dtSearch.Columns.Add(new DataColumn("Building_State", typeof(string)));
-        dtSearch.Columns.Add(new DataColumn("Building_Zip", typeof(string)));
-
+         dtSearch.Columns.Add(new DataColumn("Building_Zip", typeof(string)));
+       dtSearch.Columns.Add(new DataColumn("Project_Number", typeof(string)));
+    
         // get values from page controls
         string strLocationIDs = string.Empty;
         if (ddlRMLocationNumber.SelectedIndex > 0) strLocationIDs = ddlRMLocationNumber.SelectedValue;
@@ -98,6 +99,7 @@ public partial class Exposures_ExposureSearch : clsBasePage
         drSearch[8] = txtBuildingCity.Text;
         drSearch[9] = drpBuildingState.Text;
         drSearch[10] = txtBuildingZip.Text;
+        drSearch[11] = txtConstructionProjectNumber.Text;
         dtSearch.Rows.Add(drSearch);
 
         // store table in session to be used in search result page

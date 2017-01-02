@@ -239,10 +239,16 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="Spacer" style="height: 20px;" colspan="6">
-                                                    &nbsp;
+                                                 <td align="left">
+                                                     Construction Project Number
+                                                </td>    
+                                                <td align="center">
+                                                    :
                                                 </td>
-                                            </tr>
+                                                <td align="left">
+                                                    <asp:TextBox ID="txtConstructionProjectNumber" runat="server" Width="175px" MaxLength="50" />
+                                                </td>
+  </tr>
                                         </table>
                                     </td>
                                 </tr>
