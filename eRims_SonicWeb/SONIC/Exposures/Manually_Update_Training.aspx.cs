@@ -97,7 +97,7 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
         else
         {
             btnSave.Visible = false;
-          // ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:alert('No Data Exists for the current selection.')", true);
+            // ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:alert('No Data Exists for the current selection.')", true);
             IsPnlVisible = false;
         }
 
@@ -137,7 +137,7 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
     {
         BindSearchResult();
 
-        if(IsPnlVisible)
+        if (IsPnlVisible)
         {
             pnlSearch.Visible = false;
             pnlGrid.Visible = true;
@@ -200,7 +200,7 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
                     i++;
                 }
             }
-            
+
             strCode = RemoveDuplicates(strCode);
 
             ///update Sonic_U_Training_Associate_Training per employee training per training_Code.
@@ -209,10 +209,11 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
                 if (gvTraining != null)
                 {
                     Sonic_U_Training.Complete_Sonic_U_Training(year, Qaurter, Associate, strCode[j], is_AllTraining_Completed);
+                    Sonic_U_Training.Sonic_U_Training_Associate_Training_Assignment((int)Associate, year, Qaurter);
                 }
             }
 
-            Sonic_U_Training.Sonic_U_Training_Associate_Training_Assignment();
+
 
             ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:alert('Data saved successfully.')", true);
         }
@@ -283,7 +284,7 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
             RadioButtonList rblIs_Complete = (RadioButtonList)e.Row.FindControl("rblIs_Complete");
-            rblIs_Complete.SelectedValue = (Convert.ToString(DataBinder.Eval(e.Row.DataItem, "Is_Complete")).ToLower()=="false") ? "0":"1";
+            rblIs_Complete.SelectedValue = (Convert.ToString(DataBinder.Eval(e.Row.DataItem, "Is_Complete")).ToLower() == "false") ? "0" : "1";
             HiddenField hdnPK_Sonic_U_Associate_Training_Manual = (HiddenField)e.Row.FindControl("hdnPK_Sonic_U_Associate_Training_Manual");
             LinkButton lnkEdit = (LinkButton)e.Row.FindControl("lknEdit");
             LinkButton lnkDelete = (LinkButton)e.Row.FindControl("lnkDelete");

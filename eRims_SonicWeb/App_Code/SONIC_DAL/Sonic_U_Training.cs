@@ -207,10 +207,13 @@ namespace ERIMS.DAL
             db.ExecuteScalar(dbCommand);
         }
 
-        public static void Sonic_U_Training_Associate_Training_Assignment()
+        public static void Sonic_U_Training_Associate_Training_Assignment(int FK_Employee, int Year, int Quarter)
         {
             Database db = DatabaseFactory.CreateDatabase();
-            DbCommand dbCommand = db.GetStoredProcCommand("Sonic_U_Training_Associate_Training_Assignment");
+            DbCommand dbCommand = db.GetStoredProcCommand("Sonic_U_Training_Associate_Training_Assignment_EnrolEmployee");
+            db.AddInParameter(dbCommand, "FK_Employee", DbType.Int32, FK_Employee);
+            db.AddInParameter(dbCommand, "Year", DbType.Int32, Year);
+            db.AddInParameter(dbCommand, "Quarter", DbType.Int32, Quarter);
 
             dbCommand.CommandTimeout = 10000;
             db.ExecuteScalar(dbCommand);
