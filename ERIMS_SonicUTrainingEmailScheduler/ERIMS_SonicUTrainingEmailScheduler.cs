@@ -204,19 +204,19 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                         {
                             ReportSendMail.strConn = ConfigurationManager.ConnectionStrings[i].ConnectionString;
 
-                                //Send Mail for Testing if _isTesting True
-                                if (_isTesting)
-                                {
-                                    SendMailEveryQuarterToEmployees();
-                                    SendMailToEarlyAlertLocationManagers();
-                                    SendMailToRLCMLocationManagers();
-                                }
-                              
-                                if ((quarterDay == 1) && (quarterMonth == 1 || quarterMonth == 4 || quarterMonth == 7 || quarterMonth == 10))
-                                {
-                                    //Send Email to the Employees having Training the the following Quarter
-                                    SendMailEveryQuarterToEmployees();
-                                }
+                            //Send Mail for Testing if _isTesting True
+                            if (_isTesting)
+                            {
+                                SendMailEveryQuarterToEmployees();
+                                SendMailToEarlyAlertLocationManagers();
+                                SendMailToRLCMLocationManagers();
+                            }
+
+                            if ((quarterDay == 1) && (quarterMonth == 1 || quarterMonth == 4 || quarterMonth == 7 || quarterMonth == 10))
+                            {
+                                //Send Email to the Employees having Training the the following Quarter
+                                SendMailEveryQuarterToEmployees();
+                            }
 
                             //For 1st and 2nd month of quarter send mail for first day of week
                             if (quarterMonth % 3 != 0)
@@ -341,11 +341,11 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                             sbRecorords.Append("<tr style='font-weight: bold;' valign='top'><td align='left' style='font-size:9pt'  colspan='4'>" + DateTime.Now.ToString("dd MMMM yyyy") + "</td></tr><tr>&nbsp;</tr>");
                             sbRecorords.Append("<tr style='font-weight: bold;' valign='top'><td><table border='1' cellspacing='0' cellpadding='0' style='border: black 0.5px solid'><tr style='font-weight: bold;background-color:#95B3D7;color:Black;font-size:11pt;height:25'  valign='top'>");
                             sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt;padding-left:10px;'>Department</td>");
-                            sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt;padding-left:10px;'>Associate</td>");   
+                            sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt;padding-left:10px;'>Associate</td>");
                             sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt;padding-left:10px;'>Job Title</td>");
                             sbRecorords.Append("<td align='left' style='width=55%;font-size:9pt;padding-left:10px;'>Remaining Training to be Taken</td></tr>");
 
-                            
+
 
 
                             //DataRow[] drLocationData = dtReportData.Select("PK_LU_Location_ID ='" + drLocationID["PK_LU_Location_ID"].ToString() + "'");
@@ -355,8 +355,8 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                             //    dtLocationData = drLocationData.CopyToDataTable<DataRow>();
                             //}
                             //DataTable dtLocationData = dtReportData.Select("PK_LU_Location_ID ='" + drLocationID["PK_LU_Location_ID"].ToString() + "'").CopyToDataTable<DataRow>();
-                            dvReportData = new DataView(dtReportData, "PK_LU_Location_ID ='" + drLocationID["PK_LU_Location_ID"].ToString() + "'", "PK_LU_Location_ID", DataViewRowState.CurrentRows);                            
-                            DataTable dtLocationData = dvReportData.ToTable();                            
+                            dvReportData = new DataView(dtReportData, "PK_LU_Location_ID ='" + drLocationID["PK_LU_Location_ID"].ToString() + "'", "PK_LU_Location_ID", DataViewRowState.CurrentRows);
+                            DataTable dtLocationData = dvReportData.ToTable();
                             dtUniqueDept = dtLocationData.AsDataView().ToTable(true, "Department");
                             string str = "bgcolor=white";
 
@@ -375,7 +375,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                                 //Fetch Data for current department and current location
                                 //dtRptDataForCurLocAndDept = dtLocationData.Select("Department='" + dtUniqueDept.Rows[i]["Department"].ToString() + "'").CopyToDataTable<DataRow>();                                
                                 dvReportData = new DataView(dtLocationData, "Department='" + dtUniqueDept.Rows[i]["Department"].ToString() + "'", "Department", DataViewRowState.CurrentRows);
-                                dtRptDataForCurLocAndDept = dvReportData.ToTable();                                
+                                dtRptDataForCurLocAndDept = dvReportData.ToTable();
 
                                 dtUniqueAssocName = dtRptDataForCurLocAndDept.AsDataView().ToTable(true, "Associate_Name");
                                 for (int j = 0; j < dtUniqueAssocName.Rows.Count; j++) //Fetches unique associates for the current Location and department
@@ -397,7 +397,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                                     //dtRptDataForCurLocAndDeptAndAssocName = dtRptDataForCurLocAndDept.Select("Associate_Name='" + dtUniqueAssocName.Rows[j]["Associate_Name"].ToString().Replace("'", "''") + "'").CopyToDataTable<DataRow>();
                                     //dvReportData = new DataView(dtRptDataForCurLocAndDept, "Associate_Name='" + dtUniqueAssocName.Rows[j]["Associate_Name"].ToString().Replace("'", "'" + "'") + "'", "Associate_Name", DataViewRowState.CurrentRows);
                                     dvReportData = new DataView(dtRptDataForCurLocAndDept, "Associate_Name='" + dtUniqueAssocName.Rows[j]["Associate_Name"].ToString().Replace("'", "''") + "'", "Associate_Name", DataViewRowState.CurrentRows);
-                                    dtRptDataForCurLocAndDeptAndAssocName = dvReportData.ToTable();                                
+                                    dtRptDataForCurLocAndDeptAndAssocName = dvReportData.ToTable();
                                     dtUniqueJobTitle = dtRptDataForCurLocAndDeptAndAssocName.AsDataView().ToTable(true, "Job_Title");
                                     for (int k = 0; k < dtUniqueJobTitle.Rows.Count; k++) //Fetches unique associates for the current Location and department
                                     {
@@ -417,10 +417,10 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                                         //Fetches data for current location,Department,Associate_Name,Job title
                                         //dtRptDataForClass = dtRptDataForCurLocAndDeptAndAssocName.Select("Job_Title='" + dtUniqueJobTitle.Rows[k]["Job_Title"].ToString() + "'").CopyToDataTable<DataRow>();
                                         dvReportData = new DataView(dtRptDataForCurLocAndDeptAndAssocName, "Job_Title='" + dtUniqueJobTitle.Rows[k]["Job_Title"].ToString() + "'", "Job_Title", DataViewRowState.CurrentRows);
-                                        dtRptDataForClass = dvReportData.ToTable();                                
+                                        dtRptDataForClass = dvReportData.ToTable();
                                         for (int m = 0; m < dtRptDataForClass.Rows.Count; m++)
                                         {
-                                           // WriteLog("Location ID : " + drLocationID["PK_LU_Location_ID"] + " Department : " + dtUniqueDept.Rows[i]["Department"].ToString() + " Associate_Name : " + dtUniqueAssocName.Rows[j]["Associate_Name"].ToString() + " Job_Title : " + dtUniqueJobTitle.Rows[k]["Job_Title"].ToString(), _strCsvPath, false);
+                                            // WriteLog("Location ID : " + drLocationID["PK_LU_Location_ID"] + " Department : " + dtUniqueDept.Rows[i]["Department"].ToString() + " Associate_Name : " + dtUniqueAssocName.Rows[j]["Associate_Name"].ToString() + " Job_Title : " + dtUniqueJobTitle.Rows[k]["Job_Title"].ToString(), _strCsvPath, false);
                                             if (m == 0)
                                                 sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt'>" + Convert.ToString(dtRptDataForClass.Rows[m]["Class_Name"]) + "</td></tr>");
                                             else
@@ -555,7 +555,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                                                 //Fetch Data for current department and current location
                                                 //dtRptDataForCurLocAndDept = dtLocationData.Select("Department='" + dtUniqueDept.Rows[i]["Department"].ToString() + "'").CopyToDataTable<DataRow>();
                                                 dvReportData = new DataView(dtLocationData, "Department='" + dtUniqueDept.Rows[i]["Department"].ToString() + "'", "Department", DataViewRowState.CurrentRows);
-                                                dtRptDataForCurLocAndDept = dvReportData.ToTable();         
+                                                dtRptDataForCurLocAndDept = dvReportData.ToTable();
 
                                                 dtUniqueAssocName = dtRptDataForCurLocAndDept.AsDataView().ToTable(true, "Associate_Name");
                                                 for (int j = 0; j < dtUniqueAssocName.Rows.Count; j++) //Fetches unique associates for the current Location and department
@@ -577,7 +577,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                                                     //Fetch Data for current Associate_Name and current location and department
                                                     //dtRptDataForCurLocAndDeptAndAssocName = dtRptDataForCurLocAndDept.Select("Associate_Name='" + dtUniqueAssocName.Rows[j]["Associate_Name"].ToString() + "'").CopyToDataTable<DataRow>();
                                                     dvReportData = new DataView(dtRptDataForCurLocAndDept, "Associate_Name='" + dtUniqueAssocName.Rows[j]["Associate_Name"].ToString().Replace("'", "''") + "'", "Associate_Name", DataViewRowState.CurrentRows);
-                                                    dtRptDataForCurLocAndDeptAndAssocName = dvReportData.ToTable();                                
+                                                    dtRptDataForCurLocAndDeptAndAssocName = dvReportData.ToTable();
 
                                                     dtUniqueJobTitle = dtRptDataForCurLocAndDeptAndAssocName.AsDataView().ToTable(true, "Job_Title");
                                                     for (int k = 0; k < dtUniqueJobTitle.Rows.Count; k++) //Fetches unique associates for the current Location and department
@@ -598,7 +598,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                                                         //Fetches data for current location,Department,Associate_Name,Job title
                                                         //dtRptDataForClass = dtRptDataForCurLocAndDeptAndAssocName.Select("Job_Title='" + dtUniqueJobTitle.Rows[k]["Job_Title"].ToString() + "'").CopyToDataTable<DataRow>();
                                                         dvReportData = new DataView(dtRptDataForCurLocAndDeptAndAssocName, "Job_Title='" + dtUniqueJobTitle.Rows[k]["Job_Title"].ToString() + "'", "Job_Title", DataViewRowState.CurrentRows);
-                                                        dtRptDataForClass = dvReportData.ToTable();                                
+                                                        dtRptDataForClass = dvReportData.ToTable();
                                                         for (int m = 0; m < dtRptDataForClass.Rows.Count; m++)
                                                         {
                                                             if (m == 0)
@@ -686,10 +686,9 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                 DataTable dtTraining = ReportSendMail.GetEmployeeTrainingData().Tables[0];
                 MemoryStream memorystream = new MemoryStream();
                 MailMessage mail = new MailMessage();
-                decimal Fk_Employee = -1;
                 string strClassNameList = "";
 
-                DataTable temp = dtTraining.AsDataView().ToTable(true, "FK_Employee");
+                DataTable temp = dtTraining.AsDataView().ToTable(true, "FK_Employee","EmailTo");
 
                 WriteLog("No of employees having training in this Quarter : " + dtTraining.Rows.Count, _strCsvPath, false);
 
@@ -702,42 +701,45 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                 mSmtpClient.Host = _strSMTPServer;
                 mSmtpClient.Credentials = new System.Net.NetworkCredential(_strSMTPmailFrom, _strSMTPPwd);
 
-
-                for (int i = 0; i < dtTraining.Rows.Count; i++)
+                //distinct Employees in temp table
+                if (temp.Rows.Count > 0 && temp != null)
                 {
-                    if (Fk_Employee != -1 && Fk_Employee != Convert.ToDecimal(dtTraining.Rows[i]["FK_Employee"]))
+                    foreach (DataRow drEmployee in temp.Rows)
                     {
-                        mail.Body = "You are scheduled to take and complete the following training this quarter: <ul style='list-style-type:circle'>" + strClassNameList;
-                        if (i != 0)
+                        //filter by FK_Employee
+                        DataTable dtEmployeeData = dtTraining.Select("FK_Employee='" + Convert.ToString(drEmployee["FK_Employee"]) + "'").CopyToDataTable<DataRow>();
+
+                        if (dtEmployeeData.Rows.Count > 0 && dtEmployeeData != null)
                         {
+                            foreach (DataRow dr in dtEmployeeData.Rows)
+                            {
+                                strClassNameList += "<li>" + (Convert.ToString(dr["Class_Name"])).Replace(",", "</li>");
+                            }
+
+                            mail.Body = "You are scheduled to take and complete the following training this quarter: <ul style='list-style-type:circle'>" + strClassNameList;
+
                             try
                             {
                                 mail.Body += "</ul>";
+                                mail.To.Add(new MailAddress(Convert.ToString(drEmployee["EmailTo"])));
                                 mSmtpClient.Send(mail);
                                 mail.To.Clear();
                                 mail.Body = "";
                             }
                             catch (Exception Ex)
                             {
-                                WriteLog("Exception occurred in SendMailEveryQuarterToEmployees while sending mail for Employee ID: " + Convert.ToDecimal(dtTraining.Rows[i]["FK_Employee"]) + " Message : " + Ex.Message + ", Stack Trace: " + Ex.StackTrace, _strCsvPath, true);
+                                WriteLog("Exception occurred in SendMailEveryQuarterToEmployees while sending mail for Employee ID: " + Convert.ToDecimal(drEmployee["FK_Employee"]) + " Message : " + Ex.Message + ", Stack Trace: " + Ex.StackTrace, _strCsvPath, true);
                                 mail.To.Clear();
                                 mail.Body = "";
                             }
 
                             strClassNameList = "";
                         }
-                        strClassNameList += "<li>" + (dtTraining.Rows[i]["Class_Name"].ToString()).Replace(",", "</li>");
-                        if(!mail.To.Contains(new MailAddress(dtTraining.Rows[i]["EmailTo"].ToString())))
-                            mail.To.Add(new MailAddress(dtTraining.Rows[i]["EmailTo"].ToString()));
-                        Fk_Employee = Convert.ToDecimal(dtTraining.Rows[i]["FK_Employee"]);
                     }
-                    else
-                    {
-                        strClassNameList += "<li>" + (dtTraining.Rows[i]["Class_Name"].ToString()).Replace(",", "</li>");
-                        if (!mail.To.Contains(new MailAddress(dtTraining.Rows[i]["EmailTo"].ToString())))
-                            mail.To.Add(new MailAddress(dtTraining.Rows[i]["EmailTo"].ToString()));
-                        Fk_Employee = Convert.ToDecimal(dtTraining.Rows[i]["FK_Employee"]);
-                    }
+                }
+                else
+                {
+                    WriteLog("No Data exists for SendMailEveryQuarterToEmployees()", _strCsvPath, false);
                 }
                 WriteLog("Function SendMailEveryQuarterToEmployees executed", _strCsvPath, false);
             }
