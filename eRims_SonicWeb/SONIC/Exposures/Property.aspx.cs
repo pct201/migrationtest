@@ -1705,7 +1705,8 @@ public partial class Exposures_Property : clsBasePage
         }
         else if (e.CommandName == "RemoveDetails")
         {
-            Building_Improvements.DeleteByPK(Convert.ToDecimal(e.CommandArgument));
+            //Building_Improvements.DeleteByPK(Convert.ToDecimal(e.CommandArgument));
+            Building_Improvements.DeleteImprovementAndConstructionByPK(Convert.ToDecimal(e.CommandArgument));//here delete construction project and BuildingImprovements
             BindBuildingImprovementGrid();
         }
     }
