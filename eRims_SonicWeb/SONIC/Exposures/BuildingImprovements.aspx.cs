@@ -469,89 +469,116 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
     /// <param name="e"></param>
     protected void btnSave_Click(object sender, EventArgs e)
     {
-        // create object for Building_Improvements record
-        Building_Improvements objBuilding_Improvements = new Building_Improvements();
+        int checkProjectNumberExists = 0;
+        if (!string.IsNullOrEmpty(txtProject_Number.Text))
+        {
+            checkProjectNumberExists = Facility_Construction_Project.CheckProjectNumberAlreadyExists(0, txtProject_Number.Text.Trim());
+        }
 
-        //string FK_Building_Ids = string.Empty;
-        //foreach (ListItem lstItem in lstBuildingNumber.Items)
-        //{
-        //    if (lstItem.Selected)
-        //        FK_Building_Ids += lstItem.Value + ",";
-        //}
-
-
-
-        //FK_Building_Ids = FK_Building_Ids.TrimEnd(',');
-
-        // set PK and FK
-        objBuilding_Improvements.FK_Building = Convert.ToDecimal(ddlBuildingNumber.SelectedValue);
-        //objBuilding_Improvements.FK_Building_Ids = FK_Building_Ids;
-        objBuilding_Improvements.PK_Building_Improvements = PK_Building_Improvements;
-        //objBuilding_Improvements.FK_Building = FK_Building;
-        objBuilding_Improvements.FK_Property_Cope = FK_Property_Cope;
-        objBuilding_Improvements.Project_Number = txtProject_Number.Text;
-        objBuilding_Improvements.Start_Date = clsGeneral.FormatNullDateToStore(txtProject_Start_Date.Text);
-        objBuilding_Improvements.Target_Completion_Date = clsGeneral.FormatNullDateToStore(txtTarget_Completion_Date.Text);
-        objBuilding_Improvements.Completion_Date = clsGeneral.FormatNullDateToStore(txtActual_Completion_Date.Text);
-        objBuilding_Improvements.FK_LU_Facility_Project_Type = Convert.ToDecimal(ddlProjectType.SelectedValue);
-
-        // get values from page controls
-        objBuilding_Improvements.Improvement_Description = txtProjectImprovementDescription.Text.Trim();
-
-        objBuilding_Improvements.Contact_Name = txtContactName.Text;
-        objBuilding_Improvements.New_Build = rdoNew_Build.SelectedValue;
-        objBuilding_Improvements.Project_Status_As_Of_Date = clsGeneral.FormatNullDateToStore(txtProjectStatusAsOf.Text);
-        objBuilding_Improvements.Open = rdoOpen.SelectedValue;
-        if (drpFK_LU_BI_Status.SelectedValue != "0")
-            objBuilding_Improvements.FK_LU_BI_Status = Convert.ToDecimal(drpFK_LU_BI_Status.SelectedValue);
-
-        objBuilding_Improvements.Status_Other = txtStatusDescription.Text;
-        objBuilding_Improvements.Revised_Square_Footage = rdlRevisedSquareFootage.SelectedValue;
-
-        objBuilding_Improvements.Revised_Square_Footage_Sales = clsGeneral.GetDecimalNullableValue(txtSales);
-        objBuilding_Improvements.Revised_Square_Footage_Service_Lane = clsGeneral.GetDecimalNullableValue(txtServiceLane);
-        objBuilding_Improvements.Revised_Square_Footage_Parts = clsGeneral.GetDecimalNullableValue(txtPart);
-        objBuilding_Improvements.Revised_Square_Footage_Service = clsGeneral.GetDecimalNullableValue(txtServiceDepartment);
-        objBuilding_Improvements.Revised_Square_Footage_Other = clsGeneral.GetDecimalNullableValue(txtOther);
-        objBuilding_Improvements.Total_Square_Footage_Revised = clsGeneral.GetDecimalNullableValue(txtTotalSquareFootageRevised);
-
-        objBuilding_Improvements.Budget_Construction = clsGeneral.GetDecimalNullableValue(txtConstruction);
-        objBuilding_Improvements.Budget_IT = clsGeneral.GetDecimalNullableValue(txtInformationTechnology);
-        objBuilding_Improvements.Budget_Land = clsGeneral.GetDecimalNullableValue(txtLand);
-        objBuilding_Improvements.Budget_Furniture = clsGeneral.GetDecimalNullableValue(txtFurniture);
-        objBuilding_Improvements.Budget_Misc = clsGeneral.GetDecimalNullableValue(txtMiscellaneous);
-        objBuilding_Improvements.Budget_Equipment = clsGeneral.GetDecimalNullableValue(txtEquipment);
-        objBuilding_Improvements.Budget_Signage = clsGeneral.GetDecimalNullableValue(txtSignage);
-
-        objBuilding_Improvements.Budget_SubTotal_1 = clsGeneral.GetDecimalNullableValue(txtSubtotal1);
-        objBuilding_Improvements.Budget_SubTotal_2 = clsGeneral.GetDecimalNullableValue(txtSubtotal2);
-        objBuilding_Improvements.Budget_Total = clsGeneral.GetDecimalNullableValue(txtTotalCost);objBuilding_Improvements.Updated_By = clsSession.UserID;
-        objBuilding_Improvements.Updated_Date = DateTime.Now;
-        objBuilding_Improvements.Item_1 = txtItem_1.Text;
-        objBuilding_Improvements.Item_2 = txtItem_2.Text;
-        objBuilding_Improvements.Item_3 = txtItem_3.Text;
-        objBuilding_Improvements.Item_4 = txtItem_4.Text;
-        objBuilding_Improvements.Item_5 = txtItem_5.Text;
-        objBuilding_Improvements.Item_6 = txtItem_6.Text;
-        objBuilding_Improvements.Number_of_Havac_Before_Improvements = !string.IsNullOrEmpty(txtNumberOfHavacBeforeImprovements.Text) ? Convert.ToInt32(txtNumberOfHavacBeforeImprovements.Text) : 0;
-        objBuilding_Improvements.Number_of_Havac_After_Improvements = !string.IsNullOrEmpty(txtNumberOfHavacAfterImprovements.Text) ? Convert.ToInt32(txtNumberOfHavacAfterImprovements.Text) : 0;
-        objBuilding_Improvements.Roof_Improvement_Details = txtRoofImprovementsDetails.Text;
-        objBuilding_Improvements.Additional_Replace = txtAdditionalReplace.Text;
-        objBuilding_Improvements.Item_7 = hdnItem_7.Value;
-        objBuilding_Improvements.Other_comments = hdnOtherComments.Value;
-
-        // insert or update the record as per the PK availability
-        if (PK_Building_Improvements > 0)
-            objBuilding_Improvements.Update();
+        if (checkProjectNumberExists > 0)
+        {
+            Page.ClientScript.RegisterStartupScript(this.GetType(), "Message", "javascript:alert('Project number is already existed so please create another project number.');", true);
+        }
         else
-            PK_Building_Improvements = objBuilding_Improvements.Insert();
+        {
+            // create object for Building_Improvements record
+            Building_Improvements objBuilding_Improvements = new Building_Improvements();
 
-        //redirect back to the Property page
-        //Response.Redirect("Property.aspx?loc=" + Encryption.Encrypt(Session["ExposureLocation"].ToString()) + "&panel=4");
-        if (StrOperation == "add")
-            Response.Redirect(Request.RawUrl.Replace("op=" + StrOperation, "op=view") + "&id=" + Encryption.Encrypt(Convert.ToString(PK_Building_Improvements)));
-        else
-            Response.Redirect(Request.RawUrl.Replace("op=" + StrOperation, "op=view"));
+            //string FK_Building_Ids = string.Empty;
+            //foreach (ListItem lstItem in lstBuildingNumber.Items)
+            //{
+            //    if (lstItem.Selected)
+            //        FK_Building_Ids += lstItem.Value + ",";
+            //}
+
+            //FK_Building_Ids = FK_Building_Ids.TrimEnd(',');
+
+            // set PK and FK
+            objBuilding_Improvements.FK_Building = Convert.ToDecimal(ddlBuildingNumber.SelectedValue);
+            //objBuilding_Improvements.FK_Building_Ids = FK_Building_Ids;
+            objBuilding_Improvements.PK_Building_Improvements = PK_Building_Improvements;
+            //objBuilding_Improvements.FK_Building = FK_Building;
+            objBuilding_Improvements.FK_Property_Cope = FK_Property_Cope;
+            objBuilding_Improvements.Project_Number = txtProject_Number.Text.Trim();
+            objBuilding_Improvements.Start_Date = clsGeneral.FormatNullDateToStore(txtProject_Start_Date.Text);
+            objBuilding_Improvements.Target_Completion_Date = clsGeneral.FormatNullDateToStore(txtTarget_Completion_Date.Text);
+            objBuilding_Improvements.Completion_Date = clsGeneral.FormatNullDateToStore(txtActual_Completion_Date.Text);
+            objBuilding_Improvements.FK_LU_Facility_Project_Type = Convert.ToDecimal(ddlProjectType.SelectedValue);
+
+            // get values from page controls
+            objBuilding_Improvements.Improvement_Description = txtProjectImprovementDescription.Text.Trim();
+
+            objBuilding_Improvements.Contact_Name = txtContactName.Text;
+            objBuilding_Improvements.New_Build = rdoNew_Build.SelectedValue;
+            objBuilding_Improvements.Project_Status_As_Of_Date = clsGeneral.FormatNullDateToStore(txtProjectStatusAsOf.Text);
+            objBuilding_Improvements.Open = rdoOpen.SelectedValue;
+            if (drpFK_LU_BI_Status.SelectedValue != "0")
+                objBuilding_Improvements.FK_LU_BI_Status = Convert.ToDecimal(drpFK_LU_BI_Status.SelectedValue);
+
+            objBuilding_Improvements.Status_Other = txtStatusDescription.Text;
+            objBuilding_Improvements.Revised_Square_Footage = rdlRevisedSquareFootage.SelectedValue;
+
+            objBuilding_Improvements.Revised_Square_Footage_Sales = clsGeneral.GetDecimalNullableValue(txtSales);
+            objBuilding_Improvements.Revised_Square_Footage_Service_Lane = clsGeneral.GetDecimalNullableValue(txtServiceLane);
+            objBuilding_Improvements.Revised_Square_Footage_Parts = clsGeneral.GetDecimalNullableValue(txtPart);
+            objBuilding_Improvements.Revised_Square_Footage_Service = clsGeneral.GetDecimalNullableValue(txtServiceDepartment);
+            objBuilding_Improvements.Revised_Square_Footage_Other = clsGeneral.GetDecimalNullableValue(txtOther);
+            objBuilding_Improvements.Total_Square_Footage_Revised = clsGeneral.GetDecimalNullableValue(txtTotalSquareFootageRevised);
+
+            objBuilding_Improvements.Budget_Construction = clsGeneral.GetDecimalNullableValue(txtConstruction);
+            objBuilding_Improvements.Budget_IT = clsGeneral.GetDecimalNullableValue(txtInformationTechnology);
+            objBuilding_Improvements.Budget_Land = clsGeneral.GetDecimalNullableValue(txtLand);
+            objBuilding_Improvements.Budget_Furniture = clsGeneral.GetDecimalNullableValue(txtFurniture);
+            objBuilding_Improvements.Budget_Misc = clsGeneral.GetDecimalNullableValue(txtMiscellaneous);
+            objBuilding_Improvements.Budget_Equipment = clsGeneral.GetDecimalNullableValue(txtEquipment);
+            objBuilding_Improvements.Budget_Signage = clsGeneral.GetDecimalNullableValue(txtSignage);
+
+            objBuilding_Improvements.Budget_SubTotal_1 = clsGeneral.GetDecimalNullableValue(txtSubtotal1);
+            objBuilding_Improvements.Budget_SubTotal_2 = clsGeneral.GetDecimalNullableValue(txtSubtotal2);
+            objBuilding_Improvements.Budget_Total = clsGeneral.GetDecimalNullableValue(txtTotalCost); objBuilding_Improvements.Updated_By = clsSession.UserID;
+            objBuilding_Improvements.Updated_Date = DateTime.Now;
+            objBuilding_Improvements.Item_1 = txtItem_1.Text;
+            objBuilding_Improvements.Item_2 = txtItem_2.Text;
+            objBuilding_Improvements.Item_3 = txtItem_3.Text;
+            objBuilding_Improvements.Item_4 = txtItem_4.Text;
+            objBuilding_Improvements.Item_5 = txtItem_5.Text;
+            objBuilding_Improvements.Item_6 = txtItem_6.Text;
+            objBuilding_Improvements.Number_of_Havac_Before_Improvements = !string.IsNullOrEmpty(txtNumberOfHavacBeforeImprovements.Text) ? Convert.ToInt32(txtNumberOfHavacBeforeImprovements.Text) : 0;
+            objBuilding_Improvements.Number_of_Havac_After_Improvements = !string.IsNullOrEmpty(txtNumberOfHavacAfterImprovements.Text) ? Convert.ToInt32(txtNumberOfHavacAfterImprovements.Text) : 0;
+            objBuilding_Improvements.Roof_Improvement_Details = txtRoofImprovementsDetails.Text;
+            objBuilding_Improvements.Additional_Replace = txtAdditionalReplace.Text;
+            objBuilding_Improvements.Item_7 = hdnItem_7.Value;
+            objBuilding_Improvements.Other_comments = hdnOtherComments.Value;
+
+            // insert or update the record as per the PK availability
+            if (PK_Building_Improvements > 0)
+                objBuilding_Improvements.Update();
+            else
+                PK_Building_Improvements = objBuilding_Improvements.Insert();
+
+            #region " Construction Insert #Issue 3849 "
+            Facility_Construction_Project objFacility_Construction_Project = new Facility_Construction_Project();
+            objFacility_Construction_Project.Project_Number = txtProject_Number.Text.Trim();
+            objFacility_Construction_Project.Estimated_Completion_Date = clsGeneral.FormatNullDateToStore(txtProject_Start_Date.Text);
+            objFacility_Construction_Project.Estimated_Start_Date = clsGeneral.FormatNullDateToStore(txtTarget_Completion_Date.Text);
+            objFacility_Construction_Project.Project_Description = txtProjectImprovementDescription.Text.Trim();
+            objFacility_Construction_Project.FK_LU_Facility_Project_Type = Convert.ToDecimal(ddlProjectType.SelectedValue);
+            objFacility_Construction_Project.FK_Location = clsGeneral.GetInt(Session["ExposureLocation"]);
+            decimal ConstructionProjectId = objFacility_Construction_Project.Insert();
+
+            Facility_Construction_PM_Buildings facility_Construction_PM_Buildings = new Facility_Construction_PM_Buildings();
+            facility_Construction_PM_Buildings.FK_Facility_Construction_PM = ConstructionProjectId;
+            facility_Construction_PM_Buildings.FK_Building = Convert.ToDecimal(ddlBuildingNumber.SelectedValue);
+            facility_Construction_PM_Buildings.Insert();
+            #endregion
+
+            //redirect back to the Property page
+            //Response.Redirect("Property.aspx?loc=" + Encryption.Encrypt(Session["ExposureLocation"].ToString()) + "&panel=4");
+            if (StrOperation == "add")
+                Response.Redirect(Request.RawUrl.Replace("op=" + StrOperation, "op=view") + "&id=" + Encryption.Encrypt(Convert.ToString(PK_Building_Improvements)));
+            else
+                Response.Redirect(Request.RawUrl.Replace("op=" + StrOperation, "op=view"));
+        }
     }
 
     /// <summary>

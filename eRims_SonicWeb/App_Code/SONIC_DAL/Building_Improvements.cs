@@ -1040,6 +1040,19 @@ namespace ERIMS.DAL
         }
 
         /// <summary>
+        /// Deletes a record from the Building_Improvements ,[Facility_Construction_Project] table by a Building_Improvements primary key.
+        /// </summary>
+        public static void DeleteImprovementAndConstructionByPK(decimal pK_Building_Improvements)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Building_ImprovementsAndConstructionDeleteByPK");
+
+            db.AddInParameter(dbCommand, "PK_Building_Improvements", DbType.Decimal, pK_Building_Improvements);
+
+            db.ExecuteNonQuery(dbCommand);
+        }
+
+        /// <summary>
         /// Method to select records by Building ID Foreign Key
         /// </summary>
         /// <param name="fk_Building"></param>
