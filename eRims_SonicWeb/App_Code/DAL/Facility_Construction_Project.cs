@@ -465,5 +465,21 @@ namespace ERIMS.DAL
 
             return (int)db.ExecuteScalar(dbCommand);
         }
+
+        /// <summary>
+        /// Method to get PK_Facility_construction_Project by Project Number
+        /// </summary>
+        /// <param name="pK_Facility_construction_Project"></param>
+        /// <param name="project_Number"></param>
+        /// <returns></returns>
+        public static DataSet GetFacility_Construction_ProjectByProjectNumber(string project_Number)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Facility_Construction_ProjectByProjNumber");
+
+            db.AddInParameter(dbCommand, "Project_Number", DbType.String, project_Number);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
     }
 }

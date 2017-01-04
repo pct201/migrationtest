@@ -470,14 +470,14 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
     protected void btnSave_Click(object sender, EventArgs e)
     {
         int checkProjectNumberExists = 0;
-        if (!string.IsNullOrEmpty(txtProject_Number.Text))
+        if (!string.IsNullOrEmpty(txtProject_Number.Text) && StrOperation.ToLower() != "edit")
         {
             checkProjectNumberExists = Facility_Construction_Project.CheckProjectNumberAlreadyExists(0, txtProject_Number.Text.Trim());
         }
 
         if (checkProjectNumberExists > 0)
         {
-            Page.ClientScript.RegisterStartupScript(this.GetType(), "Message", "javascript:alert('Project number is already existed so please create another project number.');", true);
+            Page.ClientScript.RegisterStartupScript(this.GetType(), "Message", "javascript:alert('Project number is already existed so please create another project number.');ShowPanel(1);", true);
         }
         else
         {
@@ -557,19 +557,35 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
                 PK_Building_Improvements = objBuilding_Improvements.Insert();
 
             #region " Construction Insert #Issue 3849 "
+
+            decimal ConstructionProjectId = 0;
+            DataSet dsTemp = null;
+            if (StrOperation.ToLower() == "edit")
+                dsTemp = Facility_Construction_Project.GetFacility_Construction_ProjectByProjectNumber(txtProject_Number.Text.Trim());
+
             Facility_Construction_Project objFacility_Construction_Project = new Facility_Construction_Project();
             objFacility_Construction_Project.Project_Number = txtProject_Number.Text.Trim();
-            objFacility_Construction_Project.Estimated_Completion_Date = clsGeneral.FormatNullDateToStore(txtProject_Start_Date.Text);
-            objFacility_Construction_Project.Estimated_Start_Date = clsGeneral.FormatNullDateToStore(txtTarget_Completion_Date.Text);
+            objFacility_Construction_Project.Estimated_Completion_Date = clsGeneral.FormatNullDateToStore(txtTarget_Completion_Date.Text);
+            objFacility_Construction_Project.Estimated_Start_Date = clsGeneral.FormatNullDateToStore(txtProject_Start_Date.Text);
             objFacility_Construction_Project.Project_Description = txtProjectImprovementDescription.Text.Trim();
             objFacility_Construction_Project.FK_LU_Facility_Project_Type = Convert.ToDecimal(ddlProjectType.SelectedValue);
             objFacility_Construction_Project.FK_Location = clsGeneral.GetInt(Session["ExposureLocation"]);
-            decimal ConstructionProjectId = objFacility_Construction_Project.Insert();
-
-            Facility_Construction_PM_Buildings facility_Construction_PM_Buildings = new Facility_Construction_PM_Buildings();
-            facility_Construction_PM_Buildings.FK_Facility_Construction_PM = ConstructionProjectId;
-            facility_Construction_PM_Buildings.FK_Building = Convert.ToDecimal(ddlBuildingNumber.SelectedValue);
-            facility_Construction_PM_Buildings.Insert();
+            if (dsTemp != null && dsTemp.Tables[0].Rows.Count > 0)
+            {
+                objFacility_Construction_Project.Title = Convert.ToString(dsTemp.Tables[0].Rows[0]["Title"]);
+                objFacility_Construction_Project.PK_Facility_construction_Project = clsGeneral.GetDecimal(dsTemp.Tables[0].Rows[0]["PK_Facility_construction_Project"]);
+                objFacility_Construction_Project.Update();
+            }
+            else
+                ConstructionProjectId = objFacility_Construction_Project.Insert();
+            
+            if (StrOperation.ToLower() == "add")
+            {
+                Facility_Construction_PM_Buildings facility_Construction_PM_Buildings = new Facility_Construction_PM_Buildings();
+                facility_Construction_PM_Buildings.FK_Facility_Construction_PM = ConstructionProjectId;
+                facility_Construction_PM_Buildings.FK_Building = Convert.ToDecimal(ddlBuildingNumber.SelectedValue);
+                facility_Construction_PM_Buildings.Insert();
+            }
             #endregion
 
             //redirect back to the Property page
