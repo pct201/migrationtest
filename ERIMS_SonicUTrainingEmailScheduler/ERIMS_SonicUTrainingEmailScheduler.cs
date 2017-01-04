@@ -350,11 +350,11 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                             sbRecorords.Append("<tr style='font-weight: bold;' valign='top'><td align='left' style='font-size:9pt'  colspan='4'>" + Convert.ToString(dtLocation.Rows[0]["Sonic_Location_Code"]).PadLeft(4, '0') + " - " + Convert.ToString(dtLocation.Rows[0]["dba"]) + "</td></tr>");
                             sbRecorords.Append("<tr style='font-weight: bold;' valign='top'><td align='left' style='font-size:9pt'  colspan='4'>" + Convert.ToString(dtLocation.Rows[0]["City"]) + ", " + Convert.ToString(dtLocation.Rows[0]["StateName"]) + "</td></tr>");
                             sbRecorords.Append("<tr style='font-weight: bold;' valign='top'><td align='left' style='font-size:9pt'  colspan='4'>" + DateTime.Now.ToString("dd MMMM yyyy") + "</td></tr><tr>&nbsp;</tr>");
-                            sbRecorords.Append("<tr style='font-weight: bold;' valign='top'><td><table border='1' cellspacing='0' width='100%' cellpadding='0' style='border: black 0.5px solid'><tr style='font-weight: bold;background-color:#95B3D7;color:Black;font-size:11pt;height:25'  valign='top'>");
-                            sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt;padding-left:10px;'>Department</td>");
-                            sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt;padding-left:10px;'>Associate</td>");
-                            sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt;padding-left:10px;'>Job Title</td>");
-                            sbRecorords.Append("<td align='left' style='width=55%;font-size:9pt;padding-left:10px;'>Remaining Training to be Taken</td></tr>");
+                            sbRecorords.Append("<tr style='font-weight: bold;' valign='top'><td><table border='1' cellspacing='0' width='100%' cellpadding='0' style='border: black 0.5px solid'><tr style='font-weight: bold;background-color:#95B3D7;color:Black;font-size:11pt;height:25px;'  valign='top'>");
+                            sbRecorords.Append("<td align='left' style='width:15%;font-size:9pt;padding-left:10px;'>Department</td>");
+                            sbRecorords.Append("<td align='left' style='width:15%;font-size:9pt;padding-left:10px;'>Associate</td>");
+                            sbRecorords.Append("<td align='left' style='width:15%;font-size:9pt;padding-left:10px;'>Job Title</td>");
+                            sbRecorords.Append("<td align='left' style='width:55%;font-size:9pt;padding-left:10px;'>Remaining Training to be Taken</td></tr>");
 
 
 
@@ -380,8 +380,8 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                                 }
 
                                 str = (str == "bgcolor=white") ? "bgcolor=#eaeaea" : "bgcolor=white";
-                                sbRecorords.Append("<tr align='left' valign='top' style='width=15%;padding-left:10px;font-size:8.5pt;page-break-inside: avoid' " + str + ">");
-                                sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt;padding-left:10px;'>" + Convert.ToString(dtUniqueDept.Rows[i]["Department"]) + "</td>");
+                                sbRecorords.Append("<tr align='left' valign='top' style='width:15%;padding-left:10px;font-size:8.5pt;page-break-inside: avoid' " + str + ">");
+                                sbRecorords.Append("<td align='left' style='width:15%;font-size:9pt;padding-left:10px;'>" + Convert.ToString(dtUniqueDept.Rows[i]["Department"]) + "</td>");
 
                                 //Fetch Data for current department and current location
                                 //dtRptDataForCurLocAndDept = dtLocationData.Select("Department='" + dtUniqueDept.Rows[i]["Department"].ToString() + "'").CopyToDataTable<DataRow>();                                
@@ -397,7 +397,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                                         sbRecorords.Append("<tr " + str + " valign='top' style='page-break-inside: avoid;' ><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td align='left' style='width:55%;font-size:9pt'>&nbsp;</td></tr>");
                                     }
                                     if (j == 0)
-                                        sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt;'>" + Convert.ToString(dtUniqueAssocName.Rows[j]["Associate_Name"]) + "</td>");
+                                        sbRecorords.Append("<td align='left' style='width:15%;font-size:9pt;'>" + Convert.ToString(dtUniqueAssocName.Rows[j]["Associate_Name"]) + "</td>");
                                     else
                                     {
                                         str = (str == "bgcolor=white") ? "bgcolor=#eaeaea" : "bgcolor=white";
@@ -419,7 +419,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                                         }
 
                                         if (k == 0)
-                                            sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt'>" + Convert.ToString(dtUniqueJobTitle.Rows[k]["Job_Title"]) + "</td>");
+                                            sbRecorords.Append("<td align='left' style='width:15%;font-size:9pt'>" + Convert.ToString(dtUniqueJobTitle.Rows[k]["Job_Title"]) + "</td>");
                                         else
                                         {
                                             str = (str == "bgcolor=white") ? "bgcolor=#eaeaea" : "bgcolor=white";
@@ -433,7 +433,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                                         {
                                             // WriteLog("Location ID : " + drLocationID["PK_LU_Location_ID"] + " Department : " + dtUniqueDept.Rows[i]["Department"].ToString() + " Associate_Name : " + dtUniqueAssocName.Rows[j]["Associate_Name"].ToString() + " Job_Title : " + dtUniqueJobTitle.Rows[k]["Job_Title"].ToString(), _strCsvPath, false);
                                             if (m == 0)
-                                                sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt'>" + Convert.ToString(dtRptDataForClass.Rows[m]["Class_Name"]) + "</td></tr>");
+                                                sbRecorords.Append("<td align='left' style='width:15%;font-size:9pt'>" + Convert.ToString(dtRptDataForClass.Rows[m]["Class_Name"]) + "</td></tr>");
                                             else
                                             {
                                                 str = (str == "bgcolor=white") ? "bgcolor=#eaeaea" : "bgcolor=white";
@@ -454,10 +454,11 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                         else
                         {
                             WriteLog("No data exists for Location ID : " + drLocationID["PK_LU_Location_ID"], _strCsvPath, false);
-                            sbRecorords.Append("<table style='font-family:Tahoma' cellpadding='4' border='1' cellspacing='0' Width='100%'>");
+                            //sbRecorords.Append("<table style='font-family:Tahoma' cellpadding='4' border='1' cellspacing='0' Width='100%'>");
                             sbRecorords.Append("<tr valign='top' style='background-color:#F2F2F2;color:Black;page-break-inside: avoid;'>");
-                            sbRecorords.Append("<td align='center' style='font-size:9pt;'>No Records found.</td></tr></table>");
+                            sbRecorords.Append("<td align='center' style='font-size:9pt;'>No Records found.</td></tr>");
                         }
+                        sbRecorords.Append("</table></td></tr></table>");
                     }
                     catch (Exception ex)
                     {
@@ -526,12 +527,12 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                                         sbRecorords.Append("<tr style='font-weight: bold;page-break-inside: avoid' valign='top'><td align='left' style='font-size:9pt'  colspan='4'>Associate Training Report - Quarter " + ((quarterMonth - 1) / 3 + 1) + "</td></tr>");
                                         sbRecorords.Append("<tr style='font-weight: bold;page-break-inside: avoid' valign='top'><td align='left' style='font-size:9pt'  colspan='4'>" + Convert.ToString(drLocationID["Sonic_Location_Code"]).PadLeft(4, '0') + " - " + Convert.ToString(drLocationID["dba"]) + "</td></tr>");
                                         sbRecorords.Append("<tr style='font-weight: bold;page-break-inside: avoid' valign='top'><td align='left' style='font-size:9pt'  colspan='4'>" + Convert.ToString(drLocationID["City"]) + ", " + Convert.ToString(drLocationID["FLD_state"]) + "</td></tr>");
-                                        sbRecorords.Append("<tr style='font-weight: bold;page-break-inside: avoid' valign='top'><td align='left' style='font-size:9pt'  colspan='4'>" + DateTime.Now.ToString("dd MMMM yyyy") + "</td></tr><tr>&nbsp;</tr>");
-                                        sbRecorords.Append("<tr style='font-weight: bold;' valign='top'><td><table border='1' width='100%' cellspacing='0' cellpadding='0' style='border: black 0.5px solid'><tr style='font-weight: bold;background-color:#95B3D7;color:Black;font-size:11pt;height:25;page-break-inside: avoid' valign='top'>");
-                                        sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt; padding-left:10px;'>Department</td>");
-                                        sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt; padding-left:10px;'>Associate</td>");
-                                        sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt; padding-left:10px;'>Job Title</td>");
-                                        sbRecorords.Append("<td align='left' style='width=55%;font-size:9pt; padding-left:10px;'>Remaining Training to be Taken</td></tr>");
+                                        sbRecorords.Append("<tr style='font-weight: bold;page-break-inside: avoid' valign='top'><td align='left' style='font-size:9pt'  colspan='4'>" + DateTime.Now.ToString("dd MMMM yyyy") + "</td></tr><tr><td>&nbsp;</td></tr>");
+                                        sbRecorords.Append("<tr style='font-weight: bold;valign='top'><td><table border='1' width='100%' cellspacing='0' cellpadding='0' style='border: black 0.5px solid'><tr style='font-weight: bold;background-color:#95B3D7;color:Black;font-size:11pt;height:25px;page-break-inside: avoid' valign='top'>");
+                                        sbRecorords.Append("<td align='left' style='width:15%;font-size:9pt; padding-left:10px;'>Department</td>");
+                                        sbRecorords.Append("<td align='left' style='width:15%;font-size:9pt; padding-left:10px;'>Associate</td>");
+                                        sbRecorords.Append("<td align='left' style='width:15%;font-size:9pt; padding-left:10px;'>Job Title</td>");
+                                        sbRecorords.Append("<td align='left' style='width:55%;font-size:9pt; padding-left:10px;'>Remaining Training to be Taken</td></tr>");
 
                                         //DataView dv = new DataView(dtReportData);
                                         //DataTable distinctValues = dv.ToTable(true, "Department");
@@ -560,8 +561,8 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                                                 }
 
                                                 str = (str == "bgcolor=white") ? "bgcolor=#eaeaea" : "bgcolor=white";
-                                                sbRecorords.Append("<tr style='page-break-inside: avoid;' " + str + " align='left'  style='width=15%;font-size:8.5pt;padding-left:10px;' valign='top'>");
-                                                sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt'>" + Convert.ToString(dtUniqueDept.Rows[i]["Department"]) + "</td>");
+                                                sbRecorords.Append("<tr style='page-break-inside: avoid;' " + str + " align='left'  style='width:15%;font-size:8.5pt;padding-left:10px;' valign='top'>");
+                                                sbRecorords.Append("<td align='left' style='width:15%;font-size:9pt'>" + Convert.ToString(dtUniqueDept.Rows[i]["Department"]) + "</td>");
 
                                                 //Fetch Data for current department and current location
                                                 //dtRptDataForCurLocAndDept = dtLocationData.Select("Department='" + dtUniqueDept.Rows[i]["Department"].ToString() + "'").CopyToDataTable<DataRow>();
@@ -578,7 +579,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                                                     }
 
                                                     if (j == 0)
-                                                        sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt'>" + Convert.ToString(dtUniqueAssocName.Rows[j]["Associate_Name"]) + "</td>");
+                                                        sbRecorords.Append("<td align='left' style='width:15%;font-size:9pt'>" + Convert.ToString(dtUniqueAssocName.Rows[j]["Associate_Name"]) + "</td>");
                                                     else
                                                     {
                                                         str = (str == "bgcolor=white") ? "bgcolor=#eaeaea" : "bgcolor=white";
@@ -600,7 +601,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                                                         }
 
                                                         if (k == 0)
-                                                            sbRecorords.Append("<td align='left' style='width=15%;font-size:9pt'>" + Convert.ToString(dtUniqueJobTitle.Rows[k]["Job_Title"]) + "</td>");
+                                                            sbRecorords.Append("<td align='left' style='width:15%;font-size:9pt'>" + Convert.ToString(dtUniqueJobTitle.Rows[k]["Job_Title"]) + "</td>");
                                                         else
                                                         {
                                                             str = (str == "bgcolor=white") ? "bgcolor=#eaeaea" : "bgcolor=white";
@@ -613,7 +614,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                                                         for (int m = 0; m < dtRptDataForClass.Rows.Count; m++)
                                                         {
                                                             if (m == 0)
-                                                                sbRecorords.Append("<td align='left' style='width=55%;font-size:9pt'>" + Convert.ToString(dtRptDataForClass.Rows[m]["Class_Name"]) + "</td></tr>");
+                                                                sbRecorords.Append("<td align='left' style='width:55%;font-size:9pt'>" + Convert.ToString(dtRptDataForClass.Rows[m]["Class_Name"]) + "</td></tr>");
                                                             else
                                                             {
                                                                 str = (str == "bgcolor=white") ? "bgcolor=#eaeaea" : "bgcolor=white";
@@ -635,18 +636,20 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                                         else
                                         {
                                             WriteLog("No data exists for Location ID : " + drLocationID["PK_LU_Location_ID"], _strCsvPath, false);
-                                            sbRecorords.Append("<table style='font-family:Tahoma;border: black 0.5px solid' border='1' cellpadding='4' cellspacing='0' Width='100%'>");
+                                           // sbRecorords.Append("<table style='font-family:Tahoma;border: black 0.5px solid' border='1' cellpadding='4' cellspacing='0' Width='100%'>");
                                             sbRecorords.Append("<tr style='background-color:#F2F2F2;color:Black;page-break-inside: avoid;'>");
-                                            sbRecorords.Append("<td align='center' style='font-size:9pt;'>No Records found.</td></tr></table>");
+                                            sbRecorords.Append("<td align='center'  colspan='4' style='font-size:9pt;'>No Records found.</td></tr>");
                                         }
                                     }
                                     else
                                     {
                                         WriteLog("No data exists for Location ID : " + drLocationID["PK_LU_Location_ID"], _strCsvPath, false);
-                                        sbRecorords.Append("<table style='font-family:Tahoma;border: black 0.5px solid'  border='1' cellpadding='4' cellspacing='0' Width='100%'>");
+                                        //sbRecorords.Append("<table style='font-family:Tahoma;border: black 0.5px solid'  border='1' cellpadding='4' cellspacing='0' Width='100%'>");
                                         sbRecorords.Append("<tr style='background-color:#F2F2F2;color:Black;page-break-inside: avoid;'>");
-                                        sbRecorords.Append("<td align='center' style='font-size:9pt;'>No Records found.</td></tr></table>");
+                                        sbRecorords.Append("<td align='center' style='font-size:9pt;' colspan='4'>No Records found.</td></tr>");
                                     }
+
+                                    sbRecorords.Append("</table></td></tr></table>");
                                 }
                                 catch (Exception ex)
                                 {
