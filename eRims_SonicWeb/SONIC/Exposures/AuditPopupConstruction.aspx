@@ -45,7 +45,7 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="2">
+                <td colspan="2" align="left">
                     <div style="overflow: hidden; width: 650px;" id="divPollution" runat="server">
                         <table cellpadding="4" cellspacing="0" style="width: 600px; border-collapse: collapse;">
                             <tbody>
