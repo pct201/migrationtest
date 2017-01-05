@@ -69,7 +69,7 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
                 {
                     ConstructionProjectId = Convert.ToDecimal(Encryption.Decrypt(Request.QueryString["prjId"].ToString()));
                     FillConstructionProjectDetail();
-
+                    txtProjectNumber.Enabled = false;
                     if (Session["IsEditable"] != null)
                     {
                         hdnPanel.Value = "2";

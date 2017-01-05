@@ -37,6 +37,7 @@
         }
         function UpdateAllBuildingImprovments()
         {
+            Page_ClientValidate('vsErrorGroup');
             var hdnBIid = "<%=hdnMultipleBuildingImprovment.ClientID%>";
             var countBI = document.getElementById(hdnBIid).value;
             var op = '<%=StrOperation%>';

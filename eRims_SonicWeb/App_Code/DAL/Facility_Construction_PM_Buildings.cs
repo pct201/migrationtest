@@ -211,6 +211,22 @@ namespace ERIMS.DAL
             db.ExecuteNonQuery(dbCommand);
         }
 
+
+        /// <summary>
+        /// Deletes a record from the Facility_Construction_PM_Buildings table
+        /// </summary>
+        public static void DeletePMBuildingsByConstructionProjectId(decimal FK_Facility_Construction_PM, decimal FK_Building)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("DeletePMBuildingsByConstructionProjectId");
+
+            db.AddInParameter(dbCommand, "FK_Facility_Construction_PM", DbType.Decimal, FK_Facility_Construction_PM);
+            db.AddInParameter(dbCommand, "FK_Building", DbType.Decimal, FK_Building);
+
+            db.ExecuteNonQuery(dbCommand);
+        }
+
+
         /// <summary>
         /// Selects a single record from the Facility_Construction_PM_Buildings table.
         /// </summary>

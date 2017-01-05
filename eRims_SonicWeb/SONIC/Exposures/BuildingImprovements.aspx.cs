@@ -73,6 +73,15 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
     }
 
 
+    /// <summary>
+    /// Denotes the Building
+    /// </summary>
+    public string OldBuilding
+    {
+        get { return Convert.ToString(ViewState["OldBuilding"]); }
+        set { ViewState["OldBuilding"] = value; }
+    }
+
     #endregion
 
     #region Page Events
@@ -145,7 +154,7 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
                         txtLast_Modified_date.Attributes.Add("readonly", "readonly");
 
                         BindDetailsForEdit();
-                        
+                        OldBuilding = ddlBuildingNumber.SelectedValue;
                     }
                 }
 
@@ -570,6 +579,7 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
                         foreach (DataRow dr in dtBI.Rows)
                         {
                             objBuilding_Improvements.PK_Building_Improvements = Convert.ToDecimal(dr["PK_Building_Improvements"].ToString());
+                            objBuilding_Improvements.FK_Building = Convert.ToDecimal(dr["FK_Building"].ToString());
                             objBuilding_Improvements.Update();
                         }
                     }
@@ -599,26 +609,27 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
             if (dsTemp != null && dsTemp.Tables[0].Rows.Count > 0)
             {
 
-
-
-
-
-
-
                 objFacility_Construction_Project.Title = Convert.ToString(dsTemp.Tables[0].Rows[0]["Title"]);
                 objFacility_Construction_Project.PK_Facility_construction_Project = clsGeneral.GetDecimal(dsTemp.Tables[0].Rows[0]["PK_Facility_construction_Project"]);
                 objFacility_Construction_Project.Update();
+                ConstructionProjectId = clsGeneral.GetDecimal(dsTemp.Tables[0].Rows[0]["PK_Facility_construction_Project"]);
             }
             else
                 ConstructionProjectId = objFacility_Construction_Project.Insert();
             
-            if (StrOperation.ToLower() == "add")
+            if (StrOperation.ToLower() == "edit")
             {
+                //delete Facility_Construction_PM_Buildings where ConstructionProjectId= @ConstructionProjectId and FK_Building = Convert.ToDecimal(ddlBuildingNumber.SelectedValue)
+                Facility_Construction_PM_Buildings.DeletePMBuildingsByConstructionProjectId(ConstructionProjectId, Convert.ToDecimal(OldBuilding));
+            }
+         
                 Facility_Construction_PM_Buildings facility_Construction_PM_Buildings = new Facility_Construction_PM_Buildings();
                 facility_Construction_PM_Buildings.FK_Facility_Construction_PM = ConstructionProjectId;
                 facility_Construction_PM_Buildings.FK_Building = Convert.ToDecimal(ddlBuildingNumber.SelectedValue);
                 facility_Construction_PM_Buildings.Insert();
-            }
+            
+            
+                
             #endregion
 
             //redirect back to the Property page
