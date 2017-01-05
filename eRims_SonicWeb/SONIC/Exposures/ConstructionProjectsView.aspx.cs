@@ -385,7 +385,7 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
             building_Improvements.PK_Building_Improvements = Convert.ToDecimal(drImprovement["PK_Building_Improvements"]);
             building_Improvements.FK_Property_Cope = Convert.ToDecimal(drImprovement["FK_Property_Cope"]);
             building_Improvements.FK_Building = Convert.ToDecimal(drImprovement["FK_Building"]);
-
+            building_Improvements.Contact_Name = Convert.ToString(drImprovement["Contact_Name"]);
             building_Improvements.Updated_By = clsSession.UserID;
             building_Improvements.Updated_Date = DateTime.Now;
             building_Improvements.Update();
@@ -544,6 +544,7 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
             ctrlAttachment.FindControl("btnAddDocument").Visible = true;
             btnReturnto_View_Mode.Visible = true;
             btnEdit.Visible = false;
+            txtProjectNumber.Enabled = false;
         }
         else
         {

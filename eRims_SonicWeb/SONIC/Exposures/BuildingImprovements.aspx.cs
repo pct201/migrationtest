@@ -136,6 +136,7 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
                     {
                         SetValidations();
                         // Bind Controls for page in edit mode
+                      
                         txtSubtotal1.Attributes.Add("readonly", "readonly");
                         txtSubtotal2.Attributes.Add("readonly", "readonly");
                         txtTotalCost.Attributes.Add("readonly", "readonly");
@@ -144,6 +145,7 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
                         txtLast_Modified_date.Attributes.Add("readonly", "readonly");
 
                         BindDetailsForEdit();
+                        
                     }
                 }
 
@@ -187,7 +189,7 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
         // show or hide div required for edit mode
         dvView.Style["display"] = "none";
         dvEdit.Style["display"] = "block";
-
+   
         // create object for Building_Improvements record
         Building_Improvements objBuilding_Improvements = new Building_Improvements(PK_Building_Improvements);
 
@@ -197,6 +199,12 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
 
         if (PK_Building_Improvements > 0)
         {
+             DataSet dsTemp = Building_Improvements.SelectBuildingByBIPk(PK_Building_Improvements);
+             if (dsTemp != null)
+                 hdnMultipleBuildingImprovment.Value = dsTemp.Tables[0].Rows.Count.ToString();
+             else
+                 hdnMultipleBuildingImprovment.Value = "0";
+
             //DataTable dtBuildings = Building_Improvements.SelectBuildingByFK_Building_Improvements(PK_Building_Improvements).Tables[0];
             //if (dtBuildings != null && dtBuildings.Rows.Count > 0)
             //{
@@ -209,7 +217,7 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
             //    }
             //}
 
-
+            txtProject_Number.Enabled = false;
             ListItem item = ddlBuildingNumber.Items.FindByValue(Convert.ToString(objBuilding_Improvements.FK_Building));
             if (item != null)
                 item.Selected = true;
@@ -252,7 +260,7 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
             }
 
             txtStatusDescription.Text = objBuilding_Improvements.Status_Other;
-
+            
             rdlRevisedSquareFootage.SelectedValue = objBuilding_Improvements.Revised_Square_Footage;
 
             txtSales.Text = clsGeneral.FormatCommaSeperatorNumber(objBuilding_Improvements.Revised_Square_Footage_Sales);
@@ -551,8 +559,26 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
             objBuilding_Improvements.Other_comments = hdnOtherComments.Value;
 
             // insert or update the record as per the PK availability
-            if (PK_Building_Improvements > 0)
-                objBuilding_Improvements.Update();
+             if (PK_Building_Improvements > 0)
+            {
+                DataSet ds = objBuilding_Improvements.SelectBuildingByProjectNumber(objBuilding_Improvements.Project_Number);
+                if (ds != null)
+                {
+                    DataTable dtBI = ds.Tables[0];
+                    if (hdnMultipleBuildingImprovment.Value == "Yes")
+                    {
+                        foreach (DataRow dr in dtBI.Rows)
+                        {
+                            objBuilding_Improvements.PK_Building_Improvements = Convert.ToDecimal(dr["PK_Building_Improvements"].ToString());
+                            objBuilding_Improvements.Update();
+                        }
+                    }
+                    else
+                    {
+                        objBuilding_Improvements.Update();
+                    }
+                }
+            }   
             else
                 PK_Building_Improvements = objBuilding_Improvements.Insert();
 
@@ -572,6 +598,13 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
             objFacility_Construction_Project.FK_Location = clsGeneral.GetInt(Session["ExposureLocation"]);
             if (dsTemp != null && dsTemp.Tables[0].Rows.Count > 0)
             {
+
+
+
+
+
+
+
                 objFacility_Construction_Project.Title = Convert.ToString(dsTemp.Tables[0].Rows[0]["Title"]);
                 objFacility_Construction_Project.PK_Facility_construction_Project = clsGeneral.GetDecimal(dsTemp.Tables[0].Rows[0]["PK_Facility_construction_Project"]);
                 objFacility_Construction_Project.Update();
@@ -686,6 +719,9 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
 
     protected void btnEdit_Click(object sender, EventArgs e)
     {
+
+       // txtProject_Number.Enabled = false;
+        
         Response.Redirect(Request.RawUrl.Replace("op=view", "op=edit"));
     }
 

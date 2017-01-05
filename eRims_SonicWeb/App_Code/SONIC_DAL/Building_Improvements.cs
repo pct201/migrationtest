@@ -847,7 +847,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "PK_Building_Improvements", DbType.Decimal, pK_Building_Improvements);
             return db.ExecuteDataSet(dbCommand);
         }
-
+        
         /// <summary>
         /// Selects all records from the Building_Improvements table.
         /// </summary>
@@ -1137,6 +1137,19 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Project_Number", DbType.String, projectNumber);
             db.AddInParameter(dbCommand, "FK_Building", DbType.String, fkBuilding);
 
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        /// <summary>
+        /// Selects Building By Project Id
+        /// </summary>
+        /// <param name="fK_Facility_Construction_Project"></param>
+        /// <returns></returns>
+        public static DataSet SelectBuildingByBIPk(decimal pK_Building_Improvements)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("BuildingImprovementsByProjNumber");
+            db.AddInParameter(dbCommand, "PK_Building_Improvements", DbType.Int32, pK_Building_Improvements);
             return db.ExecuteDataSet(dbCommand);
         }
     }

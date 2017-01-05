@@ -4241,7 +4241,7 @@ function ShowAuditPopUp(url) {
                                                                                 <ItemStyle Width="15%" />
                                                                                 <ItemTemplate>
                                                                                     <asp:LinkButton ID="lnkProjectNumber" runat="server" Text='<%#Eval("Project_Number")%>'
-                                                                                        CommandArgument='<%#Eval("Project_Number")%>' CommandName="ShowDetails" />
+                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements")%>' CommandName="ShowDetails" />
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
                                                                             <asp:TemplateField HeaderText="Project Type" SortExpression="Type_Description">

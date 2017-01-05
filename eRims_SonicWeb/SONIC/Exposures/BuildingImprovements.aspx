@@ -35,7 +35,24 @@
                 }
             }
         }
+        function UpdateAllBuildingImprovments()
+        {
+            var hdnBIid = "<%=hdnMultipleBuildingImprovment.ClientID%>";
+            var countBI = document.getElementById(hdnBIid).value;
+            var op = '<%=StrOperation%>';
+            if (op == "edit" && countBI > 0) {
 
+                //var confirm_value = document.createElement("INPUT");
+                //confirm_value.type = "hidden";
+                //confirm_value.name = "confirm_value";
+                if (confirm("There can be more than one Building associate with this Project. Do you want to change all ?")) {
+                    document.getElementById(hdnBIid).value = "Yes";
+                } else {
+                    document.getElementById(hdnBIid).value = "No";
+                }
+                //document.forms[0].appendChild(confirm_value);
+            }
+        }
         function ShowPanel(index) {
             SetMenuStyle(index);
             ActiveTabIndex = index;
@@ -357,19 +374,20 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">Project Number&nbsp;<span id="Span10" style="color: Red; display: none;" runat="server">*</span>
+                                                        <td align="left" valign="top">Project Number &nbsp;<span id="Span10" style="color: Red; display: none;" runat="server">*</span>
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top" width="28%">
-                                                            <asp:TextBox ID="txtProject_Number" Width="170px" MaxLength="20" runat="server" />
+                                                            <asp:TextBox ID="txtProject_Number" Width="170px" MaxLength="20" runat="server"/>
+                                                            <asp:RequiredFieldValidator runat="server" ControlToValidate="txtProject_Number" ValidationGroup="vsErrorGroup" Display="None" ErrorMessage="Please Enter Project Number "></asp:RequiredFieldValidator>
                                                         </td>
                                                         <td align="left" valign="top">Project Start Date &nbsp;<span id="Span11" style="color: Red; display: none;" runat="server">*</span>
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            <asp:TextBox ID="txtProject_Start_Date" Width="170px" runat="server" SkinID="txtDate"></asp:TextBox>
+                                                            <asp:TextBox ID="txtProject_Start_Date" Width="170px" runat="server" SkinID="txtDate" ></asp:TextBox>
                                                             <img alt="Project Start Date" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtProject_Start_Date', 'mm/dd/y');"
                                                                 onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
                                                                 align="middle" />
@@ -393,10 +411,11 @@
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            <asp:TextBox ID="txtTarget_Completion_Date" Width="170px" runat="server" SkinID="txtDate"></asp:TextBox>
+                                                            <asp:TextBox ID="txtTarget_Completion_Date" Width="170px" runat="server" SkinID="txtDate" ></asp:TextBox>
                                                             <img alt="Target Completion Date" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtTarget_Completion_Date', 'mm/dd/y');"
                                                                 onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
                                                                 align="middle" />
+                                                            
                                                             <asp:RegularExpressionValidator ID="rgvTarget_Completion_Date" runat="server" ControlToValidate="txtTarget_Completion_Date"
                                                                 ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"
                                                                 ErrorMessage="Target Completion Date is Not Valid Date" Display="none" ValidationGroup="vsErrorGroup"
@@ -825,6 +844,7 @@
                                                                 </EmptyDataTemplate>
                                                                 <PagerSettings Visible="False" />
                                                             </asp:GridView>
+                                                            <asp:HiddenField ID="hdnMultipleBuildingImprovment" runat="server" Value="0" />
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -1426,7 +1446,7 @@
                                     <tr>
                                         <td width="50%" align="right">
                                             <asp:Button ID="btnSave" runat="server" Text="Save & View" OnClick="btnSave_Click"
-                                                CausesValidation="true" ValidationGroup="vsErrorGroup" />
+                                                CausesValidation="true" ValidationGroup="vsErrorGroup" OnClientClick = "UpdateAllBuildingImprovments();" />
                                         </td>
                                         <td align="left">
                                             <asp:Button ID="btnRevertReturn" runat="server" Text="Revert & Return" OnClick="btnRevertReturn_Click" CausesValidation="false" />&nbsp;
