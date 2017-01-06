@@ -4,7 +4,7 @@ using Microsoft.Practices.EnterpriseLibrary.Data;
 using System.Data.Common;
 using System.Data.OleDb;
 
-namespace ERIMS.DAL
+namespace ERIMS_DAL
 {
     /// <summary>
     /// Data access class for PA_Values_Imported table.
