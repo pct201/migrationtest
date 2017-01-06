@@ -227,10 +227,10 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
             //}
 
             txtProject_Number.Enabled = false;
-            ListItem item = ddlBuildingNumber.Items.FindByValue(Convert.ToString(objBuilding_Improvements.FK_Building));
-            if (item != null)
-                item.Selected = true;
-
+            //ListItem item = ddlBuildingNumber.Items.FindByValue(Convert.ToString(objBuilding_Improvements.FK_Building));
+            //if (item != null)
+            //    item.Selected = true;
+            clsGeneral.SetDropdownValue(ddlBuildingNumber, objBuilding_Improvements.FK_Building, true);
             // set values in page controls using object variables
 
 
@@ -567,19 +567,20 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
             objBuilding_Improvements.Item_7 = hdnItem_7.Value;
             objBuilding_Improvements.Other_comments = hdnOtherComments.Value;
 
-            // insert or update the record as per the PK availability
              if (PK_Building_Improvements > 0)
             {
                 DataSet ds = objBuilding_Improvements.SelectBuildingByProjectNumber(objBuilding_Improvements.Project_Number);
                 if (ds != null)
                 {
-                    DataTable dtBI = ds.Tables[0];
                     if (hdnMultipleBuildingImprovment.Value == "Yes")
                     {
-                        foreach (DataRow dr in dtBI.Rows)
+                        foreach (DataRow dr in ds.Tables[0].Rows)
                         {
-                            objBuilding_Improvements.PK_Building_Improvements = Convert.ToDecimal(dr["PK_Building_Improvements"].ToString());
-                            objBuilding_Improvements.FK_Building = Convert.ToDecimal(dr["FK_Building"].ToString());
+                            if (objBuilding_Improvements.PK_Building_Improvements != clsGeneral.GetDecimal(dr["PK_Building_Improvements"].ToString()))
+                            {
+                                objBuilding_Improvements.PK_Building_Improvements = clsGeneral.GetDecimal(dr["PK_Building_Improvements"].ToString());
+                                objBuilding_Improvements.FK_Building = Convert.ToDecimal(dr["FK_Building"].ToString());
+                            }
                             objBuilding_Improvements.Update();
                         }
                     }
@@ -619,7 +620,6 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
             
             if (StrOperation.ToLower() == "edit")
             {
-                //delete Facility_Construction_PM_Buildings where ConstructionProjectId= @ConstructionProjectId and FK_Building = Convert.ToDecimal(ddlBuildingNumber.SelectedValue)
                 Facility_Construction_PM_Buildings.DeletePMBuildingsByConstructionProjectId(ConstructionProjectId, Convert.ToDecimal(OldBuilding));
             }
          
@@ -627,8 +627,6 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
                 facility_Construction_PM_Buildings.FK_Facility_Construction_PM = ConstructionProjectId;
                 facility_Construction_PM_Buildings.FK_Building = Convert.ToDecimal(ddlBuildingNumber.SelectedValue);
                 facility_Construction_PM_Buildings.Insert();
-            
-            
                 
             #endregion
 
