@@ -6,7 +6,7 @@ using System.Web.UI.WebControls;
 using InfoSoftGlobal;
 using System.Data;
 using System.Text;
-using ERIMS_DAL;
+//using ERIMS_DAL;
 
 public partial class DashBoardGraphACI : clsBasePage
 {
