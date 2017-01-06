@@ -14,7 +14,7 @@ using System.Globalization;
 using System.Security.Cryptography;
 using System.IO;
 using System.Collections.Generic;
-using ERIMS_DAL;
+//using ERIMS_DAL;
 
 public partial class EventAttachmentMail : System.Web.UI.Page
 {
