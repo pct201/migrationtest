@@ -1346,13 +1346,10 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
         {
             dtImprovements = Building_Improvements.SelectByFK_Property_Cope(PK_Property_Cope_ID).Tables[0];
             dtImprovements.DefaultView.Sort = strBuildingImprovementSortBy + " " + strBuildingImprovementSortOrder;
-
         }
-        else
-        {
-            gvBuildingImprovements.DataSource = dtImprovements;
-            gvBuildingImprovements.DataBind();
-        }
+        gvBuildingImprovements.DataSource = dtImprovements;
+        gvBuildingImprovements.DataBind();
+         
     }
 
     private void BindBuildingFinancilaLimitGrid()
