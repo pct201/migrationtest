@@ -576,7 +576,12 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
                     {
                         foreach (DataRow dr in ds.Tables[0].Rows)
                         {
-                            if (objBuilding_Improvements.PK_Building_Improvements != clsGeneral.GetDecimal(dr["PK_Building_Improvements"].ToString()))
+                            if (PK_Building_Improvements == clsGeneral.GetDecimal(dr["PK_Building_Improvements"].ToString()))
+                            {
+                                objBuilding_Improvements.PK_Building_Improvements = PK_Building_Improvements;
+                                objBuilding_Improvements.FK_Building = Convert.ToDecimal(ddlBuildingNumber.SelectedValue);
+                            }
+                            else
                             {
                                 objBuilding_Improvements.PK_Building_Improvements = clsGeneral.GetDecimal(dr["PK_Building_Improvements"].ToString());
                                 objBuilding_Improvements.FK_Building = Convert.ToDecimal(dr["FK_Building"].ToString());

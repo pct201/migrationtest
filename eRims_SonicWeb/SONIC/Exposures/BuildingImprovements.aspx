@@ -37,21 +37,22 @@
         }
         function UpdateAllBuildingImprovments()
         {
-            Page_ClientValidate('vsErrorGroup');
-            var hdnBIid = "<%=hdnMultipleBuildingImprovment.ClientID%>";
-            var countBI = document.getElementById(hdnBIid).value;
-            var op = '<%=StrOperation%>';
-            if (op == "edit" && countBI > 0) {
+            if(Page_ClientValidate('vsErrorGroup')){
+                var hdnBIid = "<%=hdnMultipleBuildingImprovment.ClientID%>";
+                var countBI = document.getElementById(hdnBIid).value;
+                var op = '<%=StrOperation%>';
+                if (op == "edit" && countBI > 0) {
 
-                //var confirm_value = document.createElement("INPUT");
-                //confirm_value.type = "hidden";
-                //confirm_value.name = "confirm_value";
-                if (confirm("There can be more than one Building associate with this Project. Do you want to change all ?")) {
-                    document.getElementById(hdnBIid).value = "Yes";
-                } else {
-                    document.getElementById(hdnBIid).value = "No";
+                    //var confirm_value = document.createElement("INPUT");
+                    //confirm_value.type = "hidden";
+                    //confirm_value.name = "confirm_value";
+                    if (confirm("There can be more than one Building associate with this Project. Do you want to change all ?")) {
+                        document.getElementById(hdnBIid).value = "Yes";
+                    } else {
+                        document.getElementById(hdnBIid).value = "No";
+                    }
+                    //document.forms[0].appendChild(confirm_value);
                 }
-                //document.forms[0].appendChild(confirm_value);
             }
         }
         function ShowPanel(index) {
@@ -1447,7 +1448,7 @@
                                     <tr>
                                         <td width="50%" align="right">
                                             <asp:Button ID="btnSave" runat="server" Text="Save & View" OnClick="btnSave_Click"
-                                                CausesValidation="true" ValidationGroup="vsErrorGroup" OnClientClick = "UpdateAllBuildingImprovments();" />
+                                                CausesValidation="false" ValidationGroup="vsErrorGroup" OnClientClick = "UpdateAllBuildingImprovments();" />
                                         </td>
                                         <td align="left">
                                             <asp:Button ID="btnRevertReturn" runat="server" Text="Revert & Return" OnClick="btnRevertReturn_Click" CausesValidation="false" />&nbsp;

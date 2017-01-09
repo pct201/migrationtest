@@ -381,10 +381,10 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
             {
                 building_Improvements.Improvement_Description = null;
             }
-            building_Improvements.FK_LU_Facility_Project_Type = Convert.ToDecimal(ddProjectType.SelectedValue);
-            building_Improvements.PK_Building_Improvements = Convert.ToDecimal(drImprovement["PK_Building_Improvements"]);
-            building_Improvements.FK_Property_Cope = Convert.ToDecimal(drImprovement["FK_Property_Cope"]);
-            building_Improvements.FK_Building = Convert.ToDecimal(drImprovement["FK_Building"]);
+            building_Improvements.FK_LU_Facility_Project_Type = clsGeneral.GetDecimal(ddProjectType.SelectedValue);
+            building_Improvements.PK_Building_Improvements = clsGeneral.GetDecimal(drImprovement["PK_Building_Improvements"]);
+            building_Improvements.FK_Property_Cope = clsGeneral.GetDecimal(drImprovement["FK_Property_Cope"]);
+            building_Improvements.FK_Building = clsGeneral.GetDecimal(drImprovement["FK_Building"]);
             building_Improvements.Contact_Name = Convert.ToString(drImprovement["Contact_Name"]);
             building_Improvements.Updated_By = clsSession.UserID;
             building_Improvements.Updated_Date = DateTime.Now;
