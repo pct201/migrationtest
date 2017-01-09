@@ -5576,7 +5576,7 @@ function ValidateFieldsBuildindOwnerSubLease(sender, args) {
                                                             <tr>
                                                                 <td align="left" valign="top">
                                                                     <asp:GridView ID="gvBuildingImprovements" runat="server" Width="100%" OnRowCommand="gvBuildingImprovements_RowCommand"
-                                                                        EmptyDataText="No Record Found" AllowSorting="true" OnSorting="gvBuildingImprovements_Sorting">
+                                                                        EmptyDataText="No Improvement Record Exists" AllowSorting="true" OnSorting="gvBuildingImprovements_Sorting">
                                                                         <Columns>
                                                                             <asp:TemplateField HeaderText="Building" SortExpression="Building_Number">
                                                                                 <ItemStyle Width="10%" />
