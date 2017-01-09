@@ -382,7 +382,6 @@
                                                         </td>
                                                         <td align="left" valign="top" width="28%">
                                                             <asp:TextBox ID="txtProject_Number" Width="170px" MaxLength="20" runat="server"/>
-                                                            <asp:RequiredFieldValidator runat="server" ControlToValidate="txtProject_Number" ValidationGroup="vsErrorGroup" Display="None" ErrorMessage="Please Enter Project Number "></asp:RequiredFieldValidator>
                                                         </td>
                                                         <td align="left" valign="top">Project Start Date &nbsp;<span id="Span11" style="color: Red; display: none;" runat="server">*</span>
                                                         </td>
