@@ -35,6 +35,22 @@ namespace ERIMS_Sonic_ReportScheduler
         //Date time format to display in attached excel with Email
         public const String DateDisplayFormat = "MM/dd/yyyy";
         public string _strServiceRunTime = string.Empty;
+        public static string Platinum = "90EE90";//Light Green
+        public static string Gold = "ADD8E6";//Light Blue
+        public static string Silver = "FFFF00";//Yellow
+        public static string Bronze = "FFA500";//Orange
+        public static string Tin = "FF0000";//Red
+        public static string White = "FFFFFF";
+        public static string Platinum_Label = "Platinum";
+        public static string Gold_Label = "Gold";
+        public static string Silver_Label = "Silver";
+        public static string Bronze_Label = "Bronze";
+        public static string Tin_Label = "Tin";
+        public static string Platinum_Label_Graph = "P";
+        public static string Gold_Label_Graph = "G";
+        public static string Silver_Label_Graph = "S";
+        public static string Bronze_Label_Graph = "B";
+        public static string Tin_Label_Graph = "T";
 
         public static string PDFLicenseKey
         {
@@ -3364,7 +3380,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<td style='width: 250px;border:thin;' align='left' >Entity</td>");
                         strHTML.Append("<td style='width: 200px;border:thin;' align='left' >Defense Attorney</td>");
                         strHTML.Append("<td style='border:thin'>");
-                        strHTML.Append("<table style='font-weight: bold'> <tr valign='top'> <td colspan='4' style='border:thin'>Plaintiff Attorney Information</td></tr><tr valign='top'>");                        
+                        strHTML.Append("<table style='font-weight: bold'> <tr valign='top'> <td colspan='4' style='border:thin'>Plaintiff Attorney Information</td></tr><tr valign='top'>");
                         strHTML.Append("<td style='width: 200px;border:thin' align='left' >Firm</td>");
                         strHTML.Append("<td style='width: 200px;border:thin' align='left' >Name</td>");
                         strHTML.Append("<td style='width: 200px;border:thin' align='left' >Address</td>");
@@ -3381,7 +3397,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         if (dtRegion.Rows.Count > 0)
                         {
                             //    //Add Report Data Table 
-                            strHTML.Append("<table style='width: 3150px;' border='1' cellpadding='4' cellspacing='0'>");  
+                            strHTML.Append("<table style='width: 3150px;' border='1' cellpadding='4' cellspacing='0'>");
                             foreach (DataRow drRegion in dtRegion.Rows)
                             {
                                 strHTML.Append("<tr><td colspan='22' style='font-family:Calibri; border:thin'><b>");
@@ -3390,7 +3406,7 @@ namespace ERIMS_Sonic_ReportScheduler
                                 strHTML.Append("<td colspan='4' style='border:thin'>");
                                 strHTML.Append("<table style='font-weight: bold'> <tr valign='top'> <td style='border:thin'></td><td style='border:thin'></td><td style='border:thin'></td><td style='border:thin'></td>");
                                 strHTML.Append("</tr></table></td></tr>");
-                                
+
 
                                 //strHTML.Append("<tr><td colspan='26' style='border:thin'>");
                                 //strHTML.Append("<table style='width: 3150px;font-family:Calibri;' border='1' cellpadding='4' cellspacing='0'>");
@@ -3516,7 +3532,7 @@ namespace ERIMS_Sonic_ReportScheduler
                                 strHTML.Append("<td>&nbsp;</td>");
                                 strHTML.Append("<td>&nbsp;</td>");
                                 strHTML.Append("<td>&nbsp;</td>");
-                                strHTML.Append("</tr></table>");                                                             
+                                strHTML.Append("</tr></table>");
                                 strHTML.Append("</td></tr>");
                             }
 
@@ -3549,13 +3565,13 @@ namespace ERIMS_Sonic_ReportScheduler
                             strHTML.Append("<td style='width: 200px;' align='left'>&nbsp;</td>");
                             strHTML.Append("<td style='width: 200px;' align='left'>&nbsp;</td>");
                             strHTML.Append("<td style='width: 200px;' align='left'>&nbsp;</td>");
-                            strHTML.Append("<td style='width: 200px;' align='left'>&nbsp;</td>");                            
+                            strHTML.Append("<td style='width: 200px;' align='left'>&nbsp;</td>");
                             strHTML.Append("</tr>");
                             strHTML.Append("</table>");
-                            strHTML.Append("</div>");                           
-                            
+                            strHTML.Append("</div>");
+
                             //strHTML.Append("</td></tr>");
-                            
+
                         }
                         else
                         {
@@ -3581,7 +3597,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 EventLog.WriteEntry("ERROR in Bordereau Report, " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
-      
+
         //Report 15
         private void BindNotif_BordereauReport(DataRow drReportSchedule)
         {
@@ -3610,7 +3626,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         strMailFrom = dtUser.Rows[0]["Email"].ToString();
                         string strMarket = null;
                         //Added by Poonam Parekh on 06/10/2016
-                        if (dtFilter.Rows[0]["Market"]==DBNull.Value)
+                        if (dtFilter.Rows[0]["Market"] == DBNull.Value)
                         {
                             strMarket = "0";
                         }
@@ -3641,7 +3657,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         //    strMarketString = "All Market";
                         //}
                         //Updated by Poonam Parekh on 6/10/2016
-                        if (strMarket=="0")
+                        if (strMarket == "0")
                         {
                             strMarketString = "All Market";
                         }
@@ -4985,7 +5001,7 @@ namespace ERIMS_Sonic_ReportScheduler
 
                         //Add Report Title and Schedule Date
                         strHTML.Append("<table><tr><td colspan='19'>");
-                        
+
                         strHTML.Append("<br />");
                         strHTML.Append("<b>Report Title : WC Allocation Monthly Detail Report</b>");
                         strHTML.Append("<br /><br />");
@@ -5006,7 +5022,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<br /><br />");
                         strHTML.Append("Run Report by : " + strRun_Report_By);
                         strHTML.Append("<br /><br />");
-                        
+
                         strHTML.Append("</td></tr></table>");
 
                         //Add Header HTML
@@ -5080,7 +5096,7 @@ namespace ERIMS_Sonic_ReportScheduler
                                             if (Convert.ToDateTime(drData["Date_Of_Incident"]) != Convert.ToDateTime(System.Data.SqlTypes.SqlDateTime.MinValue.ToString()))
                                                 strHTML.Append("<td style='width: 8%;' align='left' valign='top'>" + Convert.ToDateTime(drData["Date_Of_Incident"]).ToString(DateDisplayFormat) + "</td>");
                                             else
-                                            strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
+                                                strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
                                         }
                                         else
                                             strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
@@ -5641,7 +5657,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         for (int i = 0; i < strLoc.Length - 1; i++)
                         {
                             dt = Report.SelectLocationInfoById(Convert.ToDecimal(strLoc[i].ToString())).Tables[0];
-                            if(dt.Rows.Count>0)
+                            if (dt.Rows.Count > 0)
                                 strLocationString += dt.Rows[0]["dba"].ToString() + ",";
                         }
                         //foreach (string strl in strLoc)
@@ -5796,11 +5812,11 @@ namespace ERIMS_Sonic_ReportScheduler
                         string strRegion = dtFilter.Rows[0]["Region"].ToString();
                         //Updated by Poonam Parekh on 7/10/2016
                         //Initially no data was being generated
-                        string strMarket = "";  
+                        string strMarket = "";
                         if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Market"])))
                         {
                             strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
-                        }                        
+                        }
                         string strLocation = dtFilter.Rows[0]["Location"].ToString();
                         string strEquipmentType = dtFilter.Rows[0]["EquipmentType"].ToString();
                         string strLeaseRentalType = dtFilter.Rows[0]["LeaseRentalType"].ToString();
@@ -5986,7 +6002,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         else
                         {
                             //Add No record found line for year
-                            strHTML.Append("<table  colspan='11' style='border: black 0.5px solid;'><tr><td align='left' colspan='11'>No Record Found!</td></tr></table>");                           
+                            strHTML.Append("<table  colspan='11' style='border: black 0.5px solid;'><tr><td align='left' colspan='11'>No Record Found!</td></tr></table>");
                         }
 
                         //Write HTML in to HtmlWriter
@@ -6044,7 +6060,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         string strType = dtFilter.Rows[0]["Type"].ToString();
 
                         // get result records from database for the report
-                        DataSet dsReport = Report.Get_Purchase_Report(strRegion, strMarket, strManufacturer, strType, strLocation,FK_Security_Id);
+                        DataSet dsReport = Report.Get_Purchase_Report(strRegion, strMarket, strManufacturer, strType, strLocation, FK_Security_Id);
 
                         //Create HTML for the report and wirte into HTML Write object
                         StringBuilder strHTML = new StringBuilder();
@@ -8307,15 +8323,15 @@ namespace ERIMS_Sonic_ReportScheduler
                                     strHTML.Append("<td> Sub Total </td>");
                                     strHTML.Append("<td>" + dtReportDetail.Rows.Count.ToString() + "</td>");
                                     strHTML.Append("<td> &nbsp;</td>");
-                            strHTML.Append("<td> &nbsp;</td>");
-                            strHTML.Append("<td> &nbsp;</td>");
-                            strHTML.Append("<td> &nbsp;</td>");
-                            strHTML.Append("<td> &nbsp;</td>");
-                            strHTML.Append("<td> &nbsp;</td>");
-                            strHTML.Append("<td> &nbsp;</td>");
-                            strHTML.Append("<td> &nbsp;</td>");
-                            strHTML.Append("<td> &nbsp;</td>");
-                            strHTML.Append("<td> &nbsp;</td>");
+                                    strHTML.Append("<td> &nbsp;</td>");
+                                    strHTML.Append("<td> &nbsp;</td>");
+                                    strHTML.Append("<td> &nbsp;</td>");
+                                    strHTML.Append("<td> &nbsp;</td>");
+                                    strHTML.Append("<td> &nbsp;</td>");
+                                    strHTML.Append("<td> &nbsp;</td>");
+                                    strHTML.Append("<td> &nbsp;</td>");
+                                    strHTML.Append("<td> &nbsp;</td>");
+                                    strHTML.Append("<td> &nbsp;</td>");
                                     strHTML.Append("<td align='right'> " + string.Format("{0:C2}", dtReportDetail.Compute("SUM(Initial_Charge)", "")) + " </td>");
                                     strHTML.Append("<td align='right'> " + string.Format("{0:C2}", dtReportDetail.Compute("SUM(Total_Credits)", "")) + " </td>");
                                     strHTML.Append("<td align='right'> " + string.Format("{0:C2}", dtReportDetail.Compute("SUM(Total_Penalties)", "")) + " </td>");
@@ -8921,7 +8937,7 @@ namespace ERIMS_Sonic_ReportScheduler
 
                         #region "Grid Data"
 
-                       
+
 
                         strHTML.Append("<table width='2035px' cellpadding='0' cellspacing='0' border='1'>");
 
@@ -11515,28 +11531,50 @@ namespace ERIMS_Sonic_ReportScheduler
                 }
 
                 //Add Report Title and Schedule Date
-                strHTML.Append("<table><tr><td colspan='9'>");
+                strHTML.Append("<table>");
 
-                strHTML.Append("<br />");
-                strHTML.Append("<b>Report Title : Risk Management Playbook Scorecard </b>");
-                strHTML.Append("<br /><br />");
-                strHTML.Append("Schedule Start Date : " + Convert.ToDateTime(drReportSchedule["Scheduled_Date"]).ToString(DateDisplayFormat));
-                strHTML.Append("&nbsp;&nbsp;&nbsp;&nbsp;Schedule End Date : " + Convert.ToDateTime(drReportSchedule["Schedule_End_Date"]).ToString(DateDisplayFormat));
-                strHTML.Append("<br />");
-                strHTML.Append("Recurring Period : " + drReportSchedule["Recurring_Period"].ToString());
-                strHTML.Append("<br />");
-                strHTML.Append("Recurring Date : " + dtSchduleDate.ToString(DateDisplayFormat));
+                //strHTML.Append("<br/>");
+                //strHTML.Append("<td colspan='9'><b>Report Title : Risk Management Playbook Scorecard </b></td>");
+                //strHTML.Append("<br/><br/>");
+                //strHTML.Append("Schedule Start Date : " + Convert.ToDateTime(drReportSchedule["Scheduled_Date"]).ToString(DateDisplayFormat));
+                //strHTML.Append("&nbsp;&nbsp;&nbsp;&nbsp;Schedule End Date : " + Convert.ToDateTime(drReportSchedule["Schedule_End_Date"]).ToString(DateDisplayFormat));
+                //strHTML.Append("<br/>");
+                //strHTML.Append("Recurring Period : " + drReportSchedule["Recurring_Period"].ToString());
+                //strHTML.Append("<br/>");
+                //strHTML.Append("Recurring Date : " + dtSchduleDate.ToString(DateDisplayFormat));
+
+                ////Add Report Filter Criteria    
+                //strHTML.Append("<br /><br />");
+                //strHTML.Append("<b>Report Filters </b>");
+                //strHTML.Append("<br />");
+                //strHTML.Append("Year   : " + strYear);
+                //strHTML.Append("<br />");
+                //strHTML.Append("Region   : " + strRegion);
+                //strHTML.Append("<br />");
+                //strHTML.Append("Market        : " + strMarketString);
+                //strHTML.Append("<br /><br />");
+                //strHTML.Append("</td></tr></table>");
+
+                //strHTML.Append("<br/>");
+                strHTML.Append("<tr><td colspan='9'><b>Report Title : Risk Management Playbook Scorecard </b></tr>");
+                //strHTML.Append("<br/><br/>");
+                strHTML.Append("</td></tr><tr><td colspan='9'>Schedule Start Date : " + Convert.ToDateTime(drReportSchedule["Scheduled_Date"]).ToString(DateDisplayFormat));
+                strHTML.Append("</td></tr><tr><td colspan='9'>Schedule End Date : " + Convert.ToDateTime(drReportSchedule["Schedule_End_Date"]).ToString(DateDisplayFormat));
+                //strHTML.Append("<br/>");
+                strHTML.Append("</td></tr><tr><td colspan='9'>Recurring Period : " + drReportSchedule["Recurring_Period"].ToString());
+                //strHTML.Append("<br/>");
+                strHTML.Append("</td></tr><tr><td colspan='9'>Recurring Date : " + dtSchduleDate.ToString(DateDisplayFormat));
 
                 //Add Report Filter Criteria    
-                strHTML.Append("<br /><br />");
-                strHTML.Append("<b>Report Filters </b>");
-                strHTML.Append("<br />");
-                strHTML.Append("Year   : " + strYear);
-                strHTML.Append("<br />");
-                strHTML.Append("Region   : " + strRegion);
-                strHTML.Append("<br />");
-                strHTML.Append("Market        : " + strMarketString);
-                strHTML.Append("<br /><br />");
+                //strHTML.Append("<br /><br />");
+                strHTML.Append("</td></tr><tr><td colspan='9'><b>Report Filters </b>");
+                //strHTML.Append("<br />");
+                strHTML.Append("</td></tr><tr><td colspan='9'>Year   : " + strYear);
+                //strHTML.Append("<br />");
+                strHTML.Append("</td></tr><tr><td colspan='9'>Region   : " + strRegion);
+                //strHTML.Append("<br />");
+                strHTML.Append("</td></tr><tr><td colspan='9'>Market        : " + strMarketString);
+                //strHTML.Append("<br /><br />");
                 strHTML.Append("</td></tr></table>");
 
                 #endregion
@@ -11552,13 +11590,14 @@ namespace ERIMS_Sonic_ReportScheduler
                 strHTML.Append("<table width='1700px' cellpadding='0' cellspacing='0' border='1' style='font-weight: bold;'>");
                 strHTML.Append("<tr style='font-weight: bold;'>");
                 strHTML.Append("<td align='left' colspan='2'>Sonic Automotive</td>");
-                strHTML.Append("<td align='center' colspan='4'>Risk Management Playbook Scorecard </td>");
+                strHTML.Append("<td align='center' colspan='5'>Risk Management Playbook Scorecard </td>");
                 strHTML.Append("<td align='right' colspan='3'>Valuation Date: " + DateTime.Now.ToString("MM/dd/yyy") + " </td>");
                 strHTML.Append("</tr>");
 
                 strHTML.Append("<tr style='font-weight: bold;'>");
                 strHTML.Append("<td align='left' style='width: 200px'>Region</td>");
                 strHTML.Append("<td align='left' style='width: 200px'>Location D/B/A</td>");
+                strHTML.Append("<td align='left' style='width: 150px'>Safety Leadership Team Score</td>");
                 strHTML.Append("<td align='left' style='width: 150px'>Facility Inspection Score</td>");
                 strHTML.Append("<td align='left' style='width: 150px'>Sonic U Training Score</td>");
                 strHTML.Append("<td align='left' style='width: 170px'>Incident Investigation Score</td>");
@@ -11585,11 +11624,63 @@ namespace ERIMS_Sonic_ReportScheduler
                     strHTML.Append("<table width='1700px' cellpadding='0' cellspacing='0' border='0'>");
                     strHTML.Append("<tr><td align='left'>");
                     strHTML.Append("<table cellspacing='0' cellpadding='0' align='Left' border='1' style='width: 100%; border-collapse: collapse;'>");
+                    string strFinalScoreCard = "", strScoreCardBgColor = "";
+                    int Is_Total = 0;
+                    double decTotalScore = 0;
 
                     foreach (DataRow drDetail in dsReport.Tables[0].Rows)
                     {
+                        Is_Total = 0;
+                        decTotalScore = 0;
+                        int.TryParse(Convert.ToString(drDetail["Is_Total"]), out Is_Total);
+                        double.TryParse(Convert.ToString(drDetail["ResultingScore"]), out decTotalScore);
+
+                        if (Is_Total == 1)
+                        {
+                            //strScoreCardBgColor = "#ADD8E6";
+                            strHTML.Append("<tr bgcolor='#ADD8E6'>");
+                        }
+                        else if (Is_Total == 2)
+                        {
+                            //strScoreCardBgColor = "#76bdd5";
+                            strHTML.Append("<tr bgcolor='#76bdd5'>");
+                        }   
+                        else
+                            strHTML.Append("<tr>");
+
+                        
+
+                        if (decTotalScore >= 95 && decTotalScore <= 100)
+                        {
+                            //strFinalScoreCard = decTotalScore + " (" + Platinum_Label + ")";                
+                            strScoreCardBgColor = "#" + Platinum; ;// "green";
+                        }
+                        else if (decTotalScore >= 90 && decTotalScore < 95)
+                        {
+                            //strFinalScoreCard = decTotalScore + " (" + Gold_Label + ")";             
+                            strScoreCardBgColor = "#" + Gold;//"blue";
+                        }
+                        else if (decTotalScore >= 80 && decTotalScore < 90)
+                        {
+                            //strFinalScoreCard = decTotalScore + " (" + Silver_Label + ")";             
+                            strScoreCardBgColor = "#" + Silver;//"Yellow";
+                        }
+                        else if (decTotalScore >= 70 && decTotalScore < 80)
+                        {
+                            //strFinalScoreCard = decTotalScore + " (" + Bronze_Label + ")";
+                            strScoreCardBgColor = "#" + Bronze;//"orange";
+                        }
+                        else if (decTotalScore >= 0 && decTotalScore < 70)
+                        {
+                            // strFinalScoreCard = decTotalScore + " (" + Tin_Label + ")";
+                            strScoreCardBgColor = "#" + Tin;//"red";
+                        }
+
+                        //else
+                        //    strScoreCardBgColor = "White";                
+
                         string strTempRegion = string.Empty;
-                        strHTML.Append("<tr>");
+                        //strHTML.Append("<tr>");
                         if (Convert.ToString(drDetail["Region"]) == "ZZZZ" && Convert.ToString(drDetail["IS_EchoPark"]) == "1" && Convert.ToString(drDetail["Is_Total"]) == "2")
                             strTempRegion = "EchoPark Average";
                         else if (Convert.ToString(drDetail["Region"]) == "ZZZZ" && Convert.ToString(drDetail["Is_Total"]) == "2")
@@ -11598,6 +11689,7 @@ namespace ERIMS_Sonic_ReportScheduler
 
                         strHTML.Append("<td align='left' style='width: 200px'>" + strTempRegion + "</td>");
                         strHTML.Append("<td align='left' style='width: 200px'>" + Convert.ToString(drDetail["DBA"]) + "</td>");
+                        strHTML.Append("<td align='left' style='width: 150px'>" + Convert.ToString(drDetail["SLT_Score"]) + "</td>");
                         strHTML.Append("<td align='left' style='width: 150px'>" + Convert.ToString(drDetail["FI_Score"]) + "</td>");
                         strHTML.Append("<td align='left' style='width: 150px'>" + Convert.ToString(drDetail["SUT_Score"]) + "</td>");
                         strHTML.Append("<td align='left' style='width: 170px'>" + Convert.ToString(drDetail["II_Score"]) + "</td>");
@@ -11605,7 +11697,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<td align='left' style='width: 180px'>" + Convert.ToString(drDetail["WM_Score"]) + "</td>");
                         strHTML.Append("<td align='left' style='width: 150px'>" + Convert.ToString(drDetail["IR_Score"]) + "</td>");
                         strHTML.Append("<td align='left' style='width: 150px'>" + Convert.ToString(drDetail["TotalScore"]) + "</td>");
-                        strHTML.Append("<td align='left' style='width: 150px'>" + Final_ScoreCard(Convert.ToString(drDetail["ResultingScore"])) + "</td>");
+                        strHTML.Append("<td align='left' style='width: 150px;background-color:" + strScoreCardBgColor + "' >" + Final_ScoreCard(Convert.ToString(drDetail["ResultingScore"])) + "</td>");
                         strHTML.Append(" </tr>");
                     }
                     strHTML.Append("</table>");
@@ -12067,9 +12159,9 @@ namespace ERIMS_Sonic_ReportScheduler
                 SendMail("Inspections By Inspector", "Inspections_By_Inspector_Report.xls", strFirstName, strLastName, strMailFrom, stringWrite, dtRecipients);
             }
 
-        }        
-
         }
+
+
 
         //Report 57
         private void BindRiskManagementWorkSheet(DataRow drReportSchedule)
@@ -12275,10 +12367,10 @@ namespace ERIMS_Sonic_ReportScheduler
                 SendMail("Risk Management Worksheet", "Risk_Management_Worksheet_Report.xls", strFirstName, strLastName, strMailFrom, stringWrite, dtRecipients);
 
             }
-        }          
-       
-       
-     
+        }
+
+
+
 
         //Report 59
         private void BindInspectionLagTime(DataRow drReportSchedule)
@@ -14566,7 +14658,7 @@ namespace ERIMS_Sonic_ReportScheduler
 
                     dtSchema = Reader.GetSchemaTable();
 
-                    sbRecord.Append("<table border='1' cellpadding='0' cellspacing='0' width='" + (150 * (ObjAdHocReport.OutputFields.Split(',').Length+1)).ToString() + "' style='font-size:10pt'>");
+                    sbRecord.Append("<table border='1' cellpadding='0' cellspacing='0' width='" + (150 * (ObjAdHocReport.OutputFields.Split(',').Length + 1)).ToString() + "' style='font-size:10pt'>");
 
                     #region "Header"
                     // If reader found a records 
@@ -14894,20 +14986,20 @@ namespace ERIMS_Sonic_ReportScheduler
                             {
                                 strGroupByValue_2 = Convert.ToString(Reader[strSecGroupBy]);
                                 if (strFormatSecGroupBy == "decimal")
-                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #276692;' align='right' colspan='2' >&nbsp;" + strSecGroupBy + ": " + string.Format("{0:c2}", strGroupByValue_2) + "</td><td style='border-bottom:none;' rowspan='5' colspan='" + (countColumn ) + "'></td></tr>");
+                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #276692;' align='right' colspan='2' >&nbsp;" + strSecGroupBy + ": " + string.Format("{0:c2}", strGroupByValue_2) + "</td><td style='border-bottom:none;' rowspan='5' colspan='" + (countColumn) + "'></td></tr>");
                                 else if (strFormatSecGroupBy == "datetime")
                                 {
                                     // it display only Time
                                     if (strSecGroupBy == "Time Theft Reported")
-                                        sbRecord.Append("<tr><td style='font-weight: bold;color: #276692;' colspan='2'>&nbsp;" + strSecGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strSecGroupBy]) + "</td><td style='border-bottom:none;' rowspan='5' colspan='" + (countColumn ) + "'></td></tr>");
-                                    else sbRecord.Append("<tr><td style='font-weight: bold;color: #276692;' colspan='2'>&nbsp;" + strSecGroupBy + ": " + FormatDBNullDateToDisplay(strGroupByValue_2) + "</td><td style='border-bottom:none;' rowspan='5' colspan='" + (countColumn ) + "'></td></tr>");
+                                        sbRecord.Append("<tr><td style='font-weight: bold;color: #276692;' colspan='2'>&nbsp;" + strSecGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strSecGroupBy]) + "</td><td style='border-bottom:none;' rowspan='5' colspan='" + (countColumn) + "'></td></tr>");
+                                    else sbRecord.Append("<tr><td style='font-weight: bold;color: #276692;' colspan='2'>&nbsp;" + strSecGroupBy + ": " + FormatDBNullDateToDisplay(strGroupByValue_2) + "</td><td style='border-bottom:none;' rowspan='5' colspan='" + (countColumn) + "'></td></tr>");
                                 }
-                                else sbRecord.Append("<tr><td style='font-weight: bold;color: #276692;' colspan='2'>&nbsp;" + strSecGroupBy + ": " + strGroupByValue_2 + "</td><td style='border-bottom:none;' rowspan='5' colspan='" + (countColumn ) + "'></td></tr>");
+                                else sbRecord.Append("<tr><td style='font-weight: bold;color: #276692;' colspan='2'>&nbsp;" + strSecGroupBy + ": " + strGroupByValue_2 + "</td><td style='border-bottom:none;' rowspan='5' colspan='" + (countColumn) + "'></td></tr>");
                             }
                             else if (Reader[strSecGroupBy] == DBNull.Value && strNOGroup2 == string.Empty)
                             {
                                 strNOGroup2 = "No " + strSecGroupBy;
-                                sbRecord.Append("<tr><td style='font-weight: bold;color: #276692;' colspan='2'>&nbsp;" + strSecGroupBy + ": " + strNOGroup2 + "</td><td style='border-bottom:none;' rowspan='5' colspan='" + (countColumn ) + "'></td></tr>");
+                                sbRecord.Append("<tr><td style='font-weight: bold;color: #276692;' colspan='2'>&nbsp;" + strSecGroupBy + ": " + strNOGroup2 + "</td><td style='border-bottom:none;' rowspan='5' colspan='" + (countColumn) + "'></td></tr>");
                                 //No Group by assign
                                 strNOGroup2 = strGroupByValue_2;
                             }
@@ -14921,21 +15013,21 @@ namespace ERIMS_Sonic_ReportScheduler
                             {
                                 strGroupByValue_3 = Convert.ToString(Reader[strThirdGroupBy]);
                                 if (strFormatThirdGroupBy == "decimal")
-                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;' align='right' colspan='2'>&nbsp;" + strThirdGroupBy + ": " + string.Format("{0:c2}", strGroupByValue_3) + "</td><td rowspan='5' colspan='" + (countColumn ) + "'></td></tr>");
+                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;' align='right' colspan='2'>&nbsp;" + strThirdGroupBy + ": " + string.Format("{0:c2}", strGroupByValue_3) + "</td><td rowspan='5' colspan='" + (countColumn) + "'></td></tr>");
                                 else if (strFormatThirdGroupBy == "datetime")
                                 {
                                     // it display only Time
                                     if (strThirdGroupBy == "Time Theft Reported")
-                                        sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;' colspan='2'>&nbsp;" + strThirdGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strThirdGroupBy]) + "</td><td rowspan='5' colspan='" + (countColumn ) + "'></td></tr>");
-                                    else sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;' colspan='2'>&nbsp;" + strThirdGroupBy + ": " + FormatDBNullDateToDisplay(strGroupByValue_3) + "</td><td rowspan='5' colspan='" + (countColumn ) + "'></td></tr>");
+                                        sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;' colspan='2'>&nbsp;" + strThirdGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strThirdGroupBy]) + "</td><td rowspan='5' colspan='" + (countColumn) + "'></td></tr>");
+                                    else sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;' colspan='2'>&nbsp;" + strThirdGroupBy + ": " + FormatDBNullDateToDisplay(strGroupByValue_3) + "</td><td rowspan='5' colspan='" + (countColumn) + "'></td></tr>");
                                 }
-                                else sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;' colspan='2'>&nbsp;" + strThirdGroupBy + ": " + strGroupByValue_3 + "</td><td rowspan='5' colspan='" + (countColumn ) + "'></td></tr>");
+                                else sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;' colspan='2'>&nbsp;" + strThirdGroupBy + ": " + strGroupByValue_3 + "</td><td rowspan='5' colspan='" + (countColumn) + "'></td></tr>");
                                 strGroupByValue_4 = strGroupByValue_5 = null;
                             }
                             else if ((Reader[strThirdGroupBy] == DBNull.Value || string.IsNullOrEmpty(Convert.ToString(Reader[strThirdGroupBy]))) && strNOGroup3 == string.Empty)
                             {
                                 strNOGroup3 = "No " + strThirdGroupBy;
-                                sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;' colspan='2'>&nbsp;" + strThirdGroupBy + ": " + strNOGroup3 + "</td><td rowspan='5' colspan='" + (countColumn ) + "'></td></tr>");
+                                sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;' colspan='2'>&nbsp;" + strThirdGroupBy + ": " + strNOGroup3 + "</td><td rowspan='5' colspan='" + (countColumn) + "'></td></tr>");
                                 // When Group by 3 value find as Null
                                 strNOGroup3 = strThirdGroupBy;
                                 //Change third Group By when 3rd Groupby is Change
@@ -14951,21 +15043,21 @@ namespace ERIMS_Sonic_ReportScheduler
                             {
                                 strGroupByValue_4 = Convert.ToString(Reader[strFourthGroupBy]);
                                 if (strFormatFourthGroupBy == "decimal")
-                                    sbRecord.Append("<tr><td style='font-weight: bold;color: green;' align='right' colspan='2'>&nbsp;" + strFourthGroupBy + ": " + string.Format("{0:c2}", strGroupByValue_4) + "</td><td rowspan='5' colspan='" + (countColumn ) + "'></td></tr>");
+                                    sbRecord.Append("<tr><td style='font-weight: bold;color: green;' align='right' colspan='2'>&nbsp;" + strFourthGroupBy + ": " + string.Format("{0:c2}", strGroupByValue_4) + "</td><td rowspan='5' colspan='" + (countColumn) + "'></td></tr>");
                                 else if (strFormatFourthGroupBy == "datetime")
                                 {
                                     // it display only Time
                                     if (strFourthGroupBy == "Time Theft Reported")
-                                        sbRecord.Append("<tr><td style='font-weight: bold;color: green;' colspan='2'>&nbsp;" + strFourthGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strFourthGroupBy]) + "</td><td rowspan='5' colspan='" + (countColumn ) + "'></td></tr>");
-                                    else sbRecord.Append("<tr><td style='font-weight: bold;color: green;' colspan='2'>&nbsp;" + strFourthGroupBy + ": " + FormatDBNullDateToDisplay(strGroupByValue_4) + "</td><td rowspan='5' colspan='" + (countColumn ) + "'></td></tr>");
+                                        sbRecord.Append("<tr><td style='font-weight: bold;color: green;' colspan='2'>&nbsp;" + strFourthGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strFourthGroupBy]) + "</td><td rowspan='5' colspan='" + (countColumn) + "'></td></tr>");
+                                    else sbRecord.Append("<tr><td style='font-weight: bold;color: green;' colspan='2'>&nbsp;" + strFourthGroupBy + ": " + FormatDBNullDateToDisplay(strGroupByValue_4) + "</td><td rowspan='5' colspan='" + (countColumn) + "'></td></tr>");
                                 }
-                                else sbRecord.Append("<tr><td style='font-weight: bold;color: green;' colspan='2'>&nbsp;" + strFourthGroupBy + ": " + strGroupByValue_4 + "</td><td rowspan='5' colspan='" + (countColumn ) + "'></td></tr>");
+                                else sbRecord.Append("<tr><td style='font-weight: bold;color: green;' colspan='2'>&nbsp;" + strFourthGroupBy + ": " + strGroupByValue_4 + "</td><td rowspan='5' colspan='" + (countColumn) + "'></td></tr>");
                                 strGroupByValue_5 = null;
                             }
                             else if ((Reader[strFourthGroupBy] == DBNull.Value || string.IsNullOrEmpty(Convert.ToString(Reader[strFourthGroupBy]))) && strNOGroup4 == string.Empty)
                             {
                                 strNOGroup4 = "No " + strFourthGroupBy;
-                                sbRecord.Append("<tr><td style='font-weight: bold;color: green;' colspan='2'>&nbsp;" + strFourthGroupBy + ": " + strNOGroup4 + "</td><td rowspan='5' colspan='" + (countColumn ) + "'></td></tr>");
+                                sbRecord.Append("<tr><td style='font-weight: bold;color: green;' colspan='2'>&nbsp;" + strFourthGroupBy + ": " + strNOGroup4 + "</td><td rowspan='5' colspan='" + (countColumn) + "'></td></tr>");
                                 // When Group by 4 value find as Null
                                 strNOGroup4 = strFourthGroupBy;
                                 //Change Fourth Group By when 4th Groupby is Change
@@ -14981,15 +15073,15 @@ namespace ERIMS_Sonic_ReportScheduler
                             {
                                 strGroupByValue_5 = Convert.ToString(Reader[strFifthGroupBy]);
                                 if (strFormatFifthGroupBy == "decimal")
-                                    sbRecord.Append("<tr><td style='font-weight: bold;' align='right' colspan='2'>&nbsp;" + strFifthGroupBy + ": " + string.Format("{0:c2}", strGroupByValue_5) + "</td><td rowspan='5' colspan='" + (countColumn ) + "'></td></tr>");
+                                    sbRecord.Append("<tr><td style='font-weight: bold;' align='right' colspan='2'>&nbsp;" + strFifthGroupBy + ": " + string.Format("{0:c2}", strGroupByValue_5) + "</td><td rowspan='5' colspan='" + (countColumn) + "'></td></tr>");
                                 else if (strFormatFifthGroupBy == "datetime")
                                 {
                                     // it display only Time
                                     if (strFifthGroupBy == "Time Theft Reported")
-                                        sbRecord.Append("<tr><td style='font-weight: bold;' colspan='2'>&nbsp;" + strFifthGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strFifthGroupBy]) + "</td><td rowspan='5' colspan='" + (countColumn ) + "'></td></tr>");
-                                    else sbRecord.Append("<tr><td style='font-weight: bold;' colspan='2'>&nbsp;" + strFifthGroupBy + ": " + FormatDBNullDateToDisplay(strGroupByValue_5) + "</td><td rowspan='5' colspan='" + (countColumn ) + "'></td></tr>");
+                                        sbRecord.Append("<tr><td style='font-weight: bold;' colspan='2'>&nbsp;" + strFifthGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strFifthGroupBy]) + "</td><td rowspan='5' colspan='" + (countColumn) + "'></td></tr>");
+                                    else sbRecord.Append("<tr><td style='font-weight: bold;' colspan='2'>&nbsp;" + strFifthGroupBy + ": " + FormatDBNullDateToDisplay(strGroupByValue_5) + "</td><td rowspan='5' colspan='" + (countColumn) + "'></td></tr>");
                                 }
-                                else sbRecord.Append("<tr><td style='font-weight: bold;' colspan='2'>&nbsp;" + strFifthGroupBy + ": " + strGroupByValue_5 + "</td><td rowspan='5' colspan='" + (countColumn ) + "'></td></tr>");
+                                else sbRecord.Append("<tr><td style='font-weight: bold;' colspan='2'>&nbsp;" + strFifthGroupBy + ": " + strGroupByValue_5 + "</td><td rowspan='5' colspan='" + (countColumn) + "'></td></tr>");
                             }
                             else if ((Reader[strFifthGroupBy] == DBNull.Value || string.IsNullOrEmpty(Convert.ToString(Reader[strFifthGroupBy]))) && strNOGroup5 == string.Empty)
                             {
