@@ -80,7 +80,7 @@ public partial class Administrator_Employee : clsBasePage
     protected void btnAssociateSave_Click(object sender, EventArgs e)
     {
 
-        if (Employee.CheckEmployee_IDExists(PK_Employee_ID, txtEmployeeID.Text.Trim()))
+       if (Employee.CheckEmployee_IDExists(PK_Employee_ID, txtEmployeeID.Text.Trim()))
         {
             lblError.Text = "Employee ID is already Exists. Please enter another Employee ID.";
             lblError.Visible = true;
@@ -176,20 +176,22 @@ public partial class Administrator_Employee : clsBasePage
         {
             PK_Employee_ID = objEmployee.Insert();
         }
-        if (txtEmployeeID.Text.Length > 0)
-        {
+        //if (txtEmployeeID.Text.Length > 0) commented as per ticket 3698 comment 38348  point 4
+        //{
             Employee_Codes objEmployee_Codes = new Employee_Codes();
-            DataSet ds = Employee_Codes.SelectByEmployeeCodes(txtEmployeeID.Text);
+            DataSet ds = Employee_Codes.SelectDataByEmployeeCodes(PK_Employee_ID);
             if (ds.Tables[0].Rows.Count > 0)
             {
                 objEmployee_Codes.Code = ddlJobCode.SelectedValue;
                 objEmployee_Codes.Employee_Id = txtEmployeeID.Text;
+                objEmployee_Codes.FK_Employee_Id = PK_Employee_ID;
                 objEmployee_Codes.Update();
             }
             else
             {
                 objEmployee_Codes.Code = ddlJobCode.SelectedValue;
                 objEmployee_Codes.Employee_Id = txtEmployeeID.Text;
+                objEmployee_Codes.FK_Employee_Id = PK_Employee_ID;
                 objEmployee_Codes.Insert();
             }
             try
@@ -200,7 +202,7 @@ public partial class Administrator_Employee : clsBasePage
             {
 
             }
-        }
+       // }
 
         clsSession.Str_Employee_Operation = "view";
         Response.Redirect("Employee.aspx?id=" + Encryption.Encrypt(PK_Employee_ID.ToString()));
@@ -295,7 +297,7 @@ public partial class Administrator_Employee : clsBasePage
         //if (objEmployee.FK_Bank_Number != null)
         //    lblBankNumber.Text = new Bank_Details(Convert.ToDecimal(objEmployee.FK_Bank_Number)).Fld_AccountNo;
 
-         DataSet ds = Employee_Codes.SelectByEmployeeCodes(objEmployee.Employee_Id);
+         DataSet ds = Employee_Codes.SelectDataByEmployeeCodes(PK_Employee_ID);
         if (ds.Tables[0].Rows.Count>0)        
         {
             PK_Employee_Codes = ds.Tables[0].Rows[0]["Code"].ToString();
@@ -479,7 +481,7 @@ public partial class Administrator_Employee : clsBasePage
         //    ddlBankNumber.SelectedValue = objEmployee.FK_Bank_Number.ToString();
 
         //Employee_Codes objEmployee_Codes = new Employee_Codes(objEmployee.Employee_Id);
-        DataSet ds = Employee_Codes.SelectByEmployeeCodes(objEmployee.Employee_Id);
+        DataSet ds = Employee_Codes.SelectDataByEmployeeCodes(PK_Employee_ID);
         if (ds.Tables[0].Rows.Count>0)
         {
             ddlJobCode.SelectedValue = ds.Tables[0].Rows[0]["Code"].ToString();

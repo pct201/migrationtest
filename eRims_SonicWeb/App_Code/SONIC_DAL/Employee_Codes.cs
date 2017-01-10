@@ -16,6 +16,7 @@ namespace ERIMS.DAL
 		private decimal? _PK_Employee_Codes;
 		private string _Employee_Id;
 		private string _Code;
+        private decimal _FK_Employee_Id;
 
 		#endregion
 
@@ -47,6 +48,15 @@ namespace ERIMS.DAL
 			get { return _Code; }
 			set { _Code = value; }
 		}
+
+        /// <summary>
+        /// Gets or sets the Code value.
+        /// </summary>
+        public decimal FK_Employee_Id
+        {
+            get { return _FK_Employee_Id; }
+            set { _FK_Employee_Id = value; }
+        }
 
 
 		#endregion
@@ -144,6 +154,8 @@ namespace ERIMS.DAL
 			else
 				db.AddInParameter(dbCommand, "Code", DbType.String, this._Code);
 
+            db.AddInParameter(dbCommand, "FK_Employee_Id", DbType.Decimal, this._FK_Employee_Id);
+
 			// Execute the query and return the new identity value
 			int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
 
@@ -169,6 +181,8 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Code", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Code", DbType.String, this._Code);
+
+            db.AddInParameter(dbCommand, "FK_Employee_Id", DbType.Decimal, this._FK_Employee_Id);
 
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -203,5 +217,18 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
+        /// <summary>
+        /// Selects a single record from the Employee table by a FK_Employee.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static DataSet SelectDataByEmployeeCodes(decimal fk_Employee)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Employee_CodesSelectByFKEmployee");
+
+            db.AddInParameter(dbCommand, "FK_Employee_Id", DbType.Decimal, fk_Employee);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
 	}
 }
