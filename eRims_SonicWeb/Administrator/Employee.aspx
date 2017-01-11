@@ -316,7 +316,7 @@
                         </tr>
                         <tr>
                             <td align="left">
-                                Email Address
+                                Email Address <span style="color: Red;">*</span>
                             </td>
                             <td align="center">
                                 :
@@ -326,6 +326,8 @@
                                 <asp:RegularExpressionValidator ID="revtxtemail" runat="server" ControlToValidate="txtemail"
                                     Display="None" ErrorMessage="Email Address is not valid" SetFocusOnError="True"
                                     ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*"></asp:RegularExpressionValidator>
+                                <asp:RequiredFieldValidator ID="rfvtxtEmail" runat="server" ControlToValidate="txtemail"
+                                    Display="None" ErrorMessage="Please enter email"></asp:RequiredFieldValidator>
                             </td>
                             <td align="left">
                                 In Active
@@ -402,13 +404,15 @@
                                 </asp:CustomValidator>
                             </td>
                             <td align="left">
-                                Active Inactive Leave
+                                Active Inactive Leave <span style="color: Red;">*</span>
                             </td>
                             <td align="center">
                                 :
                             </td>
                             <td align="left">
                                 <asp:TextBox ID="txtActive_Inactive_Leave" runat="server" Width="170px" MaxLength="12"></asp:TextBox>
+                                <asp:RequiredFieldValidator ID="rfvtxtActive_Inactive_Leave" runat="server" ControlToValidate="txtActive_Inactive_Leave"
+                                    Display="None" ErrorMessage="Please enter Active Inactive Leave"></asp:RequiredFieldValidator>
                             </td>
                         </tr>
                         <tr>
