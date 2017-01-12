@@ -129,7 +129,7 @@
         <siteMapNode url="SONIC/SafetyTraining_AdhocReportWriter.aspx" title="Safety Training" description="Safety Training"/>
 
         <siteMapNode url="SONIC/Exposures/Property_AdHocReportWriter.aspx" title="Property" description="Property"/>
-        <siteMapNode url="SONIC/SLT/SonicUTraining_AdHocReportWriter.aspx" title="Sonic U Training" description="Sonic U Training"/>
+        <siteMapNode url="SONIC/SLT/SonicUTraining_AdHocReportWriter.aspx" title="Safety Training" description="Safety Training"/>
 
       </siteMapNode>
       <siteMapNode url="" title="Administrator"  description="" roles="">
@@ -351,9 +351,9 @@
           <siteMapNode url="Administrator\LU_Sedgwick_Scoring.aspx" title ="Scoring Notes" description="" roles="" />
         </siteMapNode>
         <!--<3698>-->
-        <siteMapNode title="Sonic U Training" description="">
+        <siteMapNode title="Safety Training" description="">
           <siteMapNode url="Administrator/Sonic_U_Training.aspx" title ="Required Classes" description="" roles="" />
-          <siteMapNode url="Administrator/Sonic_U_Training_Classes.aspx" title ="Sonic U Training Classes" description="" roles="" />
+          <siteMapNode url="Administrator/Sonic_U_Training_Classes.aspx" title ="Safety Training Classes" description="" roles="" />
         </siteMapNode>
         <siteMapNode title ="SLT Safety Walk" description="" roles="">
           <siteMapNode title ="SLT Focus Area" description="" roles="">

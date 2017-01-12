@@ -129,7 +129,7 @@
                                                             Facility Inspection Score
                                                         </td>
                                                         <td align="center" width="150px">
-                                                            Sonic U Training Score
+                                                            Safety Training Score
                                                         </td>
                                                         <td align="center" width="170px">
                                                             Incident Investigation Score

@@ -149,7 +149,7 @@
     <div>
         &nbsp;</div>
     <div class="bandHeaderRow">
-        Sonic U Training: Ad Hoc Report Writer</div>
+        Safety Training: Ad Hoc Report Writer</div>
     <asp:Panel ID="pnl_Container" runat="server">
         <asp:UpdatePanel ID="upOutput" runat="server" RenderMode="Inline" UpdateMode="Conditional">
             <ContentTemplate>

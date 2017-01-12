@@ -233,7 +233,7 @@
                     </td>
                 </tr>
                 <tr style="height: 20px;">
-                    <td class="PropertyInfoBG" align="left" style="padding-left: 20px;">Sonic University Training Data
+                    <td class="PropertyInfoBG" align="left" style="padding-left: 20px;">Safety Training Data
                     </td>
                 </tr>
                 <tr>

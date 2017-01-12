@@ -25,7 +25,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="bandHeaderRow" align="left" colspan="4">Administrator :: Sonic U Training Required Classes
+                        <td class="bandHeaderRow" align="left" colspan="4">Administrator :: Safety Training Required Classes
                         </td>
                     </tr>
                     <tr>

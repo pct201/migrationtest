@@ -376,7 +376,7 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
 
             strXml = GetXmlForSoniUniversity();
             string excelXml = string.Format(strGeneralXml, strXml);
-            DownloadFile(excelXml, "Sonic University Training");
+            DownloadFile(excelXml, "Safety Training");
         }
         else
         {
@@ -1383,7 +1383,7 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
         string strColumnWidthTag = string.Empty;
         strColumnWidthTag = clsGeneral.GetColumnWidth(gvSabaTraining, 120);
 
-        strHTML.Append("<Worksheet ss:Name='Sonic University Training'>");
+        strHTML.Append("<Worksheet ss:Name='Safety Training'>");
         strHTML.Append("<Table>");
         if (strColumnWidthTag != string.Empty)
             strHTML.Append(strColumnWidthTag);

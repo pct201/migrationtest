@@ -76,9 +76,9 @@ public partial class DashboardGraphCal : clsBasePage
             }
             string strHeader = "";
             if (dtResult1.Rows.Count > 1)
-                strHeader = "Sonic University Training Scorecard By Region";
+                strHeader = "Safety Training Scorecard By Region";
             else
-                strHeader = "Sonic University Training Scorecard";
+                strHeader = "Safety Training Scorecard";
             // Set Chart property 
             strXML.Append("<chart caption='" + strHeader + "' xAxisName='Region' plotGradientColor='' bgColor='#FFFFFF' yAxisName='Level'  useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='17' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='0' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10' trendValueFontBold ='1'>");
 

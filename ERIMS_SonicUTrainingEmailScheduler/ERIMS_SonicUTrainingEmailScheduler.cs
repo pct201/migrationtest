@@ -66,8 +66,8 @@ namespace ERIMS_SonicUTraining_EmailScheduler
         {
             ReadConfigSetting();
             //Make event log entry to indicate starting of service
-            EventLog.WriteEntry("ERIMS Sonic U Training Email Scheduler Started at : " + DateTime.Now.ToString());
-            WriteLog("ERIMS Sonic U Training Email Scheduler Started", _strCsvPath, false);
+            EventLog.WriteEntry("ERIMS Safety Training Email Scheduler Started at : " + DateTime.Now.ToString());
+            WriteLog("ERIMS Safety Training Email Scheduler Started", _strCsvPath, false);
 
             //Create a thread for the function which send email
             Thread TSendMail = default(Thread);
@@ -82,8 +82,8 @@ namespace ERIMS_SonicUTraining_EmailScheduler
         {
             ReadConfigSetting();
             //Make event log entry to indicate starting of service
-            EventLog.WriteEntry("ERIMS Sonic U Training Email Scheduler Started at : " + DateTime.Now.ToString());
-            WriteLog("ERIMS Sonic U Training Email Scheduler Started", _strCsvPath, false);
+            EventLog.WriteEntry("ERIMS Safety Training Email Scheduler Started at : " + DateTime.Now.ToString());
+            WriteLog("ERIMS Safety Training Email Scheduler Started", _strCsvPath, false);
 
             //Create a thread for the function which send email
             Thread TSendMail = default(Thread);
@@ -99,8 +99,8 @@ namespace ERIMS_SonicUTraining_EmailScheduler
         /// </summary>
         protected override void OnStop()
         {
-            EventLog.WriteEntry("ERIMS Sonic U Training Email Scheduler Stopped at : " + DateTime.Now.ToString());
-            WriteLog("ERIMS Sonic U Training Email Scheduler Stopped ", _strCsvPath, false);
+            EventLog.WriteEntry("ERIMS Safety Training Email Scheduler Stopped at : " + DateTime.Now.ToString());
+            WriteLog("ERIMS Safety Training Email Scheduler Stopped ", _strCsvPath, false);
         }
 
         //Files should be placed in folder respective to year and month
@@ -217,7 +217,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                             //Send Mail for Testing Reports if _isTestingReport True
                             if (_isTestingReport && _isTesting)
                             {
-                                //Mail for Sonic U Remaining Training Report
+                                //Mail for Safety Remaining Training Report
                                 SendMailToEarlyAlertLocationManagers();
                                 //Mail for Associate Training Report
                                 SendMailToRLCMLocationManagers();
@@ -268,13 +268,6 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                                 SendMailToEarlyAlertLocationManagers();
                                 SendMailToRLCMLocationManagers();
                             }
-
-                            //Send Email to the Early Alert Location Manager having Training the the following Quarter
-                            //if (quarterDay == 1 && (quarterMonth == 1 || quarterMonth == 4 || quarterMonth == 7 || quarterMonth == 10))
-                            //{
-                            //    SendMailToEarlyAlertLocationManagers();
-                            //    SendMailToRLCMLocationManagers();
-                            //}
                         }
                     }
                     flgSendEmail = false;
@@ -346,7 +339,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
 
                             //WriteLog("Location ID : " + drLocationID["PK_LU_Location_ID"] + " Report Data Rows Count : " + dtLocationWiseData.Length, _strCsvPath, false);
                             sbRecorords.Append("<table style='padding-left:4px;font-size:8.5pt;font-family:Tahoma' cellpadding='4' cellspacing='0' Width='996px'>");
-                            sbRecorords.Append("<tr style='font-weight: bold;' valign='top'><td align='left' style='font-size:9pt' colspan='4'>Sonic U Remaining Training Report - Quarter " + ((quarterMonth - 1) / 3 + 1) + "</td></tr>");
+                            sbRecorords.Append("<tr style='font-weight: bold;' valign='top'><td align='left' style='font-size:9pt' colspan='4'>Safety Remaining Training Report - Quarter " + ((quarterMonth - 1) / 3 + 1) + "</td></tr>");
                             sbRecorords.Append("<tr style='font-weight: bold;' valign='top'><td align='left' style='font-size:9pt'  colspan='4'>" + Convert.ToString(dtLocation.Rows[0]["Sonic_Location_Code"]).PadLeft(4, '0') + " - " + Convert.ToString(dtLocation.Rows[0]["dba"]) + "</td></tr>");
                             sbRecorords.Append("<tr style='font-weight: bold;' valign='top'><td align='left' style='font-size:9pt'  colspan='4'>" + Convert.ToString(dtLocation.Rows[0]["City"]) + ", " + Convert.ToString(dtLocation.Rows[0]["StateName"]) + "</td></tr>");
                             sbRecorords.Append("<tr style='font-weight: bold;' valign='top'><td align='left' style='font-size:9pt'  colspan='4'>" + DateTime.Now.ToString("dd MMMM yyyy") + "</td></tr><tr>&nbsp;</tr>");
@@ -355,9 +348,6 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                             sbRecorords.Append("<td align='left' style='width:15%;font-size:9pt;padding-left:10px;'>Associate</td>");
                             sbRecorords.Append("<td align='left' style='width:15%;font-size:9pt;padding-left:10px;'>Job Title</td>");
                             sbRecorords.Append("<td align='left' style='width:55%;font-size:9pt;padding-left:10px;'>Remaining Training to be Taken</td></tr>");
-
-
-
 
                             //DataRow[] drLocationData = dtReportData.Select("PK_LU_Location_ID ='" + drLocationID["PK_LU_Location_ID"].ToString() + "'");
                             //DataTable dtLocationData=new DataTable();
@@ -468,7 +458,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                     //Write HTML in to HtmlWriter
                     htmlWrite.WriteLine(sbRecorords.ToString());
                     DataRow[] drReceipientNew = dtReceipient.Select("PK_LU_Location_ID ='" + drLocationID["PK_LU_Location_ID"].ToString() + "'");
-                    SendMailPDF("Sonic U Remaining Training Report", "Sonic U Remaining Training Report.pdf", sbRecorords.ToString(), drReceipientNew);
+                    SendMailPDF("Safety Remaining Training Report", "Safety Remaining Training Report.pdf", sbRecorords.ToString(), drReceipientNew);
                 }
                 WriteLog("Function SendMailToEarlyAlertLocationManagers executed", _strCsvPath, false);
             }
@@ -476,7 +466,6 @@ namespace ERIMS_SonicUTraining_EmailScheduler
             {
                 EventLog.WriteEntry("Error in function SendMailToEarlyAlertLocationManagers()" + ex.Message + ",Stack Trace:" + ex.StackTrace);
                 WriteLog("Exception " + ex.Message + " occurred in SendMailToEarlyAlertLocationManagers and Stack Trace:" + ex.StackTrace, _strCsvPath, true);
-                //event viewer
             }
         }
 
@@ -489,7 +478,6 @@ namespace ERIMS_SonicUTraining_EmailScheduler
             {
                 WriteLog("Executing SendMailToRLCMLocationManagers", _strCsvPath, false);
                 DataTable dtReportData = ReportSendMail.GetEmployeeTrainingDataForReport().Tables[0];
-                //DataTable dtRLCMUsersWithLocation = ReportSendMail.GetRLCMUsers().Tables[0];
                 DataTable dtRLCMUsers = ReportSendMail.GetRLCMUsers().Tables[0];
 
                 System.Text.StringBuilder sbRecorords = new System.Text.StringBuilder("");
@@ -528,7 +516,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                                         sbRecorords.Append("<tr style='font-weight: bold;page-break-inside: avoid' valign='top'><td align='left' style='font-size:9pt'  colspan='4'>" + Convert.ToString(drLocationID["Sonic_Location_Code"]).PadLeft(4, '0') + " - " + Convert.ToString(drLocationID["dba"]) + "</td></tr>");
                                         sbRecorords.Append("<tr style='font-weight: bold;page-break-inside: avoid' valign='top'><td align='left' style='font-size:9pt'  colspan='4'>" + Convert.ToString(drLocationID["City"]) + ", " + Convert.ToString(drLocationID["FLD_state"]) + "</td></tr>");
                                         sbRecorords.Append("<tr style='font-weight: bold;page-break-inside: avoid' valign='top'><td align='left' style='font-size:9pt'  colspan='4'>" + DateTime.Now.ToString("dd MMMM yyyy") + "</td></tr><tr><td>&nbsp;</td></tr>");
-                                        sbRecorords.Append("<tr style='font-weight: bold;valign='top'><td><table border='1' width='100%' cellspacing='0' cellpadding='0' style='border: black 0.5px solid'><tr style='font-weight: bold;background-color:#95B3D7;color:Black;font-size:11pt;height:25px;page-break-inside: avoid' valign='top'>");
+                                        sbRecorords.Append("<tr style='font-weight: bold;' valign='top'><td><table border='1' width='100%' cellspacing='0' cellpadding='0' style='border: black 0.5px solid;border-color: black;'><tr style='font-weight: bold;background-color:#95B3D7;color:Black;font-size:11pt;height:25px;page-break-inside: avoid' valign='top'>");
                                         sbRecorords.Append("<td align='left' style='width:15%;font-size:9pt; padding-left:10px;'>Department</td>");
                                         sbRecorords.Append("<td align='left' style='width:15%;font-size:9pt; padding-left:10px;'>Associate</td>");
                                         sbRecorords.Append("<td align='left' style='width:15%;font-size:9pt; padding-left:10px;'>Job Title</td>");
@@ -636,17 +624,17 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                                         else
                                         {
                                             WriteLog("No data exists for Location ID : " + drLocationID["PK_LU_Location_ID"], _strCsvPath, false);
-                                           // sbRecorords.Append("<table style='font-family:Tahoma;border: black 0.5px solid' border='1' cellpadding='4' cellspacing='0' Width='100%'>");
-                                            sbRecorords.Append("<tr style='background-color:#F2F2F2;color:Black;page-break-inside: avoid;'>");
-                                            sbRecorords.Append("<td align='center'  colspan='4' style='font-size:9pt;'>No Records found.</td></tr>");
+                                            // sbRecorords.Append("<table style='font-family:Tahoma;border: black 0.5px solid' border='1' cellpadding='4' cellspacing='0' Width='100%'>");
+                                            sbRecorords.Append("<tr style='background-color:#F2F2F2;color:Black;page-break-inside: avoid;height:25px;'  border='1'>");
+                                            sbRecorords.Append("<td align='center'  colspan='4'  border='1' style='font-size:9pt;'>No Records found.</td></tr>");
                                         }
                                     }
                                     else
                                     {
                                         WriteLog("No data exists for Location ID : " + drLocationID["PK_LU_Location_ID"], _strCsvPath, false);
                                         //sbRecorords.Append("<table style='font-family:Tahoma;border: black 0.5px solid'  border='1' cellpadding='4' cellspacing='0' Width='100%'>");
-                                        sbRecorords.Append("<tr style='background-color:#F2F2F2;color:Black;page-break-inside: avoid;'>");
-                                        sbRecorords.Append("<td align='center' style='font-size:9pt;' colspan='4'>No Records found.</td></tr>");
+                                        sbRecorords.Append("<tr style='background-color:#F2F2F2;color:Black;page-break-inside: avoid;height:25px;' border='1'>");
+                                        sbRecorords.Append("<td align='center' style='font-size:9pt;' colspan='4'  border='1'>No Records found.</td></tr>");
                                     }
 
                                     sbRecorords.Append("</table></td></tr></table>");
@@ -668,13 +656,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                     }
 
                     //Write HTML in to HtmlWriter
-                    //htmlWrite.WriteLine(sbRecorords.ToString());
-                    //DataRow []test=drRLCM.ItemArray.
-                    //SendMailPDFMAnager("Sonic U Remaining Training Report", "Sonic_U_Remaining_Training_Report.pdf", _strSMTPmailFrom, sbRecorords.ToString(), drRLCM);
-
-                    //Write HTML in to HtmlWriter
                     htmlWrite.WriteLine(sbRecorords.ToString());
-                    //DataRow[] drReceipientNew = dtReceipient.Select("PK_LU_Location_ID ='" + drLocationID["PK_LU_Location_ID"].ToString() + "'");
                     SendMailPDF("Associate Training Report", "Associate Training Report.pdf", sbRecorords.ToString(), drRLCM);
                 }
                 WriteLog("function SendMailToLocationManagers() executed", _strCsvPath, false);
@@ -707,7 +689,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                 WriteLog("No of employees having training in this Quarter : " + dtTraining.Rows.Count, _strCsvPath, false);
 
                 mail.From = new MailAddress(_strSMTPmailFrom);
-                mail.Subject = "Required Associated Sonic U Training This Quarter";
+                mail.Subject = "Required Associated Safety Training This Quarter";
                 mail.IsBodyHtml = true;
 
                 SmtpClient mSmtpClient = new SmtpClient();
@@ -1007,7 +989,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                     // foreach (DataRow drRecipient in drRecipients)
                     //{
                     //mail.Body = drRecipients["First_Name"].ToString() + " " + drRecipients["Last_Name"].ToString() + ",<br />Please find the " + strReportTitle + " Attached with this mail.<br /><br /><br />Thankyou!<br />";
-                    mail.Body = drRecipients["NAME"].ToString() + ",<br />Please find the " + strReportTitle + " Attached with this mail.<br /><br /><br />Thankyou!<br />";
+                    mail.Body = drRecipients["NAME"].ToString() + ",<br />Please find the " + strReportTitle + " Attached with this mail.<br /><br /><br />Thank you!<br />";
                     mail.Body += "<br /> This is system generated message. Please do not reply.";
                     mail.IsBodyHtml = true;
                     mail.To.Add(new MailAddress(drRecipients["Email"].ToString()));

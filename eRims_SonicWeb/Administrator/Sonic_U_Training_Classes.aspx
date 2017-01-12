@@ -22,7 +22,7 @@
                     </tr>
                     <tr>
                         <td class="bandHeaderRow" align="left" colspan="4">
-                            Administrator :: Sonic U Training Classes
+                            Administrator :: Safety Training Classes
                         </td>
                     </tr>
                     <tr>

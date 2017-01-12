@@ -11599,7 +11599,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 strHTML.Append("<td align='left' style='width: 200px'>Location D/B/A</td>");
                 strHTML.Append("<td align='left' style='width: 150px'>Safety Leadership Team Score</td>");
                 strHTML.Append("<td align='left' style='width: 150px'>Facility Inspection Score</td>");
-                strHTML.Append("<td align='left' style='width: 150px'>Sonic U Training Score</td>");
+                strHTML.Append("<td align='left' style='width: 150px'>Safety Training Score</td>");
                 strHTML.Append("<td align='left' style='width: 170px'>Incident Investigation Score</td>");
                 strHTML.Append("<td align='left' style='width: 180px'>W.C. Claims Management Score</td>");
                 strHTML.Append("<td align='left' style='width: 150px'>Incident Reduction Score</td>");

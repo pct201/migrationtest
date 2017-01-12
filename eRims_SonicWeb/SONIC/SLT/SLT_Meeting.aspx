@@ -873,7 +873,7 @@ function DisableButton() {
                                                 <td>&nbsp;
                                                 </td>
                                                 <td align="left" valign="top">
-                                                    <span id="Menu10" onclick="javascript:ShowPanel(10);" class="LeftMenuStatic">Sonic University
+                                                    <span id="Menu10" onclick="javascript:ShowPanel(10);" class="LeftMenuStatic">Safety
                                                         Training</span>
                                                 </td>
                                             </tr>
@@ -2844,7 +2844,7 @@ function DisableButton() {
                                             </asp:Panel>
                                             <asp:Panel ID="pnl10" runat="server" Style="display: none;">
                                                 <div class="bandHeaderRow">
-                                                    Sonic University Training
+                                                    Safety Training
                                                 </div>
                                                 <table cellpadding="3" cellspacing="1" width="100%">
                                                     <tr>
@@ -6021,7 +6021,7 @@ function DisableButton() {
                                             </asp:Panel>
                                             <asp:Panel ID="pnl10View" runat="server" Style="display: none">
                                                 <div class="bandHeaderRow">
-                                                    Sonic University Training
+                                                   Safety Training
                                                 </div>
                                                 <table cellpadding="4" cellspacing="1" width="100%">
                                                     <tr>

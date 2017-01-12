@@ -43,7 +43,7 @@
                         <asp:Label ID="lblScoreFacility" runat="server" /></td>
                 </tr>
                 <tr>
-                    <td align="left" valign="top">Sonic University Training</td>
+                    <td align="left" valign="top">Safety Training</td>
                     <td align="center" valign="top">:</td>
                     <td align="left" valign="top">
                         <asp:Label ID="lblScoreTraining" runat="server" /></td>

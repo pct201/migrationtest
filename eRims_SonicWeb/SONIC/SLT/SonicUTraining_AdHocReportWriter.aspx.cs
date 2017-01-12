@@ -99,7 +99,7 @@ public partial class SONIC_SLT_SonicUTraining_AdHocReportWriter : clsBasePage
             try
             {
                 HttpContext.Current.Response.Clear();
-                HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename=\"" + "Sonic U Training Ad-Hoc Report.xlsx" + "\""));
+                HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename=\"" + "Safety Training Ad-Hoc Report.xlsx" + "\""));
                 HttpContext.Current.Response.ContentType = "application/ms-excel";
                 HttpContext.Current.Response.TransmitFile(outputFiles);
                 HttpContext.Current.Response.Flush();
@@ -141,7 +141,7 @@ public partial class SONIC_SLT_SonicUTraining_AdHocReportWriter : clsBasePage
         //If records found
         if (blnHTML2Excel)
         {
-            if (clsGeneral.SendAdHocReport("Ad Hoc Report", outputFiles, "Sonic U Training Ad-Hoc Report.xlsx", Convert.ToDecimal(ddlRecipientList.SelectedItem.Value)))
+            if (clsGeneral.SendAdHocReport("Ad Hoc Report", outputFiles, "Safety Training Ad-Hoc Report.xlsx", Convert.ToDecimal(ddlRecipientList.SelectedItem.Value)))
             {
                 ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "alert('Email Sent Successfully')", true);
                 File.Delete(strFilePath);
@@ -2091,7 +2091,7 @@ public partial class SONIC_SLT_SonicUTraining_AdHocReportWriter : clsBasePage
                 if (ReportType == ReportOutputType.ExportAsMail)
                 {
                     sbRecord.Append("<br />");
-                    sbRecord.Append("<b>Report Title :Sonic U Training Ad-Hoc Report </b>");
+                    sbRecord.Append("<b>Report Title :Safety Training Ad-Hoc Report </b>");
                     sbRecord.Append("<br /><br />");
                 }
 

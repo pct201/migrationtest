@@ -760,7 +760,7 @@
                                     <table width="100%" cellpadding="3" cellspacing="0">
                                         <tr>
                                             <td align="left">
-                                                <asp:Label ID="Label2" runat="server" Text="SONIC UNIVERSITY TRAINING"></asp:Label>
+                                                <asp:Label ID="Label2" runat="server" Text="SAFETY TRAINING"></asp:Label>
                                             </td>
                                             <td>
                                                 <asp:Panel ID="Panel2" runat="server">
