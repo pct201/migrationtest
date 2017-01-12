@@ -4951,7 +4951,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
     }
     protected void gvMeetingView_PageIndexChanging(object sender, GridViewPageEventArgs e)
     {
-        gvMeeting.PageIndex = e.NewPageIndex; //Page new index call
+        gvMeetingView.PageIndex = e.NewPageIndex; //Page new index call
         BindMeetingScheduleGrid();
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
     }

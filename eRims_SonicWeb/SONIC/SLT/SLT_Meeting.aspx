@@ -5087,7 +5087,7 @@ function DisableButton() {
                                                             <td>
                                                                 <div style="min-height: 302px;">
                                                                     <asp:GridView ID="gvSLTSafetyWalkView" runat="server" Width="100%" AutoGenerateColumns="false"
-                                                                        AllowPaging="true" PageSize="10" EmptyDataText="No Record Found" OnRowCommand="gvSLTSafetyWalk_RowCommand">
+                                                                        AllowPaging="true" EmptyDataText="No Record Found" OnRowCommand="gvSLTSafetyWalk_RowCommand">
                                                                         <Columns>
                                                                             <asp:TemplateField HeaderText="Month" ItemStyle-Width="15%">
                                                                                 <ItemTemplate>
