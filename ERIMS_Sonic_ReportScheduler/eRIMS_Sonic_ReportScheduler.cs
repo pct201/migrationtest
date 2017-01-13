@@ -11696,8 +11696,8 @@ namespace ERIMS_Sonic_ReportScheduler
 
                         strHTML.Append("<td align='left' style='width: 200px'>" + strTempRegion + "</td>");
                         strHTML.Append("<td align='left' style='width: 200px'>" + Convert.ToString(drDetail["DBA"]) + "</td>");
-                        strHTML.Append("<td align='center' style='width: 150px;text-align:center;'>" + Convert.ToString(drDetail["SLT_Score"]) + "</td>");
-                        strHTML.Append("<td align='center' style='width: 150px;text-align:center;'>" + Convert.ToString(drDetail["FI_Score"]) + "</td>");
+                        strHTML.Append("<td align='center' style='width: 150px;'>" + Convert.ToString(drDetail["SLT_Score"]) + "</td>");
+                        strHTML.Append("<td align='center' style='width: 150px;'>" + Convert.ToString(drDetail["FI_Score"]) + "</td>");
                         strHTML.Append("<td align='center' style='width: 150px'>" + Convert.ToString(drDetail["SUT_Score"]) + "</td>");
                         strHTML.Append("<td align='center' style='width: 170px'>" + Convert.ToString(drDetail["II_Score"]) + "</td>");
 
