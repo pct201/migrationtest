@@ -11514,6 +11514,13 @@ namespace ERIMS_Sonic_ReportScheduler
 
                 #region "Report Title"
 
+                //Retrive Region
+                string strRegionString = string.Empty;
+                if (string.IsNullOrEmpty(strRegion))
+                    strRegionString = "All Region";
+                else
+                    strRegionString = strRegion;
+
                 //Retrieve Market Values
                 string strMarketString = string.Empty;
                 if (string.IsNullOrEmpty(strMarket))
@@ -11571,7 +11578,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 //strHTML.Append("<br />");
                 strHTML.Append("</td></tr><tr><td colspan='9'>Year   : " + strYear);
                 //strHTML.Append("<br />");
-                strHTML.Append("</td></tr><tr><td colspan='9'>Region   : " + strRegion);
+                strHTML.Append("</td></tr><tr><td colspan='9'>Region   : " + strRegionString);
                 //strHTML.Append("<br />");
                 strHTML.Append("</td></tr><tr><td colspan='9'>Market        : " + strMarketString);
                 //strHTML.Append("<br /><br />");
@@ -11717,7 +11724,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 //Write HTML in to HtmlWriter
                 htmlWrite.WriteLine(strHTML.ToString());
                 //Send Mail
-                SendMail("Risk Management Playbook Scorecard", "RiskManagementPlaybookScorecard.xls", strFirstName, strLastName, strMailFrom, stringWrite, dtRecipients);
+                SendMail("Risk Management Playbook Scorecard Report", "RiskManagementPlaybookScorecard.xls", strFirstName, strLastName, strMailFrom, stringWrite, dtRecipients);
             }
         }
 
@@ -13897,7 +13904,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 {
                     for (int i = 0; i < dtRecipients.Rows.Count; i++)
                     {
-                        mail.Body = dtRecipients.Rows[i]["FirstName"].ToString() + " " + dtRecipients.Rows[i]["LastName"].ToString() + ",<br />Please find the " + strReportTitle + " Attached with this mail.<br /><br /><br />Thankyou!<br />" + strFirstName + " " + strLastName;
+                        mail.Body = dtRecipients.Rows[i]["FirstName"].ToString() + " " + dtRecipients.Rows[i]["LastName"].ToString() + ",<br />Please find the " + strReportTitle + " Attached with this mail.<br /><br /><br />Thank you!<br />" + strFirstName + " " + strLastName;
                         mail.Body += "<br /> This is system generated message. Please do not reply.";
                         mail.IsBodyHtml = true;
                         mail.To.Add(new MailAddress(dtRecipients.Rows[i]["Email"].ToString()));

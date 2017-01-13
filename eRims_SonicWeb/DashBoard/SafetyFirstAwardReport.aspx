@@ -105,13 +105,13 @@
                                             <HeaderTemplate>
                                                 <table width="1700px" cellpadding="1" cellspacing="0" border="0">
                                                     <tr>
-                                                        <td>
+                                                        <td colspan="2">
                                                             &nbsp;
                                                         </td>
-                                                        <td colspan="8" align="center">
+                                                        <td colspan="5" align="center">
                                                             <b>Risk Management Playbook Scorecard</b>
                                                         </td>
-                                                        <td align="right">
+                                                        <td align="right" colspan="3">
                                                             <b><%= DateTime.Today.ToString("MM/dd/yyyy") %></b>
                                                         </td>
                                                     </tr>
