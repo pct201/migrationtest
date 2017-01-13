@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
-    <title>eRIMS Sonic :: Safety First Award Report </title>
+    <title>eRIMS Sonic :: Risk Management Playbook Scorecard </title>
 </head>
 <body>  
     <script type="text/javascript" language="javascript" src="../JavaScript/Calendar_new.js"></script>
@@ -47,7 +47,7 @@
     <table width="100%">
         <tr>
             <td align="left" class="ghc">
-                Safety First Award Report 
+                Risk Management Playbook Scorecard  
             </td>
         </tr>
         <tr>
