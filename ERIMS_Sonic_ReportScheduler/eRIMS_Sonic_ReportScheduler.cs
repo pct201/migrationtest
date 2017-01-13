@@ -11589,11 +11589,11 @@ namespace ERIMS_Sonic_ReportScheduler
 
                 #region "Grid Data"
 
-                strHTML.Append("<table cellspacing='0' cellpadding='0' align='Left' border='0' style='width: 1700px; border-collapse: collapse;'>");
+                strHTML.Append("<table cellspacing='0' cellpadding='0' border='0' style='width: 1700px; border-collapse: collapse;'>");
                 //Header Row                
-                strHTML.Append("<tr align='left'><td align='left'>");
+                strHTML.Append("<tr><td>");
                 strHTML.Append("<table width='1700px' cellpadding='0' cellspacing='0' border='0'>");
-                strHTML.Append("<tr><td align='left'>");
+                strHTML.Append("<tr><td>");
                 strHTML.Append("<table width='1700px' cellpadding='0' cellspacing='0' border='1' style='font-weight: bold;'>");
                 strHTML.Append("<tr style='font-weight: bold;'>");
                 strHTML.Append("<td align='left' colspan='2'>Sonic Automotive</td>");
@@ -11604,15 +11604,15 @@ namespace ERIMS_Sonic_ReportScheduler
                 strHTML.Append("<tr style='font-weight: bold;'>");
                 strHTML.Append("<td align='left' style='width: 200px'>Region</td>");
                 strHTML.Append("<td align='left' style='width: 200px'>Location D/B/A</td>");
-                strHTML.Append("<td align='left' style='width: 150px'>Safety Leadership Team Score</td>");
-                strHTML.Append("<td align='left' style='width: 150px'>Facility Inspection Score</td>");
-                strHTML.Append("<td align='left' style='width: 150px'>Safety Training Score</td>");
-                strHTML.Append("<td align='left' style='width: 170px'>Incident Investigation Score</td>");
-                strHTML.Append("<td align='left' style='width: 180px'>W.C. Claims Management Score</td>");
-                strHTML.Append("<td align='left' style='width: 150px'>Incident Reduction Score</td>");
-                strHTML.Append("<td align='left' style='width: 150px'>Total Aggregate Score</td>");
+                strHTML.Append("<td align='center' style='width: 150px'>Safety Leadership Team Score</td>");
+                strHTML.Append("<td align='center' style='width: 150px'>Facility Inspection Score</td>");
+                strHTML.Append("<td align='center' style='width: 150px'>Safety Training Score</td>");
+                strHTML.Append("<td align='center' style='width: 170px'>Incident Investigation Score</td>");
+                strHTML.Append("<td align='center' style='width: 180px'>W.C. Claims Management Score</td>");
+                strHTML.Append("<td align='center' style='width: 150px'>Incident Reduction Score</td>");
+                strHTML.Append("<td align='center' style='width: 150px'>Total Aggregate Score</td>");
                 //strHTML.Append("<td align='left' style='width: 150px'>Resulting Score</td>");
-                strHTML.Append("<td align='left' style='width: 150px'>Final Playbook Scorecard (100 Point Program)</td>");
+                strHTML.Append("<td align='center' style='width: 150px'>Final Playbook Scorecard (100 Point Program)</td>");
                 strHTML.Append("</tr>");
                 strHTML.Append("</table>");
                 strHTML.Append("</td></tr>");
@@ -11627,10 +11627,10 @@ namespace ERIMS_Sonic_ReportScheduler
                     DataTable dtLocation = dsReport.Tables[0];
                     DataTable dtDetails = dsReport.Tables[0];
 
-                    strHTML.Append("<tr align='left'><td align='left'>");
+                    strHTML.Append("<tr><td>");
                     strHTML.Append("<table width='1700px' cellpadding='0' cellspacing='0' border='0'>");
-                    strHTML.Append("<tr><td align='left'>");
-                    strHTML.Append("<table cellspacing='0' cellpadding='0' align='Left' border='1' style='width: 100%; border-collapse: collapse;'>");
+                    strHTML.Append("<tr><td>");
+                    strHTML.Append("<table cellspacing='0' cellpadding='0'  border='1' style='width: 100%; border-collapse: collapse;'>");
                     string strFinalScoreCard = "", strScoreCardBgColor = "";
                     int Is_Total = 0;
                     double decTotalScore = 0;
@@ -11696,15 +11696,15 @@ namespace ERIMS_Sonic_ReportScheduler
 
                         strHTML.Append("<td align='left' style='width: 200px'>" + strTempRegion + "</td>");
                         strHTML.Append("<td align='left' style='width: 200px'>" + Convert.ToString(drDetail["DBA"]) + "</td>");
-                        strHTML.Append("<td align='left' style='width: 150px'>" + Convert.ToString(drDetail["SLT_Score"]) + "</td>");
-                        strHTML.Append("<td align='left' style='width: 150px'>" + Convert.ToString(drDetail["FI_Score"]) + "</td>");
-                        strHTML.Append("<td align='left' style='width: 150px'>" + Convert.ToString(drDetail["SUT_Score"]) + "</td>");
-                        strHTML.Append("<td align='left' style='width: 170px'>" + Convert.ToString(drDetail["II_Score"]) + "</td>");
+                        strHTML.Append("<td align='center' style='width: 150px;text-align:center;'>" + Convert.ToString(drDetail["SLT_Score"]) + "</td>");
+                        strHTML.Append("<td align='center' style='width: 150px;text-align:center;'>" + Convert.ToString(drDetail["FI_Score"]) + "</td>");
+                        strHTML.Append("<td align='center' style='width: 150px'>" + Convert.ToString(drDetail["SUT_Score"]) + "</td>");
+                        strHTML.Append("<td align='center' style='width: 170px'>" + Convert.ToString(drDetail["II_Score"]) + "</td>");
 
-                        strHTML.Append("<td align='left' style='width: 180px'>" + Convert.ToString(drDetail["WM_Score"]) + "</td>");
-                        strHTML.Append("<td align='left' style='width: 150px'>" + Convert.ToString(drDetail["IR_Score"]) + "</td>");
-                        strHTML.Append("<td align='left' style='width: 150px'>" + Convert.ToString(drDetail["TotalScore"]) + "</td>");
-                        strHTML.Append("<td align='left' style='width: 150px;background-color:" + strScoreCardBgColor + "' >" + Final_ScoreCard(Convert.ToString(drDetail["ResultingScore"])) + "</td>");
+                        strHTML.Append("<td align='center' style='width: 180px'>" + Convert.ToString(drDetail["WM_Score"]) + "</td>");
+                        strHTML.Append("<td align='center' style='width: 150px'>" + Convert.ToString(drDetail["IR_Score"]) + "</td>");
+                        strHTML.Append("<td align='center' style='width: 150px'>" + Convert.ToString(drDetail["TotalScore"]) + "</td>");
+                        strHTML.Append("<td align='center' style='width: 150px;background-color:" + strScoreCardBgColor + "' >" + Final_ScoreCard(Convert.ToString(drDetail["ResultingScore"])) + "</td>");
                         strHTML.Append(" </tr>");
                     }
                     strHTML.Append("</table>");
