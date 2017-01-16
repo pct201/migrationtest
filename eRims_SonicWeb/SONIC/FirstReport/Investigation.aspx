@@ -2370,6 +2370,22 @@
                                                                     <asp:Label ID="lblDateSonicCodePromoted" runat="server" />
                                                                 </td>
                                                             </tr>
+                                                            <tr>
+                                                                <td align="left">Nature of Injury
+                                                                </td>
+                                                                <td align="center">:
+                                                                </td>
+                                                                <td align="left">
+                                                                    <asp:Label ID="lblFK_Nature_Of_Injury" runat="server"></asp:Label>
+                                                                </td>
+                                                                <td align="left">Body Part Affected
+                                                                </td>
+                                                                <td align="center">:
+                                                                </td>
+                                                                <td align="left" colspan="4">
+                                                                    <asp:Label ID="lblFK_Body_Parts_Affected" runat="server"></asp:Label>
+                                                                </td>
+                                                            </tr>
                                                         </table>
                                                     </asp:Panel>
                                                     <asp:Panel ID="pnlViewCorrectiveActions" runat="server" Width="100%">

@@ -1237,6 +1237,9 @@ public partial class Exposures_Investigation : clsBasePage
             lblRootCauseTypeList.Text = Convert.ToString(dtRootCauseDetermination.Rows[i]["Prevent_Reoccurrence"]) == "Y" ? "Yes" : "No";
         }
 
+        lblFK_Nature_Of_Injury.Text = new LU_Nature_of_Injury((objInvestigation.FK_Nature_of_Injury != null) ? Convert.ToDecimal(objInvestigation.FK_Nature_of_Injury) : 0).Description;
+        lblFK_Body_Parts_Affected.Text = new LU_Part_Of_Body(objInvestigation.FK_Body_Parts_Affected!=null ? Convert.ToDecimal(objInvestigation.FK_Body_Parts_Affected) : 0).Description;
+
         #endregion
 
         #region " CORRECTIVE ACTIONS "
