@@ -229,14 +229,14 @@
         // Make Validation for OSHA Information Panel
         function CheckValidationOSHAInfo() {
             //if number is "___-___-____" than set it to ""
-          
+
             <%--if (document.getElementById('<%=txtFacility_Zip_Code.ClientID%>').value == "_____-____")
                 document.getElementById('<%=txtFacility_Zip_Code.ClientID%>').value = "";--%>
             //if time is "__:__" than set it to ""
             if (document.getElementById('<%=txtTime_Began_Work.ClientID%>').value == "__:__")
                 document.getElementById('<%=txtTime_Began_Work.ClientID%>').value = "";
             //if time is containing "a" or "p" or "A" or "P" work than prompt the alert message and blank time value
-           
+
             //Validate Page by passed Validation Group ID
             if (Page_ClientValidate("vsOSHAInfoGroup")) {
                 return true;
@@ -487,15 +487,15 @@
                                                             <td align="left">
                                                                 <asp:Label ID="lblHire_DateEdit" runat="server" Width="170px"></asp:Label>
                                                             </td>
-                                                            <td align="left">Nature of Injury
+                                                            <%--<td align="left">Nature of Injury
                                                             </td>
                                                             <td align="center">:
                                                             </td>
                                                             <td align="left">
                                                                 <asp:Label ID="lblNature_Of_InjuryEdit" runat="server" Width="170px"></asp:Label>
-                                                            </td>
+                                                            </td>--%>
                                                         </tr>
-                                                        <tr>
+                                                        <%-- <tr>
                                                             <td align="left">Body Part Affected
                                                             </td>
                                                             <td align="center">:
@@ -503,7 +503,7 @@
                                                             <td align="left" colspan="4">
                                                                 <asp:Label ID="lblBody_Parts_AffectedEdit" runat="server" Width="170px"></asp:Label>
                                                             </td>
-                                                        </tr>
+                                                        </tr>--%>
                                                         <tr>
                                                             <td colspan="6" width="100%">
                                                                 <b>Incident Detail</b>
@@ -854,7 +854,7 @@
                                                             </tr>
                                                         </table>--%>
                                                         <%-- below change from ticket id 3503.  --%>
-                                                      <%--  <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                                        <%--  <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                             <tr>
                                                                 <td colspan="6" class="Spacer" style="height: 10px;"></td>
                                                             </tr>
@@ -889,7 +889,7 @@
                                                                         MaxLength="4000" ValidationGroup="valRootCause" />
                                                                 </td>
                                                             </tr>
-                                                              <tr>
+                                                            <tr>
 
                                                                 <td align="left">What is the Nature of this Incident?&nbsp;<span id="span101" style="color: Red; display: none;" runat="server">*</span>
                                                                 </td>
@@ -955,22 +955,22 @@
                                                             </tr>
 
                                                             <tr>
-                                                                <td align="left" >Contributing Factor&nbsp;<span id="Span17" style="color: Red; display: none;" runat="server">*</span>
+                                                                <td align="left">Contributing Factor&nbsp;<span id="Span17" style="color: Red; display: none;" runat="server">*</span>
                                                                 </td>
-                                                                <td align="center" >:
+                                                                <td align="center">:
                                                                 </td>
                                                                 <td align="left" colspan="4">
-                                                                    <asp:DropDownList ID="drpFk_LU_Contributing_Factor" runat="server"  ValidationGroup="valRootCause"
+                                                                    <asp:DropDownList ID="drpFk_LU_Contributing_Factor" runat="server" ValidationGroup="valRootCause"
                                                                         onchange="SetContributioFactorOther();">
                                                                     </asp:DropDownList>
                                                                 </td>
                                                             </tr>
                                                             <tr>
-                                                                 <td align="left" >Contributing Factor - Other
+                                                                <td align="left">Contributing Factor - Other
                                                                 </td>
-                                                                <td align="center" >:
+                                                                <td align="center">:
                                                                 </td>
-                                                                <td align="left" colspan="4" >
+                                                                <td align="left" colspan="4">
                                                                     <asp:TextBox ID="txtContributingFactor_Other" runat="server" Enabled="false" MaxLength="50" Width="490px" />
                                                                     <asp:HiddenField ID="hdnContributingFactor_Other" runat="server" />
                                                                     <asp:CustomValidator ID="csmvtxtContributingFactor_Other" runat="server" ErrorMessage="Please enter [Causes]/Contributing Factor Other"
@@ -1027,8 +1027,8 @@
 
                                                             <tr>
                                                                 <td align="left" width="19%" valign="top">OSHA Recordable&nbsp;<span id="Span19" style="color: Red; display: none;" runat="server">*</span><br />
-                                                                    <input type="button" value="Start Wizard" onclick="OpenWizardPopup();" style="width: 95px; display:none;"
-                                                                        class="btn" id="btnStartWizard"/>
+                                                                    <input type="button" value="Start Wizard" onclick="OpenWizardPopup();" style="width: 95px; display: none;"
+                                                                        class="btn" id="btnStartWizard" />
                                                                 </td>
                                                                 <td align="center" width="4%" valign="top">:
                                                                 </td>
@@ -1039,21 +1039,21 @@
                                                                     <input type="hidden" id="hdnOSHARecordable" runat="server" />
                                                                 </td>
                                                             </tr>
-                                                  
+
                                                             <tr>
                                                                 <td colspan="6" style="font-size: 15px;"><b>OSHA Fields</b></td>
                                                             </tr>
                                                             <tr>
                                                                 <td align="left" width="19%" valign="top">Classify the Incident &nbsp;<span id="Span_Classify" style="color: Red;" runat="server">*</span>
                                                                 </td>
-                                                                <td align="center"  width="4%" valign="top">:
+                                                                <td align="center" width="4%" valign="top">:
                                                                 </td>
                                                                 <td align="left" width="33%" valign="top">
                                                                     <asp:DropDownList ID="ddlClassify_Incident" runat="server" Width="270"></asp:DropDownList>
                                                                     <asp:RequiredFieldValidator ID="rfv_Classify" runat="server" InitialValue="0" ControlToValidate="ddlClassify_Incident" Display="None"
                                                                         ErrorMessage="Please select [Causes]/Classify the Incident" SetFocusOnError="true" ValidationGroup="valRootCause">
                                                                     </asp:RequiredFieldValidator>
-                                                  
+
                                                                 </td>
                                                                 <td align="left" width="15%" valign="top">Type of Injury &nbsp;<span id="Span_Injury" style="color: Red;" runat="server">*</span>
                                                                 </td>
@@ -1073,24 +1073,24 @@
                                                                 </td>
                                                                 <td align="left" valign="top" colspan="4">
                                                                     <asp:RadioButtonList ID="rblRLCM_Reviewed_and_Approved" runat="server" SkinID="YesNoType" />
-                                                  
+
                                                                 </td>
                                                             </tr>
 
-							    <TR>
-								<TD>
-									&nbsp;<BR><BR> 
-								</TD>
-							    </TR>
-                                                     
+                                                            <tr>
+                                                                <td>&nbsp;<br>
+                                                                    <br>
+                                                                </td>
+                                                            </tr>
+
                                                             <tr>
                                                                 <td align="left" style="width: 19%">Cause Code Determination&nbsp;<span id="Span3" style="color: Red; display: none;" runat="server">*</span>
                                                                 </td>
                                                                 <td align="center" style="width: 4%">:
                                                                 </td>
                                                                 <td align="left" colspan="4">
-                                                                    <asp:DropDownList runat="server" ID="ddlSonic_Cause_Code" ValidationGroup="valRootCause" AutoPostBack="true"  OnSelectedIndexChanged="ddlSonic_Cause_Code_SelectedIndexChanged">
-                                                                     <%--   <asp:ListItem Text="--SELECT--"></asp:ListItem>
+                                                                    <asp:DropDownList runat="server" ID="ddlSonic_Cause_Code" ValidationGroup="valRootCause" AutoPostBack="true" OnSelectedIndexChanged="ddlSonic_Cause_Code_SelectedIndexChanged">
+                                                                        <%--   <asp:ListItem Text="--SELECT--"></asp:ListItem>
                                                                         <asp:ListItem Text="S0-1 - Strain, Sprain or Repetitive Motion"></asp:ListItem>
                                                                         <asp:ListItem Text="S0-2 - Slip, Trip, or Fall"></asp:ListItem>
                                                                         <asp:ListItem Text="S0-3 - Vehicle Related (included Golf Cart)"></asp:ListItem>
@@ -1130,12 +1130,12 @@
                                                                 </td>
                                                             </tr>
 
-							    <TR>
-								<TD>
-									&nbsp;<BR><BR> 
-								</TD>
-							    </TR>
-                                                     
+                                                            <tr>
+                                                                <td>&nbsp;<br>
+                                                                    <br>
+                                                                </td>
+                                                            </tr>
+
                                                             <tr>
                                                                 <td align="left" valign="top">Sonic S0 Cause Code Promoted?
                                                                 </td>
@@ -1156,6 +1156,24 @@
                                                                     <asp:RangeValidator ID="RangeValidator3" ControlToValidate="txtDateSonicCodePromoted"
                                                                         MinimumValue="01/01/1753" MaximumValue="12/31/9999" Type="Date" ErrorMessage="To Be Competed by Date is not valid."
                                                                         runat="server" SetFocusOnError="true" ValidationGroup="valRootCause" Display="none" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left">Nature of Injury&nbsp;<span id="Span27" style="color: Red; display: none;" runat="server">*</span>
+                                                                </td>
+                                                                <td align="center">:
+                                                                </td>
+                                                                <td align="left">
+                                                                    <asp:DropDownList runat="server" ID="ddlFK_Nature_Of_Injury" SkinID="ddlSONIC">
+                                                                    </asp:DropDownList>
+                                                                </td>
+                                                                <td align="left">Body Part Affected&nbsp;<span id="Span28" style="color: Red; display: none;" runat="server">*</span>
+                                                                </td>
+                                                                <td align="center">:
+                                                                </td>
+                                                                <td align="left" colspan="4">
+                                                                    <asp:DropDownList runat="server" ID="ddlFK_Body_Parts_Affected" SkinID="ddlSONIC">
+                                                                    </asp:DropDownList>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -1208,8 +1226,8 @@
                                                                 </td>
                                                                 <td align="center" style="width: 2%;">:
                                                                 </td>
-                                                                <td align="left" style="width: 30%;padding-left:6px;">
-                                                                    <asp:TextBox ID="txtAssigned_To" runat="server"  Width="170px" MaxLength="50"></asp:TextBox>
+                                                                <td align="left" style="width: 30%; padding-left: 6px;">
+                                                                    <asp:TextBox ID="txtAssigned_To" runat="server" Width="170px" MaxLength="50"></asp:TextBox>
                                                                 </td>
                                                                 <td align="left" style="width: 15%;">Assigned By&nbsp;<span id="Span7" style="color: Red; display: none; position: absolute"
                                                                     runat="server">*</span>
@@ -1217,16 +1235,16 @@
                                                                 <td align="center" style="width: 2%;">:
                                                                 </td>
                                                                 <td align="left" style="width: 27%;">
-                                                                    <asp:TextBox ID="txtAssigned_By" runat="server"  Width="170px" MaxLength="50"></asp:TextBox>
+                                                                    <asp:TextBox ID="txtAssigned_By" runat="server" Width="170px" MaxLength="50"></asp:TextBox>
                                                                 </td>
                                                             </tr>
                                                             <tr>
-                                                                <td  align="left">To Be Completed by&nbsp;<span id="Span8" style="color: Red; display: none; position: absolute"
+                                                                <td align="left">To Be Completed by&nbsp;<span id="Span8" style="color: Red; display: none; position: absolute"
                                                                     runat="server">*</span>
                                                                 </td>
-                                                                <td  align="center">:
+                                                                <td align="center">:
                                                                 </td>
-                                                                <td  align="left" style="padding-left:6px;">
+                                                                <td align="left" style="padding-left: 6px;">
                                                                     <asp:TextBox ID="txtTo_Be_Competed_by" runat="server" Width="170px" SkinID="txtDate"></asp:TextBox>
                                                                     <img alt="To Be Competed by" style="vertical-align: middle" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtTo_Be_Competed_by', 'mm/dd/y');"
                                                                         onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
@@ -1236,7 +1254,7 @@
                                                                         runat="server" SetFocusOnError="true" ValidationGroup="vsCorrectiveAction" Display="none" />
 
                                                                 </td>
-                                                                <td  align="left">Status&nbsp;<span id="Span9" style="color: Red; display: none; position: absolute"
+                                                                <td align="left">Status&nbsp;<span id="Span9" style="color: Red; display: none; position: absolute"
                                                                     runat="server">*</span>
                                                                 </td>
                                                                 <td align="center">:
@@ -1253,7 +1271,7 @@
                                                             <tr>
                                                                 <td colspan="3" align="left">Have the above changes been communicated to associates with similar job tasks? &nbsp; :
                                                                 </td>
-                                                           <%--     <td align="center" >:</td>--%>
+                                                                <%--     <td align="center" >:</td>--%>
                                                                 <td align="left" colspan="3">
                                                                     <asp:RadioButtonList ID="rdoCommunicated" AutoPostBack="true" runat="server" OnSelectedIndexChanged="rdoCommunicated_SelectedIndexChanged" ValidationGroup="vsCorrectiveAction" SkinID="YesNoType"></asp:RadioButtonList>
                                                                 </td>
@@ -1263,7 +1281,7 @@
                                                                 </td>
                                                                 <td align="center">:
                                                                 </td>
-                                                                <td align="left"  style="padding-left:6px;">
+                                                                <td align="left" style="padding-left: 6px;">
                                                                     <asp:TextBox ID="txtDateCommunicated" runat="server" Width="170px" SkinID="txtDate"></asp:TextBox>
                                                                     <img style="vertical-align: middle" alt="Date Communicated" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtDateCommunicated', 'mm/dd/y');"
                                                                         onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
@@ -1294,8 +1312,7 @@
                                                                 </td>
                                                                 <td align="left"><%--Date Investigation Submitted by Store--%>
                                                                 </td>
-                                                                <td align="center">
-                                                                </td>
+                                                                <td align="center"></td>
                                                                 <td align="left">
                                                                     <%-- <asp:TextBox ID="txtDateInves_Submitted" runat="server" Width="175px" SkinID="txtDisabled"></asp:TextBox>--%>
                                                                     
@@ -1381,7 +1398,7 @@
                                                             <asp:TextBox runat="server" ID="txtFacility_Zip_Code" Width="170px" MaxLength="10" SkinID="txtZipCode"></asp:TextBox>
                                                             <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="txtFacility_Zip_Code"
                                                                 runat="server" ValidationGroup="vsOSHAInfoGroup" ErrorMessage="Please Enter Treatment Facility Zip Code in XXXXX or XXXXX-XXXX format."
-                                                                Display="none" ValidationExpression="\d{5}(-\d{4})?$"></asp:RegularExpressionValidator> 
+                                                                Display="none" ValidationExpression="\d{5}(-\d{4})?$"></asp:RegularExpressionValidator>
                                                         </td>
                                                         <td align="left">&nbsp;
                                                         </td>
@@ -1404,8 +1421,8 @@
                                                         <td align="center">:
                                                         </td>
                                                         <td align="left">
-                                                            <asp:TextBox ID="txtTime_Began_Work" runat="server" Width="170px" onclick="setCaretPosition(0,0);"  autocomplete="off"></asp:TextBox>
-                                                         <%--   <cc1:MaskedEditExtender ID="MaskedEditExtender1" runat="server" AutoComplete="true"
+                                                            <asp:TextBox ID="txtTime_Began_Work" runat="server" Width="170px" onclick="setCaretPosition(0,0);" autocomplete="off"></asp:TextBox>
+                                                            <%--   <cc1:MaskedEditExtender ID="MaskedEditExtender1" runat="server" AutoComplete="true"
                                                                     MaskType="Time" Mask="99:99" TargetControlID="txtTime_Began_Work" AcceptNegative="Left"
                                                                     DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
                                                                     OnInvalidCssClass="MaskedEditError" CultureName="en-US" ClearMaskOnLostFocus="true">
@@ -1413,10 +1430,10 @@
                                                             <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ControlToValidate="txtTime_Began_Work"
                                                                 ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
                                                                 ErrorMessage="Invalid Time Associate Began Work." Display="none" ValidationGroup="vsOSHAInfoGroup"
-                                                                SetFocusOnError="true" ></asp:RegularExpressionValidator>
+                                                                SetFocusOnError="true"></asp:RegularExpressionValidator>
                                                         </td>
                                                     </tr>
-                                                     <tr>
+                                                    <tr>
                                                         <td align="left">Admitted to Hospital
                                                         </td>
                                                         <td align="center">:
@@ -1425,7 +1442,7 @@
                                                             <asp:RadioButtonList runat="server" ID="rdoAdmitted_to_Hospital" SkinID="YesNoUnknownType">
                                                             </asp:RadioButtonList>
                                                         </td>
-                                                         <td colspan="3">&nbsp;</td>
+                                                        <td colspan="3">&nbsp;</td>
                                                     </tr>
                                                     <tr>
                                                         <td align="left" valign="top">What was the associate doing just before the incident occurred?
@@ -1447,13 +1464,13 @@
                                                                 ValidationGroup="vsOSHAInfoGroup" />
                                                         </td>
                                                     </tr>
-                                                     <tr>
-                                                            <td colspan="6" width="100%" align="center">
-                                                                <%-- Save & E-Mail to RLCM button is shifted over here. --%>
-                                                                <asp:Button runat="server" ID="btnWC_OSHA" Text="Save & E-Mail to RLCM" OnClick="btnWC_OSHA_Click" OnClientClick="return CheckValidationOSHAInfo();"
-                                                                    CausesValidation="true" ValidationGroup="vsOSHAInfoGroup"/>
-                                                            </td>
-                                                        </tr>
+                                                    <tr>
+                                                        <td colspan="6" width="100%" align="center">
+                                                            <%-- Save & E-Mail to RLCM button is shifted over here. --%>
+                                                            <asp:Button runat="server" ID="btnWC_OSHA" Text="Save & E-Mail to RLCM" OnClick="btnWC_OSHA_Click" OnClientClick="return CheckValidationOSHAInfo();"
+                                                                CausesValidation="true" ValidationGroup="vsOSHAInfoGroup" />
+                                                        </td>
+                                                    </tr>
                                                 </table>
 
 
@@ -2126,7 +2143,7 @@
                                                             Root Causes Determination
                                                         </div>
                                                         <table cellpadding="3" cellspacing="1" border="0" width="100%">
-                                                             <tr>
+                                                            <tr>
                                                                 <td align="left" valign="top">Describe how the event occurred
                                                                 </td>
                                                                 <td align="center" width="4%" valign="top">:
@@ -2196,8 +2213,8 @@
                                                                     </table>
                                                                 </td>
                                                             </tr>
-                                                               <tr>
-                                                                <td align="left" >Contributing Factor
+                                                            <tr>
+                                                                <td align="left">Contributing Factor
                                                                 </td>
                                                                 <td align="center">:
                                                                 </td>
@@ -2206,11 +2223,11 @@
                                                                 </td>
                                                             </tr>
                                                             <tr>
-                                                                <td align="left" >Contributing Factor - Other
+                                                                <td align="left">Contributing Factor - Other
                                                                 </td>
-                                                                <td align="center" >:
+                                                                <td align="center">:
                                                                 </td>
-                                                                <td align="left" >
+                                                                <td align="left">
                                                                     <asp:Label ID="lblContributingFactor_Other" runat="server" />
                                                                 </td>
                                                             </tr>
@@ -2264,41 +2281,41 @@
                                                                     <asp:Label ID="lblOSHARecordableView" runat="server" />
                                                                 </td>
                                                             </tr>
-                                                                <tr>
-                                                                    <td colspan="6" style="font-size: 15px;"><b>OSHA Fields</b></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left" width="23%" valign="top">Classify the Incident
-                                                                    </td>
-                                                                    <td align="center" width="4%" valign="top">:
-                                                                    </td>
-                                                                    <td align="left" width="23%" valign="top">
-                                                                        <asp:Label ID="lblClassify_Incident" runat="server"></asp:Label>
-                                                                    </td>
-                                                                    <td align="right" width="24%" valign="top">Type of Injury 
-                                                                    </td>
-                                                                    <td align="center" width="4%" valign="top">:
-                                                                    </td>
-                                                                    <td align="left" width="22%" valign="top">
-                                                                        <asp:Label ID="lblType_of_Injury" runat="server"></asp:Label>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left" valign="top">RLCM Reviewed and Approved
-                                                                    </td>
-                                                                    <td align="center" valign="top">:
-                                                                    </td>
-                                                                    <td align="left" valign="top" colspan="4">
-                                                                        <asp:Label ID="lblRLCM_Reviewed_and_Approved" runat="server"></asp:Label>
-                                                                    </td>
-                                                                </tr>
+                                                            <tr>
+                                                                <td colspan="6" style="font-size: 15px;"><b>OSHA Fields</b></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left" width="23%" valign="top">Classify the Incident
+                                                                </td>
+                                                                <td align="center" width="4%" valign="top">:
+                                                                </td>
+                                                                <td align="left" width="23%" valign="top">
+                                                                    <asp:Label ID="lblClassify_Incident" runat="server"></asp:Label>
+                                                                </td>
+                                                                <td align="right" width="24%" valign="top">Type of Injury 
+                                                                </td>
+                                                                <td align="center" width="4%" valign="top">:
+                                                                </td>
+                                                                <td align="left" width="22%" valign="top">
+                                                                    <asp:Label ID="lblType_of_Injury" runat="server"></asp:Label>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left" valign="top">RLCM Reviewed and Approved
+                                                                </td>
+                                                                <td align="center" valign="top">:
+                                                                </td>
+                                                                <td align="left" valign="top" colspan="4">
+                                                                    <asp:Label ID="lblRLCM_Reviewed_and_Approved" runat="server"></asp:Label>
+                                                                </td>
+                                                            </tr>
 
-							    <TR>
-								<TD>
-									&nbsp;<BR><BR> 
-								</TD>
-							    </TR>
-                                                     
+                                                            <tr>
+                                                                <td>&nbsp;<br>
+                                                                    <br>
+                                                                </td>
+                                                            </tr>
+
                                                             <tr>
                                                                 <td align="left" style="width: 24%">Cause Code Determination
                                                                 </td>
@@ -2329,12 +2346,12 @@
                                                                 </td>
                                                             </tr>
 
-							    <TR>
-								<TD>
-									&nbsp;<BR><BR> 
-								</TD>
-							    </TR>
-                                                     
+                                                            <tr>
+                                                                <td>&nbsp;<br>
+                                                                    <br>
+                                                                </td>
+                                                            </tr>
+
                                                             <tr>
                                                                 <td align="left" valign="top">Sonic S0 Cause Code Promoted?
                                                                 </td>
@@ -2531,15 +2548,15 @@
                                                                 </td>
                                                             </tr>
                                                             <tr>
-                                                     
-                                                                 <td align="left">Admitted to Hospital
-                                                                 </td>
-                                                                 <td align="center">:
-                                                                 </td>
-                                                                 <td align="left">
-                                                                     <asp:Label runat="server" ID="lblAdmitted_to_Hospital"></asp:Label>
-                                                                 </td>
-                                                                  <td colspan="3">&nbsp;</td>
+
+                                                                <td align="left">Admitted to Hospital
+                                                                </td>
+                                                                <td align="center">:
+                                                                </td>
+                                                                <td align="left">
+                                                                    <asp:Label runat="server" ID="lblAdmitted_to_Hospital"></asp:Label>
+                                                                </td>
+                                                                <td colspan="3">&nbsp;</td>
                                                             </tr>
                                                             <tr>
                                                                 <td align="left" valign="top">What was the associate doing just before the incident occurred?
@@ -2885,7 +2902,7 @@
             var hdnOSHARecordable = document.getElementById('<%=hdnOSHARecordable.ClientID%>').value;
             //alert(hdnOSHARecordable);
             //if (hdnOSHARecordable == '') {
-                GB_showCenter('Investigation Wizard', '<%=AppConfig.SiteURL%>SONIC/FirstReport/InvestigationWzard.aspx?ctrlid=<%=lblOSHARecordable.ClientID%>', 300, 500);
+            GB_showCenter('Investigation Wizard', '<%=AppConfig.SiteURL%>SONIC/FirstReport/InvestigationWzard.aspx?ctrlid=<%=lblOSHARecordable.ClientID%>', 300, 500);
             //}
             //else
             //    document.getElementById("btnStartWizard").disabled = true;
@@ -3020,7 +3037,7 @@
                     }
                     document.getElementById("<%=pnlAttachments.ClientID%>").style.display = "none";
                 }
-                
+
             }
         }
 
@@ -3096,7 +3113,7 @@
                 document.getElementById("<%=pnlViewReview.ClientID%>").style.display = "block";
                 document.getElementById("<%=pnlViewAttachments.ClientID%>").style.display = "none";
             }
-           
+
         }
 
         function ConfirmDelete() {

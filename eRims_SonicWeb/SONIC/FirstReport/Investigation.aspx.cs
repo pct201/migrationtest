@@ -231,6 +231,10 @@ public partial class Exposures_Investigation : clsBasePage
                     ComboHelper.FillContributing_Factor(new DropDownList[] { drpFk_LU_Contributing_Factor }, true);
                     ComboHelper.FillFocusAreaCauseCode(new DropDownList[] { drpCauseOfIncident }, true);
                     ComboHelper.FillState(new DropDownList[] { ddlFK_State_Facility }, 0, true);
+                    //Fill Nature of Injury Dropdown
+                    ComboHelper.FillNatureofInjury(new DropDownList[] { ddlFK_Nature_Of_Injury }, 0, true);
+                    //Fill Body Part Affected Dropdown
+                    ComboHelper.FillBodyPartAffectedByFirstReport(new DropDownList[] { ddlFK_Body_Parts_Affected }, 0, true, "WC%");
                     BindCause_Code_Determination();
                     //bool bLocInfoComplete = objInvestigation.Location_Information_Complete;
                     //bool bIsRegOfficer = new Security(Convert.ToDecimal(clsSession.UserID)).IsRegionalOfficer;
@@ -923,6 +927,9 @@ public partial class Exposures_Investigation : clsBasePage
 
             hdnOriginalSonicCode.Value = ddlSonic_Cause_Code.SelectedItem.Text;
             objInvestigation.Slipping = rdoSlipping.SelectedValue;
+            objInvestigation.FK_Nature_of_Injury = Convert.ToDecimal(ddlFK_Nature_Of_Injury.SelectedValue);
+            objInvestigation.FK_Body_Parts_Affected = Convert.ToDecimal(ddlFK_Body_Parts_Affected.SelectedValue);
+
             // insert or update the Investigation record as per the PK available
             if (PK_Investigation_ID > 0)
                 objInvestigation.Update();
@@ -1020,8 +1027,8 @@ public partial class Exposures_Investigation : clsBasePage
             lblEmployee_NameEdit.Text = strName.Trim();
             lblJob_TitleEdit.Text = drWC["Job_Title"].ToString();
             lblHire_DateEdit.Text = clsGeneral.FormatDateToDisplay(Convert.ToDateTime(drWC["HireDate"]));
-            lblNature_Of_InjuryEdit.Text = drWC["Nature_Of_Injury"].ToString();
-            lblBody_Parts_AffectedEdit.Text = drWC["Body_Parts_Affected"].ToString();
+            //lblNature_Of_InjuryEdit.Text = drWC["Nature_Of_Injury"].ToString();
+            //lblBody_Parts_AffectedEdit.Text = drWC["Body_Parts_Affected"].ToString();
             lblDescription_Of_IncidentEdit.Text = drWC["Description_Of_Incident"].ToString();
             lblSafeguards_ProvidedEdit.Text = (drWC["Safeguards_Provided"] != DBNull.Value) ? (Convert.ToBoolean(drWC["Safeguards_Provided"]) == true ? "Yes" : "No") : "Unknown";
             lblSafeguards_UsedEdit.Text = (drWC["Safeguards_Used"] != DBNull.Value) ? (Convert.ToBoolean(drWC["Safeguards_Used"]) == true ? "Yes" : "No") : "Unknown";
@@ -1577,6 +1584,10 @@ public partial class Exposures_Investigation : clsBasePage
         txtConclusions.Text = objInvestigation.Conclusions;
         rdoSlipping.SelectedValue = objInvestigation.Slipping;
         ChangeSlippingValue(true);
+
+        clsGeneral.SetDropdownValue(ddlFK_Nature_Of_Injury, objInvestigation.FK_Nature_of_Injury, true);
+        clsGeneral.SetDropdownValue(ddlFK_Body_Parts_Affected, objInvestigation.FK_Body_Parts_Affected, true);
+
         #endregion
 
         #region " CORRECTIVE ACTIONS "
@@ -2511,6 +2522,16 @@ public partial class Exposures_Investigation : clsBasePage
                     strRootCauseIDs += drpFk_LU_Contributing_Factor.ClientID + ",";
                     strRootCauseErrormsg += "Please select [Causes]/Contributing Factor" + ",";
                     Span17.Style["display"] = "inline-block";
+                    break;
+                case "Nature of Injury":
+                    strRootCauseIDs += ddlFK_Nature_Of_Injury.ClientID + ",";
+                    strRootCauseErrormsg += "Please select [Causes]/Nature of Injury" + ",";
+                    Span27.Style["display"] = "inline-block";
+                    break;
+                case "Body Part Affected":
+                    strRootCauseIDs += ddlFK_Body_Parts_Affected.ClientID + ",";
+                    strRootCauseErrormsg += "Please select [Causes]/Body Part Affected" + ",";
+                    Span28.Style["display"] = "inline-block";
                     break;
             }
             #endregion

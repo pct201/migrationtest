@@ -138,6 +138,10 @@ namespace ERIMS.DAL
         private string _Object_Substance_Involved;
         private Nullable<bool> _Admitted_to_Hospital;
         private string _Slipping;
+
+        private decimal? _FK_Nature_of_Injury;
+        private decimal? _FK_Body_Parts_Affected;
+
         #endregion
 
 
@@ -1284,6 +1288,24 @@ namespace ERIMS.DAL
             get { return _Slipping; }
             set { _Slipping = value; }
         }
+
+        /// <summary>
+        /// Gets or sets FK_Nature_of_Injury
+        /// </summary>
+        public decimal? FK_Nature_of_Injury
+        {
+            get { return _FK_Nature_of_Injury; }
+            set { _FK_Nature_of_Injury = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets FK_Body_Parts_Affected
+        /// </summary>
+        public decimal? FK_Body_Parts_Affected
+        {
+            get { return _FK_Body_Parts_Affected; }
+            set { _FK_Body_Parts_Affected = value; }
+        }
         #endregion
 
         #region Constructors
@@ -1603,10 +1625,22 @@ namespace ERIMS.DAL
                 if (drInvestigation["Admitted_to_Hospital"] != DBNull.Value)
                     this._Admitted_to_Hospital = Convert.ToBoolean(drInvestigation["Admitted_to_Hospital"]);
 
+
                 if (drInvestigation["Slipping"] == DBNull.Value)
                     this._Slipping = null;
                 else
                     this._Slipping = (string)drInvestigation["Slipping"];
+
+                if (drInvestigation["FK_Nature_of_Injury"] == DBNull.Value)
+                    this._FK_Nature_of_Injury = null;
+                else
+                    this._FK_Nature_of_Injury = (decimal)drInvestigation["FK_Nature_of_Injury"];
+
+
+                if (drInvestigation["FK_Body_Parts_Affected"] == DBNull.Value)
+                    this._FK_Body_Parts_Affected = null;
+                else
+                    this._FK_Body_Parts_Affected = (decimal)drInvestigation["FK_Body_Parts_Affected"];
             }
             else
             {
@@ -1673,6 +1707,8 @@ namespace ERIMS.DAL
                 this._Object_Substance_Involved = string.Empty;
                 this._Admitted_to_Hospital = false;
                 this._Slipping = string.Empty;
+                this._FK_Nature_of_Injury = null;
+                this._FK_Body_Parts_Affected = null;
             }
         }
 
@@ -2112,6 +2148,9 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Slipping", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Slipping", DbType.String, this._Slipping);
+
+            db.AddInParameter(dbCommand, "FK_Nature_of_Injury", DbType.Decimal, this._FK_Nature_of_Injury);
+            db.AddInParameter(dbCommand, "FK_Body_Parts_Affected", DbType.Decimal, this._FK_Body_Parts_Affected);
 
             db.ExecuteNonQuery(dbCommand);
         }
