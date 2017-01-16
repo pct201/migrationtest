@@ -64,7 +64,7 @@ public partial class SONIC_Exposures_ManualUpdateTrainingPopup : clsBasePage
             ComboHelper.FillEmployeeBY_Loc_Training(new DropDownList[] { ddlAssociate }, true, Convert.ToInt32(Session["location"]));
         }
         //bind drop down Class Name
-        ComboHelper.FillClassName(new DropDownList[] { ddlClass }, 0, true);
+        ComboHelper.FillClassName(new DropDownList[] { ddlClass }, 0, true, Convert.ToInt32(Session["location"]));
     }
 
     /// <summary>

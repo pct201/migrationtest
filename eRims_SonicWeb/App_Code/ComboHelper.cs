@@ -6782,9 +6782,9 @@ public class ComboHelper
     /// </summary>
     /// <param name="dropDownList"></param>
     /// <param name="p"></param>
-    public static void FillClassName(DropDownList[] dropDownList, int intID, bool p)
+    public static void FillClassName(DropDownList[] dropDownList, int intID, bool p, decimal pk_LU_Location_ID)
     {
-        DataSet dsData = Sonic_U_Training_Classes.SelectAll();
+        DataSet dsData = Sonic_U_Training_Classes.SelectByLocation(pk_LU_Location_ID);
         dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y'";
         foreach (DropDownList ddlToFill in dropDownList)
         {

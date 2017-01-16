@@ -237,5 +237,19 @@ namespace ERIMS.DAL
 
 			db.ExecuteNonQuery(dbCommand);
 		}
+
+        /// <summary>
+        /// Selects a single record from the Sonic_U_Training_Classes table by Location ID.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static DataSet SelectByLocation(decimal pK_LU_Location_ID)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Sonic_U_Training_ClassesSelectByLocation");
+
+            db.AddInParameter(dbCommand, "PK_LU_Location_ID", DbType.Decimal, pK_LU_Location_ID);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
 	}
 }
