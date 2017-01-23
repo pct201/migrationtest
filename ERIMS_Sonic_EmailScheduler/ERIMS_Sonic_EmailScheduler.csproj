@@ -51,18 +51,28 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ActiveUp.Net.Common">
-      <HintPath>C:\Users\pci120\Desktop\bin\x86\Debug\ActiveUp.Net.Common.dll</HintPath>
+    <Reference Include="ActiveUp.Net.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6cceae6a4844c51b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\pci93\Downloads\ActiveUp.MailSystem_May2013_Binaries\Release\ActiveUp.Net.Common.dll</HintPath>
     </Reference>
-    <Reference Include="ActiveUp.Net.Imap4">
-      <HintPath>C:\Users\pci120\Desktop\bin\x86\Debug\ActiveUp.Net.Imap4.dll</HintPath>
+    <Reference Include="ActiveUp.Net.Imap4, Version=5.0.3454.364, Culture=neutral, PublicKeyToken=9d424b1770e92b68, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\pci93\Downloads\ActiveUp.MailSystem_May2013_Binaries\Release\ActiveUp.Net.Imap4.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiveUp.Net.Pop3, Version=5.0.3454.364, Culture=neutral, PublicKeyToken=962567372c07b9fe, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\pci93\Downloads\ActiveUp.MailSystem_May2013_Binaries\Release\ActiveUp.Net.Pop3.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=4.1.0.0, Culture=neutral, PublicKeyToken=e44a2bc38ed2c13c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Users\pci120\Desktop\bin\x86\Debug\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
+      <HintPath>..\eRims_SonicWeb\Bin\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Data">
-      <HintPath>C:\Users\pci120\Desktop\bin\x86\Debug\Microsoft.Practices.EnterpriseLibrary.Data.dll</HintPath>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Data, Version=3.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\eRims_SonicWeb\Bin\Microsoft.Practices.EnterpriseLibrary.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ObjectBuilder">
+      <HintPath>..\..\..\..\..\Shared\ServerMailReader\Microsoft.Practices.ObjectBuilder.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />
@@ -76,8 +86,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Code\Attachment.cs" />
     <Compile Include="App_Code\clsGeneral.cs" />
     <Compile Include="App_Code\Facility_Maintenance_Notes.cs" />
+    <Compile Include="App_Code\IMAPServer.cs" />
+    <Compile Include="App_Code\POP3Server.cs" />
     <Compile Include="ERIMS_SonicEmailScheduler.cs">
       <SubType>Component</SubType>
     </Compile>

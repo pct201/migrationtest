@@ -4,7 +4,7 @@ using Microsoft.Practices.EnterpriseLibrary.Data;
 using System.Data.Common;
 using System.Collections.Generic;
 
-namespace ERIMS_DAL
+namespace ERIMS_Sonic_EmailScheduler
 {
     /// <summary>
     /// Data access class for table Facility_Maintenance_Notes
