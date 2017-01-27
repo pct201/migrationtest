@@ -240,7 +240,6 @@ public partial class Administrator_Contractor_Security : clsBasePage
         objContractorSecurity.City = txtCity.Text.Trim().Replace("'", "\'");
         objContractorSecurity.Dashboard_Type = Convert.ToInt16(ddlDashboardType.SelectedValue);
 
-        //
         objContractorSecurity.Previous_Password_1 = "";
         objContractorSecurity.Previous_Password_2 = "";
         objContractorSecurity.Previous_Password_3 = "";
@@ -768,6 +767,10 @@ public partial class Administrator_Contractor_Security : clsBasePage
         else if (objContractorSecurity.Dashboard_Type == 2)
         {
             lblDashboardType.Text = "Task List";
+        }
+        else if (objContractorSecurity.Dashboard_Type == 3)
+        {
+            lblDashboardType.Text = "Daily Summary";
         }
 
         lblVendorNumber.Text = objContractorSecurity.Vendor_Number;

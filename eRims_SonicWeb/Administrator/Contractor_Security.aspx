@@ -395,7 +395,8 @@
                         <asp:DropDownList ID="ddlDashboardType" runat="server" Width="170px" SkinID="ddlSONIC">
                             <asp:ListItem Value="0">-- Select --</asp:ListItem>
                             <asp:ListItem Value="1">Pie Charts</asp:ListItem>
-                            <asp:ListItem Value="2" Selected="True">Task List</asp:ListItem>
+                            <asp:ListItem Value="2" >Task List</asp:ListItem>
+                              <asp:ListItem Value="3" Selected="True">Daily Summary</asp:ListItem>
                         </asp:DropDownList>
                         <asp:RequiredFieldValidator ID="rfvddlDashboard" ControlToValidate="ddlDashboardType" Display="None"
                             ValidationGroup="vsErrorGroup" Text="*" InitialValue="0" runat="server" ErrorMessage="Please select atleast one Dashboard."></asp:RequiredFieldValidator>
