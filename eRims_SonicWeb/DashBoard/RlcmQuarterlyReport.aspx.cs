@@ -1826,10 +1826,10 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
     {
         // set Tread Lines
         strChartXML.Append("<trendLines>");
-        strChartXML.Append("<line startValue='2' color='49563A' displayvalue='" + Charts.Tin_Label + "' /> ");
-        strChartXML.Append("<line startValue='5' color='49563A' displayvalue='" + Charts.Bronze_Label + "' /> ");
-        strChartXML.Append("<line startValue='8' color='49563A' displayvalue='" + Charts.Silver_Label + "' /> ");
-        strChartXML.Append("<line startValue='11' color='49563A' displayvalue='" + Charts.Gold_Label + "' /> ");
+        strChartXML.Append("<line startValue='9.8' color='49563A' displayvalue='" + Charts.Tin_Label + "' /> ");
+        strChartXML.Append("<line startValue='11.2' color='49563A' displayvalue='" + Charts.Bronze_Label + "' /> ");
+        strChartXML.Append("<line startValue='12.6' color='49563A' displayvalue='" + Charts.Silver_Label + "' /> ");
+        strChartXML.Append("<line startValue='13.3' color='49563A' displayvalue='" + Charts.Gold_Label + "' /> ");
         strChartXML.Append("<line startValue='14' color='49563A' displayvalue='" + Charts.Platinum_Label + "' /> ");
         //strChartXML.Append("<line startValue='" + string.Format("{0:N2}", Average) + "' color='FF0000' displayvalue='Company Average' valueOnRight='1' thickness='2' /> ");
 
