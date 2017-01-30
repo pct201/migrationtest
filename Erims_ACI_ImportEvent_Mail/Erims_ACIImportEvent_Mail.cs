@@ -124,7 +124,7 @@ namespace Erims_ACI_ImportEvent_Mail
                             & Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd") + " " + _strACI_ActionableEvent_Time) <= Convert.ToDateTime(_strEndDate).AddHours(-GetInt(_strEvent_Start_Time_Offset) - GetInt(_strEvent_Run_Time_Interval)).AddHours(1))
                         {
                             Is_ACI_Event = true;
-                            WriteLog("Start Sending Event Abstract Notification For Actionable Event Update Date Time Between : " + Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd") + " " + _strACI_ActionableEvent_Time).AddSeconds(-1).AddDays(-1) + "  And : " + Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd") + " " + _strACI_ActionableEvent_Time).AddSeconds(-2), _strCsvPath, false);
+                            //WriteLog("Start Sending Event Abstract Notification For Actionable Event Update Date Time Between : " + Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd") + " " + _strACI_ActionableEvent_Time).AddSeconds(-1).AddDays(-1) + "  And : " + Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd") + " " + _strACI_ActionableEvent_Time).AddSeconds(-2), _strCsvPath, false);
                         }
                         
                         if (Is_ACI_Event)
@@ -133,6 +133,11 @@ namespace Erims_ACI_ImportEvent_Mail
                             {
                                 DataSet dsEmails = Event.GetEmailsByEventUpdateDate(Convert.ToDateTime(_strStartDate).AddHours(-GetInt(_strEvent_Start_Time_Offset) - GetInt(_strEvent_Run_Time_Interval)), Convert.ToDateTime(_strEndDate).AddHours(-GetInt(_strEvent_Start_Time_Offset) - GetInt(_strEvent_Run_Time_Interval)), Is_ACI_Event);
                                 
+                                if (dsEmails.Tables.Count > 1 && dsEmails.Tables[1].Rows.Count > 0)
+                                {
+                                    WriteLog("Start Sending Event Abstract Notification For Actionable Event Update Date Time Between : " + Convert.ToDateTime(dsEmails.Tables[1].Rows[0][0]) + "  And : " + Convert.ToDateTime(dsEmails.Tables[1].Rows[0][1]), _strCsvPath, false);
+                                }
+
                                 if (dsEmails.Tables[0].Rows.Count > 0)
                                 {
                                     
