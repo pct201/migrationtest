@@ -8,7 +8,7 @@ $ReqUserName = "sonicauto"
 $ReqPassword = "sonic2014"
 $CSVPath = "D:\eRIMS2 Applications\dev\sonic\Documents\Downloads"
 $Event_Start_Time_Offset = 0
-$Event_Run_Time_Interval = 4
+$Event_Run_Time_Interval = 24
 $SqlConnection = New-Object System.Data.SqlClient.SqlConnection
 $SqlConnection.ConnectionString = "Data Source=PCI120;DataBase=erims_Sonic;User ID=sa;Password=tatva123;Connect Timeout=10000;"
 $EventFileURL = $CsvProtocol + $DomainName + "/ReportService/ReportExport.ashx?username=$ReqUserName&password=$ReqPassword&ReportName="

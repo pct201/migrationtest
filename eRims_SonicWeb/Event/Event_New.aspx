@@ -19,6 +19,7 @@
     <script type="text/javascript" language="javascript" src="../JavaScript/jquery.maskedinput.js"></script>
     <script type="text/javascript" language="javascript" src="../JavaScript/Date_Validation.js"></script>
     <script type="text/javascript" language="javascript" src="../JavaScript/GridViewScroll/gridviewScroll.min.js"></script>
+
     <script type="text/javascript">
         
         var GB_ROOT_DIR = '<%=AppConfig.SiteURL%>' + 'greybox/';
@@ -86,62 +87,18 @@
   
         function CheckSelectedAcadianNotes(buttonType) {
             var gv = document.getElementById('<%=gvACI_Notes.ClientID%>');
-        var ctrls = gv.getElementsByTagName('input');
-        var i;
-        var cnt = 0;
-        var m_strAttIds = '';
-        for (i = 0; i < ctrls.length; i++) {
-            if (ctrls[i].type == "checkbox" && ctrls[i].id.indexOf("chkSelectSonicNotes") > 0) {
-                if (ctrls[i].checked) {
-                    var ctrlId = ctrls[i].id;
-                    ctrlId = ctrlId.substring(ctrlId.lastIndexOf("_") - 2);
-                    var hdnpk = ctrlId.replace("chkSelectSonicNotes", "hdnPK_ACI_Event_Notes");
-                    //index = Number(index) - 2;
-                    var id = document.getElementById('ctl00_ContentPlaceHolder1_gvACI_Notes_ctl' + hdnpk).value;
-                    if (m_strAttIds == "")
-                        m_strAttIds = id;
-                    else {
-                        m_strAttIds = m_strAttIds + "," + id;
-                    }
-                    cnt++;
-                }
-            }
-        }
-            
-        if (cnt == 0) {
-            if (buttonType == "View")
-                alert("Please select Note(s) to View");
-            else
-                alert("Please select Note(s)");
-
-            return false;
-        }
-        else {
-            if(buttonType != 'Print')//here sonic both view time condition is right
-            {
-                AciSelectedNotePopup(m_strAttIds,buttonType);
-                return false;
-            }
-            else
-                return true;
-        }
-    }
-
-    function CheckSelectedSonicNotes(buttonType) {
-             
-        var gv = document.getElementById('<%=dvSonicNOtes.ClientID%>');
             var ctrls = gv.getElementsByTagName('input');
             var i;
             var cnt = 0;
             var m_strAttIds = '';
             for (i = 0; i < ctrls.length; i++) {
-                if (ctrls[i].type == "checkbox" && ctrls[i].id.indexOf("chkSelectSonicACINotes") > 0) {
+                if (ctrls[i].type == "checkbox" && ctrls[i].id.indexOf("chkSelectSonicNotes") > 0) {
                     if (ctrls[i].checked) {
                         var ctrlId = ctrls[i].id;
                         ctrlId = ctrlId.substring(ctrlId.lastIndexOf("_") - 2);
-                        var hdnpk = ctrlId.replace("chkSelectSonicACINotes", "hdnPK_Sonic_Event_Notes");
+                        var hdnpk = ctrlId.replace("chkSelectSonicNotes", "hdnPK_ACI_Event_Notes");
                         //index = Number(index) - 2;
-                        var id = document.getElementById('ctl00_ContentPlaceHolder1_gvSonic_Notes_ctl' + hdnpk).value;
+                        var id = document.getElementById('ctl00_ContentPlaceHolder1_gvACI_Notes_ctl' + hdnpk).value;
                         if (m_strAttIds == "")
                             m_strAttIds = id;
                         else {
@@ -161,7 +118,7 @@
                 return false;
             }
             else {
-                if(buttonType != 'Print')
+                if(buttonType != 'Print')//here sonic both view time condition is right
                 {
                     AciSelectedNotePopup(m_strAttIds,buttonType);
                     return false;
@@ -171,107 +128,151 @@
             }
         }
 
-        function ConfirmRemove() {
-            return confirm("Are you sure to remove?");
+        function CheckSelectedSonicNotes(buttonType) {
+             
+            var gv = document.getElementById('<%=dvSonicNOtes.ClientID%>');
+        var ctrls = gv.getElementsByTagName('input');
+        var i;
+        var cnt = 0;
+        var m_strAttIds = '';
+        for (i = 0; i < ctrls.length; i++) {
+            if (ctrls[i].type == "checkbox" && ctrls[i].id.indexOf("chkSelectSonicACINotes") > 0) {
+                if (ctrls[i].checked) {
+                    var ctrlId = ctrls[i].id;
+                    ctrlId = ctrlId.substring(ctrlId.lastIndexOf("_") - 2);
+                    var hdnpk = ctrlId.replace("chkSelectSonicACINotes", "hdnPK_Sonic_Event_Notes");
+                    //index = Number(index) - 2;
+                    var id = document.getElementById('ctl00_ContentPlaceHolder1_gvSonic_Notes_ctl' + hdnpk).value;
+                    if (m_strAttIds == "")
+                        m_strAttIds = id;
+                    else {
+                        m_strAttIds = m_strAttIds + "," + id;
+                    }
+                    cnt++;
+                }
+            }
         }
+            
+        if (cnt == 0) {
+            if (buttonType == "View")
+                alert("Please select Note(s) to View");
+            else
+                alert("Please select Note(s)");
 
-        function checkLength() 
-        {
-            var oObject = document.getElementById('ctl00_ContentPlaceHolder1_txtACI_Notes_txtNote') 
-            if (oObject.value.length < 50)
+            return false;
+        }
+        else {
+            if(buttonType != 'Print')
             {
-                alert("Please enter minimum 50 Characters for Notes.");
+                AciSelectedNotePopup(m_strAttIds,buttonType);
                 return false;
             }
             else
-            {
-                return true;            
-            }              
+                return true;
         }
+    }
 
-        function SelectDeselectACINoteHeader() {
-            var ctrls = document.getElementsByTagName('input');
-            var i, chkID;
-            var cnt = 0;
-            chkID = "chkSelectSonicNotes";
-            for (i = 0; i < ctrls.length; i++) {
-                if (ctrls[i].type == "checkbox" && ctrls[i].id.indexOf(chkID) > 0) {
-                    if (ctrls[i].checked)
-                        cnt++;
-                }
+    function ConfirmRemove() {
+        return confirm("Are you sure to remove?");
+    }
+
+    function checkLength() 
+    {
+        var oObject = document.getElementById('ctl00_ContentPlaceHolder1_txtACI_Notes_txtNote') 
+        if (oObject.value.length < 50)
+        {
+            alert("Please enter minimum 50 Characters for Notes.");
+            return false;
+        }
+        else
+        {
+            return true;            
+        }              
+    }
+
+    function SelectDeselectACINoteHeader() {
+        var ctrls = document.getElementsByTagName('input');
+        var i, chkID;
+        var cnt = 0;
+        chkID = "chkSelectSonicNotes";
+        for (i = 0; i < ctrls.length; i++) {
+            if (ctrls[i].type == "checkbox" && ctrls[i].id.indexOf(chkID) > 0) {
+                if (ctrls[i].checked)
+                    cnt++;
             }
-
-            var rowCnt = document.getElementById('<%=gvACI_Notes.ClientID%>').rows.length - 1;
-
-             var headerChkID = 'chkMultiSelectSonicNotes';
-
-             if (cnt == rowCnt)
-                 document.getElementById(headerChkID).checked = true;
-             else
-                 document.getElementById(headerChkID).checked = false;
-         }
-
-         function checkLengthSonic() 
-         {
-             if (Page_ClientValidate("vsErrorGroup"))
-             {
-                 var oObject = document.getElementById('ctl00_ContentPlaceHolder1_txtSonic_Notes_txtNote') 
-                 if (oObject.value.length < 50)
-                 {
-                     alert("Please enter minimum 50 Characters for Notes.");
-                     return false;
-                 }
-                 else
-                 {
-                     return true;            
-                 }        
-             }
-             else
-                 return false;
-         }
-
-         function valSaveEvent() 
-         {
-             if (Page_ClientValidate("vsErrorGroup"))
-             {
-                 if (Page_ClientValidate("vsErrorEvent_Camera"))
-                 {
-                     return true;
-                 }
-                 else
-                     return false;
-             }
-             else
-                 return false;
-         }
-
-         function valSaveEventSonic() 
-         {
-             if (Page_ClientValidate("vsErrorGroup"))
-             {
-                 if (Page_ClientValidate("vsErrorEvent_Camera_Sonic"))
-                 {
-                     return true;
-                 }
-                 else
-                     return false;
-             }
-             else
-                 return false;
-         }
-
-         function AciNotePopup(NoteId, type) {            
-             var winHeight = 500;
-             var winWidth = 500;
-             var EventId = <%=ViewState["PK_Event"]%>;            
-            obj = window.open("Event_Note.aspx?nid=" + NoteId + "&id=" + '<%=ViewState["PK_Event"]%>' + "&type=" + type, 'AuditPopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
-            obj.focus();
         }
 
-        function AciSelectedNotePopup(NoteId, type) {  
-            var winHeight = 450;
-            var winWidth = 750;
+        var rowCnt = document.getElementById('<%=gvACI_Notes.ClientID%>').rows.length - 1;
+
+            var headerChkID = 'chkMultiSelectSonicNotes';
+
+            if (cnt == rowCnt)
+                document.getElementById(headerChkID).checked = true;
+            else
+                document.getElementById(headerChkID).checked = false;
+        }
+
+        function checkLengthSonic() 
+        {
+            if (Page_ClientValidate("vsErrorGroup"))
+            {
+                var oObject = document.getElementById('ctl00_ContentPlaceHolder1_txtSonic_Notes_txtNote') 
+                if (oObject.value.length < 50)
+                {
+                    alert("Please enter minimum 50 Characters for Notes.");
+                    return false;
+                }
+                else
+                {
+                    return true;            
+                }        
+            }
+            else
+                return false;
+        }
+
+        function valSaveEvent() 
+        {
+            if (Page_ClientValidate("vsErrorGroup"))
+            {
+                if (Page_ClientValidate("vsErrorEvent_Camera"))
+                {
+                    return true;
+                }
+                else
+                    return false;
+            }
+            else
+                return false;
+        }
+
+        function valSaveEventSonic() 
+        {
+            if (Page_ClientValidate("vsErrorGroup"))
+            {
+                if (Page_ClientValidate("vsErrorEvent_Camera_Sonic"))
+                {
+                    return true;
+                }
+                else
+                    return false;
+            }
+            else
+                return false;
+        }
+
+        function AciNotePopup(NoteId, type) {            
+            var winHeight = 500;
+            var winWidth = 500;
             var EventId = <%=ViewState["PK_Event"]%>;            
+             obj = window.open("Event_Note.aspx?nid=" + NoteId + "&id=" + '<%=ViewState["PK_Event"]%>' + "&type=" + type, 'AuditPopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
+             obj.focus();
+         }
+
+         function AciSelectedNotePopup(NoteId, type) {  
+             var winHeight = 450;
+             var winWidth = 750;
+             var EventId = <%=ViewState["PK_Event"]%>;            
             obj = window.open("Event_Note.aspx?viewIDs=" +  NoteId + "&id=" + '<%=ViewState["PK_Event"]%>' + "&type=" + type, 'AuditPopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',resizable=yes,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
             obj.focus();
             return false;
@@ -426,6 +427,7 @@
                 var bValid = false;
                 if (Page_ClientValidate("vsErrorGroup")) {
                     bValid = true;
+
                 }
                 if (bValid)
                     CallSave(id);
@@ -503,20 +505,20 @@
         function setOfficerNameSonic()
         {
             var Officername =  document.getElementById("<%=txtOfficer_Name.ClientID%>").value;
-                 var OfficernameSonic = document.getElementById("<%=txtOfficer_Name_Sonic.ClientID%>");
-                 OfficernameSonic.value = Officername;
-             }
-              
-             function setPhoneSonic()
-             {
-                 var PhoneNumber =  document.getElementById("<%=txtOfficer_Phone.ClientID%>").value;
-            var PhoneNumberSonic = document.getElementById("<%=txtOfficer_Phone_Sonic.ClientID%>");
-            PhoneNumberSonic.value = PhoneNumber;
+            var OfficernameSonic = document.getElementById("<%=txtOfficer_Name_Sonic.ClientID%>");
+            OfficernameSonic.value = Officername;
         }
-
-        function setPoliceReportSonic()
+              
+        function setPhoneSonic()
         {
-            var PoliceReport =  document.getElementById("<%=txtPolice_Report_Number.ClientID%>").value;
+            var PhoneNumber =  document.getElementById("<%=txtOfficer_Phone.ClientID%>").value;
+                 var PhoneNumberSonic = document.getElementById("<%=txtOfficer_Phone_Sonic.ClientID%>");
+                 PhoneNumberSonic.value = PhoneNumber;
+             }
+
+             function setPoliceReportSonic()
+             {
+                 var PoliceReport =  document.getElementById("<%=txtPolice_Report_Number.ClientID%>").value;
             var PoliceReportSonic = document.getElementById("<%=txtPolice_Report_Number_Sonic.ClientID%>");
             PoliceReportSonic.value = PoliceReport;
         }
@@ -542,34 +544,6 @@
             else
                 rdoSonicNo.checked = true;
             
-        }
-
-        var eventtypechecked = false;
-        function SetUniqueRadioButton(nameregex, current)
-        {
-            //Get the group name of checkBox
-            var re = nameregex;
- 
-            //Looping through the all the control on the page
-            for(i = 0; i < document.forms[0].elements.length; i++)
-            {
-                //get the current control
-                elm = document.forms[0].elements[i]
-       
-                //check for the type(if it’s radio button then go inside the loop)
-                if (elm.type == 'radio')
-                {
-                    //if radiobutton belong to same Groupname
-                    if(re.match(elm.value))
-                    {
-                        //set selected to false for all
-                        elm.checked = false;
-                    }
-                }
-            }
-            //Set currently click Radio Button selected as true.
-            current.checked = true;
-            eventtypechecked = true;
         }
         
     </script>
@@ -730,23 +704,17 @@
                                                     </tr>
                                                     <tr>
                                                         <td align="left" valign="top" colspan="3">
-                                                            <asp:RadioButtonList ID="rdoEventType" TabIndex="1" Width="100%" runat="server" Style="margin-left: 5px;"
-                                                                RepeatDirection="Vertical" RepeatColumns="1" RepeatLayout="Table" CssClass="radioButtonList">
-                                                            </asp:RadioButtonList>
-                                                            <asp:RequiredFieldValidator ID="rfvrdoEventType" runat="server" ControlToValidate="rdoEventType"
-                                                                    ErrorMessage="[ACI Reported Event] / Please Select Actionable Event Type" Display="None" SetFocusOnError="true"
-                                                                    ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
-                                                            <%--<asp:Repeater ID="rptEventType" runat="server" OnItemDataBound="rptEventType_ItemDataBound">
+                                                            <asp:Repeater ID="rptEventType" runat="server" OnItemDataBound="rptEventType_ItemDataBound">
                                                                 <ItemTemplate>
                                                                     <table cellpadding="4" cellspacing="0" width="100%">
                                                                         <tr>
                                                                             <td width="100%" align="left" valign="top" colspan="2">
-                                                                                <asp:RadioButton ID="chkEventType" runat="server" />
+                                                                                <asp:CheckBox ID="chkEventType" runat="server" />
                                                                                 &nbsp;&nbsp;&nbsp;&nbsp;
                                                                                 <asp:Label ID="lblEventType" Text='<%#Eval("Fld_Desc") %>' runat="server"></asp:Label>
                                                                                 <asp:Label ID="lblPK_LU_Event_Type" Text='<%#Eval("PK_LU_Event_Type") %>' runat="server"
                                                                                     Style="display: none;"></asp:Label>
-                                                                            </td>--%>
+                                                                            </td>
                                                                             <%--<td width="18%" align="left" valign="top">
                                                                                 <asp:TextBox ID="txtEventDesciption" runat="server" MaxLength="100" Width="170px"></asp:TextBox>
                                                                             </td>
@@ -756,10 +724,10 @@
                                                                             <td width="28%" align="left" valign="top">
                                                                                 &nbsp;
                                                                             </td>--%>
-                                                            <%--            </tr>
+                                                                        </tr>
                                                                     </table>
                                                                 </ItemTemplate>
-                                                            </asp:Repeater>--%>
+                                                            </asp:Repeater>
                                                         </td>
                                                         <td colspan="3" valign="top">
                                                             <uc:ctrlMultiLineTextBox ID="txtEventDesciption" runat="server" Width="450" />
@@ -2189,23 +2157,17 @@
                                                     </tr>
                                                     <tr runat="server" id="trrptEventTypeSonic">
                                                         <td align="left" valign="top" colspan="3">
-                                                            <asp:RadioButtonList ID="rdoEventTypeSonic" TabIndex="1" Width="100%" runat="server" Style="margin-left: 5px;"
-                                                                RepeatDirection="Vertical" RepeatColumns="1" RepeatLayout="Table" CssClass="radioButtonList">
-                                                            </asp:RadioButtonList>
-                                                            <asp:RequiredFieldValidator ID="rfvrdoEventTypeSonic" runat="server" ControlToValidate="rdoEventTypeSonic"
-                                                                    ErrorMessage="[Sonic Reported Event] / Please Select Actionable Event Type" Display="None" SetFocusOnError="true"
-                                                                    ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
-                                                           <%-- <asp:Repeater ID="rptEventTypeSonic" runat="server" OnItemDataBound="rptEventTypeSonic_ItemDataBound">
+                                                            <asp:Repeater ID="rptEventTypeSonic" runat="server" OnItemDataBound="rptEventTypeSonic_ItemDataBound">
                                                                 <ItemTemplate>
                                                                     <table cellpadding="4" cellspacing="0" width="100%">
                                                                         <tr>
                                                                             <td width="100%" align="left" valign="top" colspan="2">
-                                                                                <asp:RadioButton ID="chkEventTypeSonic" runat="server" GroupName="grpEventTypeSonic" />
+                                                                                <asp:CheckBox ID="chkEventTypeSonic" runat="server" />
                                                                                 &nbsp;&nbsp;&nbsp;&nbsp;
                                                                                 <asp:Label ID="lblEventTypeSonic" Text='<%#Eval("Fld_Desc") %>' runat="server"></asp:Label>
                                                                                 <asp:Label ID="lblPK_LU_Event_TypeSonic" Text='<%#Eval("PK_LU_Event_Type") %>' runat="server"
                                                                                     Style="display: none;"></asp:Label>
-                                                                            </td>--%>
+                                                                            </td>
                                                                             <%--  <td width="18%" align="left" valign="top">
                                                                                 <asp:TextBox ID="txtEventDesciptionSonic" runat="server" MaxLength="100" Width="170px"></asp:TextBox>
                                                                             </td>
@@ -2215,11 +2177,10 @@
                                                                             <td width="28%" align="left" valign="top">
                                                                                 &nbsp;
                                                                             </td>--%>
-                                                   <%--                     </tr>
+                                                                        </tr>
                                                                     </table>
                                                                 </ItemTemplate>
-                                                            </asp:Repeater>--%>
-                                                          
+                                                            </asp:Repeater>
                                                         </td>
                                                         <td colspan="3" valign="top">
                                                             <uc:ctrlMultiLineTextBox ID="txtEventDesciptionSonic" runat="server" Width="450" />

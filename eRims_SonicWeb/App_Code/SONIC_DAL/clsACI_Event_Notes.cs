@@ -220,13 +220,14 @@ namespace ERIMS.DAL
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("ACI_Event_NotesSelectByFK_Event");
+            dbCommand.CommandTimeout = 10000;
 
             db.AddInParameter(dbCommand, "FK_Event", DbType.Decimal, FK_Event);
             db.AddInParameter(dbCommand, "intPageNo", DbType.String, intPageNo);
             db.AddInParameter(dbCommand, "intPageSize", DbType.String, intPageSize);
             db.AddInParameter(dbCommand, "strOrderBy", DbType.String, strOrderBy);
             db.AddInParameter(dbCommand, "strOrder", DbType.String, strOrder);
-
+            
             return db.ExecuteDataSet(dbCommand);
         }
 

@@ -1393,19 +1393,19 @@
                                                                                         </ItemTemplate>
                                                                                     </asp:TemplateField>
                                                                                     <asp:TemplateField HeaderText="Phone">
-                                                                                        <ItemStyle Width="15%" />
+                                                                                        <ItemStyle Width="20%" />
                                                                                         <ItemTemplate>
                                                                                             <%#Eval("Phone")%>
                                                                                         </ItemTemplate>
                                                                                     </asp:TemplateField>
                                                                                     <asp:TemplateField HeaderText="Email">
-                                                                                        <ItemStyle Width="30%" />
+                                                                                        <ItemStyle Width="20%" />
                                                                                         <ItemTemplate>
                                                                                             <%#Eval("Email")%>
                                                                                         </ItemTemplate>
                                                                                     </asp:TemplateField>
                                                                                     <asp:TemplateField HeaderText="">
-                                                                                        <ItemStyle Width="15%" />
+                                                                                        <ItemStyle Width="10%" />
                                                                                         <ItemTemplate>
                                                                                             <asp:LinkButton runat="server" ID="lnkEdit" Text=" Edit " CommandName="EditRecord"
                                                                                                 CommandArgument='<%#Eval("PK_Management_ACI_Contact") %>'>
@@ -2572,7 +2572,7 @@
                                                                                         </ItemTemplate>
                                                                                     </asp:TemplateField>
                                                                                     <asp:TemplateField HeaderText="Email">
-                                                                                        <ItemStyle Width="40%" />
+                                                                                        <ItemStyle Width="20%" />
                                                                                         <ItemTemplate>
                                                                                             <%#Eval("Email")%>&nbsp;
                                                                                         </ItemTemplate>
