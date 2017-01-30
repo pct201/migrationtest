@@ -32,18 +32,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Aspose.Words">
+      <HintPath>..\eRims_SonicWeb\Bin\Aspose.Words.dll</HintPath>
+    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>C:\Users\pci120\Desktop\Erims_ACI_ImportEvent_Mail\bin\Debug\ICSharpCode.SharpZipLib.dll</HintPath>
+      <HintPath>..\eRims_SonicWeb\Bin\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=4.1.0.0, Culture=neutral, PublicKeyToken=e44a2bc38ed2c13c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Users\pci120\Desktop\Erims_ACI_ImportEvent_Mail\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
+      <HintPath>C:\Users\pci120\Desktop\Enterpise Library\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.EnterpriseLibrary.Data">
-      <HintPath>C:\Users\pci120\Desktop\Erims_ACI_ImportEvent_Mail\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Data.dll</HintPath>
+      <HintPath>..\eRims_SonicWeb\Bin\Microsoft.Practices.EnterpriseLibrary.Data.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.ObjectBuilder">
-      <HintPath>C:\Users\pci120\Desktop\Erims_ACI_ImportEvent_Mail\bin\Debug\Microsoft.Practices.ObjectBuilder.dll</HintPath>
+      <HintPath>..\eRims_SonicWeb\Bin\Microsoft.Practices.ObjectBuilder.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />
@@ -76,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="App_Data\Aspose.Words.lic" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Event_AbstractReport.htm" />
