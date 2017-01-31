@@ -174,6 +174,40 @@ namespace ERIMS_SonicUTraining_EmailScheduler
         #region Private Methods
 
         /// <summary>
+        /// Check whether first day of week or not
+        /// </summary>
+        /// <param name="blnSendMail"></param>
+        /// <returns></returns>
+        private bool CheckFirstDayOfWeek(bool blnSendMail)
+        {
+            var startDate = new DateTime(quarterDate.Year, quarterDate.Month, 1); //Fetch 1st date of current month
+            bool bSendMail = blnSendMail;
+            int addDays = 7;
+            firstWeekDay = startDate.DayOfWeek;
+            if ((firstWeekDay == DayOfWeek.Sunday))
+            {
+                addDays += 1;
+            }
+            else if ((firstWeekDay == DayOfWeek.Saturday))
+            {
+                addDays += 2;
+            }
+
+            do
+            {
+                if (startDate.Date.CompareTo(quarterDate.Date) == 0)
+                {
+                    bSendMail = true;
+                    break;
+                }
+                startDate = startDate.AddDays(addDays);
+            }
+            while (startDate.Date.CompareTo(quarterDate) < 0);
+
+            return bSendMail;
+        }
+
+        /// <summary>
         /// Main Function which contains infinite loop and send report when date changed
         /// </summary>
         public void SendReportAsAttachment()
@@ -206,6 +240,15 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                         {
                             ReportSendMail.strConn = ConfigurationManager.ConnectionStrings[i].ConnectionString;
 
+                            bool bSendMailWeekly = false;
+                            bSendMailWeekly = CheckFirstDayOfWeek(false);
+
+                            if (bSendMailWeekly)
+                            {
+                                //Send Weekly Mail To the Associate For Remaining Training
+                                SendMailForWeeklyReminderOfRemainingTrainingToEmployees();
+                            }
+
                             //Send Mail for Testing if _isTesting True
                             if (_isTesting && (!_isTestingReport))
                             {
@@ -232,29 +275,8 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                             //For 1st and 2nd month of quarter send mail for first day of week
                             if (quarterMonth % 3 != 0)
                             {
-                                var startDate = new DateTime(quarterDate.Year, quarterDate.Month, 1); //Fetch 1st date of current month
                                 bool bSendMail = false;
-                                int addDays = 7;
-                                firstWeekDay = startDate.DayOfWeek;
-                                if ((firstWeekDay == DayOfWeek.Sunday))
-                                {
-                                    addDays += 1;
-                                }
-                                else if ((firstWeekDay == DayOfWeek.Saturday))
-                                {
-                                    addDays += 2;
-                                }
-
-                                do
-                                {
-                                    if (startDate.Date.CompareTo(quarterDate.Date) == 0)
-                                    {
-                                        bSendMail = true;
-                                        break;
-                                    }
-                                    startDate = startDate.AddDays(addDays);
-                                }
-                                while (startDate.Date.CompareTo(quarterDate) < 0);
+                                bSendMail = CheckFirstDayOfWeek(false);
 
                                 if (bSendMail)
                                 {
@@ -818,6 +840,113 @@ namespace ERIMS_SonicUTraining_EmailScheduler
             {
                 EventLog.WriteEntry("Error in Sending Mail for" + ex.Message + ",Stack Trace:" + ex.StackTrace);
                 WriteLog("Exception occurred " + ex.Message + " in SendMailToAdministrator()", _strCsvPath, true);
+            }
+        }
+
+        /// <summary>
+        /// Send Email To Each Employee for Remaining Quarterly Training to Every Week(till the 3 quarter)
+        /// </summary>
+        /// <param name="strMailFrom"></param>
+        /// <param name="dtRecipients"></param>
+        private void SendMailForWeeklyReminderOfRemainingTrainingToEmployees()
+        {
+            try
+            {
+                WriteLog("Executing SendMailForWeeklyReminderOfRemainingTrainingToEmployees", _strCsvPath, false);
+
+                DataTable dtTraining = ReportSendMail.GetEmployeeTrainingData().Tables[0];
+                MemoryStream memorystream = new MemoryStream();
+                MailMessage mail = new MailMessage();
+                string strClassNameList = "";
+                string strURL = "";
+                int month = 0;
+
+                if ((quarterMonth == 1) || (quarterMonth == 2) || (quarterMonth == 3))
+                {
+                    month = 1;
+                }
+                else if ((quarterMonth == 4) || (quarterMonth == 5) || (quarterMonth == 6))
+                {
+                    month = 4;
+                }
+                else if ((quarterMonth == 7) || (quarterMonth == 8) || (quarterMonth == 9))
+                {
+                    month = 7;
+                }
+                else if ((quarterMonth == 10) || (quarterMonth == 11) || (quarterMonth == 12))
+                {
+                    month = 10;
+                }
+
+                var date = new DateTime(quarterDate.Year, month, 1);
+
+                DataTable temp = dtTraining.AsDataView().ToTable(true, "FK_Employee", "EmailTo", "Company_Name");
+
+                WriteLog("No of employees having Remaining training in this Quarter : " + dtTraining.Rows.Count, _strCsvPath, false);
+
+                mail.From = new MailAddress(_strSMTPmailFrom);
+                mail.Subject = "Associate Training Reminder";
+                mail.IsBodyHtml = true;
+
+                SmtpClient mSmtpClient = new SmtpClient();
+                mSmtpClient.Port = Convert.ToInt16(_strPort);
+                mSmtpClient.Host = _strSMTPServer;
+                mSmtpClient.Credentials = new System.Net.NetworkCredential(_strSMTPmailFrom, _strSMTPPwd);
+
+                //distinct Employees in temp table
+                if (temp.Rows.Count > 0 && temp != null)
+                {
+                    foreach (DataRow drEmployee in temp.Rows)
+                    {
+                        //filter by FK_Employee
+                        DataTable dtEmployeeData = dtTraining.Select("FK_Employee='" + Convert.ToString(drEmployee["FK_Employee"]) + "'").CopyToDataTable<DataRow>();
+
+                        if (dtEmployeeData.Rows.Count > 0 && dtEmployeeData != null)
+                        {
+                            foreach (DataRow dr in dtEmployeeData.Rows)
+                            {
+                                strClassNameList += "<li>" + (Convert.ToString(dr["Class_Name"])).Replace(",", "</li>");
+                            }
+
+                            if (Convert.ToString(drEmployee["Company_Name"]) == "Sonic")
+                            {
+                                strURL = "https://sonic.erims2.com/user manual/ehs training fluer - sonic - all.pdf";
+                            }
+                            else
+                            {
+                                strURL = "https://sonic.erims2.com/user manual/ehs training fluer - ep - all.pdf";
+                            }
+
+                            mail.Body = Convert.ToString(drEmployee["Company_Name"]) + " Associate: <br/><br/> On " + date.ToString("d MMMM, yyyy") + " you were scheduled to take the following training courses: <br/> <ul style='list-style-type:circle'>" + strClassNameList
+                                         + "</ul><br/>It appears that you have not yet completed the above course(s); please complete your training as soon as possible.<br/><br/>Please refer to the training brochure which includes a link to the training web site by clicking <a href=\"" + strURL + "\">here.</a>" +
+                                         "<br/><br/>If you have any questions please contact your Regional Loss Control Manager.<br/><br/>Thank you!";
+
+                            try
+                            {
+                                mail.To.Add(new MailAddress(Convert.ToString(drEmployee["EmailTo"])));
+                                mSmtpClient.Send(mail);
+                                mail.To.Clear();
+                                mail.Body = "";
+                            }
+                            catch (Exception Ex)
+                            {
+                                WriteLog("Exception occurred in SendMailForWeeklyReminderOfRemainingTrainingToEmployees while sending mail for Employee ID: " + Convert.ToDecimal(drEmployee["FK_Employee"]) + " Message : " + Ex.Message + ", Stack Trace: " + Ex.StackTrace, _strCsvPath, true);
+                                mail.To.Clear();
+                                mail.Body = "";
+                            }
+                            strClassNameList = "";
+                        }
+                    }
+                }
+                else
+                {
+                    WriteLog("No Data exists for SendMailForWeeklyReminderOfRemainingTrainingToEmployees()", _strCsvPath, false);
+                }
+                WriteLog("Function SendMailForWeeklyReminderOfRemainingTrainingToEmployees executed", _strCsvPath, false);
+            }
+            catch (Exception ex)
+            {
+                WriteLog("Exception occurred while executing SendMailForWeeklyReminderOfRemainingTrainingToEmployees " + ex.Message, _strCsvPath + ", Stack Trace: " + ex.StackTrace, true);
             }
         }
 
