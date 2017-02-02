@@ -82,9 +82,12 @@ public partial class Event_EventSearch_New : clsBasePage
             if (!string.IsNullOrEmpty(Convert.ToString(Request.QueryString["loc"])))//Any events added from Exposure link will set Event.[Sonic_Event] =’Yes’ Issue Mail Sub: ACI - Sonic bugs
             {
                 clsGeneral.SetDropdownValue(drpLocation, Encryption.Decrypt(Convert.ToString(Request.QueryString["loc"])), true);
-                rdoStatus_Sonic.SelectedValue = "A";
+                //rdoStatus_Sonic.SelectedValue = "A";
                 btnSearch_Click(null, null);
             }
+
+            if (clsSession.IsACIUser)
+                btnAdd.Visible = false;
         }
 
         //btnAdd.Visible = (App_Access != AccessType.View);
@@ -140,9 +143,10 @@ public partial class Event_EventSearch_New : clsBasePage
 
         // Check User Rights
         //btnAdd.Visible = App_Access == AccessType.Administrative_Access;
-        rdoSonic_Event.SelectedValue = "A";
-        rdoIs_Actionable.SelectedValue = "Y";
-        rdoStatus_Sonic.SelectedValue = "O";
+        if (!clsSession.IsACIUser)
+            rdoSonic_Event.SelectedValue = "A";
+        //rdoIs_Actionable.SelectedValue = "Y";
+        //rdoStatus_Sonic.SelectedValue = "O";
         txtEventNumber.Focus();
     }
 
@@ -218,6 +222,14 @@ public partial class Event_EventSearch_New : clsBasePage
         //ComboHelper.FillLU_Alarm_Type(new DropDownList[] { drpAlarmType }, true);
         //ComboHelper.FillLocation(new DropDownList[] { drpLocation }, true);
         ComboHelper.FillLocationByACIUser_New((new DropDownList[] { drpLocation }), Convert.ToDecimal(clsSession.UserID), true);
+
+        if (clsSession.IsACIUser)
+        {
+            rdoSonic_Event.Items.Remove(rdoSonic_Event.Items.FindByValue("Y"));
+            rdoSonic_Event.Items.Remove(rdoSonic_Event.Items.FindByValue("A"));
+            rdoSonic_Event.SelectedValue = "N";
+        }
+        
     }
 
     /// <summary>
@@ -237,14 +249,14 @@ public partial class Event_EventSearch_New : clsBasePage
         if (drpLocation.SelectedIndex > 0) decLocation = Convert.ToDecimal(drpLocation.SelectedValue);
         if (drpEventType.SelectedIndex > 0) decEventType = Convert.ToDecimal(drpEventType.SelectedValue);
         if (!string.IsNullOrEmpty(txtEventNumber.Text)) strEventNumber = txtEventNumber.Text.Trim().Replace("'", "''");
-        if (!string.IsNullOrEmpty(txtCameraNumber.Text)) strCameraNumber = txtCameraNumber.Text.Trim().Replace("'", "''");
-        if (!string.IsNullOrEmpty(txtCameraName.Text)) strCameraName = txtCameraName.Text.Trim().Replace("'", "''");
-        strStatus = rdoStatus_Sonic.SelectedValue;
+        //if (!string.IsNullOrEmpty(txtCameraNumber.Text)) strCameraNumber = txtCameraNumber.Text.Trim().Replace("'", "''");
+        //if (!string.IsNullOrEmpty(txtCameraName.Text)) strCameraName = txtCameraName.Text.Trim().Replace("'", "''");
+        //strStatus = rdoStatus_Sonic.SelectedValue;
         if (!string.IsNullOrEmpty(txtACI_EventID.Text)) strACIEventID = txtACI_EventID.Text.Trim().Replace("'", "''");
         if (!string.IsNullOrEmpty(txtEvent_Date_From.Text)) EventDateFrom = Convert.ToDateTime(txtEvent_Date_From.Text);
         if (!string.IsNullOrEmpty(txtEvent_Date_To.Text)) EventDateTo = Convert.ToDateTime(txtEvent_Date_To.Text);
         strSonic_Event = rdoSonic_Event.SelectedValue;
-        strIs_Actionable = rdoIs_Actionable.SelectedValue;
+        //strIs_Actionable = rdoIs_Actionable.SelectedValue;
 
         #endregion
 
@@ -563,6 +575,7 @@ public partial class Event_EventSearch_New : clsBasePage
             LinkButton btnOpen = (LinkButton)e.Row.Cells[0].FindControl("btnOpen");
             LinkButton btnDelete = (LinkButton)e.Row.Cells[0].FindControl("btnDelete");
             LinkButton btnSelect = (LinkButton)e.Row.Cells[0].FindControl("btnSelect");
+            LinkButton btnEdit = (LinkButton)e.Row.Cells[0].FindControl("btnEdit");
             //if (PK_Incident > 0)
             //{
             //    btnOpen.Visible = false;
@@ -576,8 +589,11 @@ public partial class Event_EventSearch_New : clsBasePage
             //    btnSelect.Visible = false;
             //}
 
+            string Sonic_Event = DataBinder.Eval(e.Row.DataItem, "Sonic_Event").ToString();
+
             btnOpen.Visible = true;
-            btnDelete.Visible = true;
+            //btnDelete.Visible = true;
+            btnDelete.Visible = btnEdit.Visible = (clsSession.IsACIUser && (Sonic_Event != "Y") || !clsSession.IsACIUser && (Sonic_Event == "Y"));
             btnSelect.Visible = false;
         }
     }
@@ -591,6 +607,13 @@ public partial class Event_EventSearch_New : clsBasePage
     {
 
         if (e.CommandName == "OpenEvent")
+        {
+            string[] strCommandArgument = e.CommandArgument.ToString().Split(',');
+            decimal FK_Incident = Convert.ToDecimal(strCommandArgument[1]);
+            decimal PK_Event = Convert.ToDecimal(strCommandArgument[0]);
+            Response.Redirect("Event_New.aspx?iid=" + Encryption.Encrypt(Convert.ToString(FK_Incident)) + "&eid=" + Encryption.Encrypt(Convert.ToString(PK_Event)) + "&mode=viewonly", true);
+        }
+        else if (e.CommandName == "EditEvent")
         {
             string[] strCommandArgument = e.CommandArgument.ToString().Split(',');
             decimal FK_Incident = Convert.ToDecimal(strCommandArgument[1]);

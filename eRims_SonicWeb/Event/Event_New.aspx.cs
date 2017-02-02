@@ -13,6 +13,7 @@ using Aspose.Words;
 public partial class Event_Event_New : clsBasePage
 {
     public string _strAttachmentName = string.Empty;
+    public string _strEvent_Number= string.Empty;
 
     #region Properties
 
@@ -186,9 +187,11 @@ public partial class Event_Event_New : clsBasePage
             Is_Sonic_Event = true;
             if (PK_Event > 0)
             {
-                if (StrOperation.ToLower() == "view")
+                if (StrOperation.ToLower() == "viewonly")
                 {
-                    BindDetailForView();
+                    BindDropDownList();
+                    BindDetailsForEdit();
+                    //BindDetailForView();
                 }
                 else
                 {
@@ -259,6 +262,15 @@ public partial class Event_Event_New : clsBasePage
         }
         else
         {
+            string eventTarget = (this.Request["__EVENTTARGET"] == null) ? string.Empty : this.Request["__EVENTTARGET"];
+            string eventArgument = (this.Request["__EVENTARGUMENT"] == null) ? string.Empty : this.Request["__EVENTARGUMENT"];
+
+            // if postback by Confirmation dialog then save record
+            if (eventTarget == "UserConfirmationPostBack")
+            {
+                if (eventArgument == "true")
+                    SaveRecord();
+            }
         }
         if (StrOperation == "add") hdnPanel.Value = "3"; //for Add new click set tab style
         Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:ShowPanel(" + hdnPanel.Value + ");", true);
@@ -333,68 +345,68 @@ public partial class Event_Event_New : clsBasePage
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    protected void lnkAddEvent_CameraNew_Click(object sender, EventArgs e)
-    {
-        _PK_Event_Camera = 0;
-        trEvent_CameraGrid.Style.Add("display", "none");
-        trEvent_Camera.Style.Add("display", "");
-        btnEvent_CameraCancel.Style.Add("display", "inline");
-        btnEvent_CameraAdd.Text = "Add";
-        txtCamera_Name.Text = string.Empty;
-        txtCamera_Number.Text = string.Empty;
-        txtEvent_Time_From.Text = string.Empty;
-        txtEvent_Time_To.Text = string.Empty;
-    }
+    //protected void lnkAddEvent_CameraNew_Click(object sender, EventArgs e)
+    //{
+    //    _PK_Event_Camera = 0;
+    //    trEvent_CameraGrid.Style.Add("display", "none");
+    //    trEvent_Camera.Style.Add("display", "");
+    //    btnEvent_CameraCancel.Style.Add("display", "inline");
+    //    btnEvent_CameraAdd.Text = "Add";
+    //    txtCamera_Name.Text = string.Empty;
+    //    txtCamera_Number.Text = string.Empty;
+    //    txtEvent_Time_From.Text = string.Empty;
+    //    txtEvent_Time_To.Text = string.Empty;
+    //}
 
     /// <summary>
     /// Save ACI Notes
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    protected void btnEvent_CameraAdd_Click(object sender, EventArgs e)
-    {
-        SaveRecord();
+    //protected void btnEvent_CameraAdd_Click(object sender, EventArgs e)
+    //{
+    //    SaveRecord();
 
-        clsEvent_Camera objEvent_Camera = new clsEvent_Camera();
-        objEvent_Camera.PK_Event_Camera = _PK_Event_Camera;
-        objEvent_Camera.FK_Event = PK_Event;
-        objEvent_Camera.Camera_Name = txtCamera_Name.Text.Trim();
-        objEvent_Camera.Camera_Number = txtCamera_Number.Text.Trim();
-        objEvent_Camera.Event_Time_From = txtEvent_Time_From.Text.Trim();
-        objEvent_Camera.Event_Time_To = txtEvent_Time_To.Text.Trim();
+    //    clsEvent_Camera objEvent_Camera = new clsEvent_Camera();
+    //    objEvent_Camera.PK_Event_Camera = _PK_Event_Camera;
+    //    objEvent_Camera.FK_Event = PK_Event;
+    //    objEvent_Camera.Camera_Name = txtCamera_Name.Text.Trim();
+    //    objEvent_Camera.Camera_Number = txtCamera_Number.Text.Trim();
+    //    objEvent_Camera.Event_Time_From = txtEvent_Time_From.Text.Trim();
+    //    objEvent_Camera.Event_Time_To = txtEvent_Time_To.Text.Trim();
 
-        if (_PK_Event_Camera > 0)
-        {
-            objEvent_Camera.Update();
-        }
-        else
-        {
-            objEvent_Camera.Insert();
-        }
+    //    if (_PK_Event_Camera > 0)
+    //    {
+    //        objEvent_Camera.Update();
+    //    }
+    //    else
+    //    {
+    //        objEvent_Camera.Insert();
+    //    }
 
-        //clear Control
-        ClearEvent_CameraControls();
-        //Bind Grid Function
-        BindEvent_CameraGrid();
-        //Cancel CLick
-        btnEvent_CameraCancel_Click(null, null);
-    }
+    //    //clear Control
+    //    ClearEvent_CameraControls();
+    //    //Bind Grid Function
+    //    BindEvent_CameraGrid();
+    //    //Cancel CLick
+    //    btnEvent_CameraCancel_Click(null, null);
+    //}
 
     /// <summary>
     /// Cancel Event Camera link
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    protected void btnEvent_CameraCancel_Click(object sender, EventArgs e)
-    {
-        trEvent_CameraGrid.Style.Add("display", "");
-        trEvent_Camera.Style.Add("display", "none");
-        btnEvent_CameraCancel.Style.Add("display", "none");
-        txtCamera_Name.Text = string.Empty;
-        txtCamera_Number.Text = string.Empty;
-        txtEvent_Time_From.Text = string.Empty;
-        txtEvent_Time_To.Text = string.Empty;
-    }
+    //protected void btnEvent_CameraCancel_Click(object sender, EventArgs e)
+    //{
+    //    trEvent_CameraGrid.Style.Add("display", "");
+    //    trEvent_Camera.Style.Add("display", "none");
+    //    btnEvent_CameraCancel.Style.Add("display", "none");
+    //    txtCamera_Name.Text = string.Empty;
+    //    txtCamera_Number.Text = string.Empty;
+    //    txtEvent_Time_From.Text = string.Empty;
+    //    txtEvent_Time_To.Text = string.Empty;
+    //}
 
     /// <summary>
     /// Add Vehicle Click
@@ -815,6 +827,14 @@ public partial class Event_Event_New : clsBasePage
         strSelected = strSelected.TrimEnd(',');
         clsPrintEventNotes.PrintSelectedNotes(strSelected, PK_Event, "Sonic");
     }
+
+
+    protected void btnhdnNonactionable_Click(object sender, EventArgs e)
+    {
+        clsEvent.MakeNonActionable(PK_Event, Convert.ToDecimal(clsSession.UserID));
+
+        Response.Redirect("EventSearch_New.aspx", true);
+    }
     #endregion
 
     #region Page Methods
@@ -823,15 +843,15 @@ public partial class Event_Event_New : clsBasePage
 
     /// Used to Clear the controls
     /// </summary>
-    private void ClearEvent_CameraControls()
-    {
-        //clear control
-        _PK_Event_Camera = 0;
-        txtCamera_Name.Text = string.Empty;
-        txtCamera_Number.Text = string.Empty;
-        txtEvent_Time_From.Text = string.Empty;
-        txtEvent_Time_To.Text = string.Empty;
-    }
+    //private void ClearEvent_CameraControls()
+    //{
+    //    //clear control
+    //    _PK_Event_Camera = 0;
+    //    txtCamera_Name.Text = string.Empty;
+    //    txtCamera_Number.Text = string.Empty;
+    //    txtEvent_Time_From.Text = string.Empty;
+    //    txtEvent_Time_To.Text = string.Empty;
+    //}
 
     /// Used to Clear the controls
     /// </summary>
@@ -886,9 +906,9 @@ public partial class Event_Event_New : clsBasePage
         txtEvent_Start_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objEvent.Event_Start_Date);
         txtEvent_Start_Time.Text = objEvent.Event_Start_Time;
         txtEvent_End_Time.Text = objEvent.Event_End_Time;
-        txtInvestigator_Name.Text = objEvent.Investigator_Name;
-        txtInvestigator_Email.Text = objEvent.Investigator_Email;
-        txtInvestigator_Phone.Text = objEvent.Investigator_Phone;
+        //txtInvestigator_Name.Text = objEvent.Investigator_Name;
+        //txtInvestigator_Email.Text = objEvent.Investigator_Email;
+        //txtInvestigator_Phone.Text = objEvent.Investigator_Phone;
 
         #region Event Image
         string _strSiteURL;
@@ -980,7 +1000,15 @@ public partial class Event_Event_New : clsBasePage
             txtFinancial_Loss.Text = clsGeneral.GetStringValue(objEvent.Financial_Loss);
 
 
-        if (objEvent.Status != null && Convert.ToString(objEvent.Status) == "C")
+        
+        if (StrOperation.ToLower() == "viewonly")
+        {
+            Is_Closed_Event = true;
+            SetEditViewRights(true);
+            btnSend_Notification.Visible = false;
+            chkNonActionable.Enabled = false;
+        }
+        else if (objEvent.Status != null && Convert.ToString(objEvent.Status) == "C")
         {
             Is_Closed_Event = true;
             SetEditViewRights(true);
@@ -988,7 +1016,7 @@ public partial class Event_Event_New : clsBasePage
         else
         {
             Is_Closed_Event = false;
-            SetEditViewRights(false);
+            //SetEditViewRights(false);
         }
 
         if (PK_Event > 0)
@@ -1024,12 +1052,12 @@ public partial class Event_Event_New : clsBasePage
             clsGeneral.SetDropdownValue(ddlEvent_Level, eventLevelCodeOld, true);
             clsGeneral.SetDropdownValue(ddlEvent_Level_Sonic, eventLevelCodeOld, true);
 
-            BindEvent_CameraGrid();
+            //BindEvent_CameraGrid();
             BindVehicle_InformationGrid();
             BindSuspect_InformationGrid();
             BindACINoteGrid(ctrlPageAcadianNotes.CurrentPage, ctrlPageAcadianNotes.PageSize);
             BindReapterInvest_Images();
-            BindBuilding_ACI();
+            //BindBuilding_ACI();
 
             if (dsEventType.Tables.Count > 0 && dsEventType.Tables[0].Rows.Count > 0)
             {
@@ -1117,9 +1145,9 @@ public partial class Event_Event_New : clsBasePage
         }
         objEvent.Status = rdoStatus.SelectedValue;
         objEvent.Date_Closed = clsGeneral.FormatNullDateToStore(txtDate_Closed.Text);
-        objEvent.Investigator_Name = Convert.ToString(txtInvestigator_Name.Text);
-        objEvent.Investigator_Email = Convert.ToString(txtInvestigator_Email.Text);
-        objEvent.Investigator_Phone = Convert.ToString(txtInvestigator_Phone.Text);
+        //objEvent.Investigator_Name = Convert.ToString(txtInvestigator_Name.Text);
+        //objEvent.Investigator_Email = Convert.ToString(txtInvestigator_Email.Text);
+        //objEvent.Investigator_Phone = Convert.ToString(txtInvestigator_Phone.Text);
         objEvent.Incident_Report_Desc = Convert.ToString(txtIncident_Report.Text);
 
         if (Is_Sonic_Event)
@@ -1263,42 +1291,42 @@ public partial class Event_Event_New : clsBasePage
     /// <summary>
     /// Bind Event Camera Grid
     /// </summary>
-    private void BindEvent_CameraGrid()
-    {
-        DataSet dsEvent_Camera = clsEvent_Camera.SelectByFK_Event(PK_Event);
+    //private void BindEvent_CameraGrid()
+    //{
+    //    DataSet dsEvent_Camera = clsEvent_Camera.SelectByFK_Event(PK_Event);
 
-        if (dsEvent_Camera != null && dsEvent_Camera.Tables.Count > 0)
-        {
-            gvEvent_Camera.DataSource = dsEvent_Camera;
-            gvEvent_Camera.DataBind();
-        }
-        else
-        {
-            gvEvent_Camera.DataSource = null;
-            gvEvent_Camera.DataBind();
-        }
+    //    if (dsEvent_Camera != null && dsEvent_Camera.Tables.Count > 0)
+    //    {
+    //        gvEvent_Camera.DataSource = dsEvent_Camera;
+    //        gvEvent_Camera.DataBind();
+    //    }
+    //    else
+    //    {
+    //        gvEvent_Camera.DataSource = null;
+    //        gvEvent_Camera.DataBind();
+    //    }
 
-    }
+    //}
 
     /// <summary>
     /// Bind Building Grid
     /// </summary>
-    private void BindBuilding_ACI()
-    {
-        DataTable dtBuilding = Building.SelectByFKEvent(PK_Event).Tables[0];
+    //private void BindBuilding_ACI()
+    //{
+    //    DataTable dtBuilding = Building.SelectByFKEvent(PK_Event).Tables[0];
 
-        if (dtBuilding != null)
-        {
-            gvBuildingEditACI.DataSource = dtBuilding;
-            gvBuildingEditACI.DataBind();
-        }
-        else
-        {
-            gvBuildingEditACI.DataSource = null;
-            gvBuildingEditACI.DataBind();
-        }
+    //    if (dtBuilding != null)
+    //    {
+    //        gvBuildingEditACI.DataSource = dtBuilding;
+    //        gvBuildingEditACI.DataBind();
+    //    }
+    //    else
+    //    {
+    //        gvBuildingEditACI.DataSource = null;
+    //        gvBuildingEditACI.DataBind();
+    //    }
 
-    }
+    //}
 
     /// <summary>
     /// Bind ACI Notes Grid
@@ -1598,10 +1626,10 @@ public partial class Event_Event_New : clsBasePage
         txtEvent_Start_Time.Enabled = Is_Enable;
         txtEvent_End_Time.Enabled = Is_Enable;
         imgEvent_Start_Date.Visible = Is_Enable;
-        lnkAddEvent_CameraNew.Visible = Is_Enable;
-        txtInvestigator_Name.Enabled = Is_Enable;
-        txtInvestigator_Email.Enabled = Is_Enable;
-        txtInvestigator_Phone.Enabled = Is_Enable;
+        //lnkAddEvent_CameraNew.Visible = Is_Enable;
+        //txtInvestigator_Name.Enabled = Is_Enable;
+        //txtInvestigator_Email.Enabled = Is_Enable;
+        //txtInvestigator_Phone.Enabled = Is_Enable;
 
 
         //rdoPolice_Called.Enabled = Is_Enable;
@@ -1709,7 +1737,7 @@ public partial class Event_Event_New : clsBasePage
 
             DataSet ds_Event = clsEvent.GetEventAbstractLetterData(PK_Event);
 
-            string strAbstractReportData = Convert.ToString(Event_AbstactReport(ds_Event, PK_Event, false, clsGeneral.Major_Coverage.Event));
+            string strAbstractReportData = Convert.ToString(Event_AbstactReportDOC(ds_Event, PK_Event, false, clsGeneral.Major_Coverage.Event));
 
             //string[] attchment = null;
             //if (ViewState["Attchments"] != null)
@@ -1717,6 +1745,54 @@ public partial class Event_Event_New : clsBasePage
             //    attchment = new string[1];
             //    attchment[0] = AppConfig.SitePath + "Documents/EventImage" + "/" + Convert.ToString(ViewState["Attchments"]);
             //}
+
+            string strPath = AppConfig.DocumentsPath + "Attach\\" + @"Event.doc";
+
+            #region " Generate WORD Doc "
+            string strLisenceFile = HttpContext.Current.Server.MapPath(HttpContext.Current.Request.ApplicationPath) + "\\" + ("Bin") + "\\Aspose.Words.lic";
+
+            if (File.Exists(strLisenceFile))
+            {
+                Aspose.Words.License license = new Aspose.Words.License();
+                license.SetLicense(strLisenceFile);
+            }
+
+            Aspose.Words.Document doc = new Aspose.Words.Document();
+
+            Aspose.Words.DocumentBuilder builder = new Aspose.Words.DocumentBuilder(doc);
+            builder.PageSetup.BottomMargin = 20;
+            builder.PageSetup.TopMargin = 20;
+            builder.PageSetup.LeftMargin = 20;
+            builder.PageSetup.RightMargin = 20;
+            builder.Font.Size = 10;
+            builder.PageSetup.PaperSize = PaperSize.A4;
+            //builder.Font.Bold = false;
+            //builder.Font.Color = System.Drawing.Color.Black;
+            builder.Font.Name = "Arial";
+            builder.InsertParagraph();
+            builder.InsertHtml(strAbstractReportData);
+
+            //imageFileName = AppConfig.ImageURL + "letter-footer.JPG";
+            //builder.InsertImage(imageFileName, Aspose.Words.Drawing.RelativeHorizontalPosition.Page, 25, Aspose.Words.Drawing.RelativeVerticalPosition.Page, 710, 550, 42, Aspose.Words.Drawing.WrapType.Through);
+
+            //Don't need merge fields in the document anymore.
+            doc.MailMerge.DeleteFields();
+            //builder.MoveToSection(0);
+            //builder.MoveToHeaderFooter(HeaderFooterType.FooterPrimary);
+            //builder.PageSetup.PageNumberStyle = NumberStyle.Number;
+            //builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+            //builder.Write("Page ");
+            //builder.InsertField("PAGE", "");
+            //builder.Write(" of ");
+            //builder.InsertField("NUMPAGES", "");
+            //Section section = doc.Sections[0];
+            //section.PageSetup.PageStartingNumber = 1;
+            //section.PageSetup.RestartPageNumbering = true;
+            //section.PageSetup.PageNumberStyle = NumberStyle.Arabic;
+
+            doc.Save(strPath, Aspose.Words.SaveFormat.Doc);
+
+            #endregion
 
             System.Collections.Generic.List<string> lstMail = new System.Collections.Generic.List<string>();
 
@@ -1735,29 +1811,37 @@ public partial class Event_Event_New : clsBasePage
             System.Collections.Generic.List<string> lstImages = new System.Collections.Generic.List<string>();
             int intImagescount = 0;
 
-            DataTable dtInvestigationImages = ds_Event.Tables[6];
-
-            if (!string.IsNullOrEmpty(_strAttachmentName) && File.Exists(AppConfig.DocumentsPath + "EventImage\\" + _strAttachmentName))
+            if (!string.IsNullOrEmpty(strPath) && File.Exists(strPath))
             {
-                lstImages.Insert(intImagescount, AppConfig.DocumentsPath + "EventImage\\" + _strAttachmentName);
+                lstImages.Insert(intImagescount, strPath);
                 intImagescount++;
             }
 
-            foreach (DataRow drEvent_Images in dtInvestigationImages.Rows)
-            {
-                if (!string.IsNullOrEmpty(Convert.ToString(drEvent_Images["Attachment_Name"])) && File.Exists(AppConfig.SitePath + "Documents\\Attach\\" + drEvent_Images["Attachment_Name"]))
-                {
-                    lstImages.Insert(intImagescount, AppConfig.SitePath + "Documents\\Attach\\" + drEvent_Images["Attachment_Name"]);
-                    intImagescount++;
-                }
-            }
+            //DataTable dtInvestigationImages = ds_Event.Tables[6];
+
+            //if (!string.IsNullOrEmpty(_strAttachmentName) && File.Exists(AppConfig.DocumentsPath + "EventImage\\" + _strAttachmentName))
+            //{
+            //    lstImages.Insert(intImagescount, AppConfig.DocumentsPath + "EventImage\\" + _strAttachmentName);
+            //    intImagescount++;
+            //}
+
+            //foreach (DataRow drEvent_Images in dtInvestigationImages.Rows)
+            //{
+            //    if (!string.IsNullOrEmpty(Convert.ToString(drEvent_Images["Attachment_Name"])) && File.Exists(AppConfig.SitePath + "Documents\\Attach\\" + drEvent_Images["Attachment_Name"]))
+            //    {
+            //        lstImages.Insert(intImagescount, AppConfig.SitePath + "Documents\\Attach\\" + drEvent_Images["Attachment_Name"]);
+            //        intImagescount++;
+            //    }
+            //}
 
             string[] strTemp = lstImages.ToArray();
+
+            string Emailbody = "ACI Actionable Event Abstract for Event Number: " + _strEvent_Number + ".<br/>Thank You";
 
             if (EmailTo.Length > 0)
             {
                 EmailHelper objEmail = new EmailHelper(AppConfig.SMTPServer, AppConfig.MailFrom, AppConfig.SMTPpwd, Convert.ToInt32(AppConfig.Port));
-                objEmail.SendEventMailMessage(AppConfig.ManagementEmailID, " ", EmailTo, "ACI Actionable Event Abstract", strAbstractReportData, true, strTemp, AppConfig.MailCC);
+                objEmail.SendEventMailMessageDOC(AppConfig.ManagementEmailID, " ", EmailTo, "ACI Actionable Event Abstract", Emailbody, true, strTemp, AppConfig.MailCC);
             }
 
             //for (int i = 0; i < dtEmailList.Rows.Count; i++)
@@ -2179,6 +2263,417 @@ public partial class Event_Event_New : clsBasePage
 
         return sbGrid.ToString();
     }
+
+    public StringBuilder Event_AbstactReportDOC(DataSet dsEvent, decimal _PK_Event, bool ShowAttachments, clsGeneral.Major_Coverage MajorCoverageType)
+    {
+        //DataSet dsEvent = clsEvent.GetEventAbstractLetterData(_PK_Event);
+
+        StringBuilder strBody = new StringBuilder("");
+
+        if (dsEvent != null && dsEvent.Tables.Count > 0 && dsEvent.Tables[0].Rows.Count > 0)
+        {
+            DataTable dtEvent = dsEvent.Tables[0];
+            DataTable dtActionable_Event = dsEvent.Tables[1];
+            DataTable dtBuilding = dsEvent.Tables[2];
+            DataTable dtCamera = dsEvent.Tables[3];
+            DataTable dtACINotes = dsEvent.Tables[4];
+            DataTable dtSonicNotes = dsEvent.Tables[5];
+            DataTable dtEventImages = dsEvent.Tables[6];
+            DataTable dtVehicleInformation = dsEvent.Tables[7];
+            DataTable dtSuspectInformation = dsEvent.Tables[8];
+
+            FileStream fsMail = null;
+
+            bool Is_Sonic_Event = Convert.ToBoolean(dtEvent.Rows[0]["Sonic_Event"]);
+
+            if (Is_Sonic_Event)
+                fsMail = new FileStream(AppConfig.DocumentsPath + @"\AbstractLetterTemplate\Event_AbstractReport_Sonic.htm", FileMode.Open, FileAccess.Read);
+            else fsMail = new FileStream(AppConfig.DocumentsPath + @"\AbstractLetterTemplate\Event_AbstractReport.htm", FileMode.Open, FileAccess.Read);
+            StreamReader rd = new StreamReader(fsMail);
+            //StringBuilder strBody = new StringBuilder(rd.ReadToEnd().ToString());
+            rd = new StreamReader(fsMail);
+            strBody = new StringBuilder(rd.ReadToEnd().ToString());
+
+
+            rd.Close();
+            fsMail.Close();
+
+            #region "ACI Reported Event"
+
+            strBody = strBody.Replace("[Location]", Convert.ToString(dtEvent.Rows[0]["Location"]));
+            strBody = strBody.Replace("[ACI_Event_ID]", Convert.ToString(dtEvent.Rows[0]["ACI_EventID"]));
+
+            string strActionableEvent = string.Empty;
+
+            if (!Is_Sonic_Event)
+                dtActionable_Event.DefaultView.RowFilter = "Actionable_Event_Desc <> 'FROI Event/Other'"; //#Issue 3422
+
+            DataTable dtFiltered_Event = dtActionable_Event.DefaultView.ToTable();
+
+            if (dtFiltered_Event.Rows.Count > 0)
+            {
+                strActionableEvent = "<table cellpadding='4' cellspacing='0' width='100%'>";
+                foreach (DataRow drEvent_Type in dtFiltered_Event.Rows)
+                {
+                    if (Convert.ToBoolean(drEvent_Type["Is_Checked"]))
+                    {
+                        strActionableEvent += "<tr style='page-break-inside: avoid'><td width='50%' align='left' valign='top' style='font-family: Arial; font-size: 12px;'>" + drEvent_Type["Actionable_Event_Desc"] + "</td><td width='50%' align='left' valign='top' style='font-family: Arial; font-size: 12px;'> Yes </td></tr>";
+                    }
+                    else
+                    {
+                        strActionableEvent += "<tr style='page-break-inside: avoid'><td width='50%' align='left' valign='top' style='font-family: Arial; font-size: 12px;'>" + drEvent_Type["Actionable_Event_Desc"] + "</td><td width='50%' align='left' valign='top' style='font-family: Arial; font-size: 12px;'> No </td></tr>";
+                    }
+                }
+                strActionableEvent += "</table>";
+            }
+            strBody = strBody.Replace("[Actionable_Event_Type]", strActionableEvent);
+            strBody = strBody.Replace("[Description_of_Event]", Convert.ToString(dtEvent.Rows[0]["Event_Desc"]));
+            if (!string.IsNullOrEmpty(Convert.ToString(dtEvent.Rows[0]["Event_Start_Date"])))
+                strBody = strBody.Replace("[Date_of_Event]", clsGeneral.FormatDBNullDateToDisplay(dtEvent.Rows[0]["Event_Start_Date"]));
+            else
+                strBody = strBody.Replace("[Date_of_Event]", string.Empty);
+
+            strBody = strBody.Replace("[Event_Start_Time]", Convert.ToString(dtEvent.Rows[0]["Event_Start_Time"]));
+            strBody = strBody.Replace("[Event_End_Time]", Convert.ToString(dtEvent.Rows[0]["Event_End_Time"]));
+
+
+            strBody = strBody.Replace("[BuildingInformation]", GetBuildingDetailsDOC(dtBuilding));
+
+            strBody = strBody.Replace("[Camera_Grid]", GetCameraDetailsDOC(dtCamera));
+
+            strBody = strBody.Replace("[Acadian_Investigator_Name]", Convert.ToString(dtEvent.Rows[0]["Investigator_Name"]));
+            strBody = strBody.Replace("[Acadian_Investigator_Email_Address]", Convert.ToString(dtEvent.Rows[0]["Investigator_Email"]));
+            strBody = strBody.Replace("[Acadian_Investigator_Phone]", Convert.ToString(dtEvent.Rows[0]["Investigator_Phone"]));
+
+            int ImageCounter = 0;
+
+            ////string AttachmentDocPath = "Documents/EventImage";
+            //if (!string.IsNullOrEmpty(Convert.ToString(dtEvent.Rows[0]["Event_Image"])) && File.Exists(AppConfig.DocumentsPath + "EventImage\\" + dtEvent.Rows[0]["Event_Image"]))
+            //{
+            //    ViewState["Attchments"] = dtEvent.Rows[0]["Event_Image"];
+            //    //strBody = strBody.Replace("[Event_Image]", "<img  alt='' src='" + AppConfig.SiteURL + AttachmentDocPath + "/" + dtEvent.Rows[0]["Event_Image"] + "' Height='200' Width='200' />");
+            //}
+            //else
+            //{
+            //    // ViewState["Attchments"] = dtEvent.Rows[0]["Event_Image"];
+            //    ViewState.Remove("Attchments");
+            //    //strBody = strBody.Replace("[Event_Image]", string.Empty);
+            //}
+
+            string AttachmentDocPath = "Documents/EventImage";
+            if (!DBNull.Value.Equals(dtEvent.Rows[0]["Event_Image"]) && File.Exists(Server.MapPath("..\\") + AttachmentDocPath + "/" + dtEvent.Rows[0]["Event_Image"]) && !Is_Sonic_Event)
+            {
+                //strBody = strBody.Replace("[Event_Image]", "<img  alt='' src='" + AppConfig.SiteURL + AttachmentDocPath + "/" + dtEvent.Rows[0]["Event_Image"] + "' Height='200' Width='200' />");
+                _strAttachmentName = Convert.ToString(dtEvent.Rows[0]["Event_Image"]);
+                //strBody = strBody.Replace("[Event_Image]", "<img src=\"cid:Event_Images_" + ImageCounter + "\" Height=\"288\" Width=\"352\" />");
+                strBody = strBody.Replace("[Event_Image]", "<img  alt='' src='" + Server.MapPath("..\\") + AttachmentDocPath + "/" + dtEvent.Rows[0]["Event_Image"] + "' Height='288' Width='352' />");
+                ImageCounter++;
+            }
+            else
+            {
+                strBody = strBody.Replace("[Event_Image]", string.Empty);
+                _strAttachmentName = string.Empty;
+            }
+
+            strBody = strBody.Replace("[AL_FR_Number]", Convert.ToString(dtEvent.Rows[0]["AL_FR_Number"]));
+            strBody = strBody.Replace("[DPD_FR_Number]", Convert.ToString(dtEvent.Rows[0]["DPD_FR_Number"]));
+            strBody = strBody.Replace("[PL_FR_Number]", Convert.ToString(dtEvent.Rows[0]["PL_FR_Number"]));
+            strBody = strBody.Replace("[Prop_FR_Number]", Convert.ToString(dtEvent.Rows[0]["Prop_FR_Number"]));
+            strBody = strBody.Replace("[Event_Root_Cause]", Convert.ToString(dtEvent.Rows[0]["Event_Root_Cause"]));
+            strBody = strBody.Replace("[How_Event_Prevented]", Convert.ToString(dtEvent.Rows[0]["How_Event_Prevented"]));
+            strBody = strBody.Replace("[Financial_Loss]", string.Format("{0:C2}", dtEvent.Rows[0]["Financial_Loss"]));
+
+            #endregion
+
+            #region "Sonic Reported Event"
+
+            strBody = strBody.Replace("[SRE#]", Convert.ToString(dtEvent.Rows[0]["Event_Number"]));
+            _strEvent_Number = Convert.ToString(dtEvent.Rows[0]["Event_Number"]);
+            strBody = strBody.Replace("[Monitoring_Hours]", Convert.ToString(dtEvent.Rows[0]["Monitoring_Hours"]));
+            strBody = strBody.Replace("[Source_of_Information]", Convert.ToString(dtEvent.Rows[0]["Source_Of_Information"]));
+            strBody = strBody.Replace("[Event_Level]", Convert.ToString(dtEvent.Rows[0]["Event_Level"]));
+            strBody = strBody.Replace("[Budge#]", Convert.ToString(dtEvent.Rows[0]["Badge_Number"]));
+            strBody = strBody.Replace("[Sonic_Contact_Name]", Convert.ToString(dtEvent.Rows[0]["Sonic_Contact_Name"]));
+            strBody = strBody.Replace("[Sonic_Contact_Phone_#]", Convert.ToString(dtEvent.Rows[0]["Sonic_Contact_Phone"]));
+            strBody = strBody.Replace("[Sonic_Contact_Email_Address]", Convert.ToString(dtEvent.Rows[0]["Sonic_Contact_Email"]));
+
+            #endregion
+
+            #region "Acadian Investigation"
+
+            strBody = strBody.Replace("[Police_Called]", Convert.ToString(dtEvent.Rows[0]["Police_Called"]));
+            strBody = strBody.Replace("[Video_Requested_By_Sonic]", Convert.ToString(dtEvent.Rows[0]["Video_Requested_By_Sonic"]));
+            strBody = strBody.Replace("[Agency_Name]", Convert.ToString(dtEvent.Rows[0]["Agency_Name"]));
+            strBody = strBody.Replace("[Officer_Name]", Convert.ToString(dtEvent.Rows[0]["Officer_Name"]));
+            strBody = strBody.Replace("[Phone_#]", Convert.ToString(dtEvent.Rows[0]["Officer_Phone"]));
+            strBody = strBody.Replace("[Police_Report_#]", Convert.ToString(dtEvent.Rows[0]["Police_Report_Number"]));
+            strBody = strBody.Replace("[Incident_Report_Desc]", Convert.ToString(dtEvent.Rows[0]["Incident_Report_Desc"]));
+
+            strBody = strBody.Replace("[Vehicle_Information_Grid]", GetVehicleDetailsDOC(dtVehicleInformation));
+            strBody = strBody.Replace("[Suspect_Information_Grid]", GetSuspectDetailsDOC(dtSuspectInformation));
+            strBody = strBody.Replace("[Acadian_Notes_Grid]", GetACINotesDetailsDOC(dtACINotes));
+
+            strBody = strBody.Replace("[Status]", Convert.ToString(dtEvent.Rows[0]["Status"]));
+            if (!string.IsNullOrEmpty(Convert.ToString(dtEvent.Rows[0]["Date_Closed"])))
+                strBody = strBody.Replace("[Date_Closed]", clsGeneral.FormatDBNullDateToDisplay(dtEvent.Rows[0]["Date_Closed"]));
+            else
+                strBody = strBody.Replace("[Date_Closed]", string.Empty);
+
+            strBody = strBody.Replace("[Sonic_Notes_Grid]", GetSonicNotesDetailsDOC(dtSonicNotes));
+            //if (Is_Sonic_Event)
+            //{
+            //    strBody = strBody.Replace("[Sonic_Notes_Grid]", GetSonicNotesDetails(dtSonicNotes));
+            //}
+
+            #endregion
+
+            #region "Images of Event"
+
+            string strEventImages = string.Empty;
+            if (dtEventImages.Rows.Count > 0)
+            {
+                strEventImages = "<table cellpadding='1' cellspacing='1' width='95%'>";
+
+                foreach (DataRow drEvent_Images in dtEventImages.Rows)
+                {
+                    if (!string.IsNullOrEmpty(Convert.ToString(drEvent_Images["Attachment_Name"])) && File.Exists(AppConfig.DocumentsPath + "Attach\\" + drEvent_Images["Attachment_Name"]))
+                    {
+                        System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(AppConfig.SitePath + "Documents\\Attach\\" + drEvent_Images["Attachment_Name"]);
+
+                        int originalWidth = bmp.Width;
+                        int originalHeight = bmp.Height;
+
+                        float ratioX = (float)700 / (float)originalWidth;
+                        float ratioY = (float)300 / (float)originalHeight;
+                        float ratio = Math.Min(ratioX, ratioY);
+
+                        // New width and height based on aspect ratio
+                        int newWidth = (int)(originalWidth * ratio);
+                        int newHeight = (int)(originalHeight * ratio);
+
+                        bmp.Dispose();
+
+                        //strEventImages += "<tr style='page-break-inside: avoid'><td valign='top' align='center' border='3px solid'><img src=\"cid:Event_Images_" + ImageCounter + "\" BorderWidth='1px' BorderStyle='Solid' BorderColor='Black' Height='" + newHeight + "' Width='" + newWidth + "' /></td></tr>";
+                        strEventImages += "<tr style='page-break-inside: avoid'><td valign='top' align='center' border='3px solid'><img src='" + AppConfig.SitePath + "Documents\\Attach\\" + drEvent_Images["Attachment_Name"] + "' BorderWidth='1px' BorderStyle='Solid' BorderColor='Black' Height='" + newHeight + "' Width='" + newWidth + "' /></td></tr>";
+                        ImageCounter++;
+                    }
+                }
+                strEventImages += "</table>";
+            }
+
+            strBody = strBody.Replace("[Images_of_Event]", strEventImages);
+
+            #endregion
+        }
+
+        return strBody;
+
+    }
+
+    public string GetBuildingDetailsDOC(DataTable dtBuilding)
+    {
+        StringBuilder sbGrid = new StringBuilder(string.Empty);
+        sbGrid = new StringBuilder(string.Empty);
+        //sbGrid.Append("<tr><td style='font-size: 12px; font-family: Arial; font-weight: bold;page-break-inside : avoid' class='HeaderRow' colspan='6'>Attachments</td></tr>");
+        //sbGrid.Append("<tr><td style='font-size: 12px; font-family: Arial; '  colspan='6'>");
+        sbGrid.Append("<tr style='page-break-inside: avoid'><td colspan='6'> <table border='0' width='100%'>");
+        sbGrid.Append("<tr style='page-break-inside: avoid'>");
+        sbGrid.Append("<td style='font-size: 12px; font-family: Arial; font-weight: bold;page-break-inside : avoid' class='HeaderRow' colspan='6'>Buildings</td></tr>");
+        sbGrid.Append("<tr style='page-break-inside: avoid'><td style='font-size: 12px; font-family: Arial;'  colspan='6'>");
+        if (dtBuilding.Rows.Count > 0)
+        {
+            sbGrid.Append("<table width='100%' cellspacing='0' cellpadding='3' style='padding-bottom:5px;table-layout: fixed;white-space:nowrap;overflow: hidden;'>");
+            sbGrid.Append("<tr valign='top' align='center'>");
+            sbGrid.Append("<td style='background-color: #95B3D7;border-collapse: collapse;border-style: solid; border-color: Black; border-width: 1px;width:20%; align:left;' ><span style='font-size: 12px; font-family: Arial;'><b>Building Number</b></span></td>");
+            sbGrid.Append("<td style='background-color: #95B3D7;border-collapse: collapse;border-style: solid; border-color: Black; border-width: 1px;width:40%; align:left;' ><span style='font-size: 12px; font-family: Arial;'><b>Address</b></span></td>");
+            sbGrid.Append("<td style='background-color: #95B3D7;border-collapse: collapse;border-style: solid; border-color: Black; border-width: 1px;width:40%; align:left;' ><span style='font-size: 12px; font-family: Arial;'><b>Occupancy</b></span></td>");
+            sbGrid.Append("</tr>");
+
+            foreach (DataRow dr in dtBuilding.Rows)
+            {
+                sbGrid.Append("<tr valign=top>");
+                sbGrid.AppendFormat("<td style='border-collapse: collapse;border-style: solid; border-color: Black; border-width: 1px;width:20%; align:left;' ><span style='font-size: 12px; font-family: Arial;'>  {0} </span> </td>", dr["Building_Number"]);
+                sbGrid.AppendFormat("<td style='border-collapse: collapse;border-style: solid; border-color: Black; border-width: 1px;width:40%; align:left;' ><span style='font-size: 12px; font-family: Arial;'>  {0} </span> </td>", dr["Address"]);
+                sbGrid.AppendFormat("<td style='border-collapse: collapse;border-style: solid; border-color: Black; border-width: 1px;width:40%; align:left;' ><span style='font-size: 12px; font-family: Arial;'>  {0} </span> </td>", dr["Occupancy"]);
+                sbGrid.Append("</tr>");
+            }
+            sbGrid.Append("</table>");
+            sbGrid.Append("</td>");
+            sbGrid.Append("</tr>");
+            sbGrid.Append("</table>");
+        }
+        else
+        {
+            sbGrid.Append("<table width='100%'>");
+            sbGrid.Append("<tr valign='top' style='font-family: Arial; font-size: 12px; padding-left:20px;' align='center'><td align='left'>No Building Records Found.</td></tr>");
+            sbGrid.Append("</table>");
+            sbGrid.Append("</td>");
+            sbGrid.Append("</tr>");
+            sbGrid.Append("</table>");
+        }
+        sbGrid.Append("</td></tr>");
+        sbGrid.Append("<tr><td>&nbsp;</td></tr>");
+        return sbGrid.ToString();
+    }
+
+    public string GetCameraDetailsDOC(DataTable dtCamera)
+    {
+        StringBuilder sbGrid = new StringBuilder(string.Empty);
+        sbGrid = new StringBuilder(string.Empty);
+        if (dtCamera.Rows.Count > 0)
+        {
+            sbGrid.Append("<table width='100%' cellspacing='0' cellpadding='3' style='padding-bottom:5px;table-layout: fixed;white-space:nowrap;overflow: hidden;'>");
+            sbGrid.Append("<tr valign='top' align='center'>");
+            sbGrid.Append("<td style='background-color: #95B3D7;border-collapse: collapse;border-style: solid; border-color: Black; border-width: 1px;width:25%; align:left;' ><span style='font-size: 12px; font-family: Arial;'><b>Camera Name</b></span></td>");
+            sbGrid.Append("<td style='background-color: #95B3D7;border-collapse: collapse;border-style: solid; border-color: Black; border-width: 1px;width:25%; align:left;' ><span style='font-size: 12px; font-family: Arial;'><b>Camera Number</b></span></td>");
+            sbGrid.Append("<td style='background-color: #95B3D7;border-collapse: collapse;border-style: solid; border-color: Black; border-width: 1px;width:25%; align:left;' ><span style='font-size: 12px; font-family: Arial;'><b>Event Time From</b></span></td>");
+            sbGrid.Append("<td style='background-color: #95B3D7;border-collapse: collapse;border-style: solid; border-color: Black; border-width: 1px;width:25%; align:left;' ><span style='font-size: 12px; font-family: Arial;'><b>Event Time To</b></span></td>");
+            sbGrid.Append("</tr>");
+
+            foreach (DataRow dr in dtCamera.Rows)
+            {
+                sbGrid.Append("<tr valign=top>");
+                sbGrid.AppendFormat("<td style='border-collapse: collapse;border-style: solid; border-color: Black; border-width: 1px;width:20%; align:left;' ><span style='font-size: 12px; font-family: Arial;'>  {0} </span> </td>", dr["Camera_Name"]);
+                sbGrid.AppendFormat("<td style='border-collapse: collapse;border-style: solid; border-color: Black; border-width: 1px;width:20%; align:left;' ><span style='font-size: 12px; font-family: Arial;'>  {0} </span> </td>", dr["Camera_Number"]);
+                sbGrid.AppendFormat("<td style='border-collapse: collapse;border-style: solid; border-color: Black; border-width: 1px;width:20%; align:left;' ><span style='font-size: 12px; font-family: Arial;'>  {0} </span> </td>", dr["Event_Time_From"]);
+                sbGrid.AppendFormat("<td style='border-collapse: collapse;border-style: solid; border-color: Black; border-width: 1px;width:20%; align:left;' ><span style='font-size: 12px; font-family: Arial;'>  {0} </span> </td>", dr["Event_Time_To"]);
+                sbGrid.Append("</tr>");
+            }
+            sbGrid.Append("</table>");
+        }
+        else
+        {
+            sbGrid.Append("No Records found.");
+        }
+
+        return sbGrid.ToString();
+    }
+
+    public static string GetVehicleDetailsDOC(DataTable dtVehicle)
+    {
+        StringBuilder sbGrid = new StringBuilder(string.Empty);
+        sbGrid = new StringBuilder(string.Empty);
+        if (dtVehicle.Rows.Count > 0)
+        {
+            sbGrid.Append("<table width='100%' cellspacing='0' cellpadding='3' style='padding-bottom:5px;table-layout: fixed;white-space:nowrap;overflow: hidden;'>");
+            sbGrid.Append("<tr valign='top' align='center' style='page-break-inside: avoid'>");
+            sbGrid.Append("<td style='background-color: #95B3D7;border-collapse: collapse;border-style: solid; border-color: Black; border-width: 1px;width:20%; align:left;' ><span style='font-size: 12px; font-family: Arial;'><b>Make</b></span></td>");
+            sbGrid.Append("<td style='background-color: #95B3D7;border-collapse: collapse;border-style: solid; border-color: Black; border-width: 1px;width:15%; align:left;' ><span style='font-size: 12px; font-family: Arial;'><b>Model </b></span></td>");
+            sbGrid.Append("<td style='background-color: #95B3D7;border-collapse: collapse;border-style: solid; border-color: Black; border-width: 1px;width:15%; align:left;' ><span style='font-size: 12px; font-family: Arial;'><b>Color </b></span></td>");
+            sbGrid.Append("<td style='background-color: #95B3D7;border-collapse: collapse;border-style: solid; border-color: Black; border-width: 1px;width:15%; align:left;' ><span style='font-size: 12px; font-family: Arial;'><b>License</b></span></td>");
+            sbGrid.Append("<td style='background-color: #95B3D7;border-collapse: collapse;border-style: solid; border-color: Black; border-width: 1px;width:15%; align:left;' ><span style='font-size: 12px; font-family: Arial;'><b>State</b></span></td>");
+            sbGrid.Append("<td style='background-color: #95B3D7;border-collapse: collapse;border-style: solid; border-color: Black; border-width: 1px;width:20%; align:left;' ><span style='font-size: 12px; font-family: Arial;'><b>Suspect Vehicle</b></span></td>");
+            sbGrid.Append("</tr>");
+
+            foreach (DataRow dr in dtVehicle.Rows)
+            {
+                sbGrid.Append("<tr valign=top style='page-break-inside: avoid'>");
+                sbGrid.AppendFormat("<td style='border-collapse: collapse;border-style: solid; border-color: Black; border-width: 1px;width:20%; align:left;' ><span style='font-size: 12px; font-family: Arial;'>  {0} </span> </td>", dr["Make"]);
+                sbGrid.AppendFormat("<td style='border-collapse: collapse;border-style: solid; border-color: Black; border-width: 1px;width:15%; align:left;' ><span style='font-size: 12px; font-family: Arial;'>  {0} </span> </td>", dr["Model"]);
+                sbGrid.AppendFormat("<td style='border-collapse: collapse;border-style: solid; border-color: Black; border-width: 1px;width:15%; align:left;' ><span style='font-size: 12px; font-family: Arial;'>  {0} </span> </td>", dr["Color"]);
+                sbGrid.AppendFormat("<td style='border-collapse: collapse;border-style: solid; border-color: Black; border-width: 1px;width:15%; align:left;' ><span style='font-size: 12px; font-family: Arial;'>  {0} </span> </td>", dr["License"]);
+                sbGrid.AppendFormat("<td style='border-collapse: collapse;border-style: solid; border-color: Black; border-width: 1px;width:15%; align:left;' ><span style='font-size: 12px; font-family: Arial;'>  {0} </span> </td>", dr["STATE"]);
+                sbGrid.AppendFormat("<td style='border-collapse: collapse;border-style: solid; border-color: Black; border-width: 1px;width:20%; align:left;' ><span style='font-size: 12px; font-family: Arial;'>  {0} </span> </td>", dr["Suspect_Vehicle"]);
+                sbGrid.Append("</tr>");
+            }
+            sbGrid.Append("</table>");
+        }
+        else
+        {
+            sbGrid.Append("No Records found.");
+        }
+
+        return sbGrid.ToString();
+    }
+
+    public static string GetSuspectDetailsDOC(DataTable dtSuspect)
+    {
+        StringBuilder sbGrid = new StringBuilder(string.Empty);
+        sbGrid = new StringBuilder(string.Empty);
+        if (dtSuspect.Rows.Count > 0)
+        {
+            sbGrid.Append("<table width='100%' cellspacing='0' cellpadding='3' style='padding-bottom:5px;table-layout: fixed;white-space:nowrap;overflow: hidden;'>");
+            sbGrid.Append("<tr valign='top' align='center'>");
+            sbGrid.Append("<td style='background-color: #95B3D7;border-collapse: collapse;border-style: solid; border-color: Black; border-width: 1px;width:20%; align:left;' ><span style='font-size: 12px; font-family: Arial;'><b>Sex</b></span></td>");
+            sbGrid.Append("<td style='background-color: #95B3D7;border-collapse: collapse;border-style: solid; border-color: Black; border-width: 1px;width:80%; align:left;' ><span style='font-size: 12px; font-family: Arial;'><b>Notes</b></span></td>");
+            sbGrid.Append("</tr>");
+
+            foreach (DataRow dr in dtSuspect.Rows)
+            {
+                sbGrid.Append("<tr valign=top>");
+                sbGrid.AppendFormat("<td style='border-collapse: collapse;border-style: solid; border-color: Black; border-width: 1px;width:20%; align:left;' ><span style='font-size: 12px; font-family: Arial;'>  {0} </span> </td>", dr["Sex"]);
+                sbGrid.AppendFormat("<td style='border-collapse: collapse;border-style: solid; border-color: Black; border-width: 1px;width:80%; align:left;' ><span style='font-size: 12px; font-family: Arial;'>  {0} </span> </td>", dr["Description"]);
+                sbGrid.Append("</tr>");
+            }
+            sbGrid.Append("</table>");
+        }
+        else
+        {
+            sbGrid.Append("No Records found.");
+        }
+
+        return sbGrid.ToString();
+    }
+
+    public string GetACINotesDetailsDOC(DataTable dtACINote)
+    {
+        StringBuilder sbGrid = new StringBuilder(string.Empty);
+        sbGrid = new StringBuilder(string.Empty);
+        if (dtACINote.Rows.Count > 0)
+        {
+            sbGrid.Append("<table width='100%' cellspacing='0' cellpadding='3' style='padding-bottom:5px;table-layout: fixed;white-space:nowrap;overflow: hidden;'>");
+            sbGrid.Append("<tr valign='top' align='center'>");
+            sbGrid.Append("<td style='background-color: #95B3D7;border-collapse: collapse;border-style: solid; border-color: Black; border-width: 1px;width:20%; align:left;' ><span style='font-size: 12px; font-family: Arial;'><b>Note Date</b></span></td>");
+            sbGrid.Append("<td style='background-color: #95B3D7;border-collapse: collapse;border-style: solid; border-color: Black; border-width: 1px;width:80%; align:left;' ><span style='font-size: 12px; font-family: Arial;'><b>Notes</b></span></td>");
+            sbGrid.Append("</tr>");
+
+            foreach (DataRow dr in dtACINote.Rows)
+            {
+                sbGrid.Append("<tr valign=top>");
+                sbGrid.AppendFormat("<td style='border-collapse: collapse;border-style: solid; border-color: Black; border-width: 1px;width:20%; align:left;' ><span style='font-size: 12px; font-family: Arial;'>  {0} </span> </td>", clsGeneral.FormatDBNullDateToDisplay(dr["Note_Date"]));
+                sbGrid.AppendFormat("<td style='border-collapse: collapse;border-style: solid; border-color: Black; border-width: 1px;width:80%; align:left;' ><span style='font-size: 12px; font-family: Arial;'>  {0} </span> </td>", dr["Note"]);
+                sbGrid.Append("</tr>");
+            }
+            sbGrid.Append("</table>");
+        }
+        else
+        {
+            sbGrid.Append("No Records found.");
+        }
+
+        return sbGrid.ToString();
+    }
+
+    public string GetSonicNotesDetailsDOC(DataTable dtSonicNote)
+    {
+        StringBuilder sbGrid = new StringBuilder(string.Empty);
+        sbGrid = new StringBuilder(string.Empty);
+        if (dtSonicNote.Rows.Count > 0)
+        {
+            sbGrid.Append("<table width='100%' cellspacing='0' cellpadding='3' style='padding-bottom:5px;table-layout: fixed;white-space:nowrap;overflow: hidden;'>");
+            sbGrid.Append("<tr valign='top' align='center'>");
+            sbGrid.Append("<td style='background-color: #95B3D7;border-collapse: collapse;border-style: solid; border-color: Black; border-width: 1px;width:15%; align:left;' ><span style='font-size: 12px; font-family: Arial;'><b>Note Date</b></span></td>");
+            sbGrid.Append("<td style='background-color: #95B3D7;border-collapse: collapse;border-style: solid; border-color: Black; border-width: 1px;width:15%; align:left;' ><span style='font-size: 12px; font-family: Arial;'><b>User</b></span></td>");
+            sbGrid.Append("<td style='background-color: #95B3D7;border-collapse: collapse;border-style: solid; border-color: Black; border-width: 1px;width:70%; align:left;' ><span style='font-size: 12px; font-family: Arial;'><b>Notes</b></span></td>");
+            sbGrid.Append("</tr>");
+
+            foreach (DataRow dr in dtSonicNote.Rows)
+            {
+                sbGrid.Append("<tr valign=top>");
+                sbGrid.AppendFormat("<td style='border-collapse: collapse;border-style: solid; border-color: Black; border-width: 1px;width:15%; align:left;' ><span style='font-size: 12px; font-family: Arial;'>  {0} </span> </td>", clsGeneral.FormatDBNullDateToDisplay(dr["Note_Date"]));
+                sbGrid.AppendFormat("<td style='border-collapse: collapse;border-style: solid; border-color: Black; border-width: 1px;width:15%; align:left;' ><span style='font-size: 12px; font-family: Arial;'>  {0} </span> </td>", dr["Updated_by_Name"]);
+                sbGrid.AppendFormat("<td style='border-collapse: collapse;border-style: solid; border-color: Black; border-width: 1px;width:70%; align:left;' ><span style='font-size: 12px; font-family: Arial;'>  {0} </span> </td>", dr["Note"]);
+                sbGrid.Append("</tr>");
+            }
+            sbGrid.Append("</table>");
+        }
+        else
+        {
+            sbGrid.Append("No Records found.");
+        }
+
+        return sbGrid.ToString();
+    }
     #endregion
 
     #region "Grid Events"
@@ -2188,53 +2683,53 @@ public partial class Event_Event_New : clsBasePage
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    protected void gvEvent_Camera_RowCommand(object sender, GridViewCommandEventArgs e)
-    {
-        if (e.CommandName == "RemoveEventCamera")
-        {
-            #region
-            clsEvent_Camera.DeleteByPK(Convert.ToDecimal(e.CommandArgument));
+    //protected void gvEvent_Camera_RowCommand(object sender, GridViewCommandEventArgs e)
+    //{
+    //    if (e.CommandName == "RemoveEventCamera")
+    //    {
+    //        #region
+    //        clsEvent_Camera.DeleteByPK(Convert.ToDecimal(e.CommandArgument));
 
-            BindEvent_CameraGrid();
-            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
-            #endregion
-        }
-        else if (e.CommandName == "ViewEventCamera")
-        {
-            //Response.Redirect("Event_Note.aspx?nid=" + Encryption.Encrypt(e.CommandArgument.ToString()) + "&id=" + Encryption.Encrypt(PK_Event.ToString()) + "&iid=" + Encryption.Encrypt(FK_Incident.ToString()) + "&mode=" + StrOperation + "&type=ACI");
+    //        BindEvent_CameraGrid();
+    //        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
+    //        #endregion
+    //    }
+    //    else if (e.CommandName == "ViewEventCamera")
+    //    {
+    //        //Response.Redirect("Event_Note.aspx?nid=" + Encryption.Encrypt(e.CommandArgument.ToString()) + "&id=" + Encryption.Encrypt(PK_Event.ToString()) + "&iid=" + Encryption.Encrypt(FK_Incident.ToString()) + "&mode=" + StrOperation + "&type=ACI");
 
-            Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:AciNotePopup('" + Encryption.Encrypt(e.CommandArgument.ToString()) + "','" + Encryption.Encrypt(PK_Event.ToString()) + "','" + Encryption.Encrypt(FK_Incident.ToString()) + "','" + StrOperation + "','ACI');", true);
-        }
-        else if (e.CommandName == "EditRecord")
-        {
-            _PK_Event_Camera = Convert.ToDecimal(e.CommandArgument);
-            // show and hide Add-edit row
-            trEvent_CameraGrid.Style.Add("display", "none");
-            trEvent_Camera.Style.Add("display", "");
-            btnEvent_CameraCancel.Style.Add("display", "inline");
-            btnEvent_CameraAdd.Text = "Update";
-            // get record from database
+    //        Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:AciNotePopup('" + Encryption.Encrypt(e.CommandArgument.ToString()) + "','" + Encryption.Encrypt(PK_Event.ToString()) + "','" + Encryption.Encrypt(FK_Incident.ToString()) + "','" + StrOperation + "','ACI');", true);
+    //    }
+    //    else if (e.CommandName == "EditRecord")
+    //    {
+    //        _PK_Event_Camera = Convert.ToDecimal(e.CommandArgument);
+    //        // show and hide Add-edit row
+    //        trEvent_CameraGrid.Style.Add("display", "none");
+    //        trEvent_Camera.Style.Add("display", "");
+    //        btnEvent_CameraCancel.Style.Add("display", "inline");
+    //        btnEvent_CameraAdd.Text = "Update";
+    //        // get record from database
 
-            clsEvent_Camera objEvent_Camera = new clsEvent_Camera(_PK_Event_Camera);
-            txtCamera_Name.Text = objEvent_Camera.Camera_Name;
-            txtCamera_Number.Text = objEvent_Camera.Camera_Number;
-            txtEvent_Time_From.Text = objEvent_Camera.Event_Time_From;
-            txtEvent_Time_To.Text = objEvent_Camera.Event_Time_To;
-            ((ScriptManager)this.Master.FindControl("scMain")).SetFocus(txtCamera_Name);
-        }
-    }
+    //        clsEvent_Camera objEvent_Camera = new clsEvent_Camera(_PK_Event_Camera);
+    //        txtCamera_Name.Text = objEvent_Camera.Camera_Name;
+    //        txtCamera_Number.Text = objEvent_Camera.Camera_Number;
+    //        txtEvent_Time_From.Text = objEvent_Camera.Event_Time_From;
+    //        txtEvent_Time_To.Text = objEvent_Camera.Event_Time_To;
+    //        ((ScriptManager)this.Master.FindControl("scMain")).SetFocus(txtCamera_Name);
+    //    }
+    //}
 
     /// <summary>
     /// Paging event of gvEvent_Camera
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    protected void gvEvent_Camera_PageIndexChanging(object sender, GridViewPageEventArgs e)
-    {
-        gvEvent_Camera.PageIndex = e.NewPageIndex; //Page new index call
-        BindEvent_CameraGrid();
-        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
-    }
+    //protected void gvEvent_Camera_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    //{
+    //    gvEvent_Camera.PageIndex = e.NewPageIndex; //Page new index call
+    //    BindEvent_CameraGrid();
+    //    Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
+    //}
 
     /// <summary>
     /// gvEvent_Camera_sonic on Edit Or Delete
@@ -2604,21 +3099,21 @@ public partial class Event_Event_New : clsBasePage
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    protected void gvBuildingEditACI_RowCommand(object sender, GridViewCommandEventArgs e)
-    {
-        if (e.CommandName == "ViewBuildingDetail")// if passed command is for viewing building details
-        {
-            // navigate to property page
-            Response.Redirect(AppConfig.SiteURL + "SONIC/Exposures/PropertyView.aspx?loc=" + Encryption.Encrypt(Convert.ToString(e.CommandArgument)) + "&pnl=2", true);
+    //protected void gvBuildingEditACI_RowCommand(object sender, GridViewCommandEventArgs e)
+    //{
+    //    if (e.CommandName == "ViewBuildingDetail")// if passed command is for viewing building details
+    //    {
+    //        // navigate to property page
+    //        Response.Redirect(AppConfig.SiteURL + "SONIC/Exposures/PropertyView.aspx?loc=" + Encryption.Encrypt(Convert.ToString(e.CommandArgument)) + "&pnl=2", true);
 
-        }
-        else if (e.CommandName == "RemoveEventBuilding") // if passed command is for removing building details
-        {
-            // delete from Event_Link_Building table
-            clsEvent_Link_Building.DeleteByPK(Convert.ToInt32(e.CommandArgument));
-            BindBuilding_ACI();
-        }
-    }
+    //    }
+    //    else if (e.CommandName == "RemoveEventBuilding") // if passed command is for removing building details
+    //    {
+    //        // delete from Event_Link_Building table
+    //        clsEvent_Link_Building.DeleteByPK(Convert.ToInt32(e.CommandArgument));
+    //        BindBuilding_ACI();
+    //    }
+    //}
 
     /// <summary>
     /// GridView Sorting Event

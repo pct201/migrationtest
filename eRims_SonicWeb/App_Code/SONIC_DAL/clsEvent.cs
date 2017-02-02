@@ -2504,6 +2504,7 @@ namespace ERIMS.DAL
             DbCommand dbCommand = db.GetStoredProcCommand("GetEventAbstractLetterData");
 
             db.AddInParameter(dbCommand, "PK_Event", DbType.Decimal, PK_Event);
+            dbCommand.CommandTimeout = 10000;
 
             return db.ExecuteDataSet(dbCommand);
         }
@@ -2574,6 +2575,21 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "FK_Event", DbType.Decimal, FK_Event);
 
             return db.ExecuteDataSet(dbCommand);
+        }
+
+        /// <summary>
+        /// Make Non-Actionable Event
+        /// </summary>
+        public static void MakeNonActionable(decimal PK_Event, decimal Updated_By)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("MakeNonActionable");
+
+            db.AddInParameter(dbCommand, "PK_Event", DbType.Decimal, PK_Event);
+            db.AddInParameter(dbCommand, "Updated_By", DbType.Decimal, Updated_By);
+
+            dbCommand.CommandTimeout = 50000;
+            db.ExecuteNonQuery(dbCommand);
         }
     }
 }

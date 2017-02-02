@@ -662,4 +662,11 @@ public class clsSession
             HttpContext.Current.Session["dt_Building"] = value;
         }
     }
+
+
+    public static bool IsACIUser
+    {
+        get { return Convert.ToBoolean(HttpContext.Current.Session["IsACIUser"]); }
+        set { HttpContext.Current.Session["IsACIUser"] = value; }
+    }
 }

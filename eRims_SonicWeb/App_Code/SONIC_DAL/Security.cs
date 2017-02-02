@@ -622,6 +622,22 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
+        public static bool IsACIUser(decimal PK_Security_ID)
+        {
+            bool bReturn = false;
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("GetACIGroup");
+
+            db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Int32, PK_Security_ID);
+            DataSet ds = db.ExecuteDataSet(dbCommand);
+
+            if (ds != null && ds.Tables[0].Rows.Count > 0)
+            {
+                bReturn = Convert.ToBoolean(ds.Tables[0].Rows[0]["ACI_User_Group"]);
+            }
+            return bReturn; 
+        }
+
         #endregion
     }
 }

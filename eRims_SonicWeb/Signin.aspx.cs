@@ -67,6 +67,8 @@ public partial class Signin : System.Web.UI.Page
                 clsSession.UserAllowToViewClaimInformation = objSecurity.Allow_ViewClaim;
                 clsSession.IsUserRegionalOfficer = objSecurity.IsRegionalOfficer;
                 clsSession.IsUserPurchsingAdmin = Security.IsUserPurchasingAdmin(objSecurity.PK_Security_ID);
+                clsSession.IsACIUser = Security.IsACIUser(objSecurity.PK_Security_ID);
+                
                 DataSet dsRegion = Regional_Access.SelectBySecurityID(Convert.ToInt32(objSecurity.PK_Security_ID));
 
                 Login_Logout objLogin_Logout = new Login_Logout();
@@ -140,6 +142,8 @@ public partial class Signin : System.Web.UI.Page
                         Session["LoginAuditID"] = objLogin_Logout.Insert();
                     if (Request.QueryString["ReturnUrl"] != null)
                         Response.Redirect(Request.QueryString["ReturnUrl"]);
+                    else if (clsSession.IsACIUser)
+                        Response.Redirect(AppConfig.SiteURL + "Default.aspx", false);
                     else
                         Response.Redirect(AppConfig.SiteURL + "DashBoard/DashboardGraph.aspx", false);                        
                         //pnlPopup.Visible = true;

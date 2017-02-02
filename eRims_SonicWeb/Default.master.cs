@@ -20,8 +20,11 @@ public partial class _Default : System.Web.UI.MasterPage
         if (!IsPostBack)
         {
             hdnLoginAuditID.Value = Convert.ToString(Session["LoginAuditID"]);
-            smdAdmin.SiteMapProvider = "Admin";
-        }     
+            if (clsSession.IsACIUser)
+                smdAdmin.SiteMapProvider = "AdminACI";
+            else
+                smdAdmin.SiteMapProvider = "Admin";
+        }
         //header.Style.Add("background-image", Server.MapPath("~") + "/images/header.jpg");
         //Response.Write(Server.MapPath("~") + "/images/header.jpg");
     }

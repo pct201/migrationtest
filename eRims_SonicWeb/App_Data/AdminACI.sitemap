@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+  <siteMapNode>
+    <siteMapNode url="" title="ACI"  description="" roles="">
+      <siteMapNode url="Event/EventSearch_New.aspx" title="ACI Event Search" description="" roles=""></siteMapNode>
+      <siteMapNode url="" title="ACI Management" description="">
+        <siteMapNode url="Management/ManagementSearch.aspx" title="ACI Management Search" description="" roles=""></siteMapNode>
+        <siteMapNode title="Attachment Download" description="Search" url="Management/ACI_Management_Attachment_Download.aspx" roles=""></siteMapNode>
+      </siteMapNode>
+      <siteMapNode url="https://www.amsvideo.com" title="Immix Webportal" description="" roles=""></siteMapNode>
+    </siteMapNode>
+    <siteMapNode url="" title="Reports"  description="" roles="">
+      <siteMapNode url="javascript:void(0);" title="Standard Reports" description="">
+        <siteMapNode url="" title="ACI Event" description="">
+          <siteMapNode url="Event/ACI_Event_Report.aspx" title="ACI Event Report" description="ACI Event Report"/>
+        </siteMapNode>
+      </siteMapNode>
+      <siteMapNode url="" title="Ad-Hoc Report Writer" description="">
+        <siteMapNode url="Event/ACIEvents_AdHocReportWriter.aspx" title="ACI Events" description="ACI Events"/>
+        <siteMapNode url="Management/ACIManagement_AdHocReportWriter.aspx" title="ACI Management" description="ACI Management"/>
+      </siteMapNode>
+    </siteMapNode>
+    <siteMapNode url="" title="Administrator"  description="" roles="">
+      <siteMapNode url="" title="User" description="">
+        <siteMapNode url="Administrator/security.aspx" title="User Security"  description="" roles="" />
+        <siteMapNode url="Administrator/EmployeeSearchResult.aspx" title="Employee"  description="Employee" roles="" />
+        <siteMapNode url="Administrator/ChangePassword.aspx" title="Change Password"  description="" roles="" />
+        <siteMapNode url="Administrator/Groups.aspx" title="Group"  description="" roles="" />
+        <siteMapNode url="Administrator/Rights.aspx" title="Rights"  description="" roles="" />
+        <siteMapNode url="Administrator/Recipient.aspx" title="Recipient"  description="" roles="" />
+        <siteMapNode url="Administrator/RecipientList.aspx" title="Recipient List"  description="" roles="" />
+        <siteMapNode url="Administrator/ReportScheduleList.aspx" title ="Report Schedule List" description="" roles="" />
+        <siteMapNode url="Administrator/AttachmentFolders.aspx" title ="Document Folder Maintenance" description="Document Folder Maintenance" roles=""/>
+        <siteMapNode url="" title="Lookup Table Maintenance"  description="" roles="">
+          <siteMapNode url="" title="ACI" description="">
+            <siteMapNode url="Administrator/LU_Event_Description.aspx" title="Event Description" description=""></siteMapNode>
+            <siteMapNode url="Administrator/LU_Event_DBA.aspx" title="Event Named DBA" description=""></siteMapNode>
+            <siteMapNode url="Administrator/LU_Incident_Type.aspx" title="Event Type" description=""></siteMapNode>
+            <siteMapNode url="Administrator/ACI_Link_Lu_location.aspx" title="ADD Group ID" description=""></siteMapNode>
+          </siteMapNode>
+          <siteMapNode url="" title ="Management" description="" roles="" >
+            <!--<siteMapNode url="Administrator/LU_Approval_Submission.aspx" title="Approval Submission" description="" roles=""></siteMapNode>-->
+            <siteMapNode url="Administrator/LU_Record_Type.aspx" title ="Record Type" description="" roles="" />
+            <siteMapNode url="Administrator/LU_Work_Completed.aspx" title ="Work Completed" description="" roles="" />
+            <siteMapNode url="Administrator/LU_Work_To_Be_Completed_By.aspx" title ="Work To Be Completed By" description="" roles="" />
+            <siteMapNode url="Administrator/LU_Maintenance_Status.aspx" title="Maintenance Status" description="" roles="" />
+          </siteMapNode>
+        </siteMapNode>
+        <siteMapNode url="Administrator\UserHelp.aspx" title ="User Help" description="User Help" roles="" />
+      </siteMapNode>
+    </siteMapNode>
+  </siteMapNode>
+</siteMap>

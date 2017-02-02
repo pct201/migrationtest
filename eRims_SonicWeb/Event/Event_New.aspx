@@ -483,10 +483,18 @@
                 if (Is_Sonic_Event == "True") {
                     document.getElementById("<%=trACIReportedEvent.ClientID%>").style.display = "none";
                     document.getElementById("<%=trSonicReportedEvent.ClientID%>").style.display = "";
+                    var objvalidator = document.getElementById("<%=csvrptEventType.ClientID%>");
+                    objvalidator.enabled = false;
+                    var objvalidator = document.getElementById("<%=csvrptEventTypeSonic.ClientID%>");
+                    objvalidator.enabled = true;
                 }
                 else {
                     document.getElementById("<%=trACIReportedEvent.ClientID%>").style.display = "";
                     document.getElementById("<%=trSonicReportedEvent.ClientID%>").style.display = "none";
+                    var objvalidator = document.getElementById("<%=csvrptEventType.ClientID%>");
+                    objvalidator.enabled = true;
+                    var objvalidator = document.getElementById("<%=csvrptEventTypeSonic.ClientID%>");
+                    objvalidator.enabled = false;
                 }
             }
         }
@@ -545,7 +553,38 @@
                 rdoSonicNo.checked = true;
             
         }
-        
+
+        function ValidateEventTypeSonic(sender, args) {
+            var gridView = document.getElementById("ctl00_ContentPlaceHolder1_trrptEventTypeSonic");
+            var checkBoxes = gridView.getElementsByTagName("input");
+            for (var i = 0; i < checkBoxes.length; i++) {
+                if (checkBoxes[i].type == "checkbox" && checkBoxes[i].checked) {
+                    args.IsValid = true;
+                    return;
+                }
+            }
+            args.IsValid = false;
+        }
+
+        function ValidateEventType(sender, args) {
+            var gridView = document.getElementById("ctl00_ContentPlaceHolder1_pnl1");
+            var checkBoxes = gridView.getElementsByTagName("input");
+            for (var i = 0; i < checkBoxes.length; i++) {
+                if (checkBoxes[i].type == "checkbox" && checkBoxes[i].checked) {
+                    args.IsValid = true;
+                    return;
+                }
+            }
+            args.IsValid = false;
+        }
+
+        function ConfirmDelete() {
+            if (confirm("Are you sure that you want to delete the selected information and all of its subordinate data (if exists)?")) {
+                document.getElementById("ctl00_ContentPlaceHolder1_btnhdnNonactionable").click();
+                return true;
+            }
+            else return false;
+        }
     </script>
     <link href="<%=AppConfig.SiteURL%>greybox/gb_styles.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="<%=AppConfig.SiteURL%>greybox/AJS.js"></script>
@@ -697,6 +736,9 @@
                                                     <tr>
                                                         <td colspan="3">
                                                             <u><b>Actionable Event Type</b></u>
+                                                            &nbsp;&nbsp;&nbsp;<b>Make Non-Actionable :</b>&nbsp;&nbsp;
+                                                            <asp:CheckBox ID="chkNonActionable" runat="server" OnClick="return ConfirmDelete();" />
+                                                            <asp:Button ID="btnhdnNonactionable" runat="server" OnClick="btnhdnNonactionable_Click" Style="display: none;" />
                                                         </td>
                                                         <td colspan="3">
                                                             <u><b>Description of Event</b></u>
@@ -728,6 +770,8 @@
                                                                     </table>
                                                                 </ItemTemplate>
                                                             </asp:Repeater>
+                                                             <asp:CustomValidator ID="csvrptEventType" runat="server" ErrorMessage="[ACI Reported Event] / Please Select Actionable Event Type"
+                                                                ClientValidationFunction="ValidateEventType" ValidationGroup="vsErrorGroup" Display="None"></asp:CustomValidator>
                                                         </td>
                                                         <td colspan="3" valign="top">
                                                             <uc:ctrlMultiLineTextBox ID="txtEventDesciption" runat="server" Width="450" />
@@ -792,7 +836,7 @@
                                                         <td colspan="6">&nbsp;
                                                         </td>
                                                     </tr>
-                                                    <tr>
+                                                    <%--<tr>
                                                         <td colspan="6">
                                                             <asp:GridView ID="gvBuildingEditACI" runat="server" EmptyDataText="No Building Records Found"
                                                                 AutoGenerateColumns="false" Width="100%" OnRowDataBound="gvBuildingEditACI_RowDataBound"
@@ -959,12 +1003,12 @@
                                                                         <ItemStyle Width="10%" HorizontalAlign="Center" />
                                                                         <ItemTemplate>
                                                                             <asp:LinkButton runat="server" ID="lnkEdit" Text=" Edit " CommandName="EditRecord"
-                                                                                CommandArgument='<%#Eval("PK_Event_Camera") %>' Visible="false">
+                                                                                CommandArgument='<%#Eval("PK_Event_Camera") %>' Visible='<%#Convert.ToBoolean(!Is_Closed_Event) %>'>
                                                                             </asp:LinkButton>
                                                                             &nbsp;&nbsp;&nbsp;
                                                                             <asp:LinkButton ID="lnkRemove" runat="server" Text="Delete" CommandArgument='<%#Eval("PK_Event_Camera") %>'
                                                                                 CommandName="RemoveEventCamera" OnClientClick="return confirm('Are you sure to remove Event Camera record?');"
-                                                                                CausesValidation="false" Visible="false" />
+                                                                                CausesValidation="false" Visible='<%#Convert.ToBoolean(!Is_Closed_Event) %>' />
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                 </Columns>
@@ -1027,7 +1071,7 @@
                                                                 </tr>
                                                             </table>
                                                         </td>
-                                                    </tr>
+                                                    </tr>--%>
                                                     <tr>
                                                         <td align="left" valign="top">Event Image
                                                         </td>
@@ -1247,7 +1291,7 @@
                                                                                     <asp:HiddenField ID="hdnPK_Vehicle_Information" runat="server" Value='<%# Eval("PK_Vehicle_Information") %>' />
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
-                                                                            <asp:TemplateField HeaderText="Make">
+                                                                            <asp:TemplateField HeaderText="Make">   
                                                                                 <ItemStyle Width="15%" />
                                                                                 <ItemTemplate>
                                                                                     <asp:Label ID="lblMake" CssClass="TextClip" runat="server" Text='<%# Eval("Make")%>' Width="100px"></asp:Label>
@@ -1272,19 +1316,19 @@
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
                                                                             <asp:TemplateField HeaderText="State">
-                                                                                <ItemStyle Width="15%" />
+                                                                                <ItemStyle Width="10%" />
                                                                                 <ItemTemplate>
                                                                                     <%# Eval("STATE")%>
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
                                                                             <asp:TemplateField HeaderText="Suspect Vehicle">
-                                                                                <ItemStyle Width="10%" />
+                                                                                <ItemStyle Width="15%" />
                                                                                 <ItemTemplate>
                                                                                     <%# Eval("Suspect_Vehicle")%>
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
                                                                             <asp:TemplateField HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center">
-                                                                                <ItemStyle Width="10%" HorizontalAlign="Center" />
+                                                                                <ItemStyle Width="15%" HorizontalAlign="Center" />
                                                                                 <ItemTemplate>
                                                                                     <asp:LinkButton runat="server" ID="lnkEdit" Text=" Edit " CommandName="EditRecord"
                                                                                         CommandArgument='<%#Eval("PK_Vehicle_Information") %>' Visible='<%#Convert.ToBoolean(!Is_Closed_Event) %>'>
@@ -2181,6 +2225,8 @@
                                                                     </table>
                                                                 </ItemTemplate>
                                                             </asp:Repeater>
+                                                            <asp:CustomValidator ID="csvrptEventTypeSonic" runat="server" ErrorMessage="[Sonic Reported Event] / Please Select Actionable Event Type"
+                                                                ClientValidationFunction="ValidateEventTypeSonic" ValidationGroup="vsErrorGroup" Display="None"></asp:CustomValidator>
                                                         </td>
                                                         <td colspan="3" valign="top">
                                                             <uc:ctrlMultiLineTextBox ID="txtEventDesciptionSonic" runat="server" Width="450" />

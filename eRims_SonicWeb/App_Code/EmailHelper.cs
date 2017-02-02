@@ -327,6 +327,78 @@ public class EmailHelper
             mMailMessage.Dispose();
         }
 
+    }
+
+    public bool SendEventMailMessageDOC(string fromEmail, string fromName, string[] toEmail, string subject, string body, bool isHtml, string[] strFilePath, string cc)
+    {
+        if (!AppConfig.AllowMailSending)
+            return false;
+        // Instantiate a new instance of MailMessage 
+        MailMessage mMailMessage = new MailMessage();
+        mMailMessage.From = new MailAddress(fromEmail);
+        foreach (string strEmailTO in toEmail)
+        {
+            mMailMessage.To.Add(strEmailTO);
+        }
+        string[] adds = null;
+
+        //// Set the sender address of the mail message 
+        //if (string.IsNullOrEmpty(fromName)) { 
+        //    mMailMessage.From = new MailAddress(fromEmail); 
+        //} 
+        //else { 
+        //    mMailMessage.From = new MailAddress(fromEmail, fromName); 
+        //}
+        //mMailMessage.To = new MailAddress(toEmail,);
+        // Check if the attachments value is nothing or an empty value 
+        if (strFilePath != null)
+        {
+            int Imagecouter = 0;
+            foreach (string strAttachment in strFilePath)
+            {
+                if (File.Exists(strAttachment))
+                {
+                    System.Net.Mail.Attachment MailAttachment = new System.Net.Mail.Attachment(strAttachment);
+                    //MailAttachment.ContentId = "Event_Images_" + Imagecouter;
+                    if (MailAttachment != null)
+                    {
+                        mMailMessage.Attachments.Add(MailAttachment);
+                    }
+                }
+                Imagecouter++;
+            }
+        }
+        if (cc.ToString() != string.Empty)
+        {
+            mMailMessage.CC.Add(new MailAddress(cc));
+        }
+        // Set the subject of the mail message 
+        mMailMessage.Subject = subject;
+        // Set the body of the mail message 
+        mMailMessage.Body = body;
+        // Set the format of the mail message body as HTML 
+        mMailMessage.IsBodyHtml = isHtml;
+        // Set the priority of the mail message to normal 
+        mMailMessage.Priority = MailPriority.Normal;
+
+        //' Instantiate a new instance of SmtpClient 
+        //Dim mSmtpClient As New SmtpClient() 
+
+        try
+        {
+            //Send the mail message 
+            _smtpClient.Send(mMailMessage);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            return false;
+        }
+        finally
+        {
+            mMailMessage.Dispose();
+        }
+
     } 
 
     #endregion 

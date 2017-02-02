@@ -58,7 +58,7 @@
                                 </asp:DropDownList>
                             </td>
                         </tr>
-                        <tr>
+                        <%--<tr>
                             <td align="left" valign="top">
                                 Camera Name
                             </td>
@@ -77,7 +77,7 @@
                             <td align="left" valign="top">
                                 <asp:TextBox ID="txtCameraNumber" runat="server" MaxLength="20" Width="170px"></asp:TextBox>
                             </td>
-                        </tr>
+                        </tr>--%>
                         <tr>
                             <td align="left" width="16%" valign="top">
                                 Location
@@ -156,7 +156,7 @@
                                     <asp:ListItem Text="All" Value="A" Selected="True"></asp:ListItem>
                                 </asp:RadioButtonList>
                             </td>
-                            <td align="left" valign="top">
+                            <%--<td align="left" valign="top">
                                 Is Actionable
                             </td>
                             <td align="center" valign="top">
@@ -167,9 +167,9 @@
                                     <asp:ListItem Text="Yes" Value="Y" Selected="True"></asp:ListItem>
                                     <asp:ListItem Text="No" Value="N"></asp:ListItem>
                                 </asp:RadioButtonList>
-                            </td>
+                            </td>--%>
                         </tr>
-                        <tr>
+                        <%--<tr>
                             <td align="left" valign="top">
                                 Actionable Event to be Included in Grid
                             </td>
@@ -185,7 +185,7 @@
                             </td>
                             <td colspan="3">
                             </td>
-                        </tr>
+                        </tr>--%>
                     </table>
                 </td>
             </tr>
@@ -270,12 +270,14 @@
                                         <EmptyDataRowStyle CssClass="emptyrow" />
                                         <Columns>
                                             <asp:TemplateField HeaderText="Disposition" HeaderStyle-HorizontalAlign="Left">
-                                                <ItemStyle Width="130px" HorizontalAlign="Left" />
+                                                <ItemStyle Width="160px" HorizontalAlign="Left" />
                                                 <ItemTemplate>
                                                     <asp:LinkButton ID="btnSelect" CommandName="SelectEvent" CommandArgument='<%#Eval("PK_Event") + "," +Eval("FK_Incident")%>'
                                                         runat="server" CausesValidation="false" Text="Select" ToolTip="Select Event" />&nbsp;&nbsp;
                                                     <asp:LinkButton ID="btnOpen" CommandName="OpenEvent" CommandArgument='<%#Eval("PK_Event") + "," +Eval("FK_Incident")%>'
                                                         runat="server" CausesValidation="false" Text="Open" ToolTip="Open Event" />&nbsp;&nbsp;
+                                                    <asp:LinkButton ID="btnEdit" CommandName="EditEvent" CommandArgument='<%#Eval("PK_Event") + "," +Eval("FK_Incident")%>'
+                                                        runat="server" CausesValidation="false" Text="Edit" ToolTip="Edit Event" />&nbsp;&nbsp;
                                                     <asp:LinkButton ID="btnDelete" runat="server" Text="Delete" CommandName="DeleteEvent" 
                                                         ToolTip="Delete Event" CommandArgument='<%#Eval("PK_Event")%>' CausesValidation="false"
                                                         OnClientClick="return ConfirmDelete();" />&nbsp;&nbsp;
