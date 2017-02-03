@@ -183,5 +183,19 @@ namespace ERIMS.DAL
 
             db.ExecuteNonQuery(dbCommand);
         }
+
+        /// <summary>
+        /// Selects records from the ACI_Link_LU_Location table by FK_LU_Location.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static DataSet ACI_Link_LU_LocationSelectByFK_LU_Location(decimal FK_LU_Location)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("ACI_Link_LU_LocationSelectByFK_LU_Location");
+
+            db.AddInParameter(dbCommand, "FK_LU_Location", DbType.Decimal, FK_LU_Location);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
     }
 }

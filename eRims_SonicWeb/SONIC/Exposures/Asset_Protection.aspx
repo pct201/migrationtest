@@ -803,11 +803,14 @@ function SetRiskCategory() {
                                                             <asp:RadioButtonList ID="rdoCal_Atlantic_System" runat="server" SkinID="YesNoType">
                                                             </asp:RadioButtonList>
                                                         </td>
-                                                        <td align="left" valign="top">&nbsp;
+                                                        <td align="left" valign="top">
+                                                            Group ID
                                                         </td>
-                                                        <td align="center" valign="top">&nbsp;
+                                                        <td align="center" valign="top">
+                                                            :
                                                         </td>
-                                                        <td align="left" valign="top">&nbsp;
+                                                        <td align="left" valign="top">
+                                                            <asp:Label ID="lblGroupID" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -819,11 +822,14 @@ function SetRiskCategory() {
                                                             <asp:RadioButtonList ID="rdoLive_Monitoring" runat="server" SkinID="YesNoType">
                                                             </asp:RadioButtonList>
                                                         </td>
-                                                        <td align="left" valign="top">&nbsp;
+                                                        <td align="left" valign="top">
+                                                            Create Date
                                                         </td>
-                                                        <td align="center" valign="top">&nbsp;
+                                                        <td align="center" valign="top">
+                                                            :
                                                         </td>
-                                                        <td align="left" valign="top">&nbsp;
+                                                        <td align="left" valign="top">
+                                                            <asp:Label ID="lblCreated_Date" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -5519,11 +5525,14 @@ function SetRiskCategory() {
                                                         <td align="left" valign="top">
                                                             <asp:Label ID="lblCal_Atlantic_System" runat="server"></asp:Label>
                                                         </td>
-                                                        <td align="left" valign="top">&nbsp;
+                                                        <td align="left" valign="top">
+                                                            Group ID
                                                         </td>
-                                                        <td align="center" valign="top">&nbsp;
+                                                        <td align="center" valign="top">
+                                                            :
                                                         </td>
-                                                        <td align="left" valign="top">&nbsp;
+                                                        <td align="left" valign="top">
+                                                            <asp:Label ID="lblGroupIDview" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -5534,11 +5543,14 @@ function SetRiskCategory() {
                                                         <td align="left" valign="top">
                                                             <asp:Label ID="lblLive_Monitoring" runat="server"></asp:Label>
                                                         </td>
-                                                        <td align="left" valign="top">&nbsp;
+                                                        <td align="left" valign="top">
+                                                            Create Date
                                                         </td>
-                                                        <td align="center" valign="top">&nbsp;
+                                                        <td align="center" valign="top">
+                                                            :
                                                         </td>
-                                                        <td align="left" valign="top">&nbsp;
+                                                        <td align="left" valign="top">
+                                                            <asp:Label ID="lblCreated_DateView" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>

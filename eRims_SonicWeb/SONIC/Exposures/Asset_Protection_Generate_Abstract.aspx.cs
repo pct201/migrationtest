@@ -683,6 +683,8 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
             htFindAndReplace.Add("[Live_Burglary_Monitoring]", objAP_Property_Security.Live_Burglary_Monitoring == "Y" ? "Yes" : "No");
             htFindAndReplace.Add("[Hours_Monitored_From]", objAP_Property_Security.Hours_Monitored_From);
             htFindAndReplace.Add("[Hours_Monitored_To]", objAP_Property_Security.Hours_Monitored_To);
+            htFindAndReplace.Add("[Group_ID]", objAP_Property_Security.Group_ID != null ? Convert.ToString(objAP_Property_Security.Group_ID) : "");
+            htFindAndReplace.Add("[Create_Date]", clsGeneral.FormatDBNullDateToDisplay(objAP_Property_Security.Created_Date));
             if (objAP_Property_Security.ECC_Back == "Y")
             {
                 htFindAndReplace.Add("[imgEccBack]", ImgChecked);
@@ -1167,6 +1169,8 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
             strEbdy = strEbdy.Replace("[Live_Monitoring]", objAP_Property_Security.Live_Monitoring == "Y" ? "Yes" : "No");
             strEbdy = strEbdy.Replace("[Hours_Monitored_From]", objAP_Property_Security.Hours_Monitored_From);
             strEbdy = strEbdy.Replace("[Hours_Monitored_To]", objAP_Property_Security.Hours_Monitored_To);
+            strEbdy = strEbdy.Replace("[Group_ID]", objAP_Property_Security.Group_ID != null ? Convert.ToString(objAP_Property_Security.Group_ID) : "");
+            strEbdy = strEbdy.Replace("[Create_Date]", clsGeneral.FormatDBNullDateToDisplay(objAP_Property_Security.Created_Date));
             if (objAP_Property_Security.ECC_Back == "Y")
             {
                 strEbdy = strEbdy.Replace("[imgEccBack]", ImgChecked);
@@ -1581,6 +1585,8 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
             htFindAndReplace.Add("[Live_Burglary_Monitoring]", objAP_Property_Security.Live_Burglary_Monitoring == "Y" ? "Yes" : "No");
             htFindAndReplace.Add("[Hours_Monitored_From]", objAP_Property_Security.Hours_Monitored_From);
             htFindAndReplace.Add("[Hours_Monitored_To]", objAP_Property_Security.Hours_Monitored_To);
+            htFindAndReplace.Add("[Group_ID]", objAP_Property_Security.Group_ID != null ? Convert.ToString(objAP_Property_Security.Group_ID) : "");
+            htFindAndReplace.Add("[Create_Date]", clsGeneral.FormatDBNullDateToDisplay(objAP_Property_Security.Created_Date));
             if (objAP_Property_Security.ECC_Back == "Y")
             {
                 htFindAndReplace.Add("[imgEccBack]", ImgChecked);

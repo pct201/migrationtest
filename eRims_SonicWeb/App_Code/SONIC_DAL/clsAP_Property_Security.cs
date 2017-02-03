@@ -124,6 +124,8 @@ namespace ERIMS.DAL
         private string _FK_Building_Id;
         private string _ACI_Burglary_System;
         private string _Live_Burglary_Monitoring;
+        private decimal? _Group_ID;
+        private DateTime? _Created_Date;
 
         #endregion
 
@@ -1128,6 +1130,24 @@ namespace ERIMS.DAL
             get { return _Live_Burglary_Monitoring; }
             set { _Live_Burglary_Monitoring = value; }
         }
+
+        /// <summary>
+        /// Gets or sets the Group_ID value.
+        /// </summary>
+        public decimal? Group_ID
+        {
+            get { return _Group_ID; }
+            set { _Group_ID = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Created_Date value.
+        /// </summary>
+        public DateTime? Created_Date
+        {
+            get { return _Created_Date; }
+            set { _Created_Date = value; }
+        }
         #endregion
 
         #region Default Constructors
@@ -1716,6 +1736,16 @@ namespace ERIMS.DAL
                 this._Live_Burglary_Monitoring = null;
             else
                 this._Live_Burglary_Monitoring = (string)drAP_Property_Security["Live_Burglary_Monitoring"];
+
+            if (drAP_Property_Security["Group_ID"] == DBNull.Value)
+                this._Group_ID = null;
+            else
+                this._Group_ID = (decimal?)drAP_Property_Security["Group_ID"];
+
+            if (drAP_Property_Security["Created_Date"] == DBNull.Value)
+                this._Created_Date = null;
+            else
+                this._Created_Date = (DateTime?)drAP_Property_Security["Created_Date"];
         }
 
 

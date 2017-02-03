@@ -591,6 +591,25 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         rdoLive_Monitoring.SelectedValue = objAP_Property_Security.Live_Monitoring;
         rdoACI_Burglary_System.SelectedValue = objAP_Property_Security.ACI_Burglary_System;
         rdoLive_Burglary_Monitoring.SelectedValue = objAP_Property_Security.Live_Burglary_Monitoring;
+        if (PK_AP_Property_Security == 0)
+        {
+            if (LocationID != null)
+            {
+                DataSet ds = clsACI_Link_LU_Location.ACI_Link_LU_LocationSelectByFK_LU_Location(LocationID);
+
+                if (ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows[0]["Group_ID"] != null)
+                    lblGroupID.Text = Convert.ToString(ds.Tables[0].Rows[0]["Group_ID"]);
+            }
+            lblCreated_Date.Text = clsGeneral.FormatDBNullDateToDisplay(DateTime.Now);
+        }
+        else
+        {
+            if (objAP_Property_Security.Group_ID != null)
+                lblGroupID.Text = Convert.ToString(objAP_Property_Security.Group_ID);
+            else
+                lblGroupID.Text = string.Empty;
+            lblCreated_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objAP_Property_Security.Created_Date);
+        }
         //txtHours_Monitored_From.Text = objAP_Property_Security.Hours_Monitored_From;
         //txtHours_Monitored_To.Text = objAP_Property_Security.Hours_Monitored_To;
         txtExterior_Camera_Coverage_Other_Description.Text = objAP_Property_Security.Exterior_Camera_Coverage_Other_Description;
@@ -750,6 +769,12 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             lblLive_Monitoring.Text = objAP_Property_Security.Live_Monitoring == "Y" ? "Yes" : "No";
         else
             lblLive_Monitoring.Text = string.Empty;
+        if (objAP_Property_Security.Group_ID != null)
+            lblGroupIDview.Text = Convert.ToString(objAP_Property_Security.Group_ID);
+        else
+            lblGroupIDview.Text = string.Empty;
+        lblCreated_DateView.Text = clsGeneral.FormatDBNullDateToDisplay(objAP_Property_Security.Created_Date);
+
         //lblHours_Monitored_From.Text = objAP_Property_Security.Hours_Monitored_From;
         //lblHours_Monitored_To.Text = objAP_Property_Security.Hours_Monitored_To;
         lblExterior_Camera_Coverage_Other_Description.Text = objAP_Property_Security.Exterior_Camera_Coverage_Other_Description;
