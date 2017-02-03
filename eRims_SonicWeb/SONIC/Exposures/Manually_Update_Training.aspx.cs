@@ -284,7 +284,7 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
             RadioButtonList rblIs_Complete = (RadioButtonList)e.Row.FindControl("rblIs_Complete");
-            rblIs_Complete.SelectedValue = (Convert.ToString(DataBinder.Eval(e.Row.DataItem, "Is_Complete")).ToLower() == "false") ? "0" : "1";
+            rblIs_Complete.SelectedValue = (Convert.ToString(DataBinder.Eval(e.Row.DataItem, "Is_Complete")).ToLower() == "0") ? "0" : "1";
             HiddenField hdnPK_Sonic_U_Associate_Training_Manual = (HiddenField)e.Row.FindControl("hdnPK_Sonic_U_Associate_Training_Manual");
             LinkButton lnkEdit = (LinkButton)e.Row.FindControl("lknEdit");
             LinkButton lnkDelete = (LinkButton)e.Row.FindControl("lnkDelete");

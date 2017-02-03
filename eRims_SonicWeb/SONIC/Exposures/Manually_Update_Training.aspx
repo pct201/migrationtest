@@ -79,6 +79,10 @@
 
                 }
             }
+            else {
+                alert("There was no change in data.");
+                return false;
+            }
 
         }
 
@@ -323,7 +327,8 @@
                 <tr>
                     <td align="center" style="padding-left: 35px" width="100%">
                         <%--<asp:Button ID="btnAdd" runat="server" Text="Add" ValidationGroup="vsErrorGroup" OnClick="btnAdd_Click" OnClientClick="return openPopUp(0);" />
-                        &nbsp;&nbsp;&nbsp;--%>
+                        &nbsp;&nbsp;&nbsp;--%> 
+                        <asp:HiddenField ID="hdnWaivedIDs" runat="server" Value="0" />
                         <asp:Button ID="btnSave" runat="server" Text="Save" ValidationGroup="vsErrorGroup" OnClientClick="javascript:return ConfirmWaive();" OnClick="btnSave_Click" />
                         &nbsp;&nbsp;&nbsp;
                         <asp:Button ID="btnCancel" runat="server" Text="Cancel" ValidationGroup="vsErrorGroup" OnClick="btnCancel_Click" />
