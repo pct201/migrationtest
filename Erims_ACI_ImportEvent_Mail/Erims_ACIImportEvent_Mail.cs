@@ -277,13 +277,12 @@ namespace Erims_ACI_ImportEvent_Mail
                                                         System.IO.FileInfo file = new System.IO.FileInfo(strzipDir + ".Zip");
                                                         string zipFile = Convert.ToString(file);
                                                         mail.Attachments.Add(new Attachment(zipFile));
-
-                                                        if (!string.IsNullOrEmpty(strPath) && File.Exists(strPath))
-                                                        {
-                                                            mail.Attachments.Add(new Attachment(strPath));
-                                                        }
                                                         
                                                         #endregion
+                                                    }
+                                                    if (!string.IsNullOrEmpty(strPath) && File.Exists(strPath))
+                                                    {
+                                                        mail.Attachments.Add(new Attachment(strPath));
                                                     }
 
                                                     mail.IsBodyHtml = true;
