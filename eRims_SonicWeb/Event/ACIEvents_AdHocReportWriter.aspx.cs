@@ -1506,6 +1506,15 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     {
                         ComboHelper.FillEventByStaus(new ListBox[] { lst_F }, false);
                     }
+                    else if (lstAdHoc[0].Field_Header == "Exterior/Interior")
+                    {
+                        foreach (ListBox li in new ListBox[] { lst_F })
+                        {
+                            li.Items.Clear();
+                            li.Items.Add(new ListItem("Exterior", "Exterior"));
+                            li.Items.Add(new ListItem("Interior", "Interior"));
+                        }
+                    }
 
                     else
                     {
@@ -3231,8 +3240,8 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter1.Text, Convert.ToInt16(drpText_F1.SelectedItem.Value), chkNotCriteria1.Checked);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                 {
-                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called") || lstAdhoc[iSelected].Field_Header.Contains("Status") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic");
-                    if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic"))
+                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called") || lstAdhoc[iSelected].Field_Header.Contains("Status") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic") || lstAdhoc[iSelected].Field_Header.Contains("Restricted") || lstAdhoc[iSelected].Field_Header.Contains("Exterior/Interior");
+                    if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic") || lstAdhoc[iSelected].Field_Header.Contains("Restricted"))
                         strWhere += GetListBoxWhereCondition("IsNull([" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField + ",'N')", GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria1.Checked);
                     else
                         strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria1.Checked);
@@ -3258,8 +3267,8 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter2.Text, Convert.ToInt16(drpText_F2.SelectedItem.Value), chkNotCriteria2.Checked);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                 {
-                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called") || lstAdhoc[iSelected].Field_Header.Contains("Status") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic");
-                    if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic"))
+                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called") || lstAdhoc[iSelected].Field_Header.Contains("Status") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic") || lstAdhoc[iSelected].Field_Header.Contains("Restricted") || lstAdhoc[iSelected].Field_Header.Contains("Exterior/Interior");
+                    if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic") || lstAdhoc[iSelected].Field_Header.Contains("Restricted"))
                         strWhere += GetListBoxWhereCondition("IsNull([" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField + ",'N')", GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria2.Checked);
                     else
                         strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F2, bStringVal), chkNotCriteria2.Checked);
@@ -3284,8 +3293,8 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter3.Text, Convert.ToInt16(drpText_F3.SelectedItem.Value), chkNotCriteria3.Checked);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                 {
-                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called") || lstAdhoc[iSelected].Field_Header.Contains("Status") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic");
-                    if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic"))
+                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called") || lstAdhoc[iSelected].Field_Header.Contains("Status") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic") || lstAdhoc[iSelected].Field_Header.Contains("Restricted") || lstAdhoc[iSelected].Field_Header.Contains("Exterior/Interior");
+                    if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic") || lstAdhoc[iSelected].Field_Header.Contains("Restricted"))
                         strWhere += GetListBoxWhereCondition("IsNull([" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField + ",'N')", GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria3.Checked);
                     else
                         strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F3, bStringVal), chkNotCriteria3.Checked);
@@ -3309,8 +3318,8 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter4.Text, Convert.ToInt16(drpText_F4.SelectedItem.Value), chkNotCriteria4.Checked);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                 {
-                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called") || lstAdhoc[iSelected].Field_Header.Contains("Status") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic");
-                    if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic"))
+                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called") || lstAdhoc[iSelected].Field_Header.Contains("Status") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic") || lstAdhoc[iSelected].Field_Header.Contains("Restricted") || lstAdhoc[iSelected].Field_Header.Contains("Exterior/Interior");
+                    if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic") || lstAdhoc[iSelected].Field_Header.Contains("Restricted"))
                         strWhere += GetListBoxWhereCondition("IsNull([" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField + ",'N')", GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria4.Checked);
                     else
                         strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F4, bStringVal), chkNotCriteria4.Checked);
@@ -3333,8 +3342,8 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter5.Text, Convert.ToInt16(drpText_F5.SelectedItem.Value), chkNotCriteria5.Checked);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                 {
-                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called") || lstAdhoc[iSelected].Field_Header.Contains("Status") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic");
-                    if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic"))
+                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called") || lstAdhoc[iSelected].Field_Header.Contains("Status") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic") || lstAdhoc[iSelected].Field_Header.Contains("Restricted") || lstAdhoc[iSelected].Field_Header.Contains("Exterior/Interior");
+                    if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic") || lstAdhoc[iSelected].Field_Header.Contains("Restricted"))
                         strWhere += GetListBoxWhereCondition("IsNull([" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField + ",'N')", GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria5.Checked);
                     else
                         strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F5, bStringVal), chkNotCriteria5.Checked);
@@ -3359,8 +3368,8 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter6.Text, Convert.ToInt16(drpText_F6.SelectedItem.Value), chkNotCriteria6.Checked);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                 {
-                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called") || lstAdhoc[iSelected].Field_Header.Contains("Status") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic");
-                    if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic"))
+                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called") || lstAdhoc[iSelected].Field_Header.Contains("Status") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic") || lstAdhoc[iSelected].Field_Header.Contains("Restricted") || lstAdhoc[iSelected].Field_Header.Contains("Exterior/Interior");
+                    if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic") || lstAdhoc[iSelected].Field_Header.Contains("Restricted"))
                         strWhere += GetListBoxWhereCondition("IsNull([" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField + ",'N')", GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria6.Checked);
                     else
                         strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F6, bStringVal), chkNotCriteria6.Checked);
@@ -3383,8 +3392,8 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter7.Text, Convert.ToInt16(drpText_F7.SelectedItem.Value), chkNotCriteria7.Checked);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                 {
-                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called") || lstAdhoc[iSelected].Field_Header.Contains("Status") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic");
-                    if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic"))
+                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called") || lstAdhoc[iSelected].Field_Header.Contains("Status") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic") || lstAdhoc[iSelected].Field_Header.Contains("Restricted") || lstAdhoc[iSelected].Field_Header.Contains("Exterior/Interior");
+                    if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic") || lstAdhoc[iSelected].Field_Header.Contains("Restricted"))
                         strWhere += GetListBoxWhereCondition("IsNull([" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField + ",'N')", GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria7.Checked);
                     else
                         strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F7, bStringVal), chkNotCriteria7.Checked);
@@ -3408,8 +3417,8 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter8.Text, Convert.ToInt16(drpText_F8.SelectedItem.Value), chkNotCriteria8.Checked);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                 {
-                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called") || lstAdhoc[iSelected].Field_Header.Contains("Status") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic");
-                    if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic"))
+                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called") || lstAdhoc[iSelected].Field_Header.Contains("Status") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic") || lstAdhoc[iSelected].Field_Header.Contains("Restricted") || lstAdhoc[iSelected].Field_Header.Contains("Exterior/Interior");
+                    if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic") || lstAdhoc[iSelected].Field_Header.Contains("Restricted"))
                         strWhere += GetListBoxWhereCondition("IsNull([" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField + ",'N')", GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria8.Checked);
                     else
                         strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F8, bStringVal), chkNotCriteria8.Checked);
@@ -3434,8 +3443,8 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter9.Text, Convert.ToInt16(drpText_F9.SelectedItem.Value), chkNotCriteria9.Checked);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                 {
-                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called") || lstAdhoc[iSelected].Field_Header.Contains("Status") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic");
-                    if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic"))
+                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called") || lstAdhoc[iSelected].Field_Header.Contains("Status") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic") || lstAdhoc[iSelected].Field_Header.Contains("Restricted") || lstAdhoc[iSelected].Field_Header.Contains("Exterior/Interior");
+                    if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic") || lstAdhoc[iSelected].Field_Header.Contains("Restricted"))
                         strWhere += GetListBoxWhereCondition("IsNull([" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField + ",'N')", GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria9.Checked);
                     else
                         strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F9, bStringVal), chkNotCriteria9.Checked);
@@ -3459,8 +3468,8 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter10.Text, Convert.ToInt16(drpText_F10.SelectedItem.Value), chkNotCriteria10.Checked);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                 {
-                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called") || lstAdhoc[iSelected].Field_Header.Contains("Status") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic");
-                    if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic"))
+                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called") || lstAdhoc[iSelected].Field_Header.Contains("Status") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic") || lstAdhoc[iSelected].Field_Header.Contains("Restricted");
+                    if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic") || lstAdhoc[iSelected].Field_Header.Contains("Restricted"))
                         strWhere += GetListBoxWhereCondition("IsNull([" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField + ",'N')", GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria10.Checked);
                     else
                         strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F10, bStringVal), chkNotCriteria10.Checked);
@@ -4900,6 +4909,15 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
         else if (Field_Header == "Company State")
         {
             ComboHelper.FillStateList(new ListBox[] { lst_F }, false);
+        }
+        else if (Field_Header == "Exterior/Interior")
+        {
+            foreach (ListBox li in new ListBox[] { lst_F })
+            {
+                li.Items.Clear();
+                li.Items.Add(new ListItem("Exterior", "Exterior"));
+                li.Items.Add(new ListItem("Interior", "Interior"));
+            }
         }
         else
         {
