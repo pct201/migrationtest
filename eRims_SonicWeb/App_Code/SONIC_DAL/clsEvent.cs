@@ -106,6 +106,9 @@ namespace ERIMS.DAL
         private string _Sonic_Contact_Email;
         private string _Video_Requested_By_Sonic;
         private string _Incident_Report_Desc;
+        private string _Building_Description;
+        private string _Restricted;
+        private string _Exterior_Interior;
 
         #endregion
 
@@ -929,6 +932,34 @@ namespace ERIMS.DAL
             get { return _Incident_Report_Desc; }
             set { _Incident_Report_Desc = value; }
         }
+
+        /// <summary>
+        /// Gets or sets the Building_Description value.
+        /// </summary>
+        public string Building_Description
+        {
+            get { return _Building_Description; }
+            set { _Building_Description = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Restricted value.
+        /// </summary>
+        public string Restricted
+        {
+            get { return _Restricted; }
+            set { _Restricted = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Exterior_Interior value.
+        /// </summary>
+        public string Exterior_Interior
+        {
+            get { return _Exterior_Interior; }
+            set { _Exterior_Interior = value; }
+        }
+
         #endregion
 
         #region Default Constructors
@@ -1415,6 +1446,21 @@ namespace ERIMS.DAL
                 this._Incident_Report_Desc = null;
             else
                 this._Incident_Report_Desc = (string)drEvent["Incident_Report_Desc"];
+
+            if (drEvent["Building_Description"] == DBNull.Value)
+                this._Building_Description = null;
+            else
+                this._Building_Description = (string)drEvent["Building_Description"];
+
+            if (drEvent["Restricted"] == DBNull.Value)
+                this._Restricted = null;
+            else
+                this._Restricted = (string)drEvent["Restricted"];
+
+            if (drEvent["Exterior_Interior"] == DBNull.Value)
+                this._Exterior_Interior = null;
+            else
+                this._Exterior_Interior = (string)drEvent["Exterior_Interior"];
         }
 
         #endregion
@@ -1791,6 +1837,21 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Incident_Report_Desc", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Incident_Report_Desc", DbType.String, this._Incident_Report_Desc);
+
+            if (string.IsNullOrEmpty(this._Building_Description))
+                db.AddInParameter(dbCommand, "Building_Description", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Building_Description", DbType.String, this._Building_Description);
+
+            if (string.IsNullOrEmpty(this._Restricted))
+                db.AddInParameter(dbCommand, "Restricted", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Restricted", DbType.String, this._Restricted);
+
+            if (string.IsNullOrEmpty(this._Exterior_Interior))
+                db.AddInParameter(dbCommand, "Exterior_Interior", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Exterior_Interior", DbType.String, this._Exterior_Interior);
 
             dbCommand.CommandTimeout = 50000;
             // Execute the query and return the new identity value
@@ -2198,6 +2259,21 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Incident_Report_Desc", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Incident_Report_Desc", DbType.String, this._Incident_Report_Desc);
+
+            if (string.IsNullOrEmpty(this._Building_Description))
+                db.AddInParameter(dbCommand, "Building_Description", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Building_Description", DbType.String, this._Building_Description);
+
+            if (string.IsNullOrEmpty(this._Restricted))
+                db.AddInParameter(dbCommand, "Restricted", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Restricted", DbType.String, this._Restricted);
+
+            if (string.IsNullOrEmpty(this._Exterior_Interior))
+                db.AddInParameter(dbCommand, "Exterior_Interior", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Exterior_Interior", DbType.String, this._Exterior_Interior);
 
             dbCommand.CommandTimeout = 50000;
             db.ExecuteNonQuery(dbCommand);

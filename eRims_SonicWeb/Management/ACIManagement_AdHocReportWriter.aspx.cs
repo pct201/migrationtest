@@ -1554,6 +1554,10 @@ public partial class Management_ACIManagement_AdHocReportWriter : clsBasePage
                     {
                         ComboHelper.FillMaintenanceStatusList(new ListBox[] { lst_F }, false);
                     }
+                    else if (lstAdHoc[0].Field_Header.ToUpper() == "MANAGEMENT TASK PROCESS")
+                    {
+                        ComboHelper.FillManagement_Task_Process(new ListBox[] { lst_F }, false);
+                    }
                     else
                     {
                         AdHocReportHelper.FillFilterDropDown(lstAdHoc[0].Field_Header, new ListBox[] { lst_F }, false, GetSelectedCoverage());
@@ -4975,6 +4979,10 @@ public partial class Management_ACIManagement_AdHocReportWriter : clsBasePage
         else if (Field_Header.ToUpper() == "STATUS")
         {
             ComboHelper.FillMaintenanceStatusList(new ListBox[] {lst_F},false);
+        }
+        else if (Field_Header.ToUpper() == "MANAGEMENT TASK PROCESS")
+        {
+            ComboHelper.FillManagement_Task_Process(new ListBox[] { lst_F }, false);
         }
         else
         {

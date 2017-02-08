@@ -64,9 +64,10 @@
       <siteMapNode url="Event/EventSearch_New.aspx" title="ACI Event Search" description="" roles=""></siteMapNode>
       <siteMapNode url="" title="ACI Management" description="">
         <siteMapNode url="Management/ManagementSearch.aspx" title="ACI Management Search" description="" roles=""></siteMapNode>
-        <siteMapNode title="Attachment Download" description="Search" url="Management/ACI_Management_Attachment_Download.aspx" roles=""></siteMapNode>
+        <siteMapNode title="Attachment Download" description="" url="Management/ACI_Management_Attachment_Download.aspx" roles=""></siteMapNode>
       </siteMapNode>
       <siteMapNode url="https://www.amsvideo.com" title="Immix Webportal" description="" roles=""></siteMapNode>
+      <siteMapNode title="ACI Monitor Location" description="" url="Event/ACI_Monitor_Location.aspx" roles=""></siteMapNode>
     </siteMapNode>
     <siteMapNode url="" title="Reports"  description="" roles="">
       <siteMapNode url="javascript:void(0);" title="Standard Reports" description="">

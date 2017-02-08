@@ -48,6 +48,17 @@
                     </tr>
                     <tr>
                         <td align="left" width="28%" valign="top">
+                            Task Process
+                        </td>
+                        <td align="center" width="4%" valign="top">
+                            :
+                        </td>
+                        <td align="left" width="68%" valign="top">
+                            <asp:Label runat="server" ID="lblTask_Process"></asp:Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" width="28%" valign="top">
                             Note
                         </td>
                         <td align="center" width="4%" valign="top">
@@ -81,6 +92,17 @@
                                                             </td>
                                                             <td align="left" valign="top">
                                                                 <%#clsGeneral.FormatDBNullDateToDisplay(Eval("Note_Date"))%>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" valign="top">
+                                                                Task Process
+                                                            </td>
+                                                            <td align="center" valign="top">
+                                                                :
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <%#Eval("Task_Process")%>
                                                             </td>
                                                         </tr>
                                                         <tr>

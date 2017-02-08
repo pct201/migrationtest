@@ -104,6 +104,10 @@ public partial class Management_Management_Note : System.Web.UI.Page
         lblNote.Text = objNotes.Note;
         lblNoteDate.Text = clsGeneral.FormatDBNullDateToDisplay(objNotes.Note_Date);
         lblNoteType.Text = "Management Note";
+        if (objNotes.FK_LU_Management_Task_Process != null)
+            lblTask_Process.Text = new clsLU_Management_Task_Process(Convert.ToDecimal(objNotes.FK_LU_Management_Task_Process)).Fld_Desc;
+        else
+            lblTask_Process.Text = string.Empty;
         
     }
     #endregion

@@ -109,6 +109,7 @@ public partial class Management_Management : clsBasePage
                 //drpFacilitiesIssue.Enabled = false;
                 dvView.Visible = false;
                 btnManagementNoteView.Visible = btnManagementPrint.Visible = btnManagementSpecificNote.Visible = false;
+                trApprovals.Style.Add("display", "none");
             }
             if (PK_Management > 0)
             {
@@ -178,6 +179,7 @@ public partial class Management_Management : clsBasePage
         //ComboHelper.FillState(new DropDownList[] { drpState }, true);
         //ComboHelper.FillLU_Camera_Type(new DropDownList[] { drpCameraType }, true);
         ComboHelper.FillWork_To_Be_Completed((new DropDownList[] { drpFK_Work_To_Be_Completed_By }), true);
+        ComboHelper.FillManagement_Task_Process((new DropDownList[] { drpFK_LU_Management_Task_Process }), true);
 
     }
 
@@ -1555,6 +1557,8 @@ public partial class Management_Management : clsBasePage
 
         SaveRecord();
 
+        SendAbstractViaEmailWhileInsert();
+
         //if (ViewState["EmailAbsratact"] != null)
         //{
         //    SendAbstractViaEmailWhileInsert();
@@ -1839,7 +1843,7 @@ public partial class Management_Management : clsBasePage
         //        gvProjectCostView.Columns[1].Visible = false;
         //    }
         //}
-        ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(3);", true);
+        ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(4);", true);
     }
 
     protected void lnkAddInvoice_Click(object sender, EventArgs e)
@@ -1865,6 +1869,7 @@ public partial class Management_Management : clsBasePage
         btnManagementNotesAdd.Text = "Add";
         //txtACI_Notes_Date.Text = string.Empty;
         txtManagement_Notes.Text = string.Empty;
+        drpFK_LU_Management_Task_Process.SelectedIndex = -1;
         //((ScriptManager)this.Master.FindControl("scMain")).SetFocus(txtACI_Notes_Date);
     }
 
@@ -1884,6 +1889,8 @@ public partial class Management_Management : clsBasePage
         objManagement_Notes.Note = txtManagement_Notes.Text.Trim();
         objManagement_Notes.FK_Management = PK_Management;
         objManagement_Notes.Updated_by = Convert.ToDecimal(clsSession.UserID);
+        if (drpFK_LU_Management_Task_Process.SelectedIndex > 0)
+            objManagement_Notes.FK_LU_Management_Task_Process = Convert.ToDecimal(drpFK_LU_Management_Task_Process.SelectedValue);
 
         if (_PK_Management_Notes > 0)
         {
@@ -2055,7 +2062,7 @@ public partial class Management_Management : clsBasePage
     {
         gvManagement_Notes.PageIndex = e.NewPageIndex; //Page new index call
         BindManagementNoteGrid(ctrlPageSonicNotes.CurrentPage, ctrlPageSonicNotes.PageSize);
-        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
     }
 
     /// <summary>
@@ -2270,7 +2277,7 @@ public partial class Management_Management : clsBasePage
             clsSonic_Management_Notes.DeleteByPK(Convert.ToDecimal(e.CommandArgument));
 
             BindManagementNoteGrid(ctrlPageSonicNotes.CurrentPage, ctrlPageSonicNotes.PageSize);
-            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
             #endregion
         }
         else if (e.CommandName == "ViewNote")
@@ -2291,6 +2298,7 @@ public partial class Management_Management : clsBasePage
 
             //txtACI_Notes_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objACI_Event_Notes.Note_Date);
             txtManagement_Notes.Text = Convert.ToString(objACI_Management_Notes.Note);
+            clsGeneral.SetDropdownValue(drpFK_LU_Management_Task_Process, objACI_Management_Notes.FK_LU_Management_Task_Process, true);
             //((ScriptManager)this.Master.FindControl("scMain")).SetFocus(txtSonic_Notes);
         }
     }
@@ -2330,7 +2338,7 @@ public partial class Management_Management : clsBasePage
     {
         gvManagement_NotesView.PageIndex = e.NewPageIndex; //Page new index call
         BindManagementNoteGridView(ctrlPageSonicNotes.CurrentPage, ctrlPageSonicNotes.PageSize);
-        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
     }
     #endregion
 
@@ -2338,6 +2346,7 @@ public partial class Management_Management : clsBasePage
     {
         showHideOriginalService(chkNoApprovalNeeded.Checked);
     }
+
 
 
     protected void chkApprovalNeeded_CheckedChanged(object sender, EventArgs e)
@@ -2353,6 +2362,22 @@ public partial class Management_Management : clsBasePage
         else
         {
             trApprovals.Style.Add("display", "none");
+        }
+    }
+
+    protected void drpFK_Work_Completed_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (drpFK_Work_Completed.SelectedIndex > 0 && drpFK_Work_Completed.SelectedItem.Text.IndexOf("Add New Equipment") > -1)
+        {
+            chkApprovalNeeded.Checked = true;
+            chkApprovalNeeded_CheckedChanged(null, null);
+            trRPMApproval.Style.Add("display", "");
+            clsGeneral.SetDropdownValue(drpFK_LU_Approval_Submission, "Yes", false);
+        }
+        else
+        {
+            trRPMApproval.Style.Add("display", "none");
+            clsGeneral.SetDropdownValue(drpFK_LU_Approval_Submission, "No", false);
         }
     }
 
@@ -2407,4 +2432,5 @@ public partial class Management_Management : clsBasePage
             lblOriginalServiceDollar.Style.Add("display", "none");
         }
     }
+
 }

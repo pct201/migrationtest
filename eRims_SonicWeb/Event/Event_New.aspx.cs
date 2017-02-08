@@ -1079,6 +1079,11 @@ public partial class Event_Event_New : clsBasePage
             }
 
             txtEventDesciptionSonic.Text = txtEventDesciption.Text = objEvent.Event_Desc;
+            txtBuilding_Description.Text = objEvent.Building_Description;
+            if (objEvent.Restricted != null)
+                chkRestricted.Checked = objEvent.Restricted == "Y" ? true : false;
+            if (objEvent.Exterior_Interior != null)
+                rdoExterior_Interior.SelectedValue = Convert.ToString(objEvent.Exterior_Interior);
 
             BindEvent_Camera_SonicGrid();
             BindSonicNoteGrid(ctrlPageSonicNotes.CurrentPage, ctrlPageSonicNotes.PageSize);
@@ -1142,6 +1147,9 @@ public partial class Event_Event_New : clsBasePage
                 objEvent.FK_LU_Location = Convert.ToDecimal(ddlLocation.SelectedValue);
 
             objEvent.Event_Desc = txtEventDesciption.Text.Trim();
+            objEvent.Building_Description = txtBuilding_Description.Text.Trim();
+            objEvent.Restricted = chkRestricted.Checked ? "Y" : "N";
+            objEvent.Exterior_Interior = rdoExterior_Interior.SelectedIndex > -1 ? rdoExterior_Interior.SelectedValue : null;
         }
         objEvent.Status = rdoStatus.SelectedValue;
         objEvent.Date_Closed = clsGeneral.FormatNullDateToStore(txtDate_Closed.Text);
@@ -1622,6 +1630,9 @@ public partial class Event_Event_New : clsBasePage
             //txtDesc.Enabled = Is_Enable;
         }
         txtEventDesciption.Enable = Is_Enable;
+        txtBuilding_Description.Enabled = Is_Enable;
+        chkRestricted.Enabled = Is_Enable;
+        rdoExterior_Interior.Enabled = Is_Enable;
         txtEvent_Start_Date.Enabled = Is_Enable;
         txtEvent_Start_Time.Enabled = Is_Enable;
         txtEvent_End_Time.Enabled = Is_Enable;
@@ -1704,6 +1715,9 @@ public partial class Event_Event_New : clsBasePage
             }
             //txtEventDesciptionSonic.Attributes.Add("class", "readOnlyTextBox");
             txtEventDesciptionSonic.Enable = false;
+            txtBuilding_Description.Enabled = false;
+            chkRestricted.Enabled = false;
+            rdoExterior_Interior.Enabled = false;
             rdoPolice_Called_Sonic.Enabled = false;
             txtAgency_name_Sonic.Enabled = false;
             txtOfficer_Phone_Sonic.Enabled = false;

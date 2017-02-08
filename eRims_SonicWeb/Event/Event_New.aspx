@@ -774,7 +774,54 @@
                                                                 ClientValidationFunction="ValidateEventType" ValidationGroup="vsErrorGroup" Display="None"></asp:CustomValidator>
                                                         </td>
                                                         <td colspan="3" valign="top">
-                                                            <uc:ctrlMultiLineTextBox ID="txtEventDesciption" runat="server" Width="450" />
+                                                            <table width="100%">
+                                                                <tr>
+                                                                    <td colspan="3">
+                                                                        <uc:ctrlMultiLineTextBox ID="txtEventDesciption" runat="server" Width="450" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="3">
+                                                                        &nbsp;
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" width="36%" valign="top">
+                                                                        Building Description
+                                                                    </td>
+                                                                    <td align="center" width="8%" valign="top">
+                                                                        :
+                                                                    </td>
+                                                                    <td align="left" width="56%" valign="top">
+                                                                        <asp:TextBox ID="txtBuilding_Description" runat="server" MaxLength="500" Width="170px"></asp:TextBox>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" valign="top">
+                                                                        Restricted
+                                                                    </td>
+                                                                    <td align="center" valign="top">
+                                                                        :
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:CheckBox ID="chkRestricted" runat="server" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" valign="top">
+                                                                        Exterior/Interior
+                                                                    </td>
+                                                                    <td align="center" valign="top">
+                                                                        :
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:RadioButtonList ID="rdoExterior_Interior" runat="server">
+                                                                            <asp:ListItem Text="Exterior" Value="Exterior"></asp:ListItem>
+                                                                            <asp:ListItem Text="Interior" Value="Interior"></asp:ListItem>
+                                                                        </asp:RadioButtonList>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
                                                         </td>
                                                     </tr>
                                                     <tr>

@@ -54,6 +54,11 @@ public class clsPrintManagementNotes
             sbHTML.Append("<td align='left' valign='top'>" + clsGeneral.FormatDBNullDateToDisplay(drAdjustor_Notes["Note_Date"]) + "</td>");
             sbHTML.Append("</tr>");
             sbHTML.Append("<tr>");
+            sbHTML.Append("<td width='18%' align='left' valign='top'>Task Process</td>");
+            sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+            sbHTML.Append("<td align='left' valign='top'>" + Convert.ToString(drAdjustor_Notes["Task_Process"]) + "</td>");
+            sbHTML.Append("</tr>");
+            sbHTML.Append("<tr>");
             sbHTML.Append("<td align='left' valign='top'>Notes</td>");
             sbHTML.Append("<td align='center' valign='top'>:</td>");
             sbHTML.Append("<td align='left' valign='top'> ");

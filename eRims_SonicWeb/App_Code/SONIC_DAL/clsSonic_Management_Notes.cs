@@ -19,6 +19,7 @@ namespace ERIMS.DAL
 		private string _Note;
 		private decimal? _Updated_by;
 		private DateTime? _Updated_Date;
+        private decimal? _FK_LU_Management_Task_Process;
 
 		#endregion
 
@@ -77,6 +78,15 @@ namespace ERIMS.DAL
 			get { return _Updated_Date; }
 			set { _Updated_Date = value; }
 		}
+
+        /// <summary>
+        /// Gets or sets the FK_LU_Management_Task_Process value.
+        /// </summary>
+        public decimal? FK_LU_Management_Task_Process
+        {
+            get { return _FK_LU_Management_Task_Process; }
+            set { _FK_LU_Management_Task_Process = value; }
+        }
 
 
 		#endregion
@@ -147,6 +157,11 @@ namespace ERIMS.DAL
 				else
 					this._Updated_Date = (DateTime?)drSonic_Management_Notes["Updated_Date"];
 
+                if (drSonic_Management_Notes["FK_LU_Management_Task_Process"] == DBNull.Value)
+                    this._FK_LU_Management_Task_Process = null;
+                else
+                    this._FK_LU_Management_Task_Process = (decimal?)drSonic_Management_Notes["FK_LU_Management_Task_Process"];
+
 
 		}
 
@@ -174,6 +189,8 @@ namespace ERIMS.DAL
 			db.AddInParameter(dbCommand, "Updated_by", DbType.Decimal, this._Updated_by);
 			
 			db.AddInParameter(dbCommand, "Updated_Date", DbType.DateTime, this._Updated_Date);
+
+            db.AddInParameter(dbCommand, "FK_LU_Management_Task_Process", DbType.Decimal, this._FK_LU_Management_Task_Process);
 
 			// Execute the query and return the new identity value
 			int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -230,6 +247,8 @@ namespace ERIMS.DAL
 			db.AddInParameter(dbCommand, "Updated_by", DbType.Decimal, this._Updated_by);
 			
 			db.AddInParameter(dbCommand, "Updated_Date", DbType.DateTime, this._Updated_Date);
+
+            db.AddInParameter(dbCommand, "FK_LU_Management_Task_Process", DbType.Decimal, this._FK_LU_Management_Task_Process);
 
 			db.ExecuteNonQuery(dbCommand);
 		}
