@@ -26,4 +26,5 @@
   <Field Title="Record Type" TableName="LU_Record_Type" Type="DropDown" HasCode="Y" Field_Name="Fld_Desc"></Field>
   <Field Title="Vendor State" TableName="State" Type="DropDown" HasCode="Y" Field_Name="FLD_state"></Field>
   <Field Title="Work to Be Completed By" TableName="LU_Work_To_Be_Completed_By" Type="DropDown" HasCode="Y" Field_Name="Fld_Desc"></Field>
+  <Field Title="Management Task Process" TableName="LU_Management_Task_Process" Type="DropDown" HasCode="N" Field_Name="Fld_Desc"></Field>
 </AdHocReportField>
