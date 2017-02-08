@@ -15514,13 +15514,13 @@ namespace ERIMS_Sonic_ReportScheduler
             string strPath = string.Empty;
             Boolean IsGroupBySelected = false;
 
-
             try
             {
                 #region "Filter and Title"
-                sbRecord.Append("<table><tr><td colspan='3'><br />");
-                sbRecord.Append("<b>Report Title : " + strReportSchedulerName + " </b>");
-                sbRecord.Append("<br /><br />");
+                //sbRecord.Append("<table><tr><td colspan='8'>");
+                sbRecord.Append("<table cellpadding='0' cellspacing='0' width='" + (150 * ObjAdHocReport.OutputFields.Split(',').Length).ToString() + "' style='font-size:10pt'>");
+                sbRecord.Append("<tr><td colspan='8'><b>Report Title : " + strReportSchedulerName + " </b></td></tr><tr><td colspan='8'>&nbsp;</td></tr>");
+                //sbRecord.Append("<br /><br />");
 
                 Management_AdhocReportFields obj = new Management_AdhocReportFields();
                 for (int i = 0; i < lstFilter.Count; i++)
@@ -15535,7 +15535,7 @@ namespace ERIMS_Sonic_ReportScheduler
                             strConditionType = (strConditionType == "1") ? " Contains " : (strConditionType == "2" ? " Start With " : " End With ");
                         strConditionVal = lstFilter[i].ConditionValue;
                         lstAdhoc = obj.GetAdHocReportFieldByPk(Convert.ToDecimal(lstFilter[i].FK_Management_AdhocReportFields));
-                        sbRecord.Append("<b>" + lstAdhoc[0].Field_Header + " : " + strConditionType + "</b>" + lstFilter[i].ConditionValue);
+                        sbRecord.Append("<tr><td colspan='8'><b>" + lstAdhoc[0].Field_Header + " : " + strConditionType + "</b>" + lstFilter[i].ConditionValue + "</td></tr><tr><td colspan='8'>&nbsp;</td></tr>");
                     }
 
                     if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
@@ -15554,9 +15554,9 @@ namespace ERIMS_Sonic_ReportScheduler
                         }
 
                         if (Convert.ToBoolean(lstFilter[i].IsNotSelected) == true)
-                            sbRecord.Append("<b>" + lstAdhoc[0].Field_Header + " (Not In)</b>" + " : " + FillFilterDropDown(fieldHeaderLocation, lstFilter[i].ConditionValue));
+                            sbRecord.Append("<tr><td colspan='8'><b>" + lstAdhoc[0].Field_Header + " (Not In)</b>" + " : " + FillFilterDropDown(fieldHeaderLocation, lstFilter[i].ConditionValue) + "</td></tr>");
                         else
-                            sbRecord.Append("<b>" + lstAdhoc[0].Field_Header + " (In)</b>" + " : " + FillFilterDropDown(fieldHeaderLocation, lstFilter[i].ConditionValue));
+                            sbRecord.Append("<tr><td colspan='8'><b>" + lstAdhoc[0].Field_Header + " (In)</b>" + " : " + FillFilterDropDown(fieldHeaderLocation, lstFilter[i].ConditionValue) + "</td></tr>");
                     }
 
                     if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.DateControl)
@@ -15587,9 +15587,9 @@ namespace ERIMS_Sonic_ReportScheduler
                             strConditionType = "Not" + strConditionType;
 
                         if (strConditionType.Trim() != "Between" && strConditionType.Trim() != "Not Between")
-                            strConditionVal = "<b>" + lstAdhoc[0].Field_Header + " : " + strConditionType + "</b>" + dtFrom;
+                            strConditionVal = "<tr><td colspan='8'><b>" + lstAdhoc[0].Field_Header + " : " + strConditionType + "</b>" + dtFrom + "</td></tr><tr></tr>";
                         else
-                            strConditionVal = "<b>" + lstAdhoc[0].Field_Header + " : </b>" + strConditionType + dtFrom + " And " + dtTo;
+                            strConditionVal = "<tr><td colspan='8'><b>" + lstAdhoc[0].Field_Header + " : </b>" + strConditionType + dtFrom + " And " + dtTo + "</td></tr>";
 
                         sbRecord.Append(strConditionVal);
                     }
@@ -15623,16 +15623,16 @@ namespace ERIMS_Sonic_ReportScheduler
                             strConditionType = "Not" + strConditionType;
 
                         if (strConditionType.Trim() != "Between" && strConditionType.Trim() != "Not Between")
-                            strConditionVal = "<b>" + lstAdhoc[0].Field_Header + " : " + strConditionType + "</b>" + amountFrom;
+                            strConditionVal = "<tr><td colspan='8'><b>" + lstAdhoc[0].Field_Header + " : " + strConditionType + "</b>" + amountFrom + "</td></tr>";
                         else
-                            strConditionVal = "<b>" + lstAdhoc[0].Field_Header + " : </b>" + strConditionType + Convert.ToString(lstFilter[i].AmountFrom) + " And " + amountTo;
+                            strConditionVal = "<tr><td colspan='8'><b>" + lstAdhoc[0].Field_Header + " : </b>" + strConditionType + Convert.ToString(lstFilter[i].AmountFrom) + " And " + amountTo + "</td></tr>";
                         sbRecord.Append(strConditionVal);
                     }
-                    sbRecord.Append("<br />");
+                    //sbRecord.Append("<br />");
                 }
-                sbRecord.Append("<br /></td></tr></table>");
+                //sbRecord.Append("<br /></td></tr></table>");                
                 #endregion
-
+               
                 // Check if Any record is exists or not
                 if (Reader.Read())
                 {
@@ -15710,10 +15710,11 @@ namespace ERIMS_Sonic_ReportScheduler
 
                     dtSchema = Reader.GetSchemaTable();
 
-                    sbRecord.Append("<table border='1' cellpadding='0' cellspacing='0' width='" + (150 * ObjAdHocReport.OutputFields.Split(',').Length).ToString() + "' style='font-size:10pt'>");
+                    //sbRecord.Append("<table border='1' cellpadding='0' cellspacing='0' width='" + (150 * ObjAdHocReport.OutputFields.Split(',').Length).ToString() + "' style='font-size:10pt'>");
 
                     #region "Header"
                     // If reader found a records 
+                    sbRecord.Append("<tr><td><table border='1'>");
                     sbRecord.Append("<tr>");
                     if (IsGroupBySelected)
                         sbRecord.Append("<td>&nbsp;</td>");
@@ -16464,14 +16465,15 @@ namespace ERIMS_Sonic_ReportScheduler
                     #endregion
 
                     //Table End
-                    sbRecord.Append("</table>");
+                    sbRecord.Append("</table></td></tr>");
 
                     #region "Footer Template"
                     // IF Grand Total Option is Checked and Have record from Transaction Table to SUM
                     if ((Convert.ToString(ObjAdHocReport.GrandTotal) == "Y") && dtHeader.Columns.Count > 0)
                     {
                         string strStyle = "'font-weight: bold;background-color: #507CD1;color: White;'";
-                        sbRecord.Append("<br />");
+                        //sbRecord.Append("<br />");
+                        sbRecord.Append("<tr><td colspan='8'>");
                         sbRecord.Append("<table border='1' cellpadding='0' cellspacing='0'><tr align='right'>");
                         sbRecord.Append("<td style='font-weight: bold;' align='left'>Grand Totals</td>");
 
@@ -16489,8 +16491,9 @@ namespace ERIMS_Sonic_ReportScheduler
                             sbRecord.Append("<td style=" + strStyle + ">" + string.Format("{0:c2}", dtHeader.Rows[0][intColumn]) + "</td>");
                         // show value for Claim Count
                         //sbRecord.Append("<td style=" + strStyle + ">" + dtHeader.Rows[0][dtHeader.Columns.Count - 1] + "</td>");
-                        sbRecord.Append("</tr><table>");
+                        sbRecord.Append("</table></td></tr>");                        
                     }
+                    sbRecord.Append("</table>");
                     #endregion
                     //Remove White Space.
                     //sbRecord.Replace("<tr></tr>", "");
