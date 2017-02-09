@@ -945,7 +945,8 @@ public partial class Event_Event_New : clsBasePage
         if (objEvent.Status != null)
             rdoStatus.SelectedValue = Convert.ToString(objEvent.Status);
         txtDate_Closed.Text = clsGeneral.FormatDBNullDateToDisplay(objEvent.Date_Closed);
-
+        clsGeneral.SetDropdownValue(ddlFK_LU_Cause_Investigation, objEvent.FK_LU_Cause_Investigation, true);
+        
         clsGeneral.SetDropdownValue(ddlLocation_Sonic, objEvent.FK_LU_Location, true);
         txtEvent_Start_Date_Sonic.Text = clsGeneral.FormatDBNullDateToDisplay(objEvent.Event_Start_Date);
         txtEvent_Start_Time_Sonic.Text = objEvent.Event_Start_Time;
@@ -1116,6 +1117,7 @@ public partial class Event_Event_New : clsBasePage
         //ComboHelper.FillLocationDBA_All(new DropDownList[] { ddlLocation, ddlLocation_Sonic }, 0, true);
         ComboHelper.FillLocationByACIUser_New((new DropDownList[] { ddlLocation, ddlLocation_Sonic }), Convert.ToDecimal(clsSession.UserID), true);
         ComboHelper.FillEventLevel(new DropDownList[] { ddlEvent_Level, ddlEvent_Level_Sonic }, true);
+        ComboHelper.FillCause_Investigation(new DropDownList[] { ddlFK_LU_Cause_Investigation }, true);
         BindReapterEventType();
         BindReapterEventTypeSonic();
         BindReapterInvest_Images();
@@ -1157,6 +1159,8 @@ public partial class Event_Event_New : clsBasePage
         //objEvent.Investigator_Email = Convert.ToString(txtInvestigator_Email.Text);
         //objEvent.Investigator_Phone = Convert.ToString(txtInvestigator_Phone.Text);
         objEvent.Incident_Report_Desc = Convert.ToString(txtIncident_Report.Text);
+        if (ddlFK_LU_Cause_Investigation.SelectedIndex > 0)
+            objEvent.FK_LU_Cause_Investigation = Convert.ToDecimal(ddlFK_LU_Cause_Investigation.SelectedValue);
 
         if (Is_Sonic_Event)
         {
@@ -1630,6 +1634,7 @@ public partial class Event_Event_New : clsBasePage
             //txtDesc.Enabled = Is_Enable;
         }
         txtEventDesciption.Enable = Is_Enable;
+        ddlFK_LU_Cause_Investigation.Enabled = Is_Enable;
         txtBuilding_Description.Enabled = Is_Enable;
         chkRestricted.Enabled = Is_Enable;
         rdoExterior_Interior.Enabled = Is_Enable;
@@ -1688,6 +1693,7 @@ public partial class Event_Event_New : clsBasePage
             txtOfficer_Phone.Enabled = false;
             txtPolice_Report_Number.Enabled = false;
             txtIncident_Report.Enable = false;
+            ddlFK_LU_Cause_Investigation.Enabled = false;
             lnkAddACINotesNew.Visible = false;
             lnkAddSuspectInfo.Visible = false;
             lnkAddVehicleInfo.Visible = false;

@@ -801,13 +801,13 @@
                                                             <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
-                                                                <asp:TextBox ID="txtdate_Scheduled" runat="server" SkinID="txtDate" Enabled="false" />
+                                                                <asp:TextBox ID="txtdate_Scheduled" runat="server" SkinID="txtDate"/>
                                                                 <asp:TextBox ID="txtCurrentDate" runat="server" Width="180px" MaxLength="10" Style="display: none;"></asp:TextBox>
-                                                                <%--  <img alt="Scheduled Date" onclick="return showCalendar('<%= txtdate_Scheduled.ClientID %>', 'mm/dd/y');"
+                                                                  <img alt="Scheduled Date" onclick="return showCalendar('<%= txtdate_Scheduled.ClientID %>', 'mm/dd/y');"
                                                                     onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
-                                                                    align="middle" />--%>
+                                                                    align="middle" />
                                                                 <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ValidationGroup="vsErrorGroup"
-                                                                    Display="none" ErrorMessage="Scheduled Date is not a valid date" SetFocusOnError="true"
+                                                                    Display="none" ErrorMessage="Date Scheduled is not a valid date" SetFocusOnError="true"
                                                                     ControlToValidate="txtdate_Scheduled" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
                                                                 <%--<asp:CompareValidator ID="cmpvalid" runat="server" ErrorMessage="Date Sheduled should be greater than or equal to current date"
                                                                     Display="none" ValidationGroup="vsErrorGroup" SetFocusOnError="true" ControlToCompare="txtCurrentDate"
@@ -982,23 +982,23 @@
                                                             <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
-                                                                <asp:TextBox ID="txtJob" MaxLength="50" runat="server" Width="170px" Enabled="false"></asp:TextBox>
+                                                                <asp:TextBox ID="txtJob" MaxLength="50" runat="server" Width="170px"></asp:TextBox>
                                                             </td>
                                                             <td align="left" valign="top">Order Date
                                                             </td>
                                                             <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
-                                                                <asp:TextBox ID="txtOrderDate" runat="server" SkinID="txtDate" Enabled="false" />
-                                                                <%-- <img alt="Order Date" onclick="return showCalendar('<%= txtOrderDate.ClientID %>', 'mm/dd/y');"
+                                                                <asp:TextBox ID="txtOrderDate" runat="server" SkinID="txtDate" />
+                                                                 <img alt="Order Date" onclick="return showCalendar('<%= txtOrderDate.ClientID %>', 'mm/dd/y');"
                                                                     onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
-                                                                    align="middle" />--%>
+                                                                    align="middle" />
                                                                 <asp:RegularExpressionValidator ID="RegularExpressionValidator4" runat="server" ValidationGroup="vsErrorGroup"
                                                                     Display="none" ErrorMessage="Order Date is not a valid date" SetFocusOnError="true"
                                                                     ControlToValidate="txtOrderDate" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
-                                                                <asp:CompareValidator ID="CompareValidator1" runat="server" ErrorMessage="Order Date should be less than or equal to current date"
+                                                               <%-- <asp:CompareValidator ID="CompareValidator1" runat="server" ErrorMessage="Order Date should be less than or equal to current date"
                                                                     Display="none" ValidationGroup="vsErrorGroup" SetFocusOnError="true" ControlToCompare="txtCurrentDate"
-                                                                    ControlToValidate="txtOrderDate" Type="Date" Operator="LessThanEqual"></asp:CompareValidator>
+                                                                    ControlToValidate="txtOrderDate" Type="Date" Operator="LessThanEqual"></asp:CompareValidator>--%>
                                                             </td>
                                                         </tr>
                                                         <%--<tr>

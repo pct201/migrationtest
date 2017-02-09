@@ -109,6 +109,7 @@ namespace ERIMS.DAL
         private string _Building_Description;
         private string _Restricted;
         private string _Exterior_Interior;
+        private decimal? _FK_LU_Cause_Investigation;
 
         #endregion
 
@@ -960,6 +961,15 @@ namespace ERIMS.DAL
             set { _Exterior_Interior = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the FK_LU_Cause_Investigation value.
+        /// </summary>
+        public decimal? FK_LU_Cause_Investigation
+        {
+            get { return _FK_LU_Cause_Investigation; }
+            set { _FK_LU_Cause_Investigation = value; }
+        }
+
         #endregion
 
         #region Default Constructors
@@ -1461,6 +1471,11 @@ namespace ERIMS.DAL
                 this._Exterior_Interior = null;
             else
                 this._Exterior_Interior = (string)drEvent["Exterior_Interior"];
+
+            if (drEvent["FK_LU_Cause_Investigation"] == DBNull.Value)
+                this._FK_LU_Cause_Investigation = null;
+            else
+                this._FK_LU_Cause_Investigation = (decimal?)drEvent["FK_LU_Cause_Investigation"];
         }
 
         #endregion
@@ -1852,6 +1867,8 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Exterior_Interior", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Exterior_Interior", DbType.String, this._Exterior_Interior);
+
+            db.AddInParameter(dbCommand, "FK_LU_Cause_Investigation", DbType.Decimal, this._FK_LU_Cause_Investigation);
 
             dbCommand.CommandTimeout = 50000;
             // Execute the query and return the new identity value
@@ -2274,6 +2291,8 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Exterior_Interior", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Exterior_Interior", DbType.String, this._Exterior_Interior);
+
+            db.AddInParameter(dbCommand, "FK_LU_Cause_Investigation", DbType.Decimal, this._FK_LU_Cause_Investigation);
 
             dbCommand.CommandTimeout = 50000;
             db.ExecuteNonQuery(dbCommand);

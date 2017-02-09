@@ -296,7 +296,7 @@
 
         function SetMenuStyle(index) {
             var i;
-            for (i = 1; i <= 6; i++) {
+            for (i = 1; i <= 7; i++) {
                 var tb = document.getElementById("Menu" + i);
                 if (i == index) {
                     tb.className = "LeftMenuSelected";
@@ -374,6 +374,7 @@
                 }
                 document.getElementById('<%=pnlAttachment.ClientID%>').style.display = (index == 5) ? "block" : "none";
                 document.getElementById('<%=pnl6.ClientID%>').style.display = (index == 6) ? "block" : "none";
+                document.getElementById('<%=pnl7.ClientID%>').style.display = (index == 7) ? "block" : "none";
             }
             //			if (index == 1) document.getElementById("ctl00_ContentPlaceHolder1_btnPreviousStep").style.display = "none";
             //			else document.getElementById("ctl00_ContentPlaceHolder1_btnPreviousStep").style.display = "block";
@@ -668,6 +669,11 @@
                                         <span id="Menu2" onclick="javascript:ShowPanel(2);" class="LeftMenuStatic">
                                             <asp:Label runat="server" ID="lblMenu2"></asp:Label>
                                         </span><%--Acadian Investigations--%>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="left" width="100%">
+                                        <span id="Menu7" onclick="javascript:ShowPanel(7);" class="LeftMenuStatic">Cause Investigations</span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -2544,6 +2550,34 @@
                                                         </td>
                                                         <td align="left" valign="top" colspan="4">$<asp:TextBox ID="txtFinancial_Loss" runat="server" Width="160px" onpaste="return false"
                                                             onkeypress="return FormatNumber(event,this.id,11,false);" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="6" class="spacer" style="height: 5px"></td>
+                                                    </tr>
+                                                </table>
+                                            </asp:Panel>
+                                            <asp:Panel ID="pnl7" runat="server" Style="display: none;" Width="794px">
+                                                <div class="bandHeaderRow">
+                                                    Cause Investigation
+                                                </div>
+                                                <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                                    <tr>
+                                                        <td align="left" width="18%" valign="top">
+                                                            Cause Investigation
+                                                        </td>
+                                                        <td align="center" width="4%" valign="top">
+                                                            :
+                                                        </td>
+                                                        <td align="left" width="28%" valign="top">
+                                                            <asp:DropDownList ID="ddlFK_LU_Cause_Investigation" runat="server" Width="175px">
+                                                            </asp:DropDownList>
+                                                        </td>
+                                                        <td align="left" width="18%" valign="top">&nbsp;
+                                                        </td>
+                                                        <td align="center" width="4%" valign="top">&nbsp;
+                                                        </td>
+                                                        <td align="left" width="28%" valign="top">&nbsp;
                                                         </td>
                                                     </tr>
                                                     <tr>
