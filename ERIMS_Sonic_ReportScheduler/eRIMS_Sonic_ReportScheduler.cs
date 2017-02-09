@@ -16717,7 +16717,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 //    strWhere = " And " + strTableName + ".[" + strField + "] IN (" + strConditionValue + ")";
                 if (IsNotSelected == true)
                 {
-                    if (strConditionValue.Trim().ToUpper() == "Y" || strConditionValue.Trim().ToUpper() == "N" || strConditionValue.Trim().ToUpper() == "Y,N")
+                    if (strConditionValue.Trim().ToUpper() == "Y" || strConditionValue.Trim().ToUpper() == "N" || strConditionValue.Trim().ToUpper() == "Y,N" || strConditionValue.Trim().ToUpper() == "EXTERIOR" || strConditionValue.Trim().ToUpper() == "INTERIOR" || strConditionValue.Trim().ToUpper() == "EXTERIOR")
                     {
                         if (strField == "Is_Actionable" || strField == "Video_Requested_By_Sonic")
                             strWhere = " And ISNULL([" + strTableName + "]." + strField + ",'N') NOT IN ('" + strConditionValue.Replace(",", "','") + "') ";
@@ -16740,6 +16740,9 @@ namespace ERIMS_Sonic_ReportScheduler
                     else
                         strWhere = " And " + strTableName + ".[" + strField + "] IN ('" + strConditionValue.Replace(",", "','") + "') ";
                 }
+                else if (strField == "Exterior_Interior")
+                   strWhere = " And ISNULL([" + strTableName + "]." + strField + ",'') NOT IN ('" + strConditionValue.Replace(",", "','") + "') ";
+              
                 else if (strField == "PK_LU_Approval_Submission" && strConditionValue == "0")
                     strWhere = " And " + strTableName + ".[" + strField + "] IS NULL ";
                 else if (strField == "PK_LU_Approval_Submission" && strConditionValue.Contains("0"))
