@@ -29,26 +29,22 @@
             args.IsValid = CompareDateGreaterThanTodayNoAlert(args.Value);
             return args.IsValid;
         }
-        
+
     </script>
 
     <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
-        HeaderText="Verify the following fields :" BorderWidth="1" BorderColor="DimGray">
-    </asp:ValidationSummary>
+        HeaderText="Verify the following fields :" BorderWidth="1" BorderColor="DimGray"></asp:ValidationSummary>
     <table cellpadding="0" cellspacing="0" width="100%">
         <tr>
-            <td>
-                &nbsp;
+            <td>&nbsp;
             </td>
         </tr>
         <tr>
-            <td class="bandHeaderRow" align="left">
-                Employee
+            <td class="bandHeaderRow" align="left">Employee
             </td>
         </tr>
         <tr>
-            <td>
-                &nbsp;
+            <td>&nbsp;
             </td>
         </tr>
         <tr>
@@ -61,36 +57,40 @@
                             </td>
                         </tr>
                         <tr valign="top">
-                            <td>
-                                Employee ID <%--<span style="color: Red;">*</span>--%>
+                            <td>Employee ID <%--<span style="color: Red;">*</span>--%>
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td>
                                 <asp:TextBox ID="txtEmployeeID" runat="server" MaxLength="50" Width="170px">
                                 </asp:TextBox>
-                               <%-- <asp:RequiredFieldValidator ID="rfvtxtEmployeeID" runat="server" Display="None" ErrorMessage="Please Enter Employee ID."
+                                <%-- <asp:RequiredFieldValidator ID="rfvtxtEmployeeID" runat="server" Display="None" ErrorMessage="Please Enter Employee ID."
                                     ControlToValidate="txtEmployeeID" SetFocusOnError="true"></asp:RequiredFieldValidator>--%>
                             </td>
                         </tr>
                         <tr>
-                            <td align="left" width="18%">
-                                First Name <span style="color: Red;">*</span>
+                            <td align="left" width="18%">First Name <span style="color: Red;">*</span>
                             </td>
-                            <td align="center" width="4%">
-                                :
+                            <td align="center" width="4%">:
                             </td>
                             <td align="left" width="28%">
                                 <asp:TextBox ID="txtFirstName" runat="server" MaxLength="50" Width="170px"></asp:TextBox>
                                 <asp:RequiredFieldValidator runat="server" ID="rfvAssociateName" ControlToValidate="txtFirstName"
                                     Display="none" ErrorMessage="Please Enter First Name." SetFocusOnError="true"></asp:RequiredFieldValidator>
                             </td>
-                            <td align="left" width="18%">
-                                Last Name <span style="color: Red;">*</span>
+                        </tr>
+                        <tr>
+                            <td align="left" width="18%">Middle Initial
                             </td>
-                            <td align="center" width="4%">
-                                :
+                            <td align="center" width="4%">:
+                            </td>
+                            <td align="left" width="28%">
+                                <asp:TextBox ID="txtMIddleName" runat="server" Width="170px" MaxLength="50">
+                                </asp:TextBox>
+                            </td>
+                            <td align="left" width="18%">Last Name <span style="color: Red;">*</span>
+                            </td>
+                            <td align="center" width="4%">:
                             </td>
                             <td align="left" width="28%">
                                 <asp:TextBox ID="txtLastName" runat="server" MaxLength="50" Width="170px"></asp:TextBox>
@@ -99,21 +99,19 @@
                             </td>
                         </tr>
                         <tr>
-                            <td align="left" width="18%">
-                                Middle Initial
+                            <td align="left">Gender
                             </td>
-                            <td align="center" width="4%">
-                                :
+                            <td align="center">:
                             </td>
-                            <td align="left" width="28%">
-                                <asp:TextBox ID="txtMIddleName" runat="server" Width="170px" MaxLength="50">
-                                </asp:TextBox>
+                            <td align="left">
+                                <asp:RadioButtonList ID="rblGender" runat="server" RepeatDirection="Horizontal">
+                                    <asp:ListItem Value="M" Selected="True">Male</asp:ListItem>
+                                    <asp:ListItem Value="F">Female</asp:ListItem>
+                                </asp:RadioButtonList>
                             </td>
-                            <td align="left" width="18%">
-                                Date of Birth
+                            <td align="left" width="18%">Date of Birth
                             </td>
-                            <td align="center" width="4%">
-                                :
+                            <td align="center" width="4%">:
                             </td>
                             <td align="left" width="28%">
                                 <asp:TextBox ID="txtDate_Of_Birth" runat="server" Width="170px" SkinID="txtDate"
@@ -130,35 +128,9 @@
                             </td>
                         </tr>
                         <tr>
-                            <td align="left">
-                                Gender
+                            <td align="left">Number of Dependents
                             </td>
-                            <td align="center">
-                                :
-                            </td>
-                            <td align="left">
-                                <asp:RadioButtonList ID="rblGender" runat="server" RepeatDirection="Horizontal">
-                                    <asp:ListItem Value="M" Selected="True">Male</asp:ListItem>
-                                    <asp:ListItem Value="F">Female</asp:ListItem>
-                                </asp:RadioButtonList>
-                            </td>
-                            <td align="left">
-                                Marital Status
-                            </td>
-                            <td align="center">
-                                :
-                            </td>
-                            <td align="left">
-                                <asp:DropDownList ID="ddlMaritalStatus" runat="server" Width="170px" SkinID="ddlSONIC">
-                                </asp:DropDownList>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="left">
-                                Number of Dependents
-                            </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:TextBox ID="txtNumber_of_Dependents" runat="server" Width="170px" MaxLength="2"></asp:TextBox>
@@ -167,11 +139,26 @@
                                     ErrorMessage="Number of Dependents is not valid Number."> 
                                 </asp:CustomValidator>
                             </td>
-                            <td align="left">
-                                Date of Death
+                            <td align="left">Marital Status
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
+                            </td>
+                            <td align="left">
+                                <asp:DropDownList ID="ddlMaritalStatus" runat="server" Width="170px" SkinID="ddlSONIC">
+                                </asp:DropDownList>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left">Address 1&nbsp;
+                            </td>
+                            <td align="center">:
+                            </td>
+                            <td align="left">
+                                <asp:TextBox runat="server" ID="txtAddress_1" Width="170px" MaxLength="50"></asp:TextBox>
+                            </td>
+                            <td align="left">Date of Death
+                            </td>
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:TextBox ID="txtDate_of_Death" runat="server" Width="170px" SkinID="txtDate"
@@ -191,49 +178,41 @@
                             </td>
                         </tr>
                         <tr>
-                            <td align="left">
-                                Address 1&nbsp;
+                            <td align="left">Address 2
                             </td>
-                            <td align="center">
-                                :
-                            </td>
-                            <td align="left">
-                                <asp:TextBox runat="server" ID="txtAddress_1" Width="170px" MaxLength="50"></asp:TextBox>
-                            </td>
-                            <td align="left">
-                                Social Security Number <span style="color: Red;">*</span>                            
-                            </td>
-                            <td align="center">
-                                :
-                            </td>
-                            <td align="left">
-                                <asp:TextBox runat="server" ID="txtSocial_Security_Number" Width="170px" MaxLength="9"></asp:TextBox>                                
-                                <asp:RequiredFieldValidator ID="rfvSocial_Security_Number" runat="server" Display="None" ErrorMessage="Please Enter Social Security Number."
-                                    ControlToValidate="txtSocial_Security_Number" SetFocusOnError="true"></asp:RequiredFieldValidator>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="left">
-                                Address 2
-                            </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:TextBox ID="txtAddress_2" Width="170px" runat="server" MaxLength="50">
                                 </asp:TextBox>
                             </td>
-                            <td align="left">
-                                Date of Hire
+                            <td align="left">Social Security Number <span style="color: Red;">*</span>
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
+                            </td>
+                            <td align="left">
+                                <asp:TextBox runat="server" ID="txtSocial_Security_Number" Width="170px" MaxLength="9"></asp:TextBox>
+                                <asp:RequiredFieldValidator ID="rfvSocial_Security_Number" runat="server" Display="None" ErrorMessage="Please Enter Social Security Number."
+                                    ControlToValidate="txtSocial_Security_Number" SetFocusOnError="true"></asp:RequiredFieldValidator>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left">City
+                            </td>
+                            <td align="center">:
+                            </td>
+                            <td align="left">
+                                <asp:TextBox ID="txtCity" runat="server" Width="170px" MaxLength="50"></asp:TextBox>
+                            </td>
+                            <td align="left">Date of Hire
+                            </td>
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:TextBox ID="txtDate_of_Hire" runat="server" Width="170px" SkinID="txtDate" MaxLength="10"></asp:TextBox>
                                 <img alt="Date of Hire" onclick="return showCalendar('<%= txtDate_of_Hire.ClientID %>', 'mm/dd/y');"
                                     onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
-                                    align="middle" id="img1" /><br />                                  
+                                    align="middle" id="img1" /><br />
                                 <asp:RegularExpressionValidator ID="rvtxtDate_of_Hire" runat="server" ControlToValidate="txtDate_of_Hire"
                                     ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$"
                                     ErrorMessage="Date of Hire is Not Valid Date." Display="none" SetFocusOnError="true">
@@ -241,32 +220,9 @@
                             </td>
                         </tr>
                         <tr>
-                            <td align="left">
-                                City
+                            <td align="left">Zip Code
                             </td>
-                            <td align="center">
-                                :
-                            </td>
-                            <td align="left">
-                                <asp:TextBox ID="txtCity" runat="server" Width="170px" MaxLength="50"></asp:TextBox>
-                            </td>
-                            <td align="left">
-                                State
-                            </td>
-                            <td align="center">
-                                :
-                            </td>
-                            <td align="left">
-                                <asp:DropDownList ID="ddlState" runat="server" Width="170px" SkinID="ddlSONIC">
-                                </asp:DropDownList>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="left">
-                                Zip Code
-                            </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:TextBox ID="txtZip_code" runat="server" Width="170px" MaxLength="10" onKeyPress="javascript:return FormatZipCode(event,this.id);"></asp:TextBox>
@@ -274,11 +230,30 @@
                                     SetFocusOnError="true" ControlToValidate="txtZip_code" ValidationExpression="\b[0-9]{5}-[0-9]{4}\b|\b[0-9]{5}\b"
                                     Display="none" />
                             </td>
-                            <td align="left">
-                                Home Telephone (XXX-XXX-XXXX)
+                            <td align="left">State
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
+                            </td>
+                            <td align="left">
+                                <asp:DropDownList ID="ddlState" runat="server" Width="170px" SkinID="ddlSONIC">
+                                </asp:DropDownList>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left">Cell Phone (XXX-XXX-XXXX)
+                            </td>
+                            <td align="center">:
+                            </td>
+                            <td align="left">
+                                <asp:TextBox ID="txtCell_phone" runat="server" Width="170px" SkinID="txtPhone" MaxLength="12"
+                                    onpaste="return false"></asp:TextBox>
+                                <asp:RegularExpressionValidator ID="revtxtCell_phone" ControlToValidate="txtCell_phone"
+                                    runat="server" ErrorMessage="Please Enter Cell Phone in XXX-XXX-XXXX format."
+                                    Display="none" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>
+                            </td>
+                            <td align="left">Home Telephone (XXX-XXX-XXXX)
+                            </td>
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:TextBox ID="txtHome_Phone" runat="server" Width="170px" MaxLength="12" SkinID="txtPhone"></asp:TextBox>
@@ -288,38 +263,9 @@
                             </td>
                         </tr>
                         <tr>
-                            <td align="left">
-                                Cell Phone (XXX-XXX-XXXX)
+                            <td align="left">Email Address <span style="color: Red;">*</span>
                             </td>
-                            <td align="center">
-                                :
-                            </td>
-                            <td align="left">
-                                <asp:TextBox ID="txtCell_phone" runat="server" Width="170px" SkinID="txtPhone" MaxLength="12"
-                                    onpaste="return false"></asp:TextBox>
-                                <asp:RegularExpressionValidator ID="revtxtCell_phone" ControlToValidate="txtCell_phone"
-                                    runat="server" ErrorMessage="Please Enter Cell Phone in XXX-XXX-XXXX format."
-                                    Display="none" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>
-                            </td>
-                            <td align="left">
-                                Work Phone (XXX-XXX-XXXX)
-                            </td>
-                            <td align="center">
-                                :
-                            </td>
-                            <td align="left">
-                                <asp:TextBox ID="txtWork_Phone" runat="server" Width="170px" MaxLength="12" SkinID="txtPhone"></asp:TextBox>
-                                <asp:RegularExpressionValidator ID="revtxtWork_Phone" ControlToValidate="txtWork_Phone"
-                                    runat="server" ErrorMessage="Please Enter Work Phone in XXX-XXX-XXXX format."
-                                    Display="none" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="left">
-                                Email Address <span style="color: Red;">*</span>
-                            </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:TextBox ID="txtemail" runat="server" Width="170px"></asp:TextBox>
@@ -329,22 +275,21 @@
                                 <asp:RequiredFieldValidator ID="rfvtxtEmail" runat="server" ControlToValidate="txtemail"
                                     Display="None" ErrorMessage="Please enter email"></asp:RequiredFieldValidator>
                             </td>
-                            <td align="left">
-                                In Active
+                            <td align="left">Work Phone (XXX-XXX-XXXX)
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
-                                <asp:TextBox runat="server" ID="txtInactive" Width="170px" MaxLength="50"></asp:TextBox>
+                                <asp:TextBox ID="txtWork_Phone" runat="server" Width="170px" MaxLength="12" SkinID="txtPhone"></asp:TextBox>
+                                <asp:RegularExpressionValidator ID="revtxtWork_Phone" ControlToValidate="txtWork_Phone"
+                                    runat="server" ErrorMessage="Please Enter Work Phone in XXX-XXX-XXXX format."
+                                    Display="none" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>
                             </td>
                         </tr>
                         <tr align="left">
-                            <td>
-                                Cost Center <span style="color: Red;">*</span>
+                            <td>Cost Center <span style="color: Red;">*</span>
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:DropDownList ID="ddlCostCenter" runat="server" Width="170px" SkinID="ddlSONIC">
@@ -352,24 +297,36 @@
                                 <asp:RequiredFieldValidator ID="rfvddlCostCenter" runat="server" ControlToValidate="ddlCostCenter"
                                     Display="None" ErrorMessage="Please Select Cost Center" InitialValue="0"></asp:RequiredFieldValidator>
                             </td>
-                            <td align="left">
-                                Department <span style="color: Red;">*</span>
+                            <td align="left">In Active
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
+                            </td>
+                            <td align="left">
+                                <asp:TextBox runat="server" ID="txtInactive" Width="170px" MaxLength="50"></asp:TextBox>
+                            </td>
+                        </tr>
+                        <tr align="left">
+                            <td>Secondary Cost Center
+                            </td>
+                            <td align="center">:
+                            </td>
+                            <td align="left">
+                                <asp:TextBox ID="txtSecondary_Cost_Center" runat="server" Width="170px" MaxLength="200"></asp:TextBox>
+                            </td>
+                            <td align="left">Department <span style="color: Red;">*</span>
+                            </td>
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:TextBox ID="txtDepartment" runat="server" Width="170px" MaxLength="50"></asp:TextBox>
-                                 <asp:RequiredFieldValidator ID="rfvDepartment" runat="server" ControlToValidate="txtDepartment"
+                                <asp:RequiredFieldValidator ID="rfvDepartment" runat="server" ControlToValidate="txtDepartment"
                                     Display="None" ErrorMessage="Please enter Department" InitialValue="0"></asp:RequiredFieldValidator>
                             </td>
                         </tr>
                         <tr>
-                            <td align="left">
-                                Salary
+                            <td align="left">Salary
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:TextBox ID="txtSalary" runat="server" Width="170px" onkeypress="return currencyFormat(this,',','.',event);"
@@ -379,22 +336,18 @@
                                     ErrorMessage="Salary is not valid Number."> 
                                 </asp:CustomValidator>
                             </td>
-                            <td align="left">
-                                Salary Frequency
+                            <td align="left">Salary Frequency
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:TextBox ID="txtSalary_Frequency" runat="server" Width="170px" MaxLength="50"></asp:TextBox>
                             </td>
                         </tr>
                         <tr>
-                            <td align="left">
-                                Wages YTD
+                            <td align="left">Wages YTD
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:TextBox ID="txtWages_YTD" runat="server" Width="170px" MaxLength="15"></asp:TextBox>
@@ -403,11 +356,9 @@
                                     ErrorMessage="Wages YTD is not valid Number."> 
                                 </asp:CustomValidator>
                             </td>
-                            <td align="left">
-                                Active Inactive Leave <span style="color: Red;">*</span>
+                            <td align="left">Active Inactive Leave <span style="color: Red;">*</span>
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:TextBox ID="txtActive_Inactive_Leave" runat="server" Width="170px" MaxLength="12"></asp:TextBox>
@@ -416,20 +367,16 @@
                             </td>
                         </tr>
                         <tr>
-                            <td align="left">
-                                Job Title
+                            <td align="left">Job Title
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:TextBox ID="txtJob_Title" runat="server" Width="170px" MaxLength="50"></asp:TextBox>
                             </td>
-                            <td align="left">
-                                Job Classification
+                            <td align="left">Job Classification
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:DropDownList ID="ddlJobClassification" runat="server" Width="170px" SkinID="ddlSONIC">
@@ -437,93 +384,75 @@
                             </td>
                         </tr>
                         <tr>
-                            <td align="left">
-                                Job Description
+                            <td align="left">Job Description
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:TextBox ID="txtOccupation_description" runat="server" Width="170px" MaxLength="50"></asp:TextBox>
                             </td>
-                            <td align="left">
-                                Supervisor Name
+                            <td align="left">Supervisor Name
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:TextBox ID="txtSupervisor_Name" runat="server" Width="170px" MaxLength="50"></asp:TextBox>
                             </td>
                         </tr>
                         <tr>
-                            <td align="left">
-                                Driver's License State
+                            <td align="left">Driver's License State
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:DropDownList ID="ddlDriver_License_state" runat="server" Width="170px" SkinID="ddlSONIC">
                                 </asp:DropDownList>
                             </td>
-                            <td align="left">
-                                Driver's License Number
+                            <td align="left">Driver's License Number
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:TextBox ID="txtDriver_License_Number" runat="server" Width="170px" MaxLength="50"></asp:TextBox>
                             </td>
                         </tr>
                         <tr>
-                            <td align="left">
-                                Driver's License Type
+                            <td align="left">Driver's License Type
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:TextBox ID="txtDriver_License_Type" runat="server" Width="170px" MaxLength="50">
                                 </asp:TextBox>
                             </td>
-                            <td align="left">
-                                Driver's License Class
+                            <td align="left">Driver's License Class
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:TextBox ID="txtDriver_License_Class" runat="server" Width="170px" MaxLength="50"></asp:TextBox>
                             </td>
                         </tr>
                         <tr>
-                            <td align="left">
-                                Driver's License Restrictions
+                            <td align="left">Driver's License Restrictions
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:TextBox ID="txtDrivers_License_Restrictions" runat="server" Width="170px" MaxLength="50"></asp:TextBox>
                             </td>
-                            <td align="left">
-                                Driver's License Endorsements
+                            <td align="left">Driver's License Endorsements
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:TextBox ID="txtDrivers_License_Endorsements" runat="server" Width="170px" MaxLength="50"></asp:TextBox>
                             </td>
                         </tr>
                         <tr>
-                            <td align="left">
-                                Driver's License Issued
+                            <td align="left">Driver's License Issued
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:TextBox ID="txtDrivers_License_Issued" runat="server" Width="170px" MaxLength="10"
@@ -536,11 +465,9 @@
                                     ErrorMessage="Driver's License Issued is Not Valid Date." Display="none" SetFocusOnError="true">
                                 </asp:RegularExpressionValidator>
                             </td>
-                            <td align="left">
-                                Driver's License Expires
+                            <td align="left">Driver's License Expires
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:TextBox ID="txtDrivers_License_Expires" runat="server" Width="170px" MaxLength="10"
@@ -568,11 +495,9 @@
                                 <asp:DropDownList ID="ddlBankNumber" runat="server" Width="170px" SkinID="ddlSONIC">
                                 </asp:DropDownList>
                             </td>--%>
-                             <td>
-                                Job Code <span style="color: Red;">*</span>
+                            <td>Job Code <span style="color: Red;">*</span>
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td>
                                 <asp:DropDownList ID="ddlJobCode" runat="server" Width="170px" SkinID="ddlSONIC">
@@ -580,11 +505,9 @@
                                 <asp:RequiredFieldValidator ID="rfvJobCode" runat="server" ControlToValidate="ddlJobCode"
                                     Display="None" ErrorMessage="Please Select Job Code" InitialValue="0"></asp:RequiredFieldValidator>
                             </td>
-                            <td align="left">
-                                Last Date of Hire<span style="color: Red;">*</span>
+                            <td align="left">Last Date of Hire<span style="color: Red;">*</span>
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:TextBox ID="txtLast_Date_Of_Hire" runat="server" Width="170px" SkinID="txtDate" MaxLength="10"></asp:TextBox>
@@ -592,7 +515,7 @@
                                     onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
                                     align="middle" id="img0" /><br />
                                 <asp:RequiredFieldValidator ID="rfvLastDateOfHire" runat="server" ControlToValidate="txtLast_Date_Of_Hire"
-                                    Display="None" ErrorMessage="Please select Last Date Of Hire" ></asp:RequiredFieldValidator>
+                                    Display="None" ErrorMessage="Please select Last Date Of Hire"></asp:RequiredFieldValidator>
                                 <asp:RegularExpressionValidator ID="rfvLast_Date_of_Hire" runat="server" ControlToValidate="txtLast_Date_Of_Hire"
                                     ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$"
                                     ErrorMessage="Last Date of Hire is Not Valid Date." Display="none" SetFocusOnError="true">
@@ -601,8 +524,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>
-                                &nbsp;
+                            <td>&nbsp;
                             </td>
                         </tr>
                         <tr>
@@ -619,11 +541,9 @@
                 <asp:Panel ID="pnlView" runat="server">
                     <table cellpadding="3" cellspacing="1" border="0" width="100%">
                         <tr valign="top">
-                            <td>
-                                Employee ID
+                            <td>Employee ID
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td>
                                 <asp:Label ID="lblEmployeeID" runat="server">                                 
@@ -631,41 +551,42 @@
                             </td>
                         </tr>
                         <tr>
-                            <td align="left" width="18%">
-                                First Name
+                            <td align="left" width="18%">First Name
                             </td>
-                            <td align="center" width="4%">
-                                :
+                            <td align="center" width="4%">:
                             </td>
                             <td align="left" width="28%">
                                 <asp:Label ID="lblFirstName" runat="server"></asp:Label>
                             </td>
-                            <td align="left" width="18%">
-                                Last Name
+                        </tr>
+                        <tr>
+                            <td align="left" width="18%">Middle Initial
                             </td>
-                            <td align="center" width="4%">
-                                :
+                            <td align="center" width="4%">:
+                            </td>
+                            <td align="left" width="28%">
+                                <asp:Label ID="lblMIddleName" runat="server">
+                                </asp:Label>
+                            </td>
+                            <td align="left" width="18%">Last Name
+                            </td>
+                            <td align="center" width="4%">:
                             </td>
                             <td align="left" width="28%">
                                 <asp:Label ID="lblLastName" runat="server"></asp:Label>
                             </td>
                         </tr>
                         <tr>
-                            <td align="left" width="18%">
-                                Middle Initial
+                            <td align="left">Gender
                             </td>
-                            <td align="center" width="4%">
-                                :
+                            <td align="center">:
                             </td>
-                            <td align="left" width="28%">
-                                <asp:Label ID="lblMIddleName" runat="server">
-                                </asp:Label>
+                            <td align="left">
+                                <asp:Label ID="lblGender" runat="server"></asp:Label>
                             </td>
-                            <td align="left" width="18%">
-                                Date of Birth
+                            <td align="left" width="18%">Date of Birth
                             </td>
-                            <td align="center" width="4%">
-                                :
+                            <td align="center" width="4%">:
                             </td>
                             <td align="left" width="28%">
                                 <asp:Label ID="lblDate_Of_Birth" runat="server" SkinID="lblDate"></asp:Label>
@@ -673,40 +594,32 @@
                             </td>
                         </tr>
                         <tr>
-                            <td align="left">
-                                Gender
+                            <td align="left">Number of Dependents
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
-                                <asp:Label ID="lblGender" runat="server"></asp:Label>
+                                <asp:Label ID="lblNumber_of_Dependents" runat="server" onKeyPress="return FormatInteger(event);"></asp:Label>
                             </td>
-                            <td align="left">
-                                Marital Status
+                            <td align="left">Marital Status
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:Label ID="lblMaritalStatus" runat="server"></asp:Label>
                             </td>
                         </tr>
                         <tr>
-                            <td align="left">
-                                Number of Dependents
+                            <td align="left">Address 1&nbsp;
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
-                                <asp:Label ID="lblNumber_of_Dependents" runat="server" onKeyPress="return FormatInteger(event);"></asp:Label>
+                                <asp:Label runat="server" ID="lblAddress_1"></asp:Label>
                             </td>
-                            <td align="left">
-                                Date of Death
+                            <td align="left">Date of Death
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:Label ID="lblDate_of_Death" runat="server" SkinID="lblDate"></asp:Label>
@@ -714,41 +627,33 @@
                             </td>
                         </tr>
                         <tr>
-                            <td align="left">
-                                Address 1&nbsp;
+                            <td align="left">Address 2
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
-                                <asp:Label runat="server" ID="lblAddress_1"></asp:Label>
+                                <asp:Label ID="lblAddress_2" runat="server">
+                                </asp:Label>
                             </td>
-                            <td align="left">
-                                Social Security Number
+                            <td align="left">Social Security Number
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:Label runat="server" ID="lblSocial_Security_Number"></asp:Label>
                             </td>
                         </tr>
                         <tr>
-                            <td align="left">
-                                Address 2
+                            <td align="left">City
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
-                                <asp:Label ID="lblAddress_2" runat="server">
-                                </asp:Label>
+                                <asp:Label ID="lblCity" runat="server"></asp:Label>
                             </td>
-                            <td align="left">
-                                Date of Hire
+                            <td align="left">Date of Hire
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:Label ID="lblDate_of_Hire" runat="server" SkinID="lblDate"></asp:Label>
@@ -756,263 +661,211 @@
                             </td>
                         </tr>
                         <tr>
-                            <td align="left">
-                                City
+                            <td align="left">Zip Code
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
-                                <asp:Label ID="lblCity" runat="server"></asp:Label>
+                                <asp:Label ID="lblZip_code" runat="server" onKeyPress="javascript:return FormatZipCode(event,this.id);"></asp:Label>
                             </td>
-                            <td align="left">
-                                State
+                            <td align="left">State
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:Label ID="lblState" runat="server"></asp:Label>
                             </td>
                         </tr>
                         <tr>
-                            <td align="left">
-                                Zip Code
+                            <td align="left">Cell Phone (XXX-XXX-XXXX)
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
-                                <asp:Label ID="lblZip_code" runat="server" onKeyPress="javascript:return FormatZipCode(event,this.id);"></asp:Label>
+                                <asp:Label ID="lblCell_phone" runat="server" SkinID="lblPhone" onpaste="return false"></asp:Label>
                             </td>
-                            <td align="left">
-                                Home Telephone (XXX-XXX-XXXX)
+                            <td align="left">Home Telephone (XXX-XXX-XXXX)
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:Label ID="lblHome_Phone" runat="server" SkinID="lblPhone"></asp:Label>
                             </td>
                         </tr>
                         <tr>
-                            <td align="left">
-                                Cell Phone (XXX-XXX-XXXX)
+                            <td align="left">Email Address
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
-                                <asp:Label ID="lblCell_phone" runat="server" SkinID="lblPhone" onpaste="return false"></asp:Label>
+                                <asp:Label ID="lblemail" runat="server"></asp:Label>
                             </td>
-                            <td align="left">
-                                Work Phone (XXX-XXX-XXXX)
+                            <td align="left">Work Phone (XXX-XXX-XXXX)
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:Label ID="lblWork_Phone" runat="server" SkinID="lblPhone"></asp:Label>
                             </td>
                         </tr>
-                        <tr>
-                            <td align="left">
-                                Email Address
+                        <tr align="left">
+                            <td>Cost Center
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
-                                <asp:Label ID="lblemail" runat="server"></asp:Label>
+                                <asp:Label ID="lblCostCenter" runat="server"></asp:Label>
                             </td>
-                            <td align="left">
-                                In Active
+                            <td align="left">In Active
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:Label runat="server" ID="lblInactive"></asp:Label>
                             </td>
                         </tr>
                         <tr align="left">
+                            <td>Secondary Cost Center
+                            </td>
+                            <td align="center">:
+                            </td>
                             <td>
-                                Cost Center
+                                <asp:Label ID="lblSecondary_Cost_Center" runat="server"></asp:Label>
                             </td>
-                            <td align="center">
-                                :
+                            <td align="left">Department
                             </td>
-                            <td align="left">
-                                <asp:Label ID="lblCostCenter" runat="server"></asp:Label>
-                            </td>
-                            <td align="left">
-                                Department
-                            </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:Label ID="lblDepartment" runat="server"></asp:Label>
                             </td>
                         </tr>
                         <tr>
-                            <td align="left">
-                                Salary
+                            <td align="left">Salary
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:Label ID="lblSalary" runat="server" onkeypress="return currencyFormat(this,',','.',event);"
                                     onpaste="return false"></asp:Label>
                             </td>
-                            <td align="left">
-                                Salary Frequency
+                            <td align="left">Salary Frequency
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:Label ID="lblSalary_Frequency" runat="server"></asp:Label>
                             </td>
                         </tr>
                         <tr>
-                            <td align="left">
-                                Wages YTD
+                            <td align="left">Wages YTD
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:Label ID="lblWages_YTD" runat="server"></asp:Label>
                             </td>
-                            <td align="left">
-                                Active Inactive Leave
+                            <td align="left">Active Inactive Leave
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:Label ID="lblActive_Inactive_Leave" runat="server"></asp:Label>
                             </td>
                         </tr>
                         <tr>
-                            <td align="left">
-                                Job Title
+                            <td align="left">Job Title
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:Label ID="lblJob_Title" runat="server"></asp:Label>
                             </td>
-                            <td align="left">
-                                Job Classification
+                            <td align="left">Job Classification
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:Label ID="lblJobClassification" runat="server"></asp:Label>
                             </td>
                         </tr>
                         <tr>
-                            <td align="left">
-                                Job Description
+                            <td align="left">Job Description
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:Label ID="lblOccupation_description" runat="server"></asp:Label>
                             </td>
-                            <td align="left">
-                                Supervisor Name
+                            <td align="left">Supervisor Name
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:Label ID="lblSupervisor_Name" runat="server"></asp:Label>
                             </td>
                         </tr>
                         <tr>
-                            <td align="left">
-                                Driver's License State
+                            <td align="left">Driver's License State
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:Label ID="lblDriver_License_state" runat="server"></asp:Label>
                             </td>
-                            <td align="left">
-                                Driver's License Number
+                            <td align="left">Driver's License Number
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:Label ID="lblDriver_License_Number" runat="server"></asp:Label>
                             </td>
                         </tr>
                         <tr>
-                            <td align="left">
-                                Driver's License Type
+                            <td align="left">Driver's License Type
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:Label ID="lblDriver_License_Type" runat="server">
                                 </asp:Label>
                             </td>
-                            <td align="left">
-                                Driver's License Class
+                            <td align="left">Driver's License Class
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:Label ID="lblDriver_License_Class" runat="server"></asp:Label>
                             </td>
                         </tr>
                         <tr>
-                            <td align="left">
-                                Driver's License Restrictions
+                            <td align="left">Driver's License Restrictions
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:Label ID="lblDrivers_License_Restrictions" runat="server"></asp:Label>
                             </td>
-                            <td align="left">
-                                Driver's License Endorsements
+                            <td align="left">Driver's License Endorsements
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:Label ID="lblDrivers_License_Endorsements" runat="server"></asp:Label>
                             </td>
                         </tr>
                         <tr>
-                            <td align="left">
-                                Driver's License Issued
+                            <td align="left">Driver's License Issued
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:Label ID="lblDrivers_License_Issued" runat="server" SkinID="lblDate"></asp:Label>
                                 <br />
                             </td>
-                            <td align="left">
-                                Driver's License Expires
+                            <td align="left">Driver's License Expires
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:Label ID="lblDrivers_License_Expires" runat="server" SkinID="lblDate"></asp:Label>
@@ -1020,20 +873,16 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>
-                                Job Code
+                            <td>Job Code
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td>
                                 <asp:Label ID="lblJobCode" runat="server"></asp:Label>
                             </td>
-                            <td align="left">
-                                Last Date of Hire
+                            <td align="left">Last Date of Hire
                             </td>
-                            <td align="center">
-                                :
+                            <td align="center">:
                             </td>
                             <td align="left">
                                 <asp:Label ID="lblLast_date_of_hire" runat="server" SkinID="lblDate"></asp:Label>
@@ -1041,8 +890,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>
-                                &nbsp;
+                            <td>&nbsp;
                             </td>
                         </tr>
                         <tr>
@@ -1059,13 +907,11 @@
             </td>
         </tr>
         <tr>
-            <td>
-                &nbsp;
+            <td>&nbsp;
             </td>
         </tr>
         <tr>
-            <td>
-                &nbsp;
+            <td>&nbsp;
             </td>
         </tr>
     </table>

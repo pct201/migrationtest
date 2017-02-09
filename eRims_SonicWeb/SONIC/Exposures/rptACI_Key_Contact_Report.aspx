@@ -180,6 +180,16 @@
                                             <%#Eval("work_Phone")%>
                                         </ItemTemplate>
                                     </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Cost Center" ItemStyle-Width="100px">
+                                        <ItemTemplate>
+                                            <%#Eval("FK_Cost_Center")%>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Secondary Cost Center" ItemStyle-Width="100px">
+                                        <ItemTemplate>
+                                            <%#Eval("Secondary_Cost_Center")%>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
                                 </Columns>
                                 <EmptyDataTemplate>
                                     No Record Found !

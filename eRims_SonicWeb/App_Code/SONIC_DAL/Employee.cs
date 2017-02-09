@@ -56,7 +56,7 @@ namespace ERIMS.DAL
         private string _Email;
         private string _Department;
         private DateTime? _Last_Hire_Date;
-
+        private string _Secondary_Cost_Center;
         #endregion
 
 
@@ -458,6 +458,18 @@ namespace ERIMS.DAL
             set { _Last_Hire_Date = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the secondary_ cost_ center.
+        /// </summary>
+        /// <value>
+        /// The secondary_ cost_ center.
+        /// </value>
+        public string Secondary_Cost_Center
+        {
+            get { return _Secondary_Cost_Center; }
+            set { _Secondary_Cost_Center = value; }
+        }
+
         #endregion
 
 
@@ -738,6 +750,11 @@ namespace ERIMS.DAL
                     this._Department = null;
                 else
                     this._Department = (string)drEmployee["Department"];
+
+                if (drEmployee["Secondary_Cost_Center"] == DBNull.Value)
+                    this._Secondary_Cost_Center = null;
+                else
+                    this._Secondary_Cost_Center = (string)drEmployee["Secondary_Cost_Center"];
 
                 if (drEmployee["Last_Date_Of_Hire"] == DBNull.Value)
                     this._Last_Hire_Date = null;
@@ -1089,6 +1106,11 @@ namespace ERIMS.DAL
             else
                 db.AddInParameter(dbCommand, "Department", DbType.String, this._Department);
 
+            if (string.IsNullOrEmpty(this._Secondary_Cost_Center))
+                db.AddInParameter(dbCommand, "Secondary_Cost_Center", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Secondary_Cost_Center", DbType.String, this._Secondary_Cost_Center);
+
             db.AddInParameter(dbCommand, "Last_Date_Of_Hire", DbType.DateTime, this._Last_Hire_Date);
 
             // Execute the query and return the new identity value
@@ -1330,6 +1352,11 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Department", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Department", DbType.String, this._Department);
+
+            if (string.IsNullOrEmpty(this._Secondary_Cost_Center))
+                db.AddInParameter(dbCommand, "Secondary_Cost_Center", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Secondary_Cost_Center", DbType.String, this._Secondary_Cost_Center);
 
             db.AddInParameter(dbCommand, "Last_Date_Of_Hire", DbType.DateTime, this._Last_Hire_Date);
 
