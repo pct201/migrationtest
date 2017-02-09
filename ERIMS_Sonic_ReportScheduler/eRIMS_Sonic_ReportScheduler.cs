@@ -16717,7 +16717,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 //    strWhere = " And " + strTableName + ".[" + strField + "] IN (" + strConditionValue + ")";
                 if (IsNotSelected == true)
                 {
-                    if (strConditionValue.Trim().ToUpper() == "Y" || strConditionValue.Trim().ToUpper() == "N" || strConditionValue.Trim().ToUpper() == "Y,N" || strConditionValue.Trim().ToUpper() == "EXTERIOR" || strConditionValue.Trim().ToUpper() == "INTERIOR" || strConditionValue.Trim().ToUpper() == "EXTERIOR")
+                    if (strConditionValue.Trim().ToUpper() == "Y" || strConditionValue.Trim().ToUpper() == "N" || strConditionValue.Trim().ToUpper() == "Y,N" || strConditionValue.Trim().ToUpper() == "EXTERIOR" || strConditionValue.Trim().ToUpper() == "INTERIOR" || strConditionValue.Trim().ToUpper() == "EXTERIOR,INTERIOR")
                     {
                         if (strField == "Is_Actionable" || strField == "Video_Requested_By_Sonic")
                             strWhere = " And ISNULL([" + strTableName + "]." + strField + ",'N') NOT IN ('" + strConditionValue.Replace(",", "','") + "') ";
