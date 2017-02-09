@@ -185,7 +185,7 @@
                                             <%#Eval("FK_Cost_Center")%>
                                         </ItemTemplate>
                                     </asp:TemplateField>
-                                    <asp:TemplateField HeaderText="Secondary Cost Center" ItemStyle-Width="100px">
+                                    <asp:TemplateField HeaderText="Secondary Cost Center" ItemStyle-Width="170px">
                                         <ItemTemplate>
                                             <%#Eval("Secondary_Cost_Center")%>
                                         </ItemTemplate>
