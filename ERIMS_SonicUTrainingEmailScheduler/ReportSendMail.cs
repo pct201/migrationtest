@@ -46,6 +46,19 @@ namespace ERIMS_SonicUTraining_EmailScheduler
         }
 
         /// <summary>
+        /// get data for E-mail to Early Alert Location Manager for the remaining Training
+        /// </summary>
+        /// <returns></returns>
+        public static DataSet GetEmployeeTrainingDataForPayRollTrainingReport()
+        {
+            SqlDatabase db = new SqlDatabase(strConn);
+            DbCommand dbCommand = db.GetStoredProcCommand("rptPayrollTrainingReport");
+
+            dbCommand.CommandTimeout = 1000;
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        /// <summary>
         /// get List of RLCM users
         /// </summary>
         /// <returns></returns>
@@ -100,6 +113,22 @@ namespace ERIMS_SonicUTraining_EmailScheduler
             return db.ExecuteDataSet(dbCommand);
         }
 
+        /// <summary>
+        /// Select RLCM Users
+        /// </summary>
+        /// <param name="fK_Employee_Id"></param>
+        /// <returns></returns>
+        public static DataSet SelectRegion_By_RLCM(decimal? fK_Employee_Id)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+
+            DbCommand dbCommand = db.GetStoredProcCommand("Region_By_RLCM");
+            db.AddInParameter(dbCommand, "FK_Employee_Id", DbType.Decimal, fK_Employee_Id);
+            dbCommand.CommandTimeout = 1000;
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
 
         /// <summary>
         /// Select RLCM Users
@@ -110,6 +139,19 @@ namespace ERIMS_SonicUTraining_EmailScheduler
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("Sonic_U_Training_Required_ClassesSelectDepartments");            
+            dbCommand.CommandTimeout = 1000;
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        /// <summary>
+        /// get data for Percentage Recap
+        /// </summary>
+        /// <returns></returns>
+        public static DataSet GetEmployeeTrainingDataForPercentageRecap()
+        {
+            SqlDatabase db = new SqlDatabase(strConn);
+            DbCommand dbCommand = db.GetStoredProcCommand("rptPercentageRecap");
+
             dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
