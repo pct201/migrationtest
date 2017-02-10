@@ -13563,21 +13563,21 @@ namespace ERIMS_Sonic_ReportScheduler
                 #region "Report Title"
 
                 //Add Report Title and Schedule Date
-                strHTML.Append("<table><tr><td colspan='12'>");
+                strHTML.Append("<table>");
 
-                strHTML.Append("<br />");
-                strHTML.Append("<b>Report Title : ACI Key Contact Report</b>");
-                strHTML.Append("<br /><br />");
-                strHTML.Append("Schedule Date : " + Convert.ToDateTime(drReportSchedule["Scheduled_Date"]).ToString(DateDisplayFormat));
-                strHTML.Append("&nbsp;&nbsp;&nbsp;&nbsp;Schedule End Date : " + Convert.ToDateTime(drReportSchedule["Schedule_End_Date"]).ToString(DateDisplayFormat));
-                strHTML.Append("<br />");
-                strHTML.Append("Recurring Period : " + drReportSchedule["Recurring_Period"].ToString());
-                strHTML.Append("<br />");
-                strHTML.Append("Recurring Date : " + dtSchduleDate.ToString(DateDisplayFormat));
+                //strHTML.Append("<br />");
+                strHTML.Append("<tr><td colspan='12'><b>Report Title : ACI Key Contact Report</b></td></tr>");
+                //strHTML.Append("<br /><br />");
+                strHTML.Append("<tr><td colspan='12'>Schedule Date : " + Convert.ToDateTime(drReportSchedule["Scheduled_Date"]).ToString(DateDisplayFormat) + "</td></tr>");
+                strHTML.Append("<tr><td colspan='12'>Schedule End Date : " + Convert.ToDateTime(drReportSchedule["Schedule_End_Date"]).ToString(DateDisplayFormat) + "</td></tr>");
+                //strHTML.Append("<br />");
+                strHTML.Append("<tr><td colspan='12'>Recurring Period : " + drReportSchedule["Recurring_Period"].ToString() + "</td></tr>");
+                //strHTML.Append("<br />");
+                strHTML.Append("<tr><td colspan='12'>Recurring Date : " + dtSchduleDate.ToString(DateDisplayFormat) + "</td></tr>");
 
                 //Add Report Filter Criteria 
-                strHTML.Append("<br /><br />");//<table> <tr> <td>
-                strHTML.Append("<b>Report Filters </b>");
+                //strHTML.Append("<br /><br />");//<table> <tr> <td>
+                strHTML.Append("<tr><td colspan='12'><b>Report Filters </b></td></tr>");
                 //strHTML.Append("<br /><table> <tr> <td>");
                 //strHTML.Append("Location D/B/A   : " + ((!string.IsNullOrEmpty(strDBA)) ? Report.GetCommaSeperatedDescFromVal("LU_Location", "dba", "PK_LU_Location_ID", strDBA) : ""));
                 //strHTML.Append("</td> </tr>");
@@ -13588,19 +13588,20 @@ namespace ERIMS_Sonic_ReportScheduler
                 //strHTML.Append("</td></tr></table> ");
 
 
-                strHTML.Append("<br /><br />");
-                strHTML.Append("Location D/B/A   : " + ((!string.IsNullOrEmpty(strDBA)) ? Report.GetCommaSeperatedDescFromVal("LU_Location", "dba", "PK_LU_Location_ID", strDBA) : ""));
-                strHTML.Append("<br />");
+                //strHTML.Append("<br /><br />");
+                strHTML.Append("<tr><td colspan='12'>Location D/B/A   : " + ((!string.IsNullOrEmpty(strDBA)) ? Report.GetCommaSeperatedDescFromVal("LU_Location", "dba", "PK_LU_Location_ID", strDBA) : "") + "</td></tr>");
+                //strHTML.Append("<br />");
                 //strHTML.Append("<tr> <td>");
-                strHTML.Append("ACI Key Contact Report : " + strJob_Titles);
-                strHTML.Append("<br /><br />");
+                strHTML.Append("<tr><td colspan='12'>ACI Key Contact Report : " + strJob_Titles + "</td></tr>");
+                //strHTML.Append("<br /><br />");
                 //strHTML.Append("<tr> <td>");
                 //strHTML.Append("</td></tr></table> ");
-                strHTML.Append("</td></tr></table>");
+                //strHTML.Append("</td></tr>");
                 #endregion
 
                 #region "Report Grid header"
                 //Top Header
+                //strHTML.Append("<tr><td>");
                 strHTML.Append("<table border='1'>");
                 strHTML.Append("<tr style='font-weight: bold;' valign='bottom'>");
                 strHTML.Append("<td align='left' >Sonic Automotive</td>");
@@ -13657,7 +13658,7 @@ namespace ERIMS_Sonic_ReportScheduler
                     //Add No record found line for year
                     strHTML.Append("<tr><td align='left' style='border:thin' colspan='13'>No Record Found!</td></tr>");
                 }
-                strHTML.Append("</table>");
+                strHTML.Append("</table></table>");
                 //strHTML.Append("</td></tr></table>");
 
                 #endregion
@@ -14509,9 +14510,9 @@ namespace ERIMS_Sonic_ReportScheduler
             try
             {
                 #region "Filter and Title"
-                sbRecord.Append("<table><tr><td colspan='3'><br />");
-                sbRecord.Append("<b>Report Title : " + strReportSchedulerName + " </b>");
-                sbRecord.Append("<br /><br />");
+                sbRecord.Append("<table cellpadding='0' cellspacing='0' style='font-size:10pt'>");
+                sbRecord.Append("<tr><td colspan='3'><b>Report Title : " + strReportSchedulerName + " </b></td></tr>");
+                //sbRecord.Append("<br /><br />");
 
                 AdhocReportFields obj = new AdhocReportFields();
                 for (int i = 0; i < lstFilter.Count; i++)
@@ -14526,16 +14527,16 @@ namespace ERIMS_Sonic_ReportScheduler
                             strConditionType = (strConditionType == "1") ? " Contains " : (strConditionType == "2" ? " Start With " : " End With ");
                         strConditionVal = lstFilter[i].ConditionValue;
                         lstAdhoc = obj.GetAdHocReportFieldByPk(Convert.ToDecimal(lstFilter[i].FK_AdHocReportFields));
-                        sbRecord.Append("<b>" + lstAdhoc[0].Field_Header + " : " + strConditionType + "</b>" + lstFilter[i].ConditionValue);
+                        sbRecord.Append("<tr><td colspan='3'><b>" + lstAdhoc[0].Field_Header + " : " + strConditionType + "</b>" + lstFilter[i].ConditionValue + "</td></tr>");
                     }
 
                     if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                     {
                         lstAdhoc = obj.GetAdHocReportFieldByPk(Convert.ToDecimal(lstFilter[i].FK_AdHocReportFields));
                         if (Convert.ToBoolean(lstFilter[i].IsNotSelected) == true)
-                            sbRecord.Append("<b>" + lstAdhoc[0].Field_Header + " (Not In)</b>" + " : " + FillFilterDropDown(lstAdhoc[0].Field_Header, lstFilter[i].ConditionValue));
+                            sbRecord.Append("<tr><td colspan='3'><b>" + lstAdhoc[0].Field_Header + " (Not In)</b>" + " : " + FillFilterDropDown(lstAdhoc[0].Field_Header, lstFilter[i].ConditionValue) + "</td></tr>");
                         else
-                            sbRecord.Append("<b>" + lstAdhoc[0].Field_Header + " (In)</b>" + " : " + FillFilterDropDown(lstAdhoc[0].Field_Header, lstFilter[i].ConditionValue));
+                            sbRecord.Append("<tr><td colspan='3'><b>" + lstAdhoc[0].Field_Header + " (In)</b>" + " : " + FillFilterDropDown(lstAdhoc[0].Field_Header, lstFilter[i].ConditionValue) + "</td></tr>");
                     }
 
                     if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.DateControl)
@@ -14566,9 +14567,9 @@ namespace ERIMS_Sonic_ReportScheduler
                             strConditionType = "Not" + strConditionType;
 
                         if (strConditionType.Trim() != "Between" && strConditionType.Trim() != "Not Between")
-                            strConditionVal = "<b>" + lstAdhoc[0].Field_Header + " : " + strConditionType + "</b>" + dtFrom;
+                            strConditionVal = "<tr><td colspan='3'><b>" + lstAdhoc[0].Field_Header + " : " + strConditionType + "</b>" + dtFrom + "</td></tr>";
                         else
-                            strConditionVal = "<b>" + lstAdhoc[0].Field_Header + " : </b>" + strConditionType + dtFrom + " And " + dtTo;
+                            strConditionVal = "<tr><td colspan='3'><b>" + lstAdhoc[0].Field_Header + " : </b>" + strConditionType + dtFrom + " And " + dtTo + "</td></tr>";
 
                         sbRecord.Append(strConditionVal);
                     }
@@ -14582,14 +14583,15 @@ namespace ERIMS_Sonic_ReportScheduler
                             strConditionType = "Not" + strConditionType;
 
                         if (strConditionType.Trim() != "Between" && strConditionType.Trim() != "Not Between")
-                            strConditionVal = "<b>" + lstAdhoc[0].Field_Header + " : " + strConditionType + "</b>" + Convert.ToString(lstFilter[i].AmountFrom);
+                            strConditionVal = "<tr><td colspan='3'><b>" + lstAdhoc[0].Field_Header + " : " + strConditionType + "</b>" + Convert.ToString(lstFilter[i].AmountFrom) + "</td></tr>";
                         else
-                            strConditionVal = "<b>" + lstAdhoc[0].Field_Header + " : </b>" + strConditionType + Convert.ToString(lstFilter[i].AmountFrom) + " And " + Convert.ToString(lstFilter[i].AmountTo);
+                            strConditionVal = "<tr><td colspan='3'><b>" + lstAdhoc[0].Field_Header + " : </b>" + strConditionType + Convert.ToString(lstFilter[i].AmountFrom) + " And " + Convert.ToString(lstFilter[i].AmountTo) + "</td></tr>";
                         sbRecord.Append(strConditionVal);
                     }
-                    sbRecord.Append("<br />");
+                   // sbRecord.Append("<br />");
                 }
-                sbRecord.Append("<br /></td></tr></table>");
+                //sbRecord.Append("<br /></td></tr></table>");
+                //sbRecord.Append("<br/>");
                 #endregion
 
                 // Check if Any record is exists or not
@@ -14669,7 +14671,7 @@ namespace ERIMS_Sonic_ReportScheduler
 
                     dtSchema = Reader.GetSchemaTable();
 
-                    sbRecord.Append("<table border='1' cellpadding='0' cellspacing='0' width='" + (150 * (ObjAdHocReport.OutputFields.Split(',').Length + 1)).ToString() + "' style='font-size:10pt'>");
+                    sbRecord.Append("<tr><td><table border='1' cellpadding='0' cellspacing='0' width='" + (150 * (ObjAdHocReport.OutputFields.Split(',').Length + 1)).ToString() + "' style='font-size:10pt'>");
 
                     #region "Header"
                     // If reader found a records 
@@ -15426,12 +15428,14 @@ namespace ERIMS_Sonic_ReportScheduler
                     #endregion
 
                     //Table End
-                    sbRecord.Append("</table>");
+                    sbRecord.Append("</table></td></tr>");
+                    
 
                     #region "Footer Template"
                     // IF Grand Total Option is Checked and Have record from Transaction Table to SUM
                     if ((Convert.ToString(ObjAdHocReport.GrandTotal) == "Y") && dtHeader.Columns.Count > 0)
                     {
+                        sbRecord.Append("<tr><td colspan='3'>");
                         string strStyle = "'font-weight: bold;background-color: #507CD1;color: White;'";
                         sbRecord.Append("<br />");
                         sbRecord.Append("<table border='1' cellpadding='0' cellspacing='0'><tr align='right'>");
@@ -15452,10 +15456,12 @@ namespace ERIMS_Sonic_ReportScheduler
                         // show value for Claim Count
                         //sbRecord.Append("<td style=" + strStyle + ">" + dtHeader.Rows[0][dtHeader.Columns.Count - 1] + "</td>");
                         sbRecord.Append("</tr><table>");
+                        sbRecord.Append("</td></tr>");
                     }
                     #endregion
                     //Remove White Space.
                     //sbRecord.Replace("<tr></tr>", "");
+                    sbRecord.Append("</table>");
                     using (StreamWriter sw = File.AppendText(strPath))
                     {
                         sw.Write(sbRecord);
