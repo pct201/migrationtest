@@ -13604,7 +13604,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 strHTML.Append("<table border='1'>");
                 strHTML.Append("<tr style='font-weight: bold;' valign='bottom'>");
                 strHTML.Append("<td align='left' >Sonic Automotive</td>");
-                strHTML.Append("<td align='center' colspan='11'>ACI Key Contact Report</td>");
+                strHTML.Append("<td align='center' colspan='13'>ACI Key Contact Report</td>");
                 strHTML.Append("<td align='right' > " + DateTime.Now.ToString() + " </td>");
                 strHTML.Append("</tr>");
 
@@ -13623,6 +13623,8 @@ namespace ERIMS_Sonic_ReportScheduler
                 strHTML.Append("<td width='170' align='right'>Email Address</td>");
                 strHTML.Append("<td width='100' align='right'>Cell Phone</td>");
                 strHTML.Append("<td width='100' align='right'>Work Phone</td>");
+                strHTML.Append("<td width='100' align='right'>Cost Center</td>");
+                strHTML.Append("<td width='100' align='right'>Secondary Cost Center</td>");
                 strHTML.Append("</tr>");
 
                 //Check Whether Record Exists or Not
@@ -13645,6 +13647,8 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<td width='170'>" + Convert.ToString(dr["email"]) + "</td>");
                         strHTML.Append("<td width='100'>" + Convert.ToString(dr["employee_cell_Phone"]) + "</td>");
                         strHTML.Append("<td width='100'>" + Convert.ToString(dr["work_Phone"]) + "</td>");
+                        strHTML.Append("<td width='100'>" + Convert.ToString(dr["FK_Cost_Center"]) + "</td>");
+                        strHTML.Append("<td width='100'>" + Convert.ToString(dr["Secondary_Cost_Center"]) + "</td>");
                         strHTML.Append("</tr>");
                     }
                 }
@@ -16733,16 +16737,14 @@ namespace ERIMS_Sonic_ReportScheduler
                     else
                         strWhere = " And " + strTableName + ".[" + strField + "] NOT IN (" + strConditionValue + ") ";
                 }
-                else if (strConditionValue.Trim().ToUpper() == "Y" || strConditionValue.Trim().ToUpper() == "N" || strConditionValue.Trim().ToUpper() == "Y,N" || strConditionValue.Trim().ToUpper() == "O" || strConditionValue.Trim().ToUpper() == "C" || strConditionValue.Trim().ToUpper() == "O,C" || strConditionValue.Trim().ToUpper() == "C,O")
+                else if (strConditionValue.Trim().ToUpper() == "Y" || strConditionValue.Trim().ToUpper() == "N" || strConditionValue.Trim().ToUpper() == "Y,N" || strConditionValue.Trim().ToUpper() == "O" || strConditionValue.Trim().ToUpper() == "C" || strConditionValue.Trim().ToUpper() == "O,C" || strConditionValue.Trim().ToUpper() == "C,O"
+                     || strConditionValue.Trim().ToUpper() == "EXTERIOR" || strConditionValue.Trim().ToUpper() == "INTERIOR" || strConditionValue.Trim().ToUpper() == "EXTERIOR,INTERIOR")
                 {
                     if (strField == "Is_Actionable" || strField == "Video_Requested_By_Sonic")
                         strWhere = " And ISNULL([" + strTableName + "]." + strField + ",'N') IN ('" + strConditionValue.Replace(",", "','") + "') ";
                     else
                         strWhere = " And " + strTableName + ".[" + strField + "] IN ('" + strConditionValue.Replace(",", "','") + "') ";
                 }
-                else if (strField == "Exterior_Interior")
-                   strWhere = " And ISNULL([" + strTableName + "]." + strField + ",'') NOT IN ('" + strConditionValue.Replace(",", "','") + "') ";
-              
                 else if (strField == "PK_LU_Approval_Submission" && strConditionValue == "0")
                     strWhere = " And " + strTableName + ".[" + strField + "] IS NULL ";
                 else if (strField == "PK_LU_Approval_Submission" && strConditionValue.Contains("0"))
