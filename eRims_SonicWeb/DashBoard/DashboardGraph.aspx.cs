@@ -304,9 +304,9 @@ public partial class DashboardGraph : clsBasePage
 
         string strHeader = "";
         if (dtResult.Rows.Count > 1)
-            strHeader = "Facility Inspection By Region";
+            strHeader = "EHS Facility Inspection  By Region";
         else
-            strHeader = "Facility Inspection";
+            strHeader = "EHS Facility Inspection";
 
         // Set Chart property 
         strChartXML.Append("<chart caption='" + strHeader + "' plotGradientColor='' bgColor='#FFFFFF' xAxisName='Region' yAxisName='Level' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='17' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='0' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10' trendValueFontBold ='1'>");

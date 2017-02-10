@@ -280,10 +280,10 @@ public partial class ScorecardByLocation : System.Web.UI.Page
         }
 
 
-        //strChartXML.Append("<chart caption='Facility Inspection for Region " + Region + "' xAxisName='Location' yAxisName='Level' useRoundEdges='1' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='6' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0'>");
+        //strChartXML.Append("<chart caption='EHS Facility Inspection for Region " + Region + "' xAxisName='Location' yAxisName='Level' useRoundEdges='1' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='6' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0'>");
         // for new version
         string strWidth = dsReport.Tables[0].Rows.Count > 25 ? "950" : "800";
-        strChartXML.Append("<chart caption='Facility Inspection for Region " + Region + "' plotGradientColor='' bgColor='#FFFFFF' xAxisName='Location' yAxisName='Level' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='17' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10' trendValueFontBold ='1'>");
+        strChartXML.Append("<chart caption='EHS Facility Inspection for Region " + Region + "' plotGradientColor='' bgColor='#FFFFFF' xAxisName='Location' yAxisName='Level' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='17' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10' trendValueFontBold ='1'>");
 
         for (int i = 0; i < dtReport.Rows.Count; i++)
         {
