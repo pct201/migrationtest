@@ -1634,7 +1634,7 @@ public partial class Event_Event_New : clsBasePage
             //txtDesc.Enabled = Is_Enable;
         }
         txtEventDesciption.Enable = Is_Enable;
-        ddlFK_LU_Cause_Investigation.Enabled = Is_Enable;
+        //ddlFK_LU_Cause_Investigation.Enabled = Is_Enable;
         txtBuilding_Description.Enabled = Is_Enable;
         chkRestricted.Enabled = Is_Enable;
         rdoExterior_Interior.Enabled = Is_Enable;
