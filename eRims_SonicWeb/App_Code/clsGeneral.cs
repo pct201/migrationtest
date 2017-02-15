@@ -138,14 +138,16 @@ public class clsGeneral : System.Web.UI.Page
         Management = 45,
         Maintenance = 46,
         InspectionReport = 47,
-        Property_Claims = 48
+        Property_Claims = 48,
+        Event_Video_Tracking_Request = 49
     }
 
     public enum Major_Coverage : int
     {
         Event = 18,
         Management = 19,
-        Property_Claims = 21
+        Property_Claims = 21,
+        Event_Video_Tracking_Request = 22
     }
 
     public enum Claim_Tables : int

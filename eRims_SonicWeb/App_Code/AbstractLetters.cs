@@ -771,4 +771,54 @@ public class AbstractLetters
         return strBody;
 
     }
+
+    public static StringBuilder Event_VideoRequestReport(decimal _PK_Event_Video_Tracking_Request, bool ShowAttachments, clsGeneral.Major_Coverage MajorCoverageType)
+    {
+        DataSet dsVideo = clsEvent_Video_Tracking_Request.GetVideoRequestData(_PK_Event_Video_Tracking_Request);
+        
+        StringBuilder strBody = new StringBuilder("");
+
+        if (dsVideo != null && dsVideo.Tables.Count > 0 && dsVideo.Tables[0].Rows.Count > 0)
+        {
+            DataTable dtVideo = dsVideo.Tables[0];
+
+            FileStream fsMail = null;
+
+            fsMail = new FileStream(AppConfig.DocumentsPath + @"\AbstractLetterTemplate\Event_Video_Request.htm", FileMode.Open, FileAccess.Read);
+            StreamReader rd = new StreamReader(fsMail);
+            //StringBuilder strBody = new StringBuilder(rd.ReadToEnd().ToString());
+            rd = new StreamReader(fsMail);
+            strBody = new StringBuilder(rd.ReadToEnd().ToString());
+
+
+            rd.Close();
+            fsMail.Close();
+
+            #region "ACI Video Request"
+
+            strBody = strBody.Replace("[Location]", Convert.ToString(dtVideo.Rows[0]["Location"]));
+            strBody = strBody.Replace("[Type_of_Activity]", Convert.ToString(dtVideo.Rows[0]["Type_of_Activity"]));
+            strBody = strBody.Replace("[Date_of_Event]", clsGeneral.FormatDBNullDateToDisplay(dtVideo.Rows[0]["Date_of_Event"]));
+            strBody = strBody.Replace("[Date_of_Request]", clsGeneral.FormatDBNullDateToDisplay(dtVideo.Rows[0]["Date_of_Request"]));
+            strBody = strBody.Replace("[Full_Name]", Convert.ToString(dtVideo.Rows[0]["Full_Name"]));
+            strBody = strBody.Replace("[Work_Phone]", Convert.ToString(dtVideo.Rows[0]["Work_Phone"]));
+            strBody = strBody.Replace("[Employee_Location]", Convert.ToString(dtVideo.Rows[0]["Employee_Location"]));
+            strBody = strBody.Replace("[Alternate_Phone]", Convert.ToString(dtVideo.Rows[0]["Alternate_Phone"]));
+            strBody = strBody.Replace("[Reason_Request]", Convert.ToString(dtVideo.Rows[0]["Reason_Request"]));
+            strBody = strBody.Replace("[Camera_Name]", Convert.ToString(dtVideo.Rows[0]["Camera_Name"]));
+            strBody = strBody.Replace("[Event_Start_Time]", Convert.ToString(dtVideo.Rows[0]["Event_Start_Time"]));
+            strBody = strBody.Replace("[Event_End_Time]", Convert.ToString(dtVideo.Rows[0]["Event_End_Time"]));
+            strBody = strBody.Replace("[Video_Link_Email]", Convert.ToString(dtVideo.Rows[0]["Video_Link_Email"]));
+            strBody = strBody.Replace("[Still_Shots_Email]", Convert.ToString(dtVideo.Rows[0]["Still_Shots_Email"]));
+            strBody = strBody.Replace("[DVD_Copies]", Convert.ToString(dtVideo.Rows[0]["DVD_Copies"]));
+            strBody = strBody.Replace("[Urgent_Need]", Convert.ToString(dtVideo.Rows[0]["Urgent_Need"]));
+            strBody = strBody.Replace("[Mailing_Address]", Convert.ToString(dtVideo.Rows[0]["Mailing_Address"]));
+            strBody = strBody.Replace("[Shipping_Method]", Convert.ToString(dtVideo.Rows[0]["Shipping_Method"]));
+
+            #endregion
+        }
+
+        return strBody;
+
+    }
 }
