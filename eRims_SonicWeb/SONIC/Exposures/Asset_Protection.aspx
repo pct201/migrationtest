@@ -33,37 +33,53 @@
 
         $(document).ready(function () {
 
-            $('.Txttest').focusout(function (e) {
-                Page_ClientValidate("vsAddPSMonitor");
-                if (Page_IsValid) {
-                    IsValidMonitorTime(this.id.split('txt')[0] + 'ddlDayMonitoringBegins', this.id.split('txt')[0] + 'ddlDayMonitoringEnds', this.id.split('txt')[0] + 'txtTimeMonitoringEnds', this.id.split('txt')[0] + 'txtTimeMonitoringBegins', this.id.split('txt')[0] + 'txtMonitoringPeriodHours');
+            $('.TxttestAddCCTV').focusout(function (e) {
+                //Page_ClientValidate("vsAddPSMonitorCCTV");
+                //if (Page_IsValid) {
+                if (Page_ClientValidate("vsAddPSMonitorCCTV")) {
+                    IsValidMonitorTime("vsAddPSMonitorCCTV",this.id.split('txt')[0] + 'ddlDayMonitoringBegins', this.id.split('txt')[0] + 'ddlDayMonitoringEnds', this.id.split('txt')[0] + 'txtTimeMonitoringEnds', this.id.split('txt')[0] + 'txtTimeMonitoringBegins', this.id.split('txt')[0] + 'txtMonitoringPeriodHours');
                 }
                 else {
                     e.preventDefault();
                     return false;
                 }
             });
-            $('.test').change(function (e) {
-                Page_ClientValidate("vsAddPSMonitor");
-                if (Page_IsValid) {
-                    IsValidMonitorTime(this.id.split('ddl')[0] + 'ddlDayMonitoringBegins', this.id.split('ddl')[0] + 'ddlDayMonitoringEnds', this.id.split('ddl')[0] + 'txtTimeMonitoringEnds', this.id.split('ddl')[0] + 'txtTimeMonitoringBegins', this.id.split('ddl')[0] + 'txtMonitoringPeriodHours');
-                }
-                else {
-                    e.preventDefault();
-                    return false;
-                }
-            });
-        })
+            
+          
 
-        function ChangeAdd(lnk) {
-            Page_ClientValidate("vsAddPSMonitor");
-            if (Page_IsValid) {
-                return IsValidMonitorTime(lnk.id.split('btn')[0] + 'ddlDayMonitoringBeginsAdd', lnk.id.split('btn')[0] + 'ddlDayMonitoringEndsAdd', lnk.id.split('btn')[0] + 'txtTimeMonitoringEndsAdd', lnk.id.split('btn')[0] + 'txtTimeMonitoringBeginsAdd', lnk.id.split('btn')[0] + 'txtMonitoringPeriodHoursAdd');
+        function ChangeAddCCTV(lnk) {
+            if (Page_ClientValidate("vsAddPSMonitorCCTV")) {
+                return IsValidMonitorTime("vsAddPSMonitorCCTV", lnk.id.split('btn')[0] + 'ddlDayMonitoringBeginsAdd', lnk.id.split('btn')[0] + 'ddlDayMonitoringEndsAdd', lnk.id.split('btn')[0] + 'txtTimeMonitoringEndsAdd', lnk.id.split('btn')[0] + 'txtTimeMonitoringBeginsAdd', lnk.id.split('btn')[0] + 'txtMonitoringPeriodHoursAdd');
+            }
+            else {
+                return false;
             }
         }
-
+       
+        $('.TxttestCCTV').focusout(function (e) {
+            //Page_ClientValidate("vsAddPSMonitorCCTV");
+            //if (Page_IsValid) {
+            if (Page_ClientValidate("vsPSMonitorCCTV")) {
+                IsValidMonitorTime("vsPSMonitorCCTV", this.id.split('txt')[0] + 'ddlDayMonitoringBegins', this.id.split('txt')[0] + 'ddlDayMonitoringEnds', this.id.split('txt')[0] + 'txtTimeMonitoringEnds', this.id.split('txt')[0] + 'txtTimeMonitoringBegins', this.id.split('txt')[0] + 'txtMonitoringPeriodHours');
+            }
+            else {
+                e.preventDefault();
+                return false;
+            }
+        });
+        $('.testCCTV').change(function (e) {
+            if (Page_ClientValidate("vsPSMonitorCCTV")) {
+                IsValidMonitorTime("vsPSMonitorCCTV", this.id.split('ddl')[0] + 'ddlDayMonitoringBegins', this.id.split('ddl')[0] + 'ddlDayMonitoringEnds', this.id.split('ddl')[0] + 'txtTimeMonitoringEnds', this.id.split('ddl')[0] + 'txtTimeMonitoringBegins', this.id.split('ddl')[0] + 'txtMonitoringPeriodHours');
+            }
+            else {
+                e.preventDefault();
+                return false;
+            }
+        });
+        })
         var CheckChangeVal = false;
         var ActiveTabIndex = 1;
+        
 
         function formatCurrencyOnBlur(ctrl) {
             if (ctrl.value != '') {
@@ -408,9 +424,9 @@ function openGenereteAbstract() {
     return false;
 }
 
-function IsValidMonitorTime(endDayID, startDayID, MonitoringEndTimeID, MonitoringBeginTimeID, HoursID) {
-    Page_ClientValidate("vsAddPSMonitor");
-    if (Page_IsValid) {
+function IsValidMonitorTime(valGroup,endDayID, startDayID, MonitoringEndTimeID, MonitoringBeginTimeID, HoursID) {
+    
+    if (Page_ClientValidate(valGroup)) {
         debugger;
         var endDay = $("#" + endDayID + "").val();
         var startDay = $("#" + startDayID + "").val();
@@ -927,22 +943,21 @@ function OpenBuildingByFK_LocatoinPopup() {
 
                                                                     <asp:TemplateField HeaderText="Day Monitoring Begins" HeaderStyle-HorizontalAlign="Left">
                                                                         <ItemStyle Width="20%" HorizontalAlign="Left" />
-
                                                                         <ItemTemplate>
                                                                             <asp:Label ID="lblDayMonitoringBegins" runat="server" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>' Text='<%# Eval("Start_Day")%>'></asp:Label>
                                                                         </ItemTemplate>
                                                                         <EditItemTemplate>
-                                                                            <asp:DropDownList ID="ddlDayMonitoringBegins" runat="server" SkinID="ddlExposure" CssClass="test">
+                                                                            <asp:DropDownList ID="ddlDayMonitoringBegins" runat="server" SkinID="ddlExposure" CssClass="testCCTV">
                                                                             </asp:DropDownList>
                                                                             <asp:RequiredFieldValidator ID="rfvddlDayMonitoringBegins" runat="server" ControlToValidate="ddlDayMonitoringBegins"
-                                                                                ErrorMessage="Select Day Monitoring Begins" Display="None" ValidationGroup="vsAddPSMonitor"
+                                                                                ErrorMessage="Select Day Monitoring Begins" Display="None" ValidationGroup="vsPSMonitorCCTV"
                                                                                 SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
                                                                         </EditItemTemplate>
                                                                         <FooterTemplate>
-                                                                            <asp:DropDownList ID="ddlDayMonitoringBeginsAdd" runat="server" SkinID="ddlExposure">
+                                                                            <asp:DropDownList ID="ddlDayMonitoringBeginsAdd" runat="server" SkinID="ddlExposure" >
                                                                             </asp:DropDownList>
                                                                             <asp:RequiredFieldValidator ID="rfvddlDayMonitoringBeginsAdd" runat="server" ControlToValidate="ddlDayMonitoringBeginsAdd"
-                                                                                ErrorMessage="Select Day Monitoring Begins" Display="None" ValidationGroup="vsAddPSMonitor"
+                                                                                ErrorMessage="Select Day Monitoring Begins" Display="None" ValidationGroup="vsAddPSMonitorCCTV"
                                                                                 SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
                                                                         </FooterTemplate>
 
@@ -958,7 +973,7 @@ function OpenBuildingByFK_LocatoinPopup() {
                                                                             <asp:Label ID="lblTimeMonitoringBegins" runat="server" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>' Text='<%# Eval("Start_Time")%>'></asp:Label>
                                                                         </ItemTemplate>
                                                                         <EditItemTemplate>
-                                                                            <asp:TextBox ID="txtTimeMonitoringBegins" runat="server" MaxLength="5" Text='<%# Eval("Start_Time")%>' CssClass="Txttest" />
+                                                                            <asp:TextBox ID="txtTimeMonitoringBegins" runat="server" MaxLength="5" Text='<%# Eval("Start_Time")%>' onchange="alert('hello');" CssClass="TxttestCCTV" />
                                                                         <cc1:MaskedEditExtender ID="MaskedEditExtender1" runat="server" AutoComplete="true"
                                                                     MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringBegins" AcceptNegative="Left"
                                                                     DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
@@ -966,16 +981,16 @@ function OpenBuildingByFK_LocatoinPopup() {
                                                                 </cc1:MaskedEditExtender>
                                                                 <asp:RegularExpressionValidator ID="revtxtTimeMonitoringBegins" runat="server" ControlToValidate="txtTimeMonitoringBegins"
                                                                     ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                    ErrorMessage="Time Monitoring Begins should be valid time" Display="none" ValidationGroup="vsAddPSMonitor"
+                                                                    ErrorMessage="Time Monitoring Begins should be valid time" Display="none" ValidationGroup="vsPSMonitorCCTV"
                                                                     SetFocusOnError="true">
                                                                 </asp:RegularExpressionValidator>
                                                                 <asp:RequiredFieldValidator ID="rfvtxtTimeMonitoringBegins" runat="server" ControlToValidate="txtTimeMonitoringBegins"
-                                                                    Display="None" ErrorMessage="Enter Time Monitoring Begins." ValidationGroup="vsAddPSMonitor"
+                                                                    Display="None" ErrorMessage="Enter Time Monitoring Begins." ValidationGroup="vsPSMonitorCCTV"
                                                                     SetFocusOnError="true"></asp:RequiredFieldValidator>
 
                                                                         </EditItemTemplate>
                                                                         <FooterTemplate>
-                                                                            <asp:TextBox ID="txtTimeMonitoringBeginsAdd" runat="server" MaxLength="5" CssClass="Txttest" />
+                                                                            <asp:TextBox ID="txtTimeMonitoringBeginsAdd" runat="server" MaxLength="5" CssClass="TxttestAddCCTV" />
                                                                           <cc1:MaskedEditExtender ID="MaskedEditExtender1" runat="server" AutoComplete="true"
                                                                     MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringBeginsAdd" AcceptNegative="Left"
                                                                     DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
@@ -983,11 +998,11 @@ function OpenBuildingByFK_LocatoinPopup() {
                                                                 </cc1:MaskedEditExtender>
                                                                 <asp:RegularExpressionValidator ID="revtxtTimeMonitoringBegins" runat="server" ControlToValidate="txtTimeMonitoringBeginsAdd"
                                                                     ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                    ErrorMessage="Time Monitoring Begins should be valid time" Display="none" ValidationGroup="vsAddPSMonitor"
+                                                                    ErrorMessage="Time Monitoring Begins should be valid time" Display="none" ValidationGroup="vsAddPSMonitorCCTV"
                                                                     SetFocusOnError="true">
                                                                 </asp:RegularExpressionValidator>
                                                                 <asp:RequiredFieldValidator ID="rfvtxtTimeMonitoringBegins" runat="server" ControlToValidate="txtTimeMonitoringBeginsAdd"
-                                                                    Display="None" ErrorMessage="Enter Time Monitoring Begins." ValidationGroup="vsAddPSMonitor"
+                                                                    Display="None" ErrorMessage="Enter Time Monitoring Begins." ValidationGroup="vsAddPSMonitorCCTV"
                                                                     SetFocusOnError="true"></asp:RequiredFieldValidator>
                                                                         </FooterTemplate>
                                                                     </asp:TemplateField>
@@ -995,22 +1010,20 @@ function OpenBuildingByFK_LocatoinPopup() {
                                                                     <asp:TemplateField HeaderText="Day Monitoring Ends" HeaderStyle-HorizontalAlign="Left">
                                                                         <ItemStyle Width="20%" HorizontalAlign="Left" />
                                                                         <ItemTemplate>
-
-                                                                            <asp:Label ID="lblDayMonitoringEnds" runat="server" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>' Text='<%# Eval("End_Day")%>'></asp:Label>
+                                                                             <asp:Label ID="lblDayMonitoringEnds" runat="server" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>' Text='<%# Eval("End_Day")%>'></asp:Label>
                                                                         </ItemTemplate>
                                                                         <EditItemTemplate>
-
-                                                                            <asp:DropDownList ID="ddlDayMonitoringEnds" runat="server" SkinID="ddlExposure" CssClass="test">
+                                                                            <asp:DropDownList ID="ddlDayMonitoringEnds" runat="server" SkinID="ddlExposure" CssClass="testCCTV">
                                                                             </asp:DropDownList>
                                                                             <asp:RequiredFieldValidator ID="rfvddlDayMonitoringEnds" runat="server" ControlToValidate="ddlDayMonitoringEnds"
-                                                                                ErrorMessage="Select Day Monitoring Ends" Display="None" ValidationGroup="vsAddPSMonitor"
+                                                                                ErrorMessage="Select Day Monitoring Ends" Display="None" ValidationGroup="vsPSMonitorCCTV"
                                                                                 SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
                                                                         </EditItemTemplate>
                                                                         <FooterTemplate>
                                                                             <asp:DropDownList ID="ddlDayMonitoringEndsAdd" runat="server" SkinID="ddlExposure">
                                                                             </asp:DropDownList>
                                                                             <asp:RequiredFieldValidator ID="rfvddlDayMonitoringEnds" runat="server" ControlToValidate="ddlDayMonitoringEndsAdd"
-                                                                                ErrorMessage="Select Day Monitoring Ends" Display="None" ValidationGroup="vsAddPSMonitor"
+                                                                                ErrorMessage="Select Day Monitoring Ends" Display="None" ValidationGroup="vsAddPSMonitorCCTV"
                                                                                 SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
                                                                         </FooterTemplate>
                                                                     </asp:TemplateField>
@@ -1018,11 +1031,10 @@ function OpenBuildingByFK_LocatoinPopup() {
                                                                     <asp:TemplateField HeaderText="Time Monitoring Ends" HeaderStyle-HorizontalAlign="Left">
                                                                         <ItemStyle Width="15%" HorizontalAlign="Left" />
                                                                         <ItemTemplate>
-
-                                                                            <asp:Label ID="lblTimeMonitoringEnds" runat="server" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>' Text='<%# Eval("End_Time")%>'></asp:Label>
+                                                                  <asp:Label ID="lblTimeMonitoringEnds" runat="server" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>' Text='<%# Eval("End_Time")%>'></asp:Label>
                                                                         </ItemTemplate>
                                                                         <EditItemTemplate>
-                                                                            <asp:TextBox ID="txtTimeMonitoringEnds" runat="server" MaxLength="5" Text='<%# Eval("End_Time")%>' CssClass="Txttest" />
+                                                                            <asp:TextBox ID="txtTimeMonitoringEnds" runat="server" MaxLength="5" Text='<%# Eval("End_Time")%>' CssClass="TxttestCCTV" />
                                                                              <cc1:MaskedEditExtender ID="MaskedEditExtender2" runat="server" AutoComplete="true"
                                                                     MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringEnds" AcceptNegative="Left"
                                                                     DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
@@ -1030,15 +1042,15 @@ function OpenBuildingByFK_LocatoinPopup() {
                                                                 </cc1:MaskedEditExtender>
                                                                 <asp:RegularExpressionValidator ID="revtxtTimeMonitoringEnds" runat="server" ControlToValidate="txtTimeMonitoringEnds"
                                                                     ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                    ErrorMessage="Time Monitoring Ends should be valid time" Display="none" ValidationGroup="vsAddPSMonitor"
+                                                                    ErrorMessage="Time Monitoring Ends should be valid time" Display="none" ValidationGroup="vsPSMonitorCCTV"
                                                                     SetFocusOnError="true">
                                                                 </asp:RegularExpressionValidator>
                                                                 <asp:RequiredFieldValidator ID="rfvtxtTimeMonitoringEnds" runat="server" ControlToValidate="txtTimeMonitoringEnds"
-                                                                    Display="None" ErrorMessage="Enter Time Monitoring Ends." ValidationGroup="vsAddPSMonitor"
+                                                                    Display="None" ErrorMessage="Enter Time Monitoring Ends." ValidationGroup="vsPSMonitorCCTV"
                                                                     SetFocusOnError="true"></asp:RequiredFieldValidator>
                                                                         </EditItemTemplate>
                                                                         <FooterTemplate>
-                                                                            <asp:TextBox ID="txtTimeMonitoringEndsAdd" runat="server" MaxLength="5" CssClass="Txttest" />
+                                                                            <asp:TextBox ID="txtTimeMonitoringEndsAdd" runat="server" MaxLength="5" CssClass="TxttestAddCCTV" />
                                                                             <cc1:MaskedEditExtender ID="MaskedEditExtender2" runat="server" AutoComplete="true"
                                                                     MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringEndsAdd" AcceptNegative="Left"
                                                                     DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
@@ -1046,11 +1058,11 @@ function OpenBuildingByFK_LocatoinPopup() {
                                                                 </cc1:MaskedEditExtender>
                                                                 <asp:RegularExpressionValidator ID="revtxtTimeMonitoringEnds" runat="server" ControlToValidate="txtTimeMonitoringEndsAdd"
                                                                     ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                    ErrorMessage="Time Monitoring Ends should be valid time" Display="none" ValidationGroup="vsAddPSMonitor"
+                                                                    ErrorMessage="Time Monitoring Ends should be valid time" Display="none" ValidationGroup="vsAddPSMonitorCCTV"
                                                                     SetFocusOnError="true">
                                                                 </asp:RegularExpressionValidator>
                                                                 <asp:RequiredFieldValidator ID="rfvtxtTimeMonitoringEnds" runat="server" ControlToValidate="txtTimeMonitoringEndsAdd"
-                                                                    Display="None" ErrorMessage="Enter Time Monitoring Ends." ValidationGroup="vsAddPSMonitor"
+                                                                    Display="None" ErrorMessage="Enter Time Monitoring Ends." ValidationGroup="vsAddPSMonitorCCTV"
                                                                     SetFocusOnError="true"></asp:RequiredFieldValidator>
                                                                         </FooterTemplate>
                                                                     </asp:TemplateField>
@@ -1092,7 +1104,7 @@ function OpenBuildingByFK_LocatoinPopup() {
                                                                             </asp:LinkButton>--%>
                                                                         </EditItemTemplate>
                                                                         <FooterTemplate>
-                                                                            <asp:LinkButton ID="btnAddPSMonitorGird" runat="server" Text="Save" CommandName="gvAdd" OnClientClick="javascript:return ChangeAdd(this);" />
+                                                                            <asp:LinkButton ID="btnAddPSMonitorGird" runat="server" Text="Save" CommandName="gvAdd" OnClientClick="javascript:return ChangeAddCCTV(this);" />
                                                                         </FooterTemplate>
                                                                     </asp:TemplateField>
 
@@ -1120,10 +1132,10 @@ function OpenBuildingByFK_LocatoinPopup() {
                                                                                 <asp:DropDownList ID="ddlDayMonitoringBeginsAdd" runat="server" SkinID="ddlExposure" >
                                                                                 </asp:DropDownList>
                                                                                 <asp:RequiredFieldValidator ID="rfvddlDayMonitoringBegins" runat="server" ControlToValidate="ddlDayMonitoringBeginsAdd"
-                                                                                    ErrorMessage="Select Day Monitoring Begins" Display="None" ValidationGroup="vsAddPSMonitor"
+                                                                                    ErrorMessage="Select Day Monitoring Begins" Display="None" ValidationGroup="vsAddPSMonitorCCTV"
                                                                                     SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator></td>
                                                                             <td style="width: 15%">
-                                                                                <asp:TextBox ID="txtTimeMonitoringBeginsAdd" runat="server" MaxLength="5" CssClass="Txttest" />
+                                                                                <asp:TextBox ID="txtTimeMonitoringBeginsAdd" runat="server" MaxLength="5" CssClass="TxttestCCTV" />
                                                                                 <cc1:MaskedEditExtender ID="MaskedEditExtender1" runat="server" AutoComplete="true"
                                                                     MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringBeginsAdd" AcceptNegative="Left"
                                                                     DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
@@ -1131,20 +1143,20 @@ function OpenBuildingByFK_LocatoinPopup() {
                                                                 </cc1:MaskedEditExtender>
                                                                 <asp:RegularExpressionValidator ID="revtxtTimeMonitoringBeginsAdd" runat="server" ControlToValidate="txtTimeMonitoringBeginsAdd"
                                                                     ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                    ErrorMessage="Time Monitoring Begins should be valid time" Display="none" ValidationGroup="vsAddPSMonitor"
+                                                                    ErrorMessage="Time Monitoring Begins should be valid time" Display="none" ValidationGroup="vsAddPSMonitorCCTV"
                                                                     SetFocusOnError="true">
                                                                 </asp:RegularExpressionValidator>
                                                                 <asp:RequiredFieldValidator ID="rfvtxtTimeMonitoringBegins" runat="server" ControlToValidate="txtTimeMonitoringBeginsAdd"
-                                                                    Display="None" ErrorMessage="Enter Time Monitoring Begins." ValidationGroup="vsAddPSMonitor"
+                                                                    Display="None" ErrorMessage="Enter Time Monitoring Begins." ValidationGroup="vsAddPSMonitorCCTV"
                                                                     SetFocusOnError="true"></asp:RequiredFieldValidator></td>
                                                                             <td style="width: 20%">
                                                                                 <asp:DropDownList ID="ddlDayMonitoringEndsAdd" runat="server" SkinID="ddlExposure">
                                                                                 </asp:DropDownList>
                                                                                 <asp:RequiredFieldValidator ID="rfvddlDayMonitoringEnds" runat="server" ControlToValidate="ddlDayMonitoringEndsAdd"
-                                                                                    ErrorMessage="Select Day Monitoring Ends" Display="None" ValidationGroup="vsAddPSMonitor"
+                                                                                    ErrorMessage="Select Day Monitoring Ends" Display="None" ValidationGroup="vsAddPSMonitorCCTV"
                                                                                     SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator></td>
                                                                             <td style="width: 15%">
-                                                                                <asp:TextBox ID="txtTimeMonitoringEndsAdd" runat="server" MaxLength="5" CssClass="Txttest" />
+                                                                                <asp:TextBox ID="txtTimeMonitoringEndsAdd" runat="server" MaxLength="5" CssClass="TxttestCCTV" />
                                                                               <cc1:MaskedEditExtender ID="MaskedEditExtender2" runat="server" AutoComplete="true"
                                                                     MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringEndsAdd" AcceptNegative="Left"
                                                                     DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
@@ -1152,11 +1164,11 @@ function OpenBuildingByFK_LocatoinPopup() {
                                                                 </cc1:MaskedEditExtender>
                                                                 <asp:RegularExpressionValidator ID="revtxtTimeMonitoringEnds" runat="server" ControlToValidate="txtTimeMonitoringEndsAdd"
                                                                     ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                    ErrorMessage="Time Monitoring Ends should be valid time" Display="none" ValidationGroup="vsAddPSMonitor"
+                                                                    ErrorMessage="Time Monitoring Ends should be valid time" Display="none" ValidationGroup="vsAddPSMonitorCCTV"
                                                                     SetFocusOnError="true">
                                                                 </asp:RegularExpressionValidator>
                                                                 <asp:RequiredFieldValidator ID="rfvtxtTimeMonitoringEnds" runat="server" ControlToValidate="txtTimeMonitoringEndsAdd"
-                                                                    Display="None" ErrorMessage="Enter Time Monitoring Ends." ValidationGroup="vsAddPSMonitor"
+                                                                    Display="None" ErrorMessage="Enter Time Monitoring Ends." ValidationGroup="vsAddPSMonitorCCTV"
                                                                     SetFocusOnError="true"></asp:RequiredFieldValidator></td>
                                                                             <td style="width: 15%">
                                                                                 <asp:TextBox ID="txtMonitoringPeriodHoursAdd" runat="server" SkinID="txtDisabled"></asp:TextBox></td>
