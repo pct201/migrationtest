@@ -352,7 +352,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             return clsGeneral.GetStringValue(ViewState["Building_Number"]);
         }
         set { ViewState["Building_Number"] = value; }
-    }    
+    }
 
     #endregion
 
@@ -397,10 +397,10 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             PK_AP_Property_Security = clsAP_Property_Security.SelectPKPropertySecurityByFKLocation(LocationID);
             if (PK_AP_Property_Security > 0 && StrOperation != "edit")
             {
-                StrOperation = "view";              
+                StrOperation = "view";
             }
             else
-            {               
+            {
                 btnBack.Visible = false;
                 btnReturnto_View_Mode.Visible = true;
             }
@@ -458,7 +458,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
                             BindDetailsForViewForDPD_FROIs();
                             BindDetailsForView_AL();
                             //BindDetailsForViewForCal_Atlantic();
-                            BindDetailsForView_FraudEvents();                           
+                            BindDetailsForView_FraudEvents();
                             //AttachDetails.InitializeAttachmentDetails(Convert.ToInt32(LocationID), "FK_LU_Location", "PK_AP_Attachments", false, 6);
                         }
                         else
@@ -497,7 +497,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
                 BindFraudEventGrid();
                 SetValidation();
 
-               
+
                 if (!string.IsNullOrEmpty(Request.QueryString["DEST"])) { BindOpenDPDFROIs(Convert.ToString(Request.QueryString["DEST"])); }
             }
         }
@@ -744,7 +744,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     private void BindDetailsForViewForProperty_Security()
     {
         dvProperty_SecuritySave.Visible = false;
-        clsAP_Property_Security objAP_Property_Security = new clsAP_Property_Security(PK_AP_Property_Security);        
+        clsAP_Property_Security objAP_Property_Security = new clsAP_Property_Security(PK_AP_Property_Security);
         lblCCTV_Company_Name.Text = objAP_Property_Security.CCTV_Company_Name;
         lblCCTV_Company_Address_1.Text = objAP_Property_Security.CCTV_Company_Address_1;
         lblCCTV_Company_Address_2.Text = objAP_Property_Security.CCTV_Company_Address_2;
@@ -1046,7 +1046,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             objAP_Property_Security.Cap_Index_Crime_Score = Convert.ToInt32(Convert.ToString(txtCap_Index_Crime_Score.Text.Trim()));
 
         if (txttotalHoursMonitoredPerWeek.Text.Trim() != string.Empty)
-            objAP_Property_Security.Total_Hours_CCTV_Monitored_Per_Week = Convert.ToString(txttotalHoursMonitoredPerWeek.Text.Trim());        
+            objAP_Property_Security.Total_Hours_CCTV_Monitored_Per_Week = Convert.ToString(txttotalHoursMonitoredPerWeek.Text.Trim());
 
         if (ddlCap_Index_Risk_Category.SelectedIndex > 0) objAP_Property_Security.Cap_Index_Risk_Cateogory = Convert.ToDecimal(ddlCap_Index_Risk_Category.SelectedValue);
         if (objAP_Property_Security.PK_AP_Property_Security > 0)
@@ -1066,7 +1066,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             BindPropertySecurityBuilding();
             btnGenerate_Abstract.Style["display"] = "";
             dvProperty_SecuritySave.Style["display"] = "";
-            
+
         }
     }
 
@@ -1120,37 +1120,21 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             gvOffDutyOfficerHoursMonitoredGridView.DataSource = dsMonitoringGrid.Tables[0].DefaultView;
             gvOffDutyOfficerHoursMonitoredGridView.DataBind();
         }
+
     }
+
 
     /// <summary>
     /// Bind Property Security Monitoring Grid
     /// </summary>
-    private void bindPropertyMonitoringDetailForEdit()
+    /// 
+    private void bindPropertyMonitoringDetailForEdit(decimal PK_AP_Property_Security_Monitor_Grids)
     {
         if (PK_AP_Property_Security_Monitor_Grids > 0)
         {
-            btnSave.Visible = false;
-            btnProperty_SecurityAudit.Visible = false;
-            btnProperty_SecurityAuditView.Visible = false;
-
             clsAP_Property_Security_Monitor_Grids objclsAP_Property_Security_Monitor_Grids = new clsAP_Property_Security_Monitor_Grids(PK_AP_Property_Security_Monitor_Grids);
             StrMonitorGridType = objclsAP_Property_Security_Monitor_Grids.Grid_Type;
-            if (StrOperation == "view")
-            {
-                lblDayMonitoringBegin.Text = (objclsAP_Property_Security_Monitor_Grids.Start_Day > 0 ? new clsLU_Days_Of_Week(Convert.ToDecimal(objclsAP_Property_Security_Monitor_Grids.Start_Day)).Fld_Desc : "");
-                lblDayMonitoringEnds.Text = (objclsAP_Property_Security_Monitor_Grids.End_Day > 0 ? new clsLU_Days_Of_Week(Convert.ToDecimal(objclsAP_Property_Security_Monitor_Grids.End_Day)).Fld_Desc : "");
-                lblTimeMonitoringBegins.Text = objclsAP_Property_Security_Monitor_Grids.Start_Time;
-                lblTimeMonitoringEnds.Text = objclsAP_Property_Security_Monitor_Grids.End_Time;
-                lblMonitoringPeriodHours.Text = objclsAP_Property_Security_Monitor_Grids.Hours;
-            }
-            else
-            {
-                ddlDayMonitoringBegins.SelectedValue = (objclsAP_Property_Security_Monitor_Grids.Start_Day > 0 ? objclsAP_Property_Security_Monitor_Grids.Start_Day.ToString() : "0");
-                ddlDayMonitoringEnds.SelectedValue = (objclsAP_Property_Security_Monitor_Grids.End_Day > 0 ? objclsAP_Property_Security_Monitor_Grids.End_Day.ToString() : "0");
-                txtTimeMonitoringBegins.Text = objclsAP_Property_Security_Monitor_Grids.Start_Time;
-                txtTimeMonitoringEnds.Text = objclsAP_Property_Security_Monitor_Grids.End_Time;
-                txtMonitoringPeriodHours.Text = objclsAP_Property_Security_Monitor_Grids.Hours;
-            }
+            BindPropertySecurityMonitoringGrid();
         }
     }
 
@@ -1251,7 +1235,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
 
             chkWeather_Related_DamageLoss.Checked = dtDPD_FROIs_Detail.Rows[0]["Weather_Related_Damage_and_or_Loss"].ToString() == "Y" ? true : false;
             chkOther_Describe.Checked = dtDPD_FROIs_Detail.Rows[0]["Other_Describe"].ToString() == "Y" ? true : false;
-           
+
             txtInvestigation_Finding_Other_Description.Text = dtDPD_FROIs_Detail.Rows[0]["Investigation_Finding_Other_Description"].ToString() != "" ? dtDPD_FROIs_Detail.Rows[0]["Investigation_Finding_Other_Description"].ToString() : "";
             txtRoot_Cause.Text = dtDPD_FROIs_Detail.Rows[0]["Root_Cause"].ToString() != "" ? dtDPD_FROIs_Detail.Rows[0]["Root_Cause"].ToString() : "";
             txtIncident_Prevention.Text = dtDPD_FROIs_Detail.Rows[0]["Incident_Prevention"].ToString() != "" ? dtDPD_FROIs_Detail.Rows[0]["Incident_Prevention"].ToString() : "";
@@ -3180,7 +3164,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         }
     }
 
-    #endregion   
+    #endregion
 
     #endregion
 
@@ -3216,17 +3200,36 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     /// <param name="e"></param>
     protected void lnkbtnAddCCTVHoursMonitoringGrid_Click(object sender, EventArgs e)
     {
+        gvCCTVHoursMonitoringGrid.EditIndex = -1;
+        BindPropertySecurityMonitoringGrid();
+        Control control = null;
         PropertySecuritySaveData();
-        tblMainPropertySecurity.Style["display"] = tblMainPropertySecurityView.Style["display"] = dvProperty_SecuritySave.Style["display"] = pnlAddPropertySecurityMonitorGridView.Style["display"] = "none";
-        pnlAddPropertySecurityMonitorGrid.Style["display"] = "";
-        btnAddPSMonitorGird.Visible = true;
-        btnBackPropertySecurity.Visible = true;
-        btnSave.Visible = false;
-        btnProperty_SecurityAudit.Visible = false;
-        btnProperty_SecurityAuditView.Visible = false;
+        //tblMainPropertySecurity.Style["display"] = tblMainPropertySecurityView.Style["display"] = dvProperty_SecuritySave.Style["display"] = pnlAddPropertySecurityMonitorGridView.Style["display"] = "none";
+        // pnlAddPropertySecurityMonitorGrid.Style["display"] = "";
+        // btnAddPSMonitorGird.Visible = true;
+        // btnBackPropertySecurity.Visible = true;
+        //  btnSave.Visible = false;
+        //  btnProperty_SecurityAudit.Visible = false;
+        // btnProperty_SecurityAuditView.Visible = false;
         PK_AP_Property_Security_Monitor_Grids = 0;
         StrMonitorGridType = "CCTV";
-        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
+        gvCCTVHoursMonitoringGrid.Visible = true;
+        gvCCTVHoursMonitoringGrid.ShowFooter = true;
+        gvCCTVHoursMonitoringGrid.EmptyDataRowStyle.CssClass = "displayBlock";
+        BindPropertySecurityMonitoringGrid();
+        if (gvCCTVHoursMonitoringGrid.FooterRow != null)
+        {
+            control = gvCCTVHoursMonitoringGrid.FooterRow;
+        }
+        else
+        {
+            control = gvCCTVHoursMonitoringGrid.Controls[0].Controls[0];
+        }
+        DropDownList ddlTimeBegin = (DropDownList)control.FindControl("ddlDayMonitoringBeginsAdd");
+        DropDownList ddlTimeEnd = (DropDownList)control.FindControl("ddlDayMonitoringEndsAdd");
+        ComboHelper.FillWeekDays(new DropDownList[] { ddlTimeBegin, ddlTimeEnd }, 0, true);
+
+        // Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "gvMonitoingGrid_RowCommand();", true);
     }
 
     /// <summary>
@@ -3236,17 +3239,33 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     /// <param name="e"></param>
     protected void lnkbtnAddGaurdHoursMonitoredGrid_Click(object sender, EventArgs e)
     {
+        Control control = null;
         PropertySecuritySaveData();
-        tblMainPropertySecurity.Style["display"] = tblMainPropertySecurityView.Style["display"] = dvProperty_SecuritySave.Style["display"] = pnlAddPropertySecurityMonitorGridView.Style["display"] = "none";
-        pnlAddPropertySecurityMonitorGrid.Style["display"] = "";
-        btnAddPSMonitorGird.Visible = true;
-        btnBackPropertySecurity.Visible = true;
-        btnSave.Visible = false;
-        btnProperty_SecurityAudit.Visible = false;
-        btnProperty_SecurityAuditView.Visible = false;
+        // tblMainPropertySecurity.Style["display"] = tblMainPropertySecurityView.Style["display"] = dvProperty_SecuritySave.Style["display"] = pnlAddPropertySecurityMonitorGridView.Style["display"] = "none";
+        //  pnlAddPropertySecurityMonitorGrid.Style["display"] = "";
+        // btnAddPSMonitorGird.Visible = true;
+        // btnBackPropertySecurity.Visible = true;
+        //   btnSave.Visible = false;
+        //btnProperty_SecurityAudit.Visible = false;
+        //btnProperty_SecurityAuditView.Visible = false;
         PK_AP_Property_Security_Monitor_Grids = 0;
         StrMonitorGridType = "Guard";
-        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
+
+        gvGuardHoursMonitorGrid.ShowFooter = true;
+        gvGuardHoursMonitorGrid.EmptyDataRowStyle.CssClass = "displayBlock";
+        BindPropertySecurityMonitoringGrid();
+        if (gvGuardHoursMonitorGrid.FooterRow != null)
+        {
+            control = gvGuardHoursMonitorGrid.FooterRow;
+        }
+        else
+        {
+            control = gvGuardHoursMonitorGrid.Controls[0].Controls[0];
+        }
+        DropDownList ddlTimeBegin = (DropDownList)control.FindControl("ddlDayMonitoringBeginsAdd");
+        DropDownList ddlTimeEnd = (DropDownList)control.FindControl("ddlDayMonitoringEndsAdd");
+        ComboHelper.FillWeekDays(new DropDownList[] { ddlTimeBegin, ddlTimeEnd }, 0, true);
+        //Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
     }
 
     /// <summary>
@@ -3256,17 +3275,32 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     /// <param name="e"></param>
     protected void lnkbtnAddOffdutyOfficerHoursMonitoredGrid_Click(object sender, EventArgs e)
     {
+
+        Control control = null;
         PropertySecuritySaveData();
-        tblMainPropertySecurity.Style["display"] = tblMainPropertySecurityView.Style["display"] = dvProperty_SecuritySave.Style["display"] = pnlAddPropertySecurityMonitorGridView.Style["display"] = "none";
-        pnlAddPropertySecurityMonitorGrid.Style["display"] = "";
-        btnAddPSMonitorGird.Visible = true;
-        btnBackPropertySecurity.Visible = true;
-        btnSave.Visible = false;
-        btnProperty_SecurityAudit.Visible = false;
-        btnProperty_SecurityAuditView.Visible = false;
-        PK_AP_Property_Security_Monitor_Grids = 0;
+        //tblMainPropertySecurity.Style["display"] = tblMainPropertySecurityView.Style["display"] = dvProperty_SecuritySave.Style["display"] = pnlAddPropertySecurityMonitorGridView.Style["display"] = "none";
+        //pnlAddPropertySecurityMonitorGrid.Style["display"] = "";
+        //btnAddPSMonitorGird.Visible = true;
+        //btnBackPropertySecurity.Visible = true;
+        //btnSave.Visible = false;
+        //btnProperty_SecurityAudit.Visible = false;
+        //btnProperty_SecurityAuditView.Visible = false;
+        //PK_AP_Property_Security_Monitor_Grids = 0;
         StrMonitorGridType = "Off-Duty Officer";
-        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
+        gvOffDutyOfficerHoursMonitoredGrid.ShowFooter = true;
+        gvOffDutyOfficerHoursMonitoredGrid.EmptyDataRowStyle.CssClass = "displayBlock";
+        BindPropertySecurityMonitoringGrid();
+        if (gvOffDutyOfficerHoursMonitoredGrid.FooterRow != null)
+        {
+            control = gvOffDutyOfficerHoursMonitoredGrid.FooterRow;
+        }
+        else
+        {
+            control = gvOffDutyOfficerHoursMonitoredGrid.Controls[0].Controls[0];
+        }
+        DropDownList ddlTimeBegin = (DropDownList)control.FindControl("ddlDayMonitoringBeginsAdd");
+        DropDownList ddlTimeEnd = (DropDownList)control.FindControl("ddlDayMonitoringEndsAdd");
+        ComboHelper.FillWeekDays(new DropDownList[] { ddlTimeBegin, ddlTimeEnd }, 0, true);
     }
 
     /// <summary>
@@ -3302,7 +3336,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         //Bind Grid
         BindPropertySecurityMonitoringGrid();
         clsAP_Property_Security objPropertySec = new clsAP_Property_Security(PK_AP_Property_Security);
-        txttotalHoursMonitoredPerWeek.Text = objPropertySec.Total_Hours_CCTV_Monitored_Per_Week;        
+        txttotalHoursMonitoredPerWeek.Text = objPropertySec.Total_Hours_CCTV_Monitored_Per_Week;
         ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
     }
 
@@ -3327,13 +3361,13 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             txtTimeMonitoringBegins.Text = "";
             txtTimeMonitoringEnds.Text = "";
             txtMonitoringPeriodHours.Text = "";
-            btnAddPSMonitorGird.Visible = false;
+            //btnAddPSMonitorGird.Visible = false;
             btnBackPropertySecurity.Visible = false;
             btnSave.Visible = true;
             btnProperty_SecurityAudit.Visible = true;
             tblMainPropertySecurity.Style["display"] = "";
             dvProperty_SecuritySave.Style["display"] = "";
-            
+
         }
         ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
     }
@@ -3513,7 +3547,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         {
             txtCCTVOnlyTC.Text = txtCCTVOnlyTM.Text = txtBurglarAlarmsTC.Text = txtBurglarAlarmsTM.Text = txtGuardServicesTC.Text =
                 txtGuardServicesTM.Text = txtAccessControlTC.Text = txtAccessControlTM.Text = txtSecurityInventoryTrackingSystemsTC.Text = txtSecurityInventoryTrackingSystemsTM.Text =
-                 txtCategoryTC.Text = txtCategoryTM.Text =  string.Empty;
+                 txtCategoryTC.Text = txtCategoryTM.Text = string.Empty;
         }
 
     }
@@ -3632,7 +3666,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
 
     }
-    
+
     protected void btnFraudNotesGridAdd_Click(object sender, EventArgs e)
     {
         AP_FE_PA_Notes AP_FE_PA_Notes = new AP_FE_PA_Notes();
@@ -3672,7 +3706,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     }
 
     protected void btnRefresh_Click(object sender, EventArgs e)
-    {        
+    {
         Response.Redirect(Request.RawUrl);
     }
     protected void btnProperty_SecurityCancel_Click(object sender, EventArgs e)
@@ -4223,7 +4257,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     /// <param name="e"></param>
     protected void btnBack_Click(object sender, EventArgs e)
     {
-            Response.Redirect("Asset_Protection.aspx?id=" + Encryption.Encrypt(PK_AP_Property_Security.ToString()) + "&loc=" + Request.QueryString["loc"] + "&pnl=" + hdnPanel.Value + "&op=edit") ;
+        Response.Redirect("Asset_Protection.aspx?id=" + Encryption.Encrypt(PK_AP_Property_Security.ToString()) + "&loc=" + Request.QueryString["loc"] + "&pnl=" + hdnPanel.Value + "&op=edit");
     }
 
     /// <summary>
@@ -4232,8 +4266,8 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     /// <param name="sender"></param>
     /// <param name="e"></param>
     protected void btnReturnto_View_Mode_OnClick(object sender, EventArgs e)
-    {        
-            Response.Redirect("Asset_Protection.aspx?id=" + Encryption.Encrypt(PK_AP_Property_Security.ToString()) + "&loc=" + Request.QueryString["loc"] + "&pnl=" + hdnPanel.Value + "&op=view");        
+    {
+        Response.Redirect("Asset_Protection.aspx?id=" + Encryption.Encrypt(PK_AP_Property_Security.ToString()) + "&loc=" + Request.QueryString["loc"] + "&pnl=" + hdnPanel.Value + "&op=view");
     }
 
     /// <summary>
@@ -4274,25 +4308,48 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     protected void gvMonitoingGrid_RowCommand(object sender, GridViewCommandEventArgs e)
     {
         int index;
+        GridView gridView = ((GridView)sender);
+        String grid = gridView.ID;
+
+        if (grid == "gvCCTVHoursMonitoringGrid")
+        {
+            StrMonitorGridType = "CCTV";
+
+        }
+        else if (grid == "gvGuardHoursMonitorGrid")
+        {
+            StrMonitorGridType = "Guard";
+
+        }
+        else
+        {
+            StrMonitorGridType = "Off-Duty Officer";
+            //grid = gvOffDutyOfficerHoursMonitoredGrid;
+        }
+
+
         if (e.CommandName == "gvEdit")
         {
             PK_AP_Property_Security_Monitor_Grids = Convert.ToDecimal(e.CommandArgument.ToString());
             if (PK_AP_Property_Security_Monitor_Grids > 0)
             {
-                tblMainPropertySecurity.Style["display"] = tblMainPropertySecurityView.Style["display"] = dvProperty_SecuritySave.Style["display"] = pnlAddPropertySecurityMonitorGrid.Style["display"] = pnlAddPropertySecurityMonitorGridView.Style["display"] = "none";
-                if (StrOperation == "view")
-                {
-                    btnBackPropertySecurityView.Visible = true;
-                    pnlAddPropertySecurityMonitorGridView.Style["display"] = "";
-                }
-                else
-                {
-                    btnAddPSMonitorGird.Visible = true;
-                    btnBackPropertySecurity.Visible = true;
-                    pnlAddPropertySecurityMonitorGrid.Style["display"] = "";
-                }
+                tblMainPropertySecurity.Style["display"] = tblMainPropertySecurityView.Style["display"] =
+                    // dvProperty_SecuritySavelnkbtnDayMonitoringBegins.Style["display"] = 
+               pnlAddPropertySecurityMonitorGrid.Style["display"] = pnlAddPropertySecurityMonitorGridView.Style["display"] = "none";
+                //if (StrOperation == "view")
+                //{
 
-                bindPropertyMonitoringDetailForEdit();
+                //    btnBackPropertySecurityView.Visible = true;
+                //    pnlAddPropertySecurityMonitorGridView.Style["display"] = "";
+                //}
+                //else
+
+                //btnAddPSMonitorGird.Visible = true;
+                //  btnBackPropertySecurity.Visible = true;
+                //    pnlAddPropertySecurityMonitorGrid.Style["display"] = "";
+
+
+                bindPropertyMonitoringDetailForEdit(PK_AP_Property_Security_Monitor_Grids);
             }
 
         }
@@ -4306,9 +4363,300 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             txttotalHoursMonitoredPerWeek.Text = objPropertySec.Total_Hours_CCTV_Monitored_Per_Week;
 
         }
+        else if (e.CommandName == "gvAdd")
+        {
+            GridView grid1;
+            Control control = null;
+            if (StrMonitorGridType == "CCTV")
+            {
+                grid1 = gvCCTVHoursMonitoringGrid;
+            }
+            else if (StrMonitorGridType == "Guard")
+            {
+                grid1 = gvGuardHoursMonitorGrid;
+            }
+            else
+            {
+                grid1 = gvOffDutyOfficerHoursMonitoredGrid;
+            }
+            if (grid1.FooterRow != null)
+            {
+                control = grid1.FooterRow;
+            }
+            else
+            {
+                control = grid1.Controls[0].Controls[0];
+            }
+
+            TextBox txtTimeBegin = (TextBox)control.FindControl("txtTimeMonitoringBeginsAdd");
+            TextBox txtTimeEnd = (TextBox)control.FindControl("txtTimeMonitoringEndsAdd");
+
+            DropDownList ddlTimeBegin = (DropDownList)control.FindControl("ddlDayMonitoringBeginsAdd");
+            string valBegin = ddlTimeBegin.SelectedValue;
+
+            DropDownList ddlTimeEnd = (DropDownList)control.FindControl("ddlDayMonitoringEndsAdd");
+            string valEnd = ddlTimeEnd.SelectedValue;
+            TextBox txtTimeHours = (TextBox)control.FindControl("txtMonitoringPeriodHoursAdd");
+
+
+            clsAP_Property_Security_Monitor_Grids objclsAP_Property_Security_Monitor_Grids = new clsAP_Property_Security_Monitor_Grids();
+            objclsAP_Property_Security_Monitor_Grids.PK_AP_Property_Security_Monitor_Grids = PK_AP_Property_Security_Monitor_Grids;
+            objclsAP_Property_Security_Monitor_Grids.FK_AP_Property_Security = PK_AP_Property_Security;
+            objclsAP_Property_Security_Monitor_Grids.Grid_Type = StrMonitorGridType;
+
+            objclsAP_Property_Security_Monitor_Grids.Start_Day = Convert.ToDecimal(valBegin);
+            objclsAP_Property_Security_Monitor_Grids.Start_Time = txtTimeBegin.Text;
+
+            objclsAP_Property_Security_Monitor_Grids.End_Day = Convert.ToDecimal(valEnd);
+            objclsAP_Property_Security_Monitor_Grids.End_Time = txtTimeEnd.Text;
+            objclsAP_Property_Security_Monitor_Grids.Hours = txtTimeHours.Text;
+            objclsAP_Property_Security_Monitor_Grids.Updated_By = clsSession.UserID;
+            objclsAP_Property_Security_Monitor_Grids.Updated_Date = DateTime.Now;
+
+            PK_AP_Property_Security_Monitor_Grids = objclsAP_Property_Security_Monitor_Grids.Insert();
+
+            grid1.ShowFooter = false;
+
+            clsAP_Property_Security objPropertySec = new clsAP_Property_Security(PK_AP_Property_Security);
+            txttotalHoursMonitoredPerWeek.Text = objPropertySec.Total_Hours_CCTV_Monitored_Per_Week;
+            grid1.EditIndex = -1;
+            BindPropertySecurityMonitoringGrid();
+
+        }
+        //else if (e.CommandName == "gvCancel")
+        //{
+        //    grid.EditIndex = -1;
+        //    BindPropertySecurityMonitoringGrid();
+        //}
+        //else if(e.CommandName == "Edit")
+        //{
+        //  grid.ShowFooter = false;
+
+        //    grid.EditIndex = RowIndex;
+        //    BindPropertySecurityMonitoringGrid();
+
+        //     ddlTimeBegin = (DropDownList)grid.Rows[RowIndex].Cells[0].FindControl("ddlDayMonitoringBegins");
+
+        //    ddlTimeEnd = (DropDownList)grid.Rows[RowIndex].Cells[0].FindControl("ddlDayMonitoringEnds");
+        //    ComboHelper.FillWeekDays(new DropDownList[] { ddlTimeBegin, ddlTimeEnd }, 0, true);
+        //    decimal id = Convert.ToDecimal(grid.DataKeys[RowIndex].Values["PK_AP_Property_Security_Monitor_Grids"].ToString());
+        //    clsAP_Property_Security_Monitor_Grids objclsAP_Property_Security_Monitor_Grids = new clsAP_Property_Security_Monitor_Grids(id);
+        //    ddlTimeBegin.SelectedIndex = Convert.ToInt32(objclsAP_Property_Security_Monitor_Grids.Start_Day);
+        //    ddlTimeEnd.SelectedIndex = Convert.ToInt32(objclsAP_Property_Security_Monitor_Grids.End_Day);
+        //}
+        //else if (e.CommandName == "gvUpdate")
+        //{
+
+        //    TextBox txtTimeBegin = grid.Rows[RowIndex].FindControl("txtTimeMonitoringBegins") as TextBox;
+        //    TextBox txtTimeEnd = grid.Rows[RowIndex].FindControl("txtTimeMonitoringEnds") as TextBox;
+        //    int id = Convert.ToInt32(grid.DataKeys[RowIndex].Values["PK_AP_Property_Security_Monitor_Grids"].ToString());
+
+        //    //   int Hours = Convert.ToInt16(gvCCTVHoursMonitoringGrid.DataKeys[e.RowIndex].Values["PK_AP_Property_Security_Monitor_Grids"].ToString());
+        //    DropDownList ddlTimeBegin = (DropDownList)grid.Rows[RowIndex].Cells[0].FindControl("ddlDayMonitoringBegins");
+        //    string valBegin = ddlTimeBegin.SelectedValue;
+
+        //    DropDownList ddlTimeEnd = (DropDownList)grid.Rows[RowIndex].Cells[0].FindControl("ddlDayMonitoringEnds");
+        //    string valEnd = ddlTimeEnd.SelectedValue;
+        //    TextBox txtTimeHours = grid.Rows[RowIndex].FindControl("txtMonitoringPeriodHours") as TextBox;
+
+        //    clsAP_Property_Security_Monitor_Grids objclsAP_Property_Security_Monitor_Grids = new clsAP_Property_Security_Monitor_Grids();
+        //    objclsAP_Property_Security_Monitor_Grids.PK_AP_Property_Security_Monitor_Grids = id;
+        //    objclsAP_Property_Security_Monitor_Grids.FK_AP_Property_Security = PK_AP_Property_Security;
+        //    objclsAP_Property_Security_Monitor_Grids.Grid_Type = StrMonitorGridType;
+
+        //    objclsAP_Property_Security_Monitor_Grids.Start_Day = Convert.ToDecimal(valBegin);
+        //    objclsAP_Property_Security_Monitor_Grids.Start_Time = txtTimeBegin.Text;
+
+        //    objclsAP_Property_Security_Monitor_Grids.End_Day = Convert.ToDecimal(valEnd);
+        //    objclsAP_Property_Security_Monitor_Grids.End_Time = txtTimeEnd.Text;
+        //    objclsAP_Property_Security_Monitor_Grids.Hours = txtTimeHours.Text;
+        //    objclsAP_Property_Security_Monitor_Grids.Updated_By = clsSession.UserID;
+        //    objclsAP_Property_Security_Monitor_Grids.Updated_Date = DateTime.Now;
+
+        //    objclsAP_Property_Security_Monitor_Grids.Update();
+
+        //    clsAP_Property_Security objPropertySec = new clsAP_Property_Security(PK_AP_Property_Security);
+        //    txttotalHoursMonitoredPerWeek.Text = objPropertySec.Total_Hours_CCTV_Monitored_Per_Week;
+        //    grid.EditIndex = -1;
+        //    BindPropertySecurityMonitoringGrid();
+        //}
+
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
     }
+    //protected void gvCCTVHoursMonitoringGrid_RowEditing(object sender, GridViewEditEventArgs e)
+    //{
+    //    gvCCTVHoursMonitoringGrid.ShowFooter = false;
+    //    decimal id = Convert.ToDecimal(gvCCTVHoursMonitoringGrid.DataKeys[e.NewEditIndex].Values["PK_AP_Property_Security_Monitor_Grids"].ToString());
+    //    gvCCTVHoursMonitoringGrid.EditIndex = e.NewEditIndex;
+    //    bindPropertyMonitoringDetailForEdit(id);
+    //    DropDownList ddlTimeBegin = (DropDownList)gvCCTVHoursMonitoringGrid.Rows[e.NewEditIndex].Cells[0].FindControl("ddlDayMonitoringBegins");
 
+    //    DropDownList ddlTimeEnd = (DropDownList)gvCCTVHoursMonitoringGrid.Rows[e.NewEditIndex].Cells[0].FindControl("ddlDayMonitoringEnds");
+    //    ComboHelper.FillWeekDays(new DropDownList[] { ddlTimeBegin, ddlTimeEnd }, 0, true);
+    //    //decimal id = Convert.ToDecimal(gvCCTVHoursMonitoringGrid.DataKeys[e.NewEditIndex].Values["PK_AP_Property_Security_Monitor_Grids"].ToString());
+    //    clsAP_Property_Security_Monitor_Grids objclsAP_Property_Security_Monitor_Grids = new clsAP_Property_Security_Monitor_Grids(id);
+    //    ddlTimeBegin.SelectedIndex = Convert.ToInt32(objclsAP_Property_Security_Monitor_Grids.Start_Day);
+    //    ddlTimeEnd.SelectedIndex = Convert.ToInt32(objclsAP_Property_Security_Monitor_Grids.End_Day);
+
+    // }
+    protected void MonitoringGrid_RowEditing(object sender, GridViewEditEventArgs e)
+    {
+        GridView grid;
+        if (StrMonitorGridType == "CCTV")
+        {
+            grid = gvCCTVHoursMonitoringGrid;
+        }
+        else if (StrMonitorGridType == "Guard")
+        {
+            grid = gvGuardHoursMonitorGrid;
+        }
+        else
+        {
+            grid = gvOffDutyOfficerHoursMonitoredGrid;
+        }
+        grid.ShowFooter = false;
+
+        grid.EditIndex = e.NewEditIndex;
+        BindPropertySecurityMonitoringGrid();
+
+        DropDownList ddlTimeBegin = (DropDownList)grid.Rows[e.NewEditIndex].Cells[0].FindControl("ddlDayMonitoringBegins");
+
+        DropDownList ddlTimeEnd = (DropDownList)grid.Rows[e.NewEditIndex].Cells[0].FindControl("ddlDayMonitoringEnds");
+        ComboHelper.FillWeekDays(new DropDownList[] { ddlTimeBegin, ddlTimeEnd }, 0, true);
+        decimal id = Convert.ToDecimal(grid.DataKeys[e.NewEditIndex].Values["PK_AP_Property_Security_Monitor_Grids"].ToString());
+        clsAP_Property_Security_Monitor_Grids objclsAP_Property_Security_Monitor_Grids = new clsAP_Property_Security_Monitor_Grids(id);
+        ddlTimeBegin.SelectedIndex = Convert.ToInt32(objclsAP_Property_Security_Monitor_Grids.Start_Day);
+        ddlTimeEnd.SelectedIndex = Convert.ToInt32(objclsAP_Property_Security_Monitor_Grids.End_Day);
+
+    }
+    protected void MonitoringGrid_RowUpdating(object sender, GridViewUpdateEventArgs e)
+    {
+
+        GridView grid;
+        if (StrMonitorGridType == "CCTV")
+        {
+            grid = gvCCTVHoursMonitoringGrid;
+        }
+        else if (StrMonitorGridType == "Guard")
+        {
+            grid = gvGuardHoursMonitorGrid;
+        }
+        else
+        {
+            grid = gvOffDutyOfficerHoursMonitoredGrid;
+        }
+
+        TextBox txtTimeBegin = grid.Rows[e.RowIndex].FindControl("txtTimeMonitoringBegins") as TextBox;
+        TextBox txtTimeEnd = grid.Rows[e.RowIndex].FindControl("txtTimeMonitoringEnds") as TextBox;
+        int id = Convert.ToInt32(grid.DataKeys[e.RowIndex].Values["PK_AP_Property_Security_Monitor_Grids"].ToString());
+
+        //   int Hours = Convert.ToInt16(gvCCTVHoursMonitoringGrid.DataKeys[e.RowIndex].Values["PK_AP_Property_Security_Monitor_Grids"].ToString());
+        DropDownList ddlTimeBegin = (DropDownList)grid.Rows[e.RowIndex].Cells[0].FindControl("ddlDayMonitoringBegins");
+        string valBegin = ddlTimeBegin.SelectedIndex.ToString();
+
+        DropDownList ddlTimeEnd = (DropDownList)grid.Rows[e.RowIndex].Cells[0].FindControl("ddlDayMonitoringEnds");
+        string valEnd = ddlTimeEnd.SelectedValue;
+        TextBox txtTimeHours = grid.Rows[e.RowIndex].FindControl("txtMonitoringPeriodHours") as TextBox;
+
+        clsAP_Property_Security_Monitor_Grids objclsAP_Property_Security_Monitor_Grids = new clsAP_Property_Security_Monitor_Grids();
+        objclsAP_Property_Security_Monitor_Grids.PK_AP_Property_Security_Monitor_Grids = id;
+        objclsAP_Property_Security_Monitor_Grids.FK_AP_Property_Security = PK_AP_Property_Security;
+        objclsAP_Property_Security_Monitor_Grids.Grid_Type = StrMonitorGridType;
+
+        objclsAP_Property_Security_Monitor_Grids.Start_Day = Convert.ToDecimal(valBegin);
+        objclsAP_Property_Security_Monitor_Grids.Start_Time = txtTimeBegin.Text;
+
+        objclsAP_Property_Security_Monitor_Grids.End_Day = Convert.ToDecimal(valEnd);
+        objclsAP_Property_Security_Monitor_Grids.End_Time = txtTimeEnd.Text;
+        objclsAP_Property_Security_Monitor_Grids.Hours = txtTimeHours.Text;
+        objclsAP_Property_Security_Monitor_Grids.Updated_By = clsSession.UserID;
+        objclsAP_Property_Security_Monitor_Grids.Updated_Date = DateTime.Now;
+
+        objclsAP_Property_Security_Monitor_Grids.Update();
+
+        clsAP_Property_Security objPropertySec = new clsAP_Property_Security(PK_AP_Property_Security);
+        txttotalHoursMonitoredPerWeek.Text = objPropertySec.Total_Hours_CCTV_Monitored_Per_Week;
+        grid.EditIndex = -1;
+        BindPropertySecurityMonitoringGrid();
+    }
+
+
+
+    protected void gvCCTVHoursMonitoringGrid_RowUpdating(object sender, GridViewUpdateEventArgs e)
+    {
+
+        TextBox txtTimeBegin = gvCCTVHoursMonitoringGrid.Rows[e.RowIndex].FindControl("txtTimeMonitoringBegins") as TextBox;
+        TextBox txtTimeEnd = gvCCTVHoursMonitoringGrid.Rows[e.RowIndex].FindControl("txtTimeMonitoringEnds") as TextBox;
+        int id = Convert.ToInt32(gvCCTVHoursMonitoringGrid.DataKeys[e.RowIndex].Values["PK_AP_Property_Security_Monitor_Grids"].ToString());
+
+        //   int Hours = Convert.ToInt16(gvCCTVHoursMonitoringGrid.DataKeys[e.RowIndex].Values["PK_AP_Property_Security_Monitor_Grids"].ToString());
+        DropDownList ddlTimeBegin = (DropDownList)gvCCTVHoursMonitoringGrid.Rows[e.RowIndex].Cells[0].FindControl("ddlDayMonitoringBegins");
+        string valBegin = ddlTimeBegin.SelectedValue;
+
+        DropDownList ddlTimeEnd = (DropDownList)gvCCTVHoursMonitoringGrid.Rows[e.RowIndex].Cells[0].FindControl("ddlDayMonitoringEnds");
+        string valEnd = ddlTimeEnd.SelectedValue;
+        TextBox txtTimeHours = gvCCTVHoursMonitoringGrid.Rows[e.RowIndex].FindControl("txtMonitoringPeriodHours") as TextBox;
+
+        clsAP_Property_Security_Monitor_Grids objclsAP_Property_Security_Monitor_Grids = new clsAP_Property_Security_Monitor_Grids();
+        objclsAP_Property_Security_Monitor_Grids.PK_AP_Property_Security_Monitor_Grids = id;
+        objclsAP_Property_Security_Monitor_Grids.FK_AP_Property_Security = PK_AP_Property_Security;
+        objclsAP_Property_Security_Monitor_Grids.Grid_Type = "CCTV";
+
+        objclsAP_Property_Security_Monitor_Grids.Start_Day = Convert.ToDecimal(valBegin);
+        objclsAP_Property_Security_Monitor_Grids.Start_Time = txtTimeBegin.Text;
+
+        objclsAP_Property_Security_Monitor_Grids.End_Day = Convert.ToDecimal(valEnd);
+        objclsAP_Property_Security_Monitor_Grids.End_Time = txtTimeEnd.Text;
+        objclsAP_Property_Security_Monitor_Grids.Hours = txtTimeHours.Text;
+        objclsAP_Property_Security_Monitor_Grids.Updated_By = clsSession.UserID;
+        objclsAP_Property_Security_Monitor_Grids.Updated_Date = DateTime.Now;
+
+        objclsAP_Property_Security_Monitor_Grids.Update();
+
+        clsAP_Property_Security objPropertySec = new clsAP_Property_Security(PK_AP_Property_Security);
+        txttotalHoursMonitoredPerWeek.Text = objPropertySec.Total_Hours_CCTV_Monitored_Per_Week;
+        gvCCTVHoursMonitoringGrid.EditIndex = -1;
+        BindPropertySecurityMonitoringGrid();
+    }
+
+    //protected void gvCCTVHoursMonitoringGrid_RowDataBound(object sender, GridViewRowEventArgs e)
+    //{
+    //    if (e.Row.RowType == DataControlRowType.Footer)
+    //    {
+    //        DropDownList ddlTimeBegin = (DropDownList)gvCCTVHoursMonitoringGrid.FooterRow.FindControl("ddlDayMonitoringBeginsAdd");
+    //        string valBegin = ddlTimeBegin.SelectedValue;
+
+    //        DropDownList ddlTimeEnd = (DropDownList)gvCCTVHoursMonitoringGrid.FooterRow.FindControl("ddlDayMonitoringEndsAdd");
+    //        string valEnd = ddlTimeEnd.SelectedValue;
+
+    //        ComboHelper.FillWeekDays(new DropDownList[] { ddlTimeBegin, ddlTimeEnd }, 0, true);
+    //    }
+    //}
+    protected void MonitoringGrid_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+    {
+        GridView grid;
+        if (StrMonitorGridType == "CCTV")
+        {
+            grid = gvCCTVHoursMonitoringGrid;
+        }
+        else if (StrMonitorGridType == "Guard")
+        {
+            grid = gvGuardHoursMonitorGrid;
+        }
+        else
+        {
+            grid = gvOffDutyOfficerHoursMonitoredGrid;
+        }
+        grid.EditIndex = -1;
+        BindPropertySecurityMonitoringGrid();
+    }
+
+
+    //protected void gvCCTVHoursMonitoringGrid_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+    //{
+    //    gvCCTVHoursMonitoringGrid.EditIndex = -1;
+    //    BindPropertySecurityMonitoringGrid();
+    //}
 
     protected void gvNotesGridFraudView_RowCommand(object sender, GridViewCommandEventArgs e)
     {
@@ -5324,7 +5672,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             PK_AP_Property_Security = Convert.ToDecimal(e.CommandArgument);
             GridViewRow row = (GridViewRow)(((Control)e.CommandSource).NamingContainer);
             HiddenField hdnBuildingNumber = (HiddenField)row.FindControl("hdnBuildingNumber");
-            if (hdnBuildingNumber!=null)
+            if (hdnBuildingNumber != null)
             {
                 lblHeaderLocationNumber.Text += " - Building";
                 lblLocation_Number.Text += " - " + hdnBuildingNumber.Value;
@@ -5349,7 +5697,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
                 txtCCTV_Comapny_Contact_Telephone.Text = "740-368-4177";
                 txtCCTV_Company_Contact_EMail.Text = "rich@aciprotection.com";
             }
-            
+
             tblMainPropertySecurityGrid.Style["display"] = "none";
             tblMainPropertySecurity.Style["display"] = "";
             dvProperty_SecuritySave.Style["display"] = "";
@@ -5370,7 +5718,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             BindDetailsForViewForProperty_Security();
             BindPropertySecurityMonitoringGrid();
             tblMainPropertySecurityGridView.Style["display"] = "none";
-            tblMainPropertySecurityView.Style["display"] = "";            
+            tblMainPropertySecurityView.Style["display"] = "";
             //dvProperty_SecuritySave.Style["display"] = "";
             ShoHideCameraRow();
         }
@@ -5378,7 +5726,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         {
             PK_AP_Property_Security = Convert.ToDecimal(e.CommandArgument);
             clsAP_Property_Security.DeleteByPKBuilding(PK_AP_Property_Security);
-            BindPropertySecurityBuilding();            
+            BindPropertySecurityBuilding();
         }
     }
 
@@ -5417,5 +5765,6 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     //        }
     //    }
     //}
+
 
 }

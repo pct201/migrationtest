@@ -791,3 +791,11 @@ a.FirstReport:visited
 	padding: 0;
 	margin: 0;
 }
+
+.displayNone{
+    display:none;
+  visibility:hidden;
+}
+.displayBlock{
+     display:block;
+}
