@@ -244,6 +244,8 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                             bool bSendMailWeekly = false;
                             bSendMailWeekly = CheckFirstDayOfWeek(false);
 
+                            SendMailForPayrollTrainingReport();
+
                             if (bSendMailWeekly || _isTesting)
                             {
                                 //Send Weekly Mail To the Associate For Remaining Training
@@ -1159,6 +1161,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                 DataTable dtReportData = dsReportData.Tables[0];
                 DataTable dtReceipient = dsReportData.Tables[1];
                 DataTable dtLocationIDs = dsReportData.Tables[2];
+                DataTable dtReportDataLastWeek = dsReportData.Tables[3];
 
                 WriteLog("Report Data Count : " + dtReportData.Rows.Count, _strCsvPath, false);
                 WriteLog("Recipient count : " + dtReceipient.Rows.Count, _strCsvPath, false);
@@ -1174,7 +1177,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
 
                     try
                     {
-                        sbRecorords = GenerateReportForPayrollTraining(dtReportData, drLocationID, sbRecorords, "Payroll Training Report");
+                        sbRecorords = GenerateReportForPayrollTraining(dtReportData, drLocationID, sbRecorords, "Payroll Training Report", dtReportDataLastWeek);
                     }
                     catch (Exception ex)
                     {
@@ -1204,13 +1207,8 @@ namespace ERIMS_SonicUTraining_EmailScheduler
         /// <param name="drLocationID"></param>
         /// <param name="sbRecorords"></param>
         /// <returns></returns>
-        public StringBuilder GenerateReportForPayrollTraining(DataTable dtReportData, DataRow drLocationID, StringBuilder sbRecorords, String strReportTitle)
+        public StringBuilder GenerateReportForPayrollTraining(DataTable dtReportData, DataRow drLocationID, StringBuilder sbRecorords, String strReportTitle, DataTable dtReportDataLastWeek)
         {
-            string strPrevAssoName;
-            strPrevAssoName = "#";
-            DataTable dtRptDataForCurLocAndDeptAndAssocName, dtUniqueAssocName;
-            DataView dvReportData;
-
             if (dtReportData != null && dtReportData.Rows.Count > 0)
             {
                 //Gets location detail
@@ -1221,60 +1219,11 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                 sbRecorords.Append("<tr style='font-weight: bold;' valign='top'><td align='left' style='font-size:9pt'  colspan='3'>" + Convert.ToString(dtLocation.Rows[0]["Sonic_Location_Code"]).PadLeft(4, '0') + " - " + Convert.ToString(dtLocation.Rows[0]["dba"]) + "</td></tr>");
                 sbRecorords.Append("<tr style='font-weight: bold;' valign='top'><td align='left' style='font-size:9pt'  colspan='3'>" + Convert.ToString(dtLocation.Rows[0]["City"]) + ", " + Convert.ToString(dtLocation.Rows[0]["StateName"]) + "</td></tr>");
                 sbRecorords.Append("<tr style='font-weight: bold;' valign='top'><td align='left' style='font-size:9pt'  colspan='3'>" + DateTime.Now.ToString("dd MMMM yyyy") + "</td></tr><tr colspan='3'><td>&nbsp;</td></tr>");
-                sbRecorords.Append("<tr style='font-weight: bold;' valign='top'><td><table border='1' cellspacing='0' width='100%' cellpadding='0' style='border: black 0.5px solid'><tr style='font-weight: bold;background-color:#95B3D7;color:Black;font-size:11pt;height:25px;'  valign='top'>");
-                sbRecorords.Append("<td align='left' style='width:15%;font-size:9pt;padding-left:10px;'>Associate</td>");
-                sbRecorords.Append("<td align='left' style='width:55%;font-size:9pt;padding-left:10px;'>Completed Training Class</td>");
-                sbRecorords.Append("<td align='left' style='width:55%;font-size:9pt;padding-left:10px;'>Date of Completion</td>");
-                sbRecorords.Append("</tr>");
-
-                dvReportData = new DataView(dtReportData, "PK_LU_Location_ID ='" + drLocationID["PK_LU_Location_ID"].ToString() + "'", "PK_LU_Location_ID", DataViewRowState.CurrentRows);
-
-                if (dvReportData.Count > 0)
-                {
-                    DataTable dtLocationData = dvReportData.ToTable();
-                    dtUniqueAssocName = dtLocationData.AsDataView().ToTable(true, "Associate_Name");
-
-                    string str = "bgcolor=white";
-
-                    for (int i = 0; i < dtUniqueAssocName.Rows.Count; i++)
-                    {
-                        if (strPrevAssoName != "#" && strPrevAssoName != dtUniqueAssocName.Rows[i]["Associate_Name"].ToString())
-                        {
-                            str = (str == "bgcolor=white") ? "bgcolor=#eaeaea" : "bgcolor=white";
-
-                            sbRecorords.Append("<tr style='page-break-inside: avoid;' " + str + "><td>&nbsp;</td><td align='left' style='width:55%;font-size:9pt'>&nbsp;</td><td>&nbsp;</td></tr>");
-                        }
-
-                        str = (str == "bgcolor=white") ? "bgcolor=#eaeaea" : "bgcolor=white";
-                        sbRecorords.Append("<tr align='left' valign='top' style='width:15%;padding-left:10px;font-size:8.5pt;page-break-inside: avoid' " + str + ">");
-                        sbRecorords.Append("<td align='left' style='width:15%;font-size:9pt;padding-left:10px;'>" + Convert.ToString(dtUniqueAssocName.Rows[i]["Associate_Name"]) + "</td>");
-
-                        dvReportData = new DataView(dtLocationData, "Associate_Name='" + dtUniqueAssocName.Rows[i]["Associate_Name"].ToString().Replace("'", "''") + "'", "Associate_Name", DataViewRowState.CurrentRows);
-                        dtRptDataForCurLocAndDeptAndAssocName = dvReportData.ToTable();
-
-                        for (int m = 0; m < dtRptDataForCurLocAndDeptAndAssocName.Rows.Count; m++)
-                        {
-                            // WriteLog("Location ID : " + drLocationID["PK_LU_Location_ID"] + " Department : " + dtUniqueDept.Rows[i]["Department"].ToString() + " Associate_Name : " + dtUniqueAssocName.Rows[j]["Associate_Name"].ToString() + " Job_Title : " + dtUniqueJobTitle.Rows[k]["Job_Title"].ToString(), _strCsvPath, false);
-                            if (m == 0)
-                            {
-                                sbRecorords.Append("<td align='left' style='width:15%;font-size:9pt'>" + Convert.ToString(dtRptDataForCurLocAndDeptAndAssocName.Rows[m]["Class_Name"]) + "</td><td align='left' style='width:15%;font-size:9pt'>" + String.Format("{0:MM/dd/yyyy}", dtRptDataForCurLocAndDeptAndAssocName.Rows[m]["Date of Completion"]) + "</td></tr>");
-                            }
-                            else
-                            {
-                                str = (str == "bgcolor=white") ? "bgcolor=#eaeaea" : "bgcolor=white";
-                                sbRecorords.Append("<tr " + str + " valign='top' style='padding-left:10px;page-break-inside: avoid;'><td>&nbsp;</td><td align='left' style='width:55%;font-size:9pt'>" + Convert.ToString(dtRptDataForCurLocAndDeptAndAssocName.Rows[m]["Class_Name"]) + "</td><td align='left' style='width:15%;font-size:9pt'>" + String.Format("{0:MM/dd/yyyy}", dtRptDataForCurLocAndDeptAndAssocName.Rows[m]["Date of Completion"]) + "</td></tr>");
-                            }
-                        }
-                        strPrevAssoName = Convert.ToString(dtUniqueAssocName.Rows[i]["Associate_Name"]);
-                    }
-                    strPrevAssoName = "#";
-                }
-                else
-                {
-                    WriteLog("No data exists for Location ID : " + drLocationID["PK_LU_Location_ID"], _strCsvPath, false);
-                    sbRecorords.Append("<tr valign='top' style='background-color:#F2F2F2;color:Black;page-break-inside: avoid;'>");
-                    sbRecorords.Append("<td align='center' colspan='3' style='font-size:9pt;'>No Records found.</td></tr>");
-                }
+                sbRecorords = GenerateTable(sbRecorords, dtReportDataLastWeek, drLocationID);
+                WriteLog("Executing GenerateTable Method Executed", _strCsvPath, false);
+                sbRecorords.Append("<tr colspan='3'><td>&nbsp;</td></tr>");
+                sbRecorords = GenerateTable(sbRecorords, dtReportData, drLocationID);
+                WriteLog("Executing GenerateTable Method Executed", _strCsvPath, false);
             }
             else
             {
@@ -1293,7 +1242,79 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                 sbRecorords.Append("<td align='center' colspan='3' style='font-size:9pt;'>No Records found.</td></tr>");
             }
 
-            sbRecorords.Append("</table></td></tr></table>");
+            sbRecorords.Append("</td></tr></table>");
+            return sbRecorords;
+        }
+
+        /// <summary>
+        /// generate the table in reports
+        /// </summary>
+        /// <param name="sbRecorords"></param>
+        /// <param name="dtReportData"></param>
+        /// <param name="drLocationID"></param>
+        /// <returns></returns>
+        public StringBuilder GenerateTable(StringBuilder sbRecorords, DataTable dtReportData, DataRow drLocationID)
+        {
+            DataView dvReportData;
+            string strPrevAssoName;
+            strPrevAssoName = "#";
+            DataTable dtRptDataForCurLocAndDeptAndAssocName, dtUniqueAssocName;
+            WriteLog("Executing GenerateTable Method", _strCsvPath, false);
+            sbRecorords.Append("<tr style='font-weight: bold;' valign='top'><td><table border='1' cellspacing='0' width='100%' cellpadding='0' style='border: black 0.5px solid'><tr style='font-weight: bold;background-color:#95B3D7;color:Black;font-size:11pt;height:25px;'  valign='top'>");
+            sbRecorords.Append("<td align='left' style='width:15%;font-size:9pt;padding-left:10px;'>Associate</td>");
+            sbRecorords.Append("<td align='left' style='width:55%;font-size:9pt;padding-left:10px;'>Completed Training Class</td>");
+            sbRecorords.Append("<td align='left' style='width:55%;font-size:9pt;padding-left:10px;'>Date of Completion</td>");
+            sbRecorords.Append("</tr>");
+
+            dvReportData = new DataView(dtReportData, "PK_LU_Location_ID ='" + drLocationID["PK_LU_Location_ID"].ToString() + "'", "PK_LU_Location_ID", DataViewRowState.CurrentRows);
+
+            if (dvReportData.Count > 0)
+            {
+                DataTable dtLocationData = dvReportData.ToTable();
+                dtUniqueAssocName = dtLocationData.AsDataView().ToTable(true, "Associate_Name");
+
+                string str = "bgcolor=white";
+
+                for (int i = 0; i < dtUniqueAssocName.Rows.Count; i++)
+                {
+                    if (strPrevAssoName != "#" && strPrevAssoName != dtUniqueAssocName.Rows[i]["Associate_Name"].ToString())
+                    {
+                        str = (str == "bgcolor=white") ? "bgcolor=#eaeaea" : "bgcolor=white";
+
+                        sbRecorords.Append("<tr style='page-break-inside: avoid;' " + str + "><td>&nbsp;</td><td align='left' style='width:55%;font-size:9pt'>&nbsp;</td><td>&nbsp;</td></tr>");
+                    }
+
+                    str = (str == "bgcolor=white") ? "bgcolor=#eaeaea" : "bgcolor=white";
+                    sbRecorords.Append("<tr align='left' valign='top' style='width:15%;padding-left:10px;font-size:8.5pt;page-break-inside: avoid' " + str + ">");
+                    sbRecorords.Append("<td align='left' style='width:15%;font-size:9pt;padding-left:10px;'>" + Convert.ToString(dtUniqueAssocName.Rows[i]["Associate_Name"]) + "</td>");
+
+                    dvReportData = new DataView(dtLocationData, "Associate_Name='" + dtUniqueAssocName.Rows[i]["Associate_Name"].ToString().Replace("'", "''") + "'", "Associate_Name", DataViewRowState.CurrentRows);
+                    dtRptDataForCurLocAndDeptAndAssocName = dvReportData.ToTable();
+
+                    for (int m = 0; m < dtRptDataForCurLocAndDeptAndAssocName.Rows.Count; m++)
+                    {
+                        // WriteLog("Location ID : " + drLocationID["PK_LU_Location_ID"] + " Department : " + dtUniqueDept.Rows[i]["Department"].ToString() + " Associate_Name : " + dtUniqueAssocName.Rows[j]["Associate_Name"].ToString() + " Job_Title : " + dtUniqueJobTitle.Rows[k]["Job_Title"].ToString(), _strCsvPath, false);
+                        if (m == 0)
+                        {
+                            sbRecorords.Append("<td align='left' style='width:15%;font-size:9pt'>" + Convert.ToString(dtRptDataForCurLocAndDeptAndAssocName.Rows[m]["Class_Name"]) + "</td><td align='left' style='width:15%;font-size:9pt'>" + String.Format("{0:MM/dd/yyyy}", dtRptDataForCurLocAndDeptAndAssocName.Rows[m]["Date of Completion"]) + "</td></tr>");
+                        }
+                        else
+                        {
+                            str = (str == "bgcolor=white") ? "bgcolor=#eaeaea" : "bgcolor=white";
+                            sbRecorords.Append("<tr " + str + " valign='top' style='padding-left:10px;page-break-inside: avoid;'><td>&nbsp;</td><td align='left' style='width:55%;font-size:9pt'>" + Convert.ToString(dtRptDataForCurLocAndDeptAndAssocName.Rows[m]["Class_Name"]) + "</td><td align='left' style='width:15%;font-size:9pt'>" + String.Format("{0:MM/dd/yyyy}", dtRptDataForCurLocAndDeptAndAssocName.Rows[m]["Date of Completion"]) + "</td></tr>");
+                        }
+                    }
+                    strPrevAssoName = Convert.ToString(dtUniqueAssocName.Rows[i]["Associate_Name"]);
+                }
+                strPrevAssoName = "#";
+            }
+            else
+            {
+                WriteLog("No data exists for Location ID : " + drLocationID["PK_LU_Location_ID"], _strCsvPath, false);
+                sbRecorords.Append("<tr valign='top' style='background-color:#F2F2F2;color:Black;page-break-inside: avoid;'>");
+                sbRecorords.Append("<td align='center' colspan='3' style='font-size:9pt;'>No Associates Trained.</td></tr>");
+            }
+            sbRecorords.Append("</table></td></tr>");
             return sbRecorords;
         }
 
