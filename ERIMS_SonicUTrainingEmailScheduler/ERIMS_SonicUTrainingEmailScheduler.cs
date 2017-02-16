@@ -1209,7 +1209,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
         /// <returns></returns>
         public StringBuilder GenerateReportForPayrollTraining(DataTable dtReportData, DataRow drLocationID, StringBuilder sbRecorords, String strReportTitle, DataTable dtReportDataLastWeek)
         {
-            if (dtReportData != null && dtReportData.Rows.Count > 0)
+            if ((dtReportData != null && dtReportData.Rows.Count > 0) || (dtReportDataLastWeek != null && dtReportData.Rows.Count > 0 ))
             {
                 //Gets location detail
                 DataTable dtLocation = ReportSendMail.SelectByPK(Convert.ToDecimal(drLocationID["PK_LU_Location_ID"])).Tables[0];
@@ -1239,7 +1239,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                 sbRecorords.Append("<td align='left' style='width:55%;font-size:9pt;padding-left:10px;'>Completed Training Class</td>");
                 sbRecorords.Append("<td align='left' style='width:55%;font-size:9pt;padding-left:10px;'>Date of Completion</td>");
                 sbRecorords.Append("<tr valign='top' style='background-color:#F2F2F2;color:Black;page-break-inside: avoid;'>");
-                sbRecorords.Append("<td align='center' colspan='3' style='font-size:9pt;'>No Records found.</td></tr>");
+                sbRecorords.Append("<td align='center' colspan='3' style='font-size:9pt;'>No Associates Trained.</td></tr>");
             }
 
             sbRecorords.Append("</td></tr></table>");
