@@ -1412,7 +1412,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                     sbRecorords.Append("<td align='left' style='width:15%;font-size:9pt'>" + Convert.ToString(dtUniqueRegion.Rows[i]["Region"]) + "</td>");
 
                     //Fetch Data for current Region 
-                    dvReportData = new DataView(dtReportData, "Region='" + dtUniqueRegion.Rows[i]["Region"].ToString() + "'", "Region", DataViewRowState.CurrentRows);
+                    dvReportData = new DataView(dtReportData, "Region='" + dtUniqueRegion.Rows[i]["Region"].ToString() + "'" + "AND FK_Employee_Id='" + drRLCM["FK_Employee_Id"].ToString() + "'", "Region", DataViewRowState.CurrentRows);
                     dtRptDataForCurRegion = dvReportData.ToTable();
 
                     dtUniqueMarket = dtRptDataForCurRegion.AsDataView().ToTable(true, "Market");
