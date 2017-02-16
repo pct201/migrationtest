@@ -73,6 +73,7 @@ public partial class Event_ACI_Video_Request : clsBasePage
                 Session.Remove("EventVideocriteria");
                 BindEmployeeDetails();
                 ShowHideUrgentneed(false);
+                txtDate_Of_Request_Video.Text = clsGeneral.FormatDBNullDateToDisplay(DateTime.Now);
             }
           
             ucAttachment_Video.FK_Table = PK_Event_Video_Tracking_Request;
@@ -176,6 +177,7 @@ public partial class Event_ACI_Video_Request : clsBasePage
             StrOperation = "edit";
             BindDetailsForEdit();
         }
+        
         Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:ShowPanel(" + hdnPanel.Value + ");", true);
 
     }
@@ -598,11 +600,13 @@ public partial class Event_ACI_Video_Request : clsBasePage
             string strMailHeader = "ACI Video Request has been Created for " + (ddlLocation_Video.SelectedIndex > 0 ? ddlLocation_Video.SelectedItem.Text : "") + " by " + txtFull_Name_Video.Text;
 
             string strMailBody = "ERIMS has requested ACI Video Approval. Please click APPROVE or DENY for video Request.";
-            strMailBody = strMailBody + "<br/>";
-            strMailBody = strMailBody + "<br/>";
-            strMailBody = strMailBody + "<A href=/eRIMS_SonicWeb/Event/EventSearch_New.aspx>APPROVE</A>";
-            strMailBody = strMailBody ;
-            strMailBody = strMailBody + "<A href=/eRIMS_SonicWeb/Event/EventSearch_New.aspx>DENY</A>";
+            strMailBody = strMailBody + "<br/><br/>";
+            strMailBody = strMailBody + "<span style='font-size: 20px;'><A href=" + AppConfig.SiteURL + "/Event/ACI_Approve_Deny.aspx?tid=" + Encryption.Encrypt(Convert.ToString(PK_Event_Video_Tracking_Request)) + "&sid=" + Encryption.Encrypt(Convert.ToString(clsSession.UserID)) + "&status=" + Encryption.Encrypt("Approved") + ">APPROVE</A></span>";
+            strMailBody = strMailBody + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+            strMailBody = strMailBody + "<span style='font-size: 20px;'><A href=" + AppConfig.SiteURL + "/Event/ACI_Approve_Deny.aspx?tid=" + Encryption.Encrypt(Convert.ToString(PK_Event_Video_Tracking_Request)) + "&sid=" + Encryption.Encrypt(Convert.ToString(clsSession.UserID)) + "&status=" + Encryption.Encrypt("Denied") + ">DENY</A></span>";
+            strMailBody = strMailBody + "<br/><br/><br/>";
+            strMailBody = strMailBody + "<span style='font-size: 18px;'><b>Reason   :   </b></span>" + objRefNumber.Reason_Request;
+
             if (EmailTo.Length > 0)
             {
                 EmailHelper objEmail = new EmailHelper(AppConfig.SMTPServer, AppConfig.MailFrom, AppConfig.SMTPpwd, Convert.ToInt32(AppConfig.Port));

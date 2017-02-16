@@ -315,10 +315,10 @@
                                                         <td align="center" width="4%" valign="top">:
                                                         </td>
                                                         <td align="left" width="28%" valign="top">
-                                                            <asp:TextBox ID="txtDate_Of_Request_Video" runat="server" SkinID="txtDate" />
-                                                            <img alt="Report Date" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtDate_Of_Request_Video', 'mm/dd/y');"
+                                                            <asp:TextBox ID="txtDate_Of_Request_Video" runat="server" SkinID="txtDate" Enabled="false" />
+                                                            <%--<img alt="Report Date" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtDate_Of_Request_Video', 'mm/dd/y');"
                                                                 onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
-                                                                align="middle" runat="server" id="img1" />
+                                                                align="middle" runat="server" id="img1" />--%>
                                                             <asp:RegularExpressionValidator ID="revtxtDate_Of_Request_Video" runat="server" ValidationGroup="vsErrorGroup"
                                                                 Display="none" ErrorMessage="Date of Request is not a valid date"
                                                                 SetFocusOnError="true" ControlToValidate="txtDate_Of_Request_Video" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>

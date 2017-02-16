@@ -572,14 +572,14 @@ public partial class Event_Event_VideoRequestSearch : clsBasePage
         {
             string[] strCommandArgument = e.CommandArgument.ToString().Split(',');
             decimal PK_Event_Video_Tracking_Request = Convert.ToDecimal(strCommandArgument[0]);
-            clsEvent_Video_Tracking_Request.Event_Video_Tracking_RequestUpdateStatus(PK_Event_Video_Tracking_Request, "Approved");
+            clsEvent_Video_Tracking_Request.Event_Video_Tracking_RequestUpdateStatus(PK_Event_Video_Tracking_Request, "Approved", Convert.ToInt32(clsSession.UserID));
             BindGrid(ctrlPageProperty.CurrentPage, ctrlPageProperty.PageSize);
         }
         else if (e.CommandName == "DenyVideo")
         {
             string[] strCommandArgument = e.CommandArgument.ToString().Split(',');
             decimal PK_Event_Video_Tracking_Request = Convert.ToDecimal(strCommandArgument[0]);
-            clsEvent_Video_Tracking_Request.Event_Video_Tracking_RequestUpdateStatus(PK_Event_Video_Tracking_Request, "Denied");
+            clsEvent_Video_Tracking_Request.Event_Video_Tracking_RequestUpdateStatus(PK_Event_Video_Tracking_Request, "Denied", Convert.ToInt32(clsSession.UserID));
             BindGrid(ctrlPageProperty.CurrentPage, ctrlPageProperty.PageSize);
         }
     }

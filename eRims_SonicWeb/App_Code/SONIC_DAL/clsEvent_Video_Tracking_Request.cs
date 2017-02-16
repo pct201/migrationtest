@@ -831,14 +831,14 @@ namespace ERIMS.DAL
         /// <summary>
         /// Update Status.
         /// </summary>
-        public static void Event_Video_Tracking_RequestUpdateStatus(decimal PK_Event_Video_Tracking_Request, string Status)
+        public static void Event_Video_Tracking_RequestUpdateStatus(decimal PK_Event_Video_Tracking_Request, string Status, decimal Updated_By)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("Event_Video_Tracking_RequestUpdateStatus");
 
             db.AddInParameter(dbCommand, "PK_Event_Video_Tracking_Request", DbType.Decimal, PK_Event_Video_Tracking_Request);
             db.AddInParameter(dbCommand, "Status", DbType.String, Status);
-            db.AddInParameter(dbCommand, "Updated_By", DbType.Int32, Convert.ToInt32(clsSession.UserID));
+            db.AddInParameter(dbCommand, "Updated_By", DbType.Int32, Updated_By);
 
             db.ExecuteNonQuery(dbCommand);
         }
