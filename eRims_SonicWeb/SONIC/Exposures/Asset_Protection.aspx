@@ -391,17 +391,17 @@ function openGenereteAbstract() {
     }
     if (document.getElementById('<%= hdnPanel.ClientID %>').value == 2) {
         PKID = '<%=ViewState["FK_DPD_FR_ID"]%>';
-                VehicleId = '<%=ViewState["FK_DPD_FR_Vehicle_ID"]%>';
-            }
-            else if (document.getElementById('<%= hdnPanel.ClientID %>').value == 3) {
-                PKID = '<%=ViewState["FK_AL_FR_ID"]%>';
+        VehicleId = '<%=ViewState["FK_DPD_FR_Vehicle_ID"]%>';
     }
-        //else if (document.getElementById('<= hdnPanel.ClientID %>').value == 4) {
-        //    PKID = '<=ViewState["PK_AP_Cal_Atlantic"]%>';
-        //}
-    else if (document.getElementById('<%= hdnPanel.ClientID %>').value == 4) {
-        PKID = '<%=ViewState["PK_AP_Fraud_Events"]%>';
+    else if (document.getElementById('<%= hdnPanel.ClientID %>').value == 3) {
+        PKID = '<%=ViewState["FK_AL_FR_ID"]%>';
             }
+                //else if (document.getElementById('<= hdnPanel.ClientID %>').value == 4) {
+                //    PKID = '<=ViewState["PK_AP_Cal_Atlantic"]%>';
+                //}
+            else if (document.getElementById('<%= hdnPanel.ClientID %>').value == 4) {
+                PKID = '<%=ViewState["PK_AP_Fraud_Events"]%>';
+    }
 
     obj = window.open("Asset_Protection_Generate_Abstract.aspx?id=" + '<%=ViewState["LocationID"]  %>' + "&ps_id=" + '<%= ViewState["PK_AP_Property_Security"] %>' + "&panel=" + document.getElementById('<%= hdnPanel.ClientID %>').value + "&PKID=" + PKID + "&VID=" + VehicleId, 'PopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
     obj.focus();
@@ -410,8 +410,7 @@ function openGenereteAbstract() {
 
 function IsValidMonitorTime(endDayID, startDayID, MonitoringEndTimeID, MonitoringBeginTimeID, HoursID) {
     Page_ClientValidate("vsAddPSMonitor");
-    if (Page_IsValid)
-    {
+    if (Page_IsValid) {
         debugger;
         var endDay = $("#" + endDayID + "").val();
         var startDay = $("#" + startDayID + "").val();
@@ -460,7 +459,7 @@ function IsValidMonitorTime(endDayID, startDayID, MonitoringEndTimeID, Monitorin
             $('#' + HoursID).val(hours + ':' + minutes);
             return true;
         }
-        
+
     }
     else {
         return false;
@@ -499,59 +498,59 @@ function IsValidMonitorTime(endDayID, startDayID, MonitoringEndTimeID, Monitorin
 
 function SetRiskCategory() {
     var Cap_Index_Crime_Score = (document.getElementById('<%=txtCap_Index_Crime_Score.ClientID %>'));
-            var Cap_Index_Risk_Category = (document.getElementById('<%=ddlCap_Index_Risk_Category.ClientID %>'));
+    var Cap_Index_Risk_Category = (document.getElementById('<%=ddlCap_Index_Risk_Category.ClientID %>'));
 
-            if (Cap_Index_Crime_Score.value != "") {
-                if (Cap_Index_Crime_Score.value >= 0 && Cap_Index_Crime_Score.value <= 99) {
-                    Cap_Index_Risk_Category.selectedIndex = 5;
-                }
-                else if (Cap_Index_Crime_Score.value >= 100 && Cap_Index_Crime_Score.value <= 199) {
-                    Cap_Index_Risk_Category.selectedIndex = 4;
-                }
-                else if (Cap_Index_Crime_Score.value >= 200 && Cap_Index_Crime_Score.value <= 399) {
-                    Cap_Index_Risk_Category.selectedIndex = 3;
-                }
-                else if (Cap_Index_Crime_Score.value >= 400 && Cap_Index_Crime_Score.value <= 799) {
-                    Cap_Index_Risk_Category.selectedIndex = 2;
-                }
-                else if (Cap_Index_Crime_Score.value >= 800 && Cap_Index_Crime_Score.value <= 2000) {
-                    Cap_Index_Risk_Category.selectedIndex = 1;
-                }
-                else {
-                    Cap_Index_Crime_Score.value = 0;
-                    Cap_Index_Risk_Category.selectedIndex = 0;
-                    alert('range must be between 0 to 2000');
-                }
-            }
+    if (Cap_Index_Crime_Score.value != "") {
+        if (Cap_Index_Crime_Score.value >= 0 && Cap_Index_Crime_Score.value <= 99) {
+            Cap_Index_Risk_Category.selectedIndex = 5;
         }
-
-
-        function OpenBuildingByFK_LocatoinPopup() {
-            Page_ClientValidate("vsErrorProperty_Security");
-            if (Page_IsValid) {
-
-                var Loc = $('#' + '<%=hdnLocationID.ClientID%>').val();
-        if (Loc != null || Loc != NaN)
-            Loc = parseInt(Loc);
-        else
-            Loc = 0;
-        var BuildingNumber = $('#' + '<%=hdnBuildingNumberByLocation.ClientID%>').val();
-
-                oWnd = window.open("<%=AppConfig.SiteURL%>Sonic/Exposures/BuildingByLocation.aspx?loc_id=" + Loc + "&BuildingNumber=" + BuildingNumber + "&ps_id=" + '<%= ViewState["PK_AP_Property_Security"] %>', "Erims", "location=0,status=0,scrollbars=1,menubar=0,resizable=0,toolbar=0,width=500,height=320");
-        oWnd.moveTo(700, 400);
-        return false;
-
+        else if (Cap_Index_Crime_Score.value >= 100 && Cap_Index_Crime_Score.value <= 199) {
+            Cap_Index_Risk_Category.selectedIndex = 4;
+        }
+        else if (Cap_Index_Crime_Score.value >= 200 && Cap_Index_Crime_Score.value <= 399) {
+            Cap_Index_Risk_Category.selectedIndex = 3;
+        }
+        else if (Cap_Index_Crime_Score.value >= 400 && Cap_Index_Crime_Score.value <= 799) {
+            Cap_Index_Risk_Category.selectedIndex = 2;
+        }
+        else if (Cap_Index_Crime_Score.value >= 800 && Cap_Index_Crime_Score.value <= 2000) {
+            Cap_Index_Risk_Category.selectedIndex = 1;
+        }
+        else {
+            Cap_Index_Crime_Score.value = 0;
+            Cap_Index_Risk_Category.selectedIndex = 0;
+            alert('range must be between 0 to 2000');
+        }
     }
-
 }
 
-function RemoveDataFromBuildingAlert(element) {
 
-    var BuildingNumber = document.getElementById(element.replace("lnkbtnRemove", "hdnBuildingNumber")).value;
-    var Loc = $('#' + '<%=hdnLocationdba.ClientID%>').val();
-            return confirm("Are you sure you want to remove the data from Building " + BuildingNumber + " at Location " + Loc + " ?");
+function OpenBuildingByFK_LocatoinPopup() {
+    Page_ClientValidate("vsErrorProperty_Security");
+    if (Page_IsValid) {
+
+        var Loc = $('#' + '<%=hdnLocationID.ClientID%>').val();
+                if (Loc != null || Loc != NaN)
+                    Loc = parseInt(Loc);
+                else
+                    Loc = 0;
+                var BuildingNumber = $('#' + '<%=hdnBuildingNumberByLocation.ClientID%>').val();
+
+        oWnd = window.open("<%=AppConfig.SiteURL%>Sonic/Exposures/BuildingByLocation.aspx?loc_id=" + Loc + "&BuildingNumber=" + BuildingNumber + "&ps_id=" + '<%= ViewState["PK_AP_Property_Security"] %>', "Erims", "location=0,status=0,scrollbars=1,menubar=0,resizable=0,toolbar=0,width=500,height=320");
+                oWnd.moveTo(700, 400);
+                return false;
+
+            }
 
         }
+
+        function RemoveDataFromBuildingAlert(element) {
+
+            var BuildingNumber = document.getElementById(element.replace("lnkbtnRemove", "hdnBuildingNumber")).value;
+            var Loc = $('#' + '<%=hdnLocationdba.ClientID%>').val();
+    return confirm("Are you sure you want to remove the data from Building " + BuildingNumber + " at Location " + Loc + " ?");
+
+}
     </script>
     <div>
         <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
@@ -908,8 +907,8 @@ function RemoveDataFromBuildingAlert(element) {
                                                     <tr>
                                                         <td align="left" valign="top" colspan="6">
                                                             <asp:GridView ID="gvCCTVHoursMonitoringGrid" runat="server" GridLines="None" CellPadding="4" DataKeyNames="PK_AP_Property_Security_Monitor_Grids" 
-                                                                CellSpacing="0" AutoGenerateColumns="false" Width="100%" EnableTheming="false"  
-                                                                OnRowCommand="gvMonitoingGrid_RowCommand"  OnRowEditing="MonitoringGrid_RowEditing" OnRowUpdating="MonitoringGrid_RowUpdating" >
+                                                                CellSpacing="0" AutoGenerateColumns="false" Width="100%" EnableTheming="false"  AutoGenerateEditButton="true" 
+                                                                OnRowCommand="gvMonitoingGrid_RowCommand" OnRowCancelingEdit="MonitoringGrid_RowCancelingEdit" OnRowEditing="MonitoringGrid_RowEditing" OnRowUpdating="gvCCTVHoursMonitoringGrid_RowUpdating" >
                                                                 <%--OnRowCreated="gvCCTVHoursMonitoringGrid_RowCreated" OnRowDataBound="gvCCTVHoursMonitoringGrid_RowDataBound"--%>
                                                                 <FooterStyle BackColor="#EAEAEA" Font-Bold="True" ForeColor="White" Font-Names="Tahoma"
                                                                     Font-Size="8pt" />
@@ -1080,17 +1079,17 @@ function RemoveDataFromBuildingAlert(element) {
                                                                                 CommandName="Remove" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
                                                                             </asp:LinkButton>
                                                                                  
-                                                                             <asp:LinkButton ID="lnkbtnEdit" runat="server" Text="Edit" 
+                                                                           <%--  <asp:LinkButton ID="lnkbtnEdit" runat="server" Text="Edit" 
                                                                                 CommandName="Edit" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
-                                                                            </asp:LinkButton>
+                                                                            </asp:LinkButton>--%>
                                                                       </ItemTemplate>
                                                                         <EditItemTemplate>
-                                                                                 <asp:LinkButton ID="lnkbtnUpdate" runat="server" Text="Update" 
-                                                                                CommandName="gvUpdate" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
+                                                                              <%--   <asp:LinkButton ID="lnkbtnUpdate" runat="server" Text="Update" 
+                                                                                CommandName="Update" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
                                                                             </asp:LinkButton>
                                                                               <asp:LinkButton ID="lnkbtnCancel" runat="server" Text="Cancel" 
                                                                                 CommandName="gvCancel" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
-                                                                            </asp:LinkButton>
+                                                                            </asp:LinkButton>--%>
                                                                         </EditItemTemplate>
                                                                         <FooterTemplate>
                                                                             <asp:LinkButton ID="btnAddPSMonitorGird" runat="server" Text="Save" CommandName="gvAdd" OnClientClick="javascript:return ChangeAdd(this);" />
