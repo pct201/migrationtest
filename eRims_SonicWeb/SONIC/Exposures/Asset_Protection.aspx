@@ -30,56 +30,8 @@
 
 
     <script type="text/javascript">
-
-        $(document).ready(function () {
-
-            $('.TxttestAddCCTV').focusout(function (e) {
-                //Page_ClientValidate("vsAddPSMonitorCCTV");
-                //if (Page_IsValid) {
-                if (Page_ClientValidate("vsAddPSMonitorCCTV")) {
-                    IsValidMonitorTime("vsAddPSMonitorCCTV",this.id.split('txt')[0] + 'ddlDayMonitoringBegins', this.id.split('txt')[0] + 'ddlDayMonitoringEnds', this.id.split('txt')[0] + 'txtTimeMonitoringEnds', this.id.split('txt')[0] + 'txtTimeMonitoringBegins', this.id.split('txt')[0] + 'txtMonitoringPeriodHours');
-                }
-                else {
-                    e.preventDefault();
-                    return false;
-                }
-            });
-            
-          
-
-        function ChangeAddCCTV(lnk) {
-            if (Page_ClientValidate("vsAddPSMonitorCCTV")) {
-                return IsValidMonitorTime("vsAddPSMonitorCCTV", lnk.id.split('btn')[0] + 'ddlDayMonitoringBeginsAdd', lnk.id.split('btn')[0] + 'ddlDayMonitoringEndsAdd', lnk.id.split('btn')[0] + 'txtTimeMonitoringEndsAdd', lnk.id.split('btn')[0] + 'txtTimeMonitoringBeginsAdd', lnk.id.split('btn')[0] + 'txtMonitoringPeriodHoursAdd');
-            }
-            else {
-                return false;
-            }
-        }
-       
-        $('.TxttestCCTV').focusout(function (e) {
-            //Page_ClientValidate("vsAddPSMonitorCCTV");
-            //if (Page_IsValid) {
-            if (Page_ClientValidate("vsPSMonitorCCTV")) {
-                IsValidMonitorTime("vsPSMonitorCCTV", this.id.split('txt')[0] + 'ddlDayMonitoringBegins', this.id.split('txt')[0] + 'ddlDayMonitoringEnds', this.id.split('txt')[0] + 'txtTimeMonitoringEnds', this.id.split('txt')[0] + 'txtTimeMonitoringBegins', this.id.split('txt')[0] + 'txtMonitoringPeriodHours');
-            }
-            else {
-                e.preventDefault();
-                return false;
-            }
-        });
-        $('.testCCTV').change(function (e) {
-            if (Page_ClientValidate("vsPSMonitorCCTV")) {
-                IsValidMonitorTime("vsPSMonitorCCTV", this.id.split('ddl')[0] + 'ddlDayMonitoringBegins', this.id.split('ddl')[0] + 'ddlDayMonitoringEnds', this.id.split('ddl')[0] + 'txtTimeMonitoringEnds', this.id.split('ddl')[0] + 'txtTimeMonitoringBegins', this.id.split('ddl')[0] + 'txtMonitoringPeriodHours');
-            }
-            else {
-                e.preventDefault();
-                return false;
-            }
-        });
-        })
         var CheckChangeVal = false;
         var ActiveTabIndex = 1;
-        
 
         function formatCurrencyOnBlur(ctrl) {
             if (ctrl.value != '') {
@@ -403,10 +355,10 @@ function openGenereteAbstract() {
     var PKID = 0;
     var VehicleId = 0;
     if (document.getElementById('<%= hdnPanel.ClientID %>').value == 1) {
-        PKID = '<%=ViewState["PK_AP_Property_Security"]%>';
-    }
-    if (document.getElementById('<%= hdnPanel.ClientID %>').value == 2) {
-        PKID = '<%=ViewState["FK_DPD_FR_ID"]%>';
+                PKID = '<%=ViewState["PK_AP_Property_Security"]%>';
+            }
+            if (document.getElementById('<%= hdnPanel.ClientID %>').value == 2) {
+                PKID = '<%=ViewState["FK_DPD_FR_ID"]%>';
         VehicleId = '<%=ViewState["FK_DPD_FR_Vehicle_ID"]%>';
     }
     else if (document.getElementById('<%= hdnPanel.ClientID %>').value == 3) {
@@ -420,31 +372,29 @@ function openGenereteAbstract() {
     }
 
     obj = window.open("Asset_Protection_Generate_Abstract.aspx?id=" + '<%=ViewState["LocationID"]  %>' + "&ps_id=" + '<%= ViewState["PK_AP_Property_Security"] %>' + "&panel=" + document.getElementById('<%= hdnPanel.ClientID %>').value + "&PKID=" + PKID + "&VID=" + VehicleId, 'PopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
-    obj.focus();
-    return false;
-}
+            obj.focus();
+            return false;
+        }
 
-function IsValidMonitorTime(valGroup,endDayID, startDayID, MonitoringEndTimeID, MonitoringBeginTimeID, HoursID) {
-    
-    if (Page_ClientValidate(valGroup)) {
-        debugger;
-        var endDay = $("#" + endDayID + "").val();
-        var startDay = $("#" + startDayID + "").val();
+        function IsValidMonitorTime() {
+            Page_ClientValidate("vsAddPSMonitor");
+            if (Page_IsValid) {
+                var endDay = $("#<%= ddlDayMonitoringEnds.ClientID %> :selected").val();
+        var startDay = $("#<%= ddlDayMonitoringBegins.ClientID %> :selected").val();
 
         if (endDay < startDay) {
             endDay = (parseInt(endDay, 10) + 7);
         }
         var CompareEndDay = (endDay - startDay + 1);
-        var MonitoringEndTime = $("#" + MonitoringEndTimeID + "").val();
-        var MonitoringBeginTime = $("#" + MonitoringBeginTimeID + "").val();
+        var MonitoringEndTime = $("#<%= txtTimeMonitoringEnds.ClientID %>").val();
+                var MonitoringBeginTime = $("#<%= txtTimeMonitoringBegins.ClientID %>").val();
         var startdate1 = new Date("January 01, 1999 " + MonitoringBeginTime + ":00");
         var enddate1 = new Date("January 0" + CompareEndDay + ", 1999 " + MonitoringEndTime + ":00");
         var diff = enddate1 - startdate1;
         var seconds = Math.floor(diff / 1000); //ignore any left over units smaller than a second
         var minutes = Math.floor(seconds / 60);
         seconds = seconds % 60;
-        var hours = 0;
-        hours = Math.floor(minutes / 60);
+        var hours = Math.floor(minutes / 60);
         minutes = minutes % 60;
         if (hours == "NaN") {
             alert('Enter valid values');
@@ -463,107 +413,228 @@ function IsValidMonitorTime(valGroup,endDayID, startDayID, MonitoringEndTimeID, 
         if (hours > 23) {
             var r = confirm("The entered monitoring time period is " + hours + ":" + minutes + " hours, is this the desired entry?");
             if (r == true) {
-                $('#' + HoursID).val(hours + ':' + minutes);
-                return true;
+                document.getElementById('<%= txtMonitoringPeriodHours.ClientID %>').value = hours + ":" + minutes;
+                    }
+                    else {
+                        return false;
+                    }
+                }
+                else {
+                    document.getElementById('<%= txtMonitoringPeriodHours.ClientID %>').value = hours + ":" + minutes;
+                }
             }
             else {
-                debugger;
+                return false;
+            }
+        }
+
+        function IsValidMonitorTimeCCTV() {
+            Page_ClientValidate("vsAddPSMonitorCCTV");
+            if (Page_IsValid) {
+                var endDay = $("#<%= ddlDayMonitoringEnd_CCTV.ClientID %> :selected").val();
+        var startDay = $("#<%= ddlDayMonitoringBegin_CCTV.ClientID %> :selected").val();
+
+        if (endDay < startDay) {
+            endDay = (parseInt(endDay, 10) + 7);
+        }
+        var CompareEndDay = (endDay - startDay + 1);
+        var MonitoringEndTime = $("#<%= txtTimeMonitoringEnd_CCTV.ClientID %>").val();
+                var MonitoringBeginTime = $("#<%= txtTimeMonitoringBegin_CCTV.ClientID %>").val();
+        var startdate1 = new Date("January 01, 1999 " + MonitoringBeginTime + ":00");
+        var enddate1 = new Date("January 0" + CompareEndDay + ", 1999 " + MonitoringEndTime + ":00");
+        var diff = enddate1 - startdate1;
+        var seconds = Math.floor(diff / 1000); //ignore any left over units smaller than a second
+        var minutes = Math.floor(seconds / 60);
+        seconds = seconds % 60;
+        var hours = Math.floor(minutes / 60);
+        minutes = minutes % 60;
+        if (hours == "NaN") {
+            alert('Enter valid values');
+            return false;
+        }
+        if (hours < 0) {
+            alert('End Time should greater than start time');
+            return false;
+        }
+        if (hours < 10) {
+            hours = "0" + hours;
+        }
+        if (minutes < 10) {
+            minutes = "0" + minutes;
+        }
+        if (hours > 23) {
+            var r = confirm("The entered monitoring time period is " + hours + ":" + minutes + " hours, is this the desired entry?");
+            if (r == true) {
+                document.getElementById('<%= txthourcountCCTV.ClientID %>').value = hours + ":" + minutes;
+                    }
+                    else {
+                        return false;
+                    }
+                }
+                else {
+                    document.getElementById('<%= txthourcountCCTV.ClientID %>').value = hours + ":" + minutes;
+                }
+            }
+            else {
+                return false;
+            }
+        }
+
+        function IsValidMonitorTimeGuard() {
+            Page_ClientValidate("vsAddPSMonitorGuard");
+            if (Page_IsValid) {
+                var endDay = $("#<%= ddlDayMonitoringEnd_Guard.ClientID %> :selected").val();
+                var startDay = $("#<%= ddlDayMonitoringBegin_Guard.ClientID %> :selected").val();
+
+                if (endDay < startDay) {
+                    endDay = (parseInt(endDay, 10) + 7);
+                }
+                var CompareEndDay = (endDay - startDay + 1);
+                var MonitoringEndTime = $("#<%= txtTimeMonitoringEnd_Guard.ClientID %>").val();
+        var MonitoringBeginTime = $("#<%= txtTimeMonitoringBegin_Guard.ClientID %>").val();
+                var startdate1 = new Date("January 01, 1999 " + MonitoringBeginTime + ":00");
+                var enddate1 = new Date("January 0" + CompareEndDay + ", 1999 " + MonitoringEndTime + ":00");
+                var diff = enddate1 - startdate1;
+                var seconds = Math.floor(diff / 1000); //ignore any left over units smaller than a second
+                var minutes = Math.floor(seconds / 60);
+                seconds = seconds % 60;
+                var hours = Math.floor(minutes / 60);
+                minutes = minutes % 60;
+                if (hours == "NaN") {
+                    alert('Enter valid values');
+                    return false;
+                }
+                if (hours < 0) {
+                    alert('End Time should greater than start time');
+                    return false;
+                }
+                if (hours < 10) {
+                    hours = "0" + hours;
+                }
+                if (minutes < 10) {
+                    minutes = "0" + minutes;
+                }
+                if (hours > 23) {
+                    var r = confirm("The entered monitoring time period is " + hours + ":" + minutes + " hours, is this the desired entry?");
+                    if (r == true) {
+                        document.getElementById('<%= txthourcountGuard.ClientID %>').value = hours + ":" + minutes;
+            }
+            else {
                 return false;
             }
         }
         else {
-            $('#' + HoursID).val(hours + ':' + minutes);
-            return true;
+            document.getElementById('<%= txthourcountGuard.ClientID %>').value = hours + ":" + minutes;
         }
-
     }
     else {
         return false;
     }
 }
-//function calculatehours(var startDay, var endDay,var MonitoringBeginTime, var MonitoringEndTime  )
-//{
-//    if (endDay < startDay) {
-//        endDay = (parseInt(endDay, 10) + 7);
-//    }
-//    var CompareEndDay = (endDay - startDay + 1);
-//    var startdate1 = new Date("January 01, 1999 " + MonitoringBeginTime + ":00");
-//    var enddate1 = new Date("January 0" + CompareEndDay + ", 1999 " + MonitoringEndTime + ":00");
-//    var diff = enddate1 - startdate1;
-//    var seconds = Math.floor(diff / 1000); //ignore any left over units smaller than a second
-//    var minutes = Math.floor(seconds / 60);
-//    seconds = seconds % 60;
-//    var hours = Math.floor(minutes / 60);
-//    minutes = minutes % 60;
-//    if (hours == "NaN") {
-//        alert('Enter valid values');
-//        return false;
-//    }
-//    if (hours < 0) {
-//        alert('End Time should greater than start time');
-//        return false;
-//    }
-//    if (hours < 10) {
-//        hours = "0" + hours;
-//    }
-//    if (minutes < 10) {
-//        minutes = "0" + minutes;
-//    }
-//    return hours;
-//}
-
-function SetRiskCategory() {
-    var Cap_Index_Crime_Score = (document.getElementById('<%=txtCap_Index_Crime_Score.ClientID %>'));
-    var Cap_Index_Risk_Category = (document.getElementById('<%=ddlCap_Index_Risk_Category.ClientID %>'));
-
-    if (Cap_Index_Crime_Score.value != "") {
-        if (Cap_Index_Crime_Score.value >= 0 && Cap_Index_Crime_Score.value <= 99) {
-            Cap_Index_Risk_Category.selectedIndex = 5;
-        }
-        else if (Cap_Index_Crime_Score.value >= 100 && Cap_Index_Crime_Score.value <= 199) {
-            Cap_Index_Risk_Category.selectedIndex = 4;
-        }
-        else if (Cap_Index_Crime_Score.value >= 200 && Cap_Index_Crime_Score.value <= 399) {
-            Cap_Index_Risk_Category.selectedIndex = 3;
-        }
-        else if (Cap_Index_Crime_Score.value >= 400 && Cap_Index_Crime_Score.value <= 799) {
-            Cap_Index_Risk_Category.selectedIndex = 2;
-        }
-        else if (Cap_Index_Crime_Score.value >= 800 && Cap_Index_Crime_Score.value <= 2000) {
-            Cap_Index_Risk_Category.selectedIndex = 1;
-        }
-        else {
-            Cap_Index_Crime_Score.value = 0;
-            Cap_Index_Risk_Category.selectedIndex = 0;
-            alert('range must be between 0 to 2000');
-        }
-    }
-}
-
-
-function OpenBuildingByFK_LocatoinPopup() {
-    Page_ClientValidate("vsErrorProperty_Security");
+function IsValidMonitorTimeDuty() {
+    Page_ClientValidate("vsAddPSMonitorDuty");
     if (Page_IsValid) {
+        var endDay = $("#<%= ddlDayMonitoringEnd_Duty.ClientID %> :selected").val();
+                var startDay = $("#<%= ddlDayMonitoringBegin_Duty.ClientID %> :selected").val();
 
-        var Loc = $('#' + '<%=hdnLocationID.ClientID%>').val();
-                if (Loc != null || Loc != NaN)
-                    Loc = parseInt(Loc);
-                else
-                    Loc = 0;
-                var BuildingNumber = $('#' + '<%=hdnBuildingNumberByLocation.ClientID%>').val();
+                if (endDay < startDay) {
+                    endDay = (parseInt(endDay, 10) + 7);
+                }
+                var CompareEndDay = (endDay - startDay + 1);
+                var MonitoringEndTime = $("#<%= txtTimeMonitoringEnd_Duty.ClientID %>").val();
+                var MonitoringBeginTime = $("#<%= txtTimeMonitoringBegin_Duty.ClientID %>").val();
+                var startdate1 = new Date("January 01, 1999 " + MonitoringBeginTime + ":00");
+                var enddate1 = new Date("January 0" + CompareEndDay + ", 1999 " + MonitoringEndTime + ":00");
+                var diff = enddate1 - startdate1;
+                var seconds = Math.floor(diff / 1000); //ignore any left over units smaller than a second
+                var minutes = Math.floor(seconds / 60);
+                seconds = seconds % 60;
+                var hours = Math.floor(minutes / 60);
+                minutes = minutes % 60;
+                if (hours == "NaN") {
+                    alert('Enter valid values');
+                    return false;
+                }
+                if (hours < 0) {
+                    alert('End Time should greater than start time');
+                    return false;
+                }
+                if (hours < 10) {
+                    hours = "0" + hours;
+                }
+                if (minutes < 10) {
+                    minutes = "0" + minutes;
+                }
+                if (hours > 23) {
+                    var r = confirm("The entered monitoring time period is " + hours + ":" + minutes + " hours, is this the desired entry?");
+                    if (r == true) {
+                        document.getElementById('<%= txthourcountDuty.ClientID %>').value = hours + ":" + minutes;
+                    }
+                    else {
+                        return false;
+                    }
+                }
+                else {
+                    document.getElementById('<%= txthourcountDuty.ClientID %>').value = hours + ":" + minutes;
+                }
+            }
+            else {
+                return false;
+            }
+        }
+
+        function SetRiskCategory() {
+            var Cap_Index_Crime_Score = (document.getElementById('<%=txtCap_Index_Crime_Score.ClientID %>'));
+            var Cap_Index_Risk_Category = (document.getElementById('<%=ddlCap_Index_Risk_Category.ClientID %>'));
+
+            if (Cap_Index_Crime_Score.value != "") {
+                if (Cap_Index_Crime_Score.value >= 0 && Cap_Index_Crime_Score.value <= 99) {
+                    Cap_Index_Risk_Category.selectedIndex = 5;
+                }
+                else if (Cap_Index_Crime_Score.value >= 100 && Cap_Index_Crime_Score.value <= 199) {
+                    Cap_Index_Risk_Category.selectedIndex = 4;
+                }
+                else if (Cap_Index_Crime_Score.value >= 200 && Cap_Index_Crime_Score.value <= 399) {
+                    Cap_Index_Risk_Category.selectedIndex = 3;
+                }
+                else if (Cap_Index_Crime_Score.value >= 400 && Cap_Index_Crime_Score.value <= 799) {
+                    Cap_Index_Risk_Category.selectedIndex = 2;
+                }
+                else if (Cap_Index_Crime_Score.value >= 800 && Cap_Index_Crime_Score.value <= 2000) {
+                    Cap_Index_Risk_Category.selectedIndex = 1;
+                }
+                else {
+                    Cap_Index_Crime_Score.value = 0;
+                    Cap_Index_Risk_Category.selectedIndex = 0;
+                    alert('range must be between 0 to 2000');
+                }
+            }
+        }
+
+
+        function OpenBuildingByFK_LocatoinPopup() {
+            Page_ClientValidate("vsErrorProperty_Security");
+            if (Page_IsValid) {
+
+                var Loc = $('#' + '<%=hdnLocationID.ClientID%>').val();
+        if (Loc != null || Loc != NaN)
+            Loc = parseInt(Loc);
+        else
+            Loc = 0;
+        var BuildingNumber = $('#' + '<%=hdnBuildingNumberByLocation.ClientID%>').val();
 
         oWnd = window.open("<%=AppConfig.SiteURL%>Sonic/Exposures/BuildingByLocation.aspx?loc_id=" + Loc + "&BuildingNumber=" + BuildingNumber + "&ps_id=" + '<%= ViewState["PK_AP_Property_Security"] %>', "Erims", "location=0,status=0,scrollbars=1,menubar=0,resizable=0,toolbar=0,width=500,height=320");
-                oWnd.moveTo(700, 400);
-                return false;
+        oWnd.moveTo(700, 400);
+        return false;
 
-            }
+    }
 
-        }
+}
 
-        function RemoveDataFromBuildingAlert(element) {
+function RemoveDataFromBuildingAlert(element) {
 
-            var BuildingNumber = document.getElementById(element.replace("lnkbtnRemove", "hdnBuildingNumber")).value;
-            var Loc = $('#' + '<%=hdnLocationdba.ClientID%>').val();
+    var BuildingNumber = document.getElementById(element.replace("lnkbtnRemove", "hdnBuildingNumber")).value;
+    var Loc = $('#' + '<%=hdnLocationdba.ClientID%>').val();
     return confirm("Are you sure you want to remove the data from Building " + BuildingNumber + " at Location " + Loc + " ?");
 
 }
@@ -593,6 +664,15 @@ function OpenBuildingByFK_LocatoinPopup() {
         <asp:ValidationSummary ID="ValidationSummary7" runat="server" ShowSummary="false"
             ShowMessageBox="true" HeaderText="Verify the following fields:" BorderWidth="1"
             BorderColor="DimGray" ValidationGroup="vsAddPSMonitor" CssClass="errormessage"></asp:ValidationSummary>
+        <asp:ValidationSummary ID="ValidationSummary8" runat="server" ShowSummary="false"
+            ShowMessageBox="true" HeaderText="Verify the following fields:" BorderWidth="1"
+            BorderColor="DimGray" ValidationGroup="vsAddPSMonitorCCTV" CssClass="errormessage"></asp:ValidationSummary>
+        <asp:ValidationSummary ID="ValidationSummary9" runat="server" ShowSummary="false"
+            ShowMessageBox="true" HeaderText="Verify the following fields:" BorderWidth="1"
+            BorderColor="DimGray" ValidationGroup="vsAddPSMonitorGuard" CssClass="errormessage"></asp:ValidationSummary>
+        <asp:ValidationSummary ID="ValidationSummary10" runat="server" ShowSummary="false"
+            ShowMessageBox="true" HeaderText="Verify the following fields:" BorderWidth="1"
+            BorderColor="DimGray" ValidationGroup="vsAddPSMonitorDuty" CssClass="errormessage"></asp:ValidationSummary>
     </div>
     <table cellpadding="0" cellspacing="0" width="100%">
         <tr>
@@ -912,293 +992,193 @@ function OpenBuildingByFK_LocatoinPopup() {
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">CCTV Hours Monitoring Grid<br />
-                                                            <asp:LinkButton ID="lnkbtnAddCCTVHoursMonitoringGrid" runat="server" Text="--Add--"
-                                                                OnClick="lnkbtnAddCCTVHoursMonitoringGrid_Click" CausesValidation="true" ValidationGroup="vsErrorProperty_Security"></asp:LinkButton>
-                                                        </td>
-                                                        <td align="center" valign="top">:
-                                                        </td>
-                                                        <td align="left" valign="top"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="left" valign="top" colspan="6">
-                                                            <asp:GridView ID="gvCCTVHoursMonitoringGrid" runat="server" GridLines="None" CellPadding="4" DataKeyNames="PK_AP_Property_Security_Monitor_Grids" 
-                                                                CellSpacing="0" AutoGenerateColumns="false" Width="100%" EnableTheming="false"  AutoGenerateEditButton="true" 
-                                                                OnRowCommand="gvMonitoingGrid_RowCommand" OnRowCancelingEdit="MonitoringGrid_RowCancelingEdit" OnRowEditing="MonitoringGrid_RowEditing" OnRowUpdating="gvCCTVHoursMonitoringGrid_RowUpdating" >
-                                                                <%--OnRowCreated="gvCCTVHoursMonitoringGrid_RowCreated" OnRowDataBound="gvCCTVHoursMonitoringGrid_RowDataBound"--%>
-                                                                <FooterStyle BackColor="#EAEAEA" Font-Bold="True" ForeColor="White" Font-Names="Tahoma"
-                                                                    Font-Size="8pt" />
-                                                                <RowStyle BackColor="#EAEAEA" Font-Names="Tahoma" Font-Size="8pt" />
-                                                                <EditRowStyle BackColor="#EAEAEA" Font-Names="Tahoma" Font-Size="8pt" />
-                                                                <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" Font-Names="Tahoma"
-                                                                    Font-Size="8pt" />
-                                                                <PagerStyle BackColor="#7f7f7f" ForeColor="White" HorizontalAlign="Center" Font-Names="Tahoma"
-                                                                    Font-Size="8pt" />
-                                                                <HeaderStyle BackColor="#7f7f7f" Font-Bold="True" ForeColor="White" Font-Names="Tahoma"
-                                                                    Font-Size="8pt" VerticalAlign="Bottom" />
-                                                                <AlternatingRowStyle BackColor="White" Font-Names="Tahoma" Font-Size="8pt" />
-                                                                <EmptyDataRowStyle CssClass="emptyrow" />
-
-                                                                <Columns>
-
-                                                                    <asp:TemplateField HeaderText="Day Monitoring Begins" HeaderStyle-HorizontalAlign="Left">
-                                                                        <ItemStyle Width="20%" HorizontalAlign="Left" />
-                                                                        <ItemTemplate>
-                                                                            <asp:Label ID="lblDayMonitoringBegins" runat="server" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>' Text='<%# Eval("Start_Day")%>'></asp:Label>
-                                                                        </ItemTemplate>
-                                                                        <EditItemTemplate>
-                                                                            <asp:DropDownList ID="ddlDayMonitoringBegins" runat="server" SkinID="ddlExposure" CssClass="testCCTV">
-                                                                            </asp:DropDownList>
-                                                                            <asp:RequiredFieldValidator ID="rfvddlDayMonitoringBegins" runat="server" ControlToValidate="ddlDayMonitoringBegins"
-                                                                                ErrorMessage="Select Day Monitoring Begins" Display="None" ValidationGroup="vsPSMonitorCCTV"
-                                                                                SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
-                                                                        </EditItemTemplate>
-                                                                        <FooterTemplate>
-                                                                            <asp:DropDownList ID="ddlDayMonitoringBeginsAdd" runat="server" SkinID="ddlExposure" >
-                                                                            </asp:DropDownList>
-                                                                            <asp:RequiredFieldValidator ID="rfvddlDayMonitoringBeginsAdd" runat="server" ControlToValidate="ddlDayMonitoringBeginsAdd"
-                                                                                ErrorMessage="Select Day Monitoring Begins" Display="None" ValidationGroup="vsAddPSMonitorCCTV"
-                                                                                SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
-                                                                        </FooterTemplate>
-
-                                                                    </asp:TemplateField>
-
-                                                                    <asp:TemplateField HeaderText="Time Monitoring Begins" HeaderStyle-HorizontalAlign="Left">
-                                                                        <ItemStyle Width="15%" HorizontalAlign="Left" />
-                                                                        <ItemTemplate>
-                                                                            <%--   <asp:LinkButton ID="lnkbtnTimeMonitoringBegins" runat="server" CommandName="gvEdit"
-                                                                                CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
-                                                                                <%# Eval("Start_Time")%>
-                                                                            </asp:LinkButton>--%>
-                                                                            <asp:Label ID="lblTimeMonitoringBegins" runat="server" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>' Text='<%# Eval("Start_Time")%>'></asp:Label>
-                                                                        </ItemTemplate>
-                                                                        <EditItemTemplate>
-                                                                            <asp:TextBox ID="txtTimeMonitoringBegins" runat="server" MaxLength="5" Text='<%# Eval("Start_Time")%>' onchange="alert('hello');" CssClass="TxttestCCTV" />
-                                                                        <cc1:MaskedEditExtender ID="MaskedEditExtender1" runat="server" AutoComplete="true"
-                                                                    MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringBegins" AcceptNegative="Left"
-                                                                    DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
-                                                                    OnInvalidCssClass="MaskedEditError" CultureName="en-US">
-                                                                </cc1:MaskedEditExtender>
-                                                                <asp:RegularExpressionValidator ID="revtxtTimeMonitoringBegins" runat="server" ControlToValidate="txtTimeMonitoringBegins"
-                                                                    ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                    ErrorMessage="Time Monitoring Begins should be valid time" Display="none" ValidationGroup="vsPSMonitorCCTV"
-                                                                    SetFocusOnError="true">
-                                                                </asp:RegularExpressionValidator>
-                                                                <asp:RequiredFieldValidator ID="rfvtxtTimeMonitoringBegins" runat="server" ControlToValidate="txtTimeMonitoringBegins"
-                                                                    Display="None" ErrorMessage="Enter Time Monitoring Begins." ValidationGroup="vsPSMonitorCCTV"
-                                                                    SetFocusOnError="true"></asp:RequiredFieldValidator>
-
-                                                                        </EditItemTemplate>
-                                                                        <FooterTemplate>
-                                                                            <asp:TextBox ID="txtTimeMonitoringBeginsAdd" runat="server" MaxLength="5" CssClass="TxttestAddCCTV" />
-                                                                          <cc1:MaskedEditExtender ID="MaskedEditExtender1" runat="server" AutoComplete="true"
-                                                                    MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringBeginsAdd" AcceptNegative="Left"
-                                                                    DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
-                                                                    OnInvalidCssClass="MaskedEditError" CultureName="en-US">
-                                                                </cc1:MaskedEditExtender>
-                                                                <asp:RegularExpressionValidator ID="revtxtTimeMonitoringBegins" runat="server" ControlToValidate="txtTimeMonitoringBeginsAdd"
-                                                                    ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                    ErrorMessage="Time Monitoring Begins should be valid time" Display="none" ValidationGroup="vsAddPSMonitorCCTV"
-                                                                    SetFocusOnError="true">
-                                                                </asp:RegularExpressionValidator>
-                                                                <asp:RequiredFieldValidator ID="rfvtxtTimeMonitoringBegins" runat="server" ControlToValidate="txtTimeMonitoringBeginsAdd"
-                                                                    Display="None" ErrorMessage="Enter Time Monitoring Begins." ValidationGroup="vsAddPSMonitorCCTV"
-                                                                    SetFocusOnError="true"></asp:RequiredFieldValidator>
-                                                                        </FooterTemplate>
-                                                                    </asp:TemplateField>
-
-                                                                    <asp:TemplateField HeaderText="Day Monitoring Ends" HeaderStyle-HorizontalAlign="Left">
-                                                                        <ItemStyle Width="20%" HorizontalAlign="Left" />
-                                                                        <ItemTemplate>
-                                                                             <asp:Label ID="lblDayMonitoringEnds" runat="server" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>' Text='<%# Eval("End_Day")%>'></asp:Label>
-                                                                        </ItemTemplate>
-                                                                        <EditItemTemplate>
-                                                                            <asp:DropDownList ID="ddlDayMonitoringEnds" runat="server" SkinID="ddlExposure" CssClass="testCCTV">
-                                                                            </asp:DropDownList>
-                                                                            <asp:RequiredFieldValidator ID="rfvddlDayMonitoringEnds" runat="server" ControlToValidate="ddlDayMonitoringEnds"
-                                                                                ErrorMessage="Select Day Monitoring Ends" Display="None" ValidationGroup="vsPSMonitorCCTV"
-                                                                                SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
-                                                                        </EditItemTemplate>
-                                                                        <FooterTemplate>
-                                                                            <asp:DropDownList ID="ddlDayMonitoringEndsAdd" runat="server" SkinID="ddlExposure">
-                                                                            </asp:DropDownList>
-                                                                            <asp:RequiredFieldValidator ID="rfvddlDayMonitoringEnds" runat="server" ControlToValidate="ddlDayMonitoringEndsAdd"
-                                                                                ErrorMessage="Select Day Monitoring Ends" Display="None" ValidationGroup="vsAddPSMonitorCCTV"
-                                                                                SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
-                                                                        </FooterTemplate>
-                                                                    </asp:TemplateField>
-
-                                                                    <asp:TemplateField HeaderText="Time Monitoring Ends" HeaderStyle-HorizontalAlign="Left">
-                                                                        <ItemStyle Width="15%" HorizontalAlign="Left" />
-                                                                        <ItemTemplate>
-                                                                  <asp:Label ID="lblTimeMonitoringEnds" runat="server" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>' Text='<%# Eval("End_Time")%>'></asp:Label>
-                                                                        </ItemTemplate>
-                                                                        <EditItemTemplate>
-                                                                            <asp:TextBox ID="txtTimeMonitoringEnds" runat="server" MaxLength="5" Text='<%# Eval("End_Time")%>' CssClass="TxttestCCTV" />
-                                                                             <cc1:MaskedEditExtender ID="MaskedEditExtender2" runat="server" AutoComplete="true"
-                                                                    MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringEnds" AcceptNegative="Left"
-                                                                    DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
-                                                                    OnInvalidCssClass="MaskedEditError" CultureName="en-US">
-                                                                </cc1:MaskedEditExtender>
-                                                                <asp:RegularExpressionValidator ID="revtxtTimeMonitoringEnds" runat="server" ControlToValidate="txtTimeMonitoringEnds"
-                                                                    ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                    ErrorMessage="Time Monitoring Ends should be valid time" Display="none" ValidationGroup="vsPSMonitorCCTV"
-                                                                    SetFocusOnError="true">
-                                                                </asp:RegularExpressionValidator>
-                                                                <asp:RequiredFieldValidator ID="rfvtxtTimeMonitoringEnds" runat="server" ControlToValidate="txtTimeMonitoringEnds"
-                                                                    Display="None" ErrorMessage="Enter Time Monitoring Ends." ValidationGroup="vsPSMonitorCCTV"
-                                                                    SetFocusOnError="true"></asp:RequiredFieldValidator>
-                                                                        </EditItemTemplate>
-                                                                        <FooterTemplate>
-                                                                            <asp:TextBox ID="txtTimeMonitoringEndsAdd" runat="server" MaxLength="5" CssClass="TxttestAddCCTV" />
-                                                                            <cc1:MaskedEditExtender ID="MaskedEditExtender2" runat="server" AutoComplete="true"
-                                                                    MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringEndsAdd" AcceptNegative="Left"
-                                                                    DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
-                                                                    OnInvalidCssClass="MaskedEditError" CultureName="en-US">
-                                                                </cc1:MaskedEditExtender>
-                                                                <asp:RegularExpressionValidator ID="revtxtTimeMonitoringEnds" runat="server" ControlToValidate="txtTimeMonitoringEndsAdd"
-                                                                    ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                    ErrorMessage="Time Monitoring Ends should be valid time" Display="none" ValidationGroup="vsAddPSMonitorCCTV"
-                                                                    SetFocusOnError="true">
-                                                                </asp:RegularExpressionValidator>
-                                                                <asp:RequiredFieldValidator ID="rfvtxtTimeMonitoringEnds" runat="server" ControlToValidate="txtTimeMonitoringEndsAdd"
-                                                                    Display="None" ErrorMessage="Enter Time Monitoring Ends." ValidationGroup="vsAddPSMonitorCCTV"
-                                                                    SetFocusOnError="true"></asp:RequiredFieldValidator>
-                                                                        </FooterTemplate>
-                                                                    </asp:TemplateField>
-
-                                                                    <asp:TemplateField HeaderText="Hours" HeaderStyle-HorizontalAlign="Left">
-                                                                        <ItemStyle Width="15%" HorizontalAlign="Left" />
-
-                                                                        <ItemTemplate>
-                                                                            <%--     <asp:LinkButton ID="lnkbtnHours" runat="server" CommandName="gvEdit" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
-                                                                                <%# Eval("Hours")%>
-                                                                            </asp:LinkButton>--%>
-                                                                            <asp:Label ID="lblTimeMonitoringPeriodHours" runat="server" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>' Text='<%# Eval("Hours")%>'></asp:Label>
-                                                                        </ItemTemplate>
-                                                                        <EditItemTemplate>
-                                                                            <asp:TextBox ID="txtMonitoringPeriodHours" runat="server" SkinID="txtDisabled" Text='<%# Eval("Hours")%>'></asp:TextBox>
-                                                                        </EditItemTemplate>
-                                                                        <FooterTemplate>
-                                                                            <asp:TextBox ID="txtMonitoringPeriodHoursAdd" runat="server" SkinID="txtDisabled"></asp:TextBox>
-                                                                        </FooterTemplate>
-                                                                    </asp:TemplateField>
-
-                                                                    <asp:TemplateField HeaderText="Action" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center">
-                                                                        <ItemStyle Width="15%" />
-                                                                        <ItemTemplate>
-                                                                            <asp:LinkButton ID="lnkbtnRemove" runat="server" Text="Remove" OnClientClick="return confirm('Are you Sure to delete this record?');"
-                                                                                CommandName="Remove" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
-                                                                            </asp:LinkButton>
-                                                                                 
-                                                                           <%--  <asp:LinkButton ID="lnkbtnEdit" runat="server" Text="Edit" 
-                                                                                CommandName="Edit" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
-                                                                            </asp:LinkButton>--%>
-                                                                      </ItemTemplate>
-                                                                        <EditItemTemplate>
-                                                                              <%--   <asp:LinkButton ID="lnkbtnUpdate" runat="server" Text="Update" 
-                                                                                CommandName="Update" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
-                                                                            </asp:LinkButton>
-                                                                              <asp:LinkButton ID="lnkbtnCancel" runat="server" Text="Cancel" 
-                                                                                CommandName="gvCancel" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
-                                                                            </asp:LinkButton>--%>
-                                                                        </EditItemTemplate>
-                                                                        <FooterTemplate>
-                                                                            <asp:LinkButton ID="btnAddPSMonitorGird" runat="server" Text="Save" CommandName="gvAdd" OnClientClick="javascript:return ChangeAddCCTV(this);" />
-                                                                        </FooterTemplate>
-                                                                    </asp:TemplateField>
-
-                                                                </Columns>
-                                                                <EmptyDataRowStyle ForeColor="#7f7f7f" HorizontalAlign="Center" CssClass="displayNone" />
-                                                                <EmptyDataTemplate>
+                                                        <td colspan="6">
+                                                            <asp:UpdatePanel ID="pnlCCTVDetail" runat="server">
+                                                                <ContentTemplate>
                                                                     <table>
-                                                                        <tr style="background-color: #7f7f7f; font-weight: Bold; color: White; font-style: tahoma; font-size: 8pt; vertical-align: bottom;">
-                                                                            <th>Day Monitoring Begins
-                                                                            </th>
-                                                                            <th>Time Monitoring Begins
-                                                                            </th>
-                                                                            <th>Day Monitoring Ends
-                                                                            </th>
-                                                                            <th>Time Monitoring Ends
-                                                                            </th>
-                                                                            <th>Hours
-                                                                            </th>
-                                                                            <th>Action
-                                                                            </th>
-                                                                        </tr>
-
                                                                         <tr>
-                                                                            <td style="width: 20%">
-                                                                                <asp:DropDownList ID="ddlDayMonitoringBeginsAdd" runat="server" SkinID="ddlExposure" >
-                                                                                </asp:DropDownList>
-                                                                                <asp:RequiredFieldValidator ID="rfvddlDayMonitoringBegins" runat="server" ControlToValidate="ddlDayMonitoringBeginsAdd"
-                                                                                    ErrorMessage="Select Day Monitoring Begins" Display="None" ValidationGroup="vsAddPSMonitorCCTV"
-                                                                                    SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator></td>
-                                                                            <td style="width: 15%">
-                                                                                <asp:TextBox ID="txtTimeMonitoringBeginsAdd" runat="server" MaxLength="5" CssClass="TxttestCCTV" />
-                                                                                <cc1:MaskedEditExtender ID="MaskedEditExtender1" runat="server" AutoComplete="true"
-                                                                    MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringBeginsAdd" AcceptNegative="Left"
-                                                                    DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
-                                                                    OnInvalidCssClass="MaskedEditError" CultureName="en-US">
-                                                                </cc1:MaskedEditExtender>
-                                                                <asp:RegularExpressionValidator ID="revtxtTimeMonitoringBeginsAdd" runat="server" ControlToValidate="txtTimeMonitoringBeginsAdd"
-                                                                    ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                    ErrorMessage="Time Monitoring Begins should be valid time" Display="none" ValidationGroup="vsAddPSMonitorCCTV"
-                                                                    SetFocusOnError="true">
-                                                                </asp:RegularExpressionValidator>
-                                                                <asp:RequiredFieldValidator ID="rfvtxtTimeMonitoringBegins" runat="server" ControlToValidate="txtTimeMonitoringBeginsAdd"
-                                                                    Display="None" ErrorMessage="Enter Time Monitoring Begins." ValidationGroup="vsAddPSMonitorCCTV"
-                                                                    SetFocusOnError="true"></asp:RequiredFieldValidator></td>
-                                                                            <td style="width: 20%">
-                                                                                <asp:DropDownList ID="ddlDayMonitoringEndsAdd" runat="server" SkinID="ddlExposure">
-                                                                                </asp:DropDownList>
-                                                                                <asp:RequiredFieldValidator ID="rfvddlDayMonitoringEnds" runat="server" ControlToValidate="ddlDayMonitoringEndsAdd"
-                                                                                    ErrorMessage="Select Day Monitoring Ends" Display="None" ValidationGroup="vsAddPSMonitorCCTV"
-                                                                                    SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator></td>
-                                                                            <td style="width: 15%">
-                                                                                <asp:TextBox ID="txtTimeMonitoringEndsAdd" runat="server" MaxLength="5" CssClass="TxttestCCTV" />
-                                                                              <cc1:MaskedEditExtender ID="MaskedEditExtender2" runat="server" AutoComplete="true"
-                                                                    MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringEndsAdd" AcceptNegative="Left"
-                                                                    DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
-                                                                    OnInvalidCssClass="MaskedEditError" CultureName="en-US">
-                                                                </cc1:MaskedEditExtender>
-                                                                <asp:RegularExpressionValidator ID="revtxtTimeMonitoringEnds" runat="server" ControlToValidate="txtTimeMonitoringEndsAdd"
-                                                                    ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                    ErrorMessage="Time Monitoring Ends should be valid time" Display="none" ValidationGroup="vsAddPSMonitorCCTV"
-                                                                    SetFocusOnError="true">
-                                                                </asp:RegularExpressionValidator>
-                                                                <asp:RequiredFieldValidator ID="rfvtxtTimeMonitoringEnds" runat="server" ControlToValidate="txtTimeMonitoringEndsAdd"
-                                                                    Display="None" ErrorMessage="Enter Time Monitoring Ends." ValidationGroup="vsAddPSMonitorCCTV"
-                                                                    SetFocusOnError="true"></asp:RequiredFieldValidator></td>
-                                                                            <td style="width: 15%">
-                                                                                <asp:TextBox ID="txtMonitoringPeriodHoursAdd" runat="server" SkinID="txtDisabled"></asp:TextBox></td>
-                                                                            <td style="width: 15%">
-                                                                                <asp:LinkButton ID="btnAddPSMonitorGird" runat="server" Text="Save" CommandName="gvAdd" OnClientClick="javascript:return ChangeAdd(this);" />
+                                                                            <td align="left" valign="top"  width="18%">CCTV Hours Monitoring Grid<br />
+                                                                                <asp:LinkButton ID="lnkbtnAddCCTVHoursMonitoringGrid" runat="server" Text="--Add--"
+                                                                                    OnClick="lnkbtnAddCCTVHoursMonitoringGrid_Click" CausesValidation="true" ValidationGroup="vsErrorProperty_Security"></asp:LinkButton>
+                                                                            </td>
+                                                                            <td align="left" valign="top"  width="4%">
+                                                                                &nbsp;&nbsp;&nbsp;:
+                                                                            </td>
+                                                                            <td align="left" valign="top" colspan="4"  width="78%">
+                                                                                <asp:GridView ID="gvCCTVHoursMonitoringGrid" runat="server" GridLines="None" CellPadding="4" DataKeyNames="Hours"
+                                                                                    CellSpacing="0" AutoGenerateColumns="false" Width="100%" EnableTheming="false"
+                                                                                    OnRowCommand="gvMonitoingGridCCTV_RowCommand">
+                                                                                    <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" Font-Names="Tahoma"
+                                                                                        Font-Size="8pt" />
+                                                                                    <RowStyle BackColor="#EAEAEA" Font-Names="Tahoma" Font-Size="8pt" />
+                                                                                    <EditRowStyle BackColor="#2461BF" Font-Names="Tahoma" Font-Size="8pt" />
+                                                                                    <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" Font-Names="Tahoma"
+                                                                                        Font-Size="8pt" />
+                                                                                    <PagerStyle BackColor="#7f7f7f" ForeColor="White" HorizontalAlign="Center" Font-Names="Tahoma"
+                                                                                        Font-Size="8pt" />
+                                                                                    <HeaderStyle BackColor="#7f7f7f" Font-Bold="True" ForeColor="White" Font-Names="Tahoma"
+                                                                                        Font-Size="8pt" VerticalAlign="Bottom" />
+                                                                                    <AlternatingRowStyle BackColor="White" Font-Names="Tahoma" Font-Size="8pt" />
+                                                                                    <EmptyDataRowStyle CssClass="emptyrow" />
+                                                                                    <Columns>
+                                                                                        <asp:TemplateField HeaderText="Day Monitoring Begins" HeaderStyle-HorizontalAlign="Left">
+                                                                                            <ItemStyle Width="20%" HorizontalAlign="Left" />
+                                                                                            <ItemTemplate>
+                                                                                                <asp:LinkButton ID="lnkbtnDayMonitoringBegins" runat="server" CommandName="gvEdit"
+                                                                                                    CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
+                                                                            <%# Eval("Start_Day")%>
+                                                                                                </asp:LinkButton>
+                                                                                            </ItemTemplate>
+                                                                                        </asp:TemplateField>
+                                                                                        <asp:TemplateField HeaderText="Time Monitoring Begins" HeaderStyle-HorizontalAlign="Left">
+                                                                                            <ItemStyle Width="15%" HorizontalAlign="Left" />
+                                                                                            <ItemTemplate>
+                                                                                                <asp:LinkButton ID="lnkbtnTimeMonitoringBegins" runat="server" CommandName="gvEdit"
+                                                                                                    CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
+                                                                                <%# Eval("Start_Time")%>
+                                                                                                </asp:LinkButton>
+                                                                                            </ItemTemplate>
+                                                                                        </asp:TemplateField>
+                                                                                        <asp:TemplateField HeaderText="Day Monitoring Ends" HeaderStyle-HorizontalAlign="Left">
+                                                                                            <ItemStyle Width="20%" HorizontalAlign="Left" />
+                                                                                            <ItemTemplate>
+                                                                                                <asp:LinkButton ID="lnkbtnDayMonitoringEnds" runat="server" CommandName="gvEdit"
+                                                                                                    CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
+                                                                                <%# Eval("End_Day")%>
+                                                                                                </asp:LinkButton>
+                                                                                            </ItemTemplate>
+                                                                                        </asp:TemplateField>
+                                                                                        <asp:TemplateField HeaderText="Time Monitoring Ends" HeaderStyle-HorizontalAlign="Left">
+                                                                                            <ItemStyle Width="15%" HorizontalAlign="Left" />
+                                                                                            <ItemTemplate>
+                                                                                                <asp:LinkButton ID="lnkbtnTimeMonitoringEnds" runat="server" CommandName="gvEdit"
+                                                                                                    CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
+                                                                                <%# Eval("End_Time")%>
+                                                                                                </asp:LinkButton>
+                                                                                            </ItemTemplate>
+                                                                                        </asp:TemplateField>
+                                                                                        <asp:TemplateField HeaderText="Hours" HeaderStyle-HorizontalAlign="Left">
+                                                                                            <ItemStyle Width="15%" HorizontalAlign="Left" />
+                                                                                            <ItemTemplate>
+                                                                                                <asp:LinkButton ID="lnkbtnHours" runat="server" CommandName="gvEdit" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
+                                                                                <%# Eval("Hours")%>
+                                                                                                </asp:LinkButton>
+                                                                                            </ItemTemplate>
+                                                                                        </asp:TemplateField>
+                                                                                        <asp:TemplateField HeaderText="Remove" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center">
+                                                                                            <ItemStyle Width="15%" />
+                                                                                            <ItemTemplate>
+                                                                                                <asp:LinkButton ID="lnkbtnRemove" runat="server" Text="Remove" OnClientClick="return confirm('Are you Sure to delete this record?');"
+                                                                                                    CommandName="Remove" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
+                                                                                                </asp:LinkButton>
+                                                                                            </ItemTemplate>
+                                                                                        </asp:TemplateField>
+                                                                                    </Columns>
+                                                                                    <EmptyDataRowStyle ForeColor="#7f7f7f" HorizontalAlign="Center" />
+                                                                                    <EmptyDataTemplate>
+                                                                                        <b>No Record found</b>
+                                                                                    </EmptyDataTemplate>
+                                                                                    <PagerSettings Visible="False" />
+                                                                                </asp:GridView>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr runat="server" id="trCCTV_Hours_Monitoring" style="display: none">
+                                                                            <td align="left" valign="top" colspan="6">
+                                                                                <table width='100%'>
+                                                                                    <tr style='background-color: #7f7f7f; font-family: Arial; color: white; font-size: 12px; font-weight: bold' valign="top">
+                                                                                        <td align="left" valign="top" width="20%">Day Monitoring Begins&nbsp;<span id="Span148" style="color: Red" runat="server">*</span>
+                                                                                        </td>
+                                                                                        <td align="left" valign="top" width="10%">Time Monitoring Begins&nbsp;<span id="Span149" style="color: Red" runat="server">*</span>
+                                                                                        </td>
+                                                                                        <td align="left" valign="top" width="20%">Day Monitoring Ends&nbsp;<span id="Span150" style="color: Red" runat="server">*</span>
+                                                                                        </td>
+                                                                                        <td align="left" valign="top" width="10%">Time Monitoring Ends&nbsp;<span id="Span151" style="color: Red" runat="server">*</span>
+                                                                                        </td>
+                                                                                        <td align="left" valign="top" width="15%">Hours
+                                                                                        </td>
+                                                                                        <td align="left" valign="top" width="25%"></td>
+                                                                                    </tr>
+                                                                                    <tr valign="top">
+                                                                                        <td align="left" valign="top">
+                                                                                            <asp:DropDownList ID="ddlDayMonitoringBegin_CCTV" runat="server" SkinID="ddlSONIC">
+                                                                                            </asp:DropDownList>
+                                                                                            <asp:RequiredFieldValidator ID="revddlDayMonitoringBegin_CCTV" runat="server" ControlToValidate="ddlDayMonitoringBegin_CCTV"
+                                                                                                ErrorMessage="Select Day Monitoring Begins" Display="None" ValidationGroup="vsAddPSMonitorCCTV"
+                                                                                                SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
+                                                                                        </td>
+                                                                                        <td align="left" valign="top">
+                                                                                            <asp:TextBox ID="txtTimeMonitoringBegin_CCTV" runat="server" Width="110px" MaxLength="5" />
+                                                                                            <cc1:MaskedEditExtender ID="MaskedEditExtender3" runat="server" AutoComplete="true"
+                                                                                                MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringBegin_CCTV" AcceptNegative="Left"
+                                                                                                DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
+                                                                                                OnInvalidCssClass="MaskedEditError" CultureName="en-US">
+                                                                                            </cc1:MaskedEditExtender>
+                                                                                            <asp:RegularExpressionValidator ID="regtxtTimeMonitoringBegin_CCTV" runat="server" ControlToValidate="txtTimeMonitoringBegin_CCTV"
+                                                                                                ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
+                                                                                                ErrorMessage="Time Monitoring Begins should be valid time" Display="none" ValidationGroup="vsAddPSMonitorCCTV"
+                                                                                                SetFocusOnError="true">
+                                                                                            </asp:RegularExpressionValidator>
+                                                                                            <asp:RequiredFieldValidator ID="revtxtTimeMonitoringBegin_CCTV" runat="server" ControlToValidate="txtTimeMonitoringBegin_CCTV"
+                                                                                                Display="None" ErrorMessage="Enter Time Monitoring Begins." ValidationGroup="vsAddPSMonitorCCTV"
+                                                                                                SetFocusOnError="true"></asp:RequiredFieldValidator>
+                                                                                        </td>
+                                                                                        <td align="left" valign="top">
+                                                                                            <asp:DropDownList ID="ddlDayMonitoringEnd_CCTV" runat="server" SkinID="ddlExposure">
+                                                                                            </asp:DropDownList>
+                                                                                            <asp:RequiredFieldValidator ID="revddlDayMonitoringEnd_CCTV" runat="server" ControlToValidate="ddlDayMonitoringEnd_CCTV"
+                                                                                                ErrorMessage="Select Day Monitoring Ends" Display="None" ValidationGroup="vsAddPSMonitorCCTV"
+                                                                                                SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
+                                                                                        </td>
+                                                                                        <td align="left" valign="top">
+                                                                                            <asp:TextBox ID="txtTimeMonitoringEnd_CCTV" runat="server" Width="110px" MaxLength="5" />
+                                                                                            <cc1:MaskedEditExtender ID="MaskedEditExtender4" runat="server" AutoComplete="true"
+                                                                                                MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringEnd_CCTV" AcceptNegative="Left"
+                                                                                                DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
+                                                                                                OnInvalidCssClass="MaskedEditError" CultureName="en-US">
+                                                                                            </cc1:MaskedEditExtender>
+                                                                                            <asp:RegularExpressionValidator ID="regtxtTimeMonitoringEnd_CCTV" runat="server" ControlToValidate="txtTimeMonitoringEnd_CCTV"
+                                                                                                ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
+                                                                                                ErrorMessage="Time Monitoring Ends should be valid time" Display="none" ValidationGroup="vsAddPSMonitorCCTV"
+                                                                                                SetFocusOnError="true">
+                                                                                            </asp:RegularExpressionValidator>
+                                                                                            <asp:RequiredFieldValidator ID="revtxtTimeMonitoringEnd_CCTV" runat="server" ControlToValidate="txtTimeMonitoringEnd_CCTV"
+                                                                                                Display="None" ErrorMessage="Enter Time Monitoring Ends." ValidationGroup="vsAddPSMonitorCCTV"
+                                                                                                SetFocusOnError="true"></asp:RequiredFieldValidator>
+                                                                                        </td>
+                                                                                        <td align="left" valign="top">
+                                                                                            <asp:TextBox runat="server" ID="txthourcountCCTV" Width="40px" Enabled="false"></asp:TextBox>
+                                                                                        </td>
+                                                                                        <td align="left" valign="top" width="">
+                                                                                            <asp:Button ID="btnAddMonitoringhoursCCTV" runat="server" Text="Save" OnClientClick="javascript:return IsValidMonitorTimeCCTV();"
+                                                                                                OnClick="btnAddMonitoringhoursCCTV_Click" CausesValidation="true" ValidationGroup="vsAddPSMonitorCCTV" />
+                                                                                            <asp:Button ID="btnAddMonitorCancelCCTV" runat="server" Text="Cancel" OnClick="btnAddMonitorCancelCCTV_Click" />
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td align="left" valign="top">Total Hours CCTV Monitored Per Week
+                                                                            </td>
+                                                                            <td align="center" valign="top">:
+                                                                            </td>
+                                                                            <td align="left" valign="top">
+                                                                                <asp:TextBox ID="txttotalHoursMonitoredPerWeek" runat="server" SkinID="txtDisabled">
+                                                                                </asp:TextBox>
+                                                                            </td>
+                                                                            <td align="left" valign="top">&nbsp;
+                                                                            </td>
+                                                                            <td align="center" valign="top">&nbsp;
+                                                                            </td>
+                                                                            <td align="left" valign="top">&nbsp;
                                                                             </td>
                                                                         </tr>
                                                                     </table>
-
-                                                                </EmptyDataTemplate>
-                                                                <PagerSettings Visible="False" />
-                                                            </asp:GridView>
+                                                                </ContentTemplate>
+                                                            </asp:UpdatePanel>
                                                         </td>
                                                     </tr>
-                                                    <tr>
-                                                        <td align="left" valign="top">Total Hours CCTV Monitored Per Week
-                                                        </td>
-                                                        <td align="center" valign="top">:
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            <asp:TextBox ID="txttotalHoursMonitoredPerWeek" runat="server" SkinID="txtDisabled">
-                                                            </asp:TextBox>
-                                                        </td>
-                                                        <td align="left" valign="top">&nbsp;
-                                                        </td>
-                                                        <td align="center" valign="top">&nbsp;
-                                                        </td>
-                                                        <td align="left" valign="top">&nbsp;
-                                                        </td>
-                                                    </tr>
+                                                    
                                                     <tr>
                                                         <td align="left" valign="top">Exterior Camera Coverage
                                                         </td>
@@ -1755,249 +1735,176 @@ function OpenBuildingByFK_LocatoinPopup() {
                                                                 ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*"></asp:RegularExpressionValidator>
                                                         </td>
                                                     </tr>
-                                                    <tr>
-                                                        <td align="left" valign="top">Guard Hours Monitored Grid
-                                                            <br />
-                                                            <asp:LinkButton ID="lnkbtnAddGaurdHoursMonitoredGrid" runat="server" Text="--Add--"
-                                                                OnClick="lnkbtnAddGaurdHoursMonitoredGrid_Click" CausesValidation="true" ValidationGroup="vsErrorProperty_Security"></asp:LinkButton>
-                                                        </td>
-                                                        <td align="center" valign="top">:
-                                                        </td>
-                                                     
-                                                        </tr>
-                                                    <tr>
-                                                        <td align="left" valign="top" colspan="6">
-                                                            <asp:GridView ID="gvGuardHoursMonitorGrid" runat="server" GridLines="None" CellPadding="4" DataKeyNames="PK_AP_Property_Security_Monitor_Grids" 
-                                                                CellSpacing="0" AutoGenerateColumns="false" Width="100%" EnableTheming="false"  AutoGenerateEditButton="true" 
-                                                                OnRowCommand="gvMonitoingGrid_RowCommand" OnRowCancelingEdit="MonitoringGrid_RowCancelingEdit" OnRowEditing="MonitoringGrid_RowEditing" OnRowUpdating="MonitoringGrid_RowUpdating">
-                                                                <FooterStyle BackColor="#EAEAEA" Font-Bold="True" ForeColor="White" Font-Names="Tahoma"
-                                                                    Font-Size="8pt" />
-                                                                <RowStyle BackColor="#EAEAEA" Font-Names="Tahoma" Font-Size="8pt" />
-                                                                <EditRowStyle BackColor="#EAEAEA" Font-Names="Tahoma" Font-Size="8pt" />
-                                                                <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" Font-Names="Tahoma"
-                                                                    Font-Size="8pt" />
-                                                                <PagerStyle BackColor="#7f7f7f" ForeColor="White" HorizontalAlign="Center" Font-Names="Tahoma"
-                                                                    Font-Size="8pt" />
-                                                                <HeaderStyle BackColor="#7f7f7f" Font-Bold="True" ForeColor="White" Font-Names="Tahoma"
-                                                                    Font-Size="8pt" VerticalAlign="Bottom" />
-                                                                <AlternatingRowStyle BackColor="White" Font-Names="Tahoma" Font-Size="8pt" />
-                                                                <EmptyDataRowStyle CssClass="emptyrow" />
-                                                                <Columns>
-                                                                    <asp:TemplateField HeaderText="Day Monitoring Begins" HeaderStyle-HorizontalAlign="Left">
-                                                                        <ItemStyle Width="20%" HorizontalAlign="Left" />
-                                                                        <ItemTemplate>
-                                                                         <asp:Label ID="lblDayMonitoringBegins" runat="server" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>' Text='<%# Eval("Start_Day")%>'></asp:Label>
-                                                                        </ItemTemplate>
-                                                                        <EditItemTemplate>
-                                                                            <asp:DropDownList ID="ddlDayMonitoringBegins" runat="server" SkinID="ddlExposure" CssClass="test">
-                                                                            </asp:DropDownList>
-                                                                            <asp:RequiredFieldValidator ID="rfvddlDayMonitoringBegins" runat="server" ControlToValidate="ddlDayMonitoringBegins"
-                                                                                ErrorMessage="Select Day Monitoring Begins" Display="None" ValidationGroup="vsAddPSMonitor"
-                                                                                SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
-                                                                        </EditItemTemplate>
-                                                                        <FooterTemplate>
-                                                                             <asp:DropDownList ID="ddlDayMonitoringBeginsAdd" runat="server"  SkinID="ddlExposure">
-                                                                            </asp:DropDownList>
-                                                                            <asp:RequiredFieldValidator ID="rfvddlDayMonitoringBeginsAdd" runat="server" ControlToValidate="ddlDayMonitoringBeginsAdd"
-                                                                                ErrorMessage="Select Day Monitoring Begins" Display="None" ValidationGroup="vsAddPSMonitor"
-                                                                                SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
-                                                                        </FooterTemplate>
-                                                                    </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="Time Monitoring Begins" HeaderStyle-HorizontalAlign="Left">
-                                                                        <ItemStyle Width="15%" HorizontalAlign="Left" />
-                                                                        <ItemTemplate>
-                                                                      
-                                                                            <asp:Label ID="lblTimeMonitoringBegins"  runat="server" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>' Text='<%# Eval("Start_Time")%>'></asp:Label>
-                                                                        </ItemTemplate>
-                                                                            <EditItemTemplate>
-                                                                                 <asp:TextBox ID="txtTimeMonitoringBegins" runat="server" MaxLength="5" Text='<%# Eval("Start_Time")%>' CssClass="Txttest" />
-                                                                        <cc1:MaskedEditExtender ID="MaskedEditExtender1" runat="server" AutoComplete="true"
-                                                                    MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringBegins" AcceptNegative="Left"
-                                                                    DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
-                                                                    OnInvalidCssClass="MaskedEditError" CultureName="en-US">
-                                                                </cc1:MaskedEditExtender>
-                                                                <asp:RegularExpressionValidator ID="revtxtTimeMonitoringBegins" runat="server" ControlToValidate="txtTimeMonitoringBegins"
-                                                                    ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                    ErrorMessage="Time Monitoring Begins should be valid time" Display="none" ValidationGroup="vsAddPSMonitor"
-                                                                    SetFocusOnError="true">
-                                                                </asp:RegularExpressionValidator>
-                                                                <asp:RequiredFieldValidator ID="rfvtxtTimeMonitoringBegins" runat="server" ControlToValidate="txtTimeMonitoringBegins"
-                                                                    Display="None" ErrorMessage="Enter Time Monitoring Begins." ValidationGroup="vsAddPSMonitor"
-                                                                    SetFocusOnError="true"></asp:RequiredFieldValidator>
-
-                                                                        </EditItemTemplate>
-                                                                        <FooterTemplate>
-                                                                             <asp:TextBox ID="txtTimeMonitoringBeginsAdd" runat="server" MaxLength="5" CssClass="Txttest" />
-                                                                          <cc1:MaskedEditExtender ID="MaskedEditExtender1" runat="server" AutoComplete="true"
-                                                                    MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringBeginsAdd" AcceptNegative="Left"
-                                                                    DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
-                                                                    OnInvalidCssClass="MaskedEditError" CultureName="en-US">
-                                                                </cc1:MaskedEditExtender>
-                                                                <asp:RegularExpressionValidator ID="revtxtTimeMonitoringBegins" runat="server" ControlToValidate="txtTimeMonitoringBeginsAdd"
-                                                                    ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                    ErrorMessage="Time Monitoring Begins should be valid time" Display="none" ValidationGroup="vsAddPSMonitor"
-                                                                    SetFocusOnError="true">
-                                                                </asp:RegularExpressionValidator>
-                                                                <asp:RequiredFieldValidator ID="rfvtxtTimeMonitoringBegins" runat="server" ControlToValidate="txtTimeMonitoringBeginsAdd"
-                                                                    Display="None" ErrorMessage="Enter Time Monitoring Begins." ValidationGroup="vsAddPSMonitor"
-                                                                    SetFocusOnError="true"></asp:RequiredFieldValidator>
-                                                                        </FooterTemplate>
-                                                                    </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="Day Monitoring Ends" HeaderStyle-HorizontalAlign="Left">
-                                                                        <ItemStyle Width="20%" HorizontalAlign="Left" />
-                                                                        <ItemTemplate>
-                                                                            <asp:Label ID="lblDayMonitoringEnds" runat="server" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>' Text='<%# Eval("End_Day")%>'></asp:Label>
-                                                                        </ItemTemplate>
-                                                                            <EditItemTemplate>
-                                                                                <asp:DropDownList ID="ddlDayMonitoringEnds" runat="server" SkinID="ddlExposure" CssClass="test">
-                                                                            </asp:DropDownList>
-                                                                            <asp:RequiredFieldValidator ID="rfvddlDayMonitoringEnds" runat="server" ControlToValidate="ddlDayMonitoringEnds"
-                                                                                ErrorMessage="Select Day Monitoring Ends" Display="None" ValidationGroup="vsAddPSMonitor"
-                                                                                SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
-                                                                        </EditItemTemplate>
-                                                                        <FooterTemplate>
-                                                                               <asp:DropDownList ID="ddlDayMonitoringEndsAdd" runat="server" SkinID="ddlExposure">
-                                                                            </asp:DropDownList>
-                                                                            <asp:RequiredFieldValidator ID="rfvddlDayMonitoringEnds" runat="server" ControlToValidate="ddlDayMonitoringEndsAdd"
-                                                                                ErrorMessage="Select Day Monitoring Ends" Display="None" ValidationGroup="vsAddPSMonitor"
-                                                                                SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
-                                                                        </FooterTemplate>
-                                                                    </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="Time Monitoring Ends" HeaderStyle-HorizontalAlign="Left">
-                                                                        <ItemStyle Width="15%" HorizontalAlign="Left" />
-                                                                        <ItemTemplate>
-                                                                                <asp:Label ID="lblTimeMonitoringEnds" runat="server" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>' Text='<%# Eval("End_Time")%>'></asp:Label>
-                                                                           
-                                                                        </ItemTemplate>
-                                                                            <EditItemTemplate>
-                                                                                 <asp:TextBox ID="txtTimeMonitoringEnds" runat="server" MaxLength="5" Text='<%# Eval("End_Time")%>' CssClass="Txttest" />
-                                                                             <cc1:MaskedEditExtender ID="MaskedEditExtender2" runat="server" AutoComplete="true"
-                                                                    MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringEnds" AcceptNegative="Left"
-                                                                    DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
-                                                                    OnInvalidCssClass="MaskedEditError" CultureName="en-US">
-                                                                </cc1:MaskedEditExtender>
-                                                                <asp:RegularExpressionValidator ID="revtxtTimeMonitoringEnds" runat="server" ControlToValidate="txtTimeMonitoringEnds"
-                                                                    ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                    ErrorMessage="Time Monitoring Ends should be valid time" Display="none" ValidationGroup="vsAddPSMonitor"
-                                                                    SetFocusOnError="true">
-                                                                </asp:RegularExpressionValidator>
-                                                                <asp:RequiredFieldValidator ID="rfvtxtTimeMonitoringEnds" runat="server" ControlToValidate="txtTimeMonitoringEnds"
-                                                                    Display="None" ErrorMessage="Enter Time Monitoring Ends." ValidationGroup="vsAddPSMonitor"
-                                                                    SetFocusOnError="true"></asp:RequiredFieldValidator>
-                                                                        </EditItemTemplate>
-                                                                        <FooterTemplate>
-                                                                             <asp:TextBox ID="txtTimeMonitoringEndsAdd" runat="server" MaxLength="5" CssClass="Txttest" />
-                                                                            <cc1:MaskedEditExtender ID="MaskedEditExtender2" runat="server" AutoComplete="true"
-                                                                    MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringEndsAdd" AcceptNegative="Left"
-                                                                    DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
-                                                                    OnInvalidCssClass="MaskedEditError" CultureName="en-US">
-                                                                </cc1:MaskedEditExtender>
-                                                                <asp:RegularExpressionValidator ID="revtxtTimeMonitoringEnds" runat="server" ControlToValidate="txtTimeMonitoringEndsAdd"
-                                                                    ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                    ErrorMessage="Time Monitoring Ends should be valid time" Display="none" ValidationGroup="vsAddPSMonitor"
-                                                                    SetFocusOnError="true">
-                                                                </asp:RegularExpressionValidator>
-                                                                <asp:RequiredFieldValidator ID="rfvtxtTimeMonitoringEnds" runat="server" ControlToValidate="txtTimeMonitoringEndsAdd"
-                                                                    Display="None" ErrorMessage="Enter Time Monitoring Ends." ValidationGroup="vsAddPSMonitor"
-                                                                    SetFocusOnError="true"></asp:RequiredFieldValidator>
-                                                                        </FooterTemplate>
-                                                                    </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="Hours" HeaderStyle-HorizontalAlign="Left">
-                                                                        <ItemStyle Width="15%" HorizontalAlign="Left" />
-                                                                        <ItemTemplate>
-                                                                            <asp:Label ID="lblTimeMonitoringPeriodHours"  runat="server" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>' Text='<%# Eval("Hours")%>'></asp:Label>
-                                                                        </ItemTemplate>
-                                                                            <EditItemTemplate>
-                                                                                   <asp:TextBox ID="txtMonitoringPeriodHours" runat="server" SkinID="txtDisabled" Text='<%# Eval("Hours")%>'></asp:TextBox>
-                                                                        </EditItemTemplate>
-                                                                        <FooterTemplate>
-                                                                            <asp:TextBox ID="txtMonitoringPeriodHoursAdd" runat="server" SkinID="txtDisabled"></asp:TextBox>
-                                                                        </FooterTemplate>
-                                                                    </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="Remove" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center">
-                                                                        <ItemStyle Width="15%" />
-                                                                        <ItemTemplate>
-                                                                            <asp:LinkButton ID="lnkbtnRemove" runat="server" Text="Remove" OnClientClick="return confirm('Are you Sure to delete this record?');"
-                                                                                CommandName="Remove" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
-                                                                            </asp:LinkButton>
-                                                                        </ItemTemplate>
-                                                                    <FooterTemplate>
-                                                                            <asp:LinkButton ID="btnAddPSMonitorGird" runat="server" Text="Save" CommandName="gvAdd" OnClientClick="javascript:return ChangeAdd(this);" />
-                                                                        </FooterTemplate>
-                                                                    </asp:TemplateField>
-                                                                </Columns>
-                                                                <EmptyDataRowStyle ForeColor="#7f7f7f" HorizontalAlign="Center"  CssClass="displayNone"  />
-                                                                <EmptyDataTemplate>
-                                                                   <table>
-                                                                        <tr style="background-color: #7f7f7f; font-weight: Bold; color: White; font-style: tahoma; font-size: 8pt; vertical-align: bottom;">
-                                                                            <th>Day Monitoring Begins
-                                                                            </th>
-                                                                            <th>Time Monitoring Begins
-                                                                            </th>
-                                                                            <th>Day Monitoring Ends
-                                                                            </th>
-                                                                            <th>Time Monitoring Ends
-                                                                            </th>
-                                                                            <th>Hours
-                                                                            </th>
-                                                                            <th>Action
-                                                                            </th>
-                                                                        </tr>
-
+                                                     <tr>
+                                                        <td colspan="6">
+                                                            <asp:UpdatePanel ID="updGuardDetail" runat="server">
+                                                                <ContentTemplate>
+                                                                    <table>
                                                                         <tr>
-                                                                            <td style="width: 20%">
-                                                                                <asp:DropDownList ID="ddlDayMonitoringBeginsAdd" runat="server" SkinID="ddlExposure" >
-                                                                                </asp:DropDownList>
-                                                                                <asp:RequiredFieldValidator ID="rfvddlDayMonitoringBegins" runat="server" ControlToValidate="ddlDayMonitoringBeginsAdd"
-                                                                                    ErrorMessage="Select Day Monitoring Begins" Display="None" ValidationGroup="vsAddPSMonitor"
-                                                                                    SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator></td>
-                                                                            <td style="width: 15%">
-                                                                                <asp:TextBox ID="txtTimeMonitoringBeginsAdd" runat="server" MaxLength="5" CssClass="Txttest" />
-                                                                                <cc1:MaskedEditExtender ID="MaskedEditExtender1" runat="server" AutoComplete="true"
-                                                                    MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringBeginsAdd" AcceptNegative="Left"
-                                                                    DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
-                                                                    OnInvalidCssClass="MaskedEditError" CultureName="en-US">
-                                                                </cc1:MaskedEditExtender>
-                                                                <asp:RegularExpressionValidator ID="revtxtTimeMonitoringBeginsAdd" runat="server" ControlToValidate="txtTimeMonitoringBeginsAdd"
-                                                                    ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                    ErrorMessage="Time Monitoring Begins should be valid time" Display="none" ValidationGroup="vsAddPSMonitor"
-                                                                    SetFocusOnError="true">
-                                                                </asp:RegularExpressionValidator>
-                                                                <asp:RequiredFieldValidator ID="rfvtxtTimeMonitoringBegins" runat="server" ControlToValidate="txtTimeMonitoringBeginsAdd"
-                                                                    Display="None" ErrorMessage="Enter Time Monitoring Begins." ValidationGroup="vsAddPSMonitor"
-                                                                    SetFocusOnError="true"></asp:RequiredFieldValidator></td>
-                                                                            <td style="width: 20%">
-                                                                                <asp:DropDownList ID="ddlDayMonitoringEndsAdd" runat="server" SkinID="ddlExposure">
-                                                                                </asp:DropDownList>
-                                                                                <asp:RequiredFieldValidator ID="rfvddlDayMonitoringEnds" runat="server" ControlToValidate="ddlDayMonitoringEndsAdd"
-                                                                                    ErrorMessage="Select Day Monitoring Ends" Display="None" ValidationGroup="vsAddPSMonitor"
-                                                                                    SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator></td>
-                                                                            <td style="width: 15%">
-                                                                                <asp:TextBox ID="txtTimeMonitoringEndsAdd" runat="server" MaxLength="5" CssClass="Txttest" />
-                                                                              <cc1:MaskedEditExtender ID="MaskedEditExtender2" runat="server" AutoComplete="true"
-                                                                    MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringEndsAdd" AcceptNegative="Left"
-                                                                    DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
-                                                                    OnInvalidCssClass="MaskedEditError" CultureName="en-US">
-                                                                </cc1:MaskedEditExtender>
-                                                                <asp:RegularExpressionValidator ID="revtxtTimeMonitoringEnds" runat="server" ControlToValidate="txtTimeMonitoringEndsAdd"
-                                                                    ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                    ErrorMessage="Time Monitoring Ends should be valid time" Display="none" ValidationGroup="vsAddPSMonitor"
-                                                                    SetFocusOnError="true">
-                                                                </asp:RegularExpressionValidator>
-                                                                <asp:RequiredFieldValidator ID="rfvtxtTimeMonitoringEnds" runat="server" ControlToValidate="txtTimeMonitoringEndsAdd"
-                                                                    Display="None" ErrorMessage="Enter Time Monitoring Ends." ValidationGroup="vsAddPSMonitor"
-                                                                    SetFocusOnError="true"></asp:RequiredFieldValidator></td>
-                                                                            <td style="width: 15%">
-                                                                                <asp:TextBox ID="txtMonitoringPeriodHoursAdd" runat="server" SkinID="txtDisabled"></asp:TextBox></td>
-                                                                            <td style="width: 15%">
-                                                                                <asp:LinkButton ID="btnAddPSMonitorGird" runat="server" Text="Save" CommandName="gvAdd" OnClientClick="javascript:return ChangeAdd(this);" />
+                                                                            <td align="left" valign="top" width="18%">Guard Hours Monitored Grid
+                                                                                <br />
+                                                                                <asp:LinkButton ID="lnkbtnAddGaurdHoursMonitoredGrid" runat="server" Text="--Add--"
+                                                                                    OnClick="lnkbtnAddGaurdHoursMonitoredGrid_Click" CausesValidation="true" ValidationGroup="vsErrorProperty_Security"></asp:LinkButton>
+                                                                            </td>
+                                                                            <td align="center" valign="top"  width="4%">:
+                                                                            </td>
+                                                                            <td align="left" valign="top" colspan="4"   width="78%">
+                                                                                <asp:GridView ID="gvGuardHoursMonitorGrid" runat="server" GridLines="None" CellPadding="4"
+                                                                                    CellSpacing="0" AutoGenerateColumns="false" Width="100%" EnableTheming="false"
+                                                                                    OnRowCommand="gvMonitoingGridGuard_RowCommand">
+                                                                                    <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" Font-Names="Tahoma"
+                                                                                        Font-Size="8pt" />
+                                                                                    <RowStyle BackColor="#EAEAEA" Font-Names="Tahoma" Font-Size="8pt" />
+                                                                                    <EditRowStyle BackColor="#2461BF" Font-Names="Tahoma" Font-Size="8pt" />
+                                                                                    <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" Font-Names="Tahoma"
+                                                                                        Font-Size="8pt" />
+                                                                                    <PagerStyle BackColor="#7f7f7f" ForeColor="White" HorizontalAlign="Center" Font-Names="Tahoma"
+                                                                                        Font-Size="8pt" />
+                                                                                    <HeaderStyle BackColor="#7f7f7f" Font-Bold="True" ForeColor="White" Font-Names="Tahoma"
+                                                                                        Font-Size="8pt" VerticalAlign="Bottom" />
+                                                                                    <AlternatingRowStyle BackColor="White" Font-Names="Tahoma" Font-Size="8pt" />
+                                                                                    <EmptyDataRowStyle CssClass="emptyrow" />
+                                                                                    <Columns>
+                                                                                        <asp:TemplateField HeaderText="Day Monitoring Begins" HeaderStyle-HorizontalAlign="Left">
+                                                                                            <ItemStyle Width="20%" HorizontalAlign="Left" />
+                                                                                            <ItemTemplate>
+                                                                                                <asp:LinkButton ID="lnkbtnDayMonitoringBegins" runat="server" CommandName="gvEdit"
+                                                                                                    CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
+                                                                                                <%# Eval("Start_Day")%>
+                                                                                                </asp:LinkButton>
+                                                                                            </ItemTemplate>
+                                                                                        </asp:TemplateField>
+                                                                                        <asp:TemplateField HeaderText="Time Monitoring Begins" HeaderStyle-HorizontalAlign="Left">
+                                                                                            <ItemStyle Width="15%" HorizontalAlign="Left" />
+                                                                                            <ItemTemplate>
+                                                                                                <asp:LinkButton ID="lnkbtnTimeMonitoringBegins" runat="server" CommandName="gvEdit"
+                                                                                                    CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
+                                                                                                    <%# Eval("Start_Time")%>
+                                                                                                </asp:LinkButton>
+                                                                                            </ItemTemplate>
+                                                                                        </asp:TemplateField>
+                                                                                        <asp:TemplateField HeaderText="Day Monitoring Ends" HeaderStyle-HorizontalAlign="Left">
+                                                                                            <ItemStyle Width="20%" HorizontalAlign="Left" />
+                                                                                            <ItemTemplate>
+                                                                                                <asp:LinkButton ID="lnkbtnDayMonitoringEnds" runat="server" CommandName="gvEdit"
+                                                                                                    CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
+                                                                                                    <%# Eval("End_Day")%>
+                                                                                                </asp:LinkButton>
+                                                                                            </ItemTemplate>
+                                                                                        </asp:TemplateField>
+                                                                                        <asp:TemplateField HeaderText="Time Monitoring Ends" HeaderStyle-HorizontalAlign="Left">
+                                                                                            <ItemStyle Width="15%" HorizontalAlign="Left" />
+                                                                                            <ItemTemplate>
+                                                                                                <asp:LinkButton ID="lnkbtnTimeMonitoringEnds" runat="server" CommandName="gvEdit"
+                                                                                                    CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
+                                                                                                    <%# Eval("End_Time")%>
+                                                                                                </asp:LinkButton>
+                                                                                            </ItemTemplate>
+                                                                                        </asp:TemplateField>
+                                                                                        <asp:TemplateField HeaderText="Hours" HeaderStyle-HorizontalAlign="Left">
+                                                                                            <ItemStyle Width="15%" HorizontalAlign="Left" />
+                                                                                            <ItemTemplate>
+                                                                                                <asp:LinkButton ID="lnkbtnHours" runat="server" CommandName="gvEdit" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
+                                                                                                    <%# Eval("Hours")%>
+                                                                                                </asp:LinkButton>
+                                                                                            </ItemTemplate>
+                                                                                        </asp:TemplateField>
+                                                                                        <asp:TemplateField HeaderText="Remove" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center">
+                                                                                            <ItemStyle Width="15%" />
+                                                                                            <ItemTemplate>
+                                                                                                <asp:LinkButton ID="lnkbtnRemove" runat="server" Text="Remove" OnClientClick="return confirm('Are you Sure to delete this record?');"
+                                                                                                    CommandName="Remove" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
+                                                                                                </asp:LinkButton>
+                                                                                            </ItemTemplate>
+                                                                                        </asp:TemplateField>
+                                                                                    </Columns>
+                                                                                    <EmptyDataRowStyle ForeColor="#7f7f7f" HorizontalAlign="Center" />
+                                                                                    <EmptyDataTemplate>
+                                                                                        <b>No Record found</b>
+                                                                                    </EmptyDataTemplate>
+                                                                                    <PagerSettings Visible="False" />
+                                                                                </asp:GridView>
                                                                             </td>
                                                                         </tr>
+                                                                        <tr runat="server" id="trGuard_Hours_Monitoring" style="display: none">
+                                                        <td align="left" valign="top" colspan="6">
+                                                            <table width='100%'>
+                                                                <tr style='background-color: #7f7f7f; font-family: Arial; color: white; font-size: 12px; font-weight: bold' valign="top">
+                                                                    <td align="left" valign="top" width="20%">Day Monitoring Begins&nbsp;<span id="Span152" style="color: Red" runat="server">*</span>
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="10%">Time Monitoring Begins&nbsp;<span id="Span153" style="color: Red" runat="server">*</span>
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="20%">Day Monitoring Ends&nbsp;<span id="Span154" style="color: Red" runat="server">*</span>
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="10%">Time Monitoring Ends&nbsp;<span id="Span155" style="color: Red" runat="server">*</span>
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="15%">Hours
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="25%"></td>
+                                                                </tr>
+                                                                <tr valign="top">
+                                                                    <td align="left" valign="top">
+                                                                        <asp:DropDownList ID="ddlDayMonitoringBegin_Guard" runat="server" SkinID="ddlSONIC">
+                                                                        </asp:DropDownList>
+                                                                        <asp:RequiredFieldValidator ID="revddlDayMonitoringBegin_Guard" runat="server" ControlToValidate="ddlDayMonitoringBegin_Guard"
+                                                                            ErrorMessage="Select Day Monitoring Begins" Display="None" ValidationGroup="vsAddPSMonitorGuard"
+                                                                            SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:TextBox ID="txtTimeMonitoringBegin_Guard" runat="server" Width="110px" MaxLength="5" />
+                                                                        <cc1:MaskedEditExtender ID="MaskedEditExtender5" runat="server" AutoComplete="true"
+                                                                            MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringBegin_Guard" AcceptNegative="Left"
+                                                                            DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
+                                                                            OnInvalidCssClass="MaskedEditError" CultureName="en-US">
+                                                                        </cc1:MaskedEditExtender>
+                                                                        <asp:RegularExpressionValidator ID="regtxtTimeMonitoringBegin_Guard" runat="server" ControlToValidate="txtTimeMonitoringBegin_Guard"
+                                                                            ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
+                                                                            ErrorMessage="Time Monitoring Begins should be valid time" Display="none" ValidationGroup="vsAddPSMonitorGuard"
+                                                                            SetFocusOnError="true">
+                                                                        </asp:RegularExpressionValidator>
+                                                                        <asp:RequiredFieldValidator ID="revtxtTimeMonitoringBegin_Guard" runat="server" ControlToValidate="txtTimeMonitoringBegin_Guard"
+                                                                            Display="None" ErrorMessage="Enter Time Monitoring Begins." ValidationGroup="vsAddPSMonitorGuard"
+                                                                            SetFocusOnError="true"></asp:RequiredFieldValidator>
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:DropDownList ID="ddlDayMonitoringEnd_Guard" runat="server" SkinID="ddlExposure">
+                                                                        </asp:DropDownList>
+                                                                        <asp:RequiredFieldValidator ID="revddlDayMonitoringEnd_Guard" runat="server" ControlToValidate="ddlDayMonitoringEnd_Guard"
+                                                                            ErrorMessage="Select Day Monitoring Ends" Display="None" ValidationGroup="vsAddPSMonitorGuard"
+                                                                            SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:TextBox ID="txtTimeMonitoringEnd_Guard" runat="server" Width="110px" MaxLength="5" />
+                                                                        <cc1:MaskedEditExtender ID="MaskedEditExtender6" runat="server" AutoComplete="true"
+                                                                            MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringEnd_Guard" AcceptNegative="Left"
+                                                                            DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
+                                                                            OnInvalidCssClass="MaskedEditError" CultureName="en-US">
+                                                                        </cc1:MaskedEditExtender>
+                                                                        <asp:RegularExpressionValidator ID="regtxtTimeMonitoringEnd_Guard" runat="server" ControlToValidate="txtTimeMonitoringEnd_Guard"
+                                                                            ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
+                                                                            ErrorMessage="Time Monitoring Ends should be valid time" Display="none" ValidationGroup="vsAddPSMonitorGuard"
+                                                                            SetFocusOnError="true">
+                                                                        </asp:RegularExpressionValidator>
+                                                                        <asp:RequiredFieldValidator ID="revtxtTimeMonitoringEnd_Guard" runat="server" ControlToValidate="txtTimeMonitoringEnd_Guard"
+                                                                            Display="None" ErrorMessage="Enter Time Monitoring Ends." ValidationGroup="vsAddPSMonitorGuard"
+                                                                            SetFocusOnError="true"></asp:RequiredFieldValidator>
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:TextBox runat="server" ID="txthourcountGuard" Width="40px" Enabled="false"></asp:TextBox>
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="">
+                                                                        <asp:Button ID="btnAddMonitoringhoursGuard" runat="server" Text="Save" OnClientClick="javascript:return IsValidMonitorTimeGuard();"
+                                                                            OnClick="btnAddMonitoringhoursGuard_Click" CausesValidation="true" ValidationGroup="vsAddPSMonitorGuard" />
+                                                                        <asp:Button ID="btnAddMonitorCancelGuard" runat="server" Text="Cancel" OnClick="btnAddMonitorCancelGuard_Click" />
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
                                                                     </table>
-                                                                </EmptyDataTemplate>
-                                                                <PagerSettings Visible="False" />
-                                                            </asp:GridView>
-</td>
+                                                                </ContentTemplate>
+                                                            </asp:UpdatePanel>
+                                                        </td>
                                                     </tr>
                                                     <tr>
                                                         <td align="left" valign="top">Off-Duty Officer Name&nbsp;<span id="Span36" style="color: Red; display: none;" runat="server">*</span>
@@ -2022,249 +1929,176 @@ function OpenBuildingByFK_LocatoinPopup() {
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">Off-Duty Officer Hours Monitored Grid<br />
-                                                            <asp:LinkButton ID="lnkbtnAddOffdutyOfficerHoursMonitoredGrid" runat="server" Text="--Add--"
-                                                                OnClick="lnkbtnAddOffdutyOfficerHoursMonitoredGrid_Click" CausesValidation="true"
-                                                                ValidationGroup="vsErrorProperty_Security"></asp:LinkButton>
-                                                        </td>
-                                                        <td align="center" valign="top">:
-                                                        </td>
-                                                        </tr>
-                                                    <tr>
-                                                        <td align="left" valign="top" colspan="6">
-                                                            <asp:GridView ID="gvOffDutyOfficerHoursMonitoredGrid" runat="server" GridLines="None" CellPadding="4" DataKeyNames="PK_AP_Property_Security_Monitor_Grids" 
-                                                                CellSpacing="0" AutoGenerateColumns="false" Width="100%" EnableTheming="false"  AutoGenerateEditButton="true" 
-                                                                OnRowCommand="gvMonitoingGrid_RowCommand" OnRowCancelingEdit="MonitoringGrid_RowCancelingEdit" OnRowEditing="MonitoringGrid_RowEditing" OnRowUpdating="MonitoringGrid_RowUpdating">
-                                                                <FooterStyle BackColor="#EAEAEA" Font-Bold="True" ForeColor="White" Font-Names="Tahoma"
-                                                                    Font-Size="8pt" />
-                                                                <RowStyle BackColor="#EAEAEA" Font-Names="Tahoma" Font-Size="8pt" />
-                                                                <EditRowStyle BackColor="#EAEAEA" Font-Names="Tahoma" Font-Size="8pt" />
-                                                                <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" Font-Names="Tahoma"
-                                                                    Font-Size="8pt" />
-                                                                <PagerStyle BackColor="#7f7f7f" ForeColor="White" HorizontalAlign="Center" Font-Names="Tahoma"
-                                                                    Font-Size="8pt" />
-                                                                <HeaderStyle BackColor="#7f7f7f" Font-Bold="True" ForeColor="White" Font-Names="Tahoma"
-                                                                    Font-Size="8pt" VerticalAlign="Bottom" />
-                                                                <AlternatingRowStyle BackColor="White" Font-Names="Tahoma" Font-Size="8pt" />
-                                                                <EmptyDataRowStyle CssClass="emptyrow" />
-                                                                <Columns>
-                                                                    <asp:TemplateField HeaderText="Day Monitoring Begins" HeaderStyle-HorizontalAlign="Left">
-                                                                        <ItemStyle Width="20%" HorizontalAlign="Left" />
-                                                                        <ItemTemplate>
-                                                                           <asp:Label ID="lblDayMonitoringBegins" runat="server" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>' Text='<%# Eval("Start_Day")%>'></asp:Label>
-                                                                        </ItemTemplate>
-                                                                        <EditItemTemplate>
-                                                                            <asp:DropDownList ID="ddlDayMonitoringBegins" runat="server" SkinID="ddlExposure" CssClass="test">
-                                                                            </asp:DropDownList>
-                                                                            <asp:RequiredFieldValidator ID="rfvddlDayMonitoringBegins" runat="server" ControlToValidate="ddlDayMonitoringBegins"
-                                                                                ErrorMessage="Select Day Monitoring Begins" Display="None" ValidationGroup="vsAddPSMonitor"
-                                                                                SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
-                                                                        </EditItemTemplate>
-                                                                        <FooterTemplate>
-                                                                            <asp:DropDownList ID="ddlDayMonitoringBeginsAdd" runat="server" SkinID="ddlExposure">
-                                                                            </asp:DropDownList>
-                                                                            <asp:RequiredFieldValidator ID="rfvddlDayMonitoringBeginsAdd" runat="server" ControlToValidate="ddlDayMonitoringBeginsAdd"
-                                                                                ErrorMessage="Select Day Monitoring Begins" Display="None" ValidationGroup="vsAddPSMonitor"
-                                                                                SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
-                                                                        </FooterTemplate>
-                                                                    </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="Time Monitoring Begins" HeaderStyle-HorizontalAlign="Left">
-                                                                        <ItemStyle Width="15%" HorizontalAlign="Left" />
-                                                                        <ItemTemplate>
-                                                                          <asp:Label ID="lblTimeMonitoringBegins" runat="server" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>' Text='<%# Eval("Start_Time")%>'></asp:Label>
-                                                                        </ItemTemplate>
-                                                                        <EditItemTemplate>
-                                                                            <asp:TextBox ID="txtTimeMonitoringBegins" runat="server" MaxLength="5" Text='<%# Eval("Start_Time")%>' CssClass="Txttest" />
-                                                                        <cc1:MaskedEditExtender ID="MaskedEditExtender1" runat="server" AutoComplete="true"
-                                                                    MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringBegins" AcceptNegative="Left"
-                                                                    DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
-                                                                    OnInvalidCssClass="MaskedEditError" CultureName="en-US">
-                                                                </cc1:MaskedEditExtender>
-                                                                <asp:RegularExpressionValidator ID="revtxtTimeMonitoringBegins" runat="server" ControlToValidate="txtTimeMonitoringBegins"
-                                                                    ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                    ErrorMessage="Time Monitoring Begins should be valid time" Display="none" ValidationGroup="vsAddPSMonitor"
-                                                                    SetFocusOnError="true">
-                                                                </asp:RegularExpressionValidator>
-                                                                <asp:RequiredFieldValidator ID="rfvtxtTimeMonitoringBegins" runat="server" ControlToValidate="txtTimeMonitoringBegins"
-                                                                    Display="None" ErrorMessage="Enter Time Monitoring Begins." ValidationGroup="vsAddPSMonitor"
-                                                                    SetFocusOnError="true"></asp:RequiredFieldValidator>
-
-                                                                        </EditItemTemplate>
-                                                                        <FooterTemplate>
-                                                                            <asp:TextBox ID="txtTimeMonitoringBeginsAdd" runat="server" MaxLength="5"/>
-                                                                          <cc1:MaskedEditExtender ID="MaskedEditExtender1" runat="server" AutoComplete="true"
-                                                                    MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringBeginsAdd" AcceptNegative="Left"
-                                                                    DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
-                                                                    OnInvalidCssClass="MaskedEditError" CultureName="en-US">
-                                                                </cc1:MaskedEditExtender>
-                                                                <asp:RegularExpressionValidator ID="revtxtTimeMonitoringBegins" runat="server" ControlToValidate="txtTimeMonitoringBeginsAdd"
-                                                                    ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                    ErrorMessage="Time Monitoring Begins should be valid time" Display="none" ValidationGroup="vsAddPSMonitor"
-                                                                    SetFocusOnError="true">
-                                                                </asp:RegularExpressionValidator>
-                                                                <asp:RequiredFieldValidator ID="rfvtxtTimeMonitoringBegins" runat="server" ControlToValidate="txtTimeMonitoringBeginsAdd"
-                                                                    Display="None" ErrorMessage="Enter Time Monitoring Begins." ValidationGroup="vsAddPSMonitor"
-                                                                    SetFocusOnError="true"></asp:RequiredFieldValidator>
-                                                                        </FooterTemplate>
-                                                                    </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="Day Monitoring Ends" HeaderStyle-HorizontalAlign="Left">
-                                                                        <ItemStyle Width="20%" HorizontalAlign="Left" />
-                                                                        <ItemTemplate>
-                                                                           <asp:Label ID="lblDayMonitoringEnds" runat="server" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>' Text='<%# Eval("End_Day")%>'></asp:Label>
-                                                                        </ItemTemplate>
-                                                                        <EditItemTemplate>
-
-                                                                            <asp:DropDownList ID="ddlDayMonitoringEnds" runat="server" SkinID="ddlExposure" CssClass="test">
-                                                                            </asp:DropDownList>
-                                                                            <asp:RequiredFieldValidator ID="rfvddlDayMonitoringEnds" runat="server" ControlToValidate="ddlDayMonitoringEnds"
-                                                                                ErrorMessage="Select Day Monitoring Ends" Display="None" ValidationGroup="vsAddPSMonitor"
-                                                                                SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
-                                                                        </EditItemTemplate>
-                                                                        <FooterTemplate>
-                                                                            <asp:DropDownList ID="ddlDayMonitoringEndsAdd" runat="server" SkinID="ddlExposure">
-                                                                            </asp:DropDownList>
-                                                                            <asp:RequiredFieldValidator ID="rfvddlDayMonitoringEnds" runat="server" ControlToValidate="ddlDayMonitoringEndsAdd"
-                                                                                ErrorMessage="Select Day Monitoring Ends" Display="None" ValidationGroup="vsAddPSMonitor"
-                                                                                SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
-                                                                        </FooterTemplate>
-                                                                    </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="Time Monitoring Ends" HeaderStyle-HorizontalAlign="Left">
-                                                                        <ItemStyle Width="15%" HorizontalAlign="Left" />
-                                                                        <ItemTemplate>
-                                                                            <asp:Label ID="Label7" runat="server" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>' Text='<%# Eval("End_Time")%>'></asp:Label>
-                                                                        </ItemTemplate>
-                                                                        <EditItemTemplate>
-                                                                            <asp:TextBox ID="txtTimeMonitoringEnds" runat="server" MaxLength="5" Text='<%# Eval("End_Time")%>' CssClass="Txttest" />
-                                                                             <cc1:MaskedEditExtender ID="MaskedEditExtender2" runat="server" AutoComplete="true"
-                                                                    MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringEnds" AcceptNegative="Left"
-                                                                    DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
-                                                                    OnInvalidCssClass="MaskedEditError" CultureName="en-US">
-                                                                </cc1:MaskedEditExtender>
-                                                                <asp:RegularExpressionValidator ID="revtxtTimeMonitoringEnds" runat="server" ControlToValidate="txtTimeMonitoringEnds"
-                                                                    ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                    ErrorMessage="Time Monitoring Ends should be valid time" Display="none" ValidationGroup="vsAddPSMonitor"
-                                                                    SetFocusOnError="true">
-                                                                </asp:RegularExpressionValidator>
-                                                                <asp:RequiredFieldValidator ID="rfvtxtTimeMonitoringEnds" runat="server" ControlToValidate="txtTimeMonitoringEnds"
-                                                                    Display="None" ErrorMessage="Enter Time Monitoring Ends." ValidationGroup="vsAddPSMonitor"
-                                                                    SetFocusOnError="true"></asp:RequiredFieldValidator>
-                                                                        </EditItemTemplate>
-                                                                        <FooterTemplate>
-                                                                            <asp:TextBox ID="txtTimeMonitoringEndsAdd" runat="server" MaxLength="5" />
-                                                                            <cc1:MaskedEditExtender ID="MaskedEditExtender2" runat="server" AutoComplete="true"
-                                                                    MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringEndsAdd" AcceptNegative="Left"
-                                                                    DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
-                                                                    OnInvalidCssClass="MaskedEditError" CultureName="en-US">
-                                                                </cc1:MaskedEditExtender>
-                                                                <asp:RegularExpressionValidator ID="revtxtTimeMonitoringEnds" runat="server" ControlToValidate="txtTimeMonitoringEndsAdd"
-                                                                    ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                    ErrorMessage="Time Monitoring Ends should be valid time" Display="none" ValidationGroup="vsAddPSMonitor"
-                                                                    SetFocusOnError="true">
-                                                                </asp:RegularExpressionValidator>
-                                                                <asp:RequiredFieldValidator ID="rfvtxtTimeMonitoringEnds" runat="server" ControlToValidate="txtTimeMonitoringEndsAdd"
-                                                                    Display="None" ErrorMessage="Enter Time Monitoring Ends." ValidationGroup="vsAddPSMonitor"
-                                                                    SetFocusOnError="true"></asp:RequiredFieldValidator>
-                                                                        </FooterTemplate>
-                                                                    </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="Hours" HeaderStyle-HorizontalAlign="Left">
-                                                                        <ItemStyle Width="15%" HorizontalAlign="Left" />
-                                                                        <ItemTemplate>
-                                                                          <asp:Label ID="lblTimeMonitoringEndsPnl" runat="server" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>' Text='<%# Eval("Hours")%>'></asp:Label>
-                                                                        </ItemTemplate>
-                                                                        <EditItemTemplate>
-                                                                            <asp:TextBox ID="txtMonitoringPeriodHours" runat="server" SkinID="txtDisabled" Text='<%# Eval("Hours")%>'></asp:TextBox>
-                                                                        </EditItemTemplate>
-                                                                        <FooterTemplate>
-                                                                            <asp:TextBox ID="txtMonitoringPeriodHoursAdd" runat="server" SkinID="txtDisabled"></asp:TextBox>
-                                                                        </FooterTemplate>
-                                                                    </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="Remove" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center">
-                                                                        <ItemStyle Width="15%" />
-                                                                          <ItemTemplate>
-                                                                            <asp:LinkButton ID="lnkbtnRemove" runat="server" Text="Remove" OnClientClick="return confirm('Are you Sure to delete this record?');"
-                                                                                CommandName="Remove" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
-                                                                            </asp:LinkButton>
-
-                                                                        </ItemTemplate>
-
-                                                                        <FooterTemplate>
-                                                                            <asp:LinkButton ID="btnAddPSMonitorGird" runat="server" Text="Save" CommandName="gvAdd" OnClientClick="javascript:return ChangeAdd(this);" />
-                                                                        </FooterTemplate>
-                                                                    </asp:TemplateField>
-                                                                </Columns>
-                                                                <EmptyDataRowStyle ForeColor="#7f7f7f" HorizontalAlign="Center" CssClass="displayNone"  />
-                                                                <EmptyDataTemplate>
-                                                                     <table>
-                                                                        <tr style="background-color: #7f7f7f; font-weight: Bold; color: White; font-style:Tahoma; font-size: 8pt; vertical-align: bottom;">
-                                                                            <th>Day Monitoring Begins
-                                                                            </th>
-                                                                            <th>Time Monitoring Begins
-                                                                            </th>
-                                                                            <th>Day Monitoring Ends
-                                                                            </th>
-                                                                            <th>Time Monitoring Ends
-                                                                            </th>
-                                                                            <th>Hours
-                                                                            </th>
-                                                                            <th>Action
-                                                                            </th>
-                                                                        </tr>
-
+                                                        <td colspan="6">
+                                                            <asp:UpdatePanel ID="updDutyDetail" runat="server">
+                                                                <ContentTemplate>
+                                                                    <table>
                                                                         <tr>
-                                                                            <td style="width: 20%">
-                                                                                <asp:DropDownList ID="ddlDayMonitoringBeginsAdd" runat="server" SkinID="ddlExposure" >
-                                                                                </asp:DropDownList>
-                                                                                <asp:RequiredFieldValidator ID="rfvddlDayMonitoringBegins" runat="server" ControlToValidate="ddlDayMonitoringBeginsAdd"
-                                                                                    ErrorMessage="Select Day Monitoring Begins" Display="None" ValidationGroup="vsAddPSMonitor"
-                                                                                    SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator></td>
-                                                                            <td style="width: 15%">
-                                                                                <asp:TextBox ID="txtTimeMonitoringBeginsAdd" runat="server" MaxLength="5" CssClass="Txttest" />
-                                                                                <cc1:MaskedEditExtender ID="MaskedEditExtender1" runat="server" AutoComplete="true"
-                                                                    MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringBeginsAdd" AcceptNegative="Left"
-                                                                    DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
-                                                                    OnInvalidCssClass="MaskedEditError" CultureName="en-US">
-                                                                </cc1:MaskedEditExtender>
-                                                                <asp:RegularExpressionValidator ID="revtxtTimeMonitoringBeginsAdd" runat="server" ControlToValidate="txtTimeMonitoringBeginsAdd"
-                                                                    ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                    ErrorMessage="Time Monitoring Begins should be valid time" Display="none" ValidationGroup="vsAddPSMonitor"
-                                                                    SetFocusOnError="true">
-                                                                </asp:RegularExpressionValidator>
-                                                                <asp:RequiredFieldValidator ID="rfvtxtTimeMonitoringBegins" runat="server" ControlToValidate="txtTimeMonitoringBeginsAdd"
-                                                                    Display="None" ErrorMessage="Enter Time Monitoring Begins." ValidationGroup="vsAddPSMonitor"
-                                                                    SetFocusOnError="true"></asp:RequiredFieldValidator></td>
-                                                                            <td style="width: 20%">
-                                                                                <asp:DropDownList ID="ddlDayMonitoringEndsAdd" runat="server" SkinID="ddlExposure">
-                                                                                </asp:DropDownList>
-                                                                                <asp:RequiredFieldValidator ID="rfvddlDayMonitoringEnds" runat="server" ControlToValidate="ddlDayMonitoringEndsAdd"
-                                                                                    ErrorMessage="Select Day Monitoring Ends" Display="None" ValidationGroup="vsAddPSMonitor"
-                                                                                    SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator></td>
-                                                                            <td style="width: 15%">
-                                                                                <asp:TextBox ID="txtTimeMonitoringEndsAdd" runat="server" MaxLength="5" CssClass="Txttest" />
-                                                                              <cc1:MaskedEditExtender ID="MaskedEditExtender2" runat="server" AutoComplete="true"
-                                                                    MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringEndsAdd" AcceptNegative="Left"
-                                                                    DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
-                                                                    OnInvalidCssClass="MaskedEditError" CultureName="en-US">
-                                                                </cc1:MaskedEditExtender>
-                                                                <asp:RegularExpressionValidator ID="revtxtTimeMonitoringEnds" runat="server" ControlToValidate="txtTimeMonitoringEndsAdd"
-                                                                    ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                    ErrorMessage="Time Monitoring Ends should be valid time" Display="none" ValidationGroup="vsAddPSMonitor"
-                                                                    SetFocusOnError="true">
-                                                                </asp:RegularExpressionValidator>
-                                                                <asp:RequiredFieldValidator ID="rfvtxtTimeMonitoringEnds" runat="server" ControlToValidate="txtTimeMonitoringEndsAdd"
-                                                                    Display="None" ErrorMessage="Enter Time Monitoring Ends." ValidationGroup="vsAddPSMonitor"
-                                                                    SetFocusOnError="true"></asp:RequiredFieldValidator></td>
-                                                                            <td style="width: 15%">
-                                                                                <asp:TextBox ID="txtMonitoringPeriodHoursAdd" runat="server" SkinID="txtDisabled"></asp:TextBox></td>
-                                                                            <td style="width: 15%">
-                                                                                <asp:LinkButton ID="btnAddPSMonitorGird" runat="server" Text="Save" CommandName="gvAdd" OnClientClick="javascript:return ChangeAdd(this);" />
+                                                                            <td align="left" valign="top"  width="18%">Off-Duty Officer Hours Monitored Grid<br />
+                                                                                <asp:LinkButton ID="lnkbtnAddOffdutyOfficerHoursMonitoredGrid" runat="server" Text="--Add--"
+                                                                                    OnClick="lnkbtnAddOffdutyOfficerHoursMonitoredGrid_Click" CausesValidation="true"
+                                                                                    ValidationGroup="vsErrorProperty_Security"></asp:LinkButton>
+                                                                            </td>
+                                                                            <td align="center" valign="top"  width="4%">:
+                                                                            </td>
+                                                                            <td align="left" valign="top" colspan="4"  width="78%">
+                                                                                <asp:GridView ID="gvOffDutyOfficerHoursMonitoredGrid" runat="server" GridLines="None"
+                                                                                    CellPadding="4" CellSpacing="0" AutoGenerateColumns="false" Width="100%" EnableTheming="false"
+                                                                                    OnRowCommand="gvMonitoingGridDuty_RowCommand">
+                                                                                    <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" Font-Names="Tahoma"
+                                                                                        Font-Size="8pt" />
+                                                                                    <RowStyle BackColor="#EAEAEA" Font-Names="Tahoma" Font-Size="8pt" />
+                                                                                    <EditRowStyle BackColor="#2461BF" Font-Names="Tahoma" Font-Size="8pt" />
+                                                                                    <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" Font-Names="Tahoma"
+                                                                                        Font-Size="8pt" />
+                                                                                    <PagerStyle BackColor="#7f7f7f" ForeColor="White" HorizontalAlign="Center" Font-Names="Tahoma"
+                                                                                        Font-Size="8pt" />
+                                                                                    <HeaderStyle BackColor="#7f7f7f" Font-Bold="True" ForeColor="White" Font-Names="Tahoma"
+                                                                                        Font-Size="8pt" VerticalAlign="Bottom" />
+                                                                                    <AlternatingRowStyle BackColor="White" Font-Names="Tahoma" Font-Size="8pt" />
+                                                                                    <EmptyDataRowStyle CssClass="emptyrow" />
+                                                                                    <Columns>
+                                                                                        <asp:TemplateField HeaderText="Day Monitoring Begins" HeaderStyle-HorizontalAlign="Left">
+                                                                                            <ItemStyle Width="20%" HorizontalAlign="Left" />
+                                                                                            <ItemTemplate>
+                                                                                                <asp:LinkButton ID="lnkbtnDayMonitoringBegins" runat="server" CommandName="gvEdit"
+                                                                                                    CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
+                                                                                                <%# Eval("Start_Day")%>
+                                                                                                </asp:LinkButton>
+                                                                                            </ItemTemplate>
+                                                                                        </asp:TemplateField>
+                                                                                        <asp:TemplateField HeaderText="Time Monitoring Begins" HeaderStyle-HorizontalAlign="Left">
+                                                                                            <ItemStyle Width="15%" HorizontalAlign="Left" />
+                                                                                            <ItemTemplate>
+                                                                                                <asp:LinkButton ID="lnkbtnTimeMonitoringBegins" runat="server" CommandName="gvEdit"
+                                                                                                    CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
+                                                                                                    <%# Eval("Start_Time")%>
+                                                                                                </asp:LinkButton>
+                                                                                            </ItemTemplate>
+                                                                                        </asp:TemplateField>
+                                                                                        <asp:TemplateField HeaderText="Day Monitoring Ends" HeaderStyle-HorizontalAlign="Left">
+                                                                                            <ItemStyle Width="20%" HorizontalAlign="Left" />
+                                                                                            <ItemTemplate>
+                                                                                                <asp:LinkButton ID="lnkbtnDayMonitoringEnds" runat="server" CommandName="gvEdit"
+                                                                                                    CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
+                                                                                                    <%# Eval("End_Day")%>
+                                                                                                </asp:LinkButton>
+                                                                                            </ItemTemplate>
+                                                                                        </asp:TemplateField>
+                                                                                        <asp:TemplateField HeaderText="Time Monitoring Ends" HeaderStyle-HorizontalAlign="Left">
+                                                                                            <ItemStyle Width="15%" HorizontalAlign="Left" />
+                                                                                            <ItemTemplate>
+                                                                                                <asp:LinkButton ID="lnkbtnTimeMonitoringEnds" runat="server" CommandName="gvEdit"
+                                                                                                    CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
+                                                                                                    <%# Eval("End_Time")%>
+                                                                                                </asp:LinkButton>
+                                                                                            </ItemTemplate>
+                                                                                        </asp:TemplateField>
+                                                                                        <asp:TemplateField HeaderText="Hours" HeaderStyle-HorizontalAlign="Left">
+                                                                                            <ItemStyle Width="15%" HorizontalAlign="Left" />
+                                                                                            <ItemTemplate>
+                                                                                                <asp:LinkButton ID="lnkbtnHours" runat="server" CommandName="gvEdit" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
+                                                                                                    <%# Eval("Hours")%>
+                                                                                                </asp:LinkButton>
+                                                                                            </ItemTemplate>
+                                                                                        </asp:TemplateField>
+                                                                                        <asp:TemplateField HeaderText="Remove" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center">
+                                                                                            <ItemStyle Width="15%" />
+                                                                                            <ItemTemplate>
+                                                                                                <asp:LinkButton ID="lnkbtnRemove" runat="server" Text="Remove" OnClientClick="return confirm('Are you Sure to delete this record?');"
+                                                                                                    CommandName="Remove" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
+                                                                                                </asp:LinkButton>
+                                                                                            </ItemTemplate>
+                                                                                        </asp:TemplateField>
+                                                                                    </Columns>
+                                                                                    <EmptyDataRowStyle ForeColor="#7f7f7f" HorizontalAlign="Center" />
+                                                                                    <EmptyDataTemplate>
+                                                                                        <b>No Record found</b>
+                                                                                    </EmptyDataTemplate>
+                                                                                    <PagerSettings Visible="False" />
+                                                                                </asp:GridView>
                                                                             </td>
                                                                         </tr>
-                                                                    </table>
-                                                                </EmptyDataTemplate>
-                                                                <PagerSettings Visible="False" />
-                                                            </asp:GridView>
-                                                        </td>
-                                                    </tr>
+                                                                        <tr runat="server" id="trDuty_Hours_Monitoring" style="display: none">
+                                                                                                <td align="left" valign="top" colspan="6">
+                                                                                                    <table width='100%'>
+                                                                                                        <tr style='background-color: #7f7f7f; font-family: Arial; color: white; font-size: 12px; font-weight: bold' valign="top">
+                                                                                                            <td align="left" valign="top" width="20%">Day Monitoring Begins&nbsp;<span id="Span156" style="color: Red" runat="server">*</span>
+                                                                                                            </td>
+                                                                                                            <td align="left" valign="top" width="10%">Time Monitoring Begins&nbsp;<span id="Span157" style="color: Red" runat="server">*</span>
+                                                                                                            </td>
+                                                                                                            <td align="left" valign="top" width="20%">Day Monitoring Ends&nbsp;<span id="Span158" style="color: Red" runat="server">*</span>
+                                                                                                            </td>
+                                                                                                            <td align="left" valign="top" width="10%">Time Monitoring Ends&nbsp;<span id="Span159" style="color: Red" runat="server">*</span>
+                                                                                                            </td>
+                                                                                                            <td align="left" valign="top" width="15%">Hours
+                                                                                                            </td>
+                                                                                                            <td align="left" valign="top" width="25%"></td>
+                                                                                                        </tr>
+                                                                                                        <tr valign="top">
+                                                                                                            <td align="left" valign="top">
+                                                                                                                <asp:DropDownList ID="ddlDayMonitoringBegin_Duty" runat="server" SkinID="ddlSONIC">
+                                                                                                                </asp:DropDownList>
+                                                                                                                <asp:RequiredFieldValidator ID="revddlDayMonitoringBegin_Duty" runat="server" ControlToValidate="ddlDayMonitoringBegin_Duty"
+                                                                                                                    ErrorMessage="Select Day Monitoring Begins" Display="None" ValidationGroup="vsAddPSMonitorDuty"
+                                                                                                                    SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
+                                                                                                            </td>
+                                                                                                            <td align="left" valign="top">
+                                                                                                                <asp:TextBox ID="txtTimeMonitoringBegin_Duty" runat="server" Width="110px" MaxLength="5" />
+                                                                                                                <cc1:MaskedEditExtender ID="MaskedEditExtender7" runat="server" AutoComplete="true"
+                                                                                                                    MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringBegin_Duty" AcceptNegative="Left"
+                                                                                                                    DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
+                                                                                                                    OnInvalidCssClass="MaskedEditError" CultureName="en-US">
+                                                                                                                </cc1:MaskedEditExtender>
+                                                                                                                <asp:RegularExpressionValidator ID="regtxtTimeMonitoringBegin_Duty" runat="server" ControlToValidate="txtTimeMonitoringBegin_Duty"
+                                                                                                                    ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
+                                                                                                                    ErrorMessage="Time Monitoring Begins should be valid time" Display="none" ValidationGroup="vsAddPSMonitorDuty"
+                                                                                                                    SetFocusOnError="true">
+                                                                                                                </asp:RegularExpressionValidator>
+                                                                                                                <asp:RequiredFieldValidator ID="revtxtTimeMonitoringBegin_Duty" runat="server" ControlToValidate="txtTimeMonitoringBegin_Duty"
+                                                                                                                    Display="None" ErrorMessage="Enter Time Monitoring Begins." ValidationGroup="vsAddPSMonitorDuty"
+                                                                                                                    SetFocusOnError="true"></asp:RequiredFieldValidator>
+                                                                                                            </td>
+                                                                                                            <td align="left" valign="top">
+                                                                                                                <asp:DropDownList ID="ddlDayMonitoringEnd_Duty" runat="server" SkinID="ddlExposure">
+                                                                                                                </asp:DropDownList>
+                                                                                                                <asp:RequiredFieldValidator ID="revddlDayMonitoringEnd_Duty" runat="server" ControlToValidate="ddlDayMonitoringEnd_Duty"
+                                                                                                                    ErrorMessage="Select Day Monitoring Ends" Display="None" ValidationGroup="vsAddPSMonitorDuty"
+                                                                                                                    SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
+                                                                                                            </td>
+                                                                                                            <td align="left" valign="top">
+                                                                                                                <asp:TextBox ID="txtTimeMonitoringEnd_Duty" runat="server" Width="110px" MaxLength="5" />
+                                                                                                                <cc1:MaskedEditExtender ID="MaskedEditExtender8" runat="server" AutoComplete="true"
+                                                                                                                    MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringEnd_Duty" AcceptNegative="Left"
+                                                                                                                    DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
+                                                                                                                    OnInvalidCssClass="MaskedEditError" CultureName="en-US">
+                                                                                                                </cc1:MaskedEditExtender>
+                                                                                                                <asp:RegularExpressionValidator ID="regtxtTimeMonitoringEnd_Duty" runat="server" ControlToValidate="txtTimeMonitoringEnd_Duty"
+                                                                                                                    ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
+                                                                                                                    ErrorMessage="Time Monitoring Ends should be valid time" Display="none" ValidationGroup="vsAddPSMonitorDuty"
+                                                                                                                    SetFocusOnError="true">
+                                                                                                                </asp:RegularExpressionValidator>
+                                                                                                                <asp:RequiredFieldValidator ID="revtxtTimeMonitoringEnd_Duty" runat="server" ControlToValidate="txtTimeMonitoringEnd_Duty"
+                                                                                                                    Display="None" ErrorMessage="Enter Time Monitoring Ends." ValidationGroup="vsAddPSMonitorDuty"
+                                                                                                                    SetFocusOnError="true"></asp:RequiredFieldValidator>
+                                                                                                            </td>
+                                                                                                            <td align="left" valign="top">
+                                                                                                                <asp:TextBox runat="server" ID="txthourcountDuty" Width="40px" Enabled="false"></asp:TextBox>
+                                                                                                            </td>
+                                                                                                            <td align="left" valign="top" width="">
+                                                                                                                <asp:Button ID="btnAddMonitoringhoursDuty" runat="server" Text="Save" OnClientClick="javascript:return IsValidMonitorTimeDuty();"
+                                                                                                                    OnClick="btnAddMonitoringhoursDuty_Click" CausesValidation="true" ValidationGroup="vsAddPSMonitorDuty" />
+                                                                                                                <asp:Button ID="btnAddMonitorCancelDuty" runat="server" Text="Cancel" OnClick="btnAddMonitorCancelDuty_Click" />
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                    </table>
+                                                                                                </td>
+                                                                                            </tr>
+                                                                        </table>
+                                                                    </ContentTemplate>
+                                                                </asp:UpdatePanel>
+                                                            </td>
+                                                        </tr>
                                                     <tr>
                                                         <td width="5px" class="Spacer">&nbsp;
                                                         </td>
@@ -2675,9 +2509,9 @@ function OpenBuildingByFK_LocatoinPopup() {
                                                             <td align="left" valign="top" width="75%" colspan="4">
                                                                 <asp:DropDownList ID="ddlDayMonitoringBegins" runat="server" SkinID="ddlExposure">
                                                                 </asp:DropDownList>
-                                                                <%--                                                                <asp:RequiredFieldValidator ID="rfvddlDayMonitoringBegins" runat="server" ControlToValidate="ddlDayMonitoringBegins"
+                                                                <asp:RequiredFieldValidator ID="rfvddlDayMonitoringBegins" runat="server" ControlToValidate="ddlDayMonitoringBegins"
                                                                     ErrorMessage="Select Day Monitoring Begins" Display="None" ValidationGroup="vsAddPSMonitor"
-                                                                    SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>--%>
+                                                                    SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -2687,7 +2521,7 @@ function OpenBuildingByFK_LocatoinPopup() {
                                                             </td>
                                                             <td align="left" valign="top" width="75%" colspan="4">
                                                                 <asp:TextBox ID="txtTimeMonitoringBegins" runat="server" Width="170px" MaxLength="5" />
-                                                                <%--<cc1:MaskedEditExtender ID="MaskedEditExtender1" runat="server" AutoComplete="true"
+                                                                <cc1:MaskedEditExtender ID="MaskedEditExtender1" runat="server" AutoComplete="true"
                                                                     MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringBegins" AcceptNegative="Left"
                                                                     DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
                                                                     OnInvalidCssClass="MaskedEditError" CultureName="en-US">
@@ -2699,7 +2533,7 @@ function OpenBuildingByFK_LocatoinPopup() {
                                                                 </asp:RegularExpressionValidator>
                                                                 <asp:RequiredFieldValidator ID="rfvtxtTimeMonitoringBegins" runat="server" ControlToValidate="txtTimeMonitoringBegins"
                                                                     Display="None" ErrorMessage="Enter Time Monitoring Begins." ValidationGroup="vsAddPSMonitor"
-                                                                    SetFocusOnError="true"></asp:RequiredFieldValidator>--%>
+                                                                    SetFocusOnError="true"></asp:RequiredFieldValidator>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -2710,9 +2544,9 @@ function OpenBuildingByFK_LocatoinPopup() {
                                                             <td align="left" valign="top" width="75%" colspan="4">
                                                                 <asp:DropDownList ID="ddlDayMonitoringEnds" runat="server" SkinID="ddlExposure">
                                                                 </asp:DropDownList>
-                                                                <%--<asp:RequiredFieldValidator ID="rfvddlDayMonitoringEnds" runat="server" ControlToValidate="ddlDayMonitoringEnds"
+                                                                <asp:RequiredFieldValidator ID="rfvddlDayMonitoringEnds" runat="server" ControlToValidate="ddlDayMonitoringEnds"
                                                                     ErrorMessage="Select Day Monitoring Ends" Display="None" ValidationGroup="vsAddPSMonitor"
-                                                                    SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>--%>
+                                                                    SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -2722,7 +2556,7 @@ function OpenBuildingByFK_LocatoinPopup() {
                                                             </td>
                                                             <td align="left" valign="top" width="75%" colspan="4">
                                                                 <asp:TextBox ID="txtTimeMonitoringEnds" runat="server" Width="170px" MaxLength="5" />
-                                                                <%-- <cc1:MaskedEditExtender ID="MaskedEditExtender2" runat="server" AutoComplete="true"
+                                                                <cc1:MaskedEditExtender ID="MaskedEditExtender2" runat="server" AutoComplete="true"
                                                                     MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringEnds" AcceptNegative="Left"
                                                                     DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
                                                                     OnInvalidCssClass="MaskedEditError" CultureName="en-US">
@@ -2734,7 +2568,7 @@ function OpenBuildingByFK_LocatoinPopup() {
                                                                 </asp:RegularExpressionValidator>
                                                                 <asp:RequiredFieldValidator ID="rfvtxtTimeMonitoringEnds" runat="server" ControlToValidate="txtTimeMonitoringEnds"
                                                                     Display="None" ErrorMessage="Enter Time Monitoring Ends." ValidationGroup="vsAddPSMonitor"
-                                                                    SetFocusOnError="true"></asp:RequiredFieldValidator>--%>
+                                                                    SetFocusOnError="true"></asp:RequiredFieldValidator>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -2751,8 +2585,8 @@ function OpenBuildingByFK_LocatoinPopup() {
                                                                 <table border="0" align="center" cellpadding="0" cellspacing="5">
                                                                     <tr>
                                                                         <td>
-                                                                            <%-- <asp:Button ID="btnAddPSMonitorGird" runat="server" Text="Save" OnClientClick="javascript:return IsValidMonitorTime();"
-                                                                                OnClick="btnAddPSMonitorGird_Click" CausesValidation="true" ValidationGroup="vsAddPSMonitor" />--%>
+                                                                            <asp:Button ID="btnAddPSMonitorGird" runat="server" Text="Save" OnClientClick="javascript:return IsValidMonitorTime();"
+                                                                                OnClick="btnAddPSMonitorGird_Click" CausesValidation="true" ValidationGroup="vsAddPSMonitor" />
                                                                         </td>
                                                                         <td>
                                                                             <asp:Button ID="btnBackPropertySecurity" runat="server" Text="Back" OnClick="btnShowPropertySecurityFromMonitor_Click"
@@ -6137,7 +5971,7 @@ function OpenBuildingByFK_LocatoinPopup() {
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top" colspan="4">
-                                                         <asp:GridView ID="gvCCTVHoursMonitoringGridView" runat="server" GridLines="None"
+                                                            <asp:GridView ID="gvCCTVHoursMonitoringGridView" runat="server" GridLines="None"
                                                                 CellPadding="4" CellSpacing="0" AutoGenerateColumns="false" Width="100%" EnableTheming="false"
                                                                 OnRowCommand="gvMonitoingGrid_RowCommand">
                                                                 <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" Font-Names="Tahoma"
@@ -6152,19 +5986,16 @@ function OpenBuildingByFK_LocatoinPopup() {
                                                                     Font-Size="8pt" VerticalAlign="Bottom" />
                                                                 <AlternatingRowStyle BackColor="White" Font-Names="Tahoma" Font-Size="8pt" />
                                                                 <EmptyDataRowStyle CssClass="emptyrow" />
-
-
                                                                 <Columns>
                                                                     <asp:TemplateField HeaderText="Day Monitoring Begins" HeaderStyle-HorizontalAlign="Left">
                                                                         <ItemStyle Width="20%" HorizontalAlign="Left" />
                                                                         <ItemTemplate>
-                                                                          <%--  <asp:LinkButton ID="lnkbtnDayMonitoringBegins" runat="server" CommandName="gvEdit"
+                                                                            <%--<asp:LinkButton ID="lnkbtnDayMonitoringBegins" runat="server" CommandName="gvEdit"
                                                                                 CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
                                                                             <%# Eval("Start_Day")%>
                                                                             </asp:LinkButton>--%>
-                                                                            <asp:Label ID="lblDayMonitoringBeginsView" runat="server" Text='<%# Eval("Start_Day")%>'></asp:Label>
+                                                                            <%# Eval("Start_Day")%>
                                                                         </ItemTemplate>
-
                                                                     </asp:TemplateField>
                                                                     <asp:TemplateField HeaderText="Time Monitoring Begins" HeaderStyle-HorizontalAlign="Left">
                                                                         <ItemStyle Width="15%" HorizontalAlign="Left" />
@@ -6173,7 +6004,7 @@ function OpenBuildingByFK_LocatoinPopup() {
                                                                                 CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
                                                                                 <%# Eval("Start_Time")%>
                                                                             </asp:LinkButton>--%>
-                                                                            <asp:Label ID="lblTimeMonitoringBeginsView" runat="server" Text='<%# Eval("Start_Time")%>'></asp:Label>
+                                                                            <%# Eval("Start_Time")%>
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                     <asp:TemplateField HeaderText="Day Monitoring Ends" HeaderStyle-HorizontalAlign="Left">
@@ -6183,30 +6014,29 @@ function OpenBuildingByFK_LocatoinPopup() {
                                                                                 CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
                                                                                 <%# Eval("End_Day")%>
                                                                             </asp:LinkButton>--%>
-                                                                            <asp:Label ID="lblDayMonitoringEndsView" runat="server" Text='<%# Eval("End_Day")%>'></asp:Label>
+                                                                            <%# Eval("End_Day")%>
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                     <asp:TemplateField HeaderText="Time Monitoring Ends" HeaderStyle-HorizontalAlign="Left">
                                                                         <ItemStyle Width="15%" HorizontalAlign="Left" />
                                                                         <ItemTemplate>
-                                                                         <%--   <asp:LinkButton ID="lnkbtnTimeMonitoringEnds" runat="server" CommandName="gvEdit"
+                                                                            <%--<asp:LinkButton ID="lnkbtnTimeMonitoringEnds" runat="server" CommandName="gvEdit"
                                                                                 CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
                                                                                 <%# Eval("End_Time")%>
                                                                             </asp:LinkButton>--%>
-                                                                            <asp:Label ID="lblTimeMonitoringEndsView" runat="server" Text='<%# Eval("End_Time")%>'></asp:Label>
+                                                                            <%# Eval("End_Time")%>
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                     <asp:TemplateField HeaderText="Hours" HeaderStyle-HorizontalAlign="Left">
                                                                         <ItemStyle Width="15%" HorizontalAlign="Left" />
                                                                         <ItemTemplate>
-                                                                             <%-- <asp:LinkButton ID="lnkbtnHours" runat="server" CommandName="gvEdit" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
+                                                                            <%--<asp:LinkButton ID="lnkbtnHours" runat="server" CommandName="gvEdit" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
                                                                                 <%# Eval("Hours")%>
                                                                             </asp:LinkButton>--%>
-                                                                            <asp:Label ID="lblHoursView" runat="server" Text=' <%# Eval("Hours")%>'></asp:Label>
+                                                                            <%# Eval("Hours")%>
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                 </Columns>
-
                                                                 <EmptyDataRowStyle ForeColor="#7f7f7f" HorizontalAlign="Center" />
                                                                 <EmptyDataTemplate>
                                                                     <b>No Record found</b>
@@ -6767,45 +6597,50 @@ function OpenBuildingByFK_LocatoinPopup() {
                                                                     <asp:TemplateField HeaderText="Day Monitoring Begins" HeaderStyle-HorizontalAlign="Left">
                                                                         <ItemStyle Width="20%" HorizontalAlign="Left" />
                                                                         <ItemTemplate>
-                                                                            <asp:LinkButton ID="lnkbtnDayMonitoringBegins" runat="server" CommandName="gvEdit"
+                                                                            <%--<asp:LinkButton ID="lnkbtnDayMonitoringBegins" runat="server" CommandName="gvEdit"
                                                                                 CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
                                                                             <%# Eval("Start_Day")%>
-                                                                            </asp:LinkButton>
+                                                                            </asp:LinkButton>--%>
+                                                                            <%# Eval("Start_Day")%>
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                     <asp:TemplateField HeaderText="Time Monitoring Begins" HeaderStyle-HorizontalAlign="Left">
                                                                         <ItemStyle Width="15%" HorizontalAlign="Left" />
                                                                         <ItemTemplate>
-                                                                            <asp:LinkButton ID="lnkbtnTimeMonitoringBegins" runat="server" CommandName="gvEdit"
+                                                                            <%--<asp:LinkButton ID="lnkbtnTimeMonitoringBegins" runat="server" CommandName="gvEdit"
                                                                                 CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
                                                                                 <%# Eval("Start_Time")%>
-                                                                            </asp:LinkButton>
+                                                                            </asp:LinkButton>--%>
+                                                                            <%# Eval("Start_Time")%>
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                     <asp:TemplateField HeaderText="Day Monitoring Ends" HeaderStyle-HorizontalAlign="Left">
                                                                         <ItemStyle Width="20%" HorizontalAlign="Left" />
                                                                         <ItemTemplate>
-                                                                            <asp:LinkButton ID="lnkbtnDayMonitoringEnds" runat="server" CommandName="gvEdit"
+                                                                            <%--<asp:LinkButton ID="lnkbtnDayMonitoringEnds" runat="server" CommandName="gvEdit"
                                                                                 CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
                                                                                 <%# Eval("End_Day")%>
-                                                                            </asp:LinkButton>
+                                                                            </asp:LinkButton>--%>
+                                                                            <%# Eval("End_Day")%>
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                     <asp:TemplateField HeaderText="Time Monitoring Ends" HeaderStyle-HorizontalAlign="Left">
                                                                         <ItemStyle Width="15%" HorizontalAlign="Left" />
                                                                         <ItemTemplate>
-                                                                            <asp:LinkButton ID="lnkbtnTimeMonitoringEnds" runat="server" CommandName="gvEdit"
+                                                                            <%--<asp:LinkButton ID="lnkbtnTimeMonitoringEnds" runat="server" CommandName="gvEdit"
                                                                                 CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
                                                                                 <%# Eval("End_Time")%>
-                                                                            </asp:LinkButton>
+                                                                            </asp:LinkButton>--%>
+                                                                            <%# Eval("End_Time")%>
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                     <asp:TemplateField HeaderText="Hours" HeaderStyle-HorizontalAlign="Left">
                                                                         <ItemStyle Width="15%" HorizontalAlign="Left" />
                                                                         <ItemTemplate>
-                                                                            <asp:LinkButton ID="lnkbtnHours" runat="server" CommandName="gvEdit" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
+                                                                            <%--<asp:LinkButton ID="lnkbtnHours" runat="server" CommandName="gvEdit" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
                                                                                 <%# Eval("Hours")%>
-                                                                            </asp:LinkButton>
+                                                                            </asp:LinkButton>--%>
+                                                                            <%# Eval("Hours")%>
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                 </Columns>
@@ -6841,7 +6676,6 @@ function OpenBuildingByFK_LocatoinPopup() {
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top" colspan="4">
-
                                                             <asp:GridView ID="gvOffDutyOfficerHoursMonitoredGridView" runat="server" GridLines="None"
                                                                 CellPadding="4" CellSpacing="0" AutoGenerateColumns="false" Width="100%" EnableTheming="false"
                                                                 OnRowCommand="gvMonitoingGrid_RowCommand">
@@ -6861,45 +6695,50 @@ function OpenBuildingByFK_LocatoinPopup() {
                                                                     <asp:TemplateField HeaderText="Day Monitoring Begins" HeaderStyle-HorizontalAlign="Left">
                                                                         <ItemStyle Width="20%" HorizontalAlign="Left" />
                                                                         <ItemTemplate>
-                                                                            <asp:LinkButton ID="lnkbtnDayMonitoringBegins" runat="server" CommandName="gvEdit"
+                                                                            <%--<asp:LinkButton ID="lnkbtnDayMonitoringBegins" runat="server" CommandName="gvEdit"
                                                                                 CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
                                                                             <%# Eval("Start_Day")%>
-                                                                            </asp:LinkButton>
+                                                                            </asp:LinkButton>--%>
+                                                                            <%# Eval("Start_Day")%>
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                     <asp:TemplateField HeaderText="Time Monitoring Begins" HeaderStyle-HorizontalAlign="Left">
                                                                         <ItemStyle Width="15%" HorizontalAlign="Left" />
                                                                         <ItemTemplate>
-                                                                            <asp:LinkButton ID="lnkbtnTimeMonitoringBegins" runat="server" CommandName="gvEdit"
+                                                                            <%--<asp:LinkButton ID="lnkbtnTimeMonitoringBegins" runat="server" CommandName="gvEdit"
                                                                                 CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
                                                                                 <%# Eval("Start_Time")%>
-                                                                            </asp:LinkButton>
+                                                                            </asp:LinkButton>--%>
+                                                                            <%# Eval("Start_Time")%>
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                     <asp:TemplateField HeaderText="Day Monitoring Ends" HeaderStyle-HorizontalAlign="Left">
                                                                         <ItemStyle Width="20%" HorizontalAlign="Left" />
                                                                         <ItemTemplate>
-                                                                            <asp:LinkButton ID="lnkbtnDayMonitoringEnds" runat="server" CommandName="gvEdit"
+                                                                            <%--<asp:LinkButton ID="lnkbtnDayMonitoringEnds" runat="server" CommandName="gvEdit"
                                                                                 CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
                                                                                 <%# Eval("End_Day")%>
-                                                                            </asp:LinkButton>
+                                                                            </asp:LinkButton>--%>
+                                                                            <%# Eval("End_Day")%>
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                     <asp:TemplateField HeaderText="Time Monitoring Ends" HeaderStyle-HorizontalAlign="Left">
                                                                         <ItemStyle Width="15%" HorizontalAlign="Left" />
                                                                         <ItemTemplate>
-                                                                            <asp:LinkButton ID="lnkbtnTimeMonitoringEnds" runat="server" CommandName="gvEdit"
+                                                                            <%--<asp:LinkButton ID="lnkbtnTimeMonitoringEnds" runat="server" CommandName="gvEdit"
                                                                                 CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
                                                                                 <%# Eval("End_Time")%>
-                                                                            </asp:LinkButton>
+                                                                            </asp:LinkButton>--%>
+                                                                            <%# Eval("End_Time")%>
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                     <asp:TemplateField HeaderText="Hours" HeaderStyle-HorizontalAlign="Left">
                                                                         <ItemStyle Width="15%" HorizontalAlign="Left" />
                                                                         <ItemTemplate>
-                                                                            <asp:LinkButton ID="lnkbtnHours" runat="server" CommandName="gvEdit" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
+                                                                            <%--<asp:LinkButton ID="lnkbtnHours" runat="server" CommandName="gvEdit" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
                                                                                 <%# Eval("Hours")%>
-                                                                            </asp:LinkButton>
+                                                                            </asp:LinkButton>--%>
+                                                                            <%# Eval("Hours")%>
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                 </Columns>
