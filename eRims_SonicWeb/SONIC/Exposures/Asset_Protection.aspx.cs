@@ -893,7 +893,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         else
             lblCap_Index_Risk_Category.Text = string.Empty;
 
-        if (gvCCTVHoursMonitoringGrid.Rows.Count > 0)
+        if (gvCCTVHoursMonitoringGridView.Rows.Count > 0)
         {
             if (objAP_Property_Security.Total_Hours_CCTV_Monitored_Per_Week != null)
                 lblTotalHoursCCTVMonitoredPerWeek.Text = Convert.ToString(objAP_Property_Security.Total_Hours_CCTV_Monitored_Per_Week);
