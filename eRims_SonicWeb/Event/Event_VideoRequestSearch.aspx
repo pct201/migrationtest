@@ -136,7 +136,7 @@
                     <asp:Button runat="server" ID="btnSearch" Text="Search" ValidationGroup="vsErrorGroup"
                         OnClick="btnSearch_Click"  />
                     &nbsp;&nbsp;
-                    <asp:Button runat="server" ID="btnAdd" Text=" Add New " OnClick="btnAdd_Click" />
+                    <asp:Button runat="server" ID="btnAdd" Text="Add 3rd Party Video Request" OnClick="btnAdd_Click" />
                     &nbsp;&nbsp;
                     <asp:Button runat="server" ID="btnClear" Text=" Clear " 
                         OnClick="btnSearchAgain_Click" /> 
@@ -237,7 +237,7 @@
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Event Date" HeaderStyle-HorizontalAlign="Left"
-                                                ItemStyle-HorizontalAlign="Left" SortExpression="Event_Start_Date">
+                                                ItemStyle-HorizontalAlign="Left" SortExpression="Date_of_Event">
                                                 <ItemStyle Width="150px" />
                                                 <ItemTemplate>
                                                     <%# Eval("Date_of_Event") != DBNull.Value ? clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("Date_of_Event"))) : ""%>

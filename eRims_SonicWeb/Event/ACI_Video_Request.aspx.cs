@@ -75,7 +75,7 @@ public partial class Event_ACI_Video_Request : clsBasePage
                 ShowHideUrgentneed(false);
                 txtDate_Of_Request_Video.Text = clsGeneral.FormatDBNullDateToDisplay(DateTime.Now);
             }
-          
+
             ucAttachment_Video.FK_Table = PK_Event_Video_Tracking_Request;
             if (PK_Event_Video_Tracking_Request > 0)
             {
@@ -92,19 +92,19 @@ public partial class Event_ACI_Video_Request : clsBasePage
                     BindDropDownList();
                     BindDetailsForEdit();
 
-                    if (StrOperation.ToLower() != "addto") 
+                    if (StrOperation.ToLower() != "addto")
                         StrOperation = "edit";
                 }
-                
+
                 //ucAttachment_Video.Visible = true;
                 //ucAttachment_Video.FillEventInformation(PK_Event);
             }
             else
             {
                 /*SetEditViewRights(false);*/
-         
+
                 PK_Event_Video_Tracking_Request = 0;
-                StrOperation = "add"; 
+                StrOperation = "add";
                 BindDropDownList();
                 ucAttachment_Video.ReadOnly = true;
                 BindGridTracking();
@@ -177,7 +177,7 @@ public partial class Event_ACI_Video_Request : clsBasePage
             StrOperation = "edit";
             BindDetailsForEdit();
         }
-        
+
         Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:ShowPanel(" + hdnPanel.Value + ");", true);
 
     }
@@ -255,12 +255,12 @@ public partial class Event_ACI_Video_Request : clsBasePage
         txtStill_Shots_Email_Video.Text = objVideo.Still_Shots_Email;
         txtNo_DVD_Copy_Video.Text = objVideo.No_DVD_Copy != null ? Convert.ToString(objVideo.No_DVD_Copy) : string.Empty;
 
-        if (!string.IsNullOrEmpty(objVideo.Urgent_Need)) 
+        if (!string.IsNullOrEmpty(objVideo.Urgent_Need))
             rdoUrgent_Need_Video.SelectedValue = Convert.ToString(objVideo.Urgent_Need) == "Y" ? "Y" : "N";
 
         txtMailing_Address_Video.Text = objVideo.Mailing_Address;
         if (!string.IsNullOrEmpty(objVideo.Shipping_Method))
-            rdoShipping_Method_Video.SelectedValue = Convert.ToString(objVideo.Urgent_Need);
+            rdoShipping_Method_Video.SelectedValue = Convert.ToString(objVideo.Shipping_Method);
 
         if (rdoUrgent_Need_Video.SelectedValue == "Y")
         {
@@ -370,7 +370,7 @@ public partial class Event_ACI_Video_Request : clsBasePage
     /// </summary>
     private void BindGridTracking()
     {
-        DataTable dtTracking = clsEvent_Video_Tracking_Request.GetVideoTrackingDataByFK_Event(0,PK_Event_Video_Tracking_Request).Tables[0];
+        DataTable dtTracking = clsEvent_Video_Tracking_Request.GetVideoTrackingDataByFK_Event(0, PK_Event_Video_Tracking_Request).Tables[0];
 
         if (dtTracking != null)
         {
@@ -540,7 +540,7 @@ public partial class Event_ACI_Video_Request : clsBasePage
 
             clsEvent_Video_Tracking_Request objRefNumber = new clsEvent_Video_Tracking_Request(PK_Event_Video_Tracking_Request);
 
-            string fileName = SaveFilePDF(strAbstractReportData, strUploadPath, "Video_Request_Form_"+ Convert.ToString(objRefNumber.Request_Number) +".pdf");
+            string fileName = SaveFilePDF(strAbstractReportData, strUploadPath, "Video_Request_Form_" + Convert.ToString(objRefNumber.Request_Number) + ".pdf");
 
             if (fileName.Length > 0)
             {
@@ -553,7 +553,7 @@ public partial class Event_ACI_Video_Request : clsBasePage
                     objAttachment.FK_Virtual_Folder = Convert.ToDecimal(ds.Tables[0].Rows[0]["PK_Virtual_Folder"]);
                     objAttachment.Attachment_Table = "Event_Video_Tracking_Request";
                     objAttachment.Attachment_Name = fileName;
-                    objAttachment.Attachment_Description = "Video_Request_Form_"+Convert.ToString(objRefNumber.Request_Number)+".pdf";
+                    objAttachment.Attachment_Description = "Video_Request_Form_" + Convert.ToString(objRefNumber.Request_Number) + ".pdf";
                     objAttachment.FK_Table = PK_Event_Video_Tracking_Request;
                     objAttachment.FK_Attachment_Type = 0;
                     objAttachment.Updated_By = clsSession.UserID;
@@ -571,46 +571,49 @@ public partial class Event_ACI_Video_Request : clsBasePage
             //    attchment[0] = AppConfig.SitePath + "Documents/EventImage" + "/" + Convert.ToString(ViewState["Attchments"]);
             //}
 
-            System.Collections.Generic.List<string> lstMail = new System.Collections.Generic.List<string>();
+            
 
-            int intToMailCount = 0;
+            
             if (dtEmailList.Rows.Count > 0)
             {
                 foreach (DataRow drRecipient in dtEmailList.Rows)
                 {
+                    System.Collections.Generic.List<string> lstMail = new System.Collections.Generic.List<string>();
+                    int intToMailCount = 0;
                     lstMail.Insert(intToMailCount, drRecipient["Email"].ToString());
                     intToMailCount++;
+
+
+                    string[] EmailTo = lstMail.ToArray();
+
+                    System.Collections.Generic.List<string> lstAttachment = new System.Collections.Generic.List<string>();
+                    int intAttachmentcount = 0;
+
+
+                    if (!string.IsNullOrEmpty(fileName) && File.Exists(strUploadPath + "\\" + fileName))
+                    {
+                        lstAttachment.Insert(intAttachmentcount, strUploadPath + "\\" + fileName);
+                        intAttachmentcount++;
+                    }
+
+                    string[] strTemp = lstAttachment.ToArray();
+
+                    string strMailHeader = "ACI Video Request has been Created for " + (ddlLocation_Video.SelectedIndex > 0 ? ddlLocation_Video.SelectedItem.Text : "") + " by " + txtFull_Name_Video.Text;
+
+                    string strMailBody = "ERIMS has requested ACI Video Approval. Please click APPROVE or DENY for video Request.";
+                    strMailBody = strMailBody + "<br/><br/>";
+                    strMailBody = strMailBody + "<span style='font-size: 20px;'><A href=" + AppConfig.SiteURL + "/Event/ACI_Approve_Deny.aspx?tid=" + Encryption.Encrypt(Convert.ToString(PK_Event_Video_Tracking_Request)) + "&sid=" + Encryption.Encrypt(Convert.ToString(drRecipient["PK_Security_ID"].ToString())) + "&status=" + Encryption.Encrypt("Approved") + ">APPROVE</A></span>";
+                    strMailBody = strMailBody + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+                    strMailBody = strMailBody + "<span style='font-size: 20px;'><A href=" + AppConfig.SiteURL + "/Event/ACI_Approve_Deny.aspx?tid=" + Encryption.Encrypt(Convert.ToString(PK_Event_Video_Tracking_Request)) + "&sid=" + Encryption.Encrypt(Convert.ToString(drRecipient["PK_Security_ID"].ToString())) + "&status=" + Encryption.Encrypt("Denied") + ">DENY</A></span>";
+                    strMailBody = strMailBody + "<br/><br/><br/>";
+                    strMailBody = strMailBody + "<span style='font-size: 18px;'><b>Reason   :   </b></span>" + objRefNumber.Reason_Request;
+
+                    if (EmailTo.Length > 0)
+                    {
+                        EmailHelper objEmail = new EmailHelper(AppConfig.SMTPServer, AppConfig.MailFrom, AppConfig.SMTPpwd, Convert.ToInt32(AppConfig.Port));
+                        objEmail.SendEventMailMessage(AppConfig.ManagementEmailID, " ", EmailTo, strMailHeader, strMailBody, true, strTemp, AppConfig.MailCC);
+                    }
                 }
-            }
-
-            string[] EmailTo = lstMail.ToArray();
-
-            System.Collections.Generic.List<string> lstAttachment = new System.Collections.Generic.List<string>();
-            int intAttachmentcount = 0;
-
-
-            if (!string.IsNullOrEmpty(fileName) && File.Exists(strUploadPath + "\\" + fileName))
-            {
-                lstAttachment.Insert(intAttachmentcount, strUploadPath + "\\" + fileName);
-                intAttachmentcount++;
-            }
-
-            string[] strTemp = lstAttachment.ToArray();
-
-            string strMailHeader = "ACI Video Request has been Created for " + (ddlLocation_Video.SelectedIndex > 0 ? ddlLocation_Video.SelectedItem.Text : "") + " by " + txtFull_Name_Video.Text;
-
-            string strMailBody = "ERIMS has requested ACI Video Approval. Please click APPROVE or DENY for video Request.";
-            strMailBody = strMailBody + "<br/><br/>";
-            strMailBody = strMailBody + "<span style='font-size: 20px;'><A href=" + AppConfig.SiteURL + "/Event/ACI_Approve_Deny.aspx?tid=" + Encryption.Encrypt(Convert.ToString(PK_Event_Video_Tracking_Request)) + "&sid=" + Encryption.Encrypt(Convert.ToString(clsSession.UserID)) + "&status=" + Encryption.Encrypt("Approved") + ">APPROVE</A></span>";
-            strMailBody = strMailBody + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-            strMailBody = strMailBody + "<span style='font-size: 20px;'><A href=" + AppConfig.SiteURL + "/Event/ACI_Approve_Deny.aspx?tid=" + Encryption.Encrypt(Convert.ToString(PK_Event_Video_Tracking_Request)) + "&sid=" + Encryption.Encrypt(Convert.ToString(clsSession.UserID)) + "&status=" + Encryption.Encrypt("Denied") + ">DENY</A></span>";
-            strMailBody = strMailBody + "<br/><br/><br/>";
-            strMailBody = strMailBody + "<span style='font-size: 18px;'><b>Reason   :   </b></span>" + objRefNumber.Reason_Request;
-
-            if (EmailTo.Length > 0)
-            {
-                EmailHelper objEmail = new EmailHelper(AppConfig.SMTPServer, AppConfig.MailFrom, AppConfig.SMTPpwd, Convert.ToInt32(AppConfig.Port));
-                objEmail.SendEventMailMessage(AppConfig.ManagementEmailID, " ", EmailTo, strMailHeader, strMailBody, true, strTemp, AppConfig.MailCC);
             }
 
             ucAttachment_Video.ReadOnly = true;
