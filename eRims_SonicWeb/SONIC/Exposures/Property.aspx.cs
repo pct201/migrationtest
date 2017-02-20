@@ -1534,8 +1534,8 @@ public partial class Exposures_Property : clsBasePage
             else
             {
                 lnkRemove.Enabled = false;
+                lnkRemove.OnClientClick = null;
             }
-
             // get occupancies values bound to the grid
             Label lblOccupancy = (Label)e.Row.FindControl("lblOccupancy");
             bool bOccupancy_Sales_New = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Sales_New"));
