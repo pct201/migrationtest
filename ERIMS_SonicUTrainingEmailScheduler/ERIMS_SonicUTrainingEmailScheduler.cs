@@ -244,8 +244,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                             bool bSendMailWeekly = false;
                             bSendMailWeekly = CheckFirstDayOfWeek(false);
 
-                            SendMailForPayrollTrainingReport();
-
+                            
                             if (bSendMailWeekly || _isTesting)
                             {
                                 //Send Weekly Mail To the Associate For Remaining Training
@@ -700,10 +699,11 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                     }
                     else
                     {
+                        sbRecorords.Append("<tr style='font-weight: bold;page-break-inside: avoid' valign='top'  ><td align='left' style='font-size:9pt;' colspan='4'>" + strReportTitle + " Year - " + drYearQuarter["Year"].ToString() + " - Quarter " + drYearQuarter["Quarter"].ToString() + "</td></tr>");
                         sbRecorords.Append("<tr style='font-weight: bold;page-break-inside: avoid' valign='top'  ><td align='left' style='font-size:9pt;' colspan='4'>" + Convert.ToString(drLocationID["Sonic_Location_Code"]).PadLeft(4, '0') + " - " + Convert.ToString(drLocationID["dba"]) + "</td></tr>");
                         sbRecorords.Append("<tr style='font-weight: bold;page-break-inside: avoid' valign='top'  ><td align='left' style='font-size:9pt;' colspan='4'>" + Convert.ToString(drLocationID["City"]) + ", " + Convert.ToString(drLocationID["FLD_state"]) + "</td></tr>");
                         sbRecorords.Append("<tr style='font-weight: bold;page-break-inside: avoid' valign='top'  ><td align='left' style='font-size:9pt;' colspan='4'>" + DateTime.Now.ToString("dd MMMM yyyy") + "</td></tr><tr><td>&nbsp;</td></tr>");
-                        sbRecorords.Append("<tr style='font-weight: bold;page-break-inside: avoid' valign='top'  ><td align='left' style='font-size:9pt;' colspan='4'>" + strReportTitle + " Year - " + drYearQuarter["Year"].ToString() + " - Quarter " + drYearQuarter["Quarter"].ToString() + "</td></tr>");
+                        //sbRecorords.Append("<tr style='font-weight: bold;page-break-inside: avoid' valign='top'  ><td align='left' style='font-size:9pt;' colspan='4'>" + strReportTitle + " Year - " + drYearQuarter["Year"].ToString() + " - Quarter " + drYearQuarter["Quarter"].ToString() + "</td></tr>");
                     }
                     //sbRecorords.Append("<tr style='font-weight: bold;page-break-inside: avoid' valign='top'  border='0'><td align='left' style='font-size:9pt'  border='0'  colspan='6'>" + strReportTitle + " Year - " + drYearQuarter["Year"].ToString() + " - Quarter " + drYearQuarter["Quarter"].ToString() + "</td></tr>");
                     //sbRecorords.Append("<tr style='font-weight: bold;page-break-inside: avoid' valign='top'  border='0'><td align='left' style='font-size:9pt'  border='0'  colspan='6'>" + Convert.ToString(drLocationID["Sonic_Location_Code"]).PadLeft(4, '0') + " - " + Convert.ToString(drLocationID["dba"]) + "</td></tr>");
