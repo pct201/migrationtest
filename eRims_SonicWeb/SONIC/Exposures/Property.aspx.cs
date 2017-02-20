@@ -1518,9 +1518,24 @@ public partial class Exposures_Property : clsBasePage
     /// <param name="e"></param>
     protected void gvBuildingEdit_RowDataBound(object sender, GridViewRowEventArgs e)
     {
+        int IsAdmin;
+        //check for the admin user
+        IsAdmin = Security.CheckForAdminUser(Convert.ToDecimal(clsSession.UserID));
+
         // if row type is data row
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
+            LinkButton lnkRemove = (LinkButton)e.Row.FindControl("LinkButton1");
+            
+            if (IsAdmin == 1)
+            {
+                lnkRemove.Enabled = true;
+            }
+            else
+            {
+                lnkRemove.Enabled = false;
+            }
+
             // get occupancies values bound to the grid
             Label lblOccupancy = (Label)e.Row.FindControl("lblOccupancy");
             bool bOccupancy_Sales_New = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Sales_New"));

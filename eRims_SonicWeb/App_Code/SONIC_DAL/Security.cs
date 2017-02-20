@@ -638,6 +638,25 @@ namespace ERIMS.DAL
             return bReturn; 
         }
 
+
+        /// <summary>
+        /// Check for the Admin User
+        /// </summary>
+        /// <param name="PK_Security_ID"></param>
+        /// <returns></returns>
+        public static int CheckForAdminUser(decimal PK_Security_ID)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("CheckForAdminUser");
+
+            db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Decimal, PK_Security_ID);
+
+            // Execute the query and return the new identity value
+            int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
+
+            return returnValue;
+        }
+
         #endregion
     }
 }
