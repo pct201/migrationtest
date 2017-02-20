@@ -586,7 +586,40 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                     //sbRecorords.Append("</table></td></tr></table>");
                     sbRecorords.Append("</table></td></tr><tr><td>&nbsp;</td></tr><tr><td>&nbsp;</td><tr></table>");
                 }
-                
+                else
+                {
+                    WriteLog("No data exists for Location ID : " + drLocationID["PK_LU_Location_ID"], _strCsvPath, false);
+                    //sbRecorords.Append("<table style='font-family:Tahoma' cellpadding='4' border='1' cellspacing='0' Width='100%'>");
+                    DataTable dtLocation = ReportSendMail.SelectByPK(Convert.ToDecimal(drLocationID["PK_LU_Location_ID"])).Tables[0];
+
+                    //WriteLog("Location ID : " + drLocationID["PK_LU_Location_ID"] + " Report Data Rows Count : " + dtLocationWiseData.Length, _strCsvPath, false);
+                    sbRecorords.Append("<table style='padding-left:4px;font-size:8.5pt;font-family:Tahoma' cellpadding='4' cellspacing='0' Width='996px'>");
+                    sbRecorords.Append("<tr style='font-weight: bold;' valign='top'><td align='left' style='font-size:9pt' colspan='4'>" + strReportTitle + " Year - " + drYearQuarter["Year"].ToString() + " - Quarter " + drYearQuarter["Quarter"].ToString() + "</td></tr>");
+                    sbRecorords.Append("<tr style='font-weight: bold;' valign='top'><td align='left' style='font-size:9pt'  colspan='4'>" + Convert.ToString(dtLocation.Rows[0]["Sonic_Location_Code"]).PadLeft(4, '0') + " - " + Convert.ToString(dtLocation.Rows[0]["dba"]) + "</td></tr>");
+                    sbRecorords.Append("<tr style='font-weight: bold;' valign='top'><td align='left' style='font-size:9pt'  colspan='4'>" + Convert.ToString(dtLocation.Rows[0]["City"]) + ", " + Convert.ToString(dtLocation.Rows[0]["StateName"]) + "</td></tr>");
+                    sbRecorords.Append("<tr style='font-weight: bold;' valign='top'><td align='left' style='font-size:9pt'  colspan='4'>" + DateTime.Now.ToString("dd MMMM yyyy") + "</td></tr><tr><td>&nbsp;</td></tr>");
+                    sbRecorords.Append("<tr style='font-weight: bold;' valign='top'><td><table border='1' cellspacing='0' width='100%' cellpadding='0' style='border: black 0.5px solid'><tr style='font-weight: bold;background-color:#95B3D7;color:Black;font-size:11pt;height:25px;'  valign='top'>");
+                    sbRecorords.Append("<td align='left' style='width:15%;font-size:9pt;padding-left:10px;'>Department</td>");
+                    sbRecorords.Append("<td align='left' style='width:15%;font-size:9pt;padding-left:10px;'>Associate</td>");
+                    sbRecorords.Append("<td align='left' style='width:15%;font-size:9pt;padding-left:10px;'>Job Title</td>");
+
+                    //for Completed Training Report add column
+                    if (blnCompleted)
+                    {
+                        sbRecorords.Append("<td align='left' style='width:55%;font-size:9pt;padding-left:10px;'>Completed Training</td>");
+                        sbRecorords.Append("<td align='left' style='width:15%;font-size:9pt;padding-left:10px;'>Completed/Waived</td>");
+                        sbRecorords.Append("<td align='left' style='width:15%;font-size:9pt; padding-left:10px;'>Date of Completion</td>");
+                    }
+                    else
+                    {
+                        sbRecorords.Append("<td align='left' style='width:55%;font-size:9pt;padding-left:10px;'>Remaining Training to be Taken</td>");
+                    }
+                    sbRecorords.Append("</tr>");
+
+                    sbRecorords.Append("<tr valign='top' style='background-color:#F2F2F2;color:Black;page-break-inside: avoid;'>");
+                    sbRecorords.Append("<td align='center' colspan='6' style='font-size:9pt;'>No Associates to be trained in quarter.</td></tr>");
+                    sbRecorords.Append("</table></td></tr><tr><td>&nbsp;</td></tr><tr><td>&nbsp;</td><tr></table>");
+                }
                 //sbRecorords.Append("</table></td></tr></table>");
 
                
