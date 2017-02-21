@@ -136,7 +136,7 @@ public partial class UserAccessRequest_SafetyTraining_NewUserAccessRequest : Sys
     {
         bool IsSave = false;
         //Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:alert('The information has been submitted to create a Safety Training catalogue for " + lblFirstName.Text + " " + lblLastName.Text + ". An e-mail containing this information has been sent to " + lblEmail.Text + " and the system administrator.');", true);
-        btnSubmit.OnClientClick = "javascript:alert('The information has been submitted to create a Safety Training catalogue for " + lblFirstName.Text + " " + lblLastName.Text + ". An e-mail containing this information has been sent to " + lblEmail.Text + " and the system administrator.');";
+        //btnSubmit.OnClientClick = "javascript:alert('The information has been submitted to create a Safety Training catalogue for " + lblFirstName.Text + " " + lblLastName.Text + ". An e-mail containing this information has been sent to " + lblEmail.Text + " and the system administrator.');";
 
 
         Employee objEmployee = new Employee();
@@ -184,6 +184,7 @@ public partial class UserAccessRequest_SafetyTraining_NewUserAccessRequest : Sys
             DataSet dsAdmin = Security.SelectByUserName("brady.lamp", 0);
             GenerateHTML(dsAdmin);
             //send email here
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:alert('The information has been submitted to create a Safety Training catalogue for " + lblFirstName.Text + " " + lblLastName.Text + ". An e-mail containing this information has been sent to " + lblEmail.Text + " and the system administrator.');", true);
             Response.Redirect(strMoodleURL);
         }
 

@@ -7,7 +7,13 @@
     <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/Calendar.js"></script>
     <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/Validator.js"></script>
     <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/Date_Validation.js"></script>
-
+    <script type="text/javascript">
+        function ConfirmSubmit()
+        {
+            alert("The information has been submitted to create a Safety Training catalogue for <%=lblFirstName.Text %> <%=lblLastName.Text %>. An e-mail containing this information has been sent to <%=lblEmail.Text %> and the system administrator.");
+            return true;
+        }
+    </script>
     <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
         HeaderText="Verify the following fields:" BorderWidth="1" BorderColor="DimGray"
         ValidationGroup="vsErrorGroup" CssClass="errormessage"></asp:ValidationSummary>
@@ -118,9 +124,9 @@
                             ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$"
                             ErrorMessage="Date of Hire is Not Valid Date." Display="none" SetFocusOnError="true">
                         </asp:RegularExpressionValidator>
-                       <asp:CompareValidator ID="CurrentFromDateCompare" runat="server" ControlToValidate="txtDateOfHire"
+                       <%--<asp:CompareValidator ID="CurrentFromDateCompare" runat="server" ControlToValidate="txtDateOfHire"
                             ControlToCompare="txtCurrentDate" Operator="LessThan" Type="Date" Display="None" ErrorMessage="Date of Hire should less than Current Date."
-                            SetFocusOnError="true" ValidationGroup="vsErrorGroup"></asp:CompareValidator>
+                            SetFocusOnError="true" ValidationGroup="vsErrorGroup"></asp:CompareValidator>--%>
                     </td>
                 </tr>
                 <tr>
@@ -248,7 +254,7 @@
                                 <td align="center">
                                     <asp:Button ID="btnEdit" runat="server" Text=" Edit " CausesValidation="true" ValidationGroup="vsErrorGroup" OnClick="btnEdit_Click" OnClientClick=""/>
                                     &nbsp;&nbsp;&nbsp;
-                                <asp:Button ID="btnSubmit" runat="server" Text="Submit" CausesValidation="false" OnClick="btnSubmit_Click" />
+                                <asp:Button ID="btnSubmit" runat="server" Text="Submit" CausesValidation="false" OnClick="btnSubmit_Click"  OnClientClick="return ConfirmSubmit();"/>
                                     &nbsp;&nbsp;&nbsp;
                                 </td>
                             </tr>
