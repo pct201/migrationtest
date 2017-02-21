@@ -164,8 +164,19 @@ public partial class UserAccessRequest_SafetyTraining_NewUserAccessRequest : Sys
             IsSave = true;
         }
 
+        try
+        {
+            Sonic_U_Training.Import_Sonic_U_Training_Associate_Base();
+        }
+        catch (Exception)
+        {
+
+        }
+
         if (IsSave)
         {
+            DataSet dsAdmin = Security.SelectByUserName("brady.lamp", 0);
+            //send email here
             Response.Redirect(strMoodleURL);
         }
 
