@@ -1,7 +1,13 @@
-﻿using ERIMS.DAL;
+﻿using Aspose.Words;
+using ERIMS.DAL;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
+using System.Net;
+using System.Net.Mail;
+using System.Text;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.UI;
@@ -176,6 +182,7 @@ public partial class UserAccessRequest_SafetyTraining_NewUserAccessRequest : Sys
         if (IsSave)
         {
             DataSet dsAdmin = Security.SelectByUserName("brady.lamp", 0);
+            GenerateHTML(dsAdmin);
             //send email here
             Response.Redirect(strMoodleURL);
         }
@@ -220,6 +227,187 @@ public partial class UserAccessRequest_SafetyTraining_NewUserAccessRequest : Sys
         ddlDepartment.DataBind();
 
         ddlDepartment.Items.Insert(0, new ListItem("-- Select --", "0"));
+    }
+
+    /// <summary>
+    /// GenerateHTML
+    /// </summary>
+    private void GenerateHTML(DataSet dsCC)
+    {
+        System.Text.StringBuilder sbHtml = new System.Text.StringBuilder("");
+        string strFilePath = "";
+        strFilePath = "SafetyTraining_NewUserAccess.html";
+        DataRow drCC = dsCC.Tables[0].Rows[0];
+        FileStream fsMail = new FileStream(AppConfig.SitePath + @"\Documents\SafetyTraining\" + strFilePath, FileMode.Open, FileAccess.Read);
+        StreamReader rd = new StreamReader(fsMail);
+        StringBuilder strEbdy = new StringBuilder(rd.ReadToEnd().ToString());
+        rd.Close();
+        fsMail.Close();
+
+        if (PK_Employee_ID > 0)
+        {
+            strEbdy = strEbdy.Replace("[FirstName]", lblFirstName.Text);
+            strEbdy = strEbdy.Replace("[LastName]", lblLastName.Text);
+            strEbdy = strEbdy.Replace("[SocialSecurityNumber]", lblSocialSecurityNumber.Text);
+            strEbdy = strEbdy.Replace("[E-Mail Address]", lblEmail.Text);
+            strEbdy = strEbdy.Replace("[Location]", lblLocation.Text);
+            strEbdy = strEbdy.Replace("[Department]", lblDepartment.Text);
+            strEbdy = strEbdy.Replace("[JobTitle]", lblJobTitle.Text);
+            strEbdy = strEbdy.Replace("[DateofHire]",lblDateOfHire.Text);
+
+            ArrayList strFileName = new ArrayList();
+            strFileName.Add("SafetyTrainingNewUserAccessRequest.doc");
+
+            string strPath_ = SaveFile(strEbdy.ToString(), strFileName[0].ToString());
+            ArrayList strPath = new ArrayList();
+            strPath.Add(strPath_);
+
+            //Send MAil
+            SendMailWithNewFileName(AppConfig.MailFrom, lblEmail.Text, string.Empty, Convert.ToString(drCC["Email"]), lblFirstName.Text, lblLastName.Text, true, strPath, strFileName);
+        }
+    }
+
+    /// <summary>
+    /// Save FIle
+    /// </summary>
+    /// <param name="strFileText"></param>
+    /// <param name="strFileName"></param>
+    /// <returns></returns>
+    public static string SaveFile(string strFileText, string strFileName)
+    {
+        string strLisenceFile = HttpContext.Current.Server.MapPath(HttpContext.Current.Request.ApplicationPath) + "\\" + ("Bin") + "\\Aspose.Words.lic";
+
+        if (File.Exists(strLisenceFile))
+        {
+            //This shows how to license Aspose.Words, if you don't specify a license, 
+            //Aspose.Words works in evaluation mode.
+            Aspose.Words.License license = new Aspose.Words.License();
+            license.SetLicense(strLisenceFile);
+        }
+
+        Aspose.Words.Document doc = new Aspose.Words.Document();
+
+        //Build string builder to transport to Doc
+        //Once the builder is created, its cursor is positioned at the beginning of the document.
+        Aspose.Words.DocumentBuilder builder = new Aspose.Words.DocumentBuilder(doc);
+        builder.PageSetup.PaperSize = PaperSize.Letter;
+        builder.PageSetup.BottomMargin = 40;
+        builder.PageSetup.TopMargin = 40;
+        builder.PageSetup.LeftMargin = 40;
+        builder.PageSetup.RightMargin = 40;
+        builder.InsertParagraph();
+        builder.InsertHtml(strFileText);
+    
+        doc.MailMerge.DeleteFields();
+
+        string strFullPath = AppDomain.CurrentDomain.BaseDirectory + @"temp\" + strFileName[0].ToString().Replace(".doc", "") + System.DateTime.Now.ToString("MMddyyhhmmss") + ".doc";
+
+        doc.Save(strFullPath, Aspose.Words.SaveFormat.Doc);
+        return strFullPath;
+    }
+
+
+    /// <summary>
+    /// Sane MAil
+    /// </summary>
+    /// <param name="strFrom"></param>
+    /// <param name="strTo"></param>
+    /// <param name="strBCC"></param>
+    /// <param name="strCC"></param>
+    /// <param name="strSubject"></param>
+    /// <param name="strBody"></param>
+    /// <param name="boolIsHTML"></param>
+    /// <param name="strAttachment"></param>
+    /// <param name="strNewFileName"></param>
+    /// <returns></returns>
+    public static bool SendMailWithNewFileName(string strFrom, string strTo, string strBCC, string strCC, string strFirstName, string strLastName,bool boolIsHTML, ArrayList strAttachment, ArrayList strNewFileName)
+    {
+        if (!AppConfig.AllowMailSending)
+            return false;
+        // Instantiate a new instance of MailMessage
+        MailMessage mMailMessage = new MailMessage();
+
+        if (!clsGeneral.IsNull(strFrom))
+        {
+            // Set the sender address of the mail message
+            mMailMessage.From = new MailAddress(strFrom);
+        }
+
+        char[] arrSplitChar = { ',' };
+        if (!clsGeneral.IsNull(strTo))
+        {
+            string[] arrTo = strTo.Split(arrSplitChar);
+            foreach (string strTOID in arrTo)
+            {
+                // Set the recepient address of the mail message
+                mMailMessage.To.Add(new MailAddress(strTOID));
+            }
+        }
+
+        // Check if the bcc value is nothing or an empty string
+        if (!clsGeneral.IsNull(strBCC))
+        {
+            string[] arrBCC = strBCC.Split(arrSplitChar);
+            foreach (string strBCCID in arrBCC)
+            {
+                // Set the recepient address of the mail message
+                mMailMessage.Bcc.Add(new MailAddress(strBCCID));
+            }
+        }
+
+        // Check if the cc value is nothing or an empty value
+        if (!string.IsNullOrEmpty(strCC))
+        {
+            string[] arrCC = strCC.Split(arrSplitChar);
+            foreach (string strCCID in arrCC)
+            {
+                // Set the recepient address of the mail message
+                mMailMessage.CC.Add(new MailAddress(strCCID));
+            }
+        }
+
+        MemoryStream msArray = new MemoryStream();
+
+        if (File.Exists(strAttachment[0].ToString()))
+        {
+            msArray = new MemoryStream(File.ReadAllBytes(strAttachment[0].ToString()));
+            mMailMessage.Attachments.Add(new Attachment(msArray, strNewFileName[0].ToString()));
+        }
+
+        // Set the subject of the mail message
+        mMailMessage.Subject = "eRIMS :: Safety Training New User Access Request";
+        // Set the body of the mail message
+
+        mMailMessage.Body = strFirstName + " " + strLastName + ",<br />Please find the Safety Training New User Access Request attached with this mail.<br /><br /><br />Thank you!<br />";
+        mMailMessage.Body += "<br /> This is system generated message. Please do not reply.";
+  
+        // Set the format of the mail message body as HTML
+        mMailMessage.IsBodyHtml = boolIsHTML;
+        // Set the priority of the mail message to normal
+        mMailMessage.Priority = MailPriority.Normal;
+
+        // Instantiate a new instance of SmtpClient
+        SmtpClient mSmtpClient = new SmtpClient(AppConfig.SMTPServer, Convert.ToInt32(AppConfig.Port));
+
+        mSmtpClient.Credentials = new NetworkCredential(strFrom, AppConfig.SMTPpwd);
+
+        try
+        {
+            // Send the mail message
+            mSmtpClient.Send(mMailMessage);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            return false;
+        }
+        finally
+        {
+            mMailMessage.Dispose();
+            mMailMessage = null;
+            mSmtpClient = null;
+        }
+
     }
 
     #endregion
