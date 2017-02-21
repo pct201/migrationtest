@@ -462,5 +462,19 @@ namespace ERIMS.DAL
             dbCommand.CommandTimeout = 10000;
             db.ExecuteNonQuery(dbCommand);
         }
+
+        /// <summary>
+        /// Selects a code
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static DataSet SelectCodeByPosition(string Position)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Sonic_U_Training_Required_ClassesSelectCodeByPosition");
+
+            db.AddInParameter(dbCommand, "Position", DbType.String, Position);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
 	}
 }

@@ -1564,7 +1564,42 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
+        /// <summary>
+        /// get All job_title
+        /// </summary>
+        /// <returns></returns>
+        public static DataSet SelectAllJobTitles()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("SelectAllJobTitles");
 
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        /// <summary>
+        /// get All departments
+        /// </summary>
+        /// <returns></returns>
+        public static DataSet SelectAllDepartments()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("SelectAllDepartments");
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        /// <summary>
+        /// get data for Percentage Recap
+        /// </summary>
+        /// <returns></returns>
+        public static DataSet GetEmployeeTrainingUserReconciliation()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("rptTrainingUserReconciliation");
+
+            dbCommand.CommandTimeout = 1000;
+            return db.ExecuteDataSet(dbCommand);
+        }
         #endregion
     }
 }
