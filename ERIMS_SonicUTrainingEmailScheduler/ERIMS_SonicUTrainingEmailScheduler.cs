@@ -43,6 +43,12 @@ namespace ERIMS_SonicUTraining_EmailScheduler
         public string _strServiceRunTime = string.Empty;
         public bool _isTesting = false;
         public bool _isTestingReport = false;
+        public bool _WeeklyReminderTest = false;
+        public bool _PayrollTrainingTest = false;
+        public bool _PercentageRecapTest = false;
+        public bool _EarlyAlertLocationManagersTest = false;
+        public bool _RLCMLocationManagersTest = false;
+
 
         public static string PDFLicenseKey
         {
@@ -161,6 +167,13 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                 _strSMTPmailFrom = ConfigurationSettings.AppSettings.Get("SMTPmailFrom");
                 _isTesting = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("IsTesting"));
                 _isTestingReport = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("IsTestingReport"));
+
+                _WeeklyReminderTest = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("WeeklyReminderTest"));
+                _PayrollTrainingTest = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("PayrollTrainingTest"));
+                _PercentageRecapTest = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("PercentageRecapTest"));
+                _EarlyAlertLocationManagersTest = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("EarlyAlertLocationManagersTest"));
+                _RLCMLocationManagersTest = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("RLCMLocationManagersTest"));
+
                 quarterDate = DateTime.Now;
                 quarterMonth = quarterDate.Month;
                 quarterDay = quarterDate.Day;
@@ -245,7 +258,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                             bSendMailWeekly = CheckFirstDayOfWeek(false);
 
                             
-                            if (bSendMailWeekly || _isTesting)
+                            if (bSendMailWeekly)
                             {
                                 //Send Weekly Mail To the Associate For Remaining Training
                                 SendMailForWeeklyReminderOfRemainingTrainingToEmployees();
@@ -260,26 +273,49 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                             }
 
                             //Send Mail for Testing if _isTesting True
-                            if (_isTesting && (!_isTestingReport))
-                            {
-                                SendMailEveryQuarterToEmployees();
-                                SendMailToEarlyAlertLocationManagers();
-                                SendMailToRLCMLocationManagers();
+                            //if (_isTesting && (!_isTestingReport))
+                            //{
+                            //    SendMailEveryQuarterToEmployees();
+                            //    SendMailToEarlyAlertLocationManagers();
+                            //    SendMailToRLCMLocationManagers();
 
-                            }
+                            //}
 
-                            //Send Mail for Testing Reports if _isTestingReport True
-                            if (_isTestingReport && _isTesting)
+                            ////Send Mail for Testing Reports if _isTestingReport True
+                            //if (_isTestingReport && _isTesting)
+                            //{
+                            //    //Mail for Safety Remaining Training Report
+                            //    SendMailToEarlyAlertLocationManagers();
+                            //    //Mail for Associate Training Report
+                            //    SendMailToRLCMLocationManagers();
+                            //    //Percent Recap report
+                            //    SendMailForPercentageRecap();
+                            //    //Payroll training report
+                            //    SendMailForPayrollTrainingReport();
+                            //}
+
+                            // Send mail for Payroll training report when testing flag is true and same for below methods
+                            if(_PayrollTrainingTest)
                             {
-                                //Mail for Safety Remaining Training Report
-                                SendMailToEarlyAlertLocationManagers();
-                                //Mail for Associate Training Report
-                                SendMailToRLCMLocationManagers();
-                                //Percent Recap report
-                                SendMailForPercentageRecap();
-                                //Payroll training report
                                 SendMailForPayrollTrainingReport();
                             }
+                            if (_EarlyAlertLocationManagersTest)
+                            {
+                                SendMailToEarlyAlertLocationManagers();
+                            }
+                            if (_PercentageRecapTest)
+                            {
+                                SendMailForPercentageRecap();
+                            }
+                            if (_RLCMLocationManagersTest)
+                            {
+                                SendMailToRLCMLocationManagers();
+                            }
+                            if (_WeeklyReminderTest)
+                            {
+                                SendMailForWeeklyReminderOfRemainingTrainingToEmployees();
+                            }
+
 
                             if ((quarterDay == 1) && (quarterMonth == 1 || quarterMonth == 4 || quarterMonth == 7 || quarterMonth == 10))
                             {
@@ -1252,9 +1288,11 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                 sbRecorords.Append("<tr style='font-weight: bold;' valign='top'><td align='left' style='font-size:9pt'  colspan='3'>" + Convert.ToString(dtLocation.Rows[0]["Sonic_Location_Code"]).PadLeft(4, '0') + " - " + Convert.ToString(dtLocation.Rows[0]["dba"]) + "</td></tr>");
                 sbRecorords.Append("<tr style='font-weight: bold;' valign='top'><td align='left' style='font-size:9pt'  colspan='3'>" + Convert.ToString(dtLocation.Rows[0]["City"]) + ", " + Convert.ToString(dtLocation.Rows[0]["StateName"]) + "</td></tr>");
                 sbRecorords.Append("<tr style='font-weight: bold;' valign='top'><td align='left' style='font-size:9pt'  colspan='3'>" + DateTime.Now.ToString("dd MMMM yyyy") + "</td></tr><tr colspan='3'><td>&nbsp;</td></tr>");
+                sbRecorords.Append("<tr colspan='3'><td>Associates Trained in Last Week</td></tr>");
                 sbRecorords = GenerateTable(sbRecorords, dtReportDataLastWeek, drLocationID);
                 WriteLog("Executing GenerateTable Method Executed", _strCsvPath, false);
                 sbRecorords.Append("<tr colspan='3'><td>&nbsp;</td></tr>");
+                sbRecorords.Append("<tr colspan='3'><td>Associates Trained in Quarter minus Last Week</td></tr>");
                 sbRecorords = GenerateTable(sbRecorords, dtReportData, drLocationID);
                 WriteLog("Executing GenerateTable Method Executed", _strCsvPath, false);
             }
