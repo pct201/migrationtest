@@ -209,6 +209,9 @@
         <siteMapNode url="" title="Diary" description="">
           <siteMapNode url="Administrator/LU_Task_Type.aspx" title="Task Type" description=""></siteMapNode>
         </siteMapNode>
+        <siteMapNode url="" title="Documents"  description="Documents" roles="">
+          <siteMapNode url="Administrator/LU_Document_Type.aspx" title="Document Type" description="Document Type" />
+        </siteMapNode>
         <siteMapNode url="" title ="EHS" description="" roles="" >
           <siteMapNode url="Administrator/Agency.aspx" title ="Agency" description="" roles="" />
           <siteMapNode url="Administrator/LU_Chemical_Family.aspx" title ="Chemical Family" description="" roles="" />
@@ -379,7 +382,7 @@
       </siteMapNode>
       <siteMapNode url="Administrator\SabaTrainingImportExport.aspx" title ="Saba Training Export/Import" description="Saba Training Export/Import" roles="" />
       <siteMapNode url="Administrator\Mandatory_Field_Management.aspx" title ="Mandatory Field Management" description="Mandatory Field Management" roles="" />
-      <siteMapNode url="Administrator\UserHelp.aspx" title ="User Help" description="User Help" roles="" />
+      <siteMapNode url="Administrator\UserHelp.aspx" title ="Docs" description="Docs" roles="" />
       <siteMapNode url="Administrator\BuildingUnlock.aspx" title="Environmental Building Unlock" description="Environmental Building Unlock" roles=""/>
       <siteMapNode url="" title="Wall Post Search"  description="" roles="">
         <siteMapNode url="Administrator\DashboardWallSearch.aspx" title ="Dashboard Wall Post Search" description="Dashboard Wall Post Search" roles="" />

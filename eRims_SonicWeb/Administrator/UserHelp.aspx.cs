@@ -40,6 +40,7 @@ public partial class Administrator_UserHelp : clsBasePage
         {
             //Bind Grid Function
             BindGrid();
+            BindDropDown();
         }
     }
     #endregion
@@ -56,6 +57,25 @@ public partial class Administrator_UserHelp : clsBasePage
         //Apply Dataset to Grid
         gvUserHelp.DataSource = dsUserHelp;
         gvUserHelp.DataBind();
+    }
+
+    /// <summary>
+    /// Bind Drop Down
+    /// </summary>
+    private void BindDropDown()
+    {
+        drpType.Items.Clear();
+        DataSet dsReports = LU_Document_Type.SelectAll();
+        DataView dvData = dsReports.Tables[0].DefaultView;
+        dvData.RowFilter =  "Active = 'Y'";
+        DataTable dt = dvData.ToTable();
+        drpType.DataSource = dt;
+        drpType.DataTextField = "Document_Type";
+        drpType.DataValueField = "Document_Type";
+        drpType.DataBind();
+
+        ListItem lstCommon = new ListItem("--Select--", "0");
+        drpType.Items.Insert(0, lstCommon);
     }
 
     /// <summary>
@@ -103,7 +123,8 @@ public partial class Administrator_UserHelp : clsBasePage
             _PK_UserHelp = Convert.ToDecimal(e.CommandArgument);
             UserHelp objUserHelp = new UserHelp(_PK_UserHelp);
 
-            drpType.SelectedValue = objUserHelp.Type;
+            clsGeneral.SetDropdownValue(drpType, objUserHelp.Type, true);
+            //drpType.SelectedValue = objUserHelp.Type;
             txtDescription.Text = objUserHelp.Description;
             txtUrl.Text = objUserHelp.URL;
             rdbActiveEdit.SelectedValue = objUserHelp.Active;
@@ -150,25 +171,37 @@ public partial class Administrator_UserHelp : clsBasePage
         Page.Validate();
         if (IsValid)
         {
+            string strUploadURL, strUploadPath;
             UserHelp objUserHelp = new UserHelp();
 
             objUserHelp.PK_UserHelp = _PK_UserHelp;
             objUserHelp.Type = Convert.ToString(drpType.SelectedValue);
             objUserHelp.Description = txtDescription.Text.Trim();
-            objUserHelp.URL = txtUrl.Text;
+            strUploadURL = AppConfig.SiteURL + @"User Manual" + "/";
+            strUploadPath = AppConfig.SitePath + @"User Manual\";
+
+            if (fpFile.HasFile)
+            {
+                //upload file
+                objUserHelp.URL = (strUploadURL + clsGeneral.UploadFile(fpFile, strUploadPath, false, false)).Replace("http://", "");
+            }
+            else
+            {
+                objUserHelp.URL = txtUrl.Text;
+            }
             objUserHelp.Active = Convert.ToString(rdbActiveEdit.SelectedValue  );
             objUserHelp.Update_Date = DateTime.Now;
             objUserHelp.Updated_By = clsSession.UserName;
 
-            if (_PK_UserHelp > 0)            
-                objUserHelp.Update();          
+            if (_PK_UserHelp > 0)
+                objUserHelp.Update();
             else
                 objUserHelp.Insert();
-          
+
             ClearControls();
             trEdit.Visible = false;
             trGrid.Visible = true;
-            BindGrid(); 
+            BindGrid();
         }
     }
 

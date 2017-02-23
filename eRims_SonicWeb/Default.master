@@ -50,7 +50,7 @@
                       <a href="<%=AppConfig.SiteURL%>DashBoard\DashboardGraph.aspx" class="top_link">DashBoard</a>
                         | <a href="<%=AppConfig.SiteURL%>Logoff.aspx" class="top_link" id="hrefLogoff" runat="server"
                             onserverclick="HrefClick">Logoff</a> | <a href="<%=AppConfig.SiteURL%>Help.aspx"
-                                class="top_link">Help&nbsp;</a>
+                                class="top_link">Docs&nbsp;</a>
                         <input type="hidden" id="hdntext" name="hdntext" value="" />
                         <asp:Button runat="server" ID="btnHdnSearchPage" Style="display: none;" OnClick="btnHdnSearchPage_Click" />
                         <asp:Button runat="server" ID="btnHdnStatusPage" Style="display: none;" OnClick="btnHdnStatusPage_Click" />

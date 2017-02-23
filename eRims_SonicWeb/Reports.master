@@ -236,7 +236,7 @@
                     <td align="right">
                         <a href="<%=AppConfig.SiteURL%>DashBoard\DashboardGraph.aspx" class="top_link">DashBoard</a>
                         | <a href="../Signin.aspx" class="top_link">Logoff</a> | <a href="#" class="top_link">
-                            Help&nbsp;</a>
+                            Docs&nbsp;</a>
                     </td>
                 </tr>
                 <tr>
