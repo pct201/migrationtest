@@ -9,6 +9,7 @@ using System.IO;
 using System.Web.UI.HtmlControls;
 using System.Text;
 using Aspose.Words;
+using Winnovative.WnvHtmlConvert;
 
 public partial class Event_Event_New : clsBasePage
 {
@@ -164,6 +165,27 @@ public partial class Event_Event_New : clsBasePage
         set { ViewState["StrOperation"] = value; }
     }
 
+    /// <summary>
+    /// Denotes the Primary Key
+    /// </summary>
+    public decimal _PK_Event_Video_Tracking_Request
+    {
+        get
+        {
+            return clsGeneral.GetInt(ViewState["PK_Event_Video_Tracking_Request"]);
+        }
+        set { ViewState["PK_Event_Video_Tracking_Request"] = value; }
+    }
+
+    /// <summary>
+    /// Denotes the operation whether edit or view
+    /// </summary>
+    public string StrReqType
+    {
+        get { return ViewState["StrReqType"] != null ? Convert.ToString(ViewState["StrReqType"]) : ""; }
+        set { ViewState["StrReqType"] = value; }
+    }
+
     #endregion
 
     #region Page Event
@@ -182,7 +204,15 @@ public partial class Event_Event_New : clsBasePage
             FK_Incident = clsGeneral.GetQueryStringID(Request.QueryString["iid"]);
             StrOperation = Convert.ToString(Request.QueryString["mode"]);
             hdnPanel.Value = clsGeneral.GetPanelId(Request.QueryString["pnl"]).ToString();
-            if (StrOperation == "add") Session.Remove("Eventcriteria");
+            if (StrOperation == "add")
+            {
+                Session.Remove("Eventcriteria");
+                trVideoRequest.Style.Add("display", "none");
+                BindEmployeeDetails();
+                ShowHideVideoRequest(false);
+                txtDate_Of_Request_Video.Text = clsGeneral.FormatDBNullDateToDisplay(DateTime.Now);
+                //Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:ShowHideVideoRequest();", true);
+            } 
             ucAttachment.FK_Table = PK_Event;
             Is_Sonic_Event = true;
             if (PK_Event > 0)
@@ -275,6 +305,9 @@ public partial class Event_Event_New : clsBasePage
         if (StrOperation == "add") hdnPanel.Value = "3"; //for Add new click set tab style
         Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:ShowPanel(" + hdnPanel.Value + ");", true);
         ucIncident.SetSelectedTab(Controls_IncidentTab_IncidentTab.Tab.Event);
+
+        if (StrOperation == "add")
+            Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:ShowHideVideoRequest();", true);
     }
     #endregion
 
@@ -322,7 +355,11 @@ public partial class Event_Event_New : clsBasePage
     {
         SaveRecord();
         SendAbstractViaEmailWhileInsert();
-
+        if (rblVideoRequestedBySonic.SelectedValue == "Y")
+        {
+            SendVideoRequest();
+        }
+        
         ClearControl();
         if (StrOperation.ToLower() == "add" || StrOperation.ToLower() == "addto" || StrOperation.ToLower() == "")
         {
@@ -1090,13 +1127,60 @@ public partial class Event_Event_New : clsBasePage
             BindSonicNoteGrid(ctrlPageSonicNotes.CurrentPage, ctrlPageSonicNotes.PageSize);
             BindGridBuilding();
 
+            DataSet dsVideo = clsEvent_Video_Tracking_Request.SelectByFK_Event(PK_Event);
+
+            if (dsVideo.Tables.Count > 0 && dsVideo.Tables[0].Rows.Count > 0)
+            {
+                DataTable dtVideo = dsVideo.Tables[0];
+
+                _PK_Event_Video_Tracking_Request = Convert.ToDecimal(dtVideo.Rows[0]["PK_Event_Video_Tracking_Request"]);
+
+                clsEvent_Video_Tracking_Request objVideo = new clsEvent_Video_Tracking_Request(_PK_Event_Video_Tracking_Request);
+
+                clsGeneral.SetDropdownValue(ddlLocation_Video, objVideo.FK_LU_Location, true);
+                clsGeneral.SetDropdownValue(ddlFK_LU_Type_of_Activity_Video, objVideo.FK_LU_Type_of_Activity, true);
+                txtDate_Of_Event_Video.Text = clsGeneral.FormatDBNullDateToDisplay(objVideo.Date_Of_Event);
+                txtDate_Of_Request_Video.Text = clsGeneral.FormatDBNullDateToDisplay(objVideo.Date_Of_Request);
+                txtFull_Name_Video.Text = objVideo.Full_Name;
+                txtWork_Phone_Video.Text = objVideo.Work_Phone;
+                txtLocation_Video.Text = objVideo.Location;
+                txtAlternate_Phone_Video.Text = objVideo.Alternate_Phone;
+                txtReason_Request_Video.Text = objVideo.Reason_Request;
+
+                BindGridTracking();
+
+                txtCamera_Name_Video.Text = objVideo.Camera_Name;
+                txtEvent_Start_Time_Video.Text = objVideo.Event_Start_Time;
+                txtEvent_End_Time_Video.Text = objVideo.Event_End_Time;
+                txtVideo_Link_Email_Video.Text = objVideo.Video_Link_Email;
+                txtStill_Shots_Email_Video.Text = objVideo.Still_Shots_Email;
+                txtNo_DVD_Copy_Video.Text = objVideo.No_DVD_Copy != null ? Convert.ToString(objVideo.No_DVD_Copy) : string.Empty;
+
+                if (!string.IsNullOrEmpty(objVideo.Urgent_Need))
+                    rdoUrgent_Need_Video.SelectedValue = Convert.ToString(objVideo.Urgent_Need) == "Y" ? "Y" : "N";
+
+                txtMailing_Address_Video.Text = objVideo.Mailing_Address;
+                if (!string.IsNullOrEmpty(objVideo.Shipping_Method))
+                    rdoShipping_Method_Video.SelectedValue = Convert.ToString(objVideo.Shipping_Method);
+
+            }
+            else
+            {
+                BindEmployeeDetails();
+                ShowHideVideoRequest(false);
+                txtDate_Of_Request_Video.Text = clsGeneral.FormatDBNullDateToDisplay(DateTime.Now);
+            }
+
             //ctrlEventNotes.PK_Event = PK_Event;
             //ctrlEventNotes.CurrentEventNoteType = clsGeneral.Event_Note_Tyep.Acadian_Note.ToString();
             //ctrlEventNotes.BindGridSonicNotes(PK_Event, clsGeneral.Event_Note_Tyep.Acadian_Note.ToString());
             //ctrlEventNotes.StrOperation = "Edit";
             //ctrlEventNotes.FK_Incident = FK_Incident;
 
+            ucAttachment.BindGridFolders();
+
             lblLastModifiedDateTime.Text = objEvent.Update_Date == null ? "" : "Last Modified Date/Time : " + objEvent.Update_Date.Value.ToString("MM/dd/yyyy hh:mm:ss tt") + " ";
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowHideVideoRequest();", true);
         }
     }
 
@@ -1115,9 +1199,12 @@ public partial class Event_Event_New : clsBasePage
     private void BindDropDownList()
     {
         //ComboHelper.FillLocationDBA_All(new DropDownList[] { ddlLocation, ddlLocation_Sonic }, 0, true);
-        ComboHelper.FillLocationByACIUser_New((new DropDownList[] { ddlLocation, ddlLocation_Sonic }), Convert.ToDecimal(clsSession.UserID), true);
+        ComboHelper.FillLocationByACIUser_New((new DropDownList[] { ddlLocation, ddlLocation_Sonic, ddlLocation_Video }), Convert.ToDecimal(clsSession.UserID), true);
         ComboHelper.FillEventLevel(new DropDownList[] { ddlEvent_Level, ddlEvent_Level_Sonic }, true);
         ComboHelper.FillCause_Investigation(new DropDownList[] { ddlFK_LU_Cause_Investigation }, true);
+        ComboHelper.FillEventType(new DropDownList[] { ddlFK_LU_Type_of_Activity_Video }, true);
+
+
         BindReapterEventType();
         BindReapterEventTypeSonic();
         BindReapterInvest_Images();
@@ -1201,6 +1288,8 @@ public partial class Event_Event_New : clsBasePage
             objEvent.Financial_Loss = Convert.ToDecimal(txtFinancial_Loss.Text);
 
 
+
+
         objEvent.Update_Date = DateTime.Now;
         objEvent.Updated_By = clsSession.UserID;
 
@@ -1268,6 +1357,65 @@ public partial class Event_Event_New : clsBasePage
                 }
             }
         }
+
+        #endregion
+
+        #region "ACI Video Request"
+
+        if (PK_Event > 0 && rblVideoRequestedBySonic.SelectedValue == "Y")
+        {
+            clsEvent_Video_Tracking_Request objVideo = new clsEvent_Video_Tracking_Request();
+            objVideo.PK_Event_Video_Tracking_Request = _PK_Event_Video_Tracking_Request;
+            objVideo.FK_Event = PK_Event;
+            if (ddlLocation_Video.SelectedIndex > 0)
+                objVideo.FK_LU_Location = Convert.ToDecimal(ddlLocation_Video.SelectedValue);
+            if (ddlFK_LU_Type_of_Activity_Video.SelectedIndex > 0)
+                objVideo.FK_LU_Type_of_Activity = Convert.ToDecimal(ddlFK_LU_Type_of_Activity_Video.SelectedValue);
+            objVideo.Date_Of_Event = clsGeneral.FormatNullDateToStore(txtDate_Of_Event_Video.Text);
+            objVideo.Date_Of_Request = clsGeneral.FormatNullDateToStore(txtDate_Of_Request_Video.Text);
+            objVideo.Full_Name = Convert.ToString(txtFull_Name_Video.Text);
+            objVideo.Work_Phone = Convert.ToString(txtWork_Phone_Video.Text);
+            objVideo.Location = Convert.ToString(txtLocation_Video.Text);
+            objVideo.Alternate_Phone = Convert.ToString(txtAlternate_Phone_Video.Text);
+            objVideo.Reason_Request = txtReason_Request_Video.Text;
+            objVideo.Camera_Name = txtCamera_Name_Video.Text;
+            objVideo.Event_Start_Time = Convert.ToString(txtEvent_Start_Time_Video.Text);
+            objVideo.Event_End_Time = Convert.ToString(txtEvent_End_Time_Video.Text);
+            objVideo.Video_Link_Email = Convert.ToString(txtVideo_Link_Email_Video.Text);
+            objVideo.Still_Shots_Email = Convert.ToString(txtStill_Shots_Email_Video.Text);
+            if (txtNo_DVD_Copy_Video.Text != string.Empty)
+                objVideo.No_DVD_Copy = Convert.ToInt32(txtNo_DVD_Copy_Video.Text);
+            if (rdoUrgent_Need_Video.SelectedIndex > -1)
+                objVideo.Urgent_Need = rdoUrgent_Need_Video.SelectedValue;
+            objVideo.Mailing_Address = Convert.ToString(txtMailing_Address_Video.Text);
+            if (rdoShipping_Method_Video.SelectedIndex > -1)
+                objVideo.Shipping_Method = rdoShipping_Method_Video.SelectedValue;
+            objVideo.Create_Date = DateTime.Now;
+            objVideo.Created_By = clsSession.UserID;
+            objVideo.Update_Date = DateTime.Now;
+            objVideo.Updated_By = clsSession.UserID;
+            objVideo.FK_Security = Convert.ToDecimal(clsSession.UserID);
+
+            DataSet ds = clsLU_Video_Tracking_Status.GetVideoStatusbydesc("Pending");
+
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                objVideo.Request_Type = StrReqType == "3rd" ? "3rd Party Request" : "SRE Video Request";
+                objVideo.Status = Convert.ToDecimal(ds.Tables[0].Rows[0]["PK_LU_Video_Tracking_Status"]);
+            }
+
+            if (_PK_Event_Video_Tracking_Request > 0)
+            {
+                objVideo.Update();
+            }
+            else
+            {
+                _PK_Event_Video_Tracking_Request = objVideo.Insert();
+            }
+
+        }
+
+
 
         #endregion
     }
@@ -1526,6 +1674,26 @@ public partial class Event_Event_New : clsBasePage
         }
     }
 
+    /// <summary>
+    ///  Binds Building grid in building information panel
+    /// </summary>
+    private void BindGridTracking()
+    {
+        DataTable dtTracking = clsEvent_Video_Tracking_Request.GetVideoTrackingDataByFK_Event(0, _PK_Event_Video_Tracking_Request).Tables[0];
+
+        if (dtTracking != null)
+        {
+            gvTracking.DataSource = dtTracking;
+            gvTracking.DataBind();
+        }
+        else
+        {
+            gvTracking.DataSource = null;
+            gvTracking.DataBind();
+        }
+
+    }
+
     protected void rptEventType_ItemDataBound(object sender, RepeaterItemEventArgs e)
     {
         if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
@@ -1642,6 +1810,31 @@ public partial class Event_Event_New : clsBasePage
         txtEvent_Start_Time.Enabled = Is_Enable;
         txtEvent_End_Time.Enabled = Is_Enable;
         imgEvent_Start_Date.Visible = Is_Enable;
+
+        if (StrOperation != "add")
+        {
+            ddlLocation_Video.Enabled = Is_Enable;
+            ddlFK_LU_Type_of_Activity_Video.Enabled = Is_Enable;
+            txtDate_Of_Event_Video.Enabled = Is_Enable;
+            txtDate_Of_Request_Video.Enabled = Is_Enable;
+            txtFull_Name_Video.Enabled = Is_Enable;
+            txtWork_Phone_Video.Enabled = Is_Enable;
+            txtLocation_Video.Enabled = Is_Enable;
+            txtAlternate_Phone_Video.Enabled = Is_Enable;
+            txtReason_Request_Video.Enable = Is_Enable;
+            txtCamera_Name_Video.Enabled = Is_Enable;
+            txtEvent_Start_Time_Video.Enabled = Is_Enable;
+            txtEvent_End_Time_Video.Enabled = Is_Enable;
+            txtVideo_Link_Email_Video.Enabled = Is_Enable;
+            txtStill_Shots_Email_Video.Enabled = Is_Enable;
+            txtNo_DVD_Copy_Video.Enabled = Is_Enable;
+            rdoUrgent_Need_Video.Enabled = Is_Enable;
+            txtMailing_Address_Video.Enabled = Is_Enable;
+            rdoShipping_Method_Video.Enabled = Is_Enable;
+            imgDate_Of_Event_Video.Visible = Is_Enable;
+            imgDate_Of_Request_Video.Visible = Is_Enable;
+        }
+
         //lnkAddEvent_CameraNew.Visible = Is_Enable;
         //txtInvestigator_Name.Enabled = Is_Enable;
         //txtInvestigator_Email.Enabled = Is_Enable;
@@ -1873,6 +2066,120 @@ public partial class Event_Event_New : clsBasePage
             //}
 
             //ViewState.Remove("Attchments");
+        }
+    }
+
+    private void SendVideoRequest()
+    {
+        if (_PK_Event_Video_Tracking_Request > 0)
+        {
+            DataTable dtEmailList = clsEvent_Video_Tracking_Request.GetVideoRequestUser().Tables[0];
+
+            string strUploadPath = AppConfig.DocumentsPath + "Attach\\";
+            string strAbstractReportData = Convert.ToString(AbstractLetters.Event_VideoRequestReport(_PK_Event_Video_Tracking_Request, false, clsGeneral.Major_Coverage.Event));
+
+            clsEvent_Video_Tracking_Request objRefNumber = new clsEvent_Video_Tracking_Request(_PK_Event_Video_Tracking_Request);
+
+            string fileName = SaveFilePDF(strAbstractReportData, strUploadPath, "Video_Request_Form_" + Convert.ToString(objRefNumber.Request_Number) + ".pdf");
+
+            if (fileName.Length > 0)
+            {
+                clsAttachment_Event objAttachment = new clsAttachment_Event();
+
+                DataSet ds = clsEvent_Video_Tracking_Request.GetAttachmentfolderforVideoRequest("Video Request Form");
+
+                if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows[0]["PK_Virtual_Folder"] != null)
+                {
+                    objAttachment.FK_Virtual_Folder = Convert.ToDecimal(ds.Tables[0].Rows[0]["PK_Virtual_Folder"]);
+                    objAttachment.Attachment_Table = "Event_Video_Tracking_Request";
+                    objAttachment.Attachment_Name = fileName;
+                    objAttachment.Attachment_Description = "Video_Request_Form_" + Convert.ToString(objRefNumber.Request_Number) + ".pdf";
+                    objAttachment.FK_Table = _PK_Event_Video_Tracking_Request;
+                    objAttachment.FK_Attachment_Type = 0;
+                    objAttachment.Updated_By = clsSession.UserID;
+                    objAttachment.Update_Date = DateTime.Now;
+                    objAttachment.Attach_Date = DateTime.Now;
+                    objAttachment.Insert();
+                }
+
+            }
+
+            //string[] attchment = null;
+            //if (ViewState["Attchments"] != null)
+            //{
+            //    attchment = new string[1];
+            //    attchment[0] = AppConfig.SitePath + "Documents/EventImage" + "/" + Convert.ToString(ViewState["Attchments"]);
+            //}
+
+
+
+
+            if (dtEmailList.Rows.Count > 0)
+            {
+                foreach (DataRow drRecipient in dtEmailList.Rows)
+                {
+                    System.Collections.Generic.List<string> lstMail = new System.Collections.Generic.List<string>();
+                    int intToMailCount = 0;
+                    lstMail.Insert(intToMailCount, drRecipient["Email"].ToString());
+                    intToMailCount++;
+
+
+                    string[] EmailTo = lstMail.ToArray();
+
+                    System.Collections.Generic.List<string> lstAttachment = new System.Collections.Generic.List<string>();
+                    int intAttachmentcount = 0;
+
+
+                    if (!string.IsNullOrEmpty(fileName) && File.Exists(strUploadPath + "\\" + fileName))
+                    {
+                        lstAttachment.Insert(intAttachmentcount, strUploadPath + "\\" + fileName);
+                        intAttachmentcount++;
+                    }
+
+                    string[] strTemp = lstAttachment.ToArray();
+
+                    string strMailHeader = "ACI Video Request has been Created for " + (ddlLocation_Video.SelectedIndex > 0 ? ddlLocation_Video.SelectedItem.Text : "") + " by " + txtFull_Name_Video.Text;
+
+                    string strMailBody = "ERIMS has requested ACI Video Approval. Please click APPROVE or DENY for video Request.";
+                    strMailBody = strMailBody + "<br/><br/>";
+                    strMailBody = strMailBody + "<span style='font-size: 20px;'><A href=" + AppConfig.SiteURL + "/Event/ACI_Approve_Deny.aspx?tid=" + Encryption.Encrypt(Convert.ToString(_PK_Event_Video_Tracking_Request)) + "&sid=" + Encryption.Encrypt(Convert.ToString(drRecipient["PK_Security_ID"].ToString())) + "&status=" + Encryption.Encrypt("Approved") + ">APPROVE</A></span>";
+                    strMailBody = strMailBody + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+                    strMailBody = strMailBody + "<span style='font-size: 20px;'><A href=" + AppConfig.SiteURL + "/Event/ACI_Approve_Deny.aspx?tid=" + Encryption.Encrypt(Convert.ToString(_PK_Event_Video_Tracking_Request)) + "&sid=" + Encryption.Encrypt(Convert.ToString(drRecipient["PK_Security_ID"].ToString())) + "&status=" + Encryption.Encrypt("Denied") + ">DENY</A></span>";
+                    strMailBody = strMailBody + "<br/><br/><br/>";
+                    strMailBody = strMailBody + "<span style='font-size: 18px;'><b>Reason   :   </b></span>" + objRefNumber.Reason_Request;
+
+                    if (EmailTo.Length > 0)
+                    {
+                        EmailHelper objEmail = new EmailHelper(AppConfig.SMTPServer, AppConfig.MailFrom, AppConfig.SMTPpwd, Convert.ToInt32(AppConfig.Port));
+                        objEmail.SendEventMailMessage(AppConfig.ManagementEmailID, " ", EmailTo, strMailHeader, strMailBody, true, strTemp, AppConfig.MailCC);
+                    }
+                }
+            }
+
+            string fileNameEvent = SaveFilePDF(strAbstractReportData, strUploadPath, "Video_Request_Form_" + Convert.ToString(objRefNumber.Request_Number) + ".pdf");
+
+            if (fileNameEvent.Length > 0)
+            {
+                clsAttachment_Event objAttachment = new clsAttachment_Event();
+
+                DataSet ds = clsEvent_Video_Tracking_Request.GetAttachmentfolderforVideoRequest("Video Request Form");
+
+                if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows[0]["PK_Virtual_Folder"] != null)
+                {
+                    objAttachment.FK_Virtual_Folder = Convert.ToDecimal(ds.Tables[0].Rows[0]["PK_Virtual_Folder"]);
+                    objAttachment.Attachment_Table = "Event";
+                    objAttachment.Attachment_Name = fileNameEvent;
+                    objAttachment.Attachment_Description = "Video_Request_Form_" + Convert.ToString(objRefNumber.Request_Number) + ".pdf";
+                    objAttachment.FK_Table = PK_Event;
+                    objAttachment.FK_Attachment_Type = 0;
+                    objAttachment.Updated_By = clsSession.UserID;
+                    objAttachment.Update_Date = DateTime.Now;
+                    objAttachment.Attach_Date = DateTime.Now;
+                    objAttachment.Insert();
+                }
+
+            }
+
         }
     }
 
@@ -2694,6 +3001,64 @@ public partial class Event_Event_New : clsBasePage
 
         return sbGrid.ToString();
     }
+
+    public static string SaveFilePDF(string strFileText, string strPath, string strFileName)
+    {
+        string strRetVal = "";
+        // set path.
+        if (!strPath.EndsWith("\\"))
+        {
+            strPath = string.Concat(strPath, "\\");
+        }
+        if (strPath.Contains("/"))
+            strPath = strPath.Replace('/', '\\');
+
+        // create dir if doesnt' exists
+        clsGeneral.CreateDirectory(strPath);
+
+        // now check for file name exists or not. and option for overwrite
+        string strFulleName = string.Concat(strPath, strFileName);
+
+        // if overwrite is not allowed then get filename to save.
+        strFulleName = clsGeneral.GetFileNameToSave(strFulleName);
+
+        PdfConverter objPdf = new PdfConverter();
+        objPdf.LicenseKey = AppConfig._strHtmltoPDFConverterKey;
+        objPdf.PdfDocumentOptions.TopMargin = 20;
+        objPdf.PdfDocumentOptions.LeftMargin = 20;
+        objPdf.PdfDocumentOptions.RightMargin = 20;
+        objPdf.PdfDocumentOptions.BottomMargin = 20;
+        objPdf.PdfDocumentOptions.ShowHeader = false;
+        objPdf.PdfDocumentOptions.ShowFooter = false;
+        objPdf.PdfDocumentOptions.EmbedFonts = false;
+
+        objPdf.PdfDocumentOptions.LiveUrlsEnabled = false;
+        objPdf.RightToLeftEnabled = false;
+        objPdf.PdfSecurityOptions.CanPrint = true;
+        objPdf.PdfSecurityOptions.CanEditContent = true;
+        objPdf.PdfSecurityOptions.UserPassword = "";
+        objPdf.PdfDocumentOptions.PdfPageOrientation = PDFPageOrientation.Landscape;
+        objPdf.PdfDocumentOptions.PdfPageSize = PdfPageSize.Letter;
+        objPdf.PdfDocumentInfo.AuthorName = "eRIMS2";
+
+        //objPdf.PdfDocumentOptions.PdfPageSize = PdfPageSize.Custom;
+        //objPdf.PdfDocumentOptions.CustomPdfPageSize = new System.Drawing.SizeF(10f, 10f);
+
+        StringBuilder sbHtml = new StringBuilder();
+        sbHtml.Append(strFileText);
+
+        objPdf.PdfDocumentInfo.AuthorName = "eRIMS2";
+        //Byte[] pdfByte = null;
+        //pdfByte = objPdf.GetPdfBytesFromHtmlString(sbHtml.ToString());
+
+        objPdf.SavePdfFromHtmlStringToFile(strFileText, strFulleName);
+
+        // set return value = only filename.
+        strRetVal = clsGeneral.GetFileName(strFulleName);
+
+        return strRetVal;
+    }
+
     #endregion
 
     #region "Grid Events"
@@ -3162,4 +3527,102 @@ public partial class Event_Event_New : clsBasePage
     }
     #endregion
 
+    protected void rblVideoRequestedBySonic_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (rblVideoRequestedBySonic.SelectedValue == "Y")
+        {
+            trVideoRequest.Style.Add("display", "");
+            ShowHideVideoRequest(true);
+            if (StrOperation == "add")
+            {
+                BindEmployeeDetails();
+            }
+        }
+        else
+        {
+            trVideoRequest.Style.Add("display", "none");
+            ShowHideVideoRequest(false);
+        }
+        Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
+    }
+
+    protected void rdoUrgent_Need_Video_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (rdoUrgent_Need_Video.SelectedValue == "Y")
+        {
+            ShowHideUrgentneed(true);
+
+        }
+        else
+        {
+            ShowHideUrgentneed(false);
+        }
+    }
+
+    private void ShowHideUrgentneed(bool IsEnable)
+    {
+        if (IsEnable)
+        {
+            spancameraname.Style.Add("display", "");
+            spanstarttime.Style.Add("display", "");
+            spanendtime.Style.Add("display", "");
+            revtxtCamera_Name_Video.Enabled = true;
+            revtxtEvent_Start_Time_Video.Enabled = true;
+            revtxtEvent_End_Time_Video.Enabled = true;
+        }
+        else
+        {
+            spancameraname.Style.Add("display", "none");
+            spanstarttime.Style.Add("display", "none");
+            spanendtime.Style.Add("display", "none");
+            revtxtCamera_Name_Video.Enabled = false;
+            revtxtEvent_Start_Time_Video.Enabled = false;
+            revtxtEvent_End_Time_Video.Enabled = false;
+
+        }
+    }
+
+    private void BindEmployeeDetails()
+    {
+        DataSet dsemployee = clsEvent_Video_Tracking_Request.GetUserDetailForVideoRequest();
+
+        if (dsemployee != null && dsemployee.Tables.Count > 0 && dsemployee.Tables[0].Rows.Count > 0)
+        {
+            DataTable dt = dsemployee.Tables[0];
+
+            txtFull_Name_Video.Text = Convert.ToString(dt.Rows[0]["Full_Name"]);
+            txtWork_Phone_Video.Text = Convert.ToString(dt.Rows[0]["Work_Phone"]);
+            txtLocation_Video.Text = Convert.ToString(dt.Rows[0]["Location"]);
+            txtAlternate_Phone_Video.Text = Convert.ToString(dt.Rows[0]["Employee_Home_Phone"]);
+        }
+    }
+
+    private void ShowHideVideoRequest(bool IsEnable)
+    {
+        if (IsEnable)
+        {
+            rfvddlLocation_Video.Enabled = true;
+            rfvddlFK_LU_Type_of_Activity_Video.Enabled = true;
+            rfvtxtDate_Of_Event_Video.Enabled = true;
+            rfvtxtDate_Of_Request_Video.Enabled = true;
+            revtxtFull_Name_Video.Enabled = true;
+            revtxtWork_Phone_Video.Enabled = true;
+            revtxtLocation_Video.Enabled = true;
+            revtxtAlternate_Phone_Video.Enabled = true;
+            txtReason_Request_Video.IsRequired = true;
+        }
+        else
+        {
+            rfvddlLocation_Video.Enabled = false;
+            rfvddlFK_LU_Type_of_Activity_Video.Enabled = false;
+            rfvtxtDate_Of_Event_Video.Enabled = false;
+            rfvtxtDate_Of_Request_Video.Enabled = false;
+            revtxtFull_Name_Video.Enabled = false;
+            revtxtWork_Phone_Video.Enabled = false;
+            revtxtLocation_Video.Enabled = false;
+            revtxtAlternate_Phone_Video.Enabled = false;
+            txtReason_Request_Video.IsRequired = false;
+            ShowHideUrgentneed(false);
+        }
+    }
 }

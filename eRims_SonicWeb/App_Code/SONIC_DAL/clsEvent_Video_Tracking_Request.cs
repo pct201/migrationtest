@@ -862,5 +862,19 @@ namespace ERIMS.DAL
 
             return db.ExecuteDataSet(dbCommand);
         }
+
+        /// <summary>
+        /// Selects a single record from the Event_Video_Tracking_Request table by FK_Event.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static DataSet SelectByFK_Event(decimal FK_Event)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Event_Video_Tracking_RequestSelectByFK_Event");
+
+            db.AddInParameter(dbCommand, "FK_Event", DbType.Decimal, FK_Event);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
 	}
 }

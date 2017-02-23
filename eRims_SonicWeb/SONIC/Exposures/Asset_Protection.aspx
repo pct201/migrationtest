@@ -1626,6 +1626,117 @@ function RemoveDataFromBuildingAlert(element) {
                                                         </td>
                                                     </tr>
                                                     <tr>
+                                                        <td width="5px" class="Spacer">
+                                                            &nbsp;
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" valign="top" colspan="6">
+                                                            <strong>Fire Company</strong>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" valign="top">Fire Company Name&nbsp;<span id="Span160" style="color: Red; display: none;" runat="server">*</span>
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top" colspan="4">
+                                                            <asp:TextBox ID="txtFire_Company_Name" runat="server" Width="563px" MaxLength="150" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" valign="top">Fire Company Address 1&nbsp;<span id="Span161" style="color: Red; display: none;"
+                                                            runat="server">*</span>
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:TextBox ID="txtFire_Company_Address_1" runat="server" Width="170px" MaxLength="100" />
+                                                        </td>
+                                                        <td align="left" valign="top">Fire Company Address 2&nbsp;<span id="Span162" style="color: Red; display: none;"
+                                                            runat="server">*</span>
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:TextBox ID="txtFire_Company_Address_2" runat="server" Width="170px" MaxLength="100" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" valign="top">Fire Company City&nbsp;<span id="Span163" style="color: Red; display: none;" runat="server">*</span>
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:TextBox ID="txtFire_Company_City" runat="server" Width="170px" MaxLength="50" />
+                                                        </td>
+                                                        <td align="left" valign="top">Fire Company State&nbsp;<span id="Span164" style="color: Red; display: none;" runat="server">*</span>
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:DropDownList ID="drpFK_Fire_Company_State" Width="175px" runat="server" SkinID="dropGen">
+                                                            </asp:DropDownList>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" valign="top">Fire Company Zip&nbsp;<span id="Span165" style="color: Red; display: none;" runat="server">*</span><br />
+                                                            (99999-9999)
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:TextBox ID="txtFire_Company_Zip" runat="server" Width="170px" MaxLength="10"
+                                                                SkinID="txtZipCode" onKeyPress="javascript:return FormatZipCode(event,this.id);" />
+                                                            <asp:RegularExpressionValidator ID="retxtFire_Company_Zip" runat="server" ErrorMessage="[Property Security]/Fire Company Zip is not valid"
+                                                                SetFocusOnError="true" ControlToValidate="txtFire_Company_Zip" ValidationExpression="\b[0-9]{5}-[0-9]{4}\b|\b[0-9]{5}\b"
+                                                                ValidationGroup="vsErrorProperty_Security" Display="none" />
+                                                        </td>
+                                                        <td align="left" valign="top">&nbsp;
+                                                        </td>
+                                                        <td align="center" valign="top">&nbsp;
+                                                        </td>
+                                                        <td align="left" valign="top">&nbsp;
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" valign="top">Fire Company Contact Name&nbsp;<span id="Span166" style="color: Red; display: none;"
+                                                            runat="server">*</span>
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:TextBox ID="txtFire_Company_Contact_Name" runat="server" Width="170px" MaxLength="50" />
+                                                        </td>
+                                                        <td align="left" valign="top">Fire Company Contact Telephone&nbsp;<span id="Span167" style="color: Red; display: none;"
+                                                            runat="server">*</span><br />
+                                                            (999-999-9999)
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:TextBox ID="txtFire_Comapny_Contact_Telephone" runat="server" Width="170px"
+                                                                SkinID="txtPhone" MaxLength="12" onKeyPress="javascript:return FormatPhone(event,this.id);" />
+                                                            <asp:RegularExpressionValidator ID="retxtFire_Comapny_Contact_Telephone" ControlToValidate="txtFire_Comapny_Contact_Telephone"
+                                                                runat="server" ErrorMessage="Please Enter [Property Security]/Fire Company Contact Telephone in XXX-XXX-XXXX format."
+                                                                ValidationGroup="vsErrorProperty_Security" Display="none" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" valign="top">Fire Company Contact E-Mail&nbsp;<span id="Span168" style="color: Red; display: none;"
+                                                            runat="server">*</span>
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top" colspan="4">
+                                                            <asp:TextBox ID="txtFire_Company_Contact_EMail" runat="server" Width="563px" MaxLength="255" />
+                                                            <asp:RegularExpressionValidator ID="retxtFire_Company_Contact_EMail" runat="server"
+                                                                ControlToValidate="txtFire_Company_Contact_EMail" Display="None" ErrorMessage="Please Enter Valid [Property Security]/Fire Company Contact E-Mail"
+                                                                SetFocusOnError="True" ValidationGroup="vsErrorProperty_Security" ToolTip="Please Enter Valid [Property Security]/Fire Company Contact E-Mail"
+                                                                ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*"></asp:RegularExpressionValidator>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
                                                         <td width="5px" class="Spacer">&nbsp;
                                                         </td>
                                                     </tr>
@@ -2620,6 +2731,31 @@ function RemoveDataFromBuildingAlert(element) {
                                             </asp:Panel>
                                             <asp:Panel ID="pnl2" runat="server" Style="display: none;" Width="794px">
                                                 <table border="0" cellpadding="3" cellspacing="1" width="100%">
+                                                    <tr id="trSREDPD" runat="server" style="display:none;">
+                                                        <td>
+                                                            <table style="background-color: black" cellspacing="1" cellpadding="3" width="100%"
+                                                                border="0">
+                                                                <tbody>
+                                                                    <tr class="PropertyInfoBG">
+                                                                        <td style="width: 50%" align="left">
+                                                                            <asp:Label ID="lblHeaderSREDPD" runat="server" Text="SRE"></asp:Label>
+                                                                        </td>
+                                                                        <td style="width: 50%" align="left">
+                                                                            <asp:Label ID="lblHeaderFROIDPD" runat="server" Text="FROI"></asp:Label>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr style="background-color: white">
+                                                                        <td align="left">
+                                                                            <asp:LinkButton ID="lnkSREDPD" Text="" runat="server" />&nbsp;
+                                                                        </td>
+                                                                        <td align="left">
+                                                                            <asp:LinkButton ID="lnkFROIDPD" Text="" runat="server" />
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
                                                     <tr>
                                                         <td>
                                                             <table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -3213,6 +3349,31 @@ function RemoveDataFromBuildingAlert(element) {
                                             </div>
                                             <asp:Panel ID="pnl3" runat="server" Style="display: none;" Width="794px">
                                                 <table border="0" cellpadding="3" cellspacing="1" width="100%">
+                                                    <tr id="trSREAL" runat="server" style="display:none;">
+                                                        <td>
+                                                            <table style="background-color: black" cellspacing="1" cellpadding="3" width="100%"
+                                                                border="0">
+                                                                <tbody>
+                                                                    <tr class="PropertyInfoBG">
+                                                                        <td style="width: 50%" align="left">
+                                                                            <asp:Label ID="lblHeaderALSRE" runat="server" Text="SRE"></asp:Label>
+                                                                        </td>
+                                                                        <td style="width: 50%" align="left">
+                                                                            <asp:Label ID="lblHeaderALFROI" runat="server" Text="FROI"></asp:Label>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr style="background-color: white">
+                                                                        <td align="left">
+                                                                            <asp:LinkButton ID="lnkALSRE" Text="" runat="server" />&nbsp;
+                                                                        </td>
+                                                                        <td align="left">
+                                                                            <asp:LinkButton ID="lnkALFROI" Text="" runat="server" />
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
                                                     <tr>
                                                         <td>
                                                             <table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -6484,6 +6645,100 @@ function RemoveDataFromBuildingAlert(element) {
                                                     </tr>
                                                     <tr>
                                                         <td align="left" valign="top" colspan="6">
+                                                            <strong>Fire Company</strong>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" valign="top">Fire Company Name
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top" colspan="4">
+                                                            <asp:Label ID="lblFire_Company_Name" runat="server"></asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" valign="top">Fire Company Address 1
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:Label ID="lblFire_Company_Address_1" runat="server"></asp:Label>
+                                                        </td>
+                                                        <td align="left" valign="top">Fire Company Address 2
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:Label ID="lblFire_Company_Address_2" runat="server"></asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" valign="top">Fire Company City
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:Label ID="lblFire_Company_City" runat="server"></asp:Label>
+                                                        </td>
+                                                        <td align="left" valign="top">Fire Company State
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:Label ID="lblFK_Fire_Company_State" runat="server"></asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" valign="top">Fire Company Zip
+                                                            <br />
+                                                            (99999-9999)
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:Label ID="lblFire_Company_Zip" runat="server"></asp:Label>
+                                                        </td>
+                                                        <td align="left" valign="top">&nbsp;
+                                                        </td>
+                                                        <td align="center" valign="top">&nbsp;
+                                                        </td>
+                                                        <td align="left" valign="top">&nbsp;
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" valign="top">Fire Company Contact Name
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:Label ID="lblFire_Company_Contact_Name" runat="server"></asp:Label>
+                                                        </td>
+                                                        <td align="left" valign="top">Fire Company Contact Telephone
+                                                            <br />
+                                                            (999-999-9999)
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:Label ID="lblFire_Comapny_Contact_Telephone" runat="server"></asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" valign="top">Fire Company Contact E-Mail
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top" colspan="4">
+                                                            <asp:Label ID="lblFire_Company_Contact_E_Mail" runat="server"></asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td width="5px" class="Spacer">&nbsp;
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" valign="top" colspan="6">
                                                             <strong>Guard Services</strong>
                                                         </td>
                                                     </tr>
@@ -7235,6 +7490,31 @@ function RemoveDataFromBuildingAlert(element) {
                                             </asp:Panel>
                                             <asp:Panel ID="pnl2View" runat="server" Style="display: none;" Width="794px">
                                                 <table border="0" cellpadding="3" cellspacing="1" width="100%">
+                                                    <tr id="trSREDPDView" runat="server" style="display:none;">
+                                                        <td>
+                                                            <table style="background-color: black" cellspacing="1" cellpadding="3" width="100%"
+                                                                border="0">
+                                                                <tbody>
+                                                                    <tr class="PropertyInfoBG">
+                                                                        <td style="width: 50%" align="left">
+                                                                            <asp:Label ID="lblHeaderSREDPDView" runat="server" Text="SRE"></asp:Label>
+                                                                        </td>
+                                                                        <td style="width: 50%" align="left">
+                                                                            <asp:Label ID="lblHeaderFROIDPDView" runat="server" Text="FROI"></asp:Label>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr style="background-color: white">
+                                                                        <td align="left">
+                                                                            <asp:LinkButton ID="lnkSREDPDView" Text="" runat="server" />&nbsp;
+                                                                        </td>
+                                                                        <td align="left">
+                                                                            <asp:LinkButton ID="lnkFROIDPDView" Text="" runat="server" />&nbsp;
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
                                                     <tr>
                                                         <td>
                                                             <table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -7802,6 +8082,31 @@ function RemoveDataFromBuildingAlert(element) {
                                             </asp:Panel>
                                             <asp:Panel ID="pnl3View" runat="server" Style="display: none;" Width="794px">
                                                 <table border="0" cellpadding="3" cellspacing="1" width="100%">
+                                                    <tr id="trSREALView" runat="server" style="display:none;">
+                                                        <td>
+                                                            <table style="background-color: black" cellspacing="1" cellpadding="3" width="100%"
+                                                                border="0">
+                                                                <tbody>
+                                                                    <tr class="PropertyInfoBG">
+                                                                        <td style="width: 50%" align="left">
+                                                                            <asp:Label ID="lblHeaderSREALView" runat="server" Text="SRE"></asp:Label>
+                                                                        </td>
+                                                                        <td style="width: 50%" align="left">
+                                                                            <asp:Label ID="lblHeaderFROIALView" runat="server" Text="FROI"></asp:Label>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr style="background-color: white">
+                                                                        <td align="left">
+                                                                            <asp:LinkButton ID="lnkSREALView" Text="" runat="server" />&nbsp;
+                                                                        </td>
+                                                                        <td align="left">
+                                                                            <asp:LinkButton ID="lnkFROIALView" Text="" runat="server" />&nbsp;
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
                                                     <tr>
                                                         <td>
                                                             <table border="0" cellpadding="0" cellspacing="0" width="100%">

@@ -2686,5 +2686,18 @@ namespace ERIMS.DAL
             dbCommand.CommandTimeout = 50000;
             db.ExecuteNonQuery(dbCommand);
         }
+
+        public static DataSet GetEventByFirstReport(decimal PK_FR, string TableName)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("GetEventByFirstReport");
+
+            dbCommand.CommandTimeout = 100000;
+            db.AddInParameter(dbCommand, "PK_FR", DbType.Decimal, PK_FR);
+            db.AddInParameter(dbCommand, "TableName", DbType.String, TableName);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
     }
 }

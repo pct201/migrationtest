@@ -14,8 +14,7 @@
 
 </script>
 
-<table cellpadding="3" cellspacing="1" border="0" style="background-color: Black;"
-    width="100%">
+<table cellpadding="3" cellspacing="1" border="0" style="background-color: Black;" width="100%">
     <tr class="PropertyInfoBG">      
         <td align="left" style="width: 15%">
             <asp:Label ID="lblHeaderFirstReportNumber" Text="First Report Number" runat="server"></asp:Label>
@@ -23,13 +22,19 @@
         <td align="left" style="width: 15%">
             <asp:Label ID="lblHeaderLocationdba" Text="SONIC Location d/b/a" runat="server"></asp:Label>
         </td>
-        <td align="left" style="width: 13%; display: none;" runat="server" id="tdHeaderName">
+        <td align="left" style="width: 12%; display: none;" runat="server" id="tdHeaderName">
             <asp:Label ID="lblHeaderName" Text="Name" runat="server"></asp:Label>
         </td>
-        <td align="left" style="width: 13%">
+        <td align="left" style="width: 12%">
             <asp:Label ID="lblHeaderDateIncident" Text="Date of Incident" runat="server"></asp:Label>
         </td>
-          <td align="left" style="width: 10%">
+        <td align="left" style="width: 8%; display: none;" id="tdHeaderSRE" runat="server">
+            <asp:Label ID="lblHeaderSRE" Text="SRE" runat="server"></asp:Label>
+        </td>
+        <td align="left" style="width: 16%; display: none;" id="tdHeaderAP_Location" runat="server">
+            <asp:Label ID="lblHeaderAP_Location" Text="AP Location" runat="server"></asp:Label>
+        </td>
+        <td align="left" style="width: 10%">
             <asp:Label ID="lblHeaderFirstClaimNumber" Text="Claim Number" runat="server"></asp:Label>
         </td>
         <td align="left" id="tdHeaderInvestigation" runat="server" style="width: 12%; display: none;">
@@ -53,7 +58,13 @@
         <td align="left">
             <asp:Label ID="lblDateIncident" runat="server"></asp:Label>
         </td>
-           <td align="left">
+        <td align="left" id="tdSRE" runat="server" style="display: none;">
+            <asp:LinkButton ID="lnkSRE" Text="" runat="server" />
+        </td>
+        <td align="left" id="tdAP_Location" runat="server" style="display: none;">
+            <asp:LinkButton ID="lnkAP_Location" Text="" runat="server" />
+        </td>
+        <td align="left">
             <asp:LinkButton ID="lnkClaimNumber" Text="" runat="server" CausesValidation="false" />
         </td>
         <td align="left" id="tdDataInvestigation" runat="server" style="display: none;">

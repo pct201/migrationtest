@@ -126,6 +126,15 @@ namespace ERIMS.DAL
         private string _Live_Burglary_Monitoring;
         private decimal? _Group_ID;
         private DateTime? _Created_Date;
+        private string _Fire_Company_Name;
+        private string _Fire_Company_Address_1;
+        private string _Fire_Company_Address_2;
+        private string _Fire_Company_City;
+        private decimal? _FK_Fire_Company_State;
+        private string _Fire_Company_Zip;
+        private string _Fire_Company_Contact_Name;
+        private string _Fire_Comapny_Contact_Telephone;
+        private string _Fire_Company_Contact_EMail;
 
         #endregion
 
@@ -1148,6 +1157,87 @@ namespace ERIMS.DAL
             get { return _Created_Date; }
             set { _Created_Date = value; }
         }
+
+        /// <summary>
+        /// Gets or sets the Fire_Company_Name value.
+        /// </summary>
+        public string Fire_Company_Name
+        {
+            get { return _Fire_Company_Name; }
+            set { _Fire_Company_Name = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Fire_Company_Address_1 value.
+        /// </summary>
+        public string Fire_Company_Address_1
+        {
+            get { return _Fire_Company_Address_1; }
+            set { _Fire_Company_Address_1 = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Fire_Company_Address_2 value.
+        /// </summary>
+        public string Fire_Company_Address_2
+        {
+            get { return _Fire_Company_Address_2; }
+            set { _Fire_Company_Address_2 = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Fire_Company_City value.
+        /// </summary>
+        public string Fire_Company_City
+        {
+            get { return _Fire_Company_City; }
+            set { _Fire_Company_City = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the FK_Fire_Company_State value.
+        /// </summary>
+        public decimal? FK_Fire_Company_State
+        {
+            get { return _FK_Fire_Company_State; }
+            set { _FK_Fire_Company_State = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Fire_Company_Zip value.
+        /// </summary>
+        public string Fire_Company_Zip
+        {
+            get { return _Fire_Company_Zip; }
+            set { _Fire_Company_Zip = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Fire_Company_Contact_Name value.
+        /// </summary>
+        public string Fire_Company_Contact_Name
+        {
+            get { return _Fire_Company_Contact_Name; }
+            set { _Fire_Company_Contact_Name = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Fire_Comapny_Contact_Telephone value.
+        /// </summary>
+        public string Fire_Comapny_Contact_Telephone
+        {
+            get { return _Fire_Comapny_Contact_Telephone; }
+            set { _Fire_Comapny_Contact_Telephone = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Fire_Company_Contact_EMail value.
+        /// </summary>
+        public string Fire_Company_Contact_EMail
+        {
+            get { return _Fire_Company_Contact_EMail; }
+            set { _Fire_Company_Contact_EMail = value; }
+        }
         #endregion
 
         #region Default Constructors
@@ -1746,6 +1836,51 @@ namespace ERIMS.DAL
                 this._Created_Date = null;
             else
                 this._Created_Date = (DateTime?)drAP_Property_Security["Created_Date"];
+
+            if (drAP_Property_Security["Fire_Company_Name"] == DBNull.Value)
+                this._Fire_Company_Name = null;
+            else
+                this._Fire_Company_Name = (string)drAP_Property_Security["Fire_Company_Name"];
+
+            if (drAP_Property_Security["Fire_Company_Address_1"] == DBNull.Value)
+                this._Fire_Company_Address_1 = null;
+            else
+                this._Fire_Company_Address_1 = (string)drAP_Property_Security["Fire_Company_Address_1"];
+
+            if (drAP_Property_Security["Fire_Company_Address_2"] == DBNull.Value)
+                this._Fire_Company_Address_2 = null;
+            else
+                this._Fire_Company_Address_2 = (string)drAP_Property_Security["Fire_Company_Address_2"];
+
+            if (drAP_Property_Security["Fire_Company_City"] == DBNull.Value)
+                this._Fire_Company_City = null;
+            else
+                this._Fire_Company_City = (string)drAP_Property_Security["Fire_Company_City"];
+
+            if (drAP_Property_Security["FK_Fire_Company_State"] == DBNull.Value)
+                this._FK_Fire_Company_State = null;
+            else
+                this._FK_Fire_Company_State = (decimal?)drAP_Property_Security["FK_Fire_Company_State"];
+
+            if (drAP_Property_Security["Fire_Company_Zip"] == DBNull.Value)
+                this._Fire_Company_Zip = null;
+            else
+                this._Fire_Company_Zip = (string)drAP_Property_Security["Fire_Company_Zip"];
+
+            if (drAP_Property_Security["Fire_Company_Contact_Name"] == DBNull.Value)
+                this._Fire_Company_Contact_Name = null;
+            else
+                this._Fire_Company_Contact_Name = (string)drAP_Property_Security["Fire_Company_Contact_Name"];
+
+            if (drAP_Property_Security["Fire_Comapny_Contact_Telephone"] == DBNull.Value)
+                this._Fire_Comapny_Contact_Telephone = null;
+            else
+                this._Fire_Comapny_Contact_Telephone = (string)drAP_Property_Security["Fire_Comapny_Contact_Telephone"];
+
+            if (drAP_Property_Security["Fire_Company_Contact_EMail"] == DBNull.Value)
+                this._Fire_Company_Contact_EMail = null;
+            else
+                this._Fire_Company_Contact_EMail = (string)drAP_Property_Security["Fire_Company_Contact_EMail"];
         }
 
 
@@ -2283,6 +2418,48 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Live_Burglary_Monitoring", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Live_Burglary_Monitoring", DbType.String, this._Live_Burglary_Monitoring);
+
+            if (string.IsNullOrEmpty(this._Fire_Company_Name))
+                db.AddInParameter(dbCommand, "Fire_Company_Name", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Fire_Company_Name", DbType.String, this._Fire_Company_Name);
+
+            if (string.IsNullOrEmpty(this._Fire_Company_Address_1))
+                db.AddInParameter(dbCommand, "Fire_Company_Address_1", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Fire_Company_Address_1", DbType.String, this._Fire_Company_Address_1);
+
+            if (string.IsNullOrEmpty(this._Fire_Company_Address_2))
+                db.AddInParameter(dbCommand, "Fire_Company_Address_2", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Fire_Company_Address_2", DbType.String, this._Fire_Company_Address_2);
+
+            if (string.IsNullOrEmpty(this._Fire_Company_City))
+                db.AddInParameter(dbCommand, "Fire_Company_City", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Fire_Company_City", DbType.String, this._Fire_Company_City);
+
+            db.AddInParameter(dbCommand, "FK_Fire_Company_State", DbType.Decimal, this._FK_Fire_Company_State);
+
+            if (string.IsNullOrEmpty(this._Fire_Company_Zip))
+                db.AddInParameter(dbCommand, "Fire_Company_Zip", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Fire_Company_Zip", DbType.String, this._Fire_Company_Zip);
+
+            if (string.IsNullOrEmpty(this._Fire_Company_Contact_Name))
+                db.AddInParameter(dbCommand, "Fire_Company_Contact_Name", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Fire_Company_Contact_Name", DbType.String, this._Fire_Company_Contact_Name);
+
+            if (string.IsNullOrEmpty(this._Fire_Comapny_Contact_Telephone))
+                db.AddInParameter(dbCommand, "Fire_Comapny_Contact_Telephone", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Fire_Comapny_Contact_Telephone", DbType.String, this._Fire_Comapny_Contact_Telephone);
+
+            if (string.IsNullOrEmpty(this._Fire_Company_Contact_EMail))
+                db.AddInParameter(dbCommand, "Fire_Company_Contact_EMail", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Fire_Company_Contact_EMail", DbType.String, this._Fire_Company_Contact_EMail);
 
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -2844,6 +3021,48 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Live_Burglary_Monitoring", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Live_Burglary_Monitoring", DbType.String, this._Live_Burglary_Monitoring);
+
+            if (string.IsNullOrEmpty(this._Fire_Company_Name))
+                db.AddInParameter(dbCommand, "Fire_Company_Name", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Fire_Company_Name", DbType.String, this._Fire_Company_Name);
+
+            if (string.IsNullOrEmpty(this._Fire_Company_Address_1))
+                db.AddInParameter(dbCommand, "Fire_Company_Address_1", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Fire_Company_Address_1", DbType.String, this._Fire_Company_Address_1);
+
+            if (string.IsNullOrEmpty(this._Fire_Company_Address_2))
+                db.AddInParameter(dbCommand, "Fire_Company_Address_2", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Fire_Company_Address_2", DbType.String, this._Fire_Company_Address_2);
+
+            if (string.IsNullOrEmpty(this._Fire_Company_City))
+                db.AddInParameter(dbCommand, "Fire_Company_City", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Fire_Company_City", DbType.String, this._Fire_Company_City);
+
+            db.AddInParameter(dbCommand, "FK_Fire_Company_State", DbType.Decimal, this._FK_Fire_Company_State);
+
+            if (string.IsNullOrEmpty(this._Fire_Company_Zip))
+                db.AddInParameter(dbCommand, "Fire_Company_Zip", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Fire_Company_Zip", DbType.String, this._Fire_Company_Zip);
+
+            if (string.IsNullOrEmpty(this._Fire_Company_Contact_Name))
+                db.AddInParameter(dbCommand, "Fire_Company_Contact_Name", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Fire_Company_Contact_Name", DbType.String, this._Fire_Company_Contact_Name);
+
+            if (string.IsNullOrEmpty(this._Fire_Comapny_Contact_Telephone))
+                db.AddInParameter(dbCommand, "Fire_Comapny_Contact_Telephone", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Fire_Comapny_Contact_Telephone", DbType.String, this._Fire_Comapny_Contact_Telephone);
+
+            if (string.IsNullOrEmpty(this._Fire_Company_Contact_EMail))
+                db.AddInParameter(dbCommand, "Fire_Company_Contact_EMail", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Fire_Company_Contact_EMail", DbType.String, this._Fire_Company_Contact_EMail);
 
             db.ExecuteNonQuery(dbCommand);
         }

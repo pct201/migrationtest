@@ -235,6 +235,39 @@ public partial class Controls_SONICInfo_SonicInfo : System.Web.UI.UserControl
         get { return Convert.ToInt32(ViewState["WC_FR_ID_For_Investigation"]); }
         set { ViewState["WC_FR_ID_For_Investigation"] = value; }
     }
+
+
+
+    public string SRENumber
+    {
+        set
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                lnkSRE.Text = "";
+            }
+            else
+            {
+                lnkSRE.Text = value;
+            }
+        }
+    }
+
+    public string AP_Location
+    {
+        set
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                lnkAP_Location.Text = "";
+            }
+            else
+            {
+                lnkAP_Location.Text = value;
+            }
+        }
+    }
+
     #region Page Load Events
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -259,6 +292,7 @@ public partial class Controls_SONICInfo_SonicInfo : System.Web.UI.UserControl
                 else if (CurrentReportType == ReportType.Property)
                     //lnkClaimNumber.PostBackUrl = AppConfig.SiteURL + "SONIC/ClaimInfo/PropertyClaimInfo.aspx?id=" + Encryption.Encrypt(ClaimInfo);
 
+                
                 if (lstPF_FR_ID != null)
                 {
                     ddlCompanionFirstReport.Items.Remove(lstPF_FR_ID);
@@ -271,12 +305,48 @@ public partial class Controls_SONICInfo_SonicInfo : System.Web.UI.UserControl
                 {
                     ddlCompanionFirstReport.Items.Insert(0, new ListItem("--None--", "0"));
                 }
+
+                string strFR = lblFirstReportNumber.Text.Substring(0, lblFirstReportNumber.Text.IndexOf('-'));
+
+                if (strFR == "AL" || strFR == "DPD")
+                {
+                    tdSRE.Style["display"] = "";
+                    tdHeaderSRE.Style["display"] = "";
+                    tdAP_Location.Style["display"] = "";
+                    tdHeaderAP_Location.Style["display"] = "";
+
+                    DataSet dsSRE = clsEvent.GetEventByFirstReport(Convert.ToDecimal(Encryption.Decrypt(Request.QueryString["id"].ToString())), strFR);
+
+                    if (dsSRE.Tables.Count > 0)
+                    {
+
+                        if (dsSRE.Tables[0].Rows.Count > 0 && !string.IsNullOrEmpty(Convert.ToString(dsSRE.Tables[0].Rows[0]["FK_Loss_Location"])))
+                        {
+                            lnkAP_Location.Text = Convert.ToString(dsSRE.Tables[0].Rows[0]["AP_Location"]);
+                            lnkAP_Location.PostBackUrl = AppConfig.SiteURL + "SONIC/Exposures/Asset_Protection.aspx?loc=" + Encryption.Encrypt(Convert.ToString(dsSRE.Tables[0].Rows[0]["FK_Loss_Location"]));
+                        }
+                    }
+
+                    if (dsSRE.Tables.Count > 1)
+                    {
+                        if (dsSRE.Tables[1].Rows.Count > 0 && !string.IsNullOrEmpty(Convert.ToString(dsSRE.Tables[1].Rows[0]["Event_Number"])))
+                        {
+                            lnkSRE.Text = Convert.ToString(dsSRE.Tables[1].Rows[0]["Event_Number"]);
+                            lnkSRE.PostBackUrl = AppConfig.SiteURL + "Event/Event_New.aspx?iid=" + 0 + "&eid=" + Encryption.Encrypt(Convert.ToString(dsSRE.Tables[1].Rows[0]["PK_Event"])) + "&mode=viewonly";
+                        }
+
+                    }
+                }
+
             }
             else
             {
                 ddlCompanionFirstReport.Items.Insert(0, new ListItem("--None--", "0"));
             }
             //check User Access Type. if is View only than Hide Add new Link Button
+
+            
+
         }
     }
     #endregion

@@ -627,6 +627,17 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         txtBurglar_Alarm_Company_Contact_EMail.Text = objAP_Property_Security.Burglar_Alarm_Company_Contact_EMail;
         txtBurglar_Alarm_Coverage_Other_Description.Text = objAP_Property_Security.Burglar_Alarm_Coverage_Other_Description;
         txtBurglar_Alarm_Coverage_Comments.Text = objAP_Property_Security.Burglar_Alarm_Coverage_Comments;
+
+        txtFire_Company_Name.Text = objAP_Property_Security.Fire_Company_Name;
+        txtFire_Company_Address_1.Text = objAP_Property_Security.Fire_Company_Address_1;
+        txtFire_Company_Address_2.Text = objAP_Property_Security.Fire_Company_Address_2;
+        txtFire_Company_City.Text = objAP_Property_Security.Fire_Company_City;
+        clsGeneral.SetDropdownValue(drpFK_Fire_Company_State, objAP_Property_Security.FK_Fire_Company_State, true);
+        txtFire_Company_Zip.Text = objAP_Property_Security.Fire_Company_Zip;
+        txtFire_Company_Contact_Name.Text = objAP_Property_Security.Fire_Company_Contact_Name;
+        txtFire_Comapny_Contact_Telephone.Text = objAP_Property_Security.Fire_Comapny_Contact_Telephone;
+        txtFire_Company_Contact_EMail.Text = objAP_Property_Security.Fire_Company_Contact_EMail;
+
         txtGuard_Company_Name.Text = objAP_Property_Security.Guard_Company_Name;
         txtGuard_Company_Address_1.Text = objAP_Property_Security.Guard_Company_Address_1;
         txtGuard_Company_Address_2.Text = objAP_Property_Security.Guard_Company_Address_2;
@@ -801,6 +812,20 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         lblBurglar_Alarm_Company_Contact_EMail.Text = objAP_Property_Security.Burglar_Alarm_Company_Contact_EMail;
         lblBurglar_Alarm_Coverage_Other_Description.Text = objAP_Property_Security.Burglar_Alarm_Coverage_Other_Description;
         lblBurglar_Alarm_Coverage_Comments.Text = objAP_Property_Security.Burglar_Alarm_Coverage_Comments;
+
+        lblFire_Company_Name.Text = objAP_Property_Security.Fire_Company_Name;
+        lblFire_Company_Address_1.Text = objAP_Property_Security.Fire_Company_Address_1;
+        lblFire_Company_Address_2.Text = objAP_Property_Security.Fire_Company_Address_2;
+        lblFire_Company_City.Text = objAP_Property_Security.Fire_Company_City;
+        if (objAP_Property_Security.FK_Fire_Company_State != null)
+            lblFK_Fire_Company_State.Text = new State((decimal)objAP_Property_Security.FK_Fire_Company_State).FLD_state;
+        else
+            lblFK_Fire_Company_State.Text = string.Empty;
+        lblFire_Company_Zip.Text = objAP_Property_Security.Fire_Company_Zip;
+        lblFire_Company_Contact_Name.Text = objAP_Property_Security.Fire_Company_Contact_Name;
+        lblFire_Comapny_Contact_Telephone.Text = objAP_Property_Security.Fire_Comapny_Contact_Telephone;
+        lblFire_Company_Contact_E_Mail.Text = objAP_Property_Security.Fire_Company_Contact_EMail;
+
         lblGuard_Company_Name.Text = objAP_Property_Security.Guard_Company_Name;
         lblGuard_Company_Address_1.Text = objAP_Property_Security.Guard_Company_Address_1;
         lblGuard_Company_Address_2.Text = objAP_Property_Security.Guard_Company_Address_2;
@@ -957,6 +982,17 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         objAP_Property_Security.Burglar_Alarm_Company_Contact_EMail = txtBurglar_Alarm_Company_Contact_EMail.Text.Trim();
         objAP_Property_Security.Burglar_Alarm_Coverage_Other_Description = txtBurglar_Alarm_Coverage_Other_Description.Text.Trim();
         objAP_Property_Security.Burglar_Alarm_Coverage_Comments = txtBurglar_Alarm_Coverage_Comments.Text.Trim();
+
+        objAP_Property_Security.Fire_Company_Name = txtFire_Company_Name.Text.Trim();
+        objAP_Property_Security.Fire_Company_Address_1 = txtFire_Company_Address_1.Text.Trim();
+        objAP_Property_Security.Fire_Company_Address_2 = txtFire_Company_Address_2.Text.Trim();
+        objAP_Property_Security.Fire_Company_City = txtFire_Company_City.Text.Trim();
+        if (drpFK_Fire_Company_State.SelectedIndex > 0) objAP_Property_Security.FK_Fire_Company_State = Convert.ToDecimal(drpFK_Fire_Company_State.SelectedValue);
+        objAP_Property_Security.Fire_Company_Zip = txtFire_Company_Zip.Text.Trim();
+        objAP_Property_Security.Fire_Company_Contact_Name = txtFire_Company_Contact_Name.Text.Trim();
+        objAP_Property_Security.Fire_Comapny_Contact_Telephone = txtFire_Comapny_Contact_Telephone.Text.Trim();
+        objAP_Property_Security.Fire_Company_Contact_EMail = txtFire_Company_Contact_EMail.Text.Trim();
+
         objAP_Property_Security.Guard_Company_Name = txtGuard_Company_Name.Text.Trim();
         objAP_Property_Security.Guard_Company_Address_1 = txtGuard_Company_Address_1.Text.Trim();
         objAP_Property_Security.Guard_Company_Address_2 = txtGuard_Company_Address_2.Text.Trim();
@@ -1347,6 +1383,24 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             {
                 ctrlAPNotes_DPD.BindEmptyGrid();
             }
+
+            DataSet dsSRE = clsEvent.GetEventByFirstReport(FK_DPD_FR_ID, "DPD");
+
+            trSREDPD.Style["display"] = "";
+
+            lnkFROIDPD.Text = lblIncident_Number.Text;
+            lnkFROIDPD.PostBackUrl = AppConfig.SiteURL + "SONIC/FirstReport/DPDFirstReport.aspx?id=" + Encryption.Encrypt(Convert.ToString(FK_DPD_FR_ID)) +
+                "&WZ_ID=" + Encryption.Encrypt(Convert.ToString(clsSession.First_Report_Wizard_ID));
+
+            if (dsSRE.Tables.Count > 1 && dsSRE.Tables[1].Rows.Count > 0 && !string.IsNullOrEmpty(Convert.ToString(dsSRE.Tables[1].Rows[0]["Event_Number"])))
+            {
+                lnkSREDPD.Text = Convert.ToString(dsSRE.Tables[1].Rows[0]["Event_Number"]);
+                lnkSREDPD.PostBackUrl = AppConfig.SiteURL + "Event/Event_New.aspx?iid=" + 0 + "&eid=" + Encryption.Encrypt(Convert.ToString(dsSRE.Tables[1].Rows[0]["PK_Event"])) + "&mode=viewonly";
+            }
+            else
+            {
+                lnkSREDPD.Text = string.Empty;
+            }
         }
     }
 
@@ -1464,6 +1518,24 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             else
             {
                 ctrlAPNotes_DPDView.BindEmptyGrid();
+            }
+
+            DataSet dsSRE = clsEvent.GetEventByFirstReport(FK_DPD_FR_ID, "DPD");
+
+            trSREDPDView.Style["display"] = "";
+
+            lnkFROIDPDView.Text = lblIncident_NumberView.Text;
+            lnkFROIDPDView.PostBackUrl = AppConfig.SiteURL + "SONIC/FirstReport/DPDFirstReport.aspx?id=" + Encryption.Encrypt(Convert.ToString(FK_DPD_FR_ID)) +
+                "&WZ_ID=" + Encryption.Encrypt(Convert.ToString(clsSession.First_Report_Wizard_ID));
+
+            if (dsSRE.Tables.Count > 1 && dsSRE.Tables[1].Rows.Count > 0 && !string.IsNullOrEmpty(Convert.ToString(dsSRE.Tables[1].Rows[0]["Event_Number"])))
+            {
+                lnkSREDPDView.Text = Convert.ToString(dsSRE.Tables[1].Rows[0]["Event_Number"]);
+                lnkSREDPDView.PostBackUrl = AppConfig.SiteURL + "Event/Event_New.aspx?iid=" + 0 + "&eid=" + Encryption.Encrypt(Convert.ToString(dsSRE.Tables[1].Rows[0]["PK_Event"])) + "&mode=viewonly";
+            }
+            else
+            {
+                lnkSREDPDView.Text = string.Empty;
             }
         }
     }
@@ -1770,6 +1842,24 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             }
 
             #endregion
+
+            DataSet dsSRE = clsEvent.GetEventByFirstReport(FK_AL_FR_ID, "AL");
+
+            trSREAL.Style["display"] = "";
+
+            lnkALFROI.Text = lblAL_Incident_Number.Text;
+            lnkALFROI.PostBackUrl = AppConfig.SiteURL + "SONIC/FirstReport/ALFirstReport.aspx?id=" + Encryption.Encrypt(Convert.ToString(FK_AL_FR_ID)) +
+                "&WZ_ID=" + Encryption.Encrypt(Convert.ToString(clsSession.First_Report_Wizard_ID));
+
+            if (dsSRE.Tables.Count > 1 && dsSRE.Tables[1].Rows.Count > 0 && !string.IsNullOrEmpty(Convert.ToString(dsSRE.Tables[1].Rows[0]["Event_Number"])))
+            {
+                lnkALSRE.Text = Convert.ToString(dsSRE.Tables[1].Rows[0]["Event_Number"]);
+                lnkALSRE.PostBackUrl = AppConfig.SiteURL + "Event/Event_New.aspx?iid=" + 0 + "&eid=" + Encryption.Encrypt(Convert.ToString(dsSRE.Tables[1].Rows[0]["PK_Event"])) + "&mode=viewonly";
+            }
+            else
+            {
+                lnkALSRE.Text = string.Empty;
+            }
         }
 
     }
@@ -1925,6 +2015,23 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             }
             #endregion
 
+            DataSet dsSRE = clsEvent.GetEventByFirstReport(FK_AL_FR_ID, "AL");
+
+            trSREALView.Style["display"] = "";
+
+            lnkFROIALView.Text = lblAL_Incident_NumberView.Text;
+            lnkFROIALView.PostBackUrl = AppConfig.SiteURL + "SONIC/FirstReport/ALFirstReport.aspx?id=" + Encryption.Encrypt(Convert.ToString(FK_AL_FR_ID)) +
+                "&WZ_ID=" + Encryption.Encrypt(Convert.ToString(clsSession.First_Report_Wizard_ID));
+
+            if (dsSRE.Tables.Count > 1 && dsSRE.Tables[1].Rows.Count > 0 && !string.IsNullOrEmpty(Convert.ToString(dsSRE.Tables[1].Rows[0]["Event_Number"])))
+            {
+                lnkSREALView.Text = Convert.ToString(dsSRE.Tables[1].Rows[0]["Event_Number"]);
+                lnkSREALView.PostBackUrl = AppConfig.SiteURL + "Event/Event_New.aspx?iid=" + 0 + "&eid=" + Encryption.Encrypt(Convert.ToString(dsSRE.Tables[1].Rows[0]["PK_Event"])) + "&mode=viewonly";
+            }
+            else
+            {
+                lnkSREALView.Text = string.Empty;
+            }
 
         }
 
@@ -3288,7 +3395,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     /// </summary>
     private void BindDropDownList()
     {
-        ComboHelper.FillState(new DropDownList[] { drpFK_CCTV_Company_State, drpFK_Burglar_Alarm_Company_State, drpFK_Guard_Company_State }, 0, true);
+        ComboHelper.FillState(new DropDownList[] { drpFK_CCTV_Company_State, drpFK_Burglar_Alarm_Company_State, drpFK_Guard_Company_State, drpFK_Fire_Company_State }, 0, true);
         ComboHelper.FillWeekDays(new DropDownList[] { ddlDayMonitoringBegins, ddlDayMonitoringEnds, ddlDayMonitoringBegin_CCTV, 
             ddlDayMonitoringEnd_CCTV, ddlDayMonitoringBegin_Guard, ddlDayMonitoringEnd_Guard, ddlDayMonitoringBegin_Duty, ddlDayMonitoringEnd_Duty }, 0, true);
         ComboHelper.FillCap_Index_Risk_Category(new DropDownList[] { ddlCap_Index_Risk_Category }, true);

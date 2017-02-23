@@ -41,6 +41,9 @@ public partial class Controls_EventInfo_EventInfo : System.Web.UI.UserControl
                 if (!string.IsNullOrEmpty(Convert.ToString(dsFR.Tables[0].Rows[0]["Prop_FR_Number"])))
                     lnkPLFirstReport_No.Text = "Prop-" + dsFR.Tables[0].Rows[0]["Prop_FR_Number"].ToString();
 
+                if (!string.IsNullOrEmpty(Convert.ToString(dsFR.Tables[0].Rows[0]["Asset_Pro_Location"])))
+                    lnkAssetProtection.Text = dsFR.Tables[0].Rows[0]["Asset_Pro_Location"].ToString();
+
 
                 lnkALFirstReport_No.PostBackUrl = AppConfig.SiteURL + "SONIC/FirstReport/ALFirstReport.aspx?id=" + Encryption.Encrypt(Convert.ToString(dsFR.Tables[0].Rows[0]["PK_AL_FR_ID"])) +
                                                     "&WZ_ID=" + Encryption.Encrypt(Convert.ToString(dsFR.Tables[0].Rows[0]["AL_Wizard_ID"]));
@@ -50,6 +53,8 @@ public partial class Controls_EventInfo_EventInfo : System.Web.UI.UserControl
                                                     "&WZ_ID=" + Encryption.Encrypt(Convert.ToString(dsFR.Tables[0].Rows[0]["PL_Wizard_ID"]));
                 lnkPLFirstReport_No.PostBackUrl = AppConfig.SiteURL + "SONIC/FirstReport/PropertyFirstReport.aspx?id=" + Encryption.Encrypt(Convert.ToString(dsFR.Tables[0].Rows[0]["PK_Property_FR_ID"])) +
                                                     "&WZ_ID=" + Encryption.Encrypt(Convert.ToString(dsFR.Tables[0].Rows[0]["Property_Wizard_ID"]));
+
+                lnkAssetProtection.PostBackUrl = AppConfig.SiteURL + "SONIC/Exposures/Asset_Protection.aspx?loc=" + Encryption.Encrypt(Convert.ToString(dsFR.Tables[0].Rows[0]["FK_LU_Location"]));
                 
                 
             }

@@ -362,6 +362,21 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
             else { strEbdy = strEbdy.Replace("[imgZDOther]", ImgUnchecked); }
             strEbdy = strEbdy.Replace("[Burglar_Alarm_Coverage]", clsGeneral.ReplaceSpaceAndNewLine(objAP_Property_Security.Burglar_Alarm_Coverage_Other_Description));
             strEbdy = strEbdy.Replace("[Burglar_Alarm_Coverage_Comment]", clsGeneral.ReplaceSpaceAndNewLine(objAP_Property_Security.Burglar_Alarm_Coverage_Comments));
+            strEbdy = strEbdy.Replace("[Fire_Company_Name]", objAP_Property_Security.Fire_Company_Name);
+            strEbdy = strEbdy.Replace("[Fire_Company_Address1]", objAP_Property_Security.Fire_Company_Address_1);
+            strEbdy = strEbdy.Replace("[Fire_Company_Address2]", objAP_Property_Security.Fire_Company_Address_2);
+            strEbdy = strEbdy.Replace("[Fire_Company_City]", objAP_Property_Security.Fire_Company_City);
+            if (objAP_Property_Security.FK_Fire_Company_State != null)
+            {
+                string strFK_Fire_Company_State = new State((decimal)objAP_Property_Security.FK_Fire_Company_State).FLD_state;
+                strEbdy = strEbdy.Replace("[Fire_Company_State]", strFK_Fire_Company_State);
+            }
+            else
+                strEbdy = strEbdy.Replace("[Fire_Company_State]", "");
+            strEbdy = strEbdy.Replace("[Fire_Company_Zip]", objAP_Property_Security.Fire_Company_Zip);
+            strEbdy = strEbdy.Replace("[Fire_Company_Contact_Name]", objAP_Property_Security.Fire_Company_Contact_Name);
+            strEbdy = strEbdy.Replace("[Fire_Company_Contact_Telephone]", objAP_Property_Security.Fire_Comapny_Contact_Telephone);
+            strEbdy = strEbdy.Replace("[Fire_Company_Contact_EMail]", objAP_Property_Security.Fire_Company_Contact_EMail);
             strEbdy = strEbdy.Replace("[Guard_Company_Name]", objAP_Property_Security.Guard_Company_Name);
             strEbdy = strEbdy.Replace("[Guard_Company_Address1]", objAP_Property_Security.Guard_Company_Address_1);
             strEbdy = strEbdy.Replace("[Guard_Company_Address2]", objAP_Property_Security.Guard_Company_Address_2);
@@ -847,6 +862,21 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
             else { htFindAndReplace.Add("[imgZDOther]", ImgUnchecked); }
             htFindAndReplace.Add("[Burglar_Alarm_Coverage]", objAP_Property_Security.Burglar_Alarm_Coverage_Other_Description);
             htFindAndReplace.Add("[Burglar_Alarm_Coverage_Comment]", objAP_Property_Security.Burglar_Alarm_Coverage_Comments);
+            htFindAndReplace.Add("[Fire_Company_Name]", objAP_Property_Security.Fire_Company_Name);
+            htFindAndReplace.Add("[Fire_Company_Address1]", objAP_Property_Security.Fire_Company_Address_1);
+            htFindAndReplace.Add("[Fire_Company_Address2]", objAP_Property_Security.Fire_Company_Address_2);
+            htFindAndReplace.Add("[Fire_Company_City]", objAP_Property_Security.Fire_Company_City);
+            if (objAP_Property_Security.FK_Fire_Company_State != null)
+            {
+                string strFK_Fire_Company_State = new State((decimal)objAP_Property_Security.FK_Fire_Company_State).FLD_state;
+                htFindAndReplace.Add("[Fire_Company_State]", strFK_Fire_Company_State);
+            }
+            else
+                htFindAndReplace.Add("[Fire_Company_State]", "");
+            htFindAndReplace.Add("[Fire_Company_Zip]", objAP_Property_Security.Fire_Company_Zip);
+            htFindAndReplace.Add("[Fire_Company_Contact_Name]", objAP_Property_Security.Fire_Company_Contact_Name);
+            htFindAndReplace.Add("[Fire_Company_Contact_Telephone]", objAP_Property_Security.Fire_Comapny_Contact_Telephone);
+            htFindAndReplace.Add("[Fire_Company_Contact_EMail]", objAP_Property_Security.Fire_Company_Contact_EMail);
             htFindAndReplace.Add("[Guard_Company_Name]", objAP_Property_Security.Guard_Company_Name);
             htFindAndReplace.Add("[Guard_Company_Address1]", objAP_Property_Security.Guard_Company_Address_1);
             htFindAndReplace.Add("[Guard_Company_Address2]", objAP_Property_Security.Guard_Company_Address_2);
@@ -1316,6 +1346,21 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
             else { strEbdy = strEbdy.Replace("[imgZDOther]", ImgUnchecked); }
             strEbdy = strEbdy.Replace("[Burglar_Alarm_Coverage]", clsGeneral.ReplaceSpaceAndNewLine(objAP_Property_Security.Burglar_Alarm_Coverage_Other_Description));
             strEbdy = strEbdy.Replace("[Burglar_Alarm_Coverage_Comment]", clsGeneral.ReplaceSpaceAndNewLine(objAP_Property_Security.Burglar_Alarm_Coverage_Comments));
+            strEbdy = strEbdy.Replace("[Fire_Company_Name]", objAP_Property_Security.Fire_Company_Name);
+            strEbdy = strEbdy.Replace("[Fire_Company_Address1]", objAP_Property_Security.Fire_Company_Address_1);
+            strEbdy = strEbdy.Replace("[Fire_Company_Address2]", objAP_Property_Security.Fire_Company_Address_2);
+            strEbdy = strEbdy.Replace("[Fire_Company_City]", objAP_Property_Security.Fire_Company_City);
+            if (objAP_Property_Security.FK_Fire_Company_State != null)
+            {
+                string strFK_Fire_Company_State = new State((decimal)objAP_Property_Security.FK_Fire_Company_State).FLD_state;
+                strEbdy = strEbdy.Replace("[Fire_Company_State]", strFK_Fire_Company_State);
+            }
+            else
+                strEbdy = strEbdy.Replace("[Fire_Company_State]", "");
+            strEbdy = strEbdy.Replace("[Fire_Company_Zip]", objAP_Property_Security.Fire_Company_Zip);
+            strEbdy = strEbdy.Replace("[Fire_Company_Contact_Name]", objAP_Property_Security.Fire_Company_Contact_Name);
+            strEbdy = strEbdy.Replace("[Fire_Company_Contact_Telephone]", objAP_Property_Security.Fire_Comapny_Contact_Telephone);
+            strEbdy = strEbdy.Replace("[Fire_Company_Contact_EMail]", objAP_Property_Security.Fire_Company_Contact_EMail);
             strEbdy = strEbdy.Replace("[Guard_Company_Name]", objAP_Property_Security.Guard_Company_Name);
             strEbdy = strEbdy.Replace("[Guard_Company_Address1]", objAP_Property_Security.Guard_Company_Address_1);
             strEbdy = strEbdy.Replace("[Guard_Company_Address2]", objAP_Property_Security.Guard_Company_Address_2);
@@ -1734,6 +1779,21 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
             else { htFindAndReplace.Add("[imgZDOther]", ImgUnchecked); }
             htFindAndReplace.Add("[Burglar_Alarm_Coverage]", objAP_Property_Security.Burglar_Alarm_Coverage_Other_Description);
             htFindAndReplace.Add("[Burglar_Alarm_Coverage_Comment]", objAP_Property_Security.Burglar_Alarm_Coverage_Comments);
+            htFindAndReplace.Add("[Fire_Company_Name]", objAP_Property_Security.Fire_Company_Name);
+            htFindAndReplace.Add("[Fire_Company_Address1]", objAP_Property_Security.Fire_Company_Address_1);
+            htFindAndReplace.Add("[Fire_Company_Address2]", objAP_Property_Security.Fire_Company_Address_2);
+            htFindAndReplace.Add("[Fire_Company_City]", objAP_Property_Security.Fire_Company_City);
+            if (objAP_Property_Security.FK_Fire_Company_State != null)
+            {
+                string strFK_Fire_Company_State = new State((decimal)objAP_Property_Security.FK_Fire_Company_State).FLD_state;
+                htFindAndReplace.Add("[Fire_Company_State]", strFK_Fire_Company_State);
+            }
+            else
+                htFindAndReplace.Add("[Fire_Company_State]", "");
+            htFindAndReplace.Add("[Fire_Company_Zip]", objAP_Property_Security.Fire_Company_Zip);
+            htFindAndReplace.Add("[Fire_Company_Contact_Name]", objAP_Property_Security.Fire_Company_Contact_Name);
+            htFindAndReplace.Add("[Fire_Company_Contact_Telephone]", objAP_Property_Security.Fire_Comapny_Contact_Telephone);
+            htFindAndReplace.Add("[Fire_Company_Contact_EMail]", objAP_Property_Security.Fire_Company_Contact_EMail);
             htFindAndReplace.Add("[Guard_Company_Name]", objAP_Property_Security.Guard_Company_Name);
             htFindAndReplace.Add("[Guard_Company_Address1]", objAP_Property_Security.Guard_Company_Address_1);
             htFindAndReplace.Add("[Guard_Company_Address2]", objAP_Property_Security.Guard_Company_Address_2);

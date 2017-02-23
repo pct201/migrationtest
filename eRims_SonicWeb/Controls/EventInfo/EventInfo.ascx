@@ -2,20 +2,23 @@
 <table cellpadding="3" id="tblEventIdentification" runat="server" cellspacing="1"
     border="0" width="100%" style="background-color: Black;">
     <tr class="PropertyInfoBG" align="left" valign="top">
-        <td style="width:20%">
+        <td style="width:15%">
             Event Number
         </td>
-        <td style="width:20%">
+        <td style="width:15%">
             AL First Report #
         </td>
-        <td style="width:20%">
+        <td style="width:15%">
             DPD First Report #
         </td>
-        <td style="width:20%">
+        <td style="width:15%">
             PL First Report #
         </td>
         <td  style="width:20%">
             Property First Report #
+        </td>
+        <td  style="width:20%">
+            Asset Protection Location
         </td>
     </tr>
     <tr style="background-color: White;" valign="top" align="left">
@@ -33,6 +36,9 @@
         </td>
         <td>
             <asp:LinkButton ID="lnkPLFirstReport_No" Text="" runat="server" />
+        </td>
+        <td>
+            <asp:LinkButton ID="lnkAssetProtection" Text="" runat="server" />
         </td>
     </tr>
 </table>
