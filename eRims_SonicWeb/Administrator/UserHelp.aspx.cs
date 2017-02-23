@@ -183,7 +183,7 @@ public partial class Administrator_UserHelp : clsBasePage
             if (fpFile.HasFile)
             {
                 //upload file
-                objUserHelp.URL = (strUploadURL + clsGeneral.UploadFile(fpFile, strUploadPath, false, false)).Replace("http://", "");
+                objUserHelp.URL = (strUploadURL + clsGeneral.UploadFile(fpFile, strUploadPath, false, false)).Replace("http://", "")..Replace("https://", "");
             }
             else
             {

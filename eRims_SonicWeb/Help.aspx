@@ -11,7 +11,7 @@
             </tr>
             <tr>
                 <td class="bandHeaderRow" align="left" colspan="4">
-                    Help
+                    Docs
                 </td>
             </tr>
             <tr>
@@ -30,7 +30,7 @@
                         <RowStyle HorizontalAlign="Left" />
                         <HeaderStyle HorizontalAlign="Left" />
                         <Columns>
-                            <asp:TemplateField HeaderText="Help Type">
+                            <asp:TemplateField HeaderText="Document Type">
                                 <ItemStyle Width="20%" />
                                 <ItemTemplate>
                                     <%#Eval("Type")%>
