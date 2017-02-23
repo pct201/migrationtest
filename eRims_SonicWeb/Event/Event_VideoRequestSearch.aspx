@@ -207,7 +207,7 @@
                                         <EmptyDataRowStyle CssClass="emptyrow" />
                                         <Columns>
                                             <asp:TemplateField HeaderText="Disposition" HeaderStyle-HorizontalAlign="Left">
-                                                <ItemStyle Width="160px" HorizontalAlign="Left" />
+                                                <ItemStyle Width="180px" HorizontalAlign="Left" />
                                                 <ItemTemplate>
                                                     <asp:LinkButton ID="btnOpen" CommandName="OpenVideo" CommandArgument='<%#Eval("PK_Event_Video_Tracking_Request") + "," +Eval("FK_Event")%>'
                                                         runat="server" CausesValidation="false" Text="Open" ToolTip="Open" />&nbsp;&nbsp;

@@ -354,6 +354,9 @@ public partial class Event_Event_New : clsBasePage
     protected void btnSend_Notification_Click(object sender, EventArgs e)
     {
         SaveRecord();
+
+        SaveVideoRequest();
+
         SendAbstractViaEmailWhileInsert();
         if (rblVideoRequestedBySonic.SelectedValue == "Y")
         {
@@ -1359,7 +1362,13 @@ public partial class Event_Event_New : clsBasePage
         }
 
         #endregion
+    }
 
+        /// <summary>
+    /// Save Video Request Information In database
+    /// </summary>
+    private void SaveVideoRequest()
+    {
         #region "ACI Video Request"
 
         if (PK_Event > 0 && rblVideoRequestedBySonic.SelectedValue == "Y")
@@ -1414,8 +1423,6 @@ public partial class Event_Event_New : clsBasePage
             }
 
         }
-
-
 
         #endregion
     }

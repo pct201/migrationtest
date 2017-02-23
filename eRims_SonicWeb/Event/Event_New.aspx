@@ -427,6 +427,14 @@
             }
             else {
                 var bValid = false;
+                if (id == 'btnSave')
+                {
+                    disableValidationvideo();
+                }
+                else
+                {
+                    ShowHideVideoRequest();
+                }
                 if (Page_ClientValidate("vsErrorGroup")) {
                     bValid = true;
 
@@ -710,6 +718,37 @@
                     txtEvent_End_Time_Video.value = Event_End_Time;
                 }
             }
+        }
+
+        function disableValidationvideo()
+        {
+            var rfvddllocation = document.getElementById("<%=rfvddlLocation_Video.ClientID%>");
+            var rfvddlFK_LU_Type_of_Activity_Video = document.getElementById("<%=rfvddlFK_LU_Type_of_Activity_Video.ClientID%>");
+            var rfvtxtDate_Of_Event_Video = document.getElementById("<%=rfvtxtDate_Of_Event_Video.ClientID%>");
+            var rfvtxtDate_Of_Request_Video = document.getElementById("<%=rfvtxtDate_Of_Request_Video.ClientID%>");
+            var revtxtFull_Name_Video = document.getElementById("<%=revtxtFull_Name_Video.ClientID%>");
+            var revtxtWork_Phone_Video = document.getElementById("<%=revtxtWork_Phone_Video.ClientID%>");
+            var revtxtLocation_Video = document.getElementById("<%=revtxtLocation_Video.ClientID%>");
+            var revtxtAlternate_Phone_Video = document.getElementById("<%=revtxtAlternate_Phone_Video.ClientID%>");
+            var rfvReason_Request_Video_rfvNotes =  document.getElementById("ctl00_ContentPlaceHolder1_txtReason_Request_Video_rfvNotes");
+
+            var revtxtCamera_Name_Video = document.getElementById("<%=revtxtCamera_Name_Video.ClientID%>");
+            var revtxtEvent_Start_Time_Video = document.getElementById("<%=revtxtEvent_Start_Time_Video.ClientID%>");
+            var revtxtEvent_End_Time_Video = document.getElementById("<%=revtxtEvent_End_Time_Video.ClientID%>");
+
+            rfvddllocation.enabled = false;
+            rfvddlFK_LU_Type_of_Activity_Video.enabled = false;
+            rfvtxtDate_Of_Event_Video.enabled = false;
+            rfvtxtDate_Of_Request_Video.enabled = false;
+            revtxtFull_Name_Video.enabled = false; 
+            revtxtWork_Phone_Video.enabled = false; 
+            revtxtLocation_Video.enabled = false; 
+            revtxtAlternate_Phone_Video.enabled = false; 
+            rfvReason_Request_Video_rfvNotes.enabled = false;
+
+            revtxtCamera_Name_Video.enabled = false;
+            revtxtEvent_Start_Time_Video.enabled = false;
+            revtxtEvent_End_Time_Video.enabled = false;
         }
 
 
