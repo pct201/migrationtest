@@ -68,4 +68,15 @@ public partial class ExposureInfo : System.Web.UI.UserControl
         }
         lblRMLocationNumber.Text = strLocationCode; 
     }
+
+    public void SetRMLocationCodewithBuilding(string strBuilding)
+    {
+        string strLocationCode = Int_Location_Code > 0 ? Int_Location_Code.ToString() : "";
+     
+        if (strBuilding.Length > 0)
+        {
+            strLocationCode = strLocationCode + " : " + strBuilding;
+        }
+        lblRMLocationNumber.Text = strLocationCode;
+    }
 }

@@ -3826,6 +3826,14 @@ public partial class SONIC_Exposures_Lease : clsBasePage
             else
                 BindDetailsForView();
 
+            DataTable dtHeader = RE_Information.SelectByFK_Location(FK_LU_Location_ID).Tables[0];
+            dtHeader.DefaultView.RowFilter = "PK_RE_Information=" + _PK_RE_Information;
+
+            if (dtHeader.DefaultView.Count > 0)
+            {
+                ucCtrlExposureInfo.SetRMLocationCodewithBuilding(Convert.ToString(dtHeader.DefaultView.ToTable().Rows[0]["Building_Number"]));
+            }
+
             ScriptManager.RegisterStartupScript(this, Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
         }
         else if (e.CommandName == "RemoveLease") // if command is for removing the record
