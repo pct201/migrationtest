@@ -55,7 +55,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td align="left" style="padding-left: 10px; font-size: 12px;">Social Security Number&nbsp;<span style="color: Red;">*</span>
+                    <td align="left" style="padding-left: 10px; font-size: 12px;">Social Security Number&nbsp;<span style="color: Red;">*</span>&nbsp;(No dashes, numbers only)
                     </td>
                     <td align="center">:
                     </td>
