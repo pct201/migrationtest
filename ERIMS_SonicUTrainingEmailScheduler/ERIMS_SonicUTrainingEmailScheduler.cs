@@ -654,7 +654,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
 
                     sbRecorords.Append("<tr valign='top' style='background-color:#F2F2F2;color:Black;page-break-inside: avoid;'>");
                     sbRecorords.Append("<td align='center' colspan='6' style='font-size:9pt;'>No Associates to be trained in quarter.</td></tr>");
-                    sbRecorords.Append("</table></td></tr><tr><td>&nbsp;</td></tr><tr><td>&nbsp;</td><tr></table>");
+                    sbRecorords.Append("</table></td></tr><tr><td>&nbsp;</td></tr><tr><td>&nbsp;</td></tr></table>");
                 }
                 //sbRecorords.Append("</table></td></tr></table>");
 
@@ -934,7 +934,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                             sbRecorords.Append("<td align='center'  colspan='4'  style='font-size:9pt;'>No Associates to be trained in quarter.</td></tr>");
                     }
 
-                    sbRecorords.Append("</table></td></tr><tr><td>&nbsp;</td></tr><tr><td>&nbsp;</td><tr></table>");
+                    sbRecorords.Append("</table></td></tr><tr><td>&nbsp;</td></tr><tr><td>&nbsp;</td></tr></table>");
                 }
 
             }
