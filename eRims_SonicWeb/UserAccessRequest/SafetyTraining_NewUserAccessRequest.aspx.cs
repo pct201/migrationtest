@@ -43,6 +43,7 @@ public partial class UserAccessRequest_SafetyTraining_NewUserAccessRequest : Sys
     }
 
     public string strMoodleURL;
+    public int IsDublicate;
 
     #endregion
 
@@ -155,37 +156,46 @@ public partial class UserAccessRequest_SafetyTraining_NewUserAccessRequest : Sys
         objEmployee.Last_Hire_Date = Convert.ToDateTime(lblDateOfHire.Text);
         objEmployee.Active_Inactive_Leave = "Active";
         objEmployee.Update_Date = DateTime.Now;
-        PK_Employee_ID = objEmployee.Insert();
-
-        if (PK_Employee_ID > 0)
+        IsDublicate = Employee.CheckForDuplicateSSNNumber(lblSocialSecurityNumber.Text);
+    
+        //check whether SSN Number alredy exists or not
+        if (IsDublicate > 0)
         {
-            //insert record in Employee_Codes
-            Employee_Codes objEmployee_Codes = new Employee_Codes();
-            if (!string.IsNullOrEmpty(Convert.ToString(Sonic_U_Training_Required_Classes.SelectCodeByPosition(lblJobTitle.Text).Tables[0].Rows[0]["Code"])))
+            PK_Employee_ID = objEmployee.Insert();
+
+            if (PK_Employee_ID > 0)
             {
-                objEmployee_Codes.Code = Convert.ToString(Sonic_U_Training_Required_Classes.SelectCodeByPosition(lblJobTitle.Text).Tables[0].Rows[0]["Code"]);
+                //insert record in Employee_Codes
+                Employee_Codes objEmployee_Codes = new Employee_Codes();
+                if (!string.IsNullOrEmpty(Convert.ToString(Sonic_U_Training_Required_Classes.SelectCodeByPosition(lblJobTitle.Text).Tables[0].Rows[0]["Code"])))
+                {
+                    objEmployee_Codes.Code = Convert.ToString(Sonic_U_Training_Required_Classes.SelectCodeByPosition(lblJobTitle.Text).Tables[0].Rows[0]["Code"]);
+                }
+                objEmployee_Codes.FK_Employee_Id = PK_Employee_ID;
+                objEmployee_Codes.Insert();
+                IsSave = true;
             }
-            objEmployee_Codes.FK_Employee_Id = PK_Employee_ID;
-            objEmployee_Codes.Insert();
-            IsSave = true;
-        }
 
-        try
-        {
-            Sonic_U_Training.Import_Sonic_U_Training_Associate_Base();
-        }
-        catch (Exception)
-        {
+            try
+            {
+                Sonic_U_Training.Import_Sonic_U_Training_Associate_Base();
+            }
+            catch (Exception)
+            {
 
-        }
+            }
 
-        if (IsSave)
+            if (IsSave)
+            {
+                DataSet dsAdmin = Security.SelectByUserName("brady.lamp", 0);
+                GenerateHTML(dsAdmin);
+                //send email here
+                Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:alert('The information has been submitted to create a Safety Training catalogue for " + lblFirstName.Text + " " + lblLastName.Text + ". An e-mail containing this information has been sent to " + lblEmail.Text + " and the system administrator.');window.location='" + strMoodleURL + "';", true);
+            }
+        }
+        else
         {
-            DataSet dsAdmin = Security.SelectByUserName("brady.lamp", 0);
-            GenerateHTML(dsAdmin);
-            //send email here
-            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:alert('The information has been submitted to create a Safety Training catalogue for " + lblFirstName.Text + " " + lblLastName.Text + ". An e-mail containing this information has been sent to " + lblEmail.Text + " and the system administrator.');", true);
-            Response.Redirect(strMoodleURL);
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:alert('A associate already exists in the database with the same Social Security Number that was entered. Please either try again, or contact your supervisor.');", true);
         }
 
     }
@@ -298,7 +308,7 @@ public partial class UserAccessRequest_SafetyTraining_NewUserAccessRequest : Sys
         builder.PageSetup.RightMargin = 40;
         builder.InsertParagraph();
         builder.InsertHtml(strFileText);
-    
+
         doc.MailMerge.DeleteFields();
 
         string strFullPath = AppDomain.CurrentDomain.BaseDirectory + @"temp\" + strFileName[0].ToString().Replace(".doc", "") + System.DateTime.Now.ToString("MMddyyhhmmss") + ".doc";
@@ -381,7 +391,7 @@ public partial class UserAccessRequest_SafetyTraining_NewUserAccessRequest : Sys
 
         mMailMessage.Body = strFirstName + " " + strLastName + ",<br />Please find the Safety Training New User Access Request attached with this mail.<br /><br /><br />Thank you!<br />";
         mMailMessage.Body += "<br /> This is system generated message. Please do not reply.";
-  
+
         // Set the format of the mail message body as HTML
         mMailMessage.IsBodyHtml = boolIsHTML;
         // Set the priority of the mail message to normal

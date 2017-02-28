@@ -1600,6 +1600,21 @@ namespace ERIMS.DAL
             dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
+
+        /// <summary>
+        /// Check For Duplicate SSN Number
+        /// </summary>
+        /// <returns></returns>
+        public static int CheckForDuplicateSSNNumber(String Social_Security_Number)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("CheckForDuplicateSSNNumber");
+
+            db.AddInParameter(dbCommand, "Social_Security_Number", DbType.String, Social_Security_Number);
+
+            dbCommand.CommandTimeout = 1000;
+            return Convert.ToInt32(db.ExecuteScalar(dbCommand));
+        }
         #endregion
     }
 }

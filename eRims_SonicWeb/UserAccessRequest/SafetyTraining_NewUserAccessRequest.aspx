@@ -254,7 +254,7 @@
                                 <td align="center">
                                     <asp:Button ID="btnEdit" runat="server" Text=" Edit " CausesValidation="true" ValidationGroup="vsErrorGroup" OnClick="btnEdit_Click" OnClientClick=""/>
                                     &nbsp;&nbsp;&nbsp;
-                                <asp:Button ID="btnSubmit" runat="server" Text="Submit" CausesValidation="false" OnClick="btnSubmit_Click"  OnClientClick="return ConfirmSubmit();"/>
+                                <asp:Button ID="btnSubmit" runat="server" Text="Submit" CausesValidation="false" OnClick="btnSubmit_Click"  />
                                     &nbsp;&nbsp;&nbsp;
                                 </td>
                             </tr>
