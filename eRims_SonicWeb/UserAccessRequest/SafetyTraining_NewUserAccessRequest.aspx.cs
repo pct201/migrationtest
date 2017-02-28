@@ -259,7 +259,7 @@ public partial class UserAccessRequest_SafetyTraining_NewUserAccessRequest : Sys
         {
             strEbdy = strEbdy.Replace("[FirstName]", lblFirstName.Text);
             strEbdy = strEbdy.Replace("[LastName]", lblLastName.Text);
-            strEbdy = strEbdy.Replace("[SocialSecurityNumber]", lblSocialSecurityNumber.Text);
+            strEbdy = strEbdy.Replace("[SocialSecurityNumber]",lblSocialSecurityNumber.Text.Substring(lblSocialSecurityNumber.Text.Length - Math.Min(4, lblSocialSecurityNumber.Text.Length)));
             strEbdy = strEbdy.Replace("[E-Mail Address]", lblEmail.Text);
             strEbdy = strEbdy.Replace("[Location]", lblLocation.Text);
             strEbdy = strEbdy.Replace("[Department]", lblDepartment.Text);
@@ -423,4 +423,4 @@ public partial class UserAccessRequest_SafetyTraining_NewUserAccessRequest : Sys
 
     #endregion
 
-}
+} 
