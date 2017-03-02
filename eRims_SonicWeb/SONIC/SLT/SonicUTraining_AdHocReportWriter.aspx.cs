@@ -88,7 +88,7 @@ public partial class SONIC_SLT_SonicUTraining_AdHocReportWriter : clsBasePage
         {
             string data = File.ReadAllText(strFilePath);
             data = data.Trim();
-            HTML2Excel objHtml2Excel = new HTML2Excel(data);
+            AdhocHTML2Excel objHtml2Excel = new AdhocHTML2Excel(data);
             outputFiles = Path.GetFullPath(strFilePath) + ".xlsx";
             blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
         }
@@ -594,7 +594,7 @@ public partial class SONIC_SLT_SonicUTraining_AdHocReportWriter : clsBasePage
         else if (strID == "drpAmount_F9") drpDwn = drpFilter9;
         else if (strID == "drpAmount_F10") drpDwn = drpFilter10;
 
-        if (drpDwn.SelectedItem.Text == "Program Percent Complete" || drpDwn.SelectedItem.Text == "Year" || drpDwn.SelectedItem.Text == "Hire Quarter" || drpDwn.SelectedItem.Text == "Asset Expected Duration" || drpDwn.SelectedItem.Text == "Asset Actual Duration" || drpDwn.SelectedItem.Text == "Times Restarted")
+        if (drpDwn.SelectedItem.Text == "Year" || drpDwn.SelectedItem.Text == "Hire Quarter")
         {
             isDollar = false;
         }
@@ -1155,6 +1155,33 @@ public partial class SONIC_SLT_SonicUTraining_AdHocReportWriter : clsBasePage
                     {
                         ComboHelper.FillSonicUTrainLearningProgramAssetStatus(new ListBox[] { lst_F }, false);
                     }
+                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "course")
+                    {
+                        ComboHelper.FillCorseName(new ListBox[] { lst_F }, false);
+                    }
+                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "training type")
+                    {
+                        ComboHelper.FillTrainingType(new ListBox[] { lst_F }, false);
+                    }
+                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "location d/b/a")
+                    {
+                        ComboHelper.FillLocationDBA_AllCRMAdHoc(new ListBox[] { lst_F }, 0, false);
+                    }
+                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "market")
+                    {
+                        ComboHelper.FillMarketListBox(new ListBox[] { lst_F }, false);
+                    }
+                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "region")
+                    {
+                        ComboHelper.FillRegionListBox(new ListBox[] { lst_F }, false);
+                    }
+                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "training completed")
+                    {
+                        lst_F.Items.Clear();
+                        lst_F.Items.Insert(0, new ListItem("Completed", "0"));
+                        lst_F.Items.Insert(1, new ListItem("Incomplete", "1"));
+                        lst_F.Items.Insert(2, new ListItem("Waived", "2"));
+                    }
                     else
                     {
                         AdHocReportHelper.FillFilterDropDown(lstAdHoc[0].Field_Header, new ListBox[] { lst_F }, false, "Sonic_U_Train");
@@ -1694,9 +1721,9 @@ public partial class SONIC_SLT_SonicUTraining_AdHocReportWriter : clsBasePage
         }
         else if (pnlAmount_F_ID == "pnlAmount_F8")
         {
-            txtAmount1_F7.Text = txtAmount2_F7.Text = string.Empty;
-            drpAmount_F7.SelectedValue = Convert.ToString((int)AdHocReportHelper.AmountCriteria.Equal);
-            drpAmount_F_SelectedIndexChanged(drpAmount_F7, null);
+            txtAmount1_F8.Text = txtAmount2_F8.Text = string.Empty;
+            drpAmount_F8.SelectedValue = Convert.ToString((int)AdHocReportHelper.AmountCriteria.Equal);
+            drpAmount_F_SelectedIndexChanged(drpAmount_F8, null);
 
         }
         else if (pnlAmount_F_ID == "pnlAmount_F9")
@@ -1840,12 +1867,25 @@ public partial class SONIC_SLT_SonicUTraining_AdHocReportWriter : clsBasePage
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter1.Text, Convert.ToInt16(drpText_F1.SelectedItem.Value));
                 }
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
-                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F1, false));
+                {
+                    if (lstAdhoc[iSelected].Field_Header == "Location d/b/a" || lstAdhoc[iSelected].Field_Header == "code")
+                    {
+                        strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F1, true));
+                    }
+                    else if(lstAdhoc[iSelected].Field_Header == "Training Completed")
+                    {
+                        strWhere += GetListBoxWhereCondition("( CASE WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 0 ) THEN '1' WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 1 ) THEN '0' ELSE '2' END )", GetSelectedItemString(lst_F1, true));
+                    }
+                    else
+                    {
+                        strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F1, false));
+                    }
+                }
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
                     strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F1, true));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
                 {
-                    if (lstAdhoc[iSelected].Field_Header == "Hire Date" || lstAdhoc[iSelected].Field_Header == "Termination Date")
+                    if (lstAdhoc[iSelected].Field_Header == "Hire Date" || lstAdhoc[iSelected].Field_Header == "Termination Date" || lstAdhoc[iSelected].Field_Header == "Date of Completion")
                         strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From1.Text, txtDate_To1.Text, lstDate1.SelectedItem.Value);
                     else
                         strWhere += GetDateWhereCondtion(lstAdhoc[iSelected].Field_Name, txtDate_From1.Text, txtDate_To1.Text, lstDate1.SelectedItem.Value);
@@ -1863,12 +1903,25 @@ public partial class SONIC_SLT_SonicUTraining_AdHocReportWriter : clsBasePage
                 if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter2.Text, Convert.ToInt16(drpText_F2.SelectedItem.Value));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
-                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F2, false));
+                {
+                    if (lstAdhoc[iSelected].Field_Header == "Location d/b/a" || lstAdhoc[iSelected].Field_Header == "code")
+                    {
+                        strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F2, true));
+                    }
+                    else if (lstAdhoc[iSelected].Field_Header == "Training Completed")
+                    {
+                        strWhere += GetListBoxWhereCondition("( CASE WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 0 ) THEN '1' WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 1 ) THEN '0' ELSE '2' END )", GetSelectedItemString(lst_F1, true));
+                    }
+                    else
+                    {
+                        strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F2, false));
+                    }
+                }
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
                     strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F2, true));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
                 {
-                    if (lstAdhoc[iSelected].Field_Header == "Hire Date" || lstAdhoc[iSelected].Field_Header == "Termination Date")
+                    if (lstAdhoc[iSelected].Field_Header == "Hire Date" || lstAdhoc[iSelected].Field_Header == "Termination Date" || lstAdhoc[iSelected].Field_Header == "Date of Completion")
                         strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From2.Text, txtDateTo2.Text, lstDate2.SelectedItem.Value);
                     else
                         strWhere += GetDateWhereCondtion(lstAdhoc[iSelected].Field_Name, txtDate_From2.Text, txtDateTo2.Text, lstDate2.SelectedItem.Value);
@@ -1886,12 +1939,25 @@ public partial class SONIC_SLT_SonicUTraining_AdHocReportWriter : clsBasePage
                 if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter3.Text, Convert.ToInt16(drpText_F3.SelectedItem.Value));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
-                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F3, false));
+                {
+                    if (lstAdhoc[iSelected].Field_Header == "Location d/b/a" || lstAdhoc[iSelected].Field_Header == "code")
+                    {
+                        strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F3, true));
+                    }
+                    else if (lstAdhoc[iSelected].Field_Header == "Training Completed")
+                    {
+                        strWhere += GetListBoxWhereCondition("( CASE WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 0 ) THEN '1' WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 1 ) THEN '0' ELSE '2' END )", GetSelectedItemString(lst_F1, true));
+                    }
+                    else
+                    {
+                        strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F3, false));
+                    }
+                }
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
                     strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F3, true));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
                 {
-                    if (lstAdhoc[iSelected].Field_Header == "Hire Date" || lstAdhoc[iSelected].Field_Header == "Termination Date")
+                    if (lstAdhoc[iSelected].Field_Header == "Hire Date" || lstAdhoc[iSelected].Field_Header == "Termination Date" || lstAdhoc[iSelected].Field_Header == "Date of Completion")
                         strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From3.Text, txtDate_To3.Text, lstDate3.SelectedItem.Value);
                     else
                         strWhere += GetDateWhereCondtion(lstAdhoc[iSelected].Field_Name, txtDate_From3.Text, txtDate_To3.Text, lstDate3.SelectedItem.Value);
@@ -1909,12 +1975,25 @@ public partial class SONIC_SLT_SonicUTraining_AdHocReportWriter : clsBasePage
                 if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter4.Text, Convert.ToInt16(drpText_F4.SelectedItem.Value));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
-                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F4, false));
+                {
+                    if (lstAdhoc[iSelected].Field_Header == "Location d/b/a" || lstAdhoc[iSelected].Field_Header == "code")
+                    {
+                        strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F4, true));
+                    }
+                    else if (lstAdhoc[iSelected].Field_Header == "Training Completed")
+                    {
+                        strWhere += GetListBoxWhereCondition("( CASE WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 0 ) THEN '1' WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 1 ) THEN '0' ELSE '2' END )", GetSelectedItemString(lst_F1, true));
+                    }
+                    else
+                    {
+                        strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F4, false));
+                    }
+                }
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
                     strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F4, true));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
                 {
-                    if (lstAdhoc[iSelected].Field_Header == "Hire Date" || lstAdhoc[iSelected].Field_Header == "Termination Date")
+                    if (lstAdhoc[iSelected].Field_Header == "Hire Date" || lstAdhoc[iSelected].Field_Header == "Termination Date" || lstAdhoc[iSelected].Field_Header == "Date of Completion")
                         strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From4.Text, txtDate_To4.Text, lstDate4.SelectedItem.Value);
                     else
                         strWhere += GetDateWhereCondtion(lstAdhoc[iSelected].Field_Name, txtDate_From4.Text, txtDate_To4.Text, lstDate4.SelectedItem.Value);
@@ -1932,12 +2011,25 @@ public partial class SONIC_SLT_SonicUTraining_AdHocReportWriter : clsBasePage
                 if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter5.Text, Convert.ToInt16(drpText_F5.SelectedItem.Value));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
-                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F5, false));
+                {
+                    if (lstAdhoc[iSelected].Field_Header == "Location d/b/a" || lstAdhoc[iSelected].Field_Header == "code")
+                    {
+                        strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F5, true));
+                    }
+                    else if (lstAdhoc[iSelected].Field_Header == "Training Completed")
+                    {
+                        strWhere += GetListBoxWhereCondition("( CASE WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 0 ) THEN '1' WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 1 ) THEN '0' ELSE '2' END )", GetSelectedItemString(lst_F1, true));
+                    }
+                    else
+                    {
+                        strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F5, false));
+                    }
+                }
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
                     strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F5, true));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
                 {
-                    if (lstAdhoc[iSelected].Field_Header == "Hire Date" || lstAdhoc[iSelected].Field_Header == "Termination Date")
+                    if (lstAdhoc[iSelected].Field_Header == "Hire Date" || lstAdhoc[iSelected].Field_Header == "Termination Date" || lstAdhoc[iSelected].Field_Header == "Date of Completion")
                         strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From5.Text, txtDate_To5.Text, lstDate5.SelectedItem.Value);
                     else
                         strWhere += GetDateWhereCondtion(lstAdhoc[iSelected].Field_Name, txtDate_From5.Text, txtDate_To5.Text, lstDate5.SelectedItem.Value);
@@ -1955,12 +2047,25 @@ public partial class SONIC_SLT_SonicUTraining_AdHocReportWriter : clsBasePage
                 if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter6.Text, Convert.ToInt16(drpText_F6.SelectedItem.Value));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
-                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F6, false));
+                {
+                    if (lstAdhoc[iSelected].Field_Header == "Location d/b/a" || lstAdhoc[iSelected].Field_Header == "code")
+                    {
+                        strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F6, true));
+                    }
+                    else if (lstAdhoc[iSelected].Field_Header == "Training Completed")
+                    {
+                        strWhere += GetListBoxWhereCondition("( CASE WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 0 ) THEN '1' WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 1 ) THEN '0' ELSE '2' END )", GetSelectedItemString(lst_F1, true));
+                    }
+                    else
+                    {
+                        strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F6, false));
+                    }
+                }
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
                     strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F6, true));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
                 {
-                    if (lstAdhoc[iSelected].Field_Header == "Hire Date" || lstAdhoc[iSelected].Field_Header == "Termination Date")
+                    if (lstAdhoc[iSelected].Field_Header == "Hire Date" || lstAdhoc[iSelected].Field_Header == "Termination Date" || lstAdhoc[iSelected].Field_Header == "Date of Completion")
                         strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From6.Text, txtDate_To6.Text, lstDate6.SelectedItem.Value);
                     else
                         strWhere += GetDateWhereCondtion(lstAdhoc[iSelected].Field_Name, txtDate_From6.Text, txtDate_To6.Text, lstDate6.SelectedItem.Value);
@@ -1978,12 +2083,25 @@ public partial class SONIC_SLT_SonicUTraining_AdHocReportWriter : clsBasePage
                 if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter7.Text, Convert.ToInt16(drpText_F7.SelectedItem.Value));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
-                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F7, false));
+                {
+                    if (lstAdhoc[iSelected].Field_Header == "Location d/b/a" || lstAdhoc[iSelected].Field_Header == "code")
+                    {
+                        strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F7, true));
+                    }
+                    else if (lstAdhoc[iSelected].Field_Header == "Training Completed")
+                    {
+                        strWhere += GetListBoxWhereCondition("( CASE WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 0 ) THEN '1' WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 1 ) THEN '0' ELSE '2' END )", GetSelectedItemString(lst_F1, true));
+                    }
+                    else
+                    {
+                        strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F7, false));
+                    }
+                }
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
                     strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F7, true));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
                 {
-                    if (lstAdhoc[iSelected].Field_Header == "Hire Date" || lstAdhoc[iSelected].Field_Header == "Termination Date")
+                    if (lstAdhoc[iSelected].Field_Header == "Hire Date" || lstAdhoc[iSelected].Field_Header == "Termination Date" || lstAdhoc[iSelected].Field_Header == "Date of Completion")
                         strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From7.Text, txtDate_To7.Text, lstDate7.SelectedItem.Value);
                     else
                         strWhere += GetDateWhereCondtion(lstAdhoc[iSelected].Field_Name, txtDate_From7.Text, txtDate_To7.Text, lstDate7.SelectedItem.Value);
@@ -2001,12 +2119,25 @@ public partial class SONIC_SLT_SonicUTraining_AdHocReportWriter : clsBasePage
                 if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter8.Text, Convert.ToInt16(drpText_F8.SelectedItem.Value));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
-                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F8, false));
+                {
+                    if (lstAdhoc[iSelected].Field_Header == "Location d/b/a" || lstAdhoc[iSelected].Field_Header == "code")
+                    {
+                        strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F8, true));
+                    }
+                    else if (lstAdhoc[iSelected].Field_Header == "Training Completed")
+                    {
+                        strWhere += GetListBoxWhereCondition("( CASE WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 0 ) THEN '1' WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 1 ) THEN '0' ELSE '2' END )", GetSelectedItemString(lst_F1, true));
+                    }
+                    else
+                    {
+                        strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F8, false));
+                    }
+                }
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
                     strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F8, true));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
                 {
-                    if (lstAdhoc[iSelected].Field_Header == "Hire Date" || lstAdhoc[iSelected].Field_Header == "Termination Date")
+                    if (lstAdhoc[iSelected].Field_Header == "Hire Date" || lstAdhoc[iSelected].Field_Header == "Termination Date" || lstAdhoc[iSelected].Field_Header == "Date of Completion")
                         strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From8.Text, txtDate_To8.Text, lstDate8.SelectedItem.Value);
                     else
                         strWhere += GetDateWhereCondtion(lstAdhoc[iSelected].Field_Name, txtDate_From8.Text, txtDate_To8.Text, lstDate8.SelectedItem.Value);
@@ -2025,12 +2156,25 @@ public partial class SONIC_SLT_SonicUTraining_AdHocReportWriter : clsBasePage
                 if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter9.Text, Convert.ToInt16(drpText_F9.SelectedItem.Value));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
-                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F9, false));
+                {
+                    if (lstAdhoc[iSelected].Field_Header == "Location d/b/a" || lstAdhoc[iSelected].Field_Header == "code")
+                    {
+                        strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F9, true));
+                    }
+                    else if (lstAdhoc[iSelected].Field_Header == "Training Completed")
+                    {
+                        strWhere += GetListBoxWhereCondition("( CASE WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 0 ) THEN '1' WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 1 ) THEN '0' ELSE '2' END )", GetSelectedItemString(lst_F1, true));
+                    }
+                    else
+                    {
+                        strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F9, false));
+                    }
+                }
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
                     strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F9, true));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
                 {
-                    if (lstAdhoc[iSelected].Field_Header == "Hire Date" || lstAdhoc[iSelected].Field_Header == "Termination Date")
+                    if (lstAdhoc[iSelected].Field_Header == "Hire Date" || lstAdhoc[iSelected].Field_Header == "Termination Date" || lstAdhoc[iSelected].Field_Header == "Date of Completion")
                         strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From9.Text, txtDate_To9.Text, lstDate9.SelectedItem.Value);
                     else
                         strWhere += GetDateWhereCondtion(lstAdhoc[iSelected].Field_Name, txtDate_From9.Text, txtDate_To9.Text, lstDate9.SelectedItem.Value);
@@ -2048,12 +2192,25 @@ public partial class SONIC_SLT_SonicUTraining_AdHocReportWriter : clsBasePage
                 if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter10.Text, Convert.ToInt16(drpText_F10.SelectedItem.Value));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
-                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F10, false));
+                {
+                    if (lstAdhoc[iSelected].Field_Header == "Location d/b/a" || lstAdhoc[iSelected].Field_Header == "code")
+                    {
+                        strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F10, true));
+                    }
+                    else if (lstAdhoc[iSelected].Field_Header == "Training Completed")
+                    {
+                        strWhere += GetListBoxWhereCondition("( CASE WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 0 ) THEN '1' WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 1 ) THEN '0' ELSE '2' END )", GetSelectedItemString(lst_F1, true));
+                    }
+                    else
+                    {
+                        strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F10, false));
+                    }
+                }
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
                     strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F10, true));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
                 {
-                    if (lstAdhoc[iSelected].Field_Header == "Hire Date" || lstAdhoc[iSelected].Field_Header == "Termination Date")
+                    if (lstAdhoc[iSelected].Field_Header == "Hire Date" || lstAdhoc[iSelected].Field_Header == "Termination Date" || lstAdhoc[iSelected].Field_Header == "Date of Completion")
                         strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From10.Text, txtDate_To10.Text, lstDate10.SelectedItem.Value);
                     else
                         strWhere += GetDateWhereCondtion(lstAdhoc[iSelected].Field_Name, txtDate_From10.Text, txtDate_To10.Text, lstDate10.SelectedItem.Value);
@@ -2095,11 +2252,12 @@ public partial class SONIC_SLT_SonicUTraining_AdHocReportWriter : clsBasePage
                     sbRecord.Append("<br /><br />");
                 }
 
-                sbRecord.Append("<table border='1' cellpadding='0' cellspacing='0' width='" + (150 * lstSelectedFields.Items.Count).ToString() + "' style='font-size:10pt'>");
+                sbRecord.Append("<table border='1' cellpadding='0' cellspacing='0' width='" + (200 * lstSelectedFields.Items.Count).ToString() + "' style='font-size:10pt;border: black 0.5px solid;'>");
 
                 #region "Header"
                 // If reader found a records 
                 sbRecord.Append("<tr>");
+                //sbRecord.Append("<td></td>");
 
                 dtHeader = new DataTable();
                 string strFormatFirstGroupBy = string.Empty, strFormatSecGroupBy = string.Empty;
@@ -2107,7 +2265,7 @@ public partial class SONIC_SLT_SonicUTraining_AdHocReportWriter : clsBasePage
                 {
                     //Remove Group By 
                     if (strFirstGroupBy != Convert.ToString(drHeader["ColumnName"]) && strSecGroupBy != Convert.ToString(drHeader["ColumnName"]))
-                        sbRecord.Append("<td><b>" + drHeader["ColumnName"] + "</b></td>");
+                        sbRecord.Append("<td style='width: 300px;border-right:black 1px solid;'><b>" + drHeader["ColumnName"] + "</b></td>");
                     //Get First and Second Group By Field's Data Type
                     if (strFirstGroupBy == Convert.ToString(drHeader["ColumnName"]))
                         strFormatFirstGroupBy = drHeader["DataTypeName"].ToString();
@@ -2224,10 +2382,7 @@ public partial class SONIC_SLT_SonicUTraining_AdHocReportWriter : clsBasePage
                                 sbRecord.Append("<tr><td style='font-weight: bold;' align='right'>" + strFirstGroupBy + ": " + string.Format("{0:c2}", strGroupByValue_1) + "</td><td colspan='" + (colcount - groupByColumnCount) + "'></td></tr>");
                             else if (strFormatFirstGroupBy == "datetime")
                             {
-                                // it display only Time
-                                if (strFirstGroupBy == "Time Theft Reported")
-                                    sbRecord.Append("<tr><td style='font-weight: bold;'>" + strFirstGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strFirstGroupBy]) + "</td></tr>");
-                                else sbRecord.Append("<tr><td style='font-weight: bold;' colspan='" + (colcount - groupByColumnCount) + "'>" + strFirstGroupBy + ": " + clsGeneral.FormatDBNullDateToDisplay(strGroupByValue_1) + "</td><td colspan='" + (colcount - groupByColumnCount) + "'></td></tr>");
+                                sbRecord.Append("<tr><td style='font-weight: bold;'>" + strFirstGroupBy + ": " + clsGeneral.FormatDBNullDateToDisplay(strGroupByValue_1) + "</td><td colspan='" + (colcount - groupByColumnCount) + "'></td></tr>");
                             }
                             else sbRecord.Append("<tr><td style='font-weight: bold;'>&nbsp;" + strFirstGroupBy + ": " + strGroupByValue_1 + "</td><td colspan='" + (colcount - groupByColumnCount) + "'></td></tr>");
                             //Change Second Group By when First Groupby is Change
@@ -2285,6 +2440,7 @@ public partial class SONIC_SLT_SonicUTraining_AdHocReportWriter : clsBasePage
                     if (IsAllNull == false)
                     {
                         sbRecord.Append("<tr>");
+                        //sbRecord.Append("<td>&nbsp;</td>");
                         for (int intColumn = 0; intColumn < Reader.FieldCount; intColumn++)
                         {
                             #region " Count Sub Totals"
@@ -2328,8 +2484,7 @@ public partial class SONIC_SLT_SonicUTraining_AdHocReportWriter : clsBasePage
                                 strFormat = dtSchema.Rows[intColumn]["DataTypeName"].ToString();
                                 if (strFormat == "decimal")
                                 {
-                                    if (Convert.ToString(dtSchema.Rows[intColumn]["ColumnName"]) == "Program Percent Complete" || Convert.ToString(dtSchema.Rows[intColumn]["ColumnName"]) == "Year" || Convert.ToString(dtSchema.Rows[intColumn]["ColumnName"]) == "Hire Quarter"
-                                        || Convert.ToString(dtSchema.Rows[intColumn]["ColumnName"]) == "Asset Expected Duration" || Convert.ToString(dtSchema.Rows[intColumn]["ColumnName"]) == "Asset Actual Duration" || Convert.ToString(dtSchema.Rows[intColumn]["ColumnName"]) == "Times Restarted")
+                                    if (Convert.ToString(dtSchema.Rows[intColumn]["ColumnName"]) == "Year" || Convert.ToString(dtSchema.Rows[intColumn]["ColumnName"]) == "Hire Quarter")
                                     {
                                         //sbRecord.Append("<td align='right'>" + string.Format("{0:c2}", Reader[intColumn]) + "</td>");
                                         sbRecord.Append("<td align='right'>" + Reader[intColumn].ToString() + "</td>");
@@ -2736,6 +2891,33 @@ public partial class SONIC_SLT_SonicUTraining_AdHocReportWriter : clsBasePage
         else if (Convert.ToString(Field_Header).ToLower().Trim() == "asset status")
         {
             ComboHelper.FillSonicUTrainLearningProgramAssetStatus(new ListBox[] { lst_F }, false);
+        }
+        else if (Convert.ToString(Field_Header).ToLower().Trim() == "course")
+        {
+            ComboHelper.FillCorseName(new ListBox[] { lst_F }, false);
+        }
+        else if (Convert.ToString(Field_Header).ToLower().Trim() == "training type")
+        {
+            ComboHelper.FillTrainingType(new ListBox[] { lst_F }, false);
+        }
+        else if (Convert.ToString(Field_Header).ToLower().Trim() == "location d/b/a")
+        {
+            ComboHelper.FillLocationDBA_AllCRMAdHoc(new ListBox[] { lst_F }, 0, false);
+        }
+        else if (Convert.ToString(Field_Header).ToLower().Trim() == "market")
+        {
+            ComboHelper.FillMarketListBox(new ListBox[] { lst_F }, false);
+        }
+        else if (Convert.ToString(Field_Header).ToLower().Trim() == "region")
+        {
+            ComboHelper.FillRegionListBox(new ListBox[] { lst_F }, false);
+        }
+        else if (Convert.ToString(Field_Header).ToLower().Trim() == "training completed")
+        {
+            lst_F.Items.Clear();
+            lst_F.Items.Insert(0, new ListItem("Completed", "0"));
+            lst_F.Items.Insert(1, new ListItem("Incomplete", "1"));
+            lst_F.Items.Insert(2, new ListItem("Waived", "2"));
         }
         else
         {
