@@ -600,7 +600,8 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
                 if (ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows[0]["Group_ID"] != null)
                     lblGroupID.Text = Convert.ToString(ds.Tables[0].Rows[0]["Group_ID"]);
             }
-            lblCreated_Date.Text = clsGeneral.FormatDBNullDateToDisplay(DateTime.Now);
+            //lblCreated_Date.Text = clsGeneral.FormatDBNullDateToDisplay(DateTime.Now);
+            txtCreated_Date.Text = clsGeneral.FormatDBNullDateToDisplay(DateTime.Now);
         }
         else
         {
@@ -608,7 +609,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
                 lblGroupID.Text = Convert.ToString(objAP_Property_Security.Group_ID);
             else
                 lblGroupID.Text = string.Empty;
-            lblCreated_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objAP_Property_Security.Created_Date);
+            txtCreated_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objAP_Property_Security.Created_Date);
         }
         //txtHours_Monitored_From.Text = objAP_Property_Security.Hours_Monitored_From;
         //txtHours_Monitored_To.Text = objAP_Property_Security.Hours_Monitored_To;
@@ -962,6 +963,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         objAP_Property_Security.CCTV_Company_Contact_EMail = txtCCTV_Company_Contact_EMail.Text.Trim();
         objAP_Property_Security.Cal_Atlantic_System = rdoCal_Atlantic_System.SelectedValue;
         objAP_Property_Security.Live_Monitoring = rdoLive_Monitoring.SelectedValue;
+        objAP_Property_Security.Created_Date = clsGeneral.FormatDateToStore(txtCreated_Date.Text);
         objAP_Property_Security.ACI_Burglary_System = rdoACI_Burglary_System.SelectedValue;
         objAP_Property_Security.Live_Burglary_Monitoring = rdoLive_Burglary_Monitoring.SelectedValue;
         //objAP_Property_Security.Hours_Monitored_From = txtHours_Monitored_From.Text.Trim();
