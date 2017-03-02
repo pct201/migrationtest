@@ -2466,6 +2466,17 @@ function ValidateFieldsBuildindOwnerSubLease(sender, args) {
                                                                                                 <asp:RadioButtonList runat="server" ID="rdoHydrants_within_500_ft" SkinID="YesNoTypeNullSelection"></asp:RadioButtonList>
                                                                                             </td>
                                                                                         </tr>
+                                                                                        <tr>
+                                                                                            <td>
+                                                                                                <asp:Label Text="Description" runat="server" ID="lblDescription" />
+                                                                                            </td>
+                                                                                            <td align="center" style="width: 4%" valign="top">
+                                                                                                <asp:Label ID="Label82" runat="server" Text=":" Width="31px"></asp:Label>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <asp:TextBox runat="server" ID="txtProtectionDescription" TextMode="MultiLine" Width="170px" />
+                                                                                            </td>
+                                                                                        </tr>
                                                                                     </table>
                                                                                 </td>
                                                                             </tr>

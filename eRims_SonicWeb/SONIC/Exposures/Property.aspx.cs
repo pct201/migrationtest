@@ -672,7 +672,7 @@ public partial class Exposures_Property : clsBasePage
         objBuilding.Alarm_Fire_Pump_Alarms = chkAlarm_Fire_Pump_Alarms.Checked;
         objBuilding.Alarm_Auto_Fire_Alarms = clsGeneral.FormatYesNoToStore(rdoAlarm_Auto_Fire_Alarms);
         objBuilding.Alarm_Security_Cameras = clsGeneral.FormatYesNoToStore(rdoAlarm_Security_Cameras);
-
+        objBuilding.ProtectionDescription = txtProtectionDescription.Text.Trim();
         #region "Security cameras"
         if (objBuilding.Alarm_Security_Cameras == true)
         {
@@ -2471,6 +2471,7 @@ public partial class Exposures_Property : clsBasePage
         chkWater_Private.Checked = objBuilding.Water_Private;
         chkWater_Boosted.Checked = objBuilding.Water_Boosted;
         txtDesign_Densities_for_each_area.Text = objBuilding.Design_Densities_for_each_area;
+        txtProtectionDescription.Text = objBuilding.ProtectionDescription;
         clsGeneral.FormatYesNoToDisplayForEdit(rdoHydrants_within_500_ft, objBuilding.Hydrants_within_500_ft);
         chkAlarm_UL_Central_Station.Checked = objBuilding.Alarm_UL_Central_Station;
         chkAlarm_Constant_Attended.Checked = objBuilding.Alarm_Constant_Attended;
@@ -3100,6 +3101,7 @@ public partial class Exposures_Property : clsBasePage
         chkWater_Private.Checked = false;
         chkWater_Boosted.Checked = false;
         txtDesign_Densities_for_each_area.Text = "";
+        txtProtectionDescription.Text = "";
         rdoHydrants_within_500_ft.SelectedIndex = -1;
         chkAlarm_UL_Central_Station.Checked = false;
         chkAlarm_Constant_Attended.Checked = false;

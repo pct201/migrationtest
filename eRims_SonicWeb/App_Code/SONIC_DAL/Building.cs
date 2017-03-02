@@ -194,7 +194,7 @@ namespace ERIMS.DAL
         private decimal? _FK_LU_Power_Service;
         private decimal? _FK_LU_Voltage_Security;
         private bool _Occupancy_Main;
-
+        private string _ProtectionDescription;
         #endregion
 
         #region Properties
@@ -1925,6 +1925,12 @@ namespace ERIMS.DAL
             get { return _Occupancy_Main; }
             set { _Occupancy_Main = value; }
         }
+
+        public string ProtectionDescription
+        {
+            get { return _ProtectionDescription; }
+            set { _ProtectionDescription = value; }
+        }
         
         #endregion
 
@@ -2390,6 +2396,11 @@ namespace ERIMS.DAL
                     this._Acreage = null;
                 else
                     this._Acreage = (decimal?)drBuilding["Acreage"];
+
+                if (drBuilding["ProtectionDescription"] == DBNull.Value)
+                    this._ProtectionDescription = null;
+                else
+                    this._ProtectionDescription = (string)drBuilding["ProtectionDescription"];
 
                 this._Occupancy_Car_Wash = drBuilding["Occupancy_Car_Wash"] != DBNull.Value ? Convert.ToBoolean(drBuilding["Occupancy_Car_Wash"]) : false;
                 this._Occupancy_Photo_Booth = drBuilding["Occupancy_Photo_Booth"] != DBNull.Value ? Convert.ToBoolean(drBuilding["Occupancy_Photo_Booth"]) : false;
@@ -2888,6 +2899,11 @@ namespace ERIMS.DAL
             else
                 db.AddInParameter(dbCommand, "Total_Amperage_Required", DbType.String, this._Total_Amperage_Required);
 
+            if (string.IsNullOrEmpty(this._ProtectionDescription))
+                db.AddInParameter(dbCommand, "ProtectionDescription", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "ProtectionDescription", DbType.String, this._ProtectionDescription);
+
             db.AddInParameter(dbCommand, "Occupancy_Main", DbType.Boolean, this._Occupancy_Main);
 
             // Execute the query and return the new identity value
@@ -3239,6 +3255,11 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Total_Amperage_Required", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Total_Amperage_Required", DbType.String, this._Total_Amperage_Required);
+
+            if (string.IsNullOrEmpty(this._ProtectionDescription))
+                db.AddInParameter(dbCommand, "ProtectionDescription", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "ProtectionDescription", DbType.String, this._ProtectionDescription);
 
             db.AddInParameter(dbCommand, "Occupancy_Main", DbType.Boolean, this._Occupancy_Main);
 
