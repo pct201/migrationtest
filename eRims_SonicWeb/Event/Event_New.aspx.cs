@@ -2085,7 +2085,7 @@ public partial class Event_Event_New : clsBasePage
         {
             DataTable dtEmailList = null;
 
-            if (ddlLocation.SelectedItem.Text.IndexOf("EchoPark") == 0)
+            if (ddlLocation_Video.SelectedItem.Text.IndexOf("EchoPark") == 0)
             {
                 dtEmailList = clsEvent_Video_Tracking_Request.GetVideoRequesterByGroups("RLCM_EchoPark").Tables[0];
             }
