@@ -27,7 +27,7 @@
     {
         var winHeight = 500;
         var winWidth = 800;
-        obj = window.open("ACI_Approve_Deny.aspx?tid=" + PK_Event_Video_Tracking_Request + "&sid=" + strsid + "&status=" + strstatus + "&grp=&aid=&ispop=1", 'AuditPopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
+        obj = window.open("ACI_Approved_Deny_New.aspx?tid=" + PK_Event_Video_Tracking_Request + "&sid=" + strsid + "&status=" + strstatus + "&grp=&aid=&ispop=1", 'AuditPopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
         obj.focus();
         return false;
     }
