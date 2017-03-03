@@ -76,10 +76,10 @@ public partial class Event_ACI_Approve_Deny : System.Web.UI.Page
                 StrGroup = Convert.ToString(Encryption.Decrypt(Request.QueryString["grp"]));
                 PK_Attachment_Event = Convert.ToDecimal(clsGeneral.GetQueryStringID(Request.QueryString["aid"]));
 
-                DataSet ds = clsEvent_Video_Tracking_Request.GetVideoRequestData(PK_Event_Video_Tracking_Request);
-
                 if (StrStatus.ToLower() != "denied")
                 {
+                    DataSet ds = clsEvent_Video_Tracking_Request.GetVideoRequestData(PK_Event_Video_Tracking_Request);
+
                     if (StrGroup.ToLower() == "rlcmd")
                     {
                         SendEmailForLegalApproval(ds);

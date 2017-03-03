@@ -2163,9 +2163,9 @@ public partial class Event_Event_New : clsBasePage
 
                     string strMailBody = "ERIMS has requested ACI Video Approval. Please click APPROVE or DENY for video Request.";
                     strMailBody = strMailBody + "<br/><br/>";
-                    strMailBody = strMailBody + "<span style='font-size: 20px;'><A href=" + AppConfig.SiteURL + "/Event/ACI_Approve_Deny.aspx?tid=" + Encryption.Encrypt(Convert.ToString(_PK_Event_Video_Tracking_Request)) + "&sid=" + Encryption.Encrypt(Convert.ToString(drRecipient["PK_Security_ID"].ToString())) + "&status=" + Encryption.Encrypt("Approved") + "&grp=&aid=>APPROVE</A></span>";
+                    strMailBody = strMailBody + "<span style='font-size: 20px;'><A href=" + AppConfig.SiteURL + "Event/ACI_Approve_Deny.aspx?tid=" + Encryption.Encrypt(Convert.ToString(_PK_Event_Video_Tracking_Request)) + "&sid=" + Encryption.Encrypt(Convert.ToString(drRecipient["PK_Security_ID"].ToString())) + "&status=" + Encryption.Encrypt("Approved") + "&grp=" + Encryption.Encrypt("0") + "&aid=" + Encryption.Encrypt("0") + ">APPROVE</A></span>";
                     strMailBody = strMailBody + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-                    strMailBody = strMailBody + "<span style='font-size: 20px;'><A href=" + AppConfig.SiteURL + "/Event/ACI_Approve_Deny.aspx?tid=" + Encryption.Encrypt(Convert.ToString(_PK_Event_Video_Tracking_Request)) + "&sid=" + Encryption.Encrypt(Convert.ToString(drRecipient["PK_Security_ID"].ToString())) + "&status=" + Encryption.Encrypt("Denied") + "&grp=&aid=>DENY</A></span>";
+                    strMailBody = strMailBody + "<span style='font-size: 20px;'><A href=" + AppConfig.SiteURL + "Event/ACI_Approve_Deny.aspx?tid=" + Encryption.Encrypt(Convert.ToString(_PK_Event_Video_Tracking_Request)) + "&sid=" + Encryption.Encrypt(Convert.ToString(drRecipient["PK_Security_ID"].ToString())) + "&status=" + Encryption.Encrypt("Denied") +"&grp=" + Encryption.Encrypt("0") + "&aid=" + Encryption.Encrypt("0") + ">DENY</A></span>";
                     strMailBody = strMailBody + "<br/><br/><br/>";
                     strMailBody = strMailBody + "<span style='font-size: 18px;'><b>Reason   :   </b></span>" + objRefNumber.Reason_Request;
 
