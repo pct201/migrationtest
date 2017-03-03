@@ -883,11 +883,21 @@
                                                         <td style="height: 5px" colspan="6"></td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" width="18%" valign="top">Location
+                                                        <td align="left" width="100%" valign="top" colspan="6">         
+                                                            <b>Make Non-Actionable :</b>&nbsp;&nbsp;
+                                                            <asp:CheckBox ID="chkNonActionable" runat="server" OnClick="return ConfirmDelete();" />
+                                                            <asp:Button ID="btnhdnNonactionable" runat="server" OnClick="btnhdnNonactionable_Click" Style="display: none;" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="height: 5px" colspan="6"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" width="19%" valign="top">Location
                                                         </td>
                                                         <td align="center" width="4%" valign="top">:
                                                         </td>
-                                                        <td align="left" width="28%" valign="top">
+                                                        <td align="left" width="27%" valign="top">
                                                             <asp:DropDownList ID="ddlLocation" runat="server" Width="175px">
                                                             </asp:DropDownList>
                                                         </td>
@@ -913,9 +923,7 @@
                                                     <tr>
                                                         <td colspan="3">
                                                             <u><b>Actionable Event Type</b></u>
-                                                            &nbsp;&nbsp;&nbsp;<b>Make Non-Actionable :</b>&nbsp;&nbsp;
-                                                            <asp:CheckBox ID="chkNonActionable" runat="server" OnClick="return ConfirmDelete();" />
-                                                            <asp:Button ID="btnhdnNonactionable" runat="server" OnClick="btnhdnNonactionable_Click" Style="display: none;" />
+                                                   
                                                         </td>
                                                         <td colspan="3">
                                                             <u><b>Description of Event</b></u>

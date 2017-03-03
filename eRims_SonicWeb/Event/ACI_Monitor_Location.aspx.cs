@@ -80,6 +80,7 @@ public partial class Event_ACI_Monitor_Location : System.Web.UI.Page
         drpFK_Building_ID.SelectedIndex = -1;
         drpFK_LU_Location.SelectedIndex = -1;
         txtGroup_ID.Text = string.Empty;
+        txtEst_Live_Monitoring_Date.Text = string.Empty;
 
         ((ScriptManager)this.Master.FindControl("scMain")).SetFocus(txtGroup_ID);
     }
@@ -96,6 +97,7 @@ public partial class Event_ACI_Monitor_Location : System.Web.UI.Page
         drpFK_Building_ID.SelectedIndex = -1;
         drpFK_LU_Location.SelectedIndex = -1;
         txtGroup_ID.Text = string.Empty;
+        txtEst_Live_Monitoring_Date.Text = string.Empty;
 
     }
 
@@ -119,6 +121,8 @@ public partial class Event_ACI_Monitor_Location : System.Web.UI.Page
         
         if (drpFK_Building_ID.SelectedIndex > 0)
             objLU_Location.FK_Building_ID = Convert.ToDecimal(drpFK_Building_ID.SelectedValue);
+
+        objLU_Location.Est_Live_Monitoring_Date = clsGeneral.FormatNullDateToStore(txtEst_Live_Monitoring_Date.Text);
 
         objLU_Location.Updated_By = Convert.ToString(clsSession.UserID);
         
@@ -302,6 +306,7 @@ public partial class Event_ACI_Monitor_Location : System.Web.UI.Page
 
             clsGeneral.SetDropdownValue(drpFK_Building_ID, objLocation.FK_Building_ID, true);
             txtGroup_ID.Text = Convert.ToString(objLocation.Group_ID);
+            txtEst_Live_Monitoring_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objLocation.Est_Live_Monitoring_Date);
             
 
             ((ScriptManager)this.Master.FindControl("scMain")).SetFocus(txtGroup_ID);

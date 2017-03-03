@@ -190,6 +190,16 @@ public partial class Event_Event_VideoRequestSearch : clsBasePage
 
     }
 
+    /// <summary>
+    /// Handles Search Again button click event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void hdnbtnRefresh_Click(object sender, EventArgs e)
+    {
+        GetPage();
+    }
+
     #endregion
 
     #region "Methods"
@@ -468,6 +478,74 @@ public partial class Event_Event_VideoRequestSearch : clsBasePage
         context.Response.End();
     }
 
+    private void SendNotificatonToCreater(DataSet dsEmail, string StrStatus)
+    {
+        string strlocation = string.Empty;
+        string strFullName = string.Empty;
+        string strReason = string.Empty;
+        string strRequestNumber = string.Empty;
+        string strEmailTo = string.Empty;
+
+        if (dsEmail != null && dsEmail.Tables.Count > 0 && dsEmail.Tables[0].Rows.Count > 0)
+        {
+            strlocation = Convert.ToString(dsEmail.Tables[0].Rows[0]["Location"]);
+            strFullName = Convert.ToString(dsEmail.Tables[0].Rows[0]["Full_Name"]);
+            strReason = Convert.ToString(dsEmail.Tables[0].Rows[0]["Reason_Request"]);
+            strRequestNumber = Convert.ToString(dsEmail.Tables[0].Rows[0]["Request_Number"]);
+            strEmailTo = Convert.ToString(dsEmail.Tables[0].Rows[0]["Creater_Email"]);
+        }
+
+
+        if (strEmailTo.Length > 0)
+        {
+            System.Collections.Generic.List<string> lstMail = new System.Collections.Generic.List<string>();
+            int intToMailCount = 0;
+            lstMail.Insert(intToMailCount, strEmailTo);
+            intToMailCount++;
+
+            DataTable dtEmailList = clsEvent_Video_Tracking_Request.GetACIGroupEmail().Tables[0];
+
+            if (dtEmailList.Rows.Count > 0)
+            {
+                foreach (DataRow drRecipient in dtEmailList.Rows)
+                {
+                    lstMail.Insert(intToMailCount, drRecipient["Email"].ToString());
+                    intToMailCount++;
+                }
+            }
+
+            Security objSecurity = new Security(Convert.ToInt32(clsSession.UserID));
+
+            string[] EmailTo = lstMail.ToArray();
+
+            string strMailHeader = "ACI Video Request status for Request Number : " + strRequestNumber;
+            string strMailBody = string.Empty;
+
+            if (StrStatus.ToLower() == "pending")
+            {
+                strMailBody = "ACI Video Request has been " + (StrStatus.ToLower() == "pending" ? "Approved" : StrStatus) + " for " + strlocation + " by " + objSecurity.FIRST_NAME + " " + objSecurity.LAST_NAME + ".";
+                strMailBody = strMailBody + "<br/>";
+                strMailBody = strMailBody + "Awaits the approval from Legal Group.";
+            }
+            else
+            {
+                strMailBody = "ACI Video Request has been " + StrStatus + " for " + strlocation + " by " + objSecurity.FIRST_NAME + " " + objSecurity.LAST_NAME + ".";
+            }
+            strMailBody = strMailBody + "<br/><br/><br/>";
+
+            if (StrStatus.ToLower() == "denied")
+            {
+                strMailBody = strMailBody + "<span style='font-size: 18px;'><b>Reason   :   </b></span>" + strReason;
+            }
+
+            if (EmailTo.Length > 0)
+            {
+                EmailHelper objEmail = new EmailHelper(AppConfig.SMTPServer, AppConfig.MailFrom, AppConfig.SMTPpwd, Convert.ToInt32(AppConfig.Port));
+                objEmail.SendEventMailMessage(AppConfig.ManagementEmailID, " ", EmailTo, strMailHeader, strMailBody, true, null, AppConfig.MailCC);
+            }
+        }
+    }
+
     #endregion
 
     #region "Grid Events"
@@ -536,6 +614,17 @@ public partial class Event_Event_VideoRequestSearch : clsBasePage
             //btnDelete.Visible = btnEdit.Visible = (clsSession.IsACIUser && (Sonic_Event != "Y") || !clsSession.IsACIUser && (Sonic_Event == "Y"));
             btnEdit.Visible = false;
             btnDelete.Visible = false;
+
+            string strtid = "", strsid = "", strstatus = "";
+
+            strtid = Convert.ToString(DataBinder.Eval(e.Row.DataItem, "PK_Event_Video_Tracking_Request")).Replace("'", "\\'");
+            strsid = Convert.ToString(clsSession.UserID);
+            strstatus = "Denied";
+
+            string strJSFunction = "return SelectValue('" + Encryption.Encrypt(strtid) + "','" + Encryption.Encrypt(strsid) + "','" + Encryption.Encrypt(strstatus) + "');";
+
+            btnDeny.Attributes.Add("onclick", strJSFunction);
+
         }
     }
 
@@ -572,15 +661,19 @@ public partial class Event_Event_VideoRequestSearch : clsBasePage
         {
             string[] strCommandArgument = e.CommandArgument.ToString().Split(',');
             decimal PK_Event_Video_Tracking_Request = Convert.ToDecimal(strCommandArgument[0]);
-            clsEvent_Video_Tracking_Request.Event_Video_Tracking_RequestUpdateStatus(PK_Event_Video_Tracking_Request, "Approved", Convert.ToInt32(clsSession.UserID));
+            clsEvent_Video_Tracking_Request.Event_Video_Tracking_RequestUpdateStatus(PK_Event_Video_Tracking_Request, "Approved", Convert.ToInt32(clsSession.UserID), null);
+            
+            DataSet ds = clsEvent_Video_Tracking_Request.GetVideoRequestData(PK_Event_Video_Tracking_Request);
+            SendNotificatonToCreater(ds, "Approved");
+            
             BindGrid(ctrlPageProperty.CurrentPage, ctrlPageProperty.PageSize);
         }
         else if (e.CommandName == "DenyVideo")
         {
             string[] strCommandArgument = e.CommandArgument.ToString().Split(',');
             decimal PK_Event_Video_Tracking_Request = Convert.ToDecimal(strCommandArgument[0]);
-            clsEvent_Video_Tracking_Request.Event_Video_Tracking_RequestUpdateStatus(PK_Event_Video_Tracking_Request, "Denied", Convert.ToInt32(clsSession.UserID));
-            BindGrid(ctrlPageProperty.CurrentPage, ctrlPageProperty.PageSize);
+            //clsEvent_Video_Tracking_Request.Event_Video_Tracking_RequestUpdateStatus(PK_Event_Video_Tracking_Request, "Denied", Convert.ToInt32(clsSession.UserID), null);
+            //BindGrid(ctrlPageProperty.CurrentPage, ctrlPageProperty.PageSize);
         }
     }
 

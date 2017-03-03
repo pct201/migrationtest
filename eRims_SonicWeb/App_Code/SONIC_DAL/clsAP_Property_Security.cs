@@ -2419,6 +2419,8 @@ namespace ERIMS.DAL
             else
                 db.AddInParameter(dbCommand, "Live_Burglary_Monitoring", DbType.String, this._Live_Burglary_Monitoring);
 
+            db.AddInParameter(dbCommand, "Created_Date", DbType.DateTime, this._Created_Date);
+
             if (string.IsNullOrEmpty(this._Fire_Company_Name))
                 db.AddInParameter(dbCommand, "Fire_Company_Name", DbType.String, DBNull.Value);
             else
@@ -3021,6 +3023,8 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Live_Burglary_Monitoring", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Live_Burglary_Monitoring", DbType.String, this._Live_Burglary_Monitoring);
+
+            db.AddInParameter(dbCommand, "Created_Date", DbType.DateTime, this._Created_Date);
 
             if (string.IsNullOrEmpty(this._Fire_Company_Name))
                 db.AddInParameter(dbCommand, "Fire_Company_Name", DbType.String, DBNull.Value);

@@ -533,7 +533,8 @@ public partial class Event_ACI_Video_Request : clsBasePage
     {
         if (PK_Event_Video_Tracking_Request > 0)
         {
-            DataTable dtEmailList = clsEvent_Video_Tracking_Request.GetVideoRequestUser().Tables[0];
+            //DataTable dtEmailList = clsEvent_Video_Tracking_Request.GetVideoRequestUser().Tables[0];
+            DataTable dtEmailList = clsEvent_Video_Tracking_Request.GetVideoRequesterByGroups("RLCM_Director_Risk_Management").Tables[0];
 
             string strUploadPath = AppConfig.DocumentsPath + "Attach\\";
             string strAbstractReportData = Convert.ToString(AbstractLetters.Event_VideoRequestReport(PK_Event_Video_Tracking_Request, false, clsGeneral.Major_Coverage.Event));
@@ -541,6 +542,8 @@ public partial class Event_ACI_Video_Request : clsBasePage
             clsEvent_Video_Tracking_Request objRefNumber = new clsEvent_Video_Tracking_Request(PK_Event_Video_Tracking_Request);
 
             string fileName = SaveFilePDF(strAbstractReportData, strUploadPath, "Video_Request_Form_" + Convert.ToString(objRefNumber.Request_Number) + ".pdf");
+            decimal PK_Attachment_Event = 0;
+
 
             if (fileName.Length > 0)
             {
@@ -559,7 +562,7 @@ public partial class Event_ACI_Video_Request : clsBasePage
                     objAttachment.Updated_By = clsSession.UserID;
                     objAttachment.Update_Date = DateTime.Now;
                     objAttachment.Attach_Date = DateTime.Now;
-                    objAttachment.Insert();
+                    PK_Attachment_Event = objAttachment.Insert();
                 }
 
             }
@@ -602,9 +605,9 @@ public partial class Event_ACI_Video_Request : clsBasePage
 
                     string strMailBody = "ERIMS has requested ACI Video Approval. Please click APPROVE or DENY for video Request.";
                     strMailBody = strMailBody + "<br/><br/>";
-                    strMailBody = strMailBody + "<span style='font-size: 20px;'><A href=" + AppConfig.SiteURL + "/Event/ACI_Approve_Deny.aspx?tid=" + Encryption.Encrypt(Convert.ToString(PK_Event_Video_Tracking_Request)) + "&sid=" + Encryption.Encrypt(Convert.ToString(drRecipient["PK_Security_ID"].ToString())) + "&status=" + Encryption.Encrypt("Approved") + ">APPROVE</A></span>";
+                    strMailBody = strMailBody + "<span style='font-size: 20px;'><A href=" + AppConfig.SiteURL + "/Event/ACI_Approve_Deny.aspx?tid=" + Encryption.Encrypt(Convert.ToString(PK_Event_Video_Tracking_Request)) + "&sid=" + Encryption.Encrypt(Convert.ToString(drRecipient["PK_Security_ID"].ToString())) + "&status=" + Encryption.Encrypt("Approved") + "&grp=" + Encryption.Encrypt("RLCMD") + "&aid=" + Encryption.Encrypt(Convert.ToString(PK_Attachment_Event)) + ">APPROVE</A></span>";
                     strMailBody = strMailBody + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-                    strMailBody = strMailBody + "<span style='font-size: 20px;'><A href=" + AppConfig.SiteURL + "/Event/ACI_Approve_Deny.aspx?tid=" + Encryption.Encrypt(Convert.ToString(PK_Event_Video_Tracking_Request)) + "&sid=" + Encryption.Encrypt(Convert.ToString(drRecipient["PK_Security_ID"].ToString())) + "&status=" + Encryption.Encrypt("Denied") + ">DENY</A></span>";
+                    strMailBody = strMailBody + "<span style='font-size: 20px;'><A href=" + AppConfig.SiteURL + "/Event/ACI_Approve_Deny.aspx?tid=" + Encryption.Encrypt(Convert.ToString(PK_Event_Video_Tracking_Request)) + "&sid=" + Encryption.Encrypt(Convert.ToString(drRecipient["PK_Security_ID"].ToString())) + "&status=" + Encryption.Encrypt("Denied") + "&grp=" + Encryption.Encrypt("RLCMD") + "&aid=" + Encryption.Encrypt(Convert.ToString(PK_Attachment_Event)) + ">DENY</A></span>";
                     strMailBody = strMailBody + "<br/><br/><br/>";
                     strMailBody = strMailBody + "<span style='font-size: 18px;'><b>Reason   :   </b></span>" + objRefNumber.Reason_Request;
 

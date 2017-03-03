@@ -831,7 +831,7 @@ namespace ERIMS.DAL
         /// <summary>
         /// Update Status.
         /// </summary>
-        public static void Event_Video_Tracking_RequestUpdateStatus(decimal PK_Event_Video_Tracking_Request, string Status, decimal Updated_By)
+        public static void Event_Video_Tracking_RequestUpdateStatus(decimal PK_Event_Video_Tracking_Request, string Status, decimal Updated_By, string Reason)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("Event_Video_Tracking_RequestUpdateStatus");
@@ -839,6 +839,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "PK_Event_Video_Tracking_Request", DbType.Decimal, PK_Event_Video_Tracking_Request);
             db.AddInParameter(dbCommand, "Status", DbType.String, Status);
             db.AddInParameter(dbCommand, "Updated_By", DbType.Int32, Updated_By);
+            db.AddInParameter(dbCommand, "Reason", DbType.String, Reason);
 
             db.ExecuteNonQuery(dbCommand);
         }
@@ -873,6 +874,24 @@ namespace ERIMS.DAL
             DbCommand dbCommand = db.GetStoredProcCommand("Event_Video_Tracking_RequestSelectByFK_Event");
 
             db.AddInParameter(dbCommand, "FK_Event", DbType.Decimal, FK_Event);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        public static DataSet GetVideoRequesterByGroups(string Group_Name)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("GetVideoRequesterByGroups");
+
+            db.AddInParameter(dbCommand, "Group_Name", DbType.String, Group_Name);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        public static DataSet GetACIGroupEmail()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("GetACIGroupEmail");
 
             return db.ExecuteDataSet(dbCommand);
         }

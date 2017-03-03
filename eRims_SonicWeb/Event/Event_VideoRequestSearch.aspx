@@ -14,6 +14,24 @@
     function ConfirmDelete() {
         return confirm("Are you sure that you want to delete the selected information and all of its subordinate data (if exists)?");
     }
+
+    function ResonRequestPopup() {
+        var winHeight = 500;
+        var winWidth = 500;
+
+        obj = window.open("ACI_Approve_Deny.aspx", 'AuditPopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
+        obj.focus();
+    }
+
+    function SelectValue(PK_Event_Video_Tracking_Request, strsid, strstatus)
+    {
+        var winHeight = 500;
+        var winWidth = 800;
+        obj = window.open("ACI_Approve_Deny.aspx?tid=" + PK_Event_Video_Tracking_Request + "&sid=" + strsid + "&status=" + strstatus + "&grp=&aid=&ispop=1", 'AuditPopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
+        obj.focus();
+        return false;
+    }
+
     </script>
    <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
         HeaderText="Verify the following fields:" BorderWidth="1" BorderColor="DimGray"
@@ -192,7 +210,7 @@
                                     <asp:GridView ID="gvVideo" runat="server" GridLines="None" CellPadding="4" CellSpacing="0"
                                         AutoGenerateColumns="false" AllowSorting="true" Width="1130px" EnableTheming="false"
                                         OnRowCommand="gvVideo_RowCommand" OnRowCreated="gvVideo_RowCreated" OnSorting="gvVideo_Sorting"
-                                        OnRowDataBound="gvVideo_RowDataBound">
+                                        OnRowDataBound="gvVideo_RowDataBound" DataKeyNames="PK_Event_Video_Tracking_Request">
                                         <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" Font-Names="Tahoma"
                                             Font-Size="8pt" />
                                         <RowStyle BackColor="#EAEAEA" Font-Names="Tahoma" Font-Size="8pt" />
@@ -291,6 +309,7 @@
                             <td align="center">
                                 <asp:Button ID="btnSearchAgain" runat="server" Text="Search Again" OnClick="btnSearchAgain_Click" />
                                 <asp:Button ID="btnSaveToExcel" runat="server" Text="Save to Excel" OnClick="btnSaveToExcel_Click" />
+                                <asp:Button ID="hdnbtnRefresh" runat="server" OnClick="hdnbtnRefresh_Click" Style="display:none;" />
                                 <%--<asp:Button ID="btnAdd" runat="server" Text="  Add New " OnClick="btnAdd_Click" />--%>
                             </td>
                         </tr>

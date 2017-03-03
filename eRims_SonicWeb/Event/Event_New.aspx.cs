@@ -1634,7 +1634,9 @@ public partial class Event_Event_New : clsBasePage
     private void BindReapterEventType()
     {
         DataSet dsData = clsLU_Event_Type.SelectAll();
-        dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y' AND Is_Actionable = 'Y' AND Fld_Desc <> 'FROI Event/Other'"; //#Issue 3422
+
+        //dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y' AND Is_Actionable = 'Y' AND Fld_Desc <> 'FROI Event/Other'"; //#Issue 3422
+        dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y' AND Is_Actionable = 'Y' AND Fld_Desc <> 'FROI Event/Other' AND Fld_Desc <> 'Vehicle Damage' AND Fld_Desc <> 'Slip and Fall'";
 
         rptEventType.DataSource = dsData.Tables[0].DefaultView.ToTable();
         rptEventType.DataBind();
@@ -1644,7 +1646,8 @@ public partial class Event_Event_New : clsBasePage
     private void BindReapterEventTypeSonic()
     {
         DataSet dsData = clsLU_Event_Type.SelectAll();
-        dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y' AND Is_Actionable = 'Y' AND Fld_Desc <> 'Voice Down' ";//#Issue 3190
+        //dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y' AND Is_Actionable = 'Y' AND Fld_Desc <> 'Voice Down' ";//#Issue 3190
+        dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y' AND Is_Actionable = 'Y' AND Fld_Desc <> 'FROI Event/Other' AND Fld_Desc <> 'Friendly Voice Down' AND Fld_Desc <> 'Stern voice Down'"; //#Issue 3422
 
         rptEventTypeSonic.DataSource = dsData.Tables[0].DefaultView.ToTable();
         rptEventTypeSonic.DataBind();
@@ -2080,7 +2083,18 @@ public partial class Event_Event_New : clsBasePage
     {
         if (_PK_Event_Video_Tracking_Request > 0)
         {
-            DataTable dtEmailList = clsEvent_Video_Tracking_Request.GetVideoRequestUser().Tables[0];
+            DataTable dtEmailList = null;
+
+            if (ddlLocation.SelectedItem.Text.IndexOf("EchoPark") == 0)
+            {
+                dtEmailList = clsEvent_Video_Tracking_Request.GetVideoRequesterByGroups("RLCM_EchoPark").Tables[0];
+            }
+            else
+            {
+                dtEmailList = clsEvent_Video_Tracking_Request.GetVideoRequesterByGroups("RLCM_Non_EchoPark").Tables[0];
+            }
+            
+            //DataTable dtEmailList = clsEvent_Video_Tracking_Request.GetVideoRequestUser().Tables[0];
 
             string strUploadPath = AppConfig.DocumentsPath + "Attach\\";
             string strAbstractReportData = Convert.ToString(AbstractLetters.Event_VideoRequestReport(_PK_Event_Video_Tracking_Request, false, clsGeneral.Major_Coverage.Event));
@@ -2149,9 +2163,9 @@ public partial class Event_Event_New : clsBasePage
 
                     string strMailBody = "ERIMS has requested ACI Video Approval. Please click APPROVE or DENY for video Request.";
                     strMailBody = strMailBody + "<br/><br/>";
-                    strMailBody = strMailBody + "<span style='font-size: 20px;'><A href=" + AppConfig.SiteURL + "/Event/ACI_Approve_Deny.aspx?tid=" + Encryption.Encrypt(Convert.ToString(_PK_Event_Video_Tracking_Request)) + "&sid=" + Encryption.Encrypt(Convert.ToString(drRecipient["PK_Security_ID"].ToString())) + "&status=" + Encryption.Encrypt("Approved") + ">APPROVE</A></span>";
+                    strMailBody = strMailBody + "<span style='font-size: 20px;'><A href=" + AppConfig.SiteURL + "/Event/ACI_Approve_Deny.aspx?tid=" + Encryption.Encrypt(Convert.ToString(_PK_Event_Video_Tracking_Request)) + "&sid=" + Encryption.Encrypt(Convert.ToString(drRecipient["PK_Security_ID"].ToString())) + "&status=" + Encryption.Encrypt("Approved") + "&grp=&aid=>APPROVE</A></span>";
                     strMailBody = strMailBody + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-                    strMailBody = strMailBody + "<span style='font-size: 20px;'><A href=" + AppConfig.SiteURL + "/Event/ACI_Approve_Deny.aspx?tid=" + Encryption.Encrypt(Convert.ToString(_PK_Event_Video_Tracking_Request)) + "&sid=" + Encryption.Encrypt(Convert.ToString(drRecipient["PK_Security_ID"].ToString())) + "&status=" + Encryption.Encrypt("Denied") + ">DENY</A></span>";
+                    strMailBody = strMailBody + "<span style='font-size: 20px;'><A href=" + AppConfig.SiteURL + "/Event/ACI_Approve_Deny.aspx?tid=" + Encryption.Encrypt(Convert.ToString(_PK_Event_Video_Tracking_Request)) + "&sid=" + Encryption.Encrypt(Convert.ToString(drRecipient["PK_Security_ID"].ToString())) + "&status=" + Encryption.Encrypt("Denied") + "&grp=&aid=>DENY</A></span>";
                     strMailBody = strMailBody + "<br/><br/><br/>";
                     strMailBody = strMailBody + "<span style='font-size: 18px;'><b>Reason   :   </b></span>" + objRefNumber.Reason_Request;
 

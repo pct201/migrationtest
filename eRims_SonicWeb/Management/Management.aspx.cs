@@ -151,6 +151,8 @@ public partial class Management_Management : clsBasePage
 
                 btnResendManagementAbstract.Visible = false;
                 txtDate_Entered.Text = DateTime.Now.ToString("MM/dd/yyyy");
+                txtRequestedBy.Text = clsSession.FirstName.Trim() + " " + clsSession.LastName.Trim();
+                txtCreatedBy.Text = clsSession.FirstName.Trim() + " " + clsSession.LastName.Trim();
             }
 
             BindProjectCostGrid();

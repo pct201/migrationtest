@@ -2,6 +2,11 @@
 
 <%@ Register Src="~/Controls/Navigation/Navigation.ascx" TagName="ctrlPaging" TagPrefix="uc" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <script type="text/javascript" language="javascript" src='<%=AppConfig.SiteURL %>JavaScript/JFunctions.js'></script>
+    <script type="text/javascript" language="javascript" src='<%=AppConfig.SiteURL %>JavaScript/Calendar_new.js'></script>
+    <script type="text/javascript" language="javascript" src='<%=AppConfig.SiteURL %>JavaScript/calendar-en.js'></script>
+    <script type="text/javascript" language="javascript" src='<%=AppConfig.SiteURL %>JavaScript/Calendar.js'></script>
+    <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL %>JavaScript/Validator.js"></script>
     <script language="javascript" type="text/javascript">
 
         function CheckValidation() {
@@ -149,7 +154,7 @@
                         <table cellspacing="1" cellpadding="3" width="50%" border="0" align="center">
                             <tbody>
                                 <tr>
-                                    <td style="width: 18%" align="left">Location <span class="mf">*</span>
+                                    <td style="width: 28%" align="left">Location <span class="mf">*</span>
                                     </td>
                                     <td style="width: 4%" align="center">:
                                     </td>
@@ -160,14 +165,29 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width: 18%" align="left">Building <span class="mf">*</span>
+                                    <td style="width: 18%" align="left">Building<%-- <span class="mf">*</span>--%>
                                     </td>
                                     <td style="width: 4%" align="center">:
                                     </td>
                                     <td align="left">
                                        <asp:DropDownList ID="drpFK_Building_ID" runat="server" Width="175px"></asp:DropDownList>
-                                        <asp:RequiredFieldValidator ID="rfvdrpFK_Building_ID" runat="server" ValidationGroup="vsError" InitialValue="0"
-                                            SetFocusOnError="true" ErrorMessage="Please Select Building" Display="none" ControlToValidate="drpFK_Building_ID"></asp:RequiredFieldValidator>
+                                       <%-- <asp:RequiredFieldValidator ID="rfvdrpFK_Building_ID" runat="server" ValidationGroup="vsError" InitialValue="0"
+                                            SetFocusOnError="true" ErrorMessage="Please Select Building" Display="none" ControlToValidate="drpFK_Building_ID"></asp:RequiredFieldValidator>--%>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 18%" align="left">Est. Live Monitoring Date<%--<span class="mf">*</span>--%>
+                                    </td>
+                                    <td style="width: 4%" align="center">:
+                                    </td>
+                                    <td align="left">
+                                        <asp:TextBox ID="txtEst_Live_Monitoring_Date" runat="server" SkinID="txtDate" />
+                                        <img alt="Est. Live Monitoring Date" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtEst_Live_Monitoring_Date', 'mm/dd/y');"
+                                            onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
+                                            align="middle" runat="server" id="imgtxtEst_Live_Monitoring_Date" />
+                                        <asp:RegularExpressionValidator ID="revtxtEst_Live_Monitoring_Date" runat="server" ValidationGroup="vsError"
+                                            Display="none" ErrorMessage="Est. Live Monitoring Date is not a valid date"
+                                            SetFocusOnError="true" ControlToValidate="txtEst_Live_Monitoring_Date" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
                                     </td>
                                 </tr>
                                 <tr>
