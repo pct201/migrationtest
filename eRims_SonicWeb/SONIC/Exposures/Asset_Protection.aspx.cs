@@ -1202,11 +1202,11 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             clsAP_Property_Security_Monitor_Grids objclsAP_Property_Security_Monitor_Grids = new clsAP_Property_Security_Monitor_Grids(PK_AP_Property_Security_Monitor_Grids);
             StrMonitorGridType = objclsAP_Property_Security_Monitor_Grids.Grid_Type;
 
-            ddlDayMonitoringBegin_CCTV.SelectedValue = (objclsAP_Property_Security_Monitor_Grids.Start_Day > 0 ? objclsAP_Property_Security_Monitor_Grids.Start_Day.ToString() : "0");
-            ddlDayMonitoringEnd_CCTV.SelectedValue = (objclsAP_Property_Security_Monitor_Grids.End_Day > 0 ? objclsAP_Property_Security_Monitor_Grids.End_Day.ToString() : "0");
-            txtTimeMonitoringBegin_CCTV.Text = objclsAP_Property_Security_Monitor_Grids.Start_Time;
-            txtTimeMonitoringEnd_CCTV.Text = objclsAP_Property_Security_Monitor_Grids.End_Time;
-            txthourcountCCTV.Text = objclsAP_Property_Security_Monitor_Grids.Hours;
+            //ddlDayMonitoringBegin_CCTV.SelectedValue = (objclsAP_Property_Security_Monitor_Grids.Start_Day > 0 ? objclsAP_Property_Security_Monitor_Grids.Start_Day.ToString() : "0");
+            //ddlDayMonitoringEnd_CCTV.SelectedValue = (objclsAP_Property_Security_Monitor_Grids.End_Day > 0 ? objclsAP_Property_Security_Monitor_Grids.End_Day.ToString() : "0");
+            //txtTimeMonitoringBegin_CCTV.Text = objclsAP_Property_Security_Monitor_Grids.Start_Time;
+            //txtTimeMonitoringEnd_CCTV.Text = objclsAP_Property_Security_Monitor_Grids.End_Time;
+            //txthourcountCCTV.Text = objclsAP_Property_Security_Monitor_Grids.Hours;
         }
     }
 
@@ -3345,11 +3345,11 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
 
     private void ClearCCTVGrid()
     {
-        ddlDayMonitoringBegin_CCTV.SelectedIndex = 0;
-        ddlDayMonitoringEnd_CCTV.SelectedIndex = 0;
-        txtTimeMonitoringBegin_CCTV.Text = string.Empty;
-        txtTimeMonitoringEnd_CCTV.Text = string.Empty;
-        txthourcountCCTV.Text = string.Empty;
+        //ddlDayMonitoringBegin_CCTV.SelectedIndex = 0;
+        //ddlDayMonitoringEnd_CCTV.SelectedIndex = 0;
+        //txtTimeMonitoringBegin_CCTV.Text = string.Empty;
+        //txtTimeMonitoringEnd_CCTV.Text = string.Empty;
+        //txthourcountCCTV.Text = string.Empty;
         trCCTV_Hours_Monitoring.Style["display"] = "none";
     }
 
@@ -3398,8 +3398,8 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     private void BindDropDownList()
     {
         ComboHelper.FillState(new DropDownList[] { drpFK_CCTV_Company_State, drpFK_Burglar_Alarm_Company_State, drpFK_Guard_Company_State, drpFK_Fire_Company_State }, 0, true);
-        ComboHelper.FillWeekDays(new DropDownList[] { ddlDayMonitoringBegins, ddlDayMonitoringEnds, ddlDayMonitoringBegin_CCTV, 
-            ddlDayMonitoringEnd_CCTV, ddlDayMonitoringBegin_Guard, ddlDayMonitoringEnd_Guard, ddlDayMonitoringBegin_Duty, ddlDayMonitoringEnd_Duty }, 0, true);
+        ComboHelper.FillWeekDays(new DropDownList[] { ddlDayMonitoringBegins, ddlDayMonitoringEnds,ddlDayMonitoringEnd_CCTV_Sunday, ddlDayMonitoringEnd_CCTV_Monday, ddlDayMonitoringEnd_CCTV_Tuesday,ddlDayMonitoringEnd_CCTV_Wednesday,ddlDayMonitoringEnd_CCTV_Thursday,
+          ddlDayMonitoringEnd_CCTV_Friday,ddlDayMonitoringEnd_CCTV_Saturday,  ddlDayMonitoringBegin_Guard, ddlDayMonitoringEnd_Guard, ddlDayMonitoringBegin_Duty, ddlDayMonitoringEnd_Duty }, 0, true);
         ComboHelper.FillCap_Index_Risk_Category(new DropDownList[] { ddlCap_Index_Risk_Category }, true);
     }
 
@@ -3422,7 +3422,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         StrMonitorGridType = "CCTV";
         ClearCCTVGrid();
         trCCTV_Hours_Monitoring.Style["display"] = "";
-        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
+        ScriptManager.RegisterStartupScript(Page,Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);EnableDisableAllCCTVControls();", true);
     }
 
     /// <summary>
@@ -3517,13 +3517,13 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         objclsAP_Property_Security_Monitor_Grids.PK_AP_Property_Security_Monitor_Grids = PK_AP_Property_Security_Monitor_Grids;
         objclsAP_Property_Security_Monitor_Grids.FK_AP_Property_Security = PK_AP_Property_Security;
         objclsAP_Property_Security_Monitor_Grids.Grid_Type = StrMonitorGridType;
-        if (ddlDayMonitoringBegin_CCTV.SelectedIndex > 0)
-            objclsAP_Property_Security_Monitor_Grids.Start_Day = Convert.ToDecimal(ddlDayMonitoringBegin_CCTV.SelectedValue);
-        objclsAP_Property_Security_Monitor_Grids.Start_Time = txtTimeMonitoringBegin_CCTV.Text;
-        if (ddlDayMonitoringEnd_CCTV.SelectedIndex > 0)
-            objclsAP_Property_Security_Monitor_Grids.End_Day = Convert.ToDecimal(ddlDayMonitoringEnd_CCTV.SelectedValue);
-        objclsAP_Property_Security_Monitor_Grids.End_Time = txtTimeMonitoringEnd_CCTV.Text;
-        objclsAP_Property_Security_Monitor_Grids.Hours = txthourcountCCTV.Text;
+        //if (ddlDayMonitoringBegin_CCTV.SelectedIndex > 0)
+        //    objclsAP_Property_Security_Monitor_Grids.Start_Day = Convert.ToDecimal(ddlDayMonitoringBegin_CCTV.SelectedValue);
+        //objclsAP_Property_Security_Monitor_Grids.Start_Time = txtTimeMonitoringBegin_CCTV.Text;
+        //if (ddlDayMonitoringEnd_CCTV.SelectedIndex > 0)
+        //    objclsAP_Property_Security_Monitor_Grids.End_Day = Convert.ToDecimal(ddlDayMonitoringEnd_CCTV.SelectedValue);
+        //objclsAP_Property_Security_Monitor_Grids.End_Time = txtTimeMonitoringEnd_CCTV.Text;
+        //objclsAP_Property_Security_Monitor_Grids.Hours = txthourcountCCTV.Text;
         objclsAP_Property_Security_Monitor_Grids.Updated_By = clsSession.UserID;
         objclsAP_Property_Security_Monitor_Grids.Updated_Date = DateTime.Now;
 
