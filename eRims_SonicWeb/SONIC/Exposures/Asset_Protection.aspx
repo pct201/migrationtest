@@ -217,7 +217,7 @@
             else if (Panelid == 5) {
                 document.getElementById('<%= lblPanelDesc.ClientID %>').innerHTML = 'Asset Management – Attachments';
             }
-        }
+}
 
 function CheckValueChange(Panelid, IndexVal) {
     SetHeaderLabel(Panelid);
@@ -359,17 +359,17 @@ function openGenereteAbstract() {
     }
     if (document.getElementById('<%= hdnPanel.ClientID %>').value == 2) {
         PKID = '<%=ViewState["FK_DPD_FR_ID"]%>';
-        VehicleId = '<%=ViewState["FK_DPD_FR_Vehicle_ID"]%>';
-    }
-    else if (document.getElementById('<%= hdnPanel.ClientID %>').value == 3) {
-        PKID = '<%=ViewState["FK_AL_FR_ID"]%>';
+                VehicleId = '<%=ViewState["FK_DPD_FR_Vehicle_ID"]%>';
+            }
+            else if (document.getElementById('<%= hdnPanel.ClientID %>').value == 3) {
+                PKID = '<%=ViewState["FK_AL_FR_ID"]%>';
     }
         //else if (document.getElementById('<= hdnPanel.ClientID %>').value == 4) {
         //    PKID = '<=ViewState["PK_AP_Cal_Atlantic"]%>';
         //}
     else if (document.getElementById('<%= hdnPanel.ClientID %>').value == 4) {
         PKID = '<%=ViewState["PK_AP_Fraud_Events"]%>';
-    }
+            }
 
     obj = window.open("Asset_Protection_Generate_Abstract.aspx?id=" + '<%=ViewState["LocationID"]  %>' + "&ps_id=" + '<%= ViewState["PK_AP_Property_Security"] %>' + "&panel=" + document.getElementById('<%= hdnPanel.ClientID %>').value + "&PKID=" + PKID + "&VID=" + VehicleId, 'PopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
     obj.focus();
@@ -380,40 +380,40 @@ function IsValidMonitorTime() {
     Page_ClientValidate("vsAddPSMonitor");
     if (Page_IsValid) {
         var endDay = $("#<%= ddlDayMonitoringEnds.ClientID %> :selected").val();
-        var startDay = $("#<%= ddlDayMonitoringBegins.ClientID %> :selected").val();
+                var startDay = $("#<%= ddlDayMonitoringBegins.ClientID %> :selected").val();
 
-        if (endDay < startDay) {
-            endDay = (parseInt(endDay, 10) + 7);
-        }
-        var CompareEndDay = (endDay - startDay + 1);
-        var MonitoringEndTime = $("#<%= txtTimeMonitoringEnds.ClientID %>").val();
+                if (endDay < startDay) {
+                    endDay = (parseInt(endDay, 10) + 7);
+                }
+                var CompareEndDay = (endDay - startDay + 1);
+                var MonitoringEndTime = $("#<%= txtTimeMonitoringEnds.ClientID %>").val();
         var MonitoringBeginTime = $("#<%= txtTimeMonitoringBegins.ClientID %>").val();
-        var startdate1 = new Date("January 01, 1999 " + MonitoringBeginTime + ":00");
-        var enddate1 = new Date("January 0" + CompareEndDay + ", 1999 " + MonitoringEndTime + ":00");
-        var diff = enddate1 - startdate1;
-        var seconds = Math.floor(diff / 1000); //ignore any left over units smaller than a second
-        var minutes = Math.floor(seconds / 60);
-        seconds = seconds % 60;
-        var hours = Math.floor(minutes / 60);
-        minutes = minutes % 60;
-        if (hours == "NaN") {
-            alert('Enter valid values');
-            return false;
-        }
-        if (hours < 0) {
-            alert('End Time should greater than start time');
-            return false;
-        }
-        if (hours < 10) {
-            hours = "0" + hours;
-        }
-        if (minutes < 10) {
-            minutes = "0" + minutes;
-        }
-        if (hours > 23) {
-            var r = confirm("The entered monitoring time period is " + hours + ":" + minutes + " hours, is this the desired entry?");
-            if (r == true) {
-                document.getElementById('<%= txtMonitoringPeriodHours.ClientID %>').value = hours + ":" + minutes;
+                var startdate1 = new Date("January 01, 1999 " + MonitoringBeginTime + ":00");
+                var enddate1 = new Date("January 0" + CompareEndDay + ", 1999 " + MonitoringEndTime + ":00");
+                var diff = enddate1 - startdate1;
+                var seconds = Math.floor(diff / 1000); //ignore any left over units smaller than a second
+                var minutes = Math.floor(seconds / 60);
+                seconds = seconds % 60;
+                var hours = Math.floor(minutes / 60);
+                minutes = minutes % 60;
+                if (hours == "NaN") {
+                    alert('Enter valid values');
+                    return false;
+                }
+                if (hours < 0) {
+                    alert('End Time should greater than start time');
+                    return false;
+                }
+                if (hours < 10) {
+                    hours = "0" + hours;
+                }
+                if (minutes < 10) {
+                    minutes = "0" + minutes;
+                }
+                if (hours > 23) {
+                    var r = confirm("The entered monitoring time period is " + hours + ":" + minutes + " hours, is this the desired entry?");
+                    if (r == true) {
+                        document.getElementById('<%= txtMonitoringPeriodHours.ClientID %>').value = hours + ":" + minutes;
             }
             else {
                 return false;
@@ -428,188 +428,113 @@ function IsValidMonitorTime() {
     }
 }
 
-function IsValidMonitorTimeCCTV(day) {
-
-    var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    // do something with `item`
-
-
-    var txtTimeMonitoringBegin_CCTV = 'txtTimeMonitoringBegin_CCTV_' + day;
-    var ddlDayMonitoringEnd_CCTV = 'ddlDayMonitoringEnd_CCTV_' + day;
-    var txtTimeMonitoringEnd_CCTV = 'txtTimeMonitoringEnd_CCTV_' + day;
-    var txthourcountCCTV = 'txthourcountCCTV_' + day;
-
+function IsValidMonitorTimeCCTV() {
     Page_ClientValidate("vsAddPSMonitorCCTV");
     if (Page_IsValid) {
-        var endDay = $("[id$=_" + ddlDayMonitoringEnd_CCTV + "]").val();
-        var startDay = $.inArray(day, days) + 1;
+        var endDay = $("#<%= ddlDayMonitoringEnd_CCTV.ClientID %> :selected").val();
+                var startDay = $("#<%= ddlDayMonitoringBegin_CCTV.ClientID %> :selected").val();
 
-        if (endDay < startDay) {
-            endDay = (parseInt(endDay, 10) + 7);
-        }
-        var CompareEndDay = (endDay - startDay + 1);
-        var MonitoringEndTime = $("[id$=_" + txtTimeMonitoringEnd_CCTV + "]").val();
-        var MonitoringBeginTime = $("[id$=_" + txtTimeMonitoringBegin_CCTV + "]").val();
-        var startdate1 = new Date("January 01, 1999 " + MonitoringBeginTime + ":00");
-        var enddate1 = new Date("January 0" + CompareEndDay + ", 1999 " + MonitoringEndTime + ":00");
-        var diff = enddate1 - startdate1;
-        var seconds = Math.floor(diff / 1000); //ignore any left over units smaller than a second
-        var minutes = Math.floor(seconds / 60);
-        seconds = seconds % 60;
-        var hours = Math.floor(minutes / 60);
-        minutes = minutes % 60;
-        if (hours == "NaN") {
-            alert('Enter valid values');
-            return false;
-        }
-        if (hours < 0) {
-            alert('End Time should greater than start time');
-            return false;
-        }
-        if (hours < 10) {
-            hours = "0" + hours;
-        }
-        if (minutes < 10) {
-            minutes = "0" + minutes;
-        }
-        if (hours > 23) {
-            var r = confirm("The entered monitoring time period is " + hours + ":" + minutes + " hours, is this the desired entry?");
-            if (r == true) {
-                $("[id$=_" + txthourcountCCTV + "]").val(hours + ":" + minutes);
+                if (endDay < startDay) {
+                    endDay = (parseInt(endDay, 10) + 7);
+                }
+                var CompareEndDay = (endDay - startDay + 1);
+                var MonitoringEndTime = $("#<%= txtTimeMonitoringEnd_CCTV.ClientID %>").val();
+        var MonitoringBeginTime = $("#<%= txtTimeMonitoringBegin_CCTV.ClientID %>").val();
+                var startdate1 = new Date("January 01, 1999 " + MonitoringBeginTime + ":00");
+                var enddate1 = new Date("January 0" + CompareEndDay + ", 1999 " + MonitoringEndTime + ":00");
+                var diff = enddate1 - startdate1;
+                var seconds = Math.floor(diff / 1000); //ignore any left over units smaller than a second
+                var minutes = Math.floor(seconds / 60);
+                seconds = seconds % 60;
+                var hours = Math.floor(minutes / 60);
+                minutes = minutes % 60;
+                if (hours == "NaN") {
+                    alert('Enter valid values');
+                    return false;
+                }
+                if (hours < 0) {
+                    alert('End Time should greater than start time');
+                    return false;
+                }
+                if (hours < 10) {
+                    hours = "0" + hours;
+                }
+                if (minutes < 10) {
+                    minutes = "0" + minutes;
+                }
+                if (hours > 23) {
+                    var r = confirm("The entered monitoring time period is " + hours + ":" + minutes + " hours, is this the desired entry?");
+                    if (r == true) {
+                        document.getElementById('<%= txthourcountCCTV.ClientID %>').value = hours + ":" + minutes;
             }
             else {
                 return false;
             }
         }
         else {
-            $("[id$=_" + txthourcountCCTV + "]").val(hours + ":" + minutes);
+            document.getElementById('<%= txthourcountCCTV.ClientID %>').value = hours + ":" + minutes;
         }
     }
     else {
         return false;
     }
-
-}
-
-//$(document).ready(function () {
-//    var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-//    days.forEach(function (day) {
-//        var checkbox = 'chkCCTV_' + day;
-//        EnableDisableCCTVControls(day, $("[id$=_" + checkbox + "]")[0]);
-//    });
-
-//});
-
-function EnableDisableAllCCTVControls() {
-    var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    days.forEach(function (day) {
-        var checkbox = 'chkCCTV_' + day;
-        EnableDisableCCTVControls(day, $("[id$=_" + checkbox + "]")[0]);
-    });
-}
-
-function EnableDisableCCTVControls(day, value) {
-
-    var txtTimeMonitoringBegin_CCTV = 'txtTimeMonitoringBegin_CCTV_' + day;
-    var mkvtxtTimeMonitoringBegin_CCTV = 'mkvtxtTimeMonitoringBegin_CCTV_' + day;
-    var regtxtTimeMonitoringBegin_CCTV = 'regtxtTimeMonitoringBegin_CCTV_' + day;
-    var revtxtTimeMonitoringBegin_CCTV = 'revtxtTimeMonitoringBegin_CCTV_' + day;
-    var ddlDayMonitoringEnd_CCTV = 'ddlDayMonitoringEnd_CCTV_' + day;
-    var revddlDayMonitoringEnd_CCTV = 'revddlDayMonitoringEnd_CCTV_' + day;
-    var txtTimeMonitoringEnd_CCTV = 'txtTimeMonitoringEnd_CCTV_' + day;
-    var mkvtxtTimeMonitoringEnd_CCTV = 'mkvtxtTimeMonitoringEnd_CCTV_' + day;
-    var regtxtTimeMonitoringEnd_CCTV = 'regtxtTimeMonitoringEnd_CCTV_' + day;
-    var revtxtTimeMonitoringEnd_CCTV = 'revtxtTimeMonitoringEnd_CCTV_' + day;
-    var txthourcountCCTV = 'txthourcountCCTV_' + day;
-    if (value.checked == false) {
-        $("[id$=_" + txtTimeMonitoringBegin_CCTV + "]").val('');
-        $("[id$=_" + txtTimeMonitoringEnd_CCTV + "]").val('');
-        $("[id$=_" + ddlDayMonitoringEnd_CCTV + "]").val('0');
-        $("[id$=_" + txthourcountCCTV + "]").val('');
-
-        $("[id$=_" + txtTimeMonitoringBegin_CCTV + "]").attr('disabled', 'disabled');
-        $("[id$=_" + ddlDayMonitoringEnd_CCTV + "]").attr('disabled', 'disabled');
-        $("[id$=_" + txtTimeMonitoringEnd_CCTV + "]").attr('disabled', 'disabled');
-        //$("[id$=_" + txthourcountCCTV + "]").attr('disabled', 'disabled');
-        ValidatorEnable($("[id$=_" + mkvtxtTimeMonitoringBegin_CCTV + "_ClientState]")[0], false);
-        ValidatorEnable($("[id$=_" + regtxtTimeMonitoringBegin_CCTV + "]")[0], false);
-        ValidatorEnable($("[id$=_" + revtxtTimeMonitoringBegin_CCTV + "]")[0], false);
-        ValidatorEnable($("[id$=_" + revddlDayMonitoringEnd_CCTV + "]")[0], false);
-        ValidatorEnable($("[id$=_" + mkvtxtTimeMonitoringEnd_CCTV + "_ClientState]")[0], false);
-        ValidatorEnable($("[id$=_" + regtxtTimeMonitoringEnd_CCTV + "]")[0], false);
-        ValidatorEnable($("[id$=_" + revtxtTimeMonitoringEnd_CCTV + "]")[0], false);
-    }
-    else {
-        $("[id$=_" + txtTimeMonitoringBegin_CCTV + "]").removeAttr('disabled');
-        $("[id$=_" + ddlDayMonitoringEnd_CCTV + "]").removeAttr('disabled');
-        $("[id$=_" + txtTimeMonitoringEnd_CCTV + "]").removeAttr('disabled');
-        //$("[id$=_" + txtTimeMonitoringEnd_CCTV_ + "]").removeAttr('disabled');
-        ValidatorEnable($("[id$=_" + mkvtxtTimeMonitoringBegin_CCTV + "_ClientState]")[0], true);
-        ValidatorEnable($("[id$=_" + regtxtTimeMonitoringBegin_CCTV + "]")[0], true);
-        ValidatorEnable($("[id$=_" + revtxtTimeMonitoringBegin_CCTV + "]")[0], true);
-        ValidatorEnable($("[id$=_" + revddlDayMonitoringEnd_CCTV + "]")[0], true);
-        ValidatorEnable($("[id$=_" + mkvtxtTimeMonitoringEnd_CCTV + "_ClientState]")[0], true);
-        ValidatorEnable($("[id$=_" + regtxtTimeMonitoringEnd_CCTV + "]")[0], true);
-        ValidatorEnable($("[id$=_" + revtxtTimeMonitoringEnd_CCTV + "]")[0], true);
-    }
-
 }
 
 function IsValidMonitorTimeGuard() {
     Page_ClientValidate("vsAddPSMonitorGuard");
     if (Page_IsValid) {
         var endDay = $("#<%= ddlDayMonitoringEnd_Guard.ClientID %> :selected").val();
-        var startDay = $("#<%= ddlDayMonitoringBegin_Guard.ClientID %> :selected").val();
+                var startDay = $("#<%= ddlDayMonitoringBegin_Guard.ClientID %> :selected").val();
 
-        if (endDay < startDay) {
-            endDay = (parseInt(endDay, 10) + 7);
-        }
-        var CompareEndDay = (endDay - startDay + 1);
-        var MonitoringEndTime = $("#<%= txtTimeMonitoringEnd_Guard.ClientID %>").val();
-            var MonitoringBeginTime = $("#<%= txtTimeMonitoringBegin_Guard.ClientID %>").val();
-        var startdate1 = new Date("January 01, 1999 " + MonitoringBeginTime + ":00");
-        var enddate1 = new Date("January 0" + CompareEndDay + ", 1999 " + MonitoringEndTime + ":00");
-        var diff = enddate1 - startdate1;
-        var seconds = Math.floor(diff / 1000); //ignore any left over units smaller than a second
-        var minutes = Math.floor(seconds / 60);
-        seconds = seconds % 60;
-        var hours = Math.floor(minutes / 60);
-        minutes = minutes % 60;
-        if (hours == "NaN") {
-            alert('Enter valid values');
-            return false;
-        }
-        if (hours < 0) {
-            alert('End Time should greater than start time');
-            return false;
-        }
-        if (hours < 10) {
-            hours = "0" + hours;
-        }
-        if (minutes < 10) {
-            minutes = "0" + minutes;
-        }
-        if (hours > 23) {
-            var r = confirm("The entered monitoring time period is " + hours + ":" + minutes + " hours, is this the desired entry?");
-            if (r == true) {
-                document.getElementById('<%= txthourcountGuard.ClientID %>').value = hours + ":" + minutes;
+                if (endDay < startDay) {
+                    endDay = (parseInt(endDay, 10) + 7);
+                }
+                var CompareEndDay = (endDay - startDay + 1);
+                var MonitoringEndTime = $("#<%= txtTimeMonitoringEnd_Guard.ClientID %>").val();
+                var MonitoringBeginTime = $("#<%= txtTimeMonitoringBegin_Guard.ClientID %>").val();
+                var startdate1 = new Date("January 01, 1999 " + MonitoringBeginTime + ":00");
+                var enddate1 = new Date("January 0" + CompareEndDay + ", 1999 " + MonitoringEndTime + ":00");
+                var diff = enddate1 - startdate1;
+                var seconds = Math.floor(diff / 1000); //ignore any left over units smaller than a second
+                var minutes = Math.floor(seconds / 60);
+                seconds = seconds % 60;
+                var hours = Math.floor(minutes / 60);
+                minutes = minutes % 60;
+                if (hours == "NaN") {
+                    alert('Enter valid values');
+                    return false;
+                }
+                if (hours < 0) {
+                    alert('End Time should greater than start time');
+                    return false;
+                }
+                if (hours < 10) {
+                    hours = "0" + hours;
+                }
+                if (minutes < 10) {
+                    minutes = "0" + minutes;
+                }
+                if (hours > 23) {
+                    var r = confirm("The entered monitoring time period is " + hours + ":" + minutes + " hours, is this the desired entry?");
+                    if (r == true) {
+                        document.getElementById('<%= txthourcountGuard.ClientID %>').value = hours + ":" + minutes;
+                    }
+                    else {
+                        return false;
+                    }
                 }
                 else {
-                    return false;
+                    document.getElementById('<%= txthourcountGuard.ClientID %>').value = hours + ":" + minutes;
                 }
             }
             else {
-                document.getElementById('<%= txthourcountGuard.ClientID %>').value = hours + ":" + minutes;
+                return false;
             }
         }
-        else {
-            return false;
-        }
-    }
-    function IsValidMonitorTimeDuty() {
-        Page_ClientValidate("vsAddPSMonitorDuty");
-        if (Page_IsValid) {
-            var endDay = $("#<%= ddlDayMonitoringEnd_Duty.ClientID %> :selected").val();
+        function IsValidMonitorTimeDuty() {
+            Page_ClientValidate("vsAddPSMonitorDuty");
+            if (Page_IsValid) {
+                var endDay = $("#<%= ddlDayMonitoringEnd_Duty.ClientID %> :selected").val();
         var startDay = $("#<%= ddlDayMonitoringBegin_Duty.ClientID %> :selected").val();
 
         if (endDay < startDay) {
@@ -692,27 +617,186 @@ function IsValidMonitorTimeGuard() {
             if (Page_IsValid) {
 
                 var Loc = $('#' + '<%=hdnLocationID.ClientID%>').val();
-        if (Loc != null || Loc != NaN)
-            Loc = parseInt(Loc);
-        else
-            Loc = 0;
-        var BuildingNumber = $('#' + '<%=hdnBuildingNumberByLocation.ClientID%>').val();
+                if (Loc != null || Loc != NaN)
+                    Loc = parseInt(Loc);
+                else
+                    Loc = 0;
+                var BuildingNumber = $('#' + '<%=hdnBuildingNumberByLocation.ClientID%>').val();
 
-                oWnd = window.open("<%=AppConfig.SiteURL%>Sonic/Exposures/BuildingByLocation.aspx?loc_id=" + Loc + "&BuildingNumber=" + BuildingNumber + "&ps_id=" + '<%= ViewState["PK_AP_Property_Security"] %>', "Erims", "location=0,status=0,scrollbars=1,menubar=0,resizable=0,toolbar=0,width=500,height=320");
-        oWnd.moveTo(700, 400);
-        return false;
+        oWnd = window.open("<%=AppConfig.SiteURL%>Sonic/Exposures/BuildingByLocation.aspx?loc_id=" + Loc + "&BuildingNumber=" + BuildingNumber + "&ps_id=" + '<%= ViewState["PK_AP_Property_Security"] %>', "Erims", "location=0,status=0,scrollbars=1,menubar=0,resizable=0,toolbar=0,width=500,height=320");
+                oWnd.moveTo(700, 400);
+                return false;
 
-    }
+            }
+
+        }
+
+        function RemoveDataFromBuildingAlert(element) {
+
+            var BuildingNumber = document.getElementById(element.replace("lnkbtnRemove", "hdnBuildingNumber")).value;
+            var Loc = $('#' + '<%=hdnLocationdba.ClientID%>').val();
+    return confirm("Are you sure you want to remove the data from Building " + BuildingNumber + " at Location " + Loc + " ?");
 
 }
 
-function RemoveDataFromBuildingAlert(element) {
+        var alertstring = ""
+        var confirmstring = ""
+        function IsValidMonitorTimeCCTVGrid() {
 
-    var BuildingNumber = document.getElementById(element.replace("lnkbtnRemove", "hdnBuildingNumber")).value;
-    var Loc = $('#' + '<%=hdnLocationdba.ClientID%>').val();
-            return confirm("Are you sure you want to remove the data from Building " + BuildingNumber + " at Location " + Loc + " ?");
+            for (i = 1 ; i <= 7 ; i++) {
+                IsValidMonitorTimeCCTVGridByNumber(i);
+            }
+
+            Page_ClientValidate("vsAddPSMonitorCCTVGrid");
+            if (Page_IsValid) {
+                alertstring = "";
+                confirmstring = "";
+                for (i = 1 ; i <= 7 ; i++) {
+                    var chkCCTV = document.getElementById('ctl00_ContentPlaceHolder1_chkSelectCCTV' + i);
+                    if (chkCCTV.checked) {
+                        CalculateCCTVTime(i);
+                    }
+                }
+                if (alertstring.length > 0) {
+                    alert(alertstring);
+                    return false;
+                }
+
+                if (confirmstring.length > 0) {
+                    var r = confirm(confirmstring);
+                    if (r == true) {
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+            else
+                return false;
 
         }
+
+        function IsValidMonitorTimeCCTVGridByNumber(rownumber) {
+
+            var chkCCTV = document.getElementById('ctl00_ContentPlaceHolder1_chkSelectCCTV' + rownumber);
+
+            var regtxtTimeMonitoringBegin_CCTV = document.getElementById('ctl00_ContentPlaceHolder1_regtxtTimeMonitoringBegin_CCTV' + rownumber);
+            var revtxtTimeMonitoringBegin_CCTV = document.getElementById('ctl00_ContentPlaceHolder1_revtxtTimeMonitoringBegin_CCTV' + rownumber);
+            var revddlDayMonitoringEnd_CCTV = document.getElementById('ctl00_ContentPlaceHolder1_revddlDayMonitoringEnd_CCTV' + rownumber);
+            var regtxtTimeMonitoringEnd_CCTV = document.getElementById('ctl00_ContentPlaceHolder1_regtxtTimeMonitoringEnd_CCTV' + rownumber);
+            var revtxtTimeMonitoringEnd_CCTV = document.getElementById('ctl00_ContentPlaceHolder1_revtxtTimeMonitoringEnd_CCTV' + rownumber);
+
+            if (chkCCTV.checked) {
+
+                regtxtTimeMonitoringBegin_CCTV.enabled = true;
+                revtxtTimeMonitoringBegin_CCTV.enabled = true;
+                revddlDayMonitoringEnd_CCTV.enabled = true;
+                regtxtTimeMonitoringEnd_CCTV.enabled = true;
+                revtxtTimeMonitoringEnd_CCTV.enabled = true;
+            }
+            else {
+                regtxtTimeMonitoringBegin_CCTV.enabled = false;
+                revtxtTimeMonitoringBegin_CCTV.enabled = false;
+                revddlDayMonitoringEnd_CCTV.enabled = false;
+                regtxtTimeMonitoringEnd_CCTV.enabled = false;
+                revtxtTimeMonitoringEnd_CCTV.enabled = false;
+            }
+     }
+
+
+
+        function CalculateCCTVTime(rownumber) {
+            var day = "";
+
+            switch (rownumber) {
+                case 1:
+                    day = "Sunday";
+                    break;
+                case 2:
+                    day = "Monday";
+                    break;
+                case 3:
+                    day = "Tuesday";
+                    break;
+                case 4:
+                    day = "Wednesday";
+                    break;
+                case 5:
+                    day = "Thursday";
+                    break;
+                case 6:
+                    day = "Friday";
+                    break;
+                case 7:
+                    day = "Saturday";
+                    break;
+                default:
+                    day = "";
+            }
+
+
+            var txthourcountCCTV = document.getElementById('ctl00_ContentPlaceHolder1_txthourcountCCTV' + rownumber);
+
+            var ddlDayMonitoringEnd_CCTV = document.getElementById('ctl00_ContentPlaceHolder1_ddlDayMonitoringEnd_CCTV' + rownumber);
+            var ddlDayMonitoringBegin_CCTV = document.getElementById('ctl00_ContentPlaceHolder1_ddlDayMonitoringBegin_CCTV' + rownumber);
+
+            var endDay = $("#" + ddlDayMonitoringEnd_CCTV.id + " :selected").val();
+            var startDay = rownumber;
+
+            if (endDay < startDay) {
+                endDay = (parseInt(endDay, 10) + 7);
+            }
+            var CompareEndDay = (endDay - startDay + 1);
+
+            var txtTimeMonitoringEnd_CCTV = document.getElementById('ctl00_ContentPlaceHolder1_txtTimeMonitoringEnd_CCTV' + rownumber);
+            var txtTimeMonitoringBegin_CCTV = document.getElementById('ctl00_ContentPlaceHolder1_txtTimeMonitoringBegin_CCTV' + rownumber);
+
+            var MonitoringEndTime = $("#" + txtTimeMonitoringEnd_CCTV.id + "").val();
+            var MonitoringBeginTime = $("#" + txtTimeMonitoringBegin_CCTV.id + "").val();
+            var startdate1 = new Date("January 01, 1999 " + MonitoringBeginTime + ":00");
+            var enddate1 = new Date("January 0" + CompareEndDay + ", 1999 " + MonitoringEndTime + ":00");
+            var diff = enddate1 - startdate1;
+            var seconds = Math.floor(diff / 1000); //ignore any left over units smaller than a second
+            var minutes = Math.floor(seconds / 60);
+            seconds = seconds % 60;
+            var hours = Math.floor(minutes / 60);
+            minutes = minutes % 60;
+            if (hours == "NaN") {
+                //alert(day + '/ Enter valid values');
+                alertstring = alertstring + '\n-' + day + '/ Enter valid values';
+                return false;
+            }
+            if (hours < 0) {
+                //alert(day + '/End Time should greater than start time');
+                alertstring = alertstring + '\n-' + day + '/End Time should greater than start time';
+                return false;
+            }
+            if (hours < 10) {
+                hours = "0" + hours;
+            }
+            if (minutes < 10) {
+                minutes = "0" + minutes;
+            }
+            if (hours > 23) {
+                confirmstring = confirmstring + '\n-' + day + '/The entered monitoring time period is ' + hours + ':' + minutes + ' hours, is this the desired entry?';
+                //var r = confirm(day + "/The entered monitoring time period is " + hours + ":" + minutes + " hours, is this the desired entry?");
+                //if (r == true) {
+                //    txthourcountCCTV.value = hours + ":" + minutes;
+                //    }
+                //    else {
+                //        return false;
+                //    }
+                }
+                else {
+                txthourcountCCTV.value = hours + ":" + minutes;
+            }
+            txthourcountCCTV.value = hours + ":" + minutes;
+            return true;
+        }
+
     </script>
     <div>
         <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
@@ -748,6 +832,9 @@ function RemoveDataFromBuildingAlert(element) {
         <asp:ValidationSummary ID="ValidationSummary10" runat="server" ShowSummary="false"
             ShowMessageBox="true" HeaderText="Verify the following fields:" BorderWidth="1"
             BorderColor="DimGray" ValidationGroup="vsAddPSMonitorDuty" CssClass="errormessage"></asp:ValidationSummary>
+        <asp:ValidationSummary ID="ValidationSummary11" runat="server" ShowSummary="false"
+            ShowMessageBox="true" HeaderText="Verify the following fields:" BorderWidth="1"
+            BorderColor="DimGray" ValidationGroup="vsAddPSMonitorCCTVGrid" CssClass="errormessage"></asp:ValidationSummary>
     </div>
     <table cellpadding="0" cellspacing="0" width="100%">
         <tr>
@@ -1079,13 +1166,14 @@ function RemoveDataFromBuildingAlert(element) {
                                                                 <ContentTemplate>
                                                                     <table>
                                                                         <tr>
-                                                                            <td align="left" valign="top" width="18%">CCTV Hours Monitoring Grid<br />
+                                                                            <td align="left" valign="top"  width="18%">CCTV Hours Monitoring Grid<br />
                                                                                 <asp:LinkButton ID="lnkbtnAddCCTVHoursMonitoringGrid" runat="server" Text="--Add--"
                                                                                     OnClick="lnkbtnAddCCTVHoursMonitoringGrid_Click" CausesValidation="true" ValidationGroup="vsErrorProperty_Security"></asp:LinkButton>
                                                                             </td>
-                                                                            <td align="left" valign="top" width="4%">&nbsp;&nbsp;&nbsp;:
+                                                                            <td align="left" valign="top"  width="4%">
+                                                                                &nbsp;&nbsp;&nbsp;:
                                                                             </td>
-                                                                            <td align="left" valign="top" colspan="4" width="78%">
+                                                                            <td align="left" id="tdCCTVMonitorGrid" runat="server" valign="top" colspan="4"  width="78%">
                                                                                 <asp:GridView ID="gvCCTVHoursMonitoringGrid" runat="server" GridLines="None" CellPadding="4" DataKeyNames="Hours"
                                                                                     CellSpacing="0" AutoGenerateColumns="false" Width="100%" EnableTheming="false"
                                                                                     OnRowCommand="gvMonitoingGridCCTV_RowCommand">
@@ -1112,7 +1200,7 @@ function RemoveDataFromBuildingAlert(element) {
                                                                                             </ItemTemplate>
                                                                                         </asp:TemplateField>
                                                                                         <asp:TemplateField HeaderText="Time Monitoring Begins" HeaderStyle-HorizontalAlign="Left">
-                                                                                            <ItemStyle Width="15%" HorizontalAlign="Left" />
+                                                                                            <ItemStyle Width="20%" HorizontalAlign="Left" />
                                                                                             <ItemTemplate>
                                                                                                 <asp:LinkButton ID="lnkbtnTimeMonitoringBegins" runat="server" CommandName="gvEdit"
                                                                                                     CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
@@ -1130,7 +1218,7 @@ function RemoveDataFromBuildingAlert(element) {
                                                                                             </ItemTemplate>
                                                                                         </asp:TemplateField>
                                                                                         <asp:TemplateField HeaderText="Time Monitoring Ends" HeaderStyle-HorizontalAlign="Left">
-                                                                                            <ItemStyle Width="15%" HorizontalAlign="Left" />
+                                                                                            <ItemStyle Width="20%" HorizontalAlign="Left" />
                                                                                             <ItemTemplate>
                                                                                                 <asp:LinkButton ID="lnkbtnTimeMonitoringEnds" runat="server" CommandName="gvEdit"
                                                                                                     CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
@@ -1139,7 +1227,7 @@ function RemoveDataFromBuildingAlert(element) {
                                                                                             </ItemTemplate>
                                                                                         </asp:TemplateField>
                                                                                         <asp:TemplateField HeaderText="Hours" HeaderStyle-HorizontalAlign="Left">
-                                                                                            <ItemStyle Width="15%" HorizontalAlign="Left" />
+                                                                                            <ItemStyle Width="10%" HorizontalAlign="Left" />
                                                                                             <ItemTemplate>
                                                                                                 <asp:LinkButton ID="lnkbtnHours" runat="server" CommandName="gvEdit" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
                                                                                 <%# Eval("Hours")%>
@@ -1147,7 +1235,7 @@ function RemoveDataFromBuildingAlert(element) {
                                                                                             </ItemTemplate>
                                                                                         </asp:TemplateField>
                                                                                         <asp:TemplateField HeaderText="Remove" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center">
-                                                                                            <ItemStyle Width="15%" />
+                                                                                            <ItemStyle Width="10%" />
                                                                                             <ItemTemplate>
                                                                                                 <asp:LinkButton ID="lnkbtnRemove" runat="server" Text="Remove" OnClientClick="return confirm('Are you Sure to delete this record?');"
                                                                                                     CommandName="Remove" CommandArgument='<%# Eval("PK_AP_Property_Security_Monitor_Grids") %>'> 
@@ -1164,375 +1252,73 @@ function RemoveDataFromBuildingAlert(element) {
                                                                             </td>
                                                                         </tr>
                                                                         <tr runat="server" id="trCCTV_Hours_Monitoring" style="display: none">
-                                                                            <td colspan="2"></td>
-                                                                            <td align="left" valign="top" colspan="4">
+                                                                            <td align="left" valign="top" colspan="6">
                                                                                 <table width='100%'>
                                                                                     <tr style='background-color: #7f7f7f; font-family: Arial; color: white; font-size: 12px; font-weight: bold' valign="top">
-                                                                                        <td align="left" valign="top" width="5%"></td>
-                                                                                        <td align="left" valign="top" width="25%">Day Monitoring Begins&nbsp;<span id="Span148" style="color: Red" runat="server">*</span>
+                                                                                        <td align="left" valign="top" width="20%">Day Monitoring Begins&nbsp;<span id="Span148" style="color: Red" runat="server">*</span>
                                                                                         </td>
-                                                                                        <td align="left" valign="top" width="15%">Time Monitoring Begins&nbsp;<span id="Span149" style="color: Red" runat="server">*</span>
+                                                                                        <td align="left" valign="top" width="10%">Time Monitoring Begins&nbsp;<span id="Span149" style="color: Red" runat="server">*</span>
                                                                                         </td>
                                                                                         <td align="left" valign="top" width="20%">Day Monitoring Ends&nbsp;<span id="Span150" style="color: Red" runat="server">*</span>
                                                                                         </td>
                                                                                         <td align="left" valign="top" width="10%">Time Monitoring Ends&nbsp;<span id="Span151" style="color: Red" runat="server">*</span>
                                                                                         </td>
-                                                                                        <td align="left" valign="top" width="15%">Hours
+                                                                                        <td align="left" valign="top" width="10%">Hours
                                                                                         </td>
+                                                                                        <td align="left" valign="top" width="30%"></td>
                                                                                     </tr>
-                                                                                    <tr valign="middle">
-                                                                                        <td>
-                                                                                            <asp:CheckBox ID="chkCCTV_Sunday" runat="server" onclick="javascript: EnableDisableCCTVControls('Sunday', this);" />
-                                                                                        </td>
-                                                                                        <td align="left" valign="middle">Sunday
-                                                                                        </td>
+                                                                                    <tr valign="top">
                                                                                         <td align="left" valign="top">
-                                                                                            <asp:TextBox ID="txtTimeMonitoringBegin_CCTV_Sunday" runat="server" Width="110px" MaxLength="5" disabled="disabled" />
-                                                                                            <cc1:MaskedEditExtender ID="mkvtxtTimeMonitoringBegin_CCTV_Sunday" runat="server" AutoComplete="true"
-                                                                                                MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringBegin_CCTV_Sunday" AcceptNegative="Left"
-                                                                                                DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
-                                                                                                OnInvalidCssClass="MaskedEditError" CultureName="en-US">
-                                                                                            </cc1:MaskedEditExtender>
-                                                                                            <asp:RegularExpressionValidator ID="regtxtTimeMonitoringBegin_CCTV_Sunday" runat="server" ControlToValidate="txtTimeMonitoringBegin_CCTV_Sunday"
-                                                                                                ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                                                ErrorMessage="Time Monitoring Begins for Sunday should be valid time" Display="none" ValidationGroup="vsAddPSMonitorCCTV"
-                                                                                                SetFocusOnError="true">
-                                                                                            </asp:RegularExpressionValidator>
-                                                                                            <asp:RequiredFieldValidator ID="revtxtTimeMonitoringBegin_CCTV_Sunday" runat="server" ControlToValidate="txtTimeMonitoringBegin_CCTV_Sunday"
-                                                                                                Display="None" ErrorMessage="Enter Time Monitoring Begins for Sunday." ValidationGroup="vsAddPSMonitorCCTV"
-                                                                                                SetFocusOnError="true"></asp:RequiredFieldValidator>
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">
-                                                                                            <asp:DropDownList ID="ddlDayMonitoringEnd_CCTV_Sunday" runat="server" SkinID="ddlExposure" disabled="disabled">
+                                                                                            <asp:DropDownList ID="ddlDayMonitoringBegin_CCTV" runat="server" SkinID="ddlSONIC">
                                                                                             </asp:DropDownList>
-                                                                                            <asp:RequiredFieldValidator ID="revddlDayMonitoringEnd_CCTV_Sunday" runat="server" ControlToValidate="ddlDayMonitoringEnd_CCTV_Sunday"
-                                                                                                ErrorMessage="Select Day Monitoring Ends for Sunday" Display="None" ValidationGroup="vsAddPSMonitorCCTV"
+                                                                                            <asp:RequiredFieldValidator ID="revddlDayMonitoringBegin_CCTV" runat="server" ControlToValidate="ddlDayMonitoringBegin_CCTV"
+                                                                                                ErrorMessage="Select Day Monitoring Begins" Display="None" ValidationGroup="vsAddPSMonitorCCTV"
                                                                                                 SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
                                                                                         </td>
                                                                                         <td align="left" valign="top">
-                                                                                            <asp:TextBox ID="txtTimeMonitoringEnd_CCTV_Sunday" runat="server" Width="110px" MaxLength="5" disabled="disabled" onblur="javascript:return IsValidMonitorTimeCCTV('Sunday');" />
-                                                                                            <cc1:MaskedEditExtender ID="mkvtxtTimeMonitoringEnd_CCTV_Sunday" runat="server" AutoComplete="true"
-                                                                                                MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringEnd_CCTV_Sunday" AcceptNegative="Left"
+                                                                                            <asp:TextBox ID="txtTimeMonitoringBegin_CCTV" runat="server" Width="110px" MaxLength="5" />
+                                                                                            <cc1:MaskedEditExtender ID="MaskedEditExtender3" runat="server" AutoComplete="true"
+                                                                                                MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringBegin_CCTV" AcceptNegative="Left"
                                                                                                 DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
                                                                                                 OnInvalidCssClass="MaskedEditError" CultureName="en-US">
                                                                                             </cc1:MaskedEditExtender>
-                                                                                            <asp:RegularExpressionValidator ID="regtxtTimeMonitoringEnd_CCTV_Sunday" runat="server" ControlToValidate="txtTimeMonitoringEnd_CCTV_Sunday"
+                                                                                            <asp:RegularExpressionValidator ID="regtxtTimeMonitoringBegin_CCTV" runat="server" ControlToValidate="txtTimeMonitoringBegin_CCTV"
                                                                                                 ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                                                ErrorMessage="Time Monitoring Ends for Sunday should be valid time" Display="none" ValidationGroup="vsAddPSMonitorCCTV"
+                                                                                                ErrorMessage="Time Monitoring Begins should be valid time" Display="none" ValidationGroup="vsAddPSMonitorCCTV"
                                                                                                 SetFocusOnError="true">
                                                                                             </asp:RegularExpressionValidator>
-                                                                                            <asp:RequiredFieldValidator ID="revtxtTimeMonitoringEnd_CCTV_Sunday" runat="server" ControlToValidate="txtTimeMonitoringEnd_CCTV_Sunday"
-                                                                                                Display="None" ErrorMessage="Enter Time Monitoring Ends for Sunday." ValidationGroup="vsAddPSMonitorCCTV"
+                                                                                            <asp:RequiredFieldValidator ID="revtxtTimeMonitoringBegin_CCTV" runat="server" ControlToValidate="txtTimeMonitoringBegin_CCTV"
+                                                                                                Display="None" ErrorMessage="Enter Time Monitoring Begins." ValidationGroup="vsAddPSMonitorCCTV"
                                                                                                 SetFocusOnError="true"></asp:RequiredFieldValidator>
                                                                                         </td>
                                                                                         <td align="left" valign="top">
-                                                                                            <asp:TextBox runat="server" ID="txthourcountCCTV_Sunday" Width="40px" Enabled="false"></asp:TextBox>
-                                                                                        </td>
-
-                                                                                    </tr>
-                                                                                    <tr valign="middle">
-                                                                                        <td>
-                                                                                            <asp:CheckBox ID="chkCCTV_Monday" runat="server" onclick="javascript: EnableDisableCCTVControls('Monday', this);" />
-                                                                                        </td>
-                                                                                        <td align="left" valign="middle">Monday
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">
-                                                                                            <asp:TextBox ID="txtTimeMonitoringBegin_CCTV_Monday" runat="server" Width="110px" MaxLength="5" disabled="disabled" />
-                                                                                            <cc1:MaskedEditExtender ID="mkvtxtTimeMonitoringBegin_CCTV_Monday" runat="server" AutoComplete="true"
-                                                                                                MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringBegin_CCTV_Monday" AcceptNegative="Left"
-                                                                                                DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
-                                                                                                OnInvalidCssClass="MaskedEditError" CultureName="en-US">
-                                                                                            </cc1:MaskedEditExtender>
-                                                                                            <asp:RegularExpressionValidator ID="regtxtTimeMonitoringBegin_CCTV_Monday" runat="server" ControlToValidate="txtTimeMonitoringBegin_CCTV_Monday"
-                                                                                                ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                                                ErrorMessage="Time Monitoring Begins for Monday should be valid time" Display="none" ValidationGroup="vsAddPSMonitorCCTV"
-                                                                                                SetFocusOnError="true">
-                                                                                            </asp:RegularExpressionValidator>
-                                                                                            <asp:RequiredFieldValidator ID="revtxtTimeMonitoringBegin_CCTV_Monday" runat="server" ControlToValidate="txtTimeMonitoringBegin_CCTV_Monday"
-                                                                                                Display="None" ErrorMessage="Enter Time Monitoring Begins for Monday." ValidationGroup="vsAddPSMonitorCCTV"
-                                                                                                SetFocusOnError="true"></asp:RequiredFieldValidator>
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">
-                                                                                            <asp:DropDownList ID="ddlDayMonitoringEnd_CCTV_Monday" runat="server" SkinID="ddlExposure" disabled="disabled">
+                                                                                            <asp:DropDownList ID="ddlDayMonitoringEnd_CCTV" runat="server" SkinID="ddlExposure">
                                                                                             </asp:DropDownList>
-                                                                                            <asp:RequiredFieldValidator ID="revddlDayMonitoringEnd_CCTV_Monday" runat="server" ControlToValidate="ddlDayMonitoringEnd_CCTV_Monday"
-                                                                                                ErrorMessage="Select Day Monitoring Ends for Monday" Display="None" ValidationGroup="vsAddPSMonitorCCTV"
+                                                                                            <asp:RequiredFieldValidator ID="revddlDayMonitoringEnd_CCTV" runat="server" ControlToValidate="ddlDayMonitoringEnd_CCTV"
+                                                                                                ErrorMessage="Select Day Monitoring Ends" Display="None" ValidationGroup="vsAddPSMonitorCCTV"
                                                                                                 SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
                                                                                         </td>
                                                                                         <td align="left" valign="top">
-                                                                                            <asp:TextBox ID="txtTimeMonitoringEnd_CCTV_Monday" runat="server" Width="110px" MaxLength="5" disabled="disabled" onblur="javascript:return IsValidMonitorTimeCCTV('Monday');" />
-                                                                                            <cc1:MaskedEditExtender ID="mkvtxtTimeMonitoringEnd_CCTV_Monday" runat="server" AutoComplete="true"
-                                                                                                MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringEnd_CCTV_Monday" AcceptNegative="Left"
+                                                                                            <asp:TextBox ID="txtTimeMonitoringEnd_CCTV" runat="server" Width="110px" MaxLength="5" />
+                                                                                            <cc1:MaskedEditExtender ID="MaskedEditExtender4" runat="server" AutoComplete="true"
+                                                                                                MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringEnd_CCTV" AcceptNegative="Left"
                                                                                                 DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
                                                                                                 OnInvalidCssClass="MaskedEditError" CultureName="en-US">
                                                                                             </cc1:MaskedEditExtender>
-                                                                                            <asp:RegularExpressionValidator ID="regtxtTimeMonitoringEnd_CCTV_Monday" runat="server" ControlToValidate="txtTimeMonitoringEnd_CCTV_Monday"
+                                                                                            <asp:RegularExpressionValidator ID="regtxtTimeMonitoringEnd_CCTV" runat="server" ControlToValidate="txtTimeMonitoringEnd_CCTV"
                                                                                                 ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                                                ErrorMessage="Time Monitoring Ends for Monday should be valid time" Display="none" ValidationGroup="vsAddPSMonitorCCTV"
+                                                                                                ErrorMessage="Time Monitoring Ends should be valid time" Display="none" ValidationGroup="vsAddPSMonitorCCTV"
                                                                                                 SetFocusOnError="true">
                                                                                             </asp:RegularExpressionValidator>
-                                                                                            <asp:RequiredFieldValidator ID="revtxtTimeMonitoringEnd_CCTV_Monday" runat="server" ControlToValidate="txtTimeMonitoringEnd_CCTV_Monday"
-                                                                                                Display="None" ErrorMessage="Enter Time Monitoring Ends for Monday." ValidationGroup="vsAddPSMonitorCCTV"
+                                                                                            <asp:RequiredFieldValidator ID="revtxtTimeMonitoringEnd_CCTV" runat="server" ControlToValidate="txtTimeMonitoringEnd_CCTV"
+                                                                                                Display="None" ErrorMessage="Enter Time Monitoring Ends." ValidationGroup="vsAddPSMonitorCCTV"
                                                                                                 SetFocusOnError="true"></asp:RequiredFieldValidator>
                                                                                         </td>
                                                                                         <td align="left" valign="top">
-                                                                                            <asp:TextBox runat="server" ID="txthourcountCCTV_Monday" Width="40px" Enabled="false"></asp:TextBox>
+                                                                                            <asp:TextBox runat="server" ID="txthourcountCCTV" Width="40px" Enabled="false"></asp:TextBox>
                                                                                         </td>
-
-                                                                                    </tr>
-                                                                                    <tr valign="middle">
-                                                                                        <td>
-                                                                                            <asp:CheckBox ID="chkCCTV_Tuesday" runat="server" onclick="javascript: EnableDisableCCTVControls('Tuesday', this);" />
-                                                                                        </td>
-                                                                                        <td align="left" valign="middle">Tuesday
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">
-                                                                                            <asp:TextBox ID="txtTimeMonitoringBegin_CCTV_Tuesday" runat="server" Width="110px" MaxLength="5" disabled="disabled" />
-                                                                                            <cc1:MaskedEditExtender ID="mkvtxtTimeMonitoringBegin_CCTV_Tuesday" runat="server" AutoComplete="true"
-                                                                                                MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringBegin_CCTV_Tuesday" AcceptNegative="Left"
-                                                                                                DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
-                                                                                                OnInvalidCssClass="MaskedEditError" CultureName="en-US">
-                                                                                            </cc1:MaskedEditExtender>
-                                                                                            <asp:RegularExpressionValidator ID="regtxtTimeMonitoringBegin_CCTV_Tuesday" runat="server" ControlToValidate="txtTimeMonitoringBegin_CCTV_Tuesday"
-                                                                                                ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                                                ErrorMessage="Time Monitoring Begins for Tuesday should be valid time" Display="none" ValidationGroup="vsAddPSMonitorCCTV"
-                                                                                                SetFocusOnError="true">
-                                                                                            </asp:RegularExpressionValidator>
-                                                                                            <asp:RequiredFieldValidator ID="revtxtTimeMonitoringBegin_CCTV_Tuesday" runat="server" ControlToValidate="txtTimeMonitoringBegin_CCTV_Tuesday"
-                                                                                                Display="None" ErrorMessage="Enter Time Monitoring Begins for Tuesday." ValidationGroup="vsAddPSMonitorCCTV"
-                                                                                                SetFocusOnError="true"></asp:RequiredFieldValidator>
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">
-                                                                                            <asp:DropDownList ID="ddlDayMonitoringEnd_CCTV_Tuesday" runat="server" SkinID="ddlExposure" disabled="disabled">
-                                                                                            </asp:DropDownList>
-                                                                                            <asp:RequiredFieldValidator ID="revddlDayMonitoringEnd_CCTV_Tuesday" runat="server" ControlToValidate="ddlDayMonitoringEnd_CCTV_Tuesday"
-                                                                                                ErrorMessage="Select Day Monitoring Ends for Tuesday" Display="None" ValidationGroup="vsAddPSMonitorCCTV"
-                                                                                                SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">
-                                                                                            <asp:TextBox ID="txtTimeMonitoringEnd_CCTV_Tuesday" runat="server" Width="110px" MaxLength="5" disabled="disabled" onblur="javascript:return IsValidMonitorTimeCCTV('Tuesday');" />
-                                                                                            <cc1:MaskedEditExtender ID="mkvtxtTimeMonitoringEnd_CCTV_Tuesday" runat="server" AutoComplete="true"
-                                                                                                MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringEnd_CCTV_Tuesday" AcceptNegative="Left"
-                                                                                                DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
-                                                                                                OnInvalidCssClass="MaskedEditError" CultureName="en-US">
-                                                                                            </cc1:MaskedEditExtender>
-                                                                                            <asp:RegularExpressionValidator ID="regtxtTimeMonitoringEnd_CCTV_Tuesday" runat="server" ControlToValidate="txtTimeMonitoringEnd_CCTV_Tuesday"
-                                                                                                ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                                                ErrorMessage="Time Monitoring Ends should be valid time for Tuesday" Display="none" ValidationGroup="vsAddPSMonitorCCTV"
-                                                                                                SetFocusOnError="true">
-                                                                                            </asp:RegularExpressionValidator>
-                                                                                            <asp:RequiredFieldValidator ID="revtxtTimeMonitoringEnd_CCTV_Tuesday" runat="server" ControlToValidate="txtTimeMonitoringEnd_CCTV_Tuesday"
-                                                                                                Display="None" ErrorMessage="Enter Time Monitoring Ends for Tuesday." ValidationGroup="vsAddPSMonitorCCTV"
-                                                                                                SetFocusOnError="true"></asp:RequiredFieldValidator>
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">
-                                                                                            <asp:TextBox runat="server" ID="txthourcountCCTV_Tuesday" Width="40px" Enabled="false"></asp:TextBox>
-                                                                                        </td>
-
-                                                                                    </tr>
-                                                                                    <tr valign="middle">
-                                                                                        <td>
-                                                                                            <asp:CheckBox ID="chkCCTV_Wednesday" runat="server" onclick="javascript: EnableDisableCCTVControls('Wednesday', this);" />
-                                                                                        </td>
-                                                                                        <td align="left" valign="middle">Wednesday
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">
-                                                                                            <asp:TextBox ID="txtTimeMonitoringBegin_CCTV_Wednesday" runat="server" Width="110px" MaxLength="5" disabled="disabled" />
-                                                                                            <cc1:MaskedEditExtender ID="mkvtxtTimeMonitoringBegin_CCTV_Wednesday" runat="server" AutoComplete="true"
-                                                                                                MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringBegin_CCTV_Wednesday" AcceptNegative="Left"
-                                                                                                DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
-                                                                                                OnInvalidCssClass="MaskedEditError" CultureName="en-US">
-                                                                                            </cc1:MaskedEditExtender>
-                                                                                            <asp:RegularExpressionValidator ID="regtxtTimeMonitoringBegin_CCTV_Wednesday" runat="server" ControlToValidate="txtTimeMonitoringBegin_CCTV_Wednesday"
-                                                                                                ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                                                ErrorMessage="Time Monitoring Begins for Wednesday should be valid time" Display="none" ValidationGroup="vsAddPSMonitorCCTV"
-                                                                                                SetFocusOnError="true">
-                                                                                            </asp:RegularExpressionValidator>
-                                                                                            <asp:RequiredFieldValidator ID="revtxtTimeMonitoringBegin_CCTV_Wednesday" runat="server" ControlToValidate="txtTimeMonitoringBegin_CCTV_Wednesday"
-                                                                                                Display="None" ErrorMessage="Enter Time Monitoring Begins for Wednesday." ValidationGroup="vsAddPSMonitorCCTV"
-                                                                                                SetFocusOnError="true"></asp:RequiredFieldValidator>
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">
-                                                                                            <asp:DropDownList ID="ddlDayMonitoringEnd_CCTV_Wednesday" runat="server" SkinID="ddlExposure" disabled="disabled">
-                                                                                            </asp:DropDownList>
-                                                                                            <asp:RequiredFieldValidator ID="revddlDayMonitoringEnd_CCTV_Wednesday" runat="server" ControlToValidate="ddlDayMonitoringEnd_CCTV_Wednesday"
-                                                                                                ErrorMessage="Select Day Monitoring Ends for Wednesday" Display="None" ValidationGroup="vsAddPSMonitorCCTV"
-                                                                                                SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">
-                                                                                            <asp:TextBox ID="txtTimeMonitoringEnd_CCTV_Wednesday" runat="server" Width="110px" MaxLength="5" disabled="disabled" onblur="javascript:return IsValidMonitorTimeCCTV('Wednesday');" />
-                                                                                            <cc1:MaskedEditExtender ID="mkvtxtTimeMonitoringEnd_CCTV_Wednesday" runat="server" AutoComplete="true"
-                                                                                                MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringEnd_CCTV_Wednesday" AcceptNegative="Left"
-                                                                                                DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
-                                                                                                OnInvalidCssClass="MaskedEditError" CultureName="en-US">
-                                                                                            </cc1:MaskedEditExtender>
-                                                                                            <asp:RegularExpressionValidator ID="regtxtTimeMonitoringEnd_CCTV_Wednesday" runat="server" ControlToValidate="txtTimeMonitoringEnd_CCTV_Wednesday"
-                                                                                                ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                                                ErrorMessage="Time Monitoring Ends for Wednesday should be valid time" Display="none" ValidationGroup="vsAddPSMonitorCCTV"
-                                                                                                SetFocusOnError="true">
-                                                                                            </asp:RegularExpressionValidator>
-                                                                                            <asp:RequiredFieldValidator ID="revtxtTimeMonitoringEnd_CCTV_Wednesday" runat="server" ControlToValidate="txtTimeMonitoringEnd_CCTV_Wednesday"
-                                                                                                Display="None" ErrorMessage="Enter Time Monitoring Ends for Wednesday." ValidationGroup="vsAddPSMonitorCCTV"
-                                                                                                SetFocusOnError="true"></asp:RequiredFieldValidator>
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">
-                                                                                            <asp:TextBox runat="server" ID="txthourcountCCTV_Wednesday" Width="40px" Enabled="false"></asp:TextBox>
-                                                                                        </td>
-
-                                                                                    </tr>
-                                                                                    <tr valign="middle">
-                                                                                        <td>
-                                                                                            <asp:CheckBox ID="chkCCTV_Thursday" runat="server" onclick="javascript: EnableDisableCCTVControls('Thursday', this);" />
-                                                                                        </td>
-                                                                                        <td align="left" valign="middle">Thursday
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">
-                                                                                            <asp:TextBox ID="txtTimeMonitoringBegin_CCTV_Thursday" runat="server" Width="110px" MaxLength="5" disabled="disabled" />
-                                                                                            <cc1:MaskedEditExtender ID="mkvtxtTimeMonitoringBegin_CCTV_Thursday" runat="server" AutoComplete="true"
-                                                                                                MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringBegin_CCTV_Thursday" AcceptNegative="Left"
-                                                                                                DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
-                                                                                                OnInvalidCssClass="MaskedEditError" CultureName="en-US">
-                                                                                            </cc1:MaskedEditExtender>
-                                                                                            <asp:RegularExpressionValidator ID="regtxtTimeMonitoringBegin_CCTV_Thursday" runat="server" ControlToValidate="txtTimeMonitoringBegin_CCTV_Thursday"
-                                                                                                ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                                                ErrorMessage="Time Monitoring Begins for Thursday should be valid time" Display="none" ValidationGroup="vsAddPSMonitorCCTV"
-                                                                                                SetFocusOnError="true">
-                                                                                            </asp:RegularExpressionValidator>
-                                                                                            <asp:RequiredFieldValidator ID="revtxtTimeMonitoringBegin_CCTV_Thursday" runat="server" ControlToValidate="txtTimeMonitoringBegin_CCTV_Thursday"
-                                                                                                Display="None" ErrorMessage="Enter Time Monitoring Begins for Thursday." ValidationGroup="vsAddPSMonitorCCTV"
-                                                                                                SetFocusOnError="true"></asp:RequiredFieldValidator>
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">
-                                                                                            <asp:DropDownList ID="ddlDayMonitoringEnd_CCTV_Thursday" runat="server" SkinID="ddlExposure" disabled="disabled">
-                                                                                            </asp:DropDownList>
-                                                                                            <asp:RequiredFieldValidator ID="revddlDayMonitoringEnd_CCTV_Thursday" runat="server" ControlToValidate="ddlDayMonitoringEnd_CCTV_Thursday"
-                                                                                                ErrorMessage="Select Day Monitoring Ends for Thursday" Display="None" ValidationGroup="vsAddPSMonitorCCTV"
-                                                                                                SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">
-                                                                                            <asp:TextBox ID="txtTimeMonitoringEnd_CCTV_Thursday" runat="server" Width="110px" MaxLength="5" disabled="disabled" onblur="javascript:return IsValidMonitorTimeCCTV('Thursday');" />
-                                                                                            <cc1:MaskedEditExtender ID="mkvtxtTimeMonitoringEnd_CCTV_Thursday" runat="server" AutoComplete="true"
-                                                                                                MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringEnd_CCTV_Thursday" AcceptNegative="Left"
-                                                                                                DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
-                                                                                                OnInvalidCssClass="MaskedEditError" CultureName="en-US">
-                                                                                            </cc1:MaskedEditExtender>
-                                                                                            <asp:RegularExpressionValidator ID="regtxtTimeMonitoringEnd_CCTV_Thursday" runat="server" ControlToValidate="txtTimeMonitoringEnd_CCTV_Thursday"
-                                                                                                ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                                                ErrorMessage="Time Monitoring Ends for Thursday should be valid time" Display="none" ValidationGroup="vsAddPSMonitorCCTV"
-                                                                                                SetFocusOnError="true">
-                                                                                            </asp:RegularExpressionValidator>
-                                                                                            <asp:RequiredFieldValidator ID="revtxtTimeMonitoringEnd_CCTV_Thursday" runat="server" ControlToValidate="txtTimeMonitoringEnd_CCTV_Thursday"
-                                                                                                Display="None" ErrorMessage="Enter Time Monitoring Ends for Thursday." ValidationGroup="vsAddPSMonitorCCTV"
-                                                                                                SetFocusOnError="true"></asp:RequiredFieldValidator>
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">
-                                                                                            <asp:TextBox runat="server" ID="txthourcountCCTV_Thursday" Width="40px" Enabled="false"></asp:TextBox>
-                                                                                        </td>
-
-                                                                                    </tr>
-                                                                                    <tr valign="middle">
-                                                                                        <td>
-                                                                                            <asp:CheckBox ID="chkCCTV_Friday" runat="server" onclick="javascript: EnableDisableCCTVControls('Friday', this);" />
-                                                                                        </td>
-                                                                                        <td align="left" valign="middle">Friday
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">
-                                                                                            <asp:TextBox ID="txtTimeMonitoringBegin_CCTV_Friday" runat="server" Width="110px" MaxLength="5" disabled="disabled" />
-                                                                                            <cc1:MaskedEditExtender ID="mkvtxtTimeMonitoringBegin_CCTV_Friday" runat="server" AutoComplete="true"
-                                                                                                MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringBegin_CCTV_Friday" AcceptNegative="Left"
-                                                                                                DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
-                                                                                                OnInvalidCssClass="MaskedEditError" CultureName="en-US">
-                                                                                            </cc1:MaskedEditExtender>
-                                                                                            <asp:RegularExpressionValidator ID="regtxtTimeMonitoringBegin_CCTV_Friday" runat="server" ControlToValidate="txtTimeMonitoringBegin_CCTV_Friday"
-                                                                                                ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                                                ErrorMessage="Time Monitoring Begins for Friday should be valid time" Display="none" ValidationGroup="vsAddPSMonitorCCTV"
-                                                                                                SetFocusOnError="true">
-                                                                                            </asp:RegularExpressionValidator>
-                                                                                            <asp:RequiredFieldValidator ID="revtxtTimeMonitoringBegin_CCTV_Friday" runat="server" ControlToValidate="txtTimeMonitoringBegin_CCTV_Friday"
-                                                                                                Display="None" ErrorMessage="Enter Time Monitoring Begins for Friday." ValidationGroup="vsAddPSMonitorCCTV"
-                                                                                                SetFocusOnError="true"></asp:RequiredFieldValidator>
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">
-                                                                                            <asp:DropDownList ID="ddlDayMonitoringEnd_CCTV_Friday" runat="server" SkinID="ddlExposure" disabled="disabled">
-                                                                                            </asp:DropDownList>
-                                                                                            <asp:RequiredFieldValidator ID="revddlDayMonitoringEnd_CCTV_Friday" runat="server" ControlToValidate="ddlDayMonitoringEnd_CCTV_Friday"
-                                                                                                ErrorMessage="Select Day Monitoring Ends for Friday" Display="None" ValidationGroup="vsAddPSMonitorCCTV"
-                                                                                                SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">
-                                                                                            <asp:TextBox ID="txtTimeMonitoringEnd_CCTV_Friday" runat="server" Width="110px" MaxLength="5" disabled="disabled" onblur="javascript:return IsValidMonitorTimeCCTV('Friday');" />
-                                                                                            <cc1:MaskedEditExtender ID="mkvtxtTimeMonitoringEnd_CCTV_Friday" runat="server" AutoComplete="true"
-                                                                                                MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringEnd_CCTV_Friday" AcceptNegative="Left"
-                                                                                                DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
-                                                                                                OnInvalidCssClass="MaskedEditError" CultureName="en-US">
-                                                                                            </cc1:MaskedEditExtender>
-                                                                                            <asp:RegularExpressionValidator ID="regtxtTimeMonitoringEnd_CCTV_Friday" runat="server" ControlToValidate="txtTimeMonitoringEnd_CCTV_Friday"
-                                                                                                ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                                                ErrorMessage="Time Monitoring Ends for Friday should be valid time" Display="none" ValidationGroup="vsAddPSMonitorCCTV"
-                                                                                                SetFocusOnError="true">
-                                                                                            </asp:RegularExpressionValidator>
-                                                                                            <asp:RequiredFieldValidator ID="revtxtTimeMonitoringEnd_CCTV_Friday" runat="server" ControlToValidate="txtTimeMonitoringEnd_CCTV_Friday"
-                                                                                                Display="None" ErrorMessage="Enter Time Monitoring Ends for Friday." ValidationGroup="vsAddPSMonitorCCTV"
-                                                                                                SetFocusOnError="true"></asp:RequiredFieldValidator>
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">
-                                                                                            <asp:TextBox runat="server" ID="txthourcountCCTV_Friday" Width="40px" Enabled="false"></asp:TextBox>
-                                                                                        </td>
-
-                                                                                    </tr>
-                                                                                    <tr valign="middle">
-                                                                                        <td>
-                                                                                            <asp:CheckBox ID="chkCCTV_Saturday" runat="server" onclick="javascript: EnableDisableCCTVControls('Saturday', this);" />
-                                                                                        </td>
-                                                                                        <td align="left" valign="middle">Saturday
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">
-                                                                                            <asp:TextBox ID="txtTimeMonitoringBegin_CCTV_Saturday" runat="server" Width="110px" MaxLength="5" disabled="disabled" />
-                                                                                            <cc1:MaskedEditExtender ID="mkvtxtTimeMonitoringBegin_CCTV_Saturday" runat="server" AutoComplete="true"
-                                                                                                MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringBegin_CCTV_Saturday" AcceptNegative="Left"
-                                                                                                DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
-                                                                                                OnInvalidCssClass="MaskedEditError" CultureName="en-US">
-                                                                                            </cc1:MaskedEditExtender>
-                                                                                            <asp:RegularExpressionValidator ID="regtxtTimeMonitoringBegin_CCTV_Saturday" runat="server" ControlToValidate="txtTimeMonitoringBegin_CCTV_Saturday"
-                                                                                                ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                                                ErrorMessage="Time Monitoring Begins for Saturday should be valid time" Display="none" ValidationGroup="vsAddPSMonitorCCTV"
-                                                                                                SetFocusOnError="true">
-                                                                                            </asp:RegularExpressionValidator>
-                                                                                            <asp:RequiredFieldValidator ID="revtxtTimeMonitoringBegin_CCTV_Saturday" runat="server" ControlToValidate="txtTimeMonitoringBegin_CCTV_Saturday"
-                                                                                                Display="None" ErrorMessage="Enter Time Monitoring Begins for Saturday." ValidationGroup="vsAddPSMonitorCCTV"
-                                                                                                SetFocusOnError="true"></asp:RequiredFieldValidator>
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">
-                                                                                            <asp:DropDownList ID="ddlDayMonitoringEnd_CCTV_Saturday" runat="server" SkinID="ddlExposure" disabled="disabled">
-                                                                                            </asp:DropDownList>
-                                                                                            <asp:RequiredFieldValidator ID="revddlDayMonitoringEnd_CCTV_Saturday" runat="server" ControlToValidate="ddlDayMonitoringEnd_CCTV_Saturday"
-                                                                                                ErrorMessage="Select Day Monitoring Ends for Saturday" Display="None" ValidationGroup="vsAddPSMonitorCCTV"
-                                                                                                SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">
-                                                                                            <asp:TextBox ID="txtTimeMonitoringEnd_CCTV_Saturday" runat="server" Width="110px" MaxLength="5" disabled="disabled" onblur="javascript:return IsValidMonitorTimeCCTV('Saturday');" />
-                                                                                            <cc1:MaskedEditExtender ID="mkvtxtTimeMonitoringEnd_CCTV_Saturday" runat="server" AutoComplete="true"
-                                                                                                MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringEnd_CCTV_Saturday" AcceptNegative="Left"
-                                                                                                DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
-                                                                                                OnInvalidCssClass="MaskedEditError" CultureName="en-US">
-                                                                                            </cc1:MaskedEditExtender>
-                                                                                            <asp:RegularExpressionValidator ID="regtxtTimeMonitoringEnd_CCTV_Saturday" runat="server" ControlToValidate="txtTimeMonitoringEnd_CCTV_Saturday"
-                                                                                                ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                                                ErrorMessage="Time Monitoring Ends for Saturday should be valid time" Display="none" ValidationGroup="vsAddPSMonitorCCTV"
-                                                                                                SetFocusOnError="true">
-                                                                                            </asp:RegularExpressionValidator>
-                                                                                            <asp:RequiredFieldValidator ID="revtxtTimeMonitoringEnd_CCTV_Saturday" runat="server" ControlToValidate="txtTimeMonitoringEnd_CCTV_Saturday"
-                                                                                                Display="None" ErrorMessage="Enter Time Monitoring Ends for Saturday." ValidationGroup="vsAddPSMonitorCCTV"
-                                                                                                SetFocusOnError="true"></asp:RequiredFieldValidator>
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">
-                                                                                            <asp:TextBox runat="server" ID="txthourcountCCTV_Saturday" Width="40px" Enabled="false"></asp:TextBox>
-                                                                                        </td>
-
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td align="center" valign="middle" colspan="6">
-                                                                                            <asp:Button ID="btnAddMonitoringhoursCCTV" runat="server" Text="Save"
+                                                                                        <td align="left" valign="top" width="">
+                                                                                            <asp:Button ID="btnAddMonitoringhoursCCTV" runat="server" Text="Save" OnClientClick="javascript:return IsValidMonitorTimeCCTV();"
                                                                                                 OnClick="btnAddMonitoringhoursCCTV_Click" CausesValidation="true" ValidationGroup="vsAddPSMonitorCCTV" />
                                                                                             <asp:Button ID="btnAddMonitorCancelCCTV" runat="server" Text="Cancel" OnClick="btnAddMonitorCancelCCTV_Click" />
                                                                                         </td>
@@ -1540,6 +1326,401 @@ function RemoveDataFromBuildingAlert(element) {
                                                                                 </table>
                                                                             </td>
                                                                         </tr>
+                                                                        <tr runat="server" id="trCCTV_Hours_MonitoringGrid" style="display: none">
+                                                                            <td align="left" valign="top" colspan="6">
+                                                                                <table width='100%'>
+                                                                                    <tr style='background-color: #7f7f7f; font-family: Arial; color: white; font-size: 12px; font-weight: bold' valign="top">
+                                                                                        <td align="left" valign="top" width="26%" style= 'background-color: #ffffff;'></td>
+                                                                                        <td align="left" valign="top" width="5%"></td>
+                                                                                        <td align="left" valign="top" width="19%">Day Monitoring Begins
+                                                                                        </td>
+                                                                                        <td align="left" valign="top" width="10%">Time Monitoring Begins
+                                                                                        </td>
+                                                                                        <td align="left" valign="top" width="20%">Day Monitoring Ends
+                                                                                        </td>
+                                                                                        <td align="left" valign="top" width="10%">Time Monitoring Ends
+                                                                                        </td>
+                                                                                        <td align="left" valign="top" width="10%">Hours
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    <tr valign="top" style="background-color: #eaeaea;">
+                                                                                        <td align="left" valign="top" style= 'background-color: #ffffff;'></td>
+                                                                                        <td align="left" valign="top">
+                                                                                            <asp:CheckBox ID="chkSelectCCTV1" runat="server" />
+                                                                                        </td>
+                                                                                        <td align="left" valign="middle" style="padding-left:15px">
+                                                                                            <asp:Label ID="lblDayMonitoringBegin_CCTV1" runat="server" Text="Sunday"></asp:Label>
+                                                                                        </td>
+                                                                                        <td align="left" valign="top">
+                                                                                            <asp:TextBox ID="txtTimeMonitoringBegin_CCTV1" runat="server" Width="110px" MaxLength="5" />
+                                                                                            <cc1:MaskedEditExtender ID="MaskedEditExtender11" runat="server" AutoComplete="true"
+                                                                                                MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringBegin_CCTV1" AcceptNegative="Left"
+                                                                                                DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
+                                                                                                OnInvalidCssClass="MaskedEditError" CultureName="en-US">
+                                                                                            </cc1:MaskedEditExtender>
+                                                                                            <asp:RegularExpressionValidator ID="regtxtTimeMonitoringBegin_CCTV1" runat="server" ControlToValidate="txtTimeMonitoringBegin_CCTV1"
+                                                                                                ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
+                                                                                                ErrorMessage="Sunday/Time Monitoring Begins should be valid time" Display="none" ValidationGroup="vsAddPSMonitorCCTVGrid"
+                                                                                                SetFocusOnError="true">
+                                                                                            </asp:RegularExpressionValidator>
+                                                                                            <asp:RequiredFieldValidator ID="revtxtTimeMonitoringBegin_CCTV1" runat="server" ControlToValidate="txtTimeMonitoringBegin_CCTV1"
+                                                                                                Display="None" ErrorMessage="Sunday/Enter Time Monitoring Begins." ValidationGroup="vsAddPSMonitorCCTVGrid"
+                                                                                                SetFocusOnError="true"></asp:RequiredFieldValidator>
+                                                                                        </td>
+                                                                                        <td align="left" valign="top" >
+                                                                                            <asp:DropDownList ID="ddlDayMonitoringEnd_CCTV1" runat="server" SkinID="ddlExposure">
+                                                                                            </asp:DropDownList>
+                                                                                            <asp:RequiredFieldValidator ID="revddlDayMonitoringEnd_CCTV1" runat="server" ControlToValidate="ddlDayMonitoringEnd_CCTV1"
+                                                                                                ErrorMessage="Sunday/Select Day Monitoring Ends" Display="None" ValidationGroup="vsAddPSMonitorCCTVGrid"
+                                                                                                SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
+                                                                                        </td>
+                                                                                        <td align="left" valign="top">
+                                                                                            <asp:TextBox ID="txtTimeMonitoringEnd_CCTV1" runat="server" Width="110px" MaxLength="5" />
+                                                                                            <cc1:MaskedEditExtender ID="MaskedEditExtender12" runat="server" AutoComplete="true"
+                                                                                                MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringEnd_CCTV1" AcceptNegative="Left"
+                                                                                                DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
+                                                                                                OnInvalidCssClass="MaskedEditError" CultureName="en-US">
+                                                                                            </cc1:MaskedEditExtender>
+                                                                                            <asp:RegularExpressionValidator ID="regtxtTimeMonitoringEnd_CCTV1" runat="server" ControlToValidate="txtTimeMonitoringEnd_CCTV1"
+                                                                                                ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
+                                                                                                ErrorMessage="Sunday/Time Monitoring Ends should be valid time" Display="none" ValidationGroup="vsAddPSMonitorCCTVGrid"
+                                                                                                SetFocusOnError="true">
+                                                                                            </asp:RegularExpressionValidator>
+                                                                                            <asp:RequiredFieldValidator ID="revtxtTimeMonitoringEnd_CCTV1" runat="server" ControlToValidate="txtTimeMonitoringEnd_CCTV1"
+                                                                                                Display="None" ErrorMessage="Sunday/Enter Time Monitoring Ends." ValidationGroup="vsAddPSMonitorCCTVGrid"
+                                                                                                SetFocusOnError="true"></asp:RequiredFieldValidator>
+                                                                                        </td>
+                                                                                        <td align="left" valign="top">
+                                                                                            <asp:TextBox runat="server" ID="txthourcountCCTV1" Width="40px" Enabled="false"></asp:TextBox>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    <tr valign="top">
+                                                                                        <td align="left" valign="top"></td>
+                                                                                        <td align="left" valign="top">
+                                                                                            <asp:CheckBox ID="chkSelectCCTV2" runat="server" />
+                                                                                        </td>
+                                                                                        <td align="left" valign="middle" style="padding-left:15px">
+                                                                                            <asp:Label ID="lblDayMonitoringBegin_CCTV2" runat="server" Text="Monday"></asp:Label>
+                                                                                        </td>
+                                                                                        <td align="left" valign="top">
+                                                                                            <asp:TextBox ID="txtTimeMonitoringBegin_CCTV2" runat="server" Width="110px" MaxLength="5" />
+                                                                                            <cc1:MaskedEditExtender ID="MaskedEditExtender9" runat="server" AutoComplete="true"
+                                                                                                MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringBegin_CCTV2" AcceptNegative="Left"
+                                                                                                DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
+                                                                                                OnInvalidCssClass="MaskedEditError" CultureName="en-US">
+                                                                                            </cc1:MaskedEditExtender>
+                                                                                            <asp:RegularExpressionValidator ID="regtxtTimeMonitoringBegin_CCTV2" runat="server" ControlToValidate="txtTimeMonitoringBegin_CCTV2"
+                                                                                                ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
+                                                                                                ErrorMessage="Monday/Time Monitoring Begins should be valid time" Display="none" ValidationGroup="vsAddPSMonitorCCTVGrid"
+                                                                                                SetFocusOnError="true">
+                                                                                            </asp:RegularExpressionValidator>
+                                                                                            <asp:RequiredFieldValidator ID="revtxtTimeMonitoringBegin_CCTV2" runat="server" ControlToValidate="txtTimeMonitoringBegin_CCTV2"
+                                                                                                Display="None" ErrorMessage="Monday/Enter Time Monitoring Begins." ValidationGroup="vsAddPSMonitorCCTVGrid"
+                                                                                                SetFocusOnError="true"></asp:RequiredFieldValidator>
+                                                                                        </td>
+                                                                                        <td align="left" valign="top">
+                                                                                            <asp:DropDownList ID="ddlDayMonitoringEnd_CCTV2" runat="server" SkinID="ddlExposure">
+                                                                                            </asp:DropDownList>
+                                                                                            <asp:RequiredFieldValidator ID="revddlDayMonitoringEnd_CCTV2" runat="server" ControlToValidate="ddlDayMonitoringEnd_CCTV2"
+                                                                                                ErrorMessage="Monday/Select Day Monitoring Ends" Display="None" ValidationGroup="vsAddPSMonitorCCTVGrid"
+                                                                                                SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
+                                                                                        </td>
+                                                                                        <td align="left" valign="top">
+                                                                                            <asp:TextBox ID="txtTimeMonitoringEnd_CCTV2" runat="server" Width="110px" MaxLength="5" />
+                                                                                            <cc1:MaskedEditExtender ID="MaskedEditExtender10" runat="server" AutoComplete="true"
+                                                                                                MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringEnd_CCTV2" AcceptNegative="Left"
+                                                                                                DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
+                                                                                                OnInvalidCssClass="MaskedEditError" CultureName="en-US">
+                                                                                            </cc1:MaskedEditExtender>
+                                                                                            <asp:RegularExpressionValidator ID="regtxtTimeMonitoringEnd_CCTV2" runat="server" ControlToValidate="txtTimeMonitoringEnd_CCTV2"
+                                                                                                ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
+                                                                                                ErrorMessage="Monday/Time Monitoring Ends should be valid time" Display="none" ValidationGroup="vsAddPSMonitorCCTVGrid"
+                                                                                                SetFocusOnError="true">
+                                                                                            </asp:RegularExpressionValidator>
+                                                                                            <asp:RequiredFieldValidator ID="revtxtTimeMonitoringEnd_CCTV2" runat="server" ControlToValidate="txtTimeMonitoringEnd_CCTV2"
+                                                                                                Display="None" ErrorMessage="Monday/Enter Time Monitoring Ends." ValidationGroup="vsAddPSMonitorCCTVGrid"
+                                                                                                SetFocusOnError="true"></asp:RequiredFieldValidator>
+                                                                                        </td>
+                                                                                        <td align="left" valign="top">
+                                                                                            <asp:TextBox runat="server" ID="txthourcountCCTV2" Width="40px" Enabled="false"></asp:TextBox>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    <tr valign="top" style="background-color: #eaeaea;">
+                                                                                        <td align="left" valign="top" style= 'background-color: #ffffff;'></td>
+                                                                                        <td align="left" valign="top">
+                                                                                            <asp:CheckBox ID="chkSelectCCTV3" runat="server" />
+                                                                                        </td>
+                                                                                        <td align="left" valign="middle" style="padding-left:15px">
+                                                                                            <asp:Label ID="lblDayMonitoringBegin_CCTV3" runat="server" Text="Tuesday"></asp:Label>
+                                                                                        </td>
+                                                                                        <td align="left" valign="top">
+                                                                                            <asp:TextBox ID="txtTimeMonitoringBegin_CCTV3" runat="server" Width="110px" MaxLength="5" />
+                                                                                            <cc1:MaskedEditExtender ID="MaskedEditExtender13" runat="server" AutoComplete="true"
+                                                                                                MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringBegin_CCTV3" AcceptNegative="Left"
+                                                                                                DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
+                                                                                                OnInvalidCssClass="MaskedEditError" CultureName="en-US">
+                                                                                            </cc1:MaskedEditExtender>
+                                                                                            <asp:RegularExpressionValidator ID="regtxtTimeMonitoringBegin_CCTV3" runat="server" ControlToValidate="txtTimeMonitoringBegin_CCTV3"
+                                                                                                ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
+                                                                                                ErrorMessage="Tuesday/Time Monitoring Begins should be valid time" Display="none" ValidationGroup="vsAddPSMonitorCCTVGrid"
+                                                                                                SetFocusOnError="true">
+                                                                                            </asp:RegularExpressionValidator>
+                                                                                            <asp:RequiredFieldValidator ID="revtxtTimeMonitoringBegin_CCTV3" runat="server" ControlToValidate="txtTimeMonitoringBegin_CCTV3"
+                                                                                                Display="None" ErrorMessage="Tuesday/Enter Time Monitoring Begins." ValidationGroup="vsAddPSMonitorCCTVGrid"
+                                                                                                SetFocusOnError="true"></asp:RequiredFieldValidator>
+                                                                                        </td>
+                                                                                        <td align="left" valign="top" >
+                                                                                            <asp:DropDownList ID="ddlDayMonitoringEnd_CCTV3" runat="server" SkinID="ddlExposure">
+                                                                                            </asp:DropDownList>
+                                                                                            <asp:RequiredFieldValidator ID="revddlDayMonitoringEnd_CCTV3" runat="server" ControlToValidate="ddlDayMonitoringEnd_CCTV3"
+                                                                                                ErrorMessage="Tuesday/Select Day Monitoring Ends" Display="None" ValidationGroup="vsAddPSMonitorCCTVGrid"
+                                                                                                SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
+                                                                                        </td>
+                                                                                        <td align="left" valign="top">
+                                                                                            <asp:TextBox ID="txtTimeMonitoringEnd_CCTV3" runat="server" Width="110px" MaxLength="5" />
+                                                                                            <cc1:MaskedEditExtender ID="MaskedEditExtender14" runat="server" AutoComplete="true"
+                                                                                                MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringEnd_CCTV3" AcceptNegative="Left"
+                                                                                                DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
+                                                                                                OnInvalidCssClass="MaskedEditError" CultureName="en-US">
+                                                                                            </cc1:MaskedEditExtender>
+                                                                                            <asp:RegularExpressionValidator ID="regtxtTimeMonitoringEnd_CCTV3" runat="server" ControlToValidate="txtTimeMonitoringEnd_CCTV3"
+                                                                                                ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
+                                                                                                ErrorMessage="Tuesday/Time Monitoring Ends should be valid time" Display="none" ValidationGroup="vsAddPSMonitorCCTVGrid"
+                                                                                                SetFocusOnError="true">
+                                                                                            </asp:RegularExpressionValidator>
+                                                                                            <asp:RequiredFieldValidator ID="revtxtTimeMonitoringEnd_CCTV3" runat="server" ControlToValidate="txtTimeMonitoringEnd_CCTV3"
+                                                                                                Display="None" ErrorMessage="Tuesday/Enter Time Monitoring Ends." ValidationGroup="vsAddPSMonitorCCTVGrid"
+                                                                                                SetFocusOnError="true"></asp:RequiredFieldValidator>
+                                                                                        </td>
+                                                                                        <td align="left" valign="top">
+                                                                                            <asp:TextBox runat="server" ID="txthourcountCCTV3" Width="40px" Enabled="false"></asp:TextBox>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    <tr valign="top">
+                                                                                        <td align="left" valign="top" style= 'background-color: #ffffff;'></td>
+                                                                                        <td align="left" valign="top">
+                                                                                            <asp:CheckBox ID="chkSelectCCTV4" runat="server" />
+                                                                                        </td>
+                                                                                        <td align="left" valign="middle" style="padding-left:15px">
+                                                                                            <asp:Label ID="lblDayMonitoringBegin_CCTV4" runat="server" Text="Wednesday"></asp:Label>
+                                                                                        </td>
+                                                                                        <td align="left" valign="top">
+                                                                                            <asp:TextBox ID="txtTimeMonitoringBegin_CCTV4" runat="server" Width="110px" MaxLength="5" />
+                                                                                            <cc1:MaskedEditExtender ID="MaskedEditExtender15" runat="server" AutoComplete="true"
+                                                                                                MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringBegin_CCTV4" AcceptNegative="Left"
+                                                                                                DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
+                                                                                                OnInvalidCssClass="MaskedEditError" CultureName="en-US">
+                                                                                            </cc1:MaskedEditExtender>
+                                                                                            <asp:RegularExpressionValidator ID="regtxtTimeMonitoringBegin_CCTV4" runat="server" ControlToValidate="txtTimeMonitoringBegin_CCTV4"
+                                                                                                ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
+                                                                                                ErrorMessage="Wednesday/Time Monitoring Begins should be valid time" Display="none" ValidationGroup="vsAddPSMonitorCCTVGrid"
+                                                                                                SetFocusOnError="true">
+                                                                                            </asp:RegularExpressionValidator>
+                                                                                            <asp:RequiredFieldValidator ID="revtxtTimeMonitoringBegin_CCTV4" runat="server" ControlToValidate="txtTimeMonitoringBegin_CCTV4"
+                                                                                                Display="None" ErrorMessage="Wednesday/Enter Time Monitoring Begins." ValidationGroup="vsAddPSMonitorCCTVGrid"
+                                                                                                SetFocusOnError="true"></asp:RequiredFieldValidator>
+                                                                                        </td>
+                                                                                        <td align="left" valign="top" >
+                                                                                            <asp:DropDownList ID="ddlDayMonitoringEnd_CCTV4" runat="server" SkinID="ddlExposure">
+                                                                                            </asp:DropDownList>
+                                                                                            <asp:RequiredFieldValidator ID="revddlDayMonitoringEnd_CCTV4" runat="server" ControlToValidate="ddlDayMonitoringEnd_CCTV4"
+                                                                                                ErrorMessage="Wednesday/Select Day Monitoring Ends" Display="None" ValidationGroup="vsAddPSMonitorCCTVGrid"
+                                                                                                SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
+                                                                                        </td>
+                                                                                        <td align="left" valign="top">
+                                                                                            <asp:TextBox ID="txtTimeMonitoringEnd_CCTV4" runat="server" Width="110px" MaxLength="5" />
+                                                                                            <cc1:MaskedEditExtender ID="MaskedEditExtender16" runat="server" AutoComplete="true"
+                                                                                                MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringEnd_CCTV4" AcceptNegative="Left"
+                                                                                                DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
+                                                                                                OnInvalidCssClass="MaskedEditError" CultureName="en-US">
+                                                                                            </cc1:MaskedEditExtender>
+                                                                                            <asp:RegularExpressionValidator ID="regtxtTimeMonitoringEnd_CCTV4" runat="server" ControlToValidate="txtTimeMonitoringEnd_CCTV4"
+                                                                                                ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
+                                                                                                ErrorMessage="Wednesday/Time Monitoring Ends should be valid time" Display="none" ValidationGroup="vsAddPSMonitorCCTVGrid"
+                                                                                                SetFocusOnError="true">
+                                                                                            </asp:RegularExpressionValidator>
+                                                                                            <asp:RequiredFieldValidator ID="revtxtTimeMonitoringEnd_CCTV4" runat="server" ControlToValidate="txtTimeMonitoringEnd_CCTV4"
+                                                                                                Display="None" ErrorMessage="Wednesday/Enter Time Monitoring Ends." ValidationGroup="vsAddPSMonitorCCTVGrid"
+                                                                                                SetFocusOnError="true"></asp:RequiredFieldValidator>
+                                                                                        </td>
+                                                                                        <td align="left" valign="top">
+                                                                                            <asp:TextBox runat="server" ID="txthourcountCCTV4" Width="40px" Enabled="false"></asp:TextBox>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    <tr valign="top" style="background-color: #eaeaea;">
+                                                                                        <td align="left" valign="top" style= 'background-color: #ffffff;'></td>
+                                                                                        <td align="left" valign="top">
+                                                                                            <asp:CheckBox ID="chkSelectCCTV5" runat="server" />
+                                                                                        </td>
+                                                                                        <td align="left" valign="middle" style="padding-left:15px">
+                                                                                            <asp:Label ID="lblDayMonitoringBegin_CCTV5" runat="server" Text="Thursday"></asp:Label>
+                                                                                        </td>
+                                                                                        <td align="left" valign="top">
+                                                                                            <asp:TextBox ID="txtTimeMonitoringBegin_CCTV5" runat="server" Width="110px" MaxLength="5" />
+                                                                                            <cc1:MaskedEditExtender ID="MaskedEditExtender17" runat="server" AutoComplete="true"
+                                                                                                MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringBegin_CCTV5" AcceptNegative="Left"
+                                                                                                DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
+                                                                                                OnInvalidCssClass="MaskedEditError" CultureName="en-US">
+                                                                                            </cc1:MaskedEditExtender>
+                                                                                            <asp:RegularExpressionValidator ID="regtxtTimeMonitoringBegin_CCTV5" runat="server" ControlToValidate="txtTimeMonitoringBegin_CCTV5"
+                                                                                                ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
+                                                                                                ErrorMessage="Thursday/Time Monitoring Begins should be valid time" Display="none" ValidationGroup="vsAddPSMonitorCCTVGrid"
+                                                                                                SetFocusOnError="true">
+                                                                                            </asp:RegularExpressionValidator>
+                                                                                            <asp:RequiredFieldValidator ID="revtxtTimeMonitoringBegin_CCTV5" runat="server" ControlToValidate="txtTimeMonitoringBegin_CCTV5"
+                                                                                                Display="None" ErrorMessage="Thursday/Enter Time Monitoring Begins." ValidationGroup="vsAddPSMonitorCCTVGrid"
+                                                                                                SetFocusOnError="true"></asp:RequiredFieldValidator>
+                                                                                        </td>
+                                                                                        <td align="left" valign="top" >
+                                                                                            <asp:DropDownList ID="ddlDayMonitoringEnd_CCTV5" runat="server" SkinID="ddlExposure">
+                                                                                            </asp:DropDownList>
+                                                                                            <asp:RequiredFieldValidator ID="revddlDayMonitoringEnd_CCTV5" runat="server" ControlToValidate="ddlDayMonitoringEnd_CCTV5"
+                                                                                                ErrorMessage="Thursday/Select Day Monitoring Ends" Display="None" ValidationGroup="vsAddPSMonitorCCTVGrid"
+                                                                                                SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
+                                                                                        </td>
+                                                                                        <td align="left" valign="top">
+                                                                                            <asp:TextBox ID="txtTimeMonitoringEnd_CCTV5" runat="server" Width="110px" MaxLength="5" />
+                                                                                            <cc1:MaskedEditExtender ID="MaskedEditExtender18" runat="server" AutoComplete="true"
+                                                                                                MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringEnd_CCTV5" AcceptNegative="Left"
+                                                                                                DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
+                                                                                                OnInvalidCssClass="MaskedEditError" CultureName="en-US">
+                                                                                            </cc1:MaskedEditExtender>
+                                                                                            <asp:RegularExpressionValidator ID="regtxtTimeMonitoringEnd_CCTV5" runat="server" ControlToValidate="txtTimeMonitoringEnd_CCTV5"
+                                                                                                ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
+                                                                                                ErrorMessage="Thursday/Time Monitoring Ends should be valid time" Display="none" ValidationGroup="vsAddPSMonitorCCTVGrid"
+                                                                                                SetFocusOnError="true">
+                                                                                            </asp:RegularExpressionValidator>
+                                                                                            <asp:RequiredFieldValidator ID="revtxtTimeMonitoringEnd_CCTV5" runat="server" ControlToValidate="txtTimeMonitoringEnd_CCTV5"
+                                                                                                Display="None" ErrorMessage="Thursday/Enter Time Monitoring Ends." ValidationGroup="vsAddPSMonitorCCTVGrid"
+                                                                                                SetFocusOnError="true"></asp:RequiredFieldValidator>
+                                                                                        </td>
+                                                                                        <td align="left" valign="top">
+                                                                                            <asp:TextBox runat="server" ID="txthourcountCCTV5" Width="40px" Enabled="false"></asp:TextBox>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    <tr valign="top">
+                                                                                        <td align="left" valign="top" style= 'background-color: #ffffff;'></td>
+                                                                                        <td align="left" valign="top">
+                                                                                            <asp:CheckBox ID="chkSelectCCTV6" runat="server" />
+                                                                                        </td>
+                                                                                        <td align="left" valign="middle" style="padding-left:15px">
+                                                                                            <asp:Label ID="lblDayMonitoringBegin_CCTV6" runat="server" Text="Friday"></asp:Label>
+                                                                                        </td>
+                                                                                        <td align="left" valign="top">
+                                                                                            <asp:TextBox ID="txtTimeMonitoringBegin_CCTV6" runat="server" Width="110px" MaxLength="5" />
+                                                                                            <cc1:MaskedEditExtender ID="MaskedEditExtender19" runat="server" AutoComplete="true"
+                                                                                                MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringBegin_CCTV6" AcceptNegative="Left"
+                                                                                                DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
+                                                                                                OnInvalidCssClass="MaskedEditError" CultureName="en-US">
+                                                                                            </cc1:MaskedEditExtender>
+                                                                                            <asp:RegularExpressionValidator ID="regtxtTimeMonitoringBegin_CCTV6" runat="server" ControlToValidate="txtTimeMonitoringBegin_CCTV6"
+                                                                                                ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
+                                                                                                ErrorMessage="Friday/Time Monitoring Begins should be valid time" Display="none" ValidationGroup="vsAddPSMonitorCCTVGrid"
+                                                                                                SetFocusOnError="true">
+                                                                                            </asp:RegularExpressionValidator>
+                                                                                            <asp:RequiredFieldValidator ID="revtxtTimeMonitoringBegin_CCTV6" runat="server" ControlToValidate="txtTimeMonitoringBegin_CCTV6"
+                                                                                                Display="None" ErrorMessage="Friday/Enter Time Monitoring Begins." ValidationGroup="vsAddPSMonitorCCTVGrid"
+                                                                                                SetFocusOnError="true"></asp:RequiredFieldValidator>
+                                                                                        </td>
+                                                                                        <td align="left" valign="top" >
+                                                                                            <asp:DropDownList ID="ddlDayMonitoringEnd_CCTV6" runat="server" SkinID="ddlExposure">
+                                                                                            </asp:DropDownList>
+                                                                                            <asp:RequiredFieldValidator ID="revddlDayMonitoringEnd_CCTV6" runat="server" ControlToValidate="ddlDayMonitoringEnd_CCTV6"
+                                                                                                ErrorMessage="Friday/Select Day Monitoring Ends" Display="None" ValidationGroup="vsAddPSMonitorCCTVGrid"
+                                                                                                SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
+                                                                                        </td>
+                                                                                        <td align="left" valign="top">
+                                                                                            <asp:TextBox ID="txtTimeMonitoringEnd_CCTV6" runat="server" Width="110px" MaxLength="5" />
+                                                                                            <cc1:MaskedEditExtender ID="MaskedEditExtender20" runat="server" AutoComplete="true"
+                                                                                                MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringEnd_CCTV6" AcceptNegative="Left"
+                                                                                                DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
+                                                                                                OnInvalidCssClass="MaskedEditError" CultureName="en-US">
+                                                                                            </cc1:MaskedEditExtender>
+                                                                                            <asp:RegularExpressionValidator ID="regtxtTimeMonitoringEnd_CCTV6" runat="server" ControlToValidate="txtTimeMonitoringEnd_CCTV6"
+                                                                                                ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
+                                                                                                ErrorMessage="Friday/Time Monitoring Ends should be valid time" Display="none" ValidationGroup="vsAddPSMonitorCCTVGrid"
+                                                                                                SetFocusOnError="true">
+                                                                                            </asp:RegularExpressionValidator>
+                                                                                            <asp:RequiredFieldValidator ID="revtxtTimeMonitoringEnd_CCTV6" runat="server" ControlToValidate="txtTimeMonitoringEnd_CCTV6"
+                                                                                                Display="None" ErrorMessage="Friday/Enter Time Monitoring Ends." ValidationGroup="vsAddPSMonitorCCTVGrid"
+                                                                                                SetFocusOnError="true"></asp:RequiredFieldValidator>
+                                                                                        </td>
+                                                                                        <td align="left" valign="top">
+                                                                                            <asp:TextBox runat="server" ID="txthourcountCCTV6" Width="40px" Enabled="false"></asp:TextBox>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    <tr valign="top" style="background-color: #eaeaea;">
+                                                                                        <td align="left" valign="top" style= 'background-color: #ffffff;'></td>
+                                                                                        <td align="left" valign="top">
+                                                                                            <asp:CheckBox ID="chkSelectCCTV7" runat="server" />
+                                                                                        </td>
+                                                                                        <td align="left" valign="middle" style="padding-left:15px">
+                                                                                            <asp:Label ID="lblDayMonitoringBegin_CCTV7" runat="server" Text="Saturday"></asp:Label>
+                                                                                        </td>
+                                                                                        <td align="left" valign="top">
+                                                                                            <asp:TextBox ID="txtTimeMonitoringBegin_CCTV7" runat="server" Width="110px" MaxLength="5" />
+                                                                                            <cc1:MaskedEditExtender ID="MaskedEditExtender21" runat="server" AutoComplete="true"
+                                                                                                MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringBegin_CCTV7" AcceptNegative="Left"
+                                                                                                DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
+                                                                                                OnInvalidCssClass="MaskedEditError" CultureName="en-US">
+                                                                                            </cc1:MaskedEditExtender>
+                                                                                            <asp:RegularExpressionValidator ID="regtxtTimeMonitoringBegin_CCTV7" runat="server" ControlToValidate="txtTimeMonitoringBegin_CCTV7"
+                                                                                                ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
+                                                                                                ErrorMessage="Saturday/Time Monitoring Begins should be valid time" Display="none" ValidationGroup="vsAddPSMonitorCCTVGrid"
+                                                                                                SetFocusOnError="true">
+                                                                                            </asp:RegularExpressionValidator>
+                                                                                            <asp:RequiredFieldValidator ID="revtxtTimeMonitoringBegin_CCTV7" runat="server" ControlToValidate="txtTimeMonitoringBegin_CCTV7"
+                                                                                                Display="None" ErrorMessage="Saturday/Enter Time Monitoring Begins." ValidationGroup="vsAddPSMonitorCCTVGrid"
+                                                                                                SetFocusOnError="true"></asp:RequiredFieldValidator>
+                                                                                        </td>
+                                                                                        <td align="left" valign="top" >
+                                                                                            <asp:DropDownList ID="ddlDayMonitoringEnd_CCTV7" runat="server" SkinID="ddlExposure">
+                                                                                            </asp:DropDownList>
+                                                                                            <asp:RequiredFieldValidator ID="revddlDayMonitoringEnd_CCTV7" runat="server" ControlToValidate="ddlDayMonitoringEnd_CCTV7"
+                                                                                                ErrorMessage="Saturday/Select Day Monitoring Ends" Display="None" ValidationGroup="vsAddPSMonitorCCTVGrid"
+                                                                                                SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
+                                                                                        </td>
+                                                                                        <td align="left" valign="top">
+                                                                                            <asp:TextBox ID="txtTimeMonitoringEnd_CCTV7" runat="server" Width="110px" MaxLength="5" />
+                                                                                            <cc1:MaskedEditExtender ID="MaskedEditExtender22" runat="server" AutoComplete="true"
+                                                                                                MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringEnd_CCTV7" AcceptNegative="Left"
+                                                                                                DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
+                                                                                                OnInvalidCssClass="MaskedEditError" CultureName="en-US">
+                                                                                            </cc1:MaskedEditExtender>
+                                                                                            <asp:RegularExpressionValidator ID="regtxtTimeMonitoringEnd_CCTV7" runat="server" ControlToValidate="txtTimeMonitoringEnd_CCTV7"
+                                                                                                ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
+                                                                                                ErrorMessage="Saturday/Time Monitoring Ends should be valid time" Display="none" ValidationGroup="vsAddPSMonitorCCTVGrid"
+                                                                                                SetFocusOnError="true">
+                                                                                            </asp:RegularExpressionValidator>
+                                                                                            <asp:RequiredFieldValidator ID="revtxtTimeMonitoringEnd_CCTV7" runat="server" ControlToValidate="txtTimeMonitoringEnd_CCTV7"
+                                                                                                Display="None" ErrorMessage="Saturday/Enter Time Monitoring Ends." ValidationGroup="vsAddPSMonitorCCTVGrid"
+                                                                                                SetFocusOnError="true"></asp:RequiredFieldValidator>
+                                                                                        </td>
+                                                                                        <td align="left" valign="top">
+                                                                                            <asp:TextBox runat="server" ID="txthourcountCCTV7" Width="40px" Enabled="false"></asp:TextBox>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td align="left" valign="top">
+                                                                                        </td>
+                                                                                        <td align="center" valign="top">
+                                                                                        </td>
+                                                                                        <td align="left" valign="top">
+                                                                                        </td>
+                                                                                        <td align="right" valign="top">
+                                                                                             <asp:Button ID="btnAddMonitoringhoursCCTVGrid" runat="server" Text="Save" OnClientClick="javascript:return IsValidMonitorTimeCCTVGrid();"
+                                                                                                            OnClick="btnAddMonitoringhoursCCTVGrid_Click" CausesValidation="true" ValidationGroup="vsAddPSMonitorCCTVGrid" />
+                                                                                        </td>
+                                                                                        <td align="left" valign="top">
+                                                                                             <asp:Button ID="btnAddMonitorCancelCCTVGrid" runat="server" Text="Cancel" OnClick="btnAddMonitorCancelCCTVGrid_Click" />
+                                                                                        </td>
+                                                                                        <td align="left" valign="top">&nbsp;
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    </table>
+                                                                                </td>
+                                                                            </tr>
+
                                                                         <tr>
                                                                             <td align="left" valign="top">Total Hours CCTV Monitored Per Week
                                                                             </td>
@@ -1561,7 +1742,7 @@ function RemoveDataFromBuildingAlert(element) {
                                                             </asp:UpdatePanel>
                                                         </td>
                                                     </tr>
-
+                                                    
                                                     <tr>
                                                         <td align="left" valign="top">Exterior Camera Coverage
                                                         </td>
@@ -2009,7 +2190,8 @@ function RemoveDataFromBuildingAlert(element) {
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td width="5px" class="Spacer">&nbsp;
+                                                        <td width="5px" class="Spacer">
+                                                            &nbsp;
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -2228,7 +2410,7 @@ function RemoveDataFromBuildingAlert(element) {
                                                                 ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*"></asp:RegularExpressionValidator>
                                                         </td>
                                                     </tr>
-                                                    <tr>
+                                                     <tr>
                                                         <td colspan="6">
                                                             <asp:UpdatePanel ID="updGuardDetail" runat="server">
                                                                 <ContentTemplate>
@@ -2239,9 +2421,9 @@ function RemoveDataFromBuildingAlert(element) {
                                                                                 <asp:LinkButton ID="lnkbtnAddGaurdHoursMonitoredGrid" runat="server" Text="--Add--"
                                                                                     OnClick="lnkbtnAddGaurdHoursMonitoredGrid_Click" CausesValidation="true" ValidationGroup="vsErrorProperty_Security"></asp:LinkButton>
                                                                             </td>
-                                                                            <td align="center" valign="top" width="4%">:
+                                                                            <td align="center" valign="top"  width="4%">:
                                                                             </td>
-                                                                            <td align="left" valign="top" colspan="4" width="78%">
+                                                                            <td align="left" valign="top" colspan="4"   width="78%">
                                                                                 <asp:GridView ID="gvGuardHoursMonitorGrid" runat="server" GridLines="None" CellPadding="4"
                                                                                     CellSpacing="0" AutoGenerateColumns="false" Width="100%" EnableTheming="false"
                                                                                     OnRowCommand="gvMonitoingGridGuard_RowCommand">
@@ -2320,80 +2502,80 @@ function RemoveDataFromBuildingAlert(element) {
                                                                             </td>
                                                                         </tr>
                                                                         <tr runat="server" id="trGuard_Hours_Monitoring" style="display: none">
-                                                                            <td align="left" valign="top" colspan="6">
-                                                                                <table width='100%'>
-                                                                                    <tr style='background-color: #7f7f7f; font-family: Arial; color: white; font-size: 12px; font-weight: bold' valign="top">
-                                                                                        <td align="left" valign="top" width="20%">Day Monitoring Begins&nbsp;<span id="Span152" style="color: Red" runat="server">*</span>
-                                                                                        </td>
-                                                                                        <td align="left" valign="top" width="10%">Time Monitoring Begins&nbsp;<span id="Span153" style="color: Red" runat="server">*</span>
-                                                                                        </td>
-                                                                                        <td align="left" valign="top" width="20%">Day Monitoring Ends&nbsp;<span id="Span154" style="color: Red" runat="server">*</span>
-                                                                                        </td>
-                                                                                        <td align="left" valign="top" width="10%">Time Monitoring Ends&nbsp;<span id="Span155" style="color: Red" runat="server">*</span>
-                                                                                        </td>
-                                                                                        <td align="left" valign="top" width="15%">Hours
-                                                                                        </td>
-                                                                                        <td align="left" valign="top" width="25%"></td>
-                                                                                    </tr>
-                                                                                    <tr valign="top">
-                                                                                        <td align="left" valign="top">
-                                                                                            <asp:DropDownList ID="ddlDayMonitoringBegin_Guard" runat="server" SkinID="ddlSONIC">
-                                                                                            </asp:DropDownList>
-                                                                                            <asp:RequiredFieldValidator ID="revddlDayMonitoringBegin_Guard" runat="server" ControlToValidate="ddlDayMonitoringBegin_Guard"
-                                                                                                ErrorMessage="Select Day Monitoring Begins" Display="None" ValidationGroup="vsAddPSMonitorGuard"
-                                                                                                SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">
-                                                                                            <asp:TextBox ID="txtTimeMonitoringBegin_Guard" runat="server" Width="110px" MaxLength="5" />
-                                                                                            <cc1:MaskedEditExtender ID="MaskedEditExtender5" runat="server" AutoComplete="true"
-                                                                                                MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringBegin_Guard" AcceptNegative="Left"
-                                                                                                DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
-                                                                                                OnInvalidCssClass="MaskedEditError" CultureName="en-US">
-                                                                                            </cc1:MaskedEditExtender>
-                                                                                            <asp:RegularExpressionValidator ID="regtxtTimeMonitoringBegin_Guard" runat="server" ControlToValidate="txtTimeMonitoringBegin_Guard"
-                                                                                                ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                                                ErrorMessage="Time Monitoring Begins should be valid time" Display="none" ValidationGroup="vsAddPSMonitorGuard"
-                                                                                                SetFocusOnError="true">
-                                                                                            </asp:RegularExpressionValidator>
-                                                                                            <asp:RequiredFieldValidator ID="revtxtTimeMonitoringBegin_Guard" runat="server" ControlToValidate="txtTimeMonitoringBegin_Guard"
-                                                                                                Display="None" ErrorMessage="Enter Time Monitoring Begins." ValidationGroup="vsAddPSMonitorGuard"
-                                                                                                SetFocusOnError="true"></asp:RequiredFieldValidator>
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">
-                                                                                            <asp:DropDownList ID="ddlDayMonitoringEnd_Guard" runat="server" SkinID="ddlExposure">
-                                                                                            </asp:DropDownList>
-                                                                                            <asp:RequiredFieldValidator ID="revddlDayMonitoringEnd_Guard" runat="server" ControlToValidate="ddlDayMonitoringEnd_Guard"
-                                                                                                ErrorMessage="Select Day Monitoring Ends" Display="None" ValidationGroup="vsAddPSMonitorGuard"
-                                                                                                SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">
-                                                                                            <asp:TextBox ID="txtTimeMonitoringEnd_Guard" runat="server" Width="110px" MaxLength="5" />
-                                                                                            <cc1:MaskedEditExtender ID="MaskedEditExtender6" runat="server" AutoComplete="true"
-                                                                                                MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringEnd_Guard" AcceptNegative="Left"
-                                                                                                DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
-                                                                                                OnInvalidCssClass="MaskedEditError" CultureName="en-US">
-                                                                                            </cc1:MaskedEditExtender>
-                                                                                            <asp:RegularExpressionValidator ID="regtxtTimeMonitoringEnd_Guard" runat="server" ControlToValidate="txtTimeMonitoringEnd_Guard"
-                                                                                                ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                                                ErrorMessage="Time Monitoring Ends should be valid time" Display="none" ValidationGroup="vsAddPSMonitorGuard"
-                                                                                                SetFocusOnError="true">
-                                                                                            </asp:RegularExpressionValidator>
-                                                                                            <asp:RequiredFieldValidator ID="revtxtTimeMonitoringEnd_Guard" runat="server" ControlToValidate="txtTimeMonitoringEnd_Guard"
-                                                                                                Display="None" ErrorMessage="Enter Time Monitoring Ends." ValidationGroup="vsAddPSMonitorGuard"
-                                                                                                SetFocusOnError="true"></asp:RequiredFieldValidator>
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">
-                                                                                            <asp:TextBox runat="server" ID="txthourcountGuard" Width="40px" Enabled="false"></asp:TextBox>
-                                                                                        </td>
-                                                                                        <td align="left" valign="top" width="">
-                                                                                            <asp:Button ID="btnAddMonitoringhoursGuard" runat="server" Text="Save" OnClientClick="javascript:return IsValidMonitorTimeGuard();"
-                                                                                                OnClick="btnAddMonitoringhoursGuard_Click" CausesValidation="true" ValidationGroup="vsAddPSMonitorGuard" />
-                                                                                            <asp:Button ID="btnAddMonitorCancelGuard" runat="server" Text="Cancel" OnClick="btnAddMonitorCancelGuard_Click" />
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                </table>
-                                                                            </td>
-                                                                        </tr>
+                                                        <td align="left" valign="top" colspan="6">
+                                                            <table width='100%'>
+                                                                <tr style='background-color: #7f7f7f; font-family: Arial; color: white; font-size: 12px; font-weight: bold' valign="top">
+                                                                    <td align="left" valign="top" width="20%">Day Monitoring Begins&nbsp;<span id="Span152" style="color: Red" runat="server">*</span>
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="10%">Time Monitoring Begins&nbsp;<span id="Span153" style="color: Red" runat="server">*</span>
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="20%">Day Monitoring Ends&nbsp;<span id="Span154" style="color: Red" runat="server">*</span>
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="10%">Time Monitoring Ends&nbsp;<span id="Span155" style="color: Red" runat="server">*</span>
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="15%">Hours
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="25%"></td>
+                                                                </tr>
+                                                                <tr valign="top">
+                                                                    <td align="left" valign="top">
+                                                                        <asp:DropDownList ID="ddlDayMonitoringBegin_Guard" runat="server" SkinID="ddlSONIC">
+                                                                        </asp:DropDownList>
+                                                                        <asp:RequiredFieldValidator ID="revddlDayMonitoringBegin_Guard" runat="server" ControlToValidate="ddlDayMonitoringBegin_Guard"
+                                                                            ErrorMessage="Select Day Monitoring Begins" Display="None" ValidationGroup="vsAddPSMonitorGuard"
+                                                                            SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:TextBox ID="txtTimeMonitoringBegin_Guard" runat="server" Width="110px" MaxLength="5" />
+                                                                        <cc1:MaskedEditExtender ID="MaskedEditExtender5" runat="server" AutoComplete="true"
+                                                                            MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringBegin_Guard" AcceptNegative="Left"
+                                                                            DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
+                                                                            OnInvalidCssClass="MaskedEditError" CultureName="en-US">
+                                                                        </cc1:MaskedEditExtender>
+                                                                        <asp:RegularExpressionValidator ID="regtxtTimeMonitoringBegin_Guard" runat="server" ControlToValidate="txtTimeMonitoringBegin_Guard"
+                                                                            ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
+                                                                            ErrorMessage="Time Monitoring Begins should be valid time" Display="none" ValidationGroup="vsAddPSMonitorGuard"
+                                                                            SetFocusOnError="true">
+                                                                        </asp:RegularExpressionValidator>
+                                                                        <asp:RequiredFieldValidator ID="revtxtTimeMonitoringBegin_Guard" runat="server" ControlToValidate="txtTimeMonitoringBegin_Guard"
+                                                                            Display="None" ErrorMessage="Enter Time Monitoring Begins." ValidationGroup="vsAddPSMonitorGuard"
+                                                                            SetFocusOnError="true"></asp:RequiredFieldValidator>
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:DropDownList ID="ddlDayMonitoringEnd_Guard" runat="server" SkinID="ddlExposure">
+                                                                        </asp:DropDownList>
+                                                                        <asp:RequiredFieldValidator ID="revddlDayMonitoringEnd_Guard" runat="server" ControlToValidate="ddlDayMonitoringEnd_Guard"
+                                                                            ErrorMessage="Select Day Monitoring Ends" Display="None" ValidationGroup="vsAddPSMonitorGuard"
+                                                                            SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:TextBox ID="txtTimeMonitoringEnd_Guard" runat="server" Width="110px" MaxLength="5" />
+                                                                        <cc1:MaskedEditExtender ID="MaskedEditExtender6" runat="server" AutoComplete="true"
+                                                                            MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringEnd_Guard" AcceptNegative="Left"
+                                                                            DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
+                                                                            OnInvalidCssClass="MaskedEditError" CultureName="en-US">
+                                                                        </cc1:MaskedEditExtender>
+                                                                        <asp:RegularExpressionValidator ID="regtxtTimeMonitoringEnd_Guard" runat="server" ControlToValidate="txtTimeMonitoringEnd_Guard"
+                                                                            ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
+                                                                            ErrorMessage="Time Monitoring Ends should be valid time" Display="none" ValidationGroup="vsAddPSMonitorGuard"
+                                                                            SetFocusOnError="true">
+                                                                        </asp:RegularExpressionValidator>
+                                                                        <asp:RequiredFieldValidator ID="revtxtTimeMonitoringEnd_Guard" runat="server" ControlToValidate="txtTimeMonitoringEnd_Guard"
+                                                                            Display="None" ErrorMessage="Enter Time Monitoring Ends." ValidationGroup="vsAddPSMonitorGuard"
+                                                                            SetFocusOnError="true"></asp:RequiredFieldValidator>
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:TextBox runat="server" ID="txthourcountGuard" Width="40px" Enabled="false"></asp:TextBox>
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="">
+                                                                        <asp:Button ID="btnAddMonitoringhoursGuard" runat="server" Text="Save" OnClientClick="javascript:return IsValidMonitorTimeGuard();"
+                                                                            OnClick="btnAddMonitoringhoursGuard_Click" CausesValidation="true" ValidationGroup="vsAddPSMonitorGuard" />
+                                                                        <asp:Button ID="btnAddMonitorCancelGuard" runat="server" Text="Cancel" OnClick="btnAddMonitorCancelGuard_Click" />
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
                                                                     </table>
                                                                 </ContentTemplate>
                                                             </asp:UpdatePanel>
@@ -2427,14 +2609,14 @@ function RemoveDataFromBuildingAlert(element) {
                                                                 <ContentTemplate>
                                                                     <table>
                                                                         <tr>
-                                                                            <td align="left" valign="top" width="18%">Off-Duty Officer Hours Monitored Grid<br />
+                                                                            <td align="left" valign="top"  width="18%">Off-Duty Officer Hours Monitored Grid<br />
                                                                                 <asp:LinkButton ID="lnkbtnAddOffdutyOfficerHoursMonitoredGrid" runat="server" Text="--Add--"
                                                                                     OnClick="lnkbtnAddOffdutyOfficerHoursMonitoredGrid_Click" CausesValidation="true"
                                                                                     ValidationGroup="vsErrorProperty_Security"></asp:LinkButton>
                                                                             </td>
-                                                                            <td align="center" valign="top" width="4%">:
+                                                                            <td align="center" valign="top"  width="4%">:
                                                                             </td>
-                                                                            <td align="left" valign="top" colspan="4" width="78%">
+                                                                            <td align="left" valign="top" colspan="4"  width="78%">
                                                                                 <asp:GridView ID="gvOffDutyOfficerHoursMonitoredGrid" runat="server" GridLines="None"
                                                                                     CellPadding="4" CellSpacing="0" AutoGenerateColumns="false" Width="100%" EnableTheming="false"
                                                                                     OnRowCommand="gvMonitoingGridDuty_RowCommand">
@@ -2513,85 +2695,85 @@ function RemoveDataFromBuildingAlert(element) {
                                                                             </td>
                                                                         </tr>
                                                                         <tr runat="server" id="trDuty_Hours_Monitoring" style="display: none">
-                                                                            <td align="left" valign="top" colspan="6">
-                                                                                <table width='100%'>
-                                                                                    <tr style='background-color: #7f7f7f; font-family: Arial; color: white; font-size: 12px; font-weight: bold' valign="top">
-                                                                                        <td align="left" valign="top" width="20%">Day Monitoring Begins&nbsp;<span id="Span156" style="color: Red" runat="server">*</span>
-                                                                                        </td>
-                                                                                        <td align="left" valign="top" width="10%">Time Monitoring Begins&nbsp;<span id="Span157" style="color: Red" runat="server">*</span>
-                                                                                        </td>
-                                                                                        <td align="left" valign="top" width="20%">Day Monitoring Ends&nbsp;<span id="Span158" style="color: Red" runat="server">*</span>
-                                                                                        </td>
-                                                                                        <td align="left" valign="top" width="10%">Time Monitoring Ends&nbsp;<span id="Span159" style="color: Red" runat="server">*</span>
-                                                                                        </td>
-                                                                                        <td align="left" valign="top" width="15%">Hours
-                                                                                        </td>
-                                                                                        <td align="left" valign="top" width="25%"></td>
-                                                                                    </tr>
-                                                                                    <tr valign="top">
-                                                                                        <td align="left" valign="top">
-                                                                                            <asp:DropDownList ID="ddlDayMonitoringBegin_Duty" runat="server" SkinID="ddlSONIC">
-                                                                                            </asp:DropDownList>
-                                                                                            <asp:RequiredFieldValidator ID="revddlDayMonitoringBegin_Duty" runat="server" ControlToValidate="ddlDayMonitoringBegin_Duty"
-                                                                                                ErrorMessage="Select Day Monitoring Begins" Display="None" ValidationGroup="vsAddPSMonitorDuty"
-                                                                                                SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">
-                                                                                            <asp:TextBox ID="txtTimeMonitoringBegin_Duty" runat="server" Width="110px" MaxLength="5" />
-                                                                                            <cc1:MaskedEditExtender ID="MaskedEditExtender7" runat="server" AutoComplete="true"
-                                                                                                MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringBegin_Duty" AcceptNegative="Left"
-                                                                                                DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
-                                                                                                OnInvalidCssClass="MaskedEditError" CultureName="en-US">
-                                                                                            </cc1:MaskedEditExtender>
-                                                                                            <asp:RegularExpressionValidator ID="regtxtTimeMonitoringBegin_Duty" runat="server" ControlToValidate="txtTimeMonitoringBegin_Duty"
-                                                                                                ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                                                ErrorMessage="Time Monitoring Begins should be valid time" Display="none" ValidationGroup="vsAddPSMonitorDuty"
-                                                                                                SetFocusOnError="true">
-                                                                                            </asp:RegularExpressionValidator>
-                                                                                            <asp:RequiredFieldValidator ID="revtxtTimeMonitoringBegin_Duty" runat="server" ControlToValidate="txtTimeMonitoringBegin_Duty"
-                                                                                                Display="None" ErrorMessage="Enter Time Monitoring Begins." ValidationGroup="vsAddPSMonitorDuty"
-                                                                                                SetFocusOnError="true"></asp:RequiredFieldValidator>
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">
-                                                                                            <asp:DropDownList ID="ddlDayMonitoringEnd_Duty" runat="server" SkinID="ddlExposure">
-                                                                                            </asp:DropDownList>
-                                                                                            <asp:RequiredFieldValidator ID="revddlDayMonitoringEnd_Duty" runat="server" ControlToValidate="ddlDayMonitoringEnd_Duty"
-                                                                                                ErrorMessage="Select Day Monitoring Ends" Display="None" ValidationGroup="vsAddPSMonitorDuty"
-                                                                                                SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">
-                                                                                            <asp:TextBox ID="txtTimeMonitoringEnd_Duty" runat="server" Width="110px" MaxLength="5" />
-                                                                                            <cc1:MaskedEditExtender ID="MaskedEditExtender8" runat="server" AutoComplete="true"
-                                                                                                MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringEnd_Duty" AcceptNegative="Left"
-                                                                                                DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
-                                                                                                OnInvalidCssClass="MaskedEditError" CultureName="en-US">
-                                                                                            </cc1:MaskedEditExtender>
-                                                                                            <asp:RegularExpressionValidator ID="regtxtTimeMonitoringEnd_Duty" runat="server" ControlToValidate="txtTimeMonitoringEnd_Duty"
-                                                                                                ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
-                                                                                                ErrorMessage="Time Monitoring Ends should be valid time" Display="none" ValidationGroup="vsAddPSMonitorDuty"
-                                                                                                SetFocusOnError="true">
-                                                                                            </asp:RegularExpressionValidator>
-                                                                                            <asp:RequiredFieldValidator ID="revtxtTimeMonitoringEnd_Duty" runat="server" ControlToValidate="txtTimeMonitoringEnd_Duty"
-                                                                                                Display="None" ErrorMessage="Enter Time Monitoring Ends." ValidationGroup="vsAddPSMonitorDuty"
-                                                                                                SetFocusOnError="true"></asp:RequiredFieldValidator>
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">
-                                                                                            <asp:TextBox runat="server" ID="txthourcountDuty" Width="40px" Enabled="false"></asp:TextBox>
-                                                                                        </td>
-                                                                                        <td align="left" valign="top" width="">
-                                                                                            <asp:Button ID="btnAddMonitoringhoursDuty" runat="server" Text="Save" OnClientClick="javascript:return IsValidMonitorTimeDuty();"
-                                                                                                OnClick="btnAddMonitoringhoursDuty_Click" CausesValidation="true" ValidationGroup="vsAddPSMonitorDuty" />
-                                                                                            <asp:Button ID="btnAddMonitorCancelDuty" runat="server" Text="Cancel" OnClick="btnAddMonitorCancelDuty_Click" />
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                </table>
-                                                                            </td>
-                                                                        </tr>
-                                                                    </table>
-                                                                </ContentTemplate>
-                                                            </asp:UpdatePanel>
-                                                        </td>
-                                                    </tr>
+                                                                                                <td align="left" valign="top" colspan="6">
+                                                                                                    <table width='100%'>
+                                                                                                        <tr style='background-color: #7f7f7f; font-family: Arial; color: white; font-size: 12px; font-weight: bold' valign="top">
+                                                                                                            <td align="left" valign="top" width="20%">Day Monitoring Begins&nbsp;<span id="Span156" style="color: Red" runat="server">*</span>
+                                                                                                            </td>
+                                                                                                            <td align="left" valign="top" width="10%">Time Monitoring Begins&nbsp;<span id="Span157" style="color: Red" runat="server">*</span>
+                                                                                                            </td>
+                                                                                                            <td align="left" valign="top" width="20%">Day Monitoring Ends&nbsp;<span id="Span158" style="color: Red" runat="server">*</span>
+                                                                                                            </td>
+                                                                                                            <td align="left" valign="top" width="10%">Time Monitoring Ends&nbsp;<span id="Span159" style="color: Red" runat="server">*</span>
+                                                                                                            </td>
+                                                                                                            <td align="left" valign="top" width="15%">Hours
+                                                                                                            </td>
+                                                                                                            <td align="left" valign="top" width="25%"></td>
+                                                                                                        </tr>
+                                                                                                        <tr valign="top">
+                                                                                                            <td align="left" valign="top">
+                                                                                                                <asp:DropDownList ID="ddlDayMonitoringBegin_Duty" runat="server" SkinID="ddlSONIC">
+                                                                                                                </asp:DropDownList>
+                                                                                                                <asp:RequiredFieldValidator ID="revddlDayMonitoringBegin_Duty" runat="server" ControlToValidate="ddlDayMonitoringBegin_Duty"
+                                                                                                                    ErrorMessage="Select Day Monitoring Begins" Display="None" ValidationGroup="vsAddPSMonitorDuty"
+                                                                                                                    SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
+                                                                                                            </td>
+                                                                                                            <td align="left" valign="top">
+                                                                                                                <asp:TextBox ID="txtTimeMonitoringBegin_Duty" runat="server" Width="110px" MaxLength="5" />
+                                                                                                                <cc1:MaskedEditExtender ID="MaskedEditExtender7" runat="server" AutoComplete="true"
+                                                                                                                    MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringBegin_Duty" AcceptNegative="Left"
+                                                                                                                    DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
+                                                                                                                    OnInvalidCssClass="MaskedEditError" CultureName="en-US">
+                                                                                                                </cc1:MaskedEditExtender>
+                                                                                                                <asp:RegularExpressionValidator ID="regtxtTimeMonitoringBegin_Duty" runat="server" ControlToValidate="txtTimeMonitoringBegin_Duty"
+                                                                                                                    ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
+                                                                                                                    ErrorMessage="Time Monitoring Begins should be valid time" Display="none" ValidationGroup="vsAddPSMonitorDuty"
+                                                                                                                    SetFocusOnError="true">
+                                                                                                                </asp:RegularExpressionValidator>
+                                                                                                                <asp:RequiredFieldValidator ID="revtxtTimeMonitoringBegin_Duty" runat="server" ControlToValidate="txtTimeMonitoringBegin_Duty"
+                                                                                                                    Display="None" ErrorMessage="Enter Time Monitoring Begins." ValidationGroup="vsAddPSMonitorDuty"
+                                                                                                                    SetFocusOnError="true"></asp:RequiredFieldValidator>
+                                                                                                            </td>
+                                                                                                            <td align="left" valign="top">
+                                                                                                                <asp:DropDownList ID="ddlDayMonitoringEnd_Duty" runat="server" SkinID="ddlExposure">
+                                                                                                                </asp:DropDownList>
+                                                                                                                <asp:RequiredFieldValidator ID="revddlDayMonitoringEnd_Duty" runat="server" ControlToValidate="ddlDayMonitoringEnd_Duty"
+                                                                                                                    ErrorMessage="Select Day Monitoring Ends" Display="None" ValidationGroup="vsAddPSMonitorDuty"
+                                                                                                                    SetFocusOnError="true" InitialValue="0"></asp:RequiredFieldValidator>
+                                                                                                            </td>
+                                                                                                            <td align="left" valign="top">
+                                                                                                                <asp:TextBox ID="txtTimeMonitoringEnd_Duty" runat="server" Width="110px" MaxLength="5" />
+                                                                                                                <cc1:MaskedEditExtender ID="MaskedEditExtender8" runat="server" AutoComplete="true"
+                                                                                                                    MaskType="Time" Mask="99:99" TargetControlID="txtTimeMonitoringEnd_Duty" AcceptNegative="Left"
+                                                                                                                    DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
+                                                                                                                    OnInvalidCssClass="MaskedEditError" CultureName="en-US">
+                                                                                                                </cc1:MaskedEditExtender>
+                                                                                                                <asp:RegularExpressionValidator ID="regtxtTimeMonitoringEnd_Duty" runat="server" ControlToValidate="txtTimeMonitoringEnd_Duty"
+                                                                                                                    ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
+                                                                                                                    ErrorMessage="Time Monitoring Ends should be valid time" Display="none" ValidationGroup="vsAddPSMonitorDuty"
+                                                                                                                    SetFocusOnError="true">
+                                                                                                                </asp:RegularExpressionValidator>
+                                                                                                                <asp:RequiredFieldValidator ID="revtxtTimeMonitoringEnd_Duty" runat="server" ControlToValidate="txtTimeMonitoringEnd_Duty"
+                                                                                                                    Display="None" ErrorMessage="Enter Time Monitoring Ends." ValidationGroup="vsAddPSMonitorDuty"
+                                                                                                                    SetFocusOnError="true"></asp:RequiredFieldValidator>
+                                                                                                            </td>
+                                                                                                            <td align="left" valign="top">
+                                                                                                                <asp:TextBox runat="server" ID="txthourcountDuty" Width="40px" Enabled="false"></asp:TextBox>
+                                                                                                            </td>
+                                                                                                            <td align="left" valign="top" width="">
+                                                                                                                <asp:Button ID="btnAddMonitoringhoursDuty" runat="server" Text="Save" OnClientClick="javascript:return IsValidMonitorTimeDuty();"
+                                                                                                                    OnClick="btnAddMonitoringhoursDuty_Click" CausesValidation="true" ValidationGroup="vsAddPSMonitorDuty" />
+                                                                                                                <asp:Button ID="btnAddMonitorCancelDuty" runat="server" Text="Cancel" OnClick="btnAddMonitorCancelDuty_Click" />
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                    </table>
+                                                                                                </td>
+                                                                                            </tr>
+                                                                        </table>
+                                                                    </ContentTemplate>
+                                                                </asp:UpdatePanel>
+                                                            </td>
+                                                        </tr>
                                                     <tr>
                                                         <td width="5px" class="Spacer">&nbsp;
                                                         </td>
@@ -3113,7 +3295,7 @@ function RemoveDataFromBuildingAlert(element) {
                                             </asp:Panel>
                                             <asp:Panel ID="pnl2" runat="server" Style="display: none;" Width="794px">
                                                 <table border="0" cellpadding="3" cellspacing="1" width="100%">
-                                                    <tr id="trSREDPD" runat="server" style="display: none;">
+                                                    <tr id="trSREDPD" runat="server" style="display:none;">
                                                         <td>
                                                             <table style="background-color: black" cellspacing="1" cellpadding="3" width="100%"
                                                                 border="0">
@@ -3731,7 +3913,7 @@ function RemoveDataFromBuildingAlert(element) {
                                             </div>
                                             <asp:Panel ID="pnl3" runat="server" Style="display: none;" Width="794px">
                                                 <table border="0" cellpadding="3" cellspacing="1" width="100%">
-                                                    <tr id="trSREAL" runat="server" style="display: none;">
+                                                    <tr id="trSREAL" runat="server" style="display:none;">
                                                         <td>
                                                             <table style="background-color: black" cellspacing="1" cellpadding="3" width="100%"
                                                                 border="0">
@@ -7872,7 +8054,7 @@ function RemoveDataFromBuildingAlert(element) {
                                             </asp:Panel>
                                             <asp:Panel ID="pnl2View" runat="server" Style="display: none;" Width="794px">
                                                 <table border="0" cellpadding="3" cellspacing="1" width="100%">
-                                                    <tr id="trSREDPDView" runat="server" style="display: none;">
+                                                    <tr id="trSREDPDView" runat="server" style="display:none;">
                                                         <td>
                                                             <table style="background-color: black" cellspacing="1" cellpadding="3" width="100%"
                                                                 border="0">
@@ -8464,7 +8646,7 @@ function RemoveDataFromBuildingAlert(element) {
                                             </asp:Panel>
                                             <asp:Panel ID="pnl3View" runat="server" Style="display: none;" Width="794px">
                                                 <table border="0" cellpadding="3" cellspacing="1" width="100%">
-                                                    <tr id="trSREALView" runat="server" style="display: none;">
+                                                    <tr id="trSREALView" runat="server" style="display:none;">
                                                         <td>
                                                             <table style="background-color: black" cellspacing="1" cellpadding="3" width="100%"
                                                                 border="0">

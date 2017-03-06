@@ -1202,11 +1202,11 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             clsAP_Property_Security_Monitor_Grids objclsAP_Property_Security_Monitor_Grids = new clsAP_Property_Security_Monitor_Grids(PK_AP_Property_Security_Monitor_Grids);
             StrMonitorGridType = objclsAP_Property_Security_Monitor_Grids.Grid_Type;
 
-            //ddlDayMonitoringBegin_CCTV.SelectedValue = (objclsAP_Property_Security_Monitor_Grids.Start_Day > 0 ? objclsAP_Property_Security_Monitor_Grids.Start_Day.ToString() : "0");
-            //ddlDayMonitoringEnd_CCTV.SelectedValue = (objclsAP_Property_Security_Monitor_Grids.End_Day > 0 ? objclsAP_Property_Security_Monitor_Grids.End_Day.ToString() : "0");
-            //txtTimeMonitoringBegin_CCTV.Text = objclsAP_Property_Security_Monitor_Grids.Start_Time;
-            //txtTimeMonitoringEnd_CCTV.Text = objclsAP_Property_Security_Monitor_Grids.End_Time;
-            //txthourcountCCTV.Text = objclsAP_Property_Security_Monitor_Grids.Hours;
+            ddlDayMonitoringBegin_CCTV.SelectedValue = (objclsAP_Property_Security_Monitor_Grids.Start_Day > 0 ? objclsAP_Property_Security_Monitor_Grids.Start_Day.ToString() : "0");
+            ddlDayMonitoringEnd_CCTV.SelectedValue = (objclsAP_Property_Security_Monitor_Grids.End_Day > 0 ? objclsAP_Property_Security_Monitor_Grids.End_Day.ToString() : "0");
+            txtTimeMonitoringBegin_CCTV.Text = objclsAP_Property_Security_Monitor_Grids.Start_Time;
+            txtTimeMonitoringEnd_CCTV.Text = objclsAP_Property_Security_Monitor_Grids.End_Time;
+            txthourcountCCTV.Text = objclsAP_Property_Security_Monitor_Grids.Hours;
         }
     }
 
@@ -3345,11 +3345,11 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
 
     private void ClearCCTVGrid()
     {
-        //ddlDayMonitoringBegin_CCTV.SelectedIndex = 0;
-        //ddlDayMonitoringEnd_CCTV.SelectedIndex = 0;
-        //txtTimeMonitoringBegin_CCTV.Text = string.Empty;
-        //txtTimeMonitoringEnd_CCTV.Text = string.Empty;
-        //txthourcountCCTV.Text = string.Empty;
+        ddlDayMonitoringBegin_CCTV.SelectedIndex = 0;
+        ddlDayMonitoringEnd_CCTV.SelectedIndex = 0;
+        txtTimeMonitoringBegin_CCTV.Text = string.Empty;
+        txtTimeMonitoringEnd_CCTV.Text = string.Empty;
+        txthourcountCCTV.Text = string.Empty;
         trCCTV_Hours_Monitoring.Style["display"] = "none";
     }
 
@@ -3371,6 +3371,43 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         txtTimeMonitoringEnd_Duty.Text = string.Empty;
         txthourcountDuty.Text = string.Empty;
         trDuty_Hours_Monitoring.Style["display"] = "none";
+    }
+
+    private void ClearCCTVGridCheck()
+    {
+        chkSelectCCTV1.Checked = chkSelectCCTV2.Checked = chkSelectCCTV3.Checked = chkSelectCCTV4.Checked = chkSelectCCTV5.Checked = chkSelectCCTV6.Checked = chkSelectCCTV7.Checked = false;
+        ddlDayMonitoringEnd_CCTV1.SelectedIndex = 0;
+        txtTimeMonitoringBegin_CCTV1.Text = string.Empty;
+        txtTimeMonitoringEnd_CCTV1.Text = string.Empty;
+        txthourcountCCTV1.Text = string.Empty;
+        ddlDayMonitoringEnd_CCTV2.SelectedIndex = 0;
+        txtTimeMonitoringBegin_CCTV2.Text = string.Empty;
+        txtTimeMonitoringEnd_CCTV2.Text = string.Empty;
+        txthourcountCCTV2.Text = string.Empty;
+        ddlDayMonitoringEnd_CCTV3.SelectedIndex = 0;
+        txtTimeMonitoringBegin_CCTV3.Text = string.Empty;
+        txtTimeMonitoringEnd_CCTV3.Text = string.Empty;
+        txthourcountCCTV3.Text = string.Empty;
+        ddlDayMonitoringEnd_CCTV4.SelectedIndex = 0;
+        txtTimeMonitoringBegin_CCTV4.Text = string.Empty;
+        txtTimeMonitoringEnd_CCTV4.Text = string.Empty;
+        txthourcountCCTV4.Text = string.Empty;
+        ddlDayMonitoringEnd_CCTV5.SelectedIndex = 0;
+        txtTimeMonitoringBegin_CCTV5.Text = string.Empty;
+        txtTimeMonitoringEnd_CCTV5.Text = string.Empty;
+        txthourcountCCTV5.Text = string.Empty;
+        ddlDayMonitoringEnd_CCTV6.SelectedIndex = 0;
+        txtTimeMonitoringBegin_CCTV6.Text = string.Empty;
+        txtTimeMonitoringEnd_CCTV6.Text = string.Empty;
+        txthourcountCCTV6.Text = string.Empty;
+        ddlDayMonitoringEnd_CCTV7.SelectedIndex = 0;
+        txtTimeMonitoringBegin_CCTV7.Text = string.Empty;
+        txtTimeMonitoringEnd_CCTV7.Text = string.Empty;
+        txthourcountCCTV7.Text = string.Empty;
+
+        tdCCTVMonitorGrid.Style["display"] = "";
+        trCCTV_Hours_MonitoringGrid.Style["display"] = "none";
+        ClearCCTVGrid();
     }
 
     #endregion
@@ -3398,9 +3435,10 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     private void BindDropDownList()
     {
         ComboHelper.FillState(new DropDownList[] { drpFK_CCTV_Company_State, drpFK_Burglar_Alarm_Company_State, drpFK_Guard_Company_State, drpFK_Fire_Company_State }, 0, true);
-        ComboHelper.FillWeekDays(new DropDownList[] { ddlDayMonitoringBegins, ddlDayMonitoringEnds,ddlDayMonitoringEnd_CCTV_Sunday, ddlDayMonitoringEnd_CCTV_Monday, ddlDayMonitoringEnd_CCTV_Tuesday,ddlDayMonitoringEnd_CCTV_Wednesday,ddlDayMonitoringEnd_CCTV_Thursday,
-          ddlDayMonitoringEnd_CCTV_Friday,ddlDayMonitoringEnd_CCTV_Saturday,  ddlDayMonitoringBegin_Guard, ddlDayMonitoringEnd_Guard, ddlDayMonitoringBegin_Duty, ddlDayMonitoringEnd_Duty }, 0, true);
+        ComboHelper.FillWeekDays(new DropDownList[] { ddlDayMonitoringBegins, ddlDayMonitoringEnds, ddlDayMonitoringBegin_CCTV, 
+            ddlDayMonitoringEnd_CCTV, ddlDayMonitoringBegin_Guard, ddlDayMonitoringEnd_Guard, ddlDayMonitoringBegin_Duty, ddlDayMonitoringEnd_Duty }, 0, true);
         ComboHelper.FillCap_Index_Risk_Category(new DropDownList[] { ddlCap_Index_Risk_Category }, true);
+        ComboHelper.FillWeekDays(new DropDownList[] { ddlDayMonitoringEnd_CCTV1, ddlDayMonitoringEnd_CCTV2, ddlDayMonitoringEnd_CCTV3, ddlDayMonitoringEnd_CCTV4, ddlDayMonitoringEnd_CCTV5, ddlDayMonitoringEnd_CCTV6, ddlDayMonitoringEnd_CCTV7 }, 0, true);
     }
 
     /// <summary>
@@ -3420,9 +3458,11 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         //btnProperty_SecurityAuditView.Visible = false;
         PK_AP_Property_Security_Monitor_Grids = 0;
         StrMonitorGridType = "CCTV";
-        ClearCCTVGrid();
-        trCCTV_Hours_Monitoring.Style["display"] = "";
-        ScriptManager.RegisterStartupScript(Page,Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);EnableDisableAllCCTVControls();", true);
+        ClearCCTVGridCheck();
+        //trCCTV_Hours_Monitoring.Style["display"] = "";
+        tdCCTVMonitorGrid.Style["display"] = "none";
+        trCCTV_Hours_MonitoringGrid.Style["display"] = "";
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
     }
 
     /// <summary>
@@ -3517,13 +3557,13 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         objclsAP_Property_Security_Monitor_Grids.PK_AP_Property_Security_Monitor_Grids = PK_AP_Property_Security_Monitor_Grids;
         objclsAP_Property_Security_Monitor_Grids.FK_AP_Property_Security = PK_AP_Property_Security;
         objclsAP_Property_Security_Monitor_Grids.Grid_Type = StrMonitorGridType;
-        //if (ddlDayMonitoringBegin_CCTV.SelectedIndex > 0)
-        //    objclsAP_Property_Security_Monitor_Grids.Start_Day = Convert.ToDecimal(ddlDayMonitoringBegin_CCTV.SelectedValue);
-        //objclsAP_Property_Security_Monitor_Grids.Start_Time = txtTimeMonitoringBegin_CCTV.Text;
-        //if (ddlDayMonitoringEnd_CCTV.SelectedIndex > 0)
-        //    objclsAP_Property_Security_Monitor_Grids.End_Day = Convert.ToDecimal(ddlDayMonitoringEnd_CCTV.SelectedValue);
-        //objclsAP_Property_Security_Monitor_Grids.End_Time = txtTimeMonitoringEnd_CCTV.Text;
-        //objclsAP_Property_Security_Monitor_Grids.Hours = txthourcountCCTV.Text;
+        if (ddlDayMonitoringBegin_CCTV.SelectedIndex > 0)
+            objclsAP_Property_Security_Monitor_Grids.Start_Day = Convert.ToDecimal(ddlDayMonitoringBegin_CCTV.SelectedValue);
+        objclsAP_Property_Security_Monitor_Grids.Start_Time = txtTimeMonitoringBegin_CCTV.Text;
+        if (ddlDayMonitoringEnd_CCTV.SelectedIndex > 0)
+            objclsAP_Property_Security_Monitor_Grids.End_Day = Convert.ToDecimal(ddlDayMonitoringEnd_CCTV.SelectedValue);
+        objclsAP_Property_Security_Monitor_Grids.End_Time = txtTimeMonitoringEnd_CCTV.Text;
+        objclsAP_Property_Security_Monitor_Grids.Hours = txthourcountCCTV.Text;
         objclsAP_Property_Security_Monitor_Grids.Updated_By = clsSession.UserID;
         objclsAP_Property_Security_Monitor_Grids.Updated_Date = DateTime.Now;
 
@@ -3617,6 +3657,151 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         clsAP_Property_Security objPropertySec = new clsAP_Property_Security(PK_AP_Property_Security);
         txttotalHoursMonitoredPerWeek.Text = objPropertySec.Total_Hours_CCTV_Monitored_Per_Week;
         ClearDutyGrid();
+        ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
+    }
+
+    /// <summary>
+    /// Handles Click event of Add Property Security Monitor
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnAddMonitoringhoursCCTVGrid_Click(object sender, EventArgs e)
+    {
+        if (chkSelectCCTV1.Checked)
+        {
+            clsAP_Property_Security_Monitor_Grids objclsAP_Property_Security_Monitor_Grids1 = new clsAP_Property_Security_Monitor_Grids();
+            //objclsAP_Property_Security_Monitor_Grids1.PK_AP_Property_Security_Monitor_Grids = PK_AP_Property_Security_Monitor_Grids;
+            objclsAP_Property_Security_Monitor_Grids1.FK_AP_Property_Security = PK_AP_Property_Security;
+            objclsAP_Property_Security_Monitor_Grids1.Grid_Type = StrMonitorGridType;
+            objclsAP_Property_Security_Monitor_Grids1.Start_Day = Convert.ToDecimal(1);
+            objclsAP_Property_Security_Monitor_Grids1.Start_Time = txtTimeMonitoringBegin_CCTV1.Text;
+            if (ddlDayMonitoringEnd_CCTV1.SelectedIndex > 0)
+                objclsAP_Property_Security_Monitor_Grids1.End_Day = Convert.ToDecimal(ddlDayMonitoringEnd_CCTV1.SelectedValue);
+            objclsAP_Property_Security_Monitor_Grids1.End_Time = txtTimeMonitoringEnd_CCTV1.Text;
+            objclsAP_Property_Security_Monitor_Grids1.Hours = txthourcountCCTV1.Text;
+            objclsAP_Property_Security_Monitor_Grids1.Updated_By = clsSession.UserID;
+            objclsAP_Property_Security_Monitor_Grids1.Updated_Date = DateTime.Now;
+
+            objclsAP_Property_Security_Monitor_Grids1.Insert();
+
+            //if (PK_AP_Property_Security_Monitor_Grids > 0)
+            //{
+            //    objclsAP_Property_Security_Monitor_Grids1.Update();
+            //}
+            //else
+            //{
+            //    PK_AP_Property_Security_Monitor_Grids = objclsAP_Property_Security_Monitor_Grids1.Insert();
+            //}
+        }
+
+        if (chkSelectCCTV2.Checked)
+        {
+            clsAP_Property_Security_Monitor_Grids objclsAP_Property_Security_Monitor_Grids2 = new clsAP_Property_Security_Monitor_Grids();
+            //objclsAP_Property_Security_Monitor_Grids2.PK_AP_Property_Security_Monitor_Grids = PK_AP_Property_Security_Monitor_Grids;
+            objclsAP_Property_Security_Monitor_Grids2.FK_AP_Property_Security = PK_AP_Property_Security;
+            objclsAP_Property_Security_Monitor_Grids2.Grid_Type = StrMonitorGridType;
+            objclsAP_Property_Security_Monitor_Grids2.Start_Day = Convert.ToDecimal(2);
+            objclsAP_Property_Security_Monitor_Grids2.Start_Time = txtTimeMonitoringBegin_CCTV2.Text;
+            if (ddlDayMonitoringEnd_CCTV2.SelectedIndex > 0)
+                objclsAP_Property_Security_Monitor_Grids2.End_Day = Convert.ToDecimal(ddlDayMonitoringEnd_CCTV2.SelectedValue);
+            objclsAP_Property_Security_Monitor_Grids2.End_Time = txtTimeMonitoringEnd_CCTV2.Text;
+            objclsAP_Property_Security_Monitor_Grids2.Hours = txthourcountCCTV2.Text;
+            objclsAP_Property_Security_Monitor_Grids2.Updated_By = clsSession.UserID;
+            objclsAP_Property_Security_Monitor_Grids2.Updated_Date = DateTime.Now;
+
+            objclsAP_Property_Security_Monitor_Grids2.Insert();
+        }
+        if (chkSelectCCTV3.Checked)
+        {
+            clsAP_Property_Security_Monitor_Grids objclsAP_Property_Security_Monitor_Grids3 = new clsAP_Property_Security_Monitor_Grids();
+            //objclsAP_Property_Security_Monitor_Grids3.PK_AP_Property_Security_Monitor_Grids = PK_AP_Property_Security_Monitor_Grids;
+            objclsAP_Property_Security_Monitor_Grids3.FK_AP_Property_Security = PK_AP_Property_Security;
+            objclsAP_Property_Security_Monitor_Grids3.Grid_Type = StrMonitorGridType;
+            objclsAP_Property_Security_Monitor_Grids3.Start_Day = Convert.ToDecimal(3);
+            objclsAP_Property_Security_Monitor_Grids3.Start_Time = txtTimeMonitoringBegin_CCTV3.Text;
+            if (ddlDayMonitoringEnd_CCTV3.SelectedIndex > 0)
+                objclsAP_Property_Security_Monitor_Grids3.End_Day = Convert.ToDecimal(ddlDayMonitoringEnd_CCTV3.SelectedValue);
+            objclsAP_Property_Security_Monitor_Grids3.End_Time = txtTimeMonitoringEnd_CCTV3.Text;
+            objclsAP_Property_Security_Monitor_Grids3.Hours = txthourcountCCTV3.Text;
+            objclsAP_Property_Security_Monitor_Grids3.Updated_By = clsSession.UserID;
+            objclsAP_Property_Security_Monitor_Grids3.Updated_Date = DateTime.Now;
+
+            objclsAP_Property_Security_Monitor_Grids3.Insert();
+        }
+        if (chkSelectCCTV4.Checked)
+        {
+            clsAP_Property_Security_Monitor_Grids objclsAP_Property_Security_Monitor_Grids4 = new clsAP_Property_Security_Monitor_Grids();
+            //objclsAP_Property_Security_Monitor_Grids4.PK_AP_Property_Security_Monitor_Grids = PK_AP_Property_Security_Monitor_Grids;
+            objclsAP_Property_Security_Monitor_Grids4.FK_AP_Property_Security = PK_AP_Property_Security;
+            objclsAP_Property_Security_Monitor_Grids4.Grid_Type = StrMonitorGridType;
+            objclsAP_Property_Security_Monitor_Grids4.Start_Day = Convert.ToDecimal(4);
+            objclsAP_Property_Security_Monitor_Grids4.Start_Time = txtTimeMonitoringBegin_CCTV4.Text;
+            if (ddlDayMonitoringEnd_CCTV4.SelectedIndex > 0)
+                objclsAP_Property_Security_Monitor_Grids4.End_Day = Convert.ToDecimal(ddlDayMonitoringEnd_CCTV4.SelectedValue);
+            objclsAP_Property_Security_Monitor_Grids4.End_Time = txtTimeMonitoringEnd_CCTV4.Text;
+            objclsAP_Property_Security_Monitor_Grids4.Hours = txthourcountCCTV4.Text;
+            objclsAP_Property_Security_Monitor_Grids4.Updated_By = clsSession.UserID;
+            objclsAP_Property_Security_Monitor_Grids4.Updated_Date = DateTime.Now;
+
+            objclsAP_Property_Security_Monitor_Grids4.Insert();
+        }
+        if (chkSelectCCTV5.Checked)
+        {
+            clsAP_Property_Security_Monitor_Grids objclsAP_Property_Security_Monitor_Grids5 = new clsAP_Property_Security_Monitor_Grids();
+            //objclsAP_Property_Security_Monitor_Grids5.PK_AP_Property_Security_Monitor_Grids = PK_AP_Property_Security_Monitor_Grids;
+            objclsAP_Property_Security_Monitor_Grids5.FK_AP_Property_Security = PK_AP_Property_Security;
+            objclsAP_Property_Security_Monitor_Grids5.Grid_Type = StrMonitorGridType;
+            objclsAP_Property_Security_Monitor_Grids5.Start_Day = Convert.ToDecimal(5);
+            objclsAP_Property_Security_Monitor_Grids5.Start_Time = txtTimeMonitoringBegin_CCTV5.Text;
+            if (ddlDayMonitoringEnd_CCTV5.SelectedIndex > 0)
+                objclsAP_Property_Security_Monitor_Grids5.End_Day = Convert.ToDecimal(ddlDayMonitoringEnd_CCTV5.SelectedValue);
+            objclsAP_Property_Security_Monitor_Grids5.End_Time = txtTimeMonitoringEnd_CCTV5.Text;
+            objclsAP_Property_Security_Monitor_Grids5.Hours = txthourcountCCTV5.Text;
+            objclsAP_Property_Security_Monitor_Grids5.Updated_By = clsSession.UserID;
+            objclsAP_Property_Security_Monitor_Grids5.Updated_Date = DateTime.Now;
+
+            objclsAP_Property_Security_Monitor_Grids5.Insert();
+        }
+        if (chkSelectCCTV6.Checked)
+        {
+            clsAP_Property_Security_Monitor_Grids objclsAP_Property_Security_Monitor_Grids6 = new clsAP_Property_Security_Monitor_Grids();
+            //objclsAP_Property_Security_Monitor_Grids6.PK_AP_Property_Security_Monitor_Grids = PK_AP_Property_Security_Monitor_Grids;
+            objclsAP_Property_Security_Monitor_Grids6.FK_AP_Property_Security = PK_AP_Property_Security;
+            objclsAP_Property_Security_Monitor_Grids6.Grid_Type = StrMonitorGridType;
+            objclsAP_Property_Security_Monitor_Grids6.Start_Day = Convert.ToDecimal(6);
+            objclsAP_Property_Security_Monitor_Grids6.Start_Time = txtTimeMonitoringBegin_CCTV6.Text;
+            if (ddlDayMonitoringEnd_CCTV6.SelectedIndex > 0)
+                objclsAP_Property_Security_Monitor_Grids6.End_Day = Convert.ToDecimal(ddlDayMonitoringEnd_CCTV6.SelectedValue);
+            objclsAP_Property_Security_Monitor_Grids6.End_Time = txtTimeMonitoringEnd_CCTV6.Text;
+            objclsAP_Property_Security_Monitor_Grids6.Hours = txthourcountCCTV6.Text;
+            objclsAP_Property_Security_Monitor_Grids6.Updated_By = clsSession.UserID;
+            objclsAP_Property_Security_Monitor_Grids6.Updated_Date = DateTime.Now;
+
+            objclsAP_Property_Security_Monitor_Grids6.Insert();
+        }
+        if (chkSelectCCTV7.Checked)
+        {
+            clsAP_Property_Security_Monitor_Grids objclsAP_Property_Security_Monitor_Grids7 = new clsAP_Property_Security_Monitor_Grids();
+            //objclsAP_Property_Security_Monitor_Grids7.PK_AP_Property_Security_Monitor_Grids = PK_AP_Property_Security_Monitor_Grids;
+            objclsAP_Property_Security_Monitor_Grids7.FK_AP_Property_Security = PK_AP_Property_Security;
+            objclsAP_Property_Security_Monitor_Grids7.Grid_Type = StrMonitorGridType;
+            objclsAP_Property_Security_Monitor_Grids7.Start_Day = Convert.ToDecimal(7);
+            objclsAP_Property_Security_Monitor_Grids7.Start_Time = txtTimeMonitoringBegin_CCTV7.Text;
+            if (ddlDayMonitoringEnd_CCTV7.SelectedIndex > 0)
+                objclsAP_Property_Security_Monitor_Grids7.End_Day = Convert.ToDecimal(ddlDayMonitoringEnd_CCTV7.SelectedValue);
+            objclsAP_Property_Security_Monitor_Grids7.End_Time = txtTimeMonitoringEnd_CCTV7.Text;
+            objclsAP_Property_Security_Monitor_Grids7.Hours = txthourcountCCTV7.Text;
+            objclsAP_Property_Security_Monitor_Grids7.Updated_By = clsSession.UserID;
+            objclsAP_Property_Security_Monitor_Grids7.Updated_Date = DateTime.Now;
+
+            objclsAP_Property_Security_Monitor_Grids7.Insert();
+        }
+
+        //Bind Grid
+        BindPropertySecurityMonitoringGrid();
+        clsAP_Property_Security objPropertySec = new clsAP_Property_Security(PK_AP_Property_Security);
+        txttotalHoursMonitoredPerWeek.Text = objPropertySec.Total_Hours_CCTV_Monitored_Per_Week;
+        ClearCCTVGridCheck();
         ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
     }
 
@@ -4000,6 +4185,12 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     protected void btnAddMonitorCancelDuty_Click(object sender, EventArgs e)
     {
         ClearDutyGrid();
+
+    }
+
+    protected void btnAddMonitorCancelCCTVGrid_Click(object sender, EventArgs e)
+    {
+        ClearCCTVGridCheck();
 
     }
 
