@@ -195,7 +195,7 @@ public partial class UserAccessRequest_SafetyTraining_NewUserAccessRequest : Sys
         }
         else
         {
-            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:alert('A associate already exists in the database with the same Social Security Number that was entered. Please either try again, or contact your supervisor.');", true);
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:alert('A associate already exists in the database with the same Social Security Number that was entered.');window.location='" + strMoodleURL + "';", true);
         }
 
     }
