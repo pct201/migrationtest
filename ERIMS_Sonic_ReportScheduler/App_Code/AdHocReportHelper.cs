@@ -322,6 +322,30 @@ namespace ERIMS_DAL
             return db.ExecuteReader(dbCommand);
         }
 
+        /// <summary>
+        /// Get Sonic U Training Ad-Hoc Report
+        /// </summary>
+        /// <param name="SelectedField"></param>
+        /// <param name="GroupBy"></param>
+        /// <param name="SqlWhere1"></param>
+        /// <param name="SqlSortBy"></param>
+        /// <param name="strFilterIds"></param>
+        /// <param name="PK_Security_ID"></param>
+        /// <returns></returns>
+        public static IDataReader GetAdHocReportSonicUTraining(string SelectedField, string GroupBy, string SqlWhere1, string SqlSortBy, string strFilterIds, decimal PK_Security_ID)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("rptSonic_U_Train_AdHocReport");
+            dbCommand.CommandTimeout = 100000;
+
+            db.AddInParameter(dbCommand, "@SelectedField", DbType.String, SelectedField);
+            db.AddInParameter(dbCommand, "GroupBy", DbType.String, GroupBy);
+            db.AddInParameter(dbCommand, "SqlWhere1", DbType.String, SqlWhere1);
+            db.AddInParameter(dbCommand, "SqlSortBy", DbType.String, SqlSortBy);
+            db.AddInParameter(dbCommand, "@SqlWhereIds", DbType.String, strFilterIds);
+            db.AddInParameter(dbCommand, "Pk_Security_ID", DbType.Decimal, PK_Security_ID);
+            return db.ExecuteReader(dbCommand);
+        }
     }
 
 }

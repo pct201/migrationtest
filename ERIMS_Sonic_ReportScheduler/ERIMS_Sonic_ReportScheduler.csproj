@@ -103,6 +103,9 @@
     <Compile Include="App_Code\Management_AdHocFilter.cs" />
     <Compile Include="App_Code\Management_AdHocReport.cs" />
     <Compile Include="App_Code\Management_AdhocReportFields.cs" />
+    <Compile Include="App_Code\Sonic_U_Train_AdHocFilter.cs" />
+    <Compile Include="App_Code\Sonic_U_Train_AdHocReport.cs" />
+    <Compile Include="App_Code\Sonic_U_Train_AdhocReportFields.cs" />
     <Compile Include="eRIMS_Sonic_ReportScheduler.cs">
       <SubType>Component</SubType>
     </Compile>
