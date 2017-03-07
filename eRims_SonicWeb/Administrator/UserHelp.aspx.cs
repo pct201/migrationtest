@@ -39,6 +39,7 @@ public partial class Administrator_UserHelp : clsBasePage
         if (!IsPostBack)
         {
             //Bind Grid Function
+            Page.Form.Attributes.Add("enctype", "multipart/form-data");
             BindGrid();
             BindDropDown();
         }
