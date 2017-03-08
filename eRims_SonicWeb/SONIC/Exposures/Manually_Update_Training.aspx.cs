@@ -63,7 +63,7 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
             ddlYear.Items.Add(new ListItem(i.ToString(), i.ToString()));
         }
 
-        ComboHelper.FillLocationByRLCM(new DropDownList[] { ddlLocation }, null, true, false);
+        ComboHelper.FillLocationByRLCM(new DropDownList[] { ddlLocation }, null, true, true);
         Session["location"] = ddlLocation.SelectedValue;
     }
 
@@ -187,10 +187,12 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
                     }
 
                     RadioButtonList rblIs_Complete = (RadioButtonList)gvTrain.FindControl("rblIs_Complete");
-
-                    Sonic_U_Training.Manage_Training_Data_InsertUpdate(hdnEmployee_ID.Value, hdnCode.Value, year, Qaurter, Convert.ToDecimal(hdnFK_Employee.Value), lblClass_Name.Text, Convert.ToBoolean(Convert.ToInt16(rblIs_Complete.SelectedValue)), Convert.ToDecimal(hdnFK_LU_Location_ID.Value), Convert.ToDecimal(hdnPK_Sonic_U_Associate_Training_Manual.Value));
-
-                    strCode[i] = hdnCode.Value;
+                    if (hdnChangeIDs.Value.Contains(rblIs_Complete.ClientID) && !hdnChangeIDs.Value.Contains(rblIs_Complete.ClientID + "_" + rblIs_Complete.SelectedValue))
+                    {
+                        Sonic_U_Training.Manage_Training_Data_InsertUpdate(hdnEmployee_ID.Value, hdnCode.Value, year, Qaurter, Convert.ToDecimal(hdnFK_Employee.Value), lblClass_Name.Text, Convert.ToBoolean(Convert.ToInt16(rblIs_Complete.SelectedValue)), Convert.ToDecimal(hdnFK_LU_Location_ID.Value), Convert.ToDecimal(hdnPK_Sonic_U_Associate_Training_Manual.Value));
+                        strCode[i] = hdnCode.Value;
+                    }
+                    
                     ///Mark as completed in Sonic_U_Training_Associate_Training if all training is manually completed. 
                     if (Convert.ToInt16(rblIs_Complete.SelectedValue) == 0)
                     {

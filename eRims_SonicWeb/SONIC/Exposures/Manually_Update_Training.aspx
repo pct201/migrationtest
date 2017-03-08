@@ -4,6 +4,7 @@
     <script type="text/javascript" src="../../JavaScript/jquery-1.10.2.min.js"></script>
     <script language="javascript" type="text/javascript">
         var waivedIds = [];
+        var notwaivedIds = [];
         function openPopUp(pkID) {
             if (pkID == 0) {
                 if (Page_ClientValidate("vsErrorGroup")) {
@@ -53,22 +54,27 @@
                 if ($(this).prop('checked')) {
                     var selectedValue = $this.val();
                     if (selectedValue == "1") {
-
                         if ($.inArray(id, waivedIds) == -1) {
                             newIds.push(id);
                             count = count + 1;
                         }
-
-
+                    }
+                    if (selectedValue == "0") {
+                        if ($.inArray(id, notwaivedIds) == -1) {
+                            newIds.push(id);
+                            count = count + 1;
+                        }
                     }
                 }
 
             });
 
             if (count > 0) {
-                var response = confirm("Are you sure you want to waive the selected course for the selected associate; once it is waived, it will be removed from the training site. If the course is waived and later reinstated, the associate will need to restart the course.");
-                if (response == true)
+                var response = confirm("Any course/class that is manually marked as completed or uncompleted will not be overridden by the auto update feature of eRIMS2 for setting course/class completions. Any changes to manually updated statuses will need to be performed manually.");
+                if (response == true) {
+                    $("#<%= hdnChangeIDs.ClientID %>").val(newIds);
                     return true;
+                }
                 else {
                     newIds.forEach(function (item) {
                         $("#" + item).prop('checked', false);
@@ -94,6 +100,9 @@
                 var selectedValue = $this.val();
                 if (selectedValue == "1" && $(this).prop('checked')) {
                     waivedIds.push(id);
+                }
+                if (selectedValue == "0" && $(this).prop('checked')) {
+                    notwaivedIds.push(id);
                 }
             });
         });
@@ -305,6 +314,12 @@
                                         <asp:RadioButtonList ID="rblIs_Complete" runat="server" SkinID="YesNoTypeNullSelection"></asp:RadioButtonList>
                                     </ItemTemplate>
                                 </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Method" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
+                                    <ItemStyle Width="20%" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="Label1" runat="server" Text='<%# Eval("Pk_Manage_Training_Data") == DBNull.Value ? "Auto" : "Manual" %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Disposition" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
                                     <ItemStyle Width="20%" />
                                     <ItemTemplate>
@@ -333,6 +348,7 @@
                         &nbsp;&nbsp;&nbsp;
                         <asp:Button ID="btnCancel" runat="server" Text="Cancel" ValidationGroup="vsErrorGroup" OnClick="btnCancel_Click" />
                         <asp:Button ID="btnhdnReload" runat="server" OnClick="btnhdnReload_Click" Style="display: none;" />
+                        <asp:HiddenField ID="hdnChangeIDs" runat="server" Value="0" />
                     </td>
                 </tr>
                 <tr>
