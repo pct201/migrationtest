@@ -16688,13 +16688,13 @@ namespace ERIMS_Sonic_ReportScheduler
                         strConditionType = (strConditionType == "1") ? " Contains " : (strConditionType == "2" ? " Start With " : " End With ");
                         strConditionVal = lstFilter[i].ConditionValue;
                         lstAdhoc = obj.GetAdHocReportFieldByPk(Convert.ToDecimal(lstFilter[i].FK_AdHocReportFields));
-                        //sbRecord.Append("<tr><td colspan='3'><b>" + lstAdhoc[0].Field_Header + " : " + strConditionType + "</b>" + lstFilter[i].ConditionValue + "</td></tr>");
+                        sbRecord.Append("<tr><td colspan='3'><b>" + lstAdhoc[0].Field_Header + " : " + strConditionType + "</b>" + lstFilter[i].ConditionValue + "</td></tr>");
                     }
 
                     if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                     {
                         lstAdhoc = obj.GetAdHocReportFieldByPk(Convert.ToDecimal(lstFilter[i].FK_AdHocReportFields));
-                        //sbRecord.Append("<tr><td colspan='3'><b>" + lstAdhoc[0].Field_Header + " (In)</b>" + " : " + FillFilterDropDown(lstAdhoc[0].Field_Header, lstFilter[i].ConditionValue) + "</td></tr>");
+                        sbRecord.Append("<tr><td colspan='3'><b>" + lstAdhoc[0].Field_Header + " (In)</b>" + " : " + FillFilterDropDownForSafetyTraining(lstAdhoc[0].Field_Header, lstFilter[i].ConditionValue) + "</td></tr>");
                     }
 
                     if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.DateControl)
@@ -16729,7 +16729,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         else
                             strConditionVal = "<tr><td colspan='3'><b>" + lstAdhoc[0].Field_Header + " : </b>" + strConditionType + dtFrom + " And " + dtTo + "</td></tr>";
 
-                        //sbRecord.Append(strConditionVal);
+                        sbRecord.Append(strConditionVal);
                     }
                     if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.AmountControl)
                     {
@@ -16744,7 +16744,7 @@ namespace ERIMS_Sonic_ReportScheduler
                             strConditionVal = "<tr><td colspan='3'><b>" + lstAdhoc[0].Field_Header + " : " + strConditionType + "</b>" + Convert.ToString(lstFilter[i].AmountFrom) + "</td></tr>";
                         else
                             strConditionVal = "<tr><td colspan='3'><b>" + lstAdhoc[0].Field_Header + " : </b>" + strConditionType + Convert.ToString(lstFilter[i].AmountFrom) + " And " + Convert.ToString(lstFilter[i].AmountTo) + "</td></tr>";
-                        //sbRecord.Append(strConditionVal);
+                        sbRecord.Append(strConditionVal);
                     }
                     // sbRecord.Append("<br />");
                 }
@@ -18736,6 +18736,142 @@ namespace ERIMS_Sonic_ReportScheduler
                     }
 
                     strConValue = (!string.IsNullOrEmpty(strConValue)) ? strConValue.TrimEnd(',') : "";
+                }
+                return strRecord;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        /// <summary>
+        /// Fill Filter Value from Dropdown
+        /// </summary>
+        /// <param name="strField_Name"></param>
+        /// <param name="strConValue"></param>
+        /// <returns></returns>
+        public static string FillFilterDropDownForSafetyTraining(string strField_Name, string strConValue)
+        {
+            try
+            {
+
+                /*
+                 * This function used for Fill drop down For Adhoc Report.
+                 * As Filter come from database directly, We maintain one XML file for Field name and Table Name.
+                 * Some of the drop down are static in system. Like Yes, No ,N/A  values drop down
+                 * In XML file there are one field "Title" which map with "Header" of Adhoc Report Field.
+                 * Same way another property "TableName" which is Actual table name in database.
+                 * "Type" property is used for define static drop down type.
+                 * "HasCode" property define if table has both Description and Code fields
+                 * 
+                 * First of all Find "Title" in XML File. based on that Fill Drop Down 
+                 * If It is static values meand "Type" is not "DropDown" then Add Static Fields to Dropdown
+                 * 
+                 * */
+
+                DataSet dsXML = new System.Data.DataSet();
+                // Read XML Files
+
+                dsXML.ReadXml(AppDomain.CurrentDomain.BaseDirectory + "\\SafetyTrainingAdHocReportFields.xml");
+                string strTable = string.Empty, strType = string.Empty, strDesc = string.Empty, strRecord = string.Empty;
+                bool IsTableHasCode = true;
+
+                if (dsXML.Tables.Count > 0)
+                {
+                    DataRow[] drFilter = dsXML.Tables[0].Select("Title = '" + strField_Name + "'");
+
+                    if (drFilter.Length > 0)
+                    {
+                        strTable = Convert.ToString(drFilter[0]["TableName"]);
+                        strType = Convert.ToString(drFilter[0]["Type"]);
+                        strDesc = Convert.ToString(drFilter[0]["Field_Name"]);
+                        IsTableHasCode = (Convert.ToString(drFilter[0]["HasCode"]) == "Y");
+                    }
+                }
+                dsXML.Dispose();
+                dsXML = null;
+
+                if (string.Compare(strType, "DropDown", true) == 0)
+                {
+                    if (!string.IsNullOrEmpty(strConValue))
+                        strRecord = GetCommaValueFromTable(Report.LuTableSelectByIDs(strTable, strConValue, strDesc), strDesc);
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(strConValue))
+                    {
+                        string[] arrConditionValue = strConValue.Split(',');
+                        for (int intj = 0; intj < arrConditionValue.Length; intj++)
+                        {
+                            if (arrConditionValue[intj] == "1" || arrConditionValue[intj] == "Y")
+                            {
+                                if (strField_Name == "Work to Be Completed By")
+                                {
+                                    strRecord += "ACI,";
+                                }
+                                else if (strField_Name == "GM Decision" || strField_Name == "RLCM Decision" || strField_Name == "NAPM Decision" || strField_Name == "DRM Decision")
+                                {
+                                    strRecord += "Approve,";
+                                }
+                                else
+                                {
+                                    strRecord += "Yes,";
+                                }
+                            }
+                            else if (arrConditionValue[intj] == "0" || arrConditionValue[intj] == "N")
+                            {
+                                if (strField_Name == "Work to Be Completed By")
+                                {
+                                    strRecord += "Sonic,";
+                                }
+                                else if (strField_Name == "GM Decision" || strField_Name == "RLCM Decision" || strField_Name == "NAPM Decision" || strField_Name == "DRM Decision")
+                                {
+                                    strRecord += "Not Approve,";
+                                }
+                                else
+                                {
+                                    strRecord += "No,";
+                                }
+                            }
+                            else if (arrConditionValue[intj] == "C")
+                            {
+                                strRecord += "Close,";
+                            }
+                            else if (arrConditionValue[intj] == "O")
+                            {
+                                strRecord += "Open,";
+                            }
+                            else if (strField_Name == "Training Completed")
+                            {
+                                if (arrConditionValue[intj] == "'0'")
+                                {
+                                    strRecord += "Completed,";
+                                }
+                                else if (arrConditionValue[intj] == "'1'")
+                                {
+                                    strRecord += "Incomplete,";
+                                }
+                                else if (arrConditionValue[intj] == "'2'")
+                                {
+                                    strRecord += "Waived,";
+                                }
+                                
+                            }
+                            else if (arrConditionValue[intj] == "3")
+                            {
+                                if (string.Compare(strTable, "drpTest", true) == 0)
+                                    strRecord += "Time Expired-no test,";
+                                else if (string.Compare(strTable, "drpYesNo9999", true) == 0)
+                                    strRecord += "9999,";
+                                else if (string.Compare(strTable, "drpTest", true) == 0)
+                                    strRecord += "Time Expired-no test,";
+                            }
+                            else
+                                strRecord += strConValue;
+                        }
+                        strRecord = strRecord.TrimEnd(',');
+                    }
                 }
                 return strRecord;
             }

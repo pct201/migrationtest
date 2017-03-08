@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AdHocReportField>
+  <Field Title="Code" TableName="Sonic_U_Training_Required_Classes" Type="DropDown" HasCode="Y" Field_Name="Code"> ></Field>
+  <Field Title="Market" TableName="LU_Market" Type="DropDown" HasCode="N" Field_Name="Market"></Field>
+</AdHocReportField>

@@ -176,6 +176,7 @@
     <Content Include="App_Data\AdHocReportFields.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="App_Data\SafetyTrainingAdHocReportFields.xml" />
     <Content Include="bin\Debug\ERIMS_Sonic_ReportScheduler.vshost.exe" />
     <Content Include="bin\Debug\wnvhtmlconvert.dll" />
   </ItemGroup>
