@@ -48,7 +48,11 @@ namespace ERIMS_SonicUTraining_EmailScheduler
         public bool _PercentageRecapTest = false;
         public bool _EarlyAlertLocationManagersTest = false;
         public bool _RLCMLocationManagersTest = false;
-
+        public bool _AllowSafetyTrainingCompleted_NonCompleted = false;
+        public bool _AllowTrainingReminder = false;
+        public bool _AllowPayrollTraining = false;
+        public bool _AllowPercentageRecap = false;
+        public bool _AllowMailEveryQuarterToEmployees = false;
 
         public static string PDFLicenseKey
         {
@@ -153,6 +157,41 @@ namespace ERIMS_SonicUTraining_EmailScheduler
             }
         }
 
+        public static void WriteLog_Reports(string sMessage, string Path)
+        {
+            StreamWriter objSw = null;
+            string sFolderName = string.Empty;
+            string sFilePath = string.Empty;
+
+            sFolderName = Path + @"\General Logs\" + DateTime.Now.Year.ToString() + "\\" + DateTime.Now.Month.ToString() + "\\";
+            sFilePath = sFolderName + "Report_Email_" + DateTime.Now.Day.ToString() + ".log";
+
+
+            try
+            {
+                if (!Directory.Exists(sFolderName))
+                    Directory.CreateDirectory(sFolderName);
+
+                objSw = new StreamWriter(sFilePath, true);
+                objSw.WriteLine(DateTime.Now.ToString() + " :- " + sMessage + Environment.NewLine);
+
+            }
+            catch (Exception ex)
+            {
+                objSw = new StreamWriter(sFilePath, true);
+                objSw.WriteLine("Error While Writing the Log :-" + DateTime.Now.ToString() + " :- " + ex.Message + Environment.NewLine);
+            }
+            finally
+            {
+                if (objSw != null)
+                {
+                    objSw.Flush();
+                    objSw.Dispose();
+                    objSw = null;
+                }
+            }
+        }
+
         private void ReadConfigSetting()
         {
             try
@@ -173,6 +212,12 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                 _PercentageRecapTest = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("PercentageRecapTest"));
                 _EarlyAlertLocationManagersTest = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("EarlyAlertLocationManagersTest"));
                 _RLCMLocationManagersTest = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("RLCMLocationManagersTest"));
+
+                _AllowSafetyTrainingCompleted_NonCompleted = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("AllowSafetyTrainingCompleted_NonCompleted"));
+                _AllowTrainingReminder = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("AllowTrainingReminder"));
+                _AllowPayrollTraining = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("AllowPayrollTraining"));
+                _AllowPercentageRecap = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("AllowPercentageRecap"));
+                _AllowMailEveryQuarterToEmployees = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("AllowMailEveryQuarterToEmployees")); 
 
                 quarterDate = DateTime.Now;
                 quarterMonth = quarterDate.Month;
@@ -257,8 +302,8 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                             bool bSendMailWeekly = false;
                             bSendMailWeekly = CheckFirstDayOfWeek(false);
 
-                            
-                            if (bSendMailWeekly)
+
+                            if (bSendMailWeekly && _AllowTrainingReminder)
                             {
                                 //Send Weekly Mail To the Associate For Remaining Training
                                 SendMailForWeeklyReminderOfRemainingTrainingToEmployees();
@@ -267,9 +312,10 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                             if (DateTime.Now.DayOfWeek == DayOfWeek.Monday)
                             {
                                 //Send Payroll training and percent recap report out every Monday
-                                SendMailForPayrollTrainingReport();
-
-                                SendMailForPercentageRecap();
+                                if (_AllowPayrollTraining)
+                                    SendMailForPayrollTrainingReport();
+                                if (_AllowPercentageRecap)
+                                    SendMailForPercentageRecap();
                             }
 
                             //Send Mail for Testing if _isTesting True
@@ -295,7 +341,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                             //}
 
                             // Send mail for Payroll training report when testing flag is true and same for below methods
-                            if(_PayrollTrainingTest)
+                            if (_PayrollTrainingTest)
                             {
                                 SendMailForPayrollTrainingReport();
                             }
@@ -317,29 +363,34 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                             }
 
 
-                            if ((quarterDay == 1) && (quarterMonth == 1 || quarterMonth == 4 || quarterMonth == 7 || quarterMonth == 10))
+                            if ((quarterDay == 1) && (quarterMonth == 1 || quarterMonth == 4 || quarterMonth == 7 || quarterMonth == 10) && _AllowMailEveryQuarterToEmployees)
                             {
                                 //Send Email to the Employees having Training the the following Quarter
                                 SendMailEveryQuarterToEmployees();
                             }
 
-                            //For 1st and 2nd month of quarter send mail for first day of week
-                            if (quarterMonth % 3 != 0)
-                            {
-                                bool bSendMail = false;
-                                bSendMail = CheckFirstDayOfWeek(false);
 
-                                if (bSendMail)
+                            // Send Safety Training Completed/Non-Completed report only if flag is true in config file
+                            if (_AllowSafetyTrainingCompleted_NonCompleted)
+                            {
+                                //For 1st and 2nd month of quarter send mail for first day of week
+                                if (quarterMonth % 3 != 0)
+                                {
+                                    bool bSendMail = false;
+                                    bSendMail = CheckFirstDayOfWeek(false);
+
+                                    if (bSendMail)
+                                    {
+                                        SendMailToEarlyAlertLocationManagers();
+                                        SendMailToRLCMLocationManagers();
+                                    }
+                                }
+                                //For 3rd month of quarter send mail for each weekday
+                                else if (quarterDate.DayOfWeek != DayOfWeek.Saturday && quarterDate.DayOfWeek != DayOfWeek.Sunday)
                                 {
                                     SendMailToEarlyAlertLocationManagers();
                                     SendMailToRLCMLocationManagers();
                                 }
-                            }
-                            //For 3rd month of quarter send mail for each weekday
-                            else if (quarterDate.DayOfWeek != DayOfWeek.Saturday && quarterDate.DayOfWeek != DayOfWeek.Sunday)
-                            {
-                                SendMailToEarlyAlertLocationManagers();
-                                SendMailToRLCMLocationManagers();
                             }
                         }
                     }
@@ -450,16 +501,16 @@ namespace ERIMS_SonicUTraining_EmailScheduler
 
             DataTable distinctYearQuarter = new DataView(dtReportDataOld).ToTable(true, new string[] { "Year", "Quarter" });
 
-            foreach (DataRow drYearQuarter in distinctYearQuarter.Rows) 
+            foreach (DataRow drYearQuarter in distinctYearQuarter.Rows)
             {
                 DataTable dtReportData = new DataView(dtReportDataOld, "PK_LU_Location_ID ='" + drLocationID["PK_LU_Location_ID"].ToString() + "' AND Year ='" + drYearQuarter["Year"].ToString() + "' AND Quarter = '" + drYearQuarter["Quarter"].ToString() + "'", "", DataViewRowState.CurrentRows).ToTable();
                 if (dtReportData != null && dtReportData.Rows.Count > 0 && distinctYearQuarter != null && distinctYearQuarter.Rows.Count > 0)
                 {
-                   // DataTable dtReportData = new DataView(dtReportData, "PK_LU_Location_ID ='" + drLocationID["PK_LU_Location_ID"].ToString() + "' AND Year ='" + drYearQuarter["Year"].ToString() + "' AND Quarter = '" + drYearQuarter["Quarter"].ToString() + "'", "", DataViewRowState.CurrentRows).ToTable();
+                    // DataTable dtReportData = new DataView(dtReportData, "PK_LU_Location_ID ='" + drLocationID["PK_LU_Location_ID"].ToString() + "' AND Year ='" + drYearQuarter["Year"].ToString() + "' AND Quarter = '" + drYearQuarter["Quarter"].ToString() + "'", "", DataViewRowState.CurrentRows).ToTable();
                     if (dtReportData != null && dtReportData.Rows.Count > 0)
                     {
                         //Gets location detail
-                        
+
                         DataTable dtLocation = ReportSendMail.SelectByPK(Convert.ToDecimal(drLocationID["PK_LU_Location_ID"])).Tables[0];
 
                         //WriteLog("Location ID : " + drLocationID["PK_LU_Location_ID"] + " Report Data Rows Count : " + dtLocationWiseData.Length, _strCsvPath, false);
@@ -658,7 +709,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                 }
                 //sbRecorords.Append("</table></td></tr></table>");
 
-               
+
             }
             return sbRecorords;
         }
@@ -688,6 +739,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                 {
                     WriteLog("RLCM user Employee Id : " + drRLCM["FK_Employee_Id"], _strCsvPath, false);
                     sbRecorords.Clear();
+                    sbRecorordsCompleted.Clear();
                     if (dtReportData != null && dtReportData.Rows.Count > 0)
                     {
                         //Fetch Location for RLCM user
@@ -745,9 +797,9 @@ namespace ERIMS_SonicUTraining_EmailScheduler
         public StringBuilder GenerateReportRLCMLocationManagers(DataTable dtReportData, StringBuilder sbRecorords, DataRow drLocationID, bool blnCompleted, String strReportTitle)
         {
             DataTable distinctYearQuarter = new DataView(dtReportData).ToTable(true, new string[] { "Year", "Quarter" });
-            
 
-            if (dtReportData != null && dtReportData.Rows.Count > 0 && distinctYearQuarter!=null && distinctYearQuarter.Rows.Count > 0)
+
+            if (dtReportData != null && dtReportData.Rows.Count > 0 && distinctYearQuarter != null && distinctYearQuarter.Rows.Count > 0)
             {
 
                 foreach (DataRow drYearQuarter in distinctYearQuarter.Rows)
@@ -812,7 +864,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
 
                     DataTable dtLocationData = new DataView(dtReportData, "PK_LU_Location_ID ='" + drLocationID["PK_LU_Location_ID"].ToString() + "' AND Year ='" + drYearQuarter["Year"].ToString() + "' AND Quarter = '" + drYearQuarter["Quarter"].ToString() + "'", "", DataViewRowState.CurrentRows).ToTable();
 
-                   
+
                     if (dtLocationData.Rows.Count > 0 && dtLocationData != null)
                     {
                         #region Print data
@@ -922,7 +974,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                         strPrevDept = "#";
                         #endregion
                     }
-                    
+
                     else
                     {
                         WriteLog("No data exists for Location ID : " + drLocationID["PK_LU_Location_ID"], _strCsvPath, false);
@@ -953,7 +1005,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                 sbRecorords.Append("</table></td></tr><tr><td>&nbsp;</td></tr><tr><td>&nbsp;</td></tr></table>");
             }
 
-            
+
             return sbRecorords;
         }
 
@@ -1187,19 +1239,24 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                             mail.Body = Convert.ToString(drEmployee["Company_Name"]) + " Associate: <br/><br/> On " + date.ToString("d MMMM, yyyy") + " you were scheduled to take the following training courses: <br/> <ul style='list-style-type:circle'>" + strClassNameList
                                          + "</ul><br/>It appears that you have not yet completed the above course(s); please complete your training as soon as possible.<br/><br/>Please refer to the training brochure which includes a link to the training web site by clicking <a href=\"" + strURL + "\">here.</a>" +
                                          "<br/><br/>If you have any questions please contact your Regional Loss Control Manager.<br/><br/>Thank you!";
-
+                            bool mailSent = false;
                             try
                             {
                                 mail.To.Add(new MailAddress(Convert.ToString(drEmployee["EmailTo"])));
                                 mSmtpClient.Send(mail);
                                 mail.To.Clear();
                                 mail.Body = "";
+                                mailSent = true;
                             }
                             catch (Exception Ex)
                             {
                                 WriteLog("Exception occurred in SendMailForWeeklyReminderOfRemainingTrainingToEmployees while sending mail for Employee ID: " + Convert.ToDecimal(drEmployee["FK_Employee"]) + " Message : " + Ex.Message + ", Stack Trace: " + Ex.StackTrace, _strCsvPath, true);
                                 mail.To.Clear();
                                 mail.Body = "";
+                            }
+                            if (mailSent)
+                            {
+                                WriteLog_Reports("Mail Sent successfully." + Environment.NewLine + "Subject : Associate Training Reminder, Email : " + Convert.ToString(drEmployee["EmailTo"]), _strCsvPath);
                             }
                             strClassNameList = "";
                         }
@@ -1278,7 +1335,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
         /// <returns></returns>
         public StringBuilder GenerateReportForPayrollTraining(DataTable dtReportData, DataRow drLocationID, StringBuilder sbRecorords, String strReportTitle, DataTable dtReportDataLastWeek)
         {
-            if ((dtReportData != null && dtReportData.Rows.Count > 0) || (dtReportDataLastWeek != null && dtReportData.Rows.Count > 0 ))
+            if ((dtReportData != null && dtReportData.Rows.Count > 0) || (dtReportDataLastWeek != null && dtReportData.Rows.Count > 0))
             {
                 //Gets location detail
                 DataTable dtLocation = ReportSendMail.SelectByPK(Convert.ToDecimal(drLocationID["PK_LU_Location_ID"])).Tables[0];
@@ -1338,6 +1395,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
             sbRecorords.Append("</tr>");
 
             dvReportData = new DataView(dtReportData, "PK_LU_Location_ID ='" + drLocationID["PK_LU_Location_ID"].ToString() + "'", "PK_LU_Location_ID", DataViewRowState.CurrentRows);
+            //dvReportData = dtReportData.DefaultView;
 
             if (dvReportData.Count > 0)
             {
@@ -1813,9 +1871,9 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                 ArrayList arrOutputFiles = new ArrayList();
                 int i = 0;
 
-                
+
                 MailMessage mail = new MailMessage();
-                
+
 
                 try
                 {
@@ -1834,7 +1892,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                         }
                     }
 
-                    
+
 
                     mail.From = new MailAddress(_strSMTPmailFrom);
                     mail.Subject = "eRIMS ::" + strSubjet;
@@ -1858,7 +1916,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                             atts = new Attachment(memorystreamCompleted, strFileNameToSaveCompleted.Replace(".xls", ".xlsx"));
                             mail.Attachments.Add(atts);
                         }
-
+                        bool mailSent = false;
                         try
                         {
                             mail.Body = drRecipient["First_Name"].ToString() + " " + drRecipient["Last_Name"].ToString() + ",<br />Please find the " + strSubjet + " Attached with this mail.<br /><br /><br />Thank you!<br />";
@@ -1867,6 +1925,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                             mail.To.Add(new MailAddress(drRecipient["Email"].ToString()));
                             mSmtpClient.Send(mail);
                             mail.To.Clear();
+                            mailSent = true;
                         }
                         catch (Exception Ex)
                         {
@@ -1878,6 +1937,11 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                             memorystream.Dispose();
                             memorystreamCompleted.Dispose();
                         }
+                        if (mailSent)
+                        {
+                            WriteLog_Reports("Mail Sent successfully." + Environment.NewLine + "Subject : " + mail.Subject + Environment.NewLine + "Associate : " + drRecipient["First_Name"].ToString() + " " + drRecipient["Last_Name"].ToString() + Environment.NewLine + "Email : " + Convert.ToString(drRecipient["Email"]), _strCsvPath);
+                        }
+
                         mail.Attachments.Clear();
                         atts.Dispose();
                     }
@@ -1901,7 +1965,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                 }
                 finally
                 {
-                    
+
                 }
             }
             catch (Exception ex)
@@ -1979,7 +2043,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                     SmtpClient mSmtpClient = new SmtpClient();
                     mSmtpClient.Host = _strSMTPServer;
                     mSmtpClient.Credentials = new System.Net.NetworkCredential(_strSMTPmailFrom, _strSMTPPwd);
-
+                    bool mailSent = false;
                     try
                     {
                         mail.Body = drRecipients["NAME"].ToString() + ",<br />Please find the " + strSubject + " Attached with this mail.<br /><br /><br />Thank you!<br />";
@@ -1988,13 +2052,17 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                         mail.To.Add(new MailAddress(drRecipients["Email"].ToString()));
                         mSmtpClient.Send(mail);
                         mail.To.Clear();
+                        mailSent = true;
                     }
                     catch (Exception Ex)
                     {
                         EventLog.WriteEntry("Error in Sending Mail for " + strReportTitle + ", " + Ex.Message + ",Stack Trace:" + Ex.StackTrace);
                         WriteLog("Error in Sending Mail for " + strReportTitle + "Message: " + Ex.Message + " , Stack Trace:" + Ex.StackTrace + ",To Email : " + drRecipients["Email"].ToString(), _strCsvPath, true);
                     }
-
+                    if (mailSent)
+                    {
+                        WriteLog_Reports("Mail Sent successfully." + Environment.NewLine + "Subject : " + mail.Subject + Environment.NewLine + "Associate : " + drRecipients["NAME"].ToString() + Environment.NewLine + "Email : " + Convert.ToString(drRecipients["Email"]), _strCsvPath);
+                    }
                     atts.Dispose();
 
                     foreach (string arrPath in arrPaths)
