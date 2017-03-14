@@ -219,5 +219,23 @@ namespace ERIMS.DAL
             db.ExecuteScalar(dbCommand);
         }
 
+        public static void SCORM_handle_ChangedLocation_Users()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("SCORM_handle_ChangedLocation_Users");
+
+            dbCommand.CommandTimeout = 10000;
+            db.ExecuteScalar(dbCommand);
+        }
+
+        public static void SCORM_handle_LastNameChange_Users()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("SCORM_handle_LastNameChange_Users");
+
+            dbCommand.CommandTimeout = 10000;
+            db.ExecuteScalar(dbCommand);
+        }
+
     }
 }

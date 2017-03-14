@@ -24,7 +24,7 @@ public partial class Administrator_Employee : clsBasePage
     /// Denotes the Primary Key for Employee_Codes
     /// </summary>
     public string PK_Employee_Codes;
-    
+
 
     #endregion
 
@@ -80,7 +80,7 @@ public partial class Administrator_Employee : clsBasePage
     protected void btnAssociateSave_Click(object sender, EventArgs e)
     {
 
-       if (Employee.CheckEmployee_IDExists(PK_Employee_ID, txtEmployeeID.Text.Trim()))
+        if (Employee.CheckEmployee_IDExists(PK_Employee_ID, txtEmployeeID.Text.Trim()))
         {
             lblError.Text = "Employee ID is already Exists. Please enter another Employee ID.";
             lblError.Visible = true;
@@ -122,7 +122,7 @@ public partial class Administrator_Employee : clsBasePage
 
         //if (ddlBankNumber.SelectedIndex > 0)
         //    objEmployee.FK_Bank_Number = Convert.ToDecimal(ddlBankNumber.SelectedValue);
-                
+
         if (!string.IsNullOrEmpty(txtDrivers_License_Expires.Text.Trim()))
             objEmployee.Drivers_License_Expires = Convert.ToDateTime(txtDrivers_License_Expires.Text);
 
@@ -168,10 +168,18 @@ public partial class Administrator_Employee : clsBasePage
         objEmployee.Updated_By = clsSession.UserID;
         objEmployee.Update_Date = System.DateTime.Now;
 
+        Employee objOldEmployee = new Employee(PK_Employee_ID);
+        bool loginDetailchanged = false;
+        bool jobcodeChanged = false;
+        if (objOldEmployee.Social_Security_Number != objEmployee.Social_Security_Number || objOldEmployee.FK_Cost_Center != objEmployee.FK_Cost_Center || objOldEmployee.Last_Name != objEmployee.Last_Name)
+        {
+            loginDetailchanged = true;
+        }
+
         if (PK_Employee_ID > 0)
         {
             objEmployee.PK_Employee_ID = PK_Employee_ID;
-            objEmployee.Update();            
+            objEmployee.Update();
         }
         else
         {
@@ -179,31 +187,43 @@ public partial class Administrator_Employee : clsBasePage
         }
         //if (txtEmployeeID.Text.Length > 0) commented as per ticket 3698 comment 38348  point 4
         //{
-            Employee_Codes objEmployee_Codes = new Employee_Codes();
-            DataSet ds = Employee_Codes.SelectDataByEmployeeCodes(PK_Employee_ID);
-            if (ds.Tables[0].Rows.Count > 0)
-            {
-                objEmployee_Codes.Code = ddlJobCode.SelectedValue;
-                objEmployee_Codes.Employee_Id = txtEmployeeID.Text;
-                objEmployee_Codes.FK_Employee_Id = PK_Employee_ID;
-                objEmployee_Codes.Update();
-            }
-            else
-            {
-                objEmployee_Codes.Code = ddlJobCode.SelectedValue;
-                objEmployee_Codes.Employee_Id = txtEmployeeID.Text;
-                objEmployee_Codes.FK_Employee_Id = PK_Employee_ID;
-                objEmployee_Codes.Insert();
-            }
-            try
-            {
-                Sonic_U_Training.Import_Sonic_U_Training_Associate_Base();
-            }
-            catch (Exception)
-            {
+        Employee_Codes objEmployee_Codes = new Employee_Codes();
+        DataSet ds = Employee_Codes.SelectDataByEmployeeCodes(PK_Employee_ID);
+        if (ds.Tables[0].Rows.Count > 0)
+        {
+            objEmployee_Codes.Code = ddlJobCode.SelectedValue;
+            objEmployee_Codes.Employee_Id = txtEmployeeID.Text;
+            objEmployee_Codes.FK_Employee_Id = PK_Employee_ID;
+            objEmployee_Codes.Update();
+            if (objEmployee_Codes.Code != ddlJobCode.SelectedValue)
+                jobcodeChanged = true;
+        }
+        else
+        {
+            objEmployee_Codes.Code = ddlJobCode.SelectedValue;
+            objEmployee_Codes.Employee_Id = txtEmployeeID.Text;
+            objEmployee_Codes.FK_Employee_Id = PK_Employee_ID;
+            objEmployee_Codes.Insert();
+        }
+        try
+        {
+            Sonic_U_Training.Import_Sonic_U_Training_Associate_Base();
 
+            if (jobcodeChanged)
+            {
+                Sonic_U_Training.SCORM_handle_ChangedLocation_Users();
             }
-       // }
+
+            if (loginDetailchanged)
+            {
+                Sonic_U_Training.SCORM_handle_LastNameChange_Users();
+            }
+        }
+        catch (Exception)
+        {
+
+        }
+        // }
 
         clsSession.Str_Employee_Operation = "view";
         Response.Redirect("Employee.aspx?id=" + Encryption.Encrypt(PK_Employee_ID.ToString()));
@@ -230,7 +250,7 @@ public partial class Administrator_Employee : clsBasePage
     {
         ComboHelper.FillMaritalStatus(new DropDownList[] { ddlMaritalStatus }, 0, true);
         ComboHelper.FillState(new DropDownList[] { ddlState }, 0, true);
-        ComboHelper.FillCostCenter(new DropDownList[] { ddlCostCenter }, true);        
+        ComboHelper.FillCostCenter(new DropDownList[] { ddlCostCenter }, true);
         ComboHelper.FillJobCode(new DropDownList[] { ddlJobCode }, true);
 
 
@@ -298,11 +318,11 @@ public partial class Administrator_Employee : clsBasePage
         //if (objEmployee.FK_Bank_Number != null)
         //    lblBankNumber.Text = new Bank_Details(Convert.ToDecimal(objEmployee.FK_Bank_Number)).Fld_AccountNo;
 
-         DataSet ds = Employee_Codes.SelectDataByEmployeeCodes(PK_Employee_ID);
-        if (ds.Tables[0].Rows.Count>0)        
+        DataSet ds = Employee_Codes.SelectDataByEmployeeCodes(PK_Employee_ID);
+        if (ds.Tables[0].Rows.Count > 0)
         {
             PK_Employee_Codes = ds.Tables[0].Rows[0]["Code"].ToString();
-            Sonic_U_Training_Required_Classes objSonic_U_Training_Required_Classes=new Sonic_U_Training_Required_Classes();
+            Sonic_U_Training_Required_Classes objSonic_U_Training_Required_Classes = new Sonic_U_Training_Required_Classes();
             ds = objSonic_U_Training_Required_Classes.SelectByCode(PK_Employee_Codes);
             if (ds.Tables[0].Rows.Count > 0)
                 lblJobCode.Text = Convert.ToString(ds.Tables[0].Rows[0]["JobDescription"]);
@@ -333,9 +353,9 @@ public partial class Administrator_Employee : clsBasePage
 
         if (objEmployee.Wages_YTD != null)
             lblWages_YTD.Text = string.Format("{0:N0}", objEmployee.Wages_YTD);
-                
+
         if (objEmployee.FK_Cost_Center != null)
-            lblCostCenter.Text = objEmployee.FK_Cost_Center.ToString().PadLeft(4, '0'); 
+            lblCostCenter.Text = objEmployee.FK_Cost_Center.ToString().PadLeft(4, '0');
     }
 
     private void BindControlForEdit()
@@ -349,22 +369,22 @@ public partial class Administrator_Employee : clsBasePage
             txtEmployeeID.Text = Convert.ToString(objEmployee.Employee_Id.Trim());
         else
             txtEmployeeID.Text = Convert.ToString(objEmployee.Employee_Id);
-        
+
         if (objEmployee.First_Name != null)
             txtFirstName.Text = Convert.ToString(objEmployee.First_Name.Trim());
         else
             txtFirstName.Text = Convert.ToString(objEmployee.First_Name);
-       
+
         if (objEmployee.Last_Name != null)
             txtLastName.Text = Convert.ToString(objEmployee.Last_Name.Trim());
         else
             txtLastName.Text = Convert.ToString(objEmployee.Last_Name);
-      
+
         if (objEmployee.Middle_Name != null)
             txtMIddleName.Text = Convert.ToString(objEmployee.Middle_Name.Trim());
         else
             txtMIddleName.Text = Convert.ToString(objEmployee.Middle_Name);
-    
+
         rblGender.SelectedIndex = objEmployee.Sex == "F" ? 1 : 0;
 
         if (objEmployee.Employee_Address_1 != null)
@@ -488,7 +508,7 @@ public partial class Administrator_Employee : clsBasePage
 
         //Employee_Codes objEmployee_Codes = new Employee_Codes(objEmployee.Employee_Id);
         DataSet ds = Employee_Codes.SelectDataByEmployeeCodes(PK_Employee_ID);
-        if (ds.Tables[0].Rows.Count>0)
+        if (ds.Tables[0].Rows.Count > 0)
         {
             ddlJobCode.SelectedValue = ds.Tables[0].Rows[0]["Code"].ToString();
             PK_Employee_Codes = ds.Tables[0].Rows[0]["Code"].ToString();
@@ -513,7 +533,7 @@ public partial class Administrator_Employee : clsBasePage
             txtWages_YTD.Text = string.Format("{0:N0}", objEmployee.Wages_YTD);
 
         if (objEmployee.FK_Cost_Center != null)
-            ddlCostCenter.SelectedValue = objEmployee.FK_Cost_Center.ToString().PadLeft(4, '0');        
+            ddlCostCenter.SelectedValue = objEmployee.FK_Cost_Center.ToString().PadLeft(4, '0');
     }
 
     #endregion
