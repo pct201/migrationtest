@@ -189,14 +189,17 @@ public partial class Administrator_Employee : clsBasePage
         //{
         Employee_Codes objEmployee_Codes = new Employee_Codes();
         DataSet ds = Employee_Codes.SelectDataByEmployeeCodes(PK_Employee_ID);
+        if (objEmployee_Codes.Code != ddlJobCode.SelectedValue)
+            jobcodeChanged = true;
+
+        ds = Employee_Codes.SelectDataByEmployeeCodes(PK_Employee_ID);
         if (ds.Tables[0].Rows.Count > 0)
         {
             objEmployee_Codes.Code = ddlJobCode.SelectedValue;
             objEmployee_Codes.Employee_Id = txtEmployeeID.Text;
             objEmployee_Codes.FK_Employee_Id = PK_Employee_ID;
             objEmployee_Codes.Update();
-            if (objEmployee_Codes.Code != ddlJobCode.SelectedValue)
-                jobcodeChanged = true;
+           
         }
         else
         {
