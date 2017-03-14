@@ -26,7 +26,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
         public static DataSet GetEmployeeTrainingData()
         {
             SqlDatabase db = new SqlDatabase(strConn);
-            DbCommand dbCommand = db.GetStoredProcCommand("SendMailforTraining");
+            DbCommand dbCommand = db.GetStoredProcCommand("SendMailforTraining_ByDave");
           
             dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
@@ -39,7 +39,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
         public static DataSet GetEmployeeTrainingDataForReport()
         {
             SqlDatabase db = new SqlDatabase(strConn);
-            DbCommand dbCommand = db.GetStoredProcCommand("rptSonicUTrainingSheduler");
+            DbCommand dbCommand = db.GetStoredProcCommand("rptSonicUTrainingSheduler_ByDave");
 
             dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
@@ -52,7 +52,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
         public static DataSet GetEmployeeTrainingDataForPayRollTrainingReport()
         {
             SqlDatabase db = new SqlDatabase(strConn);
-            DbCommand dbCommand = db.GetStoredProcCommand("rptPayrollTrainingReport");
+            DbCommand dbCommand = db.GetStoredProcCommand("rptPayrollTrainingReport_ByDave");
 
             dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
@@ -150,7 +150,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
         public static DataSet GetEmployeeTrainingDataForPercentageRecap()
         {
             SqlDatabase db = new SqlDatabase(strConn);
-            DbCommand dbCommand = db.GetStoredProcCommand("rptPercentageRecap");
+            DbCommand dbCommand = db.GetStoredProcCommand("rptPercentageRecap_ByDave");
 
             dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
