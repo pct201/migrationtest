@@ -86,6 +86,13 @@ public partial class Administrator_Employee : clsBasePage
             lblError.Visible = true;
             return;
         }
+        
+        bool jobcodeChanged = false;
+        
+        DataSet ds = Employee_Codes.SelectDataByEmployeeCodes(PK_Employee_ID);
+
+        if (ds.Tables[0].Rows.Count > 0 && Convert.ToString(ds.Tables[0].Rows[0]["Code"]) != ddlJobCode.SelectedValue && PK_Employee_ID > 0)
+            jobcodeChanged = true;
 
         Employee objEmployee = new Employee();
 
@@ -170,17 +177,14 @@ public partial class Administrator_Employee : clsBasePage
 
         Employee objOldEmployee = new Employee(PK_Employee_ID);
         bool loginDetailchanged = false;
-        bool jobcodeChanged = false;
+        
         if (objOldEmployee.Social_Security_Number != objEmployee.Social_Security_Number || objOldEmployee.FK_Cost_Center != objEmployee.FK_Cost_Center || objOldEmployee.Last_Name != objEmployee.Last_Name)
         {
             loginDetailchanged = true;
         }
 
 
-        Employee_Codes objEmployee_Codes = new Employee_Codes();
-        DataSet ds = Employee_Codes.SelectDataByEmployeeCodes(PK_Employee_ID);
-        if (objEmployee_Codes.Code != ddlJobCode.SelectedValue)
-            jobcodeChanged = true;
+       
 
         if (PK_Employee_ID > 0)
         {
@@ -194,6 +198,7 @@ public partial class Administrator_Employee : clsBasePage
         //if (txtEmployeeID.Text.Length > 0) commented as per ticket 3698 comment 38348  point 4
         //{
 
+        Employee_Codes objEmployee_Codes = new Employee_Codes();
 
         ds = Employee_Codes.SelectDataByEmployeeCodes(PK_Employee_ID);
         if (ds.Tables[0].Rows.Count > 0)
@@ -213,12 +218,11 @@ public partial class Administrator_Employee : clsBasePage
         }
         try
         {
-            if (loginDetailchanged && !jobcodeChanged)
-                Sonic_U_Training.Import_Sonic_U_Training_Associate_Base();
-
             if (jobcodeChanged)
             {
+                Sonic_U_Training.Import_Sonic_U_Training_Associate_Base();
                 Sonic_U_Training.SCORM_handle_ChangedLocation_Users();
+
             }
 
             if (loginDetailchanged)
@@ -226,9 +230,9 @@ public partial class Administrator_Employee : clsBasePage
                 Sonic_U_Training.SCORM_handle_LastNameChange_Users();
             }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-
+            throw ex;
         }
         // }
 
