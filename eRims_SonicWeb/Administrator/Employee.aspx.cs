@@ -193,7 +193,7 @@ public partial class Administrator_Employee : clsBasePage
         }
         //if (txtEmployeeID.Text.Length > 0) commented as per ticket 3698 comment 38348  point 4
         //{
-       
+
 
         ds = Employee_Codes.SelectDataByEmployeeCodes(PK_Employee_ID);
         if (ds.Tables[0].Rows.Count > 0)
@@ -202,7 +202,7 @@ public partial class Administrator_Employee : clsBasePage
             objEmployee_Codes.Employee_Id = txtEmployeeID.Text;
             objEmployee_Codes.FK_Employee_Id = PK_Employee_ID;
             objEmployee_Codes.Update();
-           
+
         }
         else
         {
@@ -213,7 +213,8 @@ public partial class Administrator_Employee : clsBasePage
         }
         try
         {
-            Sonic_U_Training.Import_Sonic_U_Training_Associate_Base();
+            if (loginDetailchanged && !jobcodeChanged)
+                Sonic_U_Training.Import_Sonic_U_Training_Associate_Base();
 
             if (jobcodeChanged)
             {
