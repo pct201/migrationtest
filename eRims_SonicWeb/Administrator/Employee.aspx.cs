@@ -176,6 +176,12 @@ public partial class Administrator_Employee : clsBasePage
             loginDetailchanged = true;
         }
 
+
+        Employee_Codes objEmployee_Codes = new Employee_Codes();
+        DataSet ds = Employee_Codes.SelectDataByEmployeeCodes(PK_Employee_ID);
+        if (objEmployee_Codes.Code != ddlJobCode.SelectedValue)
+            jobcodeChanged = true;
+
         if (PK_Employee_ID > 0)
         {
             objEmployee.PK_Employee_ID = PK_Employee_ID;
@@ -187,10 +193,7 @@ public partial class Administrator_Employee : clsBasePage
         }
         //if (txtEmployeeID.Text.Length > 0) commented as per ticket 3698 comment 38348  point 4
         //{
-        Employee_Codes objEmployee_Codes = new Employee_Codes();
-        DataSet ds = Employee_Codes.SelectDataByEmployeeCodes(PK_Employee_ID);
-        if (objEmployee_Codes.Code != ddlJobCode.SelectedValue)
-            jobcodeChanged = true;
+       
 
         ds = Employee_Codes.SelectDataByEmployeeCodes(PK_Employee_ID);
         if (ds.Tables[0].Rows.Count > 0)
