@@ -302,7 +302,7 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
                 }
                 else
                 {
-                    lnkEdit.Enabled = true;
+                    //lnkEdit.Enabled = true;
                     lnkDelete.Enabled = true;
                 }
             }

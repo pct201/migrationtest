@@ -324,7 +324,7 @@
                                     <ItemStyle Width="20%" />
                                     <ItemTemplate>
                                         <asp:HiddenField ID="hdnPK_Sonic_U_Associate_Training_Manual" runat="server" Value='<%# Eval("PK_Sonic_U_Associate_Training_Manual")%>' />
-                                        <asp:LinkButton ID="lknEdit" runat="server" Text="Edit" CommandArgument='<%# Eval("PK_Sonic_U_Associate_Training_Manual")%>' CommandName="EditRecord"></asp:LinkButton>
+                                        <asp:LinkButton ID="lknEdit" runat="server" Text="Edit" CommandArgument='<%# Eval("PK_Sonic_U_Associate_Training_Manual")%>' CommandName="EditRecord" Visible="false"></asp:LinkButton>
                                         <asp:LinkButton runat="server" ID="lnkDelete" Text="Delete" CommandName="Remove" OnClientClick="javascript:return confirm('Do you want to REMOVE the selected Manually Input Training from eRIMS2?')" CommandArgument='<%# Eval("PK_Sonic_U_Associate_Training_Manual")%>'></asp:LinkButton>
                                     </ItemTemplate>
                                 </asp:TemplateField>
