@@ -97,7 +97,7 @@ public partial class UserAccessRequest_SafetyTraining_NewUserAccessRequest : Sys
         lblFirstName.Text = Convert.ToString(dtEmployeeData.Rows[0]["FirstName"]);
         lblLastName.Text = Convert.ToString(dtEmployeeData.Rows[0]["LastName"]);
         lblLocation.Text = Convert.ToString(dtEmployeeData.Rows[0]["Location"]);
-        lblSocialSecurityNumber.Text = Convert.ToString(dtEmployeeData.Rows[0]["SocialSecurityNumber"]);
+        lblSocialSecurityNumber.Text = Convert.ToString(dtEmployeeData.Rows[0]["SocialSecurityNumber"]).Replace("-","");
         lblDepartment.Text = Convert.ToString(dtEmployeeData.Rows[0]["Department"]);
         lblEmail.Text = Convert.ToString(dtEmployeeData.Rows[0]["EMail"]);
         lblJobTitle.Text = Convert.ToString(dtEmployeeData.Rows[0]["JobTitle"]);
@@ -145,7 +145,7 @@ public partial class UserAccessRequest_SafetyTraining_NewUserAccessRequest : Sys
         objEmployee.Last_Name = lblLastName.Text;
         objEmployee.Email = lblEmail.Text;
         objEmployee.Job_Title = lblJobTitle.Text;
-        objEmployee.Social_Security_Number = lblSocialSecurityNumber.Text;
+        objEmployee.Social_Security_Number = (lblSocialSecurityNumber.Text).Replace("-","");
 
         if (!string.IsNullOrEmpty(Convert.ToString(LU_Location.SelectFKCostCenterByLocation(Convert.ToDecimal(PK_LU_Location_ID)))))
         {
