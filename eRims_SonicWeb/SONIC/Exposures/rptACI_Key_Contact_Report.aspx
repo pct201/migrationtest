@@ -64,6 +64,7 @@
                                 <asp:ListItem Text="Regional Loss Control Manager" Value="'Regional Loss Control Manager'" />
                                 <asp:ListItem Text="Executive General Manager - EP" Value="'Executive General Manager - EP'" />
                                 <asp:ListItem Text="Div Fixed Ops Dir  - EP" Value="'Div Fixed Ops Dir  - EP'" />
+                                <asp:ListItem Text="Service Director" Value="'Service Director'" />
                             </asp:ListBox>
                         </td>
                     </tr>
