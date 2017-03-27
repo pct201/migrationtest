@@ -10,12 +10,39 @@ function CheckMaxLength(e, txt, max) {
 
 function FormatZipCode(e, ctrlID) {
 
-    if ((event.keyCode <= 47) || (event.keyCode > 58) || (event.keyCode == 58)) {
-        if (event.keyCode != 46) {
-            event.cancelBubble = true;
-            event.returnValue = false;
+    // Safari 3.0+ "[object HTMLElementConstructor]" 
+    var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || safari.pushNotification);
+
+    if (isSafari) {
+
+        if (!((event.keyCode > 47) && (event.keyCode < 58))) {
+            if (event.keyCode != 46) {
+                event.cancelBubble = true;
+                event.returnValue = false;
+                return false;
+            }
         }
     }
+    else  {
+
+        if (!((e.which == 8 ) || ((e.which >= 48) && (e.which <= 57)))){
+            if (e.which != 46) {
+                e.cancelBubble = true;
+                e.returnValue = false;
+                return false;
+            }
+        }
+    }
+    //else
+    //{
+    //    if (!(((e.keyCode >= 48) && (e.which <= 57)))) {
+    //        if (e.keyCode != 46) {
+    //            e.cancelBubble = true;
+    //            e.returnValue = false;
+    //            return false;
+    //        }
+    //    }
+    //}
 
     var ctrlValue = document.getElementById(ctrlID).value;
 
@@ -49,28 +76,46 @@ function AlertValidation(RequiredAttachTypeID, RequiredAttachFileID) {
 }
 
 function FormatPhone(e, ctrlID) {
-    if ((e.keyCode == 45) || ((e.keyCode >= 48) && (e.keyCode < 58))) {
-        var ctrlValue = document.getElementById(ctrlID).value;
-        if ((ctrlValue.length <= 3 || ctrlValue.length <= 7 || ctrlValue.length >= 7) && (e.keyCode == 45 || e.which == 45)) {
+
+    // Safari 3.0+ "[object HTMLElementConstructor]" 
+    var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || safari.pushNotification);
+
+    var ctrlValue = document.getElementById(ctrlID).value;
+
+    if (isSafari)
+    {
+        if (!((event.keyCode > 47) && (event.keyCode < 58))) {
+            event.cancelBubble = true;
+            event.returnValue = false;
             return false;
         }
-        else if (ctrlValue.length == 3 || ctrlValue.length == 7) {
-            if (e.which) {
-                if (e.which == 8) {
-                    return true;
-                }
-            }
-
-            ctrlValue = ctrlValue + "-";
-            document.getElementById(ctrlID).value = ctrlValue;
-            return true;
-        }
     }
-    else
+    else {
+
+        if (!((e.which == 8) || ((e.which >= 48) && (e.which <= 57)))) {
+                e.cancelBubble = true;
+                e.returnValue = false;
+                return false;
+           
+        }
+     }
+
+    if ((ctrlValue.length <= 3 || ctrlValue.length <= 7 || ctrlValue.length >= 7) && (e.keyCode == 45 || e.which == 45)) {
         return false;
+    }
+    else if (ctrlValue.length == 3 || ctrlValue.length == 7) {
+        if (e.which) {
+            if (e.which == 8) {
+                return true;
+            }
+        }
+        ctrlValue = ctrlValue + "-";
+        document.getElementById(ctrlID).value = ctrlValue;
+        return true;
+    }
 }
 
-function FormatLongitude(e, ctrlID) {    
+function FormatLongitude(e, ctrlID) {
     var bNegative = false;
     if ((e.keyCode == 45) || ((e.keyCode >= 48) && (e.keyCode < 58))) {
         var ctrlValue = document.getElementById(ctrlID).value;
@@ -1078,7 +1123,7 @@ function formatCurrency(num) {
     if (cents < 10)
         cents = "0" + cents;
 
-    for (var i = 0; i < Math.floor((num.length - (1 + i)) / 3); i++)
+    for (var i = 0; i < Math.floor((num.length - (1 + i)) / 3) ; i++)
         num = num.substring(0, num.length - (4 * i + 3)) + ',' +
 
     num.substring(num.length - (4 * i + 3));
