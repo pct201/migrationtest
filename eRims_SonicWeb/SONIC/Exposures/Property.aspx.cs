@@ -1227,7 +1227,7 @@ public partial class Exposures_Property : clsBasePage
                     objContact.Insert();
 
                 // redirect to PropertyView page to display all information in view mode
-                Response.Redirect("PropertyView.aspx?loc=" + Request.QueryString["loc"]);
+                Response.Redirect("PropertyView.aspx?loc=" + Request.QueryString["loc"] + "&building=" + Encryption.Encrypt(PK_Building_ID.ToString()));
             }
             else
             {

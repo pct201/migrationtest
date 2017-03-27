@@ -216,6 +216,17 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
                     ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(4);", true);
                 else if (Request.QueryString["contactPanel"] != null)
                     ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
+                else if (Request.QueryString["building"] != null)
+                {
+                    int decID;
+                    if (int.TryParse(Encryption.Decrypt(Request.QueryString["building"]), out decID)) PK_Building_ID = decID;
+                    {
+                        BindBuildingDetails();
+                        BindInuranceDetailForView(PK_Building_ID);
+                        BindOwnershipDetails();
+                    }
+                    ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
+                }
                 else
                     ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
 

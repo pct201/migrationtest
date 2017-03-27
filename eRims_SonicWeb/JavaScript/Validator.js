@@ -13,6 +13,8 @@ function FormatZipCode(e, ctrlID) {
     // Safari 3.0+ "[object HTMLElementConstructor]" 
     var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || safari.pushNotification);
 
+    var isFirefox = typeof InstallTrigger !== 'undefined';
+
     if (isSafari) {
 
         if (!((event.keyCode > 47) && (event.keyCode < 58))) {
@@ -23,9 +25,9 @@ function FormatZipCode(e, ctrlID) {
             }
         }
     }
-    else  {
+    else if (isFirefox) {
 
-        if (!((e.which == 8 ) || ((e.which >= 48) && (e.which <= 57)))){
+        if (!((e.which == 8) || ((e.which >= 48) && (e.which <= 57)))) {
             if (e.which != 46) {
                 e.cancelBubble = true;
                 e.returnValue = false;
@@ -33,16 +35,15 @@ function FormatZipCode(e, ctrlID) {
             }
         }
     }
-    //else
-    //{
-    //    if (!(((e.keyCode >= 48) && (e.which <= 57)))) {
-    //        if (e.keyCode != 46) {
-    //            e.cancelBubble = true;
-    //            e.returnValue = false;
-    //            return false;
-    //        }
-    //    }
-    //}
+    else {
+        if (!(((e.keyCode >= 48) && (e.keyCode <= 57)))) {
+            if (e.keyCode != 46) {
+                e.cancelBubble = true;
+                e.returnValue = false;
+                return false;
+            }
+        }
+    }
 
     var ctrlValue = document.getElementById(ctrlID).value;
 
@@ -79,26 +80,34 @@ function FormatPhone(e, ctrlID) {
 
     // Safari 3.0+ "[object HTMLElementConstructor]" 
     var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || safari.pushNotification);
+    var isFirefox = typeof InstallTrigger !== 'undefined';
+
 
     var ctrlValue = document.getElementById(ctrlID).value;
 
-    if (isSafari)
-    {
+    if (isSafari) {
         if (!((event.keyCode > 47) && (event.keyCode < 58))) {
             event.cancelBubble = true;
             event.returnValue = false;
             return false;
         }
     }
-    else {
+    else if (isFirefox) {
 
         if (!((e.which == 8) || ((e.which >= 48) && (e.which <= 57)))) {
+            e.cancelBubble = true;
+            e.returnValue = false;
+            return false;
+
+        }
+    }
+    else {
+        if (!(((e.keyCode >= 48) && (e.keyCode <= 57)))) {
                 e.cancelBubble = true;
                 e.returnValue = false;
                 return false;
-           
         }
-     }
+    }
 
     if ((ctrlValue.length <= 3 || ctrlValue.length <= 7 || ctrlValue.length >= 7) && (e.keyCode == 45 || e.which == 45)) {
         return false;
