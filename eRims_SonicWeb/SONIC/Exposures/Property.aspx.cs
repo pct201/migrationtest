@@ -1227,6 +1227,7 @@ public partial class Exposures_Property : clsBasePage
                     objContact.Insert();
 
                 // redirect to PropertyView page to display all information in view mode
+                //Page.ClientScript.RegisterStartupScript(this.GetType(), "Redirect", "window.location='PropertyView.aspx?loc=" + Request.QueryString["loc"] + "&building=" + Encryption.Encrypt(PK_Building_ID.ToString()) +"';", true);
                 Response.Redirect("PropertyView.aspx?loc=" + Request.QueryString["loc"] + "&building=" + Encryption.Encrypt(PK_Building_ID.ToString()));
             }
             else
@@ -1238,7 +1239,18 @@ public partial class Exposures_Property : clsBasePage
             }
         }
         else
-            Response.Redirect("PropertyView.aspx?loc=" + Request.QueryString["loc"]);
+        {
+            if(PK_Building_ID <= 0 )
+            {
+                // if building is not selected
+                ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:alert('Please Select/Enter Building Information First');", true);
+            }
+            else
+            {
+                string strURL = "PropertyView.aspx?loc=" + Request.QueryString["loc"] + "&building=" + Encryption.Encrypt(PK_Building_ID.ToString());
+                ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:ConfirmProceedBuilding('" + strURL + "');", true);
+              }
+        }
     }
 
     /// <summary>
