@@ -815,7 +815,7 @@ function DisableButton() {
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td align="right" valign="top">
+                                          <%--      <td align="right" valign="top">
                                                    <!--
                                                      <img id="imgBTSecurityWalk" runat="server" alt="" src="~/Images/SLT_Menu_Icon.JPG" height="12" />
                                                        -->
@@ -824,9 +824,10 @@ function DisableButton() {
                                                 <td align="left" valign="top">
                                                     <span id="Menu15" onclick="javascript:ShowPanel(15);" class="LeftMenuStatic">BT Security Walk</span>
                                                 </td>
-                                            </tr>
+                                            </tr>--%>
                                             <tr>
                                                 <td>&nbsp;
+                                                     <span id="Menu15" onclick="javascript:ShowPanel(15);" class="LeftMenuStatic"></span>
                                                 </td>
                                                 <td align="left" valign="top">
                                                     <span id="Menu6" onclick="javascript:ShowPanel(6);" class="LeftMenuStatic">Quarterly
