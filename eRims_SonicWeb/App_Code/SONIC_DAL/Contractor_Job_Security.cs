@@ -16,6 +16,7 @@ namespace ERIMS.DAL
 		private decimal? _PK_Contractor_Job_Security;
 		private decimal? _FK_Contractor_Security;
 		private decimal? _FK_Facility_Construction_Project;
+        private decimal? _FK_LU_Location_ID;
 		private string _Access;
         private string _Project_Number;
         private decimal? _LU_Location_ID;
@@ -55,6 +56,15 @@ namespace ERIMS.DAL
 			get { return _FK_Facility_Construction_Project; }
 			set { _FK_Facility_Construction_Project = value; }
 		}
+
+        /// <summary>
+        /// Gets or sets the FK_Facility_Construction_Project value.
+        /// </summary>
+        public decimal? FK_LU_Location_ID
+        {
+            get { return _FK_LU_Location_ID; }
+            set { _FK_LU_Location_ID = value; }
+        }
 
 		/// <summary>
 		/// Gets or sets the Access value.
@@ -253,8 +263,16 @@ namespace ERIMS.DAL
 
 			
 			db.AddInParameter(dbCommand, "FK_Contractor_Security", DbType.Decimal, this._FK_Contractor_Security);
-			
-			db.AddInParameter(dbCommand, "FK_Facility_Construction_Project", DbType.Decimal, this._FK_Facility_Construction_Project);
+
+            if (this._FK_Facility_Construction_Project==null)
+                db.AddInParameter(dbCommand, "FK_Facility_Construction_Project", DbType.Decimal, DBNull.Value);
+            else
+			    db.AddInParameter(dbCommand, "FK_Facility_Construction_Project", DbType.Decimal, this._FK_Facility_Construction_Project);
+
+            if (this._FK_LU_Location_ID == null)
+                db.AddInParameter(dbCommand, "FK_LU_Location_ID", DbType.Decimal, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "FK_LU_Location_ID", DbType.Decimal, this._FK_LU_Location_ID);
 			
 			if (string.IsNullOrEmpty(this._Access))
 				db.AddInParameter(dbCommand, "Access", DbType.String, DBNull.Value);
@@ -325,6 +343,20 @@ namespace ERIMS.DAL
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("Facility_Construction_ProjectSelectNotAccess");
+
+            db.AddInParameter(dbCommand, "PK_Contractor_Security", DbType.Decimal, PK_Contractor_Security);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        /// <summary>
+        /// Selects list of project which not access to user from Facility_construction_Project table.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static DataSet SelectByLocationNotAccess(decimal PK_Contractor_Security)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("LU_LocationSelectNotAccess");
 
             db.AddInParameter(dbCommand, "PK_Contractor_Security", DbType.Decimal, PK_Contractor_Security);
 

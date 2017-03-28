@@ -59,6 +59,7 @@ public partial class Administrator_Contractor_Job_Security : clsBasePage
             //ComboHelper.FillProjectNumberFromLocation(new DropDownList[] { ddlProjectNumber }, Convert.ToInt32(ddlLocation.SelectedValue), true);
             //Bind Region Dropdown
             FillProjectsListBox(new ListBox[] { lstProjects }, false);
+            FillLocationListBox(new ListBox[] { lstLocations }, false);
 
             //fill project number from location 
 
@@ -145,33 +146,65 @@ public partial class Administrator_Contractor_Job_Security : clsBasePage
 
         Contractor_Job_Security objContractor_Job_Security = new Contractor_Job_Security(PK_Contractor_Job_Security);
         decimal _retval;
-
-        if (lstProjects.GetSelectedIndices().Length > 0)
+        //if (rdoProject_Location.SelectedValue=="Projects")
+        if (rdoProject.Checked)
         {
-
-            foreach (ListItem objLstProjects in lstProjects.Items)
+            if (lstProjects.GetSelectedIndices().Length > 0)
             {
-                if (objLstProjects.Selected == true)
+                foreach (ListItem objLstProjects in lstProjects.Items)
                 {
-                    //adding Region Value to database
-                    objContractor_Job_Security.PK_Contractor_Job_Security = PK_Contractor_Job_Security;
-                    objContractor_Job_Security.FK_Contractor_Security = FK_Contractor_Security;
-                    //objContractor_Job_Security.FK_Facility_Construction_Project = Convert.ToInt32(ddlProjectNumber.SelectedValue);
-                    objContractor_Job_Security.FK_Facility_Construction_Project = Convert.ToDecimal(objLstProjects.Value.ToString());
-                    objContractor_Job_Security.Access = rdoAccess.SelectedValue;
-                    objContractor_Job_Security.Updated_By = clsSession.UserID;
-                    objContractor_Job_Security.Update_Date = DateTime.Now;
-                    if (PK_Contractor_Job_Security > 0)
+                    if (objLstProjects.Selected == true)
                     {
-                        _retval = objContractor_Job_Security.Update();
-                    }
-                    else
-                    {
-                        _retval = objContractor_Job_Security.Insert();
-                        // PK_Contractor_Job_Security = _retval;
+                        //adding Region Value to database
+                        objContractor_Job_Security.PK_Contractor_Job_Security = PK_Contractor_Job_Security;
+                        objContractor_Job_Security.FK_Contractor_Security = FK_Contractor_Security;
+                        //objContractor_Job_Security.FK_Facility_Construction_Project = Convert.ToInt32(ddlProjectNumber.SelectedValue);
+                        objContractor_Job_Security.FK_Facility_Construction_Project = Convert.ToDecimal(objLstProjects.Value.ToString());
+                        objContractor_Job_Security.Access = rdoProjectAccess.SelectedValue;
+                        objContractor_Job_Security.Updated_By = clsSession.UserID;
+                        objContractor_Job_Security.Update_Date = DateTime.Now;
+                        if (PK_Contractor_Job_Security > 0)
+                        {
+                            _retval = objContractor_Job_Security.Update();
+                        }
+                        else
+                        {
+                            _retval = objContractor_Job_Security.Insert();
+                            // PK_Contractor_Job_Security = _retval;
+                        }
                     }
                 }
             }
+        }
+        else
+        {
+            if (lstLocations.GetSelectedIndices().Length>0)
+            {
+                foreach (ListItem objLstLocations in lstLocations.Items)
+                {
+                    if (objLstLocations.Selected == true)
+                    {
+                        //adding Region Value to database
+                        objContractor_Job_Security.PK_Contractor_Job_Security = PK_Contractor_Job_Security;
+                        objContractor_Job_Security.FK_Contractor_Security = FK_Contractor_Security;
+                        //objContractor_Job_Security.FK_Facility_Construction_Project = Convert.ToInt32(ddlProjectNumber.SelectedValue);
+                        objContractor_Job_Security.FK_LU_Location_ID = Convert.ToDecimal(objLstLocations.Value.ToString());
+                        objContractor_Job_Security.Access = rdoLocationAccess.SelectedValue;
+                        objContractor_Job_Security.Updated_By = clsSession.UserID;
+                        objContractor_Job_Security.Update_Date = DateTime.Now;
+                        if (PK_Contractor_Job_Security > 0)
+                        {
+                            _retval = objContractor_Job_Security.Update();
+                        }
+                        else
+                        {
+                            _retval = objContractor_Job_Security.Insert();
+                            // PK_Contractor_Job_Security = _retval;
+                        }
+                    }
+                }
+            }
+        }
             if (PK_Contractor_Job_Security > 0)
             {
                 //_retval = objContractor_Job_Security.Update();
@@ -204,8 +237,7 @@ public partial class Administrator_Contractor_Job_Security : clsBasePage
 
                 //}
             }
-        }
-    }
+        }   
 
     //  /// <summary>
     //  /// Handles Location Selected Change Event 
@@ -254,10 +286,10 @@ public partial class Administrator_Contractor_Job_Security : clsBasePage
         //ddlProjectNumber.SelectedValue = Convert.ToString(objContractor_Job_Security.FK_Facility_Construction_Project);
         //txtProject_Start_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objContractor_Job_Security.Estimated_Start_Date);
         //CtrlMultiLineLabelProject_Description.Text = objContractor_Job_Security.Project_Description;
-        if (objContractor_Job_Security.Access == "Read Only")
-            rdoAccess.SelectedValue = "R";
-        else if (objContractor_Job_Security.Access == "Read/Write")
-            rdoAccess.SelectedValue = "RW";
+        //if (objContractor_Job_Security.Access == "Read Only")
+        //    rdoAccess.SelectedValue = "R";
+        //else if (objContractor_Job_Security.Access == "Read/Write")
+        //    rdoAccess.SelectedValue = "RW";
 
     }
     /// <summary>
@@ -289,11 +321,11 @@ public partial class Administrator_Contractor_Job_Security : clsBasePage
         }
         lblProject_Number.Text = ProjectsName.ToString().TrimEnd(Convert.ToChar(","));
 
-        if (objContractor_Job_Security.Access == "Read Only")
-            lblAccess.Text = "Read Only";
-        else if (objContractor_Job_Security.Access == "Read/Write")
-            lblAccess.Text = "Read/Write";
-        else { lblAccess.Text = ""; }
+        //if (objContractor_Job_Security.Access == "Read Only")
+        //    lblAccess.Text = "Read Only";
+        //else if (objContractor_Job_Security.Access == "Read/Write")
+        //    lblAccess.Text = "Read/Write";
+        //else { lblAccess.Text = ""; }
     }
 
     /// <summary>
@@ -307,6 +339,21 @@ public partial class Administrator_Contractor_Job_Security : clsBasePage
             lstToFill.Items.Clear();
             lstToFill.DataTextField = "Project_Number";
             lstToFill.DataValueField = "PK_Facility_construction_Project";
+            lstToFill.DataSource = dsData;
+            lstToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            //lstToFill.Items.Insert(0, new ListItem("-- Select --", "0"));
+        }
+    }
+
+    public void FillLocationListBox(ListBox[] LstBox, bool booladdSelectAsFirstElement)
+    {
+        DataSet dsData = ERIMS.DAL.Contractor_Job_Security.SelectByLocationNotAccess(FK_Contractor_Security);
+        foreach (ListBox lstToFill in LstBox)
+        {
+            lstToFill.Items.Clear();
+            lstToFill.DataTextField = "dba";
+            lstToFill.DataValueField = "PK_LU_Location_ID";
             lstToFill.DataSource = dsData;
             lstToFill.DataBind();
             //check require to add "-- select --" at first item of dropdown.

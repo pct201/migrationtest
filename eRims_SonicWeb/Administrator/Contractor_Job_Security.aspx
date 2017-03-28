@@ -1,9 +1,9 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Default.master" AutoEventWireup="true"
+﻿ <%@ Page Title="" Language="C#" MasterPageFile="~/Default.master" AutoEventWireup="true"
     CodeFile="Contractor_Job_Security.aspx.cs" Inherits="Administrator_Contractor_Job_Security" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 <%@ Register Src="~/Controls/NotesWithSpellCheck/Notes.ascx" TagName="ctrlMultiLineTextBox" TagPrefix="uc" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">      
     <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
         HeaderText="Verify the following fields:" BorderWidth="1" BorderColor="DimGray"
         ValidationGroup="vsErrorGroup" CssClass="errormessage"></asp:ValidationSummary>
@@ -12,8 +12,52 @@
     <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/Calendar_new.js"></script>
     <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/calendar-en.js"></script>
     <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/Calendar.js"></script>
-    <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/Validator.js"></script>
+    <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/Validator.js"></script>    
     <script type="text/javascript">
+        $(function () {
+            document.getElementById("ctl00_ContentPlaceHolder1_rdoLocationAccess").disabled = true;
+            document.getElementById("ctl00_ContentPlaceHolder1_lstLocations").disabled = true;
+            document.getElementById("ctl00_ContentPlaceHolder1_rfvLocations").style.visibility = "hidden";
+            document.getElementById("ctl00_ContentPlaceHolder1_rfvLocations").enabled = false;
+            document.getElementById("ctl00_ContentPlaceHolder1_revLocationAccess").style.visibility = "hidden";
+            document.getElementById("ctl00_ContentPlaceHolder1_revLocationAccess").enabled = false;
+        });
+        function EnableDisableContent()
+        {          
+            //if($("#ctl00_ContentPlaceHolder1_rdoProject_Location input:checked").val()=="Projects")
+            if (document.getElementById("ctl00_ContentPlaceHolder1_rdoProject").checked)
+            {
+                document.getElementById("ctl00_ContentPlaceHolder1_rdoProjectAccess").disabled = false;
+                document.getElementById("ctl00_ContentPlaceHolder1_lstProjects").disabled = false;
+                document.getElementById("ctl00_ContentPlaceHolder1_rfvProjects").style.visibility = "visible";
+                document.getElementById("ctl00_ContentPlaceHolder1_rfvProjects").enabled = true;
+                document.getElementById("ctl00_ContentPlaceHolder1_revProjectAccess").style.visibility = "visible";
+                document.getElementById("ctl00_ContentPlaceHolder1_revProjectAccess").enabled = true;
+
+                document.getElementById("ctl00_ContentPlaceHolder1_rdoLocationAccess").disabled = true;
+                document.getElementById("ctl00_ContentPlaceHolder1_lstLocations").disabled = true;                
+                document.getElementById("ctl00_ContentPlaceHolder1_rfvLocations").style.visibility = "hidden";
+                document.getElementById("ctl00_ContentPlaceHolder1_rfvLocations").enabled = false;
+                document.getElementById("ctl00_ContentPlaceHolder1_revLocationAccess").style.visibility = "hidden";
+                document.getElementById("ctl00_ContentPlaceHolder1_revLocationAccess").enabled = false;
+            }
+            else
+            {                
+                document.getElementById("ctl00_ContentPlaceHolder1_rdoLocationAccess").disabled = false;
+                document.getElementById("ctl00_ContentPlaceHolder1_lstLocations").disabled = false;
+                document.getElementById("ctl00_ContentPlaceHolder1_rfvLocations").style.visibility = "visible";
+                document.getElementById("ctl00_ContentPlaceHolder1_rfvLocations").enabled = true;
+                document.getElementById("ctl00_ContentPlaceHolder1_revLocationAccess").style.visibility = "visible";
+                document.getElementById("ctl00_ContentPlaceHolder1_revLocationAccess").enabled = true;
+
+                document.getElementById("ctl00_ContentPlaceHolder1_rdoProjectAccess").disabled = true;
+                document.getElementById("ctl00_ContentPlaceHolder1_lstProjects").disabled = true;
+                document.getElementById("ctl00_ContentPlaceHolder1_rfvProjects").style.visibility = "hidden";
+                document.getElementById("ctl00_ContentPlaceHolder1_rfvProjects").enabled = false;
+                document.getElementById("ctl00_ContentPlaceHolder1_revProjectAccess").style.visibility = "hidden";
+                document.getElementById("ctl00_ContentPlaceHolder1_revProjectAccess").enabled = false;
+            }
+        }
         function OpenAuditPopUp() {
             var winHeight = window.screen.availHeight - 400;
             var winWidth = window.screen.availWidth - 900;
@@ -75,14 +119,31 @@
                                                     Location/Project Access Grid Screen</div>--%>
                                             <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                 <tr>
-                                                    <td align="left" colspan="2" style="width:100px;" valign="top">Projects&nbsp;<span id="Span1" style="color: Red;" runat="server">*</span>
-                                                    </td>
+                                                    <td align="left" valign="top" colspan="3">
+                                                        <asp:RadioButton ID="rdoProject" runat="server" Text="Projects" GroupName="Project_Location" onclick="EnableDisableContent();" Checked="true"/>
+
+                                                     </td>
+                                                    <td align="left" valign="top" colspan="2">
+                                                        <asp:RadioButton ID="rdoLocation" runat="server" Text="Sonic Location Code" GroupName="Project_Location" onclick="EnableDisableContent();" />
+                                                        <%--Projects&nbsp;<span id="Span1" style="color: Red;" runat="server">*</span>--%>
+                                                        <%--<asp:RadioButtonList ID="rdoProject_Location" runat="server" RepeatDirection="horizontal" CssClass="spaced" >
+                                                                    <asp:ListItem Text="Projects" Value="Projects" Selected="True"></asp:ListItem>
+                                                                    <asp:ListItem Text="Sonic Location Code" Value="Location"></asp:ListItem>
+                                                        </asp:RadioButtonList>--%>
+                                                    </td>                                                             
+                                                    </tr>                                                 
+                                                <tr>                                                    
                                                     <td align="center" valign="top">:
-                                                    </td>
-                                                    <td align="left" colspan="3" valign="top">
+                                                    </td>                                                                                          
+                                                    <td align="left" colspan="2" valign="top">
                                                         <asp:ListBox runat="server" ID="lstProjects" Width="300px" Height="150px" SelectionMode="Multiple"></asp:ListBox>
                                                         <asp:RequiredFieldValidator runat="server" ID="rfvProjects" ControlToValidate="lstProjects"
                                                             ValidationGroup="vsErrorGroup" Display="none" ErrorMessage="Please select at least one Projects."></asp:RequiredFieldValidator>
+                                                    </td>
+                                                    <td align="left" colspan="2" valign="top">
+                                                        <asp:ListBox runat="server" ID="lstLocations" Width="300px" Height="150px" SelectionMode="Multiple"></asp:ListBox>
+                                                        <asp:RequiredFieldValidator runat="server" ID="rfvLocations" ControlToValidate="lstLocations"
+                                                            ValidationGroup="vsErrorGroup" Display="none" ErrorMessage="Please select at least one Locations."></asp:RequiredFieldValidator>
                                                     </td>
                                                     <%--<td align="left" valign="top">&nbsp;
                                                     </td>
@@ -92,19 +153,29 @@
                                                     </td>--%>
                                                 </tr>
                                                 <tr>
-                                                    <td align="left" colspan="2" valign="top">Access&nbsp;<span id="Span5" style="color: Red; " runat="server">*</span>
+                                                    <td align="left" colspan="1" valign="top">Access&nbsp;<span id="Span5" style="color: Red; " runat="server">*</span> :
                                                     </td>
-                                                    <td align="center" valign="top">:
-                                                    </td>
-                                                    <td align="left" colspan="3" valign="top">
-                                                        <asp:RadioButtonList ID="rdoAccess" runat="server">
+                                                    <%--<td align="center" valign="top">:
+                                                    </td>--%>
+                                                    <td align="left" colspan="2" valign="top">
+                                                        <asp:RadioButtonList ID="rdoProjectAccess" runat="server">
                                                             <asp:ListItem Text="Read Only" Value="R"></asp:ListItem>
                                                             <asp:ListItem Text="Read/Write" Value="RW"></asp:ListItem>
                                                         </asp:RadioButtonList>
-                                                        <asp:RequiredFieldValidator ID="revAccess" runat="server" ValidationGroup="vsErrorGroup"
-                                                            ErrorMessage="Please check Access?" Text="*" Display="None"
-                                                            ControlToValidate="rdoAccess"></asp:RequiredFieldValidator>
+                                                        <asp:RequiredFieldValidator ID="revProjectAccess" runat="server" ValidationGroup="vsErrorGroup"
+                                                            ErrorMessage="Please check Project Access?" Text="*" Display="None"
+                                                            ControlToValidate="rdoProjectAccess"></asp:RequiredFieldValidator>
                                                     </td>
+                                                     <td align="left" colspan="2" valign="top">
+                                                        <asp:RadioButtonList ID="rdoLocationAccess" runat="server">
+                                                            <asp:ListItem Text="Read Only" Value="R"></asp:ListItem>
+                                                            <asp:ListItem Text="Read/Write" Value="RW"></asp:ListItem>
+                                                        </asp:RadioButtonList>
+                                                        <asp:RequiredFieldValidator ID="revLocationAccess" runat="server" ValidationGroup="vsErrorGroup"
+                                                            ErrorMessage="Please check Location Access?" Text="*" Display="None"
+                                                            ControlToValidate="rdoLocationAccess"></asp:RequiredFieldValidator>
+                                                    </td>
+                                                    
                                                     <%--<td align="left" valign="top">&nbsp;
                                                     </td>
                                                     <td align="center" valign="top">&nbsp;
