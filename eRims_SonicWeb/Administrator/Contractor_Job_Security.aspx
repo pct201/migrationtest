@@ -13,9 +13,15 @@
     <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/calendar-en.js"></script>
     <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/Calendar.js"></script>
     <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/Validator.js"></script>    
+    <script type="text/javascript" language="javascript" src="../JavaScript/jquery-1.5.min.js"></script>
     <script type="text/javascript">
         $(function () {
-            document.getElementById("ctl00_ContentPlaceHolder1_rdoLocationAccess").disabled = true;
+            var rdoLstLocationAccess = document.getElementById("ctl00_ContentPlaceHolder1_rdoLocationAccess");
+            var rdoLstProjectAccess = document.getElementById("ctl00_ContentPlaceHolder1_rdoProjectAccess");
+            var rdos = rdoLstLocationAccess.getElementsByTagName("input");
+            for (var i = 0; i < rdos.length; i++) {
+                rdos[i].disabled = true;
+            }                        
             document.getElementById("ctl00_ContentPlaceHolder1_lstLocations").disabled = true;
             document.getElementById("ctl00_ContentPlaceHolder1_rfvLocations").style.visibility = "hidden";
             document.getElementById("ctl00_ContentPlaceHolder1_rfvLocations").enabled = false;
@@ -27,6 +33,12 @@
             //if($("#ctl00_ContentPlaceHolder1_rdoProject_Location input:checked").val()=="Projects")
             if (document.getElementById("ctl00_ContentPlaceHolder1_rdoProject").checked)
             {
+                var rdoLstLocationAccess = document.getElementById("ctl00_ContentPlaceHolder1_rdoLocationAccess");
+                var rdoLstProjectAccess = document.getElementById("ctl00_ContentPlaceHolder1_rdoProjectAccess");
+                var rdos = rdoLstProjectAccess.getElementsByTagName("input");
+                for (var i = 0; i < rdos.length; i++) {
+                    rdos[i].disabled = false;
+                }
                 document.getElementById("ctl00_ContentPlaceHolder1_rdoProjectAccess").disabled = false;
                 document.getElementById("ctl00_ContentPlaceHolder1_lstProjects").disabled = false;
                 document.getElementById("ctl00_ContentPlaceHolder1_rfvProjects").style.visibility = "visible";
@@ -34,7 +46,10 @@
                 document.getElementById("ctl00_ContentPlaceHolder1_revProjectAccess").style.visibility = "visible";
                 document.getElementById("ctl00_ContentPlaceHolder1_revProjectAccess").enabled = true;
 
-                document.getElementById("ctl00_ContentPlaceHolder1_rdoLocationAccess").disabled = true;
+                rdos = rdoLstLocationAccess.getElementsByTagName("input");
+                for (var i = 0; i < rdos.length; i++) {
+                    rdos[i].disabled = true;
+                }                
                 document.getElementById("ctl00_ContentPlaceHolder1_lstLocations").disabled = true;                
                 document.getElementById("ctl00_ContentPlaceHolder1_rfvLocations").style.visibility = "hidden";
                 document.getElementById("ctl00_ContentPlaceHolder1_rfvLocations").enabled = false;
@@ -42,15 +57,23 @@
                 document.getElementById("ctl00_ContentPlaceHolder1_revLocationAccess").enabled = false;
             }
             else
-            {                
-                document.getElementById("ctl00_ContentPlaceHolder1_rdoLocationAccess").disabled = false;
+            {
+                var rdoLstLocationAccess = document.getElementById("ctl00_ContentPlaceHolder1_rdoLocationAccess");
+                var rdoLstProjectAccess = document.getElementById("ctl00_ContentPlaceHolder1_rdoProjectAccess");
+                var rdos = rdoLstLocationAccess.getElementsByTagName("input");
+                for (var i = 0; i < rdos.length; i++) {
+                    rdos[i].disabled = false;
+                }                
                 document.getElementById("ctl00_ContentPlaceHolder1_lstLocations").disabled = false;
                 document.getElementById("ctl00_ContentPlaceHolder1_rfvLocations").style.visibility = "visible";
                 document.getElementById("ctl00_ContentPlaceHolder1_rfvLocations").enabled = true;
                 document.getElementById("ctl00_ContentPlaceHolder1_revLocationAccess").style.visibility = "visible";
                 document.getElementById("ctl00_ContentPlaceHolder1_revLocationAccess").enabled = true;
 
-                document.getElementById("ctl00_ContentPlaceHolder1_rdoProjectAccess").disabled = true;
+                rdos = rdoLstProjectAccess.getElementsByTagName("input");
+                for (var i = 0; i < rdos.length; i++) {
+                    rdos[i].disabled = true;
+                }                
                 document.getElementById("ctl00_ContentPlaceHolder1_lstProjects").disabled = true;
                 document.getElementById("ctl00_ContentPlaceHolder1_rfvProjects").style.visibility = "hidden";
                 document.getElementById("ctl00_ContentPlaceHolder1_rfvProjects").enabled = false;

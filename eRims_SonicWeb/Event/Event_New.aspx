@@ -494,7 +494,7 @@
                     document.getElementById("<%=trACIReportedEvent.ClientID%>").style.display = "none";
                     document.getElementById("<%=trSonicReportedEvent.ClientID%>").style.display = "";
                     var objvalidator = document.getElementById("<%=csvrptEventType.ClientID%>");
-                    objvalidator.enabled = false;
+                    objvalidator.enabled = false;                    
                     var objvalidator = document.getElementById("<%=csvrptEventTypeSonic.ClientID%>");
                     objvalidator.enabled = true;
                 }
@@ -614,6 +614,7 @@
             if (rdoSonicYes.checked)
             {
                 trVideoRequest.style["display"] = "";
+                rfvddllocation.
                 rfvddllocation.enabled = true;
                 rfvddlFK_LU_Type_of_Activity_Video.enabled = true;
                 rfvtxtDate_Of_Event_Video.enabled = true;
