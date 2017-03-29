@@ -396,7 +396,7 @@
                             <asp:ListItem Value="0">-- Select --</asp:ListItem>
                             <asp:ListItem Value="1">Pie Charts</asp:ListItem>
                             <asp:ListItem Value="2" >Task List</asp:ListItem>
-                              <asp:ListItem Value="3" Selected="True">Daily Summary</asp:ListItem>
+                              <asp:ListItem Value="3" Selected="True">Daily Summary</asp:ListItem>                            
                         </asp:DropDownList>
                         <asp:RequiredFieldValidator ID="rfvddlDashboard" ControlToValidate="ddlDashboardType" Display="None"
                             ValidationGroup="vsErrorGroup" Text="*" InitialValue="0" runat="server" ErrorMessage="Please select atleast one Dashboard."></asp:RequiredFieldValidator>
@@ -556,14 +556,14 @@
                         <asp:GridView ID="gvLocationProjectAccess" runat="server" Width="100%" AutoGenerateColumns="false" 
                             EmptyDataText="No Record Exists" OnRowCommand="gvLocationProjectAccess_RowCommand" AllowSorting="true" OnSorting="gvLocationProjectAccess_Sorting">
                             <Columns>
-                              <%--  <asp:TemplateField HeaderText="Location" HeaderStyle-HorizontalAlign="Center">
+                               <asp:TemplateField HeaderText="Location" HeaderStyle-HorizontalAlign="Center">
                                     <ItemStyle Width="20%" HorizontalAlign="Center" />
                                     <ItemTemplate>
                                       <%--  <asp:LinkButton ID="lnkLocation" runat="server" Text='<%# Eval("dba") %>'
-                                            CommandName="EditDetails" Style="word-wrap: normal; word-break: break-all;" CommandArgument='<%# Eval("PK_Contractor_Job_Security") %>' />
-                                        <asp:Label ID="lbldba" runat="server" Style="word-wrap: normal; word-break: break-all;"  Text='<%# Eval("dba")%>'></asp:Label>
+                                            CommandName="EditDetails" Style="word-wrap: normal; word-break: break-all;" CommandArgument='<%# Eval("PK_Contractor_Job_Security") %>' /> --%>
+                                        <asp:Label ID="lbldba" runat="server" Style="word-wrap: normal; word-break: break-all;"  Text='<%# Eval("Location_Number")%>'></asp:Label>
                                     </ItemTemplate>
-                                </asp:TemplateField>--%>
+                                </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Project Number" HeaderStyle-HorizontalAlign="Center" SortExpression="Project_Number">
                                     <ItemStyle Width="50%" HorizontalAlign="Center" />
                                     <ItemTemplate>
