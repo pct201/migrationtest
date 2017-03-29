@@ -814,8 +814,8 @@ function DisableButton() {
                                                     <%--<span id="Menu5" class="LeftMenuStatic" runat="server" >Safety Walk</span>--%>
                                                 </td>
                                             </tr>
-                                            <tr>
-                                          <%--      <td align="right" valign="top">
+                                           <%--       <tr>
+                                          <td align="right" valign="top">
                                                    <!--
                                                      <img id="imgBTSecurityWalk" runat="server" alt="" src="~/Images/SLT_Menu_Icon.JPG" height="12" />
                                                        -->
