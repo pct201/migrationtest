@@ -375,7 +375,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "FK_Contactor_Security", DbType.Decimal, FK_Contactor_Security);
 
             if(string.IsNullOrEmpty(orderBy))
-                db.AddInParameter(dbCommand, "OrderBy", DbType.String, "Project_Number ASC");
+                db.AddInParameter(dbCommand, "OrderBy", DbType.String, "Location_Number,Project_Number ASC");
             else
                 db.AddInParameter(dbCommand, "OrderBy", DbType.String, orderBy + " " + direction);
 

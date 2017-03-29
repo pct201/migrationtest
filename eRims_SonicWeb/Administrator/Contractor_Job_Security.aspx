@@ -1,9 +1,9 @@
-﻿ <%@ Page Title="" Language="C#" MasterPageFile="~/Default.master" AutoEventWireup="true"
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Default.master" AutoEventWireup="true"
     CodeFile="Contractor_Job_Security.aspx.cs" Inherits="Administrator_Contractor_Job_Security" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 <%@ Register Src="~/Controls/NotesWithSpellCheck/Notes.ascx" TagName="ctrlMultiLineTextBox" TagPrefix="uc" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">      
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
         HeaderText="Verify the following fields:" BorderWidth="1" BorderColor="DimGray"
         ValidationGroup="vsErrorGroup" CssClass="errormessage"></asp:ValidationSummary>
@@ -12,30 +12,38 @@
     <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/Calendar_new.js"></script>
     <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/calendar-en.js"></script>
     <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/Calendar.js"></script>
-    <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/Validator.js"></script>    
+    <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/Validator.js"></script>
     <script type="text/javascript" language="javascript" src="../JavaScript/jquery-1.5.min.js"></script>
-    <script type="text/javascript">
+    <script type="text/javascript">        
         $(function () {
             var rdoLstLocationAccess = document.getElementById("ctl00_ContentPlaceHolder1_rdoLocationAccess");
             var rdoLstProjectAccess = document.getElementById("ctl00_ContentPlaceHolder1_rdoProjectAccess");
             var rdos = rdoLstLocationAccess.getElementsByTagName("input");
             for (var i = 0; i < rdos.length; i++) {
                 rdos[i].disabled = true;
-            }                        
+            }
             document.getElementById("ctl00_ContentPlaceHolder1_lstLocations").disabled = true;
             document.getElementById("ctl00_ContentPlaceHolder1_rfvLocations").style.visibility = "hidden";
             document.getElementById("ctl00_ContentPlaceHolder1_rfvLocations").enabled = false;
             document.getElementById("ctl00_ContentPlaceHolder1_revLocationAccess").style.visibility = "hidden";
             document.getElementById("ctl00_ContentPlaceHolder1_revLocationAccess").enabled = false;
+
+            rdos = rdoLstProjectAccess.getElementsByTagName("input");
+            for (var i = 0; i < rdos.length; i++) {
+                rdos[i].disabled = true;
+            }
+            document.getElementById("ctl00_ContentPlaceHolder1_lstProjects").disabled = true;
+            document.getElementById("ctl00_ContentPlaceHolder1_rfvProjects").style.visibility = "hidden";
+            document.getElementById("ctl00_ContentPlaceHolder1_rfvProjects").enabled = false;
+            document.getElementById("ctl00_ContentPlaceHolder1_revProjectAccess").style.visibility = "hidden";
+            document.getElementById("ctl00_ContentPlaceHolder1_revProjectAccess").enabled = false;
         });
-        function EnableDisableContent()
-        {          
-            //if($("#ctl00_ContentPlaceHolder1_rdoProject_Location input:checked").val()=="Projects")
-            if (document.getElementById("ctl00_ContentPlaceHolder1_rdoProject").checked)
-            {
-                var rdoLstLocationAccess = document.getElementById("ctl00_ContentPlaceHolder1_rdoLocationAccess");
-                var rdoLstProjectAccess = document.getElementById("ctl00_ContentPlaceHolder1_rdoProjectAccess");
-                var rdos = rdoLstProjectAccess.getElementsByTagName("input");
+        function EnableDisableContent() {
+            var rdoLstLocationAccess = document.getElementById("ctl00_ContentPlaceHolder1_rdoLocationAccess");
+            var rdoLstProjectAccess = document.getElementById("ctl00_ContentPlaceHolder1_rdoProjectAccess");
+            if (document.getElementById("ctl00_ContentPlaceHolder1_chkBoxProject").checked) {
+                rdos = rdoLstProjectAccess.getElementsByTagName("input");
+                rdos = rdoLstProjectAccess.getElementsByTagName("input");
                 for (var i = 0; i < rdos.length; i++) {
                     rdos[i].disabled = false;
                 }
@@ -45,40 +53,39 @@
                 document.getElementById("ctl00_ContentPlaceHolder1_rfvProjects").enabled = true;
                 document.getElementById("ctl00_ContentPlaceHolder1_revProjectAccess").style.visibility = "visible";
                 document.getElementById("ctl00_ContentPlaceHolder1_revProjectAccess").enabled = true;
-
-                rdos = rdoLstLocationAccess.getElementsByTagName("input");
-                for (var i = 0; i < rdos.length; i++) {
-                    rdos[i].disabled = true;
-                }                
-                document.getElementById("ctl00_ContentPlaceHolder1_lstLocations").disabled = true;                
-                document.getElementById("ctl00_ContentPlaceHolder1_rfvLocations").style.visibility = "hidden";
-                document.getElementById("ctl00_ContentPlaceHolder1_rfvLocations").enabled = false;
-                document.getElementById("ctl00_ContentPlaceHolder1_revLocationAccess").style.visibility = "hidden";
-                document.getElementById("ctl00_ContentPlaceHolder1_revLocationAccess").enabled = false;
             }
-            else
-            {
-                var rdoLstLocationAccess = document.getElementById("ctl00_ContentPlaceHolder1_rdoLocationAccess");
-                var rdoLstProjectAccess = document.getElementById("ctl00_ContentPlaceHolder1_rdoProjectAccess");
-                var rdos = rdoLstLocationAccess.getElementsByTagName("input");
-                for (var i = 0; i < rdos.length; i++) {
-                    rdos[i].disabled = false;
-                }                
-                document.getElementById("ctl00_ContentPlaceHolder1_lstLocations").disabled = false;
-                document.getElementById("ctl00_ContentPlaceHolder1_rfvLocations").style.visibility = "visible";
-                document.getElementById("ctl00_ContentPlaceHolder1_rfvLocations").enabled = true;
-                document.getElementById("ctl00_ContentPlaceHolder1_revLocationAccess").style.visibility = "visible";
-                document.getElementById("ctl00_ContentPlaceHolder1_revLocationAccess").enabled = true;
-
+            else {
                 rdos = rdoLstProjectAccess.getElementsByTagName("input");
                 for (var i = 0; i < rdos.length; i++) {
                     rdos[i].disabled = true;
-                }                
+                }
                 document.getElementById("ctl00_ContentPlaceHolder1_lstProjects").disabled = true;
                 document.getElementById("ctl00_ContentPlaceHolder1_rfvProjects").style.visibility = "hidden";
                 document.getElementById("ctl00_ContentPlaceHolder1_rfvProjects").enabled = false;
                 document.getElementById("ctl00_ContentPlaceHolder1_revProjectAccess").style.visibility = "hidden";
                 document.getElementById("ctl00_ContentPlaceHolder1_revProjectAccess").enabled = false;
+            }
+            if (document.getElementById("ctl00_ContentPlaceHolder1_chkBoxLocation").checked) {                
+                rdos = rdoLstLocationAccess.getElementsByTagName("input");
+                for (var i = 0; i < rdos.length; i++) {
+                    rdos[i].disabled = false;
+                }
+                document.getElementById("ctl00_ContentPlaceHolder1_lstLocations").disabled = false;
+                document.getElementById("ctl00_ContentPlaceHolder1_rfvLocations").style.visibility = "visible";
+                document.getElementById("ctl00_ContentPlaceHolder1_rfvLocations").enabled = true;
+                document.getElementById("ctl00_ContentPlaceHolder1_revLocationAccess").style.visibility = "visible";
+                document.getElementById("ctl00_ContentPlaceHolder1_revLocationAccess").enabled = true;
+            }
+            else {
+                rdos = rdoLstLocationAccess.getElementsByTagName("input");
+                for (var i = 0; i < rdos.length; i++) {
+                    rdos[i].disabled = true;
+                }
+                document.getElementById("ctl00_ContentPlaceHolder1_lstLocations").disabled = true;
+                document.getElementById("ctl00_ContentPlaceHolder1_rfvLocations").style.visibility = "hidden";
+                document.getElementById("ctl00_ContentPlaceHolder1_rfvLocations").enabled = false;
+                document.getElementById("ctl00_ContentPlaceHolder1_revLocationAccess").style.visibility = "hidden";
+                document.getElementById("ctl00_ContentPlaceHolder1_revLocationAccess").enabled = false;
             }
         }
         function OpenAuditPopUp() {
@@ -143,21 +150,16 @@
                                             <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                 <tr>
                                                     <td align="left" valign="top" colspan="3">
-                                                        <asp:RadioButton ID="rdoProject" runat="server" Text="Projects" GroupName="Project_Location" onclick="EnableDisableContent();" Checked="true"/>
+                                                        <asp:CheckBox ID="chkBoxProject" runat="server" Text="Projects" onclick="EnableDisableContent();" />
 
-                                                     </td>
+                                                    </td>
                                                     <td align="left" valign="top" colspan="2">
-                                                        <asp:RadioButton ID="rdoLocation" runat="server" Text="Sonic Location Code" GroupName="Project_Location" onclick="EnableDisableContent();" />
-                                                        <%--Projects&nbsp;<span id="Span1" style="color: Red;" runat="server">*</span>--%>
-                                                        <%--<asp:RadioButtonList ID="rdoProject_Location" runat="server" RepeatDirection="horizontal" CssClass="spaced" >
-                                                                    <asp:ListItem Text="Projects" Value="Projects" Selected="True"></asp:ListItem>
-                                                                    <asp:ListItem Text="Sonic Location Code" Value="Location"></asp:ListItem>
-                                                        </asp:RadioButtonList>--%>
-                                                    </td>                                                             
-                                                    </tr>                                                 
-                                                <tr>                                                    
+                                                        <asp:CheckBox ID="chkBoxLocation" runat="server" Text="Sonic Location Code" onclick="EnableDisableContent();" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
                                                     <td align="center" valign="top">:
-                                                    </td>                                                                                          
+                                                    </td>
                                                     <td align="left" colspan="2" valign="top">
                                                         <asp:ListBox runat="server" ID="lstProjects" Width="300px" Height="150px" SelectionMode="Multiple"></asp:ListBox>
                                                         <asp:RequiredFieldValidator runat="server" ID="rfvProjects" ControlToValidate="lstProjects"
@@ -176,7 +178,7 @@
                                                     </td>--%>
                                                 </tr>
                                                 <tr>
-                                                    <td align="left" colspan="1" valign="top">Access&nbsp;<span id="Span5" style="color: Red; " runat="server">*</span> :
+                                                    <td align="left" colspan="1" valign="top">Access&nbsp;<span id="Span5" style="color: Red;" runat="server">*</span> :
                                                     </td>
                                                     <%--<td align="center" valign="top">:
                                                     </td>--%>
@@ -189,7 +191,7 @@
                                                             ErrorMessage="Please check Project Access?" Text="*" Display="None"
                                                             ControlToValidate="rdoProjectAccess"></asp:RequiredFieldValidator>
                                                     </td>
-                                                     <td align="left" colspan="2" valign="top">
+                                                    <td align="left" colspan="2" valign="top">
                                                         <asp:RadioButtonList ID="rdoLocationAccess" runat="server">
                                                             <asp:ListItem Text="Read Only" Value="R"></asp:ListItem>
                                                             <asp:ListItem Text="Read/Write" Value="RW"></asp:ListItem>
@@ -198,7 +200,7 @@
                                                             ErrorMessage="Please check Location Access?" Text="*" Display="None"
                                                             ControlToValidate="rdoLocationAccess"></asp:RequiredFieldValidator>
                                                     </td>
-                                                    
+
                                                     <%--<td align="left" valign="top">&nbsp;
                                                     </td>
                                                     <td align="center" valign="top">&nbsp;

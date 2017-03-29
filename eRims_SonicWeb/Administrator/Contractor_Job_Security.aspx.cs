@@ -147,7 +147,7 @@ public partial class Administrator_Contractor_Job_Security : clsBasePage
         Contractor_Job_Security objContractor_Job_Security = new Contractor_Job_Security(PK_Contractor_Job_Security);
         decimal _retval;
         //if (rdoProject_Location.SelectedValue=="Projects")
-        if (rdoProject.Checked)
+        if (chkBoxProject.Checked)
         {
             if (lstProjects.GetSelectedIndices().Length > 0)
             {
@@ -176,8 +176,9 @@ public partial class Administrator_Contractor_Job_Security : clsBasePage
                 }
             }
         }
-        else
+        if(chkBoxLocation.Checked)
         {
+            objContractor_Job_Security = new Contractor_Job_Security(PK_Contractor_Job_Security);
             if (lstLocations.GetSelectedIndices().Length>0)
             {
                 foreach (ListItem objLstLocations in lstLocations.Items)
