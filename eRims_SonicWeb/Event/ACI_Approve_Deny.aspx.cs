@@ -76,15 +76,15 @@ public partial class Event_ACI_Approve_Deny : System.Web.UI.Page
                 StrGroup = Convert.ToString(Encryption.Decrypt(Request.QueryString["grp"]));
                 PK_Attachment_Event = Convert.ToDecimal(clsGeneral.GetQueryStringID(Request.QueryString["aid"]));
 
-                if (StrStatus.ToLower() != "denied")
+                if (StrStatus.ToLower() != clsGeneral.VideoRequestStatus[(int)clsGeneral.VideoRequest_Status.Sonic_Denied].ToLower())
                 {
                     DataSet ds = clsEvent_Video_Tracking_Request.GetVideoRequestData(PK_Event_Video_Tracking_Request);
 
-                    if (StrGroup.ToLower() == "rlcmd")
-                    {
-                        SendEmailForLegalApproval(ds);
-                        StrStatus = "Pending";
-                    }
+                    //if (StrGroup.ToLower() == "rlcmd")
+                    //{
+                    //    SendEmailForLegalApproval(ds);
+                    //    StrStatus = "Pending";
+                    //}
                     
                     clsEvent_Video_Tracking_Request.Event_Video_Tracking_RequestUpdateStatus(PK_Event_Video_Tracking_Request, StrStatus, FK_Security_ID, null);
                     SendNotificatonToCreater(ds);
@@ -204,9 +204,9 @@ public partial class Event_ACI_Approve_Deny : System.Web.UI.Page
 
                     string strMailBody = "ERIMS has requested ACI Video Approval. Please click APPROVE or DENY for video Request.";
                     strMailBody = strMailBody + "<br/><br/>";
-                    strMailBody = strMailBody + "<span style='font-size: 20px;'><A href=" + AppConfig.SiteURL + "/Event/ACI_Approve_Deny.aspx?tid=" + Encryption.Encrypt(Convert.ToString(PK_Event_Video_Tracking_Request)) + "&sid=" + Encryption.Encrypt(Convert.ToString(drRecipient["PK_Security_ID"].ToString())) + "&status=" + Encryption.Encrypt("Approved") + "&grp=" + Encryption.Encrypt("Legal") + ">APPROVE</A></span>";
+                    strMailBody = strMailBody + "<span style='font-size: 20px;'><A href=" + AppConfig.SiteURL + "/Event/ACI_Approve_Deny.aspx?tid=" + Encryption.Encrypt(Convert.ToString(PK_Event_Video_Tracking_Request)) + "&sid=" + Encryption.Encrypt(Convert.ToString(drRecipient["PK_Security_ID"].ToString())) + "&status=" + Encryption.Encrypt(clsGeneral.VideoRequestStatus[(int)clsGeneral.VideoRequest_Status.Sonic_Approved]) + "&grp=" + Encryption.Encrypt("Legal") + ">APPROVE</A></span>";
                     strMailBody = strMailBody + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-                    strMailBody = strMailBody + "<span style='font-size: 20px;'><A href=" + AppConfig.SiteURL + "/Event/ACI_Approve_Deny.aspx?tid=" + Encryption.Encrypt(Convert.ToString(PK_Event_Video_Tracking_Request)) + "&sid=" + Encryption.Encrypt(Convert.ToString(drRecipient["PK_Security_ID"].ToString())) + "&status=" + Encryption.Encrypt("Denied") + "&grp=" + Encryption.Encrypt("Legal") + ">DENY</A></span>";
+                    strMailBody = strMailBody + "<span style='font-size: 20px;'><A href=" + AppConfig.SiteURL + "/Event/ACI_Approve_Deny.aspx?tid=" + Encryption.Encrypt(Convert.ToString(PK_Event_Video_Tracking_Request)) + "&sid=" + Encryption.Encrypt(Convert.ToString(drRecipient["PK_Security_ID"].ToString())) + "&status=" + Encryption.Encrypt(clsGeneral.VideoRequestStatus[(int)clsGeneral.VideoRequest_Status.Sonic_Denied]) + "&grp=" + Encryption.Encrypt("Legal") + ">DENY</A></span>";
                     strMailBody = strMailBody + "<br/><br/><br/>";
                     strMailBody = strMailBody + "<span style='font-size: 18px;'><b>Reason   :   </b></span>" + strReason;
 
@@ -264,19 +264,25 @@ public partial class Event_ACI_Approve_Deny : System.Web.UI.Page
             string strMailHeader = "ACI Video Request status for Request Number : " + strRequestNumber;
             string strMailBody = string.Empty;
 
-            if (StrGroup.ToLower() == "rlcmd" && StrStatus.ToLower() == "pending")
+            string StrSendstatus = StrStatus;
+            if (StrStatus.ToLower() == clsGeneral.VideoRequestStatus[(int)clsGeneral.VideoRequest_Status.Sonic_Approved].ToLower())
+                StrSendstatus = "Approved";
+            else if (StrStatus.ToLower() == clsGeneral.VideoRequestStatus[(int)clsGeneral.VideoRequest_Status.Sonic_Denied].ToLower())
+                StrSendstatus = "Denied";
+
+            if (StrGroup.ToLower() == "rlcmd" && StrStatus.ToLower() == clsGeneral.VideoRequestStatus[(int)clsGeneral.VideoRequest_Status.Submitted])
             {
-                strMailBody = "ACI Video Request has been " + (StrStatus.ToLower() == "pending" ? "Approved" : StrStatus) + " for " + strlocation + " by " + objSecurity.FIRST_NAME + " " + objSecurity.LAST_NAME + ".";
+                strMailBody = "ACI Video Request has been " + (StrStatus.ToLower() == clsGeneral.VideoRequestStatus[(int)clsGeneral.VideoRequest_Status.Submitted] ? StrSendstatus : StrStatus) + " for " + strlocation + " by " + objSecurity.FIRST_NAME + " " + objSecurity.LAST_NAME + ".";
                 strMailBody = strMailBody + "<br/>";
                 strMailBody = strMailBody + "Awaits the approval from Legal Group.";
             }
             else
             {
-                strMailBody = "ACI Video Request has been " + StrStatus + " for " + strlocation + " by " + objSecurity.FIRST_NAME + " " + objSecurity.LAST_NAME + ".";
+                strMailBody = "ACI Video Request has been " + StrSendstatus + " for " + strlocation + " by " + objSecurity.FIRST_NAME + " " + objSecurity.LAST_NAME + ".";
             }
             strMailBody = strMailBody + "<br/><br/><br/>";
 
-            if (StrStatus.ToLower() == "denied")
+            if (StrStatus.ToLower() == clsGeneral.VideoRequestStatus[(int)clsGeneral.VideoRequest_Status.Sonic_Denied].ToLower())
             {
                 strMailBody = strMailBody + "<span style='font-size: 18px;'><b>Reason   :   </b></span>" + strReason;
             }

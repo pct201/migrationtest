@@ -86,6 +86,13 @@ public partial class Event_Event_VideoRequestSearch : clsBasePage
                 btnSearch_Click(null, null);
             }
 
+            DataTable dtRLCM = Security.SelectGroupByUserID(Convert.ToDecimal(clsSession.UserID)).Tables[0];
+
+            if (dtRLCM.Rows.Count > 0)
+                btnAdd.Visible = true;
+            else
+                btnAdd.Visible = false;
+
             //if (clsSession.IsACIUser)
             //    btnAdd.Visible = false;
         }
@@ -521,19 +528,25 @@ public partial class Event_Event_VideoRequestSearch : clsBasePage
             string strMailHeader = "ACI Video Request status for Request Number : " + strRequestNumber;
             string strMailBody = string.Empty;
 
-            if (StrStatus.ToLower() == "pending")
+            string StrSendstatus = StrStatus;
+            if (StrStatus.ToLower() == clsGeneral.VideoRequestStatus[(int)clsGeneral.VideoRequest_Status.Sonic_Approved].ToLower())
+                StrSendstatus = "Approved";
+            else if (StrStatus.ToLower() == clsGeneral.VideoRequestStatus[(int)clsGeneral.VideoRequest_Status.Sonic_Denied].ToLower())
+                StrSendstatus = "Denied";
+
+            if (StrStatus.ToLower() == clsGeneral.VideoRequestStatus[(int)clsGeneral.VideoRequest_Status.Submitted])
             {
-                strMailBody = "ACI Video Request has been " + (StrStatus.ToLower() == "pending" ? "Approved" : StrStatus) + " for " + strlocation + " by " + objSecurity.FIRST_NAME + " " + objSecurity.LAST_NAME + ".";
+                strMailBody = "ACI Video Request has been " + (StrStatus.ToLower() == clsGeneral.VideoRequestStatus[(int)clsGeneral.VideoRequest_Status.Submitted] ? StrSendstatus : StrStatus) + " for " + strlocation + " by " + objSecurity.FIRST_NAME + " " + objSecurity.LAST_NAME + ".";
                 strMailBody = strMailBody + "<br/>";
                 strMailBody = strMailBody + "Awaits the approval from Legal Group.";
             }
             else
             {
-                strMailBody = "ACI Video Request has been " + StrStatus + " for " + strlocation + " by " + objSecurity.FIRST_NAME + " " + objSecurity.LAST_NAME + ".";
+                strMailBody = "ACI Video Request has been " + StrSendstatus + " for " + strlocation + " by " + objSecurity.FIRST_NAME + " " + objSecurity.LAST_NAME + ".";
             }
             strMailBody = strMailBody + "<br/><br/><br/>";
 
-            if (StrStatus.ToLower() == "denied")
+            if (StrStatus.ToLower() == clsGeneral.VideoRequestStatus[(int)clsGeneral.VideoRequest_Status.Sonic_Denied].ToLower())
             {
                 strMailBody = strMailBody + "<span style='font-size: 18px;'><b>Reason   :   </b></span>" + strReason;
             }
@@ -608,7 +621,7 @@ public partial class Event_Event_VideoRequestSearch : clsBasePage
             Label lblStatus = (Label)e.Row.Cells[7].FindControl("lblStatus");
             Label lblIS_Legal = (Label)e.Row.Cells[7].FindControl("lblIs_Legal");
 
-            btnApprove.Visible = btnDeny.Visible = lblStatus.Text == "Pending" && lblIS_Legal.Text == "1" ? true : false;
+            btnApprove.Visible = btnDeny.Visible = lblStatus.Text == clsGeneral.VideoRequestStatus[(int)clsGeneral.VideoRequest_Status.Submitted] && lblIS_Legal.Text == "1" ? true : false;
 
             btnOpen.Visible = true;
             //btnDelete.Visible = btnEdit.Visible = (clsSession.IsACIUser && (Sonic_Event != "Y") || !clsSession.IsACIUser && (Sonic_Event == "Y"));
@@ -619,7 +632,7 @@ public partial class Event_Event_VideoRequestSearch : clsBasePage
 
             strtid = Convert.ToString(DataBinder.Eval(e.Row.DataItem, "PK_Event_Video_Tracking_Request")).Replace("'", "\\'");
             strsid = Convert.ToString(clsSession.UserID);
-            strstatus = "Denied";
+            strstatus = clsGeneral.VideoRequestStatus[(int)clsGeneral.VideoRequest_Status.Sonic_Denied];
 
             string strJSFunction = "return SelectValue('" + Encryption.Encrypt(strtid) + "','" + Encryption.Encrypt(strsid) + "','" + Encryption.Encrypt(strstatus) + "');";
 
@@ -661,10 +674,10 @@ public partial class Event_Event_VideoRequestSearch : clsBasePage
         {
             string[] strCommandArgument = e.CommandArgument.ToString().Split(',');
             decimal PK_Event_Video_Tracking_Request = Convert.ToDecimal(strCommandArgument[0]);
-            clsEvent_Video_Tracking_Request.Event_Video_Tracking_RequestUpdateStatus(PK_Event_Video_Tracking_Request, "Approved", Convert.ToInt32(clsSession.UserID), null);
+            clsEvent_Video_Tracking_Request.Event_Video_Tracking_RequestUpdateStatus(PK_Event_Video_Tracking_Request, clsGeneral.VideoRequestStatus[(int)clsGeneral.VideoRequest_Status.Sonic_Approved], Convert.ToInt32(clsSession.UserID), null);
             
             DataSet ds = clsEvent_Video_Tracking_Request.GetVideoRequestData(PK_Event_Video_Tracking_Request);
-            SendNotificatonToCreater(ds, "Approved");
+            SendNotificatonToCreater(ds, clsGeneral.VideoRequestStatus[(int)clsGeneral.VideoRequest_Status.Sonic_Approved]);
             
             BindGrid(ctrlPageProperty.CurrentPage, ctrlPageProperty.PageSize);
         }

@@ -49,6 +49,36 @@ public partial class Event_ACI_Video_Request : clsBasePage
         set { ViewState["StrReqType"] = value; }
     }
 
+    /// <summary>
+    /// Denotes Sort Field to sort all records by
+    /// </summary>
+    private string SortBy
+    {
+        get { return (!clsGeneral.IsNull(ViewState["SortBy"]) ? ViewState["SortBy"].ToString() : string.Empty); }
+        set { ViewState["SortBy"] = value; }
+    }
+
+    /// <summary>
+    /// Denotes ascending or descending order
+    /// </summary>
+    private string SortOrder
+    {
+        get { return (!clsGeneral.IsNull(ViewState["SortOrder"]) ? ViewState["SortOrder"].ToString() : string.Empty); }
+        set { ViewState["SortOrder"] = value; }
+    }
+
+    /// <summary>
+    /// Denotes the Primary Key
+    /// </summary>
+    public decimal _PK_Video_Request_Notes
+    {
+        get
+        {
+            return clsGeneral.GetInt(ViewState["PK_Video_Request_Notes"]);
+        }
+        set { ViewState["PK_Video_Request_Notes"] = value; }
+    }
+
     #endregion
 
     #region Page Event
@@ -108,6 +138,7 @@ public partial class Event_ACI_Video_Request : clsBasePage
                 BindDropDownList();
                 ucAttachment_Video.ReadOnly = true;
                 BindGridTracking();
+                BindVideoNoteGrid(ctrlPageVideoNotes.CurrentPage, ctrlPageVideoNotes.PageSize);
             }
         }
         else
@@ -220,6 +251,88 @@ public partial class Event_ACI_Video_Request : clsBasePage
     }
 
 
+    /// <summary>
+    /// Add ACI Notes Click
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void lnkAddVideoNotesNew_Click(object sender, EventArgs e)
+    {
+        _PK_Video_Request_Notes = 0;
+        trVideoNotesGrid.Style.Add("display", "none");
+        trVideoNotes.Style.Add("display", "");
+        btnVideoNotesCancel.Style.Add("display", "inline");
+        //txtACI_Notes_Date.Text = string.Empty;
+        txtVideo_Notes.Text = string.Empty;
+        btnVideoNotesAdd.Text = "Add";
+        //((ScriptManager)this.Master.FindControl("scMain")).SetFocus(txtACI_Notes_Date);
+    }
+
+    /// <summary>
+    /// Save Video Notes
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnVideoNotesAdd_Click(object sender, EventArgs e)
+    {
+        //SaveRecord();
+
+        clsVideo_Request_Notes objVideo_Notes = new clsVideo_Request_Notes();
+
+        objVideo_Notes.PK_Video_Request_Notes = _PK_Video_Request_Notes;
+        //objACI_Notes.Note_Date = clsGeneral.FormatNullDateToStore(txtACI_Notes_Date.Text);
+        objVideo_Notes.Note = txtVideo_Notes.Text.Trim();
+        objVideo_Notes.FK_Event_Video_Tracking_Request = PK_Event_Video_Tracking_Request;
+        objVideo_Notes.Updated_by = Convert.ToDecimal(clsSession.UserID);
+        
+        if (_PK_Video_Request_Notes > 0)
+        {
+            objVideo_Notes.Update();
+        }
+        else
+        {
+            objVideo_Notes.Insert();
+        }
+
+        //clear Control
+        ClearVideoNoteControls();
+        //Bind Grid Function
+        BindVideoNoteGrid(ctrlPageVideoNotes.CurrentPage, ctrlPageVideoNotes.PageSize);
+        //Cancel CLick
+        btnVideoNotesCancel_Click(null, null);
+    }
+
+    /// <summary>
+    /// Cancel Sonic Notes link
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnVideoNotesCancel_Click(object sender, EventArgs e)
+    {
+        trVideoNotesGrid.Style.Add("display", "");
+        trVideoNotes.Style.Add("display", "none");
+        btnVideoNotesCancel.Style.Add("display", "none");
+        //txtACI_Notes_Date.Text = string.Empty;
+        txtVideo_Notes.Text = string.Empty;
+    }
+
+    /// <summary>
+    /// Print ACI Notes
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnPrint_Click(object sender, EventArgs e)
+    {
+        string strSelected = "";
+        foreach (GridViewRow gRow in gvVideo_Notes.Rows)
+        {
+            if (((CheckBox)gRow.FindControl("chkSelectVideoNotes")).Checked)
+                strSelected = strSelected + ((HtmlInputHidden)gRow.FindControl("hdnPK_Video_Request_Notes")).Value + ",";
+        }
+        strSelected = strSelected.TrimEnd(',');
+        clsPrintVideoRequestNotes.PrintSelectedNotes(strSelected, PK_Event_Video_Tracking_Request, "ACI");
+    }
+
     #endregion
 
     #region Page Methods
@@ -277,6 +390,8 @@ public partial class Event_ACI_Video_Request : clsBasePage
             btnSend_Notification_Video.Visible = false;
         }
         lblLastModifiedDateTime.Text = objVideo.Update_Date == null ? "" : "Last Modified Date/Time : " + objVideo.Update_Date.Value.ToString("MM/dd/yyyy hh:mm:ss tt") + " ";
+
+        BindVideoNoteGrid(ctrlPageVideoNotes.CurrentPage, ctrlPageVideoNotes.PageSize);
     }
 
     /// <summary>
@@ -333,7 +448,7 @@ public partial class Event_ACI_Video_Request : clsBasePage
         objVideo.Updated_By = clsSession.UserID;
         objVideo.FK_Security = Convert.ToDecimal(clsSession.UserID);
 
-        DataSet ds = clsLU_Video_Tracking_Status.GetVideoStatusbydesc("Pending");
+        DataSet ds = clsLU_Video_Tracking_Status.GetVideoStatusbydesc(clsGeneral.VideoRequestStatus[(int)clsGeneral.VideoRequest_Status.Submitted]);
 
         if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
         {
@@ -605,9 +720,9 @@ public partial class Event_ACI_Video_Request : clsBasePage
 
                     string strMailBody = "ERIMS has requested ACI Video Approval. Please click APPROVE or DENY for video Request.";
                     strMailBody = strMailBody + "<br/><br/>";
-                    strMailBody = strMailBody + "<span style='font-size: 20px;'><A href=" + AppConfig.SiteURL + "/Event/ACI_Approve_Deny.aspx?tid=" + Encryption.Encrypt(Convert.ToString(PK_Event_Video_Tracking_Request)) + "&sid=" + Encryption.Encrypt(Convert.ToString(drRecipient["PK_Security_ID"].ToString())) + "&status=" + Encryption.Encrypt("Approved") + "&grp=" + Encryption.Encrypt("RLCMD") + "&aid=" + Encryption.Encrypt(Convert.ToString(PK_Attachment_Event)) + ">APPROVE</A></span>";
+                    strMailBody = strMailBody + "<span style='font-size: 20px;'><A href=" + AppConfig.SiteURL + "/Event/ACI_Approve_Deny.aspx?tid=" + Encryption.Encrypt(Convert.ToString(PK_Event_Video_Tracking_Request)) + "&sid=" + Encryption.Encrypt(Convert.ToString(drRecipient["PK_Security_ID"].ToString())) + "&status=" + Encryption.Encrypt(clsGeneral.VideoRequestStatus[(int)clsGeneral.VideoRequest_Status.Sonic_Approved]) + "&grp=" + Encryption.Encrypt("RLCMD") + "&aid=" + Encryption.Encrypt(Convert.ToString(PK_Attachment_Event)) + ">APPROVE</A></span>";
                     strMailBody = strMailBody + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-                    strMailBody = strMailBody + "<span style='font-size: 20px;'><A href=" + AppConfig.SiteURL + "/Event/ACI_Approve_Deny.aspx?tid=" + Encryption.Encrypt(Convert.ToString(PK_Event_Video_Tracking_Request)) + "&sid=" + Encryption.Encrypt(Convert.ToString(drRecipient["PK_Security_ID"].ToString())) + "&status=" + Encryption.Encrypt("Denied") + "&grp=" + Encryption.Encrypt("RLCMD") + "&aid=" + Encryption.Encrypt(Convert.ToString(PK_Attachment_Event)) + ">DENY</A></span>";
+                    strMailBody = strMailBody + "<span style='font-size: 20px;'><A href=" + AppConfig.SiteURL + "/Event/ACI_Approve_Deny.aspx?tid=" + Encryption.Encrypt(Convert.ToString(PK_Event_Video_Tracking_Request)) + "&sid=" + Encryption.Encrypt(Convert.ToString(drRecipient["PK_Security_ID"].ToString())) + "&status=" + Encryption.Encrypt(clsGeneral.VideoRequestStatus[(int)clsGeneral.VideoRequest_Status.Sonic_Denied]) + "&grp=" + Encryption.Encrypt("RLCMD") + "&aid=" + Encryption.Encrypt(Convert.ToString(PK_Attachment_Event)) + ">DENY</A></span>";
                     strMailBody = strMailBody + "<br/><br/><br/>";
                     strMailBody = strMailBody + "<span style='font-size: 18px;'><b>Reason   :   </b></span>" + objRefNumber.Reason_Request;
 
@@ -734,9 +849,120 @@ public partial class Event_ACI_Video_Request : clsBasePage
         return strRetVal;
     }
 
+    /// <summary>
+    /// Bind ACI Notes Grid
+    /// </summary>
+    private void BindVideoNoteGrid(int PageNumber, int PageSize)
+    {
+        DataSet dsNotes = clsVideo_Request_Notes.SelectByFK_Event_Video_Tracking_Request_WithPaging(PK_Event_Video_Tracking_Request, PageNumber, PageSize, SortBy, SortOrder);
+        //DataSet dsNotes = Claim_Notes.SelectByFK_Table(PK_Event, CurrentEventNoteType, CurrentPage, PageSize);
+        DataTable dtNotes = dsNotes.Tables[0];
+        ctrlPageVideoNotes.TotalRecords = (dsNotes.Tables.Count >= 2) ? Convert.ToInt32(dsNotes.Tables[1].Rows[0][0]) : 0;
+        ctrlPageVideoNotes.CurrentPage = (dsNotes.Tables.Count >= 2) ? Convert.ToInt32(dsNotes.Tables[1].Rows[0][2]) : 0;
+        ctrlPageVideoNotes.RecordsToBeDisplayed = dsNotes.Tables[0].Rows.Count;
+        ctrlPageVideoNotes.SetPageNumbers();
+        if (dsNotes != null && dsNotes.Tables.Count > 0 && dsNotes.Tables[0].Rows.Count > 0)
+        {
+            gvVideo_Notes.DataSource = dsNotes;
+            gvVideo_Notes.DataBind();
+            btnVideoNoteView.Visible = btnPrint.Visible = btnSpecificNote.Visible = ctrlPageVideoNotes.Visible = true;
+            dvVideoNOtes.Style["Height"] = "200px";
+        }
+        else
+        {
+            gvVideo_Notes.DataSource = null;
+            gvVideo_Notes.DataBind();
+            btnVideoNoteView.Visible = btnPrint.Visible = btnSpecificNote.Visible = ctrlPageVideoNotes.Visible = false;
+            dvVideoNOtes.Style["Height"] = "31px";
+        }
+    }
+
+    /// Used to Clear the controls
+    /// </summary>
+    private void ClearVideoNoteControls()
+    {
+        //clear control
+        _PK_Video_Request_Notes = 0;
+        txtVideo_Notes.Text = string.Empty;
+        //txtACI_Notes_Date.Text = string.Empty;
+    }
+
+    /// <summary>
+    /// Implement event for Paging control when clicking on Go button
+    /// </summary>
+    protected void GetPage()
+    {
+        BindVideoNoteGrid(ctrlPageVideoNotes.CurrentPage, ctrlPageVideoNotes.PageSize);
+    }
+
     #endregion
 
     #region "Grid Events"
+
+    /// <summary>
+    /// gvVideo_Notes on Edit Or Delete
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gvVideo_Notes_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        if (e.CommandName == "RemoveVideoNote")
+        {
+            #region
+            clsVideo_Request_Notes.DeleteByPK(Convert.ToDecimal(e.CommandArgument));
+
+            BindVideoNoteGrid(ctrlPageVideoNotes.CurrentPage, ctrlPageVideoNotes.PageSize);
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
+            #endregion
+        }
+        else if (e.CommandName == "ViewNote")
+        {
+            //Response.Redirect("Event_Note.aspx?nid=" + Encryption.Encrypt(e.CommandArgument.ToString()) + "&id=" + Encryption.Encrypt(PK_Event.ToString()) + "&iid=" + Encryption.Encrypt(FK_Incident.ToString()) + "&mode=" + StrOperation + "&type=ACI");
+
+            Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:VideoNotePopup('" + Encryption.Encrypt(e.CommandArgument.ToString()) + "','" + Encryption.Encrypt(PK_Event_Video_Tracking_Request.ToString()) + "','" + StrOperation + "','Video_Request');", true);
+        }
+        else if (e.CommandName == "EditRecord")
+        {
+            _PK_Video_Request_Notes = Convert.ToDecimal(e.CommandArgument);
+            // show and hide Add-edit row
+            trVideoNotesGrid.Style.Add("display", "none");
+            trVideoNotes.Style.Add("display", "");
+            btnVideoNotesCancel.Style.Add("display", "inline");
+            btnVideoNotesAdd.Text = "Update";
+            // get record from database
+
+            clsVideo_Request_Notes objVideo_Notes = new clsVideo_Request_Notes(_PK_Video_Request_Notes);
+
+            //txtACI_Notes_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objACI_Event_Notes.Note_Date);
+            txtVideo_Notes.Text = Convert.ToString(objVideo_Notes.Note);
+            //((ScriptManager)this.Master.FindControl("scMain")).SetFocus(//txtACI_Notes_Date);
+        }
+    }
+
+    /// <summary>
+    /// Paging event of gvVideo_Notes
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gvVideo_Notes_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        gvVideo_Notes.PageIndex = e.NewPageIndex; //Page new index call
+        BindVideoNoteGrid(ctrlPageVideoNotes.CurrentPage, ctrlPageVideoNotes.PageSize);
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
+    }
+
+    /// <summary>
+    /// GridView Sorting
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gvVideo_Notes_Sorting(object sender, GridViewSortEventArgs e)
+    {
+        // update sort field and sort order and bind the grid
+        SortOrder = (SortBy == e.SortExpression) ? (SortOrder == "asc" ? "desc" : "asc") : "asc";
+        SortBy = e.SortExpression;
+        BindVideoNoteGrid(ctrlPageVideoNotes.CurrentPage, ctrlPageVideoNotes.PageSize);
+    }
 
     #endregion
 

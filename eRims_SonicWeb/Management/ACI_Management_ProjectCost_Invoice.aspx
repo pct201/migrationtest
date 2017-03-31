@@ -2,10 +2,10 @@
 
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
-<%@ Register Src="~/Controls/NotesWithSpellCheck/Notes.ascx" TagName="ctrlMultiLineTextBox"
+<%@ Register Src="~/Controls/NotesWithSpellCheck/Notes.ascx" TagName="ctrlMultiLineCommentTextBox"
     TagPrefix="uc" %>
 <%@ Register Src="~/Controls/ExposuresTab/ExposuresTab.ascx" TagName="CtlTab" TagPrefix="uc" %>
-<%@ Register Src="~/Controls/Notes/Notes.ascx" TagName="ctrlMultiLineCommentTextBox" TagPrefix="uc" %>
+<%--<%@ Register Src="~/Controls/Notes/Notes.ascx" TagName="ctrlMultiLineCommentTextBox" TagPrefix="uc" %>--%>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <script type="text/javascript" src="../../JavaScript/JFunctions.js"></script>
@@ -394,7 +394,7 @@
                                             Comments
                                         </td>
                                         <td align="center" valign="top" width="4%">:</td>
-                                        <td align="left" valign="top" colspan="4"><uc:ctrlMultiLineCommentTextBox ID="lblComments"  Enabled="false" runat="server" /></td>
+                                        <td align="left" valign="top" colspan="4"><uc:ctrlMultiLineCommentTextBox ID="lblComments"  ControlType="Label" runat="server" /></td>
                                     </tr>
                                 </table>
                             </div>

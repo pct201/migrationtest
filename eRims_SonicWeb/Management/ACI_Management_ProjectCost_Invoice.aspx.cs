@@ -169,7 +169,7 @@ public partial class SONIC_Exposures_ACI_Management_ProjectCost_Invoice : clsBas
         lblInvoice_ProccesedBySonicDate.Text = clsGeneral.FormatDBNullDateToDisplay(objACIManagement_ProjectCost_Invoice.Invoice_ProccesedBySonicDate);
         lblPayment_ReceivedbyACIDate.Text = clsGeneral.FormatDBNullDateToDisplay(objACIManagement_ProjectCost_Invoice.Payment_ReceivedbyACIDate);
         lblComments.Text = Convert.ToString(objACIManagement_ProjectCost_Invoice.Comments);
-        lblComments.Enable = false;
+        //lblComments.Enable = false;
     }
 
     /// <summary>

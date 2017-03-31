@@ -1,7 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Default.master" AutoEventWireup="true" CodeFile="ACI_Video_Request.aspx.cs" Inherits="Event_ACI_Video_Request" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
-<%@ Register Src="~/Controls/Notes/Notes.ascx" TagName="ctrlMultiLineTextBox" TagPrefix="uc" %>
+<%--<%@ Register Src="~/Controls/Notes/Notes.ascx" TagName="ctrlMultiLineTextBox" TagPrefix="uc" %>--%>
+<%@ Register Src="~/Controls/NotesWithSpellCheck/Notes.ascx" TagName="ctrlMultiLineTextBox" TagPrefix="uc" %>
 <%@ Register Src="~/Controls/Attachment_Event/AttachmentEvent.ascx" TagName="Attachment" TagPrefix="uc" %>
 <%@ Register Src="~/Controls/Navigation/Navigation.ascx" TagName="ctrlPaging" TagPrefix="uc" %>
 
@@ -177,6 +178,122 @@
             //alert('98647');
         }
 
+        
+        function VideoNotePopup(NoteId, type) {            
+            var winHeight = 500;
+            var winWidth = 500;
+            var VideoId = <%=ViewState["PK_Event_Video_Tracking_Request"]%>;            
+        obj = window.open("Video_Request_Note.aspx?nid=" + NoteId + "&id=" + '<%=ViewState["PK_Event_Video_Tracking_Request"]%>' + "&type=" + type, 'AuditPopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
+        obj.focus();
+    }
+
+    function VideoSelectedNotePopup(NoteId, type) {  
+        var winHeight = 450;
+        var winWidth = 750;
+        var VideoId = <%=ViewState["PK_Event_Video_Tracking_Request"]%>;            
+        obj = window.open("Video_Request_Note.aspx?viewIDs=" +  NoteId + "&id=" + '<%=ViewState["PK_Event_Video_Tracking_Request"]%>' + "&type=" + type, 'AuditPopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',resizable=yes,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
+            obj.focus();
+            return false;
+    }
+
+        function CheckSelectedVideoNotes(buttonType) {
+            var gv = document.getElementById('<%=gvVideo_Notes.ClientID%>');
+                    var ctrls = gv.getElementsByTagName('input');
+                    var i;
+                    var cnt = 0;
+                    var m_strAttIds = '';
+                    for (i = 0; i < ctrls.length; i++) {
+                        if (ctrls[i].type == "checkbox" && ctrls[i].id.indexOf("chkSelectVideoNotes") > 0) {
+                            if (ctrls[i].checked) {
+                                var ctrlId = ctrls[i].id;
+                                ctrlId = ctrlId.substring(ctrlId.lastIndexOf("_") - 2);
+                                var hdnpk = ctrlId.replace("chkSelectVideoNotes", "hdnPK_Video_Request_Notes");
+                                //index = Number(index) - 2;
+                                var id = document.getElementById('ctl00_ContentPlaceHolder1_gvVideo_Notes_ctl' + hdnpk).value;
+                                if (m_strAttIds == "")
+                                    m_strAttIds = id;
+                                else {
+                                    m_strAttIds = m_strAttIds + "," + id;
+                                }
+                                cnt++;
+                            }
+                        }
+                    }
+            
+                    if (cnt == 0) {
+                        if (buttonType == "View")
+                            alert("Please select Note(s) to View");
+                        else
+                            alert("Please select Note(s)");
+
+                        return false;
+                    }
+                    else {
+                        if(buttonType != 'Print')//here sonic both view time condition is right
+                        {
+                            VideoSelectedNotePopup(m_strAttIds,buttonType);
+                            return false;
+                        }
+                        else
+                            return true;
+                    }
+        }
+
+        function checkLength() {
+            var oObject = document.getElementById('ctl00_ContentPlaceHolder1_txtVideo_Notes_txtNote')
+            if (oObject.value.length < 50) {
+                alert("Please enter minimum 50 Characters for Notes.");
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+
+        function CheckVideo() {
+            var values = '<%=ViewState["PK_Event_Video_Tracking_Request"]%>';
+                    if (values == '' || values == '0') {
+                        alert('Please Save Video Request First');
+                        return false;
+                    }
+                    else {
+                        return true;
+                    }
+        }
+
+        function SelectDeselectAllVideoNotes(bChecked) {
+            var ctrls = document.getElementsByTagName('input');
+            var i, chkID;
+            var cnt = 0;
+            chkID = "chkSelectVideoNotes";
+            for (i = 0; i < ctrls.length; i++) {
+                if (ctrls[i].type == "checkbox" && ctrls[i].id.indexOf(chkID) > 0) {
+                    ctrls[i].checked = bChecked;
+                }
+            }
+        }
+
+        function SelectDeselectVideoNoteHeader() {
+            var ctrls = document.getElementsByTagName('input');
+            var i, chkID;
+            var cnt = 0;
+            chkID = "chkSelectVideoNotes";
+            for (i = 0; i < ctrls.length; i++) {
+                if (ctrls[i].type == "checkbox" && ctrls[i].id.indexOf(chkID) > 0) {
+                    if (ctrls[i].checked)
+                        cnt++;
+                }
+            }
+
+            var rowCnt = document.getElementById('<%=gvVideo_Notes.ClientID%>').rows.length - 1;
+            var headerChkID = 'chkMultiSelectVideoNotes';
+
+            if (cnt == rowCnt)
+                document.getElementById(headerChkID).checked = true;
+            else
+                document.getElementById(headerChkID).checked = false;
+        }
+
     </script>
     <link href="<%=AppConfig.SiteURL%>greybox/gb_styles.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="<%=AppConfig.SiteURL%>greybox/AJS.js"></script>
@@ -209,7 +326,7 @@
                 <div class="bandHeaderRow">
                     <table width="100%" border="0" cellpadding="2" cellspacing="0">
                         <tr>
-                            <td align="left">ACI Video Request
+                            <td align="left">Video Request
                             </td>
                             <td align="right">
                                 <asp:Label ID="lblLastModifiedDateTime" runat="server"></asp:Label>
@@ -233,7 +350,7 @@
                                 </tr>
                                 <tr runat="server" id="trACIReportedEvent">
                                     <td align="left" width="100%">
-                                        <span id="Menu1" onclick="javascript:ShowPanel(1);" class="LeftMenuStatic">ACI Video Request</span>
+                                        <span id="Menu1" onclick="javascript:ShowPanel(1);" class="LeftMenuStatic">Video Request</span>
                                         <span id="Span1" runat="server" style="color: Red;">*</span>
                                     </td>
                                 </tr>
@@ -255,7 +372,7 @@
                                         <div id="dvEdit" runat="server" width="794px">
                                             <asp:Panel ID="pnl1" runat="server" Style="display: none;" Width="794px">
                                                 <div class="bandHeaderRow">
-                                                    ACI Video Request
+                                                    Video Request
                                                 </div>
                                                 <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                     <tr>
@@ -275,16 +392,16 @@
                                                                 ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
                                                         </td>
                                                         <td align="left" width="18%" valign="top">
-                                                            Type Of Activity&nbsp;<span id="Span3" runat="server" style="color: Red;">*</span>
+                                                            Type Of Activity<%--&nbsp;<span id="Span3" runat="server" style="color: Red;">*</span>--%>
                                                         </td>
                                                         <td align="center" width="4%" valign="top">:
                                                         </td>
                                                         <td align="left" width="28%" valign="top">
                                                             <asp:DropDownList ID="ddlFK_LU_Type_of_Activity_Video" runat="server" Width="175px">
                                                             </asp:DropDownList>
-                                                            <asp:RequiredFieldValidator ID="rfvddlFK_LU_Type_of_Activity_Video" runat="server" ControlToValidate="ddlFK_LU_Type_of_Activity_Video"
+                                                          <%--  <asp:RequiredFieldValidator ID="rfvddlFK_LU_Type_of_Activity_Video" runat="server" ControlToValidate="ddlFK_LU_Type_of_Activity_Video"
                                                                 InitialValue="0" ErrorMessage="Please Select Type of Activity" Display="None" SetFocusOnError="true"
-                                                                ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                                                                ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>--%>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -405,6 +522,154 @@
                                                         <td colspan="6">&nbsp;
                                                         </td>
                                                     </tr>
+                                                     <tr runat="server" id="trVideoNotes" style="display: none;">
+                                                        <td colspan="6">
+                                                            <table width="100%">
+                                                                <tr>
+                                                                    <td align="left" valign="top">
+                                                                        <b>Notes Grid </b>
+                                                                    </td>
+                                                                    <td align="center" valign="top" colspan="5">&nbsp;
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <%--<td align="left" valign="top" width="19%">Date
+                                                                    </td>
+                                                                    <td align="center" valign="top" width="2%">:
+                                                                    </td>
+                                                                    <td align="left" valign="top" style="padding-left: 5px;">
+                                                                        <asp:TextBox ID="txtACI_Notes_Date" runat="server" SkinID="txtDate" MaxLength="12" autocomplete="off"
+                                                                            onpaste="return false"></asp:TextBox>
+                                                                        <img alt="Report Date" onclick="return showCalendar('<%= txtACI_Notes_Date.ClientID %>', 'mm/dd/y');"
+                                                                            onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
+                                                                            align="middle" />
+                                                                        <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ValidationGroup="vsErrorGroup"
+                                                                            Display="none" ErrorMessage="[ACI Notes Grid]/Date Sonic is not a valid date"
+                                                                            SetFocusOnError="true" ControlToValidate="txtDate_Sent" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
+                                                                        <asp:CompareValidator ID="CompareValidator1" runat="server" ControlToCompare="txtCurrentDate"
+                                                                            ControlToValidate="txtACI_Notes_Date" Display="None" Text="*" ErrorMessage="[ACI Notes Grid]/Date should not be greater than current date."
+                                                                            Operator="LessThanEqual" Type="Date" ValidationGroup="vsErrorGroup"></asp:CompareValidator>
+                                                                    </td>--%>
+                                                                    <td align="left" valign="top" width="19%">Note
+                                                                    </td>
+                                                                    <td align="center" valign="top" width="2%">:
+                                                                    </td>
+                                                                    <td align="left" valign="top" style="padding-left: 5px;">
+                                                                        <uc:ctrlMultiLineTextBox ID="txtVideo_Notes" runat="server" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left"></td>
+                                                                    <td align="center"></td>
+                                                                    <td align="left" colspan="4">
+                                                                        <asp:Button ID="btnVideoNotesAdd" OnClick="btnVideoNotesAdd_Click" runat="server" ValidationGroup="vsErrorGroup"
+                                                                             Text="Add" Width="70px"></asp:Button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                        <asp:Button ID="btnVideoNotesCancel" OnClick="btnVideoNotesCancel_Click" runat="server"
+                                                                            Text="Cancel" Width="70px"></asp:Button>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="6">&nbsp;
+                                                        </td>
+                                                    </tr>
+                                                    <tr runat="server" id="trVideoNotesGrid">
+                                                        <td colspan="6">
+                                                            <table width="100%">
+                                                                <tr>
+                                                                    <td align="left" valign="top" width="17%">Notes Grid
+                                                                    </td>
+                                                                    <td align="center" valign="top" width="5%">:
+                                                                    </td>
+
+                                                                    <td colspan="4" align="right">&nbsp;
+                                                                        <uc:ctrlPaging ID="ctrlPageVideoNotes" runat="server" OnGetPage="GetPage" RecordPerPage="true" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="6">
+                                                                        <div runat="server" id="dvVideoNOtes" style="width: 99%; overflow-y: scroll; border: solid 1px #000000;">
+                                                                            <asp:GridView ID="gvVideo_Notes" runat="server" Width="97%" AutoGenerateColumns="false" OnSorting="gvVideo_Notes_Sorting"
+                                                                                EnableViewState="true" AllowPaging="false" OnRowCommand="gvVideo_Notes_RowCommand" AllowSorting="True"
+                                                                                OnPageIndexChanging="gvVideo_Notes_PageIndexChanging" Style="word-wrap: normal; word-break: break-all;">
+                                                                                <Columns>
+                                                                                    <asp:TemplateField ItemStyle-VerticalAlign="Top" ItemStyle-Width="12%">
+                                                                                        <HeaderTemplate>
+                                                                                            <input type="checkbox" id="chkMultiSelectVideoNotes" onclick="SelectDeselectAllVideoNotes(this.checked);" />Select
+                                                                                        </HeaderTemplate>
+                                                                                        <ItemTemplate>
+                                                                                            <asp:CheckBox ID="chkSelectVideoNotes" runat="server" onclick="SelectDeselectVideoNoteHeader();" />
+                                                                                            <input type="hidden" id="hdnPK_Video_Request_Notes" runat="server" value='<%#Eval("PK_Video_Request_Notes") %>' />
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                    <asp:TemplateField HeaderText="Date" SortExpression="Note_Date">
+                                                                                            <ItemStyle Width="10%" />
+                                                                                            <ItemTemplate>
+                                                                                                <a href="javascript:function(){return false};" onclick="VideoNotePopup('<%#Eval("PK_Video_Request_Notes") %>','SONIC');">
+                                                                                                    <%# clsGeneral.FormatDBNullDateToDisplay(Eval("Note_Date")) %></a>
+                                                                                            </ItemTemplate>
+                                                                                        </asp:TemplateField>
+                                                                                        <asp:TemplateField HeaderText="User">
+                                                                                            <ItemStyle Width="10%" />
+                                                                                            <ItemTemplate>
+                                                                                                <asp:Label ID="lblUpdated_By" runat="server" Text='<%# Eval("Updated_by_Name") %>'
+                                                                                                    Style="word-wrap: normal; word-break: break-all;"></asp:Label>
+                                                                                            </ItemTemplate>
+                                                                                        </asp:TemplateField>
+                                                                                        <asp:TemplateField HeaderText="Notes">
+                                                                                            <ItemStyle Width="43%" />
+                                                                                            <ItemTemplate>
+                                                                                                <asp:Label ID="lbtNotes" runat="server" Text='<%# Eval("Note") %>' Style="word-wrap: normal; word-break: break-all;"
+                                                                                                    Width="310px" CssClass="TextClip"></asp:Label>
+                                                                                            </ItemTemplate>
+                                                                                        </asp:TemplateField>
+                                                                                    <asp:TemplateField HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center">
+                                                                                        <ItemStyle Width="15%" HorizontalAlign="Center" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton runat="server" ID="lnkEdit" Text=" Edit " CommandName="EditRecord"
+                                                                                                CommandArgument='<%#Eval("PK_Video_Request_Notes") %>'>
+                                                                                            </asp:LinkButton>
+                                                                                            &nbsp;&nbsp;&nbsp;
+                                                                                <asp:LinkButton ID="lnkRemove" runat="server" Text="Delete" CommandArgument='<%#Eval("PK_Video_Request_Notes") %>'
+                                                                                    CommandName="RemoveVideoNote" OnClientClick="return confirm('Are you sure to remove Note record?');"
+                                                                                    CausesValidation="false" />
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                </Columns>
+                                                                                <EmptyDataTemplate>
+                                                                                    <table cellpadding="4" cellspacing="0" width="97%">
+                                                                                        <tr>
+                                                                                            <td width="100%" align="center" style="border: 1px solid #cccccc;">
+                                                                                                <asp:Label ID="lblEmptyHeaderGridMessage" runat="server" Text="No Record Found"></asp:Label>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                </EmptyDataTemplate>
+                                                                            </asp:GridView>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="padding-bottom: 5px;" colspan="6">
+                                                                        <asp:LinkButton Style="display: inline" ID="lnkAddVideoNotesNew" OnClick="lnkAddVideoNotesNew_Click"
+                                                                            runat="server" Text="Add New" OnClientClick="return CheckVideo();"></asp:LinkButton>&nbsp;&nbsp;&nbsp;
+                                                                         <asp:Button ID="btnVideoNoteView" runat="server" Text=" View" OnClientClick="return VideoSelectedNotePopup('','VideoView');" />&nbsp;&nbsp;
+                                                                        <asp:Button ID="btnPrint" runat="server" Text=" Print " OnClick="btnPrint_Click"
+                                                                            OnClientClick="return CheckSelectedVideoNotes('Print');" />
+                                                                        &nbsp;&nbsp;
+                                                                        <asp:Button ID="btnSpecificNote" runat="server" CausesValidation="false" Text=" Show Specific Notes Only "
+                                                                            OnClientClick="javascript:return CheckSelectedVideoNotes('VideoSpecificNote');" />
+                                                                        <asp:LinkButton Style="display: none" ID="lnkVideoNotesCancel" runat="server" Text="Cancel"></asp:LinkButton>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="6" class="spacer" style="height: 5px"></td>
+                                                    </tr>
                                                     <tr>
                                                         <td colspan="6">
                                                             <b>Tracking Grid</b>
@@ -428,13 +693,13 @@
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                     <asp:TemplateField HeaderText="Status">
-                                                                        <ItemStyle Width="10%" />
+                                                                        <ItemStyle Width="20%" />
                                                                         <ItemTemplate>
                                                                             <%# Eval("Status")%>
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                     <asp:TemplateField HeaderText="Reason">
-                                                                        <ItemStyle Width="50%" />
+                                                                        <ItemStyle Width="40%" />
                                                                         <ItemTemplate>
                                                                             <%# Eval("Reason_Request")%>
                                                                         </ItemTemplate>

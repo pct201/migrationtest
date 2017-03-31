@@ -1405,7 +1405,7 @@ public partial class Event_Event_New : clsBasePage
             objVideo.Updated_By = clsSession.UserID;
             objVideo.FK_Security = Convert.ToDecimal(clsSession.UserID);
 
-            DataSet ds = clsLU_Video_Tracking_Status.GetVideoStatusbydesc("Pending");
+            DataSet ds = clsLU_Video_Tracking_Status.GetVideoStatusbydesc(clsGeneral.VideoRequestStatus[(int)clsGeneral.VideoRequest_Status.Submitted]);
 
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
@@ -1947,7 +1947,15 @@ public partial class Event_Event_New : clsBasePage
             trBuilding_Addlink.Visible = false;
         }
 
+        DataTable dtRLCM = Security.SelectGroupByUserID(Convert.ToDecimal(clsSession.UserID)).Tables[0];
 
+        if (dtRLCM.Rows.Count > 0)
+            rblVideoRequestedBySonic.Enabled = true;
+        else
+        {
+            rblVideoRequestedBySonic.Enabled = false;
+            rblVideoRequestedBySonic.SelectedValue = "N";
+        }
     }
 
     private void SendAbstractViaEmailWhileInsert()
@@ -2163,9 +2171,9 @@ public partial class Event_Event_New : clsBasePage
 
                     string strMailBody = "ERIMS has requested ACI Video Approval. Please click APPROVE or DENY for video Request.";
                     strMailBody = strMailBody + "<br/><br/>";
-                    strMailBody = strMailBody + "<span style='font-size: 20px;'><A href=" + AppConfig.SiteURL + "Event/ACI_Approve_Deny.aspx?tid=" + Encryption.Encrypt(Convert.ToString(_PK_Event_Video_Tracking_Request)) + "&sid=" + Encryption.Encrypt(Convert.ToString(drRecipient["PK_Security_ID"].ToString())) + "&status=" + Encryption.Encrypt("Approved") + "&grp=" + Encryption.Encrypt("0") + "&aid=" + Encryption.Encrypt("0") + ">APPROVE</A></span>";
+                    strMailBody = strMailBody + "<span style='font-size: 20px;'><A href=" + AppConfig.SiteURL + "Event/ACI_Approve_Deny.aspx?tid=" + Encryption.Encrypt(Convert.ToString(_PK_Event_Video_Tracking_Request)) + "&sid=" + Encryption.Encrypt(Convert.ToString(drRecipient["PK_Security_ID"].ToString())) + "&status=" + Encryption.Encrypt(clsGeneral.VideoRequestStatus[(int)clsGeneral.VideoRequest_Status.Sonic_Approved]) + "&grp=" + Encryption.Encrypt("0") + "&aid=" + Encryption.Encrypt("0") + ">APPROVE</A></span>";
                     strMailBody = strMailBody + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-                    strMailBody = strMailBody + "<span style='font-size: 20px;'><A href=" + AppConfig.SiteURL + "Event/ACI_Approve_Deny.aspx?tid=" + Encryption.Encrypt(Convert.ToString(_PK_Event_Video_Tracking_Request)) + "&sid=" + Encryption.Encrypt(Convert.ToString(drRecipient["PK_Security_ID"].ToString())) + "&status=" + Encryption.Encrypt("Denied") +"&grp=" + Encryption.Encrypt("0") + "&aid=" + Encryption.Encrypt("0") + ">DENY</A></span>";
+                    strMailBody = strMailBody + "<span style='font-size: 20px;'><A href=" + AppConfig.SiteURL + "Event/ACI_Approve_Deny.aspx?tid=" + Encryption.Encrypt(Convert.ToString(_PK_Event_Video_Tracking_Request)) + "&sid=" + Encryption.Encrypt(Convert.ToString(drRecipient["PK_Security_ID"].ToString())) + "&status=" + Encryption.Encrypt(clsGeneral.VideoRequestStatus[(int)clsGeneral.VideoRequest_Status.Sonic_Denied]) + "&grp=" + Encryption.Encrypt("0") + "&aid=" + Encryption.Encrypt("0") + ">DENY</A></span>";
                     strMailBody = strMailBody + "<br/><br/><br/>";
                     strMailBody = strMailBody + "<span style='font-size: 18px;'><b>Reason   :   </b></span>" + objRefNumber.Reason_Request;
 
