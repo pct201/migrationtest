@@ -204,89 +204,89 @@
 
             var rowCnt = document.getElementById('<%=gvACI_Notes.ClientID%>').rows.length - 1;
 
-        var headerChkID = 'chkMultiSelectSonicNotes';
+            var headerChkID = 'chkMultiSelectSonicNotes';
 
-        if (cnt == rowCnt)
-            document.getElementById(headerChkID).checked = true;
-        else
-            document.getElementById(headerChkID).checked = false;
-    }
-
-    function checkLengthSonic() 
-    {
-        if (Page_ClientValidate("vsErrorGroup"))
-        {
-            var oObject = document.getElementById('ctl00_ContentPlaceHolder1_txtSonic_Notes_txtNote') 
-            if (oObject.value.length < 50)
-            {
-                alert("Please enter minimum 50 Characters for Notes.");
-                return false;
-            }
+            if (cnt == rowCnt)
+                document.getElementById(headerChkID).checked = true;
             else
-            {
-                return true;            
-            }        
+                document.getElementById(headerChkID).checked = false;
         }
-        else
-            return false;
-    }
 
-    function valSaveEvent() 
-    {
-        if (Page_ClientValidate("vsErrorGroup"))
+        function checkLengthSonic() 
         {
-            if (Page_ClientValidate("vsErrorEvent_Camera"))
+            if (Page_ClientValidate("vsErrorGroup"))
             {
-                return true;
+                var oObject = document.getElementById('ctl00_ContentPlaceHolder1_txtSonic_Notes_txtNote') 
+                if (oObject.value.length < 50)
+                {
+                    alert("Please enter minimum 50 Characters for Notes.");
+                    return false;
+                }
+                else
+                {
+                    return true;            
+                }        
             }
             else
                 return false;
         }
-        else
-            return false;
-    }
 
-    function valSaveEventSonic() 
-    {
-        if (Page_ClientValidate("vsErrorGroup"))
+        function valSaveEvent() 
         {
-            if (Page_ClientValidate("vsErrorEvent_Camera_Sonic"))
+            if (Page_ClientValidate("vsErrorGroup"))
             {
-                return true;
+                if (Page_ClientValidate("vsErrorEvent_Camera"))
+                {
+                    return true;
+                }
+                else
+                    return false;
             }
             else
                 return false;
         }
-        else
-            return false;
-    }
 
-    function AciNotePopup(NoteId, type) {            
-        var winHeight = 500;
-        var winWidth = 500;
-        var EventId = <%=ViewState["PK_Event"]%>;            
-            obj = window.open("Event_Note.aspx?nid=" + NoteId + "&id=" + '<%=ViewState["PK_Event"]%>' + "&type=" + type, 'AuditPopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
-            obj.focus();
+        function valSaveEventSonic() 
+        {
+            if (Page_ClientValidate("vsErrorGroup"))
+            {
+                if (Page_ClientValidate("vsErrorEvent_Camera_Sonic"))
+                {
+                    return true;
+                }
+                else
+                    return false;
+            }
+            else
+                return false;
         }
 
-        function AciSelectedNotePopup(NoteId, type) {  
-            var winHeight = 450;
-            var winWidth = 750;
+        function AciNotePopup(NoteId, type) {            
+            var winHeight = 500;
+            var winWidth = 500;
             var EventId = <%=ViewState["PK_Event"]%>;            
-             obj = window.open("Event_Note.aspx?viewIDs=" +  NoteId + "&id=" + '<%=ViewState["PK_Event"]%>' + "&type=" + type, 'AuditPopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',resizable=yes,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
-             obj.focus();
-             return false;
+        obj = window.open("Event_Note.aspx?nid=" + NoteId + "&id=" + '<%=ViewState["PK_Event"]%>' + "&type=" + type, 'AuditPopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
+        obj.focus();
+    }
+
+    function AciSelectedNotePopup(NoteId, type) {  
+        var winHeight = 450;
+        var winWidth = 750;
+        var EventId = <%=ViewState["PK_Event"]%>;            
+            obj = window.open("Event_Note.aspx?viewIDs=" +  NoteId + "&id=" + '<%=ViewState["PK_Event"]%>' + "&type=" + type, 'AuditPopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',resizable=yes,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
+            obj.focus();
+            return false;
+        }
+
+        function setscroll() {
+            document.documentElement.scrollLeft = document.getElementById('<%=hndScrollX.ClientID%>').value;
+             document.documentElement.scrollTop = document.getElementById('<%=hndScrollY.ClientID%>').value;
          }
 
-         function setscroll() {
-             document.documentElement.scrollLeft = document.getElementById('<%=hndScrollX.ClientID%>').value;
-            document.documentElement.scrollTop = document.getElementById('<%=hndScrollY.ClientID%>').value;
-        }
-
-        function getscroll() {
-            var x = document.documentElement.scrollLeft;
-            var y = document.documentElement.scrollTop;
-            document.getElementById('<%=hndScrollX.ClientID%>').value = x;
+         function getscroll() {
+             var x = document.documentElement.scrollLeft;
+             var y = document.documentElement.scrollTop;
+             document.getElementById('<%=hndScrollX.ClientID%>').value = x;
             document.getElementById('<%=hndScrollY.ClientID%>').value = y;
         }
 
@@ -297,6 +297,8 @@
         function SetMenuStyle(index) {
             var i;
             for (i = 1; i <= 8; i++) {
+                if(i==4)i++;
+                if(i==5)i++;
                 var tb = document.getElementById("Menu" + i);
                 if (i == index) {
                     tb.className = "LeftMenuSelected";
@@ -537,21 +539,21 @@
         function setPoliceReportSonic()
         {
             var PoliceReport =  document.getElementById("<%=txtPolice_Report_Number.ClientID%>").value;
-                 var PoliceReportSonic = document.getElementById("<%=txtPolice_Report_Number_Sonic.ClientID%>");
-                 PoliceReportSonic.value = PoliceReport;
-             }
+            var PoliceReportSonic = document.getElementById("<%=txtPolice_Report_Number_Sonic.ClientID%>");
+            PoliceReportSonic.value = PoliceReport;
+        }
 
-             function setIncidentReportSonic()
-             {
-                 //alert('98647');
-             }
+        function setIncidentReportSonic()
+        {
+            //alert('98647');
+        }
 
-             function setPolicecalledSonic()
-             {
-                 var rdopolice = document.getElementById("<%=rdoPolice_Called.ClientID%>");
-            var rdo = document.getElementById(rdopolice.id + "_0");
+        function setPolicecalledSonic()
+        {
+            var rdopolice = document.getElementById("<%=rdoPolice_Called.ClientID%>");
+                 var rdo = document.getElementById(rdopolice.id + "_0");
 
-            var rdopoliceSonic = document.getElementById("<%=rdoPolice_Called_Sonic.ClientID%>");
+                 var rdopoliceSonic = document.getElementById("<%=rdoPolice_Called_Sonic.ClientID%>");
             var rdoSonicYes = document.getElementById(rdopoliceSonic.id + "_0");
             var rdoSonicNo = document.getElementById(rdopoliceSonic.id + "_1");
 
@@ -589,11 +591,44 @@
         }
 
         function ConfirmDelete() {
-            if (confirm("Are you sure that you want to delete the selected information and all of its subordinate data (if exists)?")) {
-                document.getElementById("ctl00_ContentPlaceHolder1_btnhdnNonactionable").click();
-                return true;
+            var currentDate = "<%=DateTime.Now %>";
+            var dateOfEvent =document.getElementById("<%=txtEvent_Start_Date.ClientID%>").value;
+
+            var timeOfEvent =document.getElementById("<%=txtEvent_End_Time.ClientID%>").value;
+
+            if(!dateOfEvent || 0 === dateOfEvent.length)
+            {
+                alert("Please enter Date of Event.");
+                return false;
             }
-            else return false;
+
+            if(!timeOfEvent || 0 === timeOfEvent.length)
+            {
+                alert("Please enter Event end time.");
+                return false;
+            }
+
+            var dateParts = dateOfEvent.split('/');
+            var timeParts = timeOfEvent.split(':');
+
+            var date = new Date(dateParts[2], parseInt(dateParts[0], 10) - 1, dateParts[1], timeParts[0], timeParts[1]);
+            dateTimeParts = currentDate.split(' ');
+            timeParts = dateTimeParts[1].split(':');
+            dateParts = dateTimeParts[0].split('/');
+            var todaydate = new Date(dateParts[2], parseInt(dateParts[0], 10) - 1, dateParts[1], timeParts[0], timeParts[1]);
+            var hours = Math.abs(todaydate - date) / 36e5;
+            
+            if(hours > 24){
+                alert("24 hour already elapsed so you can not make this event non-Actionable.");
+                return false;
+            }
+            else{
+                if (confirm("Are you sure that you want to delete the selected information and all of its subordinate data (if exists)?")) {
+                    document.getElementById("ctl00_ContentPlaceHolder1_btnhdnNonactionable").click();
+                    return true;
+                }
+                else return false;
+            }
         }
 
         function ShowHideVideoRequest() {
@@ -848,21 +883,21 @@
                                         <span id="Menu7" onclick="javascript:ShowPanel(7);" class="LeftMenuStatic">Cause Investigations</span>
                                     </td>
                                 </tr>
-                                <tr>
+                                <%--<tr>
                                     <td align="left" width="100%">
                                         <span id="Menu4" onclick="javascript:ShowPanel(4);" class="LeftMenuStatic">Insurance Type Claim</span>
                                     </td>
-                                </tr>
+                                </tr>--%>
                                 <tr>
                                     <td align="left" width="100%">
                                         <span id="Menu6" onclick="javascript:ShowPanel(6);" class="LeftMenuStatic">Abstracts & Custom Letters</span>
                                     </td>
                                 </tr>
-                                <tr>
+                                <%--<tr>
                                     <td align="left" width="100%">
                                         <span id="Menu5" onclick="javascript:ShowPanel(5);" class="LeftMenuStatic">Attachments</span>
                                     </td>
-                                </tr>
+                                </tr>--%>
                             </table>
                         </td>
                         <td valign="top">
@@ -883,7 +918,7 @@
                                                         <td style="height: 5px" colspan="6"></td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" width="100%" valign="top" colspan="6">         
+                                                        <td align="left" width="100%" valign="top" colspan="6">
                                                             <b>Make Non-Actionable :</b>&nbsp;&nbsp;
                                                             <asp:CheckBox ID="chkNonActionable" runat="server" OnClick="return ConfirmDelete();" />
                                                             <asp:Button ID="btnhdnNonactionable" runat="server" OnClick="btnhdnNonactionable_Click" Style="display: none;" />
@@ -923,7 +958,7 @@
                                                     <tr>
                                                         <td colspan="3">
                                                             <u><b>Actionable Event Type</b></u>
-                                                   
+
                                                         </td>
                                                         <td colspan="3">
                                                             <u><b>Description of Event</b></u>
@@ -1711,55 +1746,7 @@
                                                             <uc:ctrlMultiLineTextBox ID="txtIncident_Report" runat="server" Width="500" onblur="setIncidentReportSonic();" />
                                                         </td>
                                                     </tr>
-                                                    <tr runat="server" id="trACINotes" style="display: none;">
-                                                        <td colspan="6">
-                                                            <table width="100%">
-                                                                <tr>
-                                                                    <td align="left" valign="top">
-                                                                        <b>Acadian Notes Grid </b>
-                                                                    </td>
-                                                                    <td align="center" valign="top" colspan="5">&nbsp;
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <%--<td align="left" valign="top" width="19%">Date
-                                                                    </td>
-                                                                    <td align="center" valign="top" width="2%">:
-                                                                    </td>
-                                                                    <td align="left" valign="top" style="padding-left: 5px;">
-                                                                        <asp:TextBox ID="txtACI_Notes_Date" runat="server" SkinID="txtDate" MaxLength="12" autocomplete="off"
-                                                                            onpaste="return false"></asp:TextBox>
-                                                                        <img alt="Report Date" onclick="return showCalendar('<%= txtACI_Notes_Date.ClientID %>', 'mm/dd/y');"
-                                                                            onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
-                                                                            align="middle" />
-                                                                        <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ValidationGroup="vsErrorGroup"
-                                                                            Display="none" ErrorMessage="[ACI Notes Grid]/Date Sonic is not a valid date"
-                                                                            SetFocusOnError="true" ControlToValidate="txtDate_Sent" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
-                                                                        <asp:CompareValidator ID="CompareValidator1" runat="server" ControlToCompare="txtCurrentDate"
-                                                                            ControlToValidate="txtACI_Notes_Date" Display="None" Text="*" ErrorMessage="[ACI Notes Grid]/Date should not be greater than current date."
-                                                                            Operator="LessThanEqual" Type="Date" ValidationGroup="vsErrorGroup"></asp:CompareValidator>
-                                                                    </td>--%>
-                                                                    <td align="left" valign="top" width="19%">Note
-                                                                    </td>
-                                                                    <td align="center" valign="top" width="2%">:
-                                                                    </td>
-                                                                    <td align="left" valign="top" style="padding-left: 5px;">
-                                                                        <uc:ctrlMultiLineTextBox ID="txtACI_Notes" runat="server" />
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left"></td>
-                                                                    <td align="center"></td>
-                                                                    <td align="left" colspan="4">
-                                                                        <asp:Button ID="btnACINotesAdd" OnClick="btnACINotesAdd_Click" runat="server" ValidationGroup="vsErrorGroup"
-                                                                            OnClientClick="javascript:return checkLength();" Text="Add" Width="70px"></asp:Button>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                        <asp:Button ID="btnACINotesCancel" OnClick="btnACINotesCancel_Click" runat="server"
-                                                                            Text="Cancel" Width="70px"></asp:Button>
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
-                                                        </td>
-                                                    </tr>
+                                                    
                                                     <tr>
                                                         <td colspan="6">&nbsp;
                                                         </td>
@@ -1769,93 +1756,7 @@
                                                             <uc:ctrlEventNotes ID="ctrlEventNotes" runat="server" IsAddVisible="true" />
                                                         </td>
                                                     </tr>--%>
-                                                    <tr runat="server" id="trACINotesGrid">
-                                                        <td colspan="6">
-                                                            <table width="100%">
-                                                                <tr>
-                                                                    <td align="left" valign="top" width="17%">Acadian Notes Grid
-                                                                    </td>
-                                                                    <td align="center" valign="top" width="5%">:
-                                                                    </td>
-
-                                                                    <td colspan="4" align="right">&nbsp;
-                                                                        <uc:ctrlPaging ID="ctrlPageAcadianNotes" runat="server" OnGetPage="GetPage" RecordPerPage="true" />
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td colspan="6">
-                                                                        <div runat="server" id="dvACINOtes" style="width: 99%; overflow-y: scroll; border: solid 1px #000000;">
-                                                                            <asp:GridView ID="gvACI_Notes" runat="server" Width="97%" AutoGenerateColumns="false" OnSorting="gvACI_Notes_Sorting"
-                                                                                EnableViewState="true" AllowPaging="false" OnRowCommand="gvACI_Notes_RowCommand" AllowSorting="True"
-                                                                                OnPageIndexChanging="gvACI_Notes_PageIndexChanging" Style="word-wrap: normal; word-break: break-all;">
-                                                                                <Columns>
-                                                                                    <asp:TemplateField ItemStyle-VerticalAlign="Top" ItemStyle-Width="12%">
-                                                                                        <HeaderTemplate>
-                                                                                            <input type="checkbox" id="chkMultiSelectSonicNotes" onclick="SelectDeselectAllSonicNotes(this.checked);" />Select
-                                                                                        </HeaderTemplate>
-                                                                                        <ItemTemplate>
-                                                                                            <asp:CheckBox ID="chkSelectSonicNotes" runat="server" onclick="SelectDeselectACINoteHeader();" />
-                                                                                            <input type="hidden" id="hdnPK_ACI_Event_Notes" runat="server" value='<%#Eval("PK_ACI_Event_Notes") %>' />
-                                                                                        </ItemTemplate>
-                                                                                    </asp:TemplateField>
-                                                                                    <asp:TemplateField HeaderText="Date" SortExpression="Note_Date">
-                                                                                        <ItemStyle Width="20%" />
-                                                                                        <ItemTemplate>
-                                                                                            <a href="javascript:function(){return false};" onclick="AciNotePopup('<%#Eval("PK_ACI_Event_Notes") %>','ACI');">
-                                                                                                <%# clsGeneral.FormatDBNullDateToDisplay(Eval("Note_Date")) %></a>
-                                                                                        </ItemTemplate>
-                                                                                    </asp:TemplateField>
-                                                                                    <asp:TemplateField ItemStyle-HorizontalAlign="Left" ItemStyle-VerticalAlign="Top"
-                                                                                        HeaderText="Note Text">
-                                                                                        <ItemTemplate>
-                                                                                            <%--   <asp:LinkButton ID="lbtNotes" runat="server" Text='<%# Eval("Note") %>' CommandName="EditRecord"
-                                                                                    CommandArgument='<%#Eval("PK_ACI_Event_Notes") %>' Width="310px" CssClass="TextClip"></asp:LinkButton>--%>
-                                                                                            <asp:Label ID="lbtNotes" runat="server" Text='<%# Eval("Note") %>' Style="word-wrap: normal; word-break: break-all;"
-                                                                                                Width="310px" CssClass="TextClip"></asp:Label>
-                                                                                        </ItemTemplate>
-                                                                                    </asp:TemplateField>
-                                                                                    <asp:TemplateField HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center">
-                                                                                        <ItemStyle Width="15%" HorizontalAlign="Center" />
-                                                                                        <ItemTemplate>
-                                                                                            <asp:LinkButton runat="server" ID="lnkEdit" Text=" Edit " CommandName="EditRecord"
-                                                                                                CommandArgument='<%#Eval("PK_ACI_Event_Notes") %>' Visible='<%#Convert.ToBoolean(!Is_Closed_Event) %>'>
-                                                                                            </asp:LinkButton>
-                                                                                            &nbsp;&nbsp;&nbsp;
-                                                                            <asp:LinkButton ID="lnkRemove" runat="server" Text="Delete" CommandArgument='<%#Eval("PK_ACI_Event_Notes") %>'
-                                                                                CommandName="RemoveACINote" OnClientClick="return confirm('Are you sure to remove Acadian Note record?');"
-                                                                                CausesValidation="false" Visible='<%#Convert.ToBoolean(!Is_Closed_Event) %>' />
-                                                                                        </ItemTemplate>
-                                                                                    </asp:TemplateField>
-                                                                                </Columns>
-                                                                                <EmptyDataTemplate>
-                                                                                    <table cellpadding="4" cellspacing="0" width="97%">
-                                                                                        <tr>
-                                                                                            <td width="100%" align="center" style="border: 1px solid #cccccc;">
-                                                                                                <asp:Label ID="lblEmptyHeaderGridMessage" runat="server" Text="No Record Found"></asp:Label>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                    </table>
-                                                                                </EmptyDataTemplate>
-                                                                            </asp:GridView>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="padding-bottom: 5px;" colspan="6">
-                                                                        <asp:LinkButton Style="display: inline" ID="lnkAddACINotesNew" OnClick="lnkAddACINotesNew_Click"
-                                                                            runat="server" Text="Add New" OnClientClick="return CheckEvent();"></asp:LinkButton>&nbsp;&nbsp;&nbsp;
-                                                                         <asp:Button ID="btnACINoteView" runat="server" Text=" View" OnClientClick="return AciSelectedNotePopup('','ACIView');" />&nbsp;&nbsp;
-                                                                        <asp:Button ID="btnPrint" runat="server" Text=" Print " OnClick="btnPrint_Click"
-                                                                            OnClientClick="return CheckSelectedAcadianNotes('Print');" />
-                                                                        &nbsp;&nbsp;
-                                                                        <asp:Button ID="btnSpecificNote" runat="server" CausesValidation="false" Text=" Show Specific Notes Only "
-                                                                            OnClientClick="javascript:return CheckSelectedAcadianNotes('ACISpecificNote');" />
-                                                                        <asp:LinkButton Style="display: none" ID="lnkACINotesCancel" runat="server" Text="Cancel"></asp:LinkButton>
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
-                                                        </td>
-                                                    </tr>
+                                                    
                                                     <tr>
                                                         <td colspan="6" class="spacer" style="height: 5px"></td>
                                                     </tr>
@@ -2734,8 +2635,7 @@
                                                         <td style="height: 5px" colspan="6"></td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" width="18%" valign="top">
-                                                            Location&nbsp;<span id="Span2" runat="server" style="color: Red;">*</span>
+                                                        <td align="left" width="18%" valign="top">Location&nbsp;<span id="Span2" runat="server" style="color: Red;">*</span>
                                                         </td>
                                                         <td align="center" width="4%" valign="top">:
                                                         </td>
@@ -2746,8 +2646,7 @@
                                                                 InitialValue="0" ErrorMessage="[ACI Video Request] /  Please Select Location" Display="None" SetFocusOnError="true"
                                                                 ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
                                                         </td>
-                                                        <td align="left" width="18%" valign="top">
-                                                            Type Of Activity&nbsp;<span id="Span3" runat="server" style="color: Red;">*</span>
+                                                        <td align="left" width="18%" valign="top">Type Of Activity&nbsp;<span id="Span3" runat="server" style="color: Red;">*</span>
                                                         </td>
                                                         <td align="center" width="4%" valign="top">:
                                                         </td>
@@ -2760,8 +2659,7 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" width="18%" valign="top">
-                                                            Date of Event&nbsp;<span id="Span4" runat="server" style="color: Red;">*</span>
+                                                        <td align="left" width="18%" valign="top">Date of Event&nbsp;<span id="Span4" runat="server" style="color: Red;">*</span>
                                                         </td>
                                                         <td align="center" width="4%" valign="top">:
                                                         </td>
@@ -2778,11 +2676,10 @@
                                                                 ControlToValidate="txtDate_Of_Event_Video" Display="None" Text="*" ErrorMessage="[ACI Video Request] /  Date of Event should not be greater than current date."
                                                                 Operator="LessThanEqual" Type="Date" ValidationGroup="vsErrorGroup"></asp:CompareValidator>
                                                             <asp:RequiredFieldValidator ID="rfvtxtDate_Of_Event_Video" runat="server" ControlToValidate="txtDate_Of_Event_Video"
-                                                                    InitialValue="" ErrorMessage="[ACI Video Request] /  Please Enter Date of Event" Display="None" SetFocusOnError="true"
-                                                                    ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                                                                InitialValue="" ErrorMessage="[ACI Video Request] /  Please Enter Date of Event" Display="None" SetFocusOnError="true"
+                                                                ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
                                                         </td>
-                                                        <td align="left" width="18%" valign="top">
-                                                            Date of Request&nbsp;<span id="Span5" runat="server" style="color: Red;">*</span>
+                                                        <td align="left" width="18%" valign="top">Date of Request&nbsp;<span id="Span5" runat="server" style="color: Red;">*</span>
                                                         </td>
                                                         <td align="center" width="4%" valign="top">:
                                                         </td>
@@ -2798,24 +2695,22 @@
                                                                 ControlToValidate="txtDate_Of_Request_Video" Display="None" Text="*" ErrorMessage="[ACI Video Request] /  Date of Request should not be greater than current date."
                                                                 Operator="LessThanEqual" Type="Date" ValidationGroup="vsErrorGroup"></asp:CompareValidator>
                                                             <asp:RequiredFieldValidator ID="rfvtxtDate_Of_Request_Video" runat="server" ControlToValidate="txtDate_Of_Request_Video"
-                                                                    InitialValue="" ErrorMessage="[ACI Video Request] /  Please Enter Date of Request" Display="None" SetFocusOnError="true"
-                                                                    ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                                                                InitialValue="" ErrorMessage="[ACI Video Request] /  Please Enter Date of Request" Display="None" SetFocusOnError="true"
+                                                                ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">
-                                                            Full Name&nbsp;<span id="Span6" runat="server" style="color: Red;">*</span>
+                                                        <td align="left" valign="top">Full Name&nbsp;<span id="Span6" runat="server" style="color: Red;">*</span>
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
                                                             <asp:TextBox ID="txtFull_Name_Video" runat="server" MaxLength="500" Width="170px" />
                                                             <asp:RequiredFieldValidator ID="revtxtFull_Name_Video" runat="server" ControlToValidate="txtFull_Name_Video"
-                                                                    InitialValue="" ErrorMessage="[ACI Video Request] /  Please Enter Full Name" Display="None" SetFocusOnError="true"
-                                                                    ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                                                                InitialValue="" ErrorMessage="[ACI Video Request] /  Please Enter Full Name" Display="None" SetFocusOnError="true"
+                                                                ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
                                                         </td>
-                                                        <td align="left" valign="top">
-                                                            Work Phone&nbsp;<span id="Span8" runat="server" style="color: Red;">*</span>
+                                                        <td align="left" valign="top">Work Phone&nbsp;<span id="Span8" runat="server" style="color: Red;">*</span>
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
@@ -2825,24 +2720,22 @@
                                                                 runat="server" SetFocusOnError="true" ErrorMessage="[ACI Video Request] /  Please Enter Work Phone # in XXX-XXX-XXXX format"
                                                                 Display="none" ValidationGroup="vsErrorGroup" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>
                                                             <asp:RequiredFieldValidator ID="revtxtWork_Phone_Video" runat="server" ControlToValidate="txtWork_Phone_Video"
-                                                                    InitialValue="" ErrorMessage="[ACI Video Request] /  Please Enter Work Phone" Display="None" SetFocusOnError="true"
-                                                                    ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                                                                InitialValue="" ErrorMessage="[ACI Video Request] /  Please Enter Work Phone" Display="None" SetFocusOnError="true"
+                                                                ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">
-                                                            Location&nbsp;<span id="Span7" runat="server" style="color: Red;">*</span>
+                                                        <td align="left" valign="top">Location&nbsp;<span id="Span7" runat="server" style="color: Red;">*</span>
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            <asp:TextBox ID="txtLocation_Video" runat="server" MaxLength="500"  Width="170px" />
+                                                            <asp:TextBox ID="txtLocation_Video" runat="server" MaxLength="500" Width="170px" />
                                                             <asp:RequiredFieldValidator ID="revtxtLocation_Video" runat="server" ControlToValidate="txtLocation_Video"
-                                                                    InitialValue="" ErrorMessage="[ACI Video Request] /  Please Enter Location" Display="None" SetFocusOnError="true"
-                                                                    ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                                                                InitialValue="" ErrorMessage="[ACI Video Request] /  Please Enter Location" Display="None" SetFocusOnError="true"
+                                                                ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
                                                         </td>
-                                                        <td align="left" valign="top">
-                                                            Alternate Phone&nbsp;<span id="Span9" runat="server" style="color: Red;">*</span>
+                                                        <td align="left" valign="top">Alternate Phone&nbsp;<span id="Span9" runat="server" style="color: Red;">*</span>
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
@@ -2852,8 +2745,8 @@
                                                                 runat="server" SetFocusOnError="true" ErrorMessage="[ACI Video Request] /  Please Enter Alternate Phone # in XXX-XXX-XXXX format"
                                                                 Display="none" ValidationGroup="vsErrorGroup" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>
                                                             <asp:RequiredFieldValidator ID="revtxtAlternate_Phone_Video" runat="server" ControlToValidate="txtAlternate_Phone_Video"
-                                                                    InitialValue="" ErrorMessage="[ACI Video Request] /  Please Enter Alternate Phone" Display="None" SetFocusOnError="true"
-                                                                    ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                                                                InitialValue="" ErrorMessage="[ACI Video Request] /  Please Enter Alternate Phone" Display="None" SetFocusOnError="true"
+                                                                ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -2861,13 +2754,11 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top"  colspan="6">
-                                                            Reason the Request is Being Made (Please Include as much Detail as Possible)&nbsp;<span style="color: Red;">*</span>
+                                                        <td align="left" valign="top" colspan="6">Reason the Request is Being Made (Please Include as much Detail as Possible)&nbsp;<span style="color: Red;">*</span>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td style="vertical-align: top;">
-                                                        </td>
+                                                        <td style="vertical-align: top;"></td>
                                                         <td style="vertical-align: top;">:</td>
                                                         <td colspan="4">
                                                             <uc:ctrlMultiLineTextBox ID="txtReason_Request_Video" runat="server" Width="500" IsRequired="true" RequiredFieldMessage="[ACI Video Request] /  Please Enter Reason the Request is Being Made (Please Include as much Detail as Possible)" ValidationGroup="vsErrorGroup" />
@@ -2923,19 +2814,17 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" width="18%" valign="top">
-                                                            Camera Name&nbsp;<span style="color: Red;" runat="server" id="spancameraname">*</span>
+                                                        <td align="left" width="18%" valign="top">Camera Name&nbsp;<span style="color: Red;" runat="server" id="spancameraname">*</span>
                                                         </td>
                                                         <td align="center" width="4%" valign="top">:
                                                         </td>
                                                         <td align="left" width="28%" valign="top">
                                                             <asp:TextBox ID="txtCamera_Name_Video" runat="server" MaxLength="500" Width="170px" />
                                                             <asp:RequiredFieldValidator ID="revtxtCamera_Name_Video" runat="server" ControlToValidate="txtCamera_Name_Video"
-                                                                    InitialValue="" ErrorMessage="[ACI Video Request] /  Please Enter Camera Name" Display="None" SetFocusOnError="true"
-                                                                    ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                                                                InitialValue="" ErrorMessage="[ACI Video Request] /  Please Enter Camera Name" Display="None" SetFocusOnError="true"
+                                                                ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
                                                         </td>
-                                                        <td align="left" width="18%" valign="top">
-                                                           &nbsp;
+                                                        <td align="left" width="18%" valign="top">&nbsp;
                                                         </td>
                                                         <td align="center" width="4%" valign="top">&nbsp;
                                                         </td>
@@ -2979,25 +2868,23 @@
                                                                 ErrorMessage="[ACI Video Request] /  Invalid Event End Time" Display="none"
                                                                 ValidationGroup="vsErrorGroup" SetFocusOnError="true">
                                                             </asp:RegularExpressionValidator>
-                                                             <asp:RequiredFieldValidator ID="revtxtEvent_End_Time_Video" runat="server" ControlToValidate="txtEvent_End_Time_Video"
+                                                            <asp:RequiredFieldValidator ID="revtxtEvent_End_Time_Video" runat="server" ControlToValidate="txtEvent_End_Time_Video"
                                                                 InitialValue="" ErrorMessage="[ACI Video Request] /  Please Enter Event End Time" Display="None" SetFocusOnError="true"
                                                                 ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" width="18%" valign="top">
-                                                            Video Link - Email Address to Send Link
+                                                        <td align="left" width="18%" valign="top">Video Link - Email Address to Send Link
                                                         </td>
                                                         <td align="center" width="4%" valign="top">:
                                                         </td>
                                                         <td align="left" width="28%" valign="top">
                                                             <asp:TextBox ID="txtVideo_Link_Email_Video" runat="server" MaxLength="100" Width="170px" />
-                                                              <asp:RegularExpressionValidator ID="regtxtVideo_Link_Email_Video" runat="server" ControlToValidate="txtVideo_Link_Email_Video"
+                                                            <asp:RegularExpressionValidator ID="regtxtVideo_Link_Email_Video" runat="server" ControlToValidate="txtVideo_Link_Email_Video"
                                                                 Display="None" ErrorMessage="[ACI Video Request] /  Video Link - Email Address to Send Link is not valid" SetFocusOnError="True"
                                                                 ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" ValidationGroup="vsErrorGroup"></asp:RegularExpressionValidator>
                                                         </td>
-                                                        <td align="left" width="18%" valign="top">
-                                                           &nbsp;
+                                                        <td align="left" width="18%" valign="top">&nbsp;
                                                         </td>
                                                         <td align="center" width="4%" valign="top">&nbsp;
                                                         </td>
@@ -3005,8 +2892,7 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" width="18%" valign="top">
-                                                            Still Shots - Email Address to Send Link
+                                                        <td align="left" width="18%" valign="top">Still Shots - Email Address to Send Link
                                                         </td>
                                                         <td align="center" width="4%" valign="top">:
                                                         </td>
@@ -3016,8 +2902,7 @@
                                                                 Display="None" ErrorMessage="[ACI Video Request] /  Still Shots - Email Address to Send Link is not valid" SetFocusOnError="True"
                                                                 ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" ValidationGroup="vsErrorGroup"></asp:RegularExpressionValidator>
                                                         </td>
-                                                        <td align="left" width="18%" valign="top">
-                                                           &nbsp;
+                                                        <td align="left" width="18%" valign="top">&nbsp;
                                                         </td>
                                                         <td align="center" width="4%" valign="top">&nbsp;
                                                         </td>
@@ -3025,17 +2910,15 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" width="18%" valign="top">
-                                                            DVD No. of Copies
+                                                        <td align="left" width="18%" valign="top">DVD No. of Copies
                                                         </td>
                                                         <td align="center" width="4%" valign="top">:
                                                         </td>
                                                         <td align="left" width="28%" valign="top">
                                                             <asp:TextBox ID="txtNo_DVD_Copy_Video" runat="server" MaxLength="3" Width="40px" autocomplete="off"
-                                                                    onKeyPress="return FormatInteger(event);" onpaste="return false" />
+                                                                onKeyPress="return FormatInteger(event);" onpaste="return false" />
                                                         </td>
-                                                        <td align="left" width="18%" valign="top">
-                                                           &nbsp;
+                                                        <td align="left" width="18%" valign="top">&nbsp;
                                                         </td>
                                                         <td align="center" width="4%" valign="top">&nbsp;
                                                         </td>
@@ -3054,19 +2937,16 @@
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            <asp:RadioButtonList ID="rdoUrgent_Need_Video" runat="server" onClick="return setUrgentNeed();" >
+                                                            <asp:RadioButtonList ID="rdoUrgent_Need_Video" runat="server" onClick="return setUrgentNeed();">
                                                                 <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
                                                                 <asp:ListItem Text="No" Value="N" Selected="True"></asp:ListItem>
                                                             </asp:RadioButtonList>
                                                         </td>
-                                                        <td align="left" valign="top">
-                                                            &nbsp;
+                                                        <td align="left" valign="top">&nbsp;
                                                         </td>
-                                                        <td align="center" valign="top">
-                                                            &nbsp;
+                                                        <td align="center" valign="top">&nbsp;
                                                         </td>
-                                                        <td align="left" valign="top">
-                                                            &nbsp;
+                                                        <td align="left" valign="top">&nbsp;
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -3079,39 +2959,29 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">
-                                                            Address
+                                                        <td align="left" valign="top">Address
                                                         </td>
-                                                        <td align="center" valign="top">
-                                                            :
+                                                        <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top" colspan="4">
-                                                           <asp:TextBox ID="txtMailing_Address_Video" runat="server" MaxLength="1000" Width="370px" />             
+                                                            <asp:TextBox ID="txtMailing_Address_Video" runat="server" MaxLength="1000" Width="370px" />
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">
-                                                            Shipping Method
+                                                        <td align="left" valign="top">Shipping Method
                                                         </td>
-                                                        <td align="center" valign="top">
-                                                            :
+                                                        <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top" colspan="4">
                                                             <asp:RadioButtonList ID="rdoShipping_Method_Video" runat="server">
                                                                 <asp:ListItem Text="Overnight" Value="Overnight"></asp:ListItem>
                                                                 <asp:ListItem Text="Regular" Value="Regular"></asp:ListItem>
                                                                 <asp:ListItem Text="Express/2-Day" Value="Express/2-Day"></asp:ListItem>
-                                                            </asp:RadioButtonList>            
+                                                            </asp:RadioButtonList>
                                                         </td>
-                                                        <td align="left" valign="top">
-                                                                       
-                                                        </td>
-                                                        <td align="center" valign="top">
-                                                                        
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                                        
-                                                        </td>
+                                                        <td align="left" valign="top"></td>
+                                                        <td align="center" valign="top"></td>
+                                                        <td align="left" valign="top"></td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="6">&nbsp;
@@ -3144,6 +3014,155 @@
                                                         <td colspan="6" class="spacer" style="height: 5px"></td>
                                                     </tr>
                                                 </table>
+                                                <br />
+                                                <br />
+                                                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                <tr>
+                                                    <td align="left" valign="top" width="100%" style="height: 200px;">
+                                                        <uc:Attachment ID="ucAttachment" runat="server" Attachment_Table="Event" MajorCoverage="Event" />
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                                <br />
+                                                <br />
+                                                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                    <tr runat="server" id="trACINotesGrid">
+                                                        <td colspan="6">
+                                                            <table width="100%">
+                                                                <tr>
+                                                                    <td align="left" valign="top" width="17%">Acadian Notes Grid
+                                                                    </td>
+                                                                    <td align="center" valign="top" width="5%">:
+                                                                    </td>
+
+                                                                    <td colspan="4" align="right">&nbsp;
+                                                                        <uc:ctrlPaging ID="ctrlPageAcadianNotes" runat="server" OnGetPage="GetPage" RecordPerPage="true" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="6">
+                                                                        <div runat="server" id="dvACINOtes" style="width: 99%; overflow-y: scroll; border: solid 1px #000000;">
+                                                                            <asp:GridView ID="gvACI_Notes" runat="server" Width="97%" AutoGenerateColumns="false" OnSorting="gvACI_Notes_Sorting"
+                                                                                EnableViewState="true" AllowPaging="false" OnRowCommand="gvACI_Notes_RowCommand" AllowSorting="True"
+                                                                                OnPageIndexChanging="gvACI_Notes_PageIndexChanging" Style="word-wrap: normal; word-break: break-all;">
+                                                                                <Columns>
+                                                                                    <asp:TemplateField ItemStyle-VerticalAlign="Top" ItemStyle-Width="12%">
+                                                                                        <HeaderTemplate>
+                                                                                            <input type="checkbox" id="chkMultiSelectSonicNotes" onclick="SelectDeselectAllSonicNotes(this.checked);" />Select
+                                                                                        </HeaderTemplate>
+                                                                                        <ItemTemplate>
+                                                                                            <asp:CheckBox ID="chkSelectSonicNotes" runat="server" onclick="SelectDeselectACINoteHeader();" />
+                                                                                            <input type="hidden" id="hdnPK_ACI_Event_Notes" runat="server" value='<%#Eval("PK_ACI_Event_Notes") %>' />
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                    <asp:TemplateField HeaderText="Date" SortExpression="Note_Date">
+                                                                                        <ItemStyle Width="20%" />
+                                                                                        <ItemTemplate>
+                                                                                            <a href="javascript:function(){return false};" onclick="AciNotePopup('<%#Eval("PK_ACI_Event_Notes") %>','ACI');">
+                                                                                                <%# clsGeneral.FormatDBNullDateToDisplay(Eval("Note_Date")) %></a>
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                    <asp:TemplateField ItemStyle-HorizontalAlign="Left" ItemStyle-VerticalAlign="Top"
+                                                                                        HeaderText="Note Text">
+                                                                                        <ItemTemplate>
+                                                                                            <%--   <asp:LinkButton ID="lbtNotes" runat="server" Text='<%# Eval("Note") %>' CommandName="EditRecord"
+                                                                                    CommandArgument='<%#Eval("PK_ACI_Event_Notes") %>' Width="310px" CssClass="TextClip"></asp:LinkButton>--%>
+                                                                                            <asp:Label ID="lbtNotes" runat="server" Text='<%# Eval("Note") %>' Style="word-wrap: normal; word-break: break-all;"
+                                                                                                Width="310px" CssClass="TextClip"></asp:Label>
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                    <asp:TemplateField HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center">
+                                                                                        <ItemStyle Width="15%" HorizontalAlign="Center" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton runat="server" ID="lnkEdit" Text=" Edit " CommandName="EditRecord"
+                                                                                                CommandArgument='<%#Eval("PK_ACI_Event_Notes") %>' Visible='<%#Convert.ToBoolean(!Is_Closed_Event) %>'>
+                                                                                            </asp:LinkButton>
+                                                                                            &nbsp;&nbsp;&nbsp;
+                                                                            <asp:LinkButton ID="lnkRemove" runat="server" Text="Delete" CommandArgument='<%#Eval("PK_ACI_Event_Notes") %>'
+                                                                                CommandName="RemoveACINote" OnClientClick="return confirm('Are you sure to remove Acadian Note record?');"
+                                                                                CausesValidation="false" Visible='<%#Convert.ToBoolean(!Is_Closed_Event) %>' />
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                </Columns>
+                                                                                <EmptyDataTemplate>
+                                                                                    <table cellpadding="4" cellspacing="0" width="97%">
+                                                                                        <tr>
+                                                                                            <td width="100%" align="center" style="border: 1px solid #cccccc;">
+                                                                                                <asp:Label ID="lblEmptyHeaderGridMessage" runat="server" Text="No Record Found"></asp:Label>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                </EmptyDataTemplate>
+                                                                            </asp:GridView>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="padding-bottom: 5px;" colspan="6">
+                                                                        <asp:LinkButton Style="display: inline" ID="lnkAddACINotesNew" OnClick="lnkAddACINotesNew_Click"
+                                                                            runat="server" Text="Add New" OnClientClick="return CheckEvent();"></asp:LinkButton>&nbsp;&nbsp;&nbsp;
+                                                                         <asp:Button ID="btnACINoteView" runat="server" Text=" View" OnClientClick="return AciSelectedNotePopup('','ACIView');" />&nbsp;&nbsp;
+                                                                        <asp:Button ID="btnPrint" runat="server" Text=" Print " OnClick="btnPrint_Click"
+                                                                            OnClientClick="return CheckSelectedAcadianNotes('Print');" />
+                                                                        &nbsp;&nbsp;
+                                                                        <asp:Button ID="btnSpecificNote" runat="server" CausesValidation="false" Text=" Show Specific Notes Only "
+                                                                            OnClientClick="javascript:return CheckSelectedAcadianNotes('ACISpecificNote');" />
+                                                                        <asp:LinkButton Style="display: none" ID="lnkACINotesCancel" runat="server" Text="Cancel"></asp:LinkButton>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                    <tr runat="server" id="trACINotes" style="display: none;">
+                                                        <td colspan="6">
+                                                            <table width="100%">
+                                                                <tr>
+                                                                    <td align="left" valign="top">
+                                                                        <b>Acadian Notes Grid </b>
+                                                                    </td>
+                                                                    <td align="center" valign="top" colspan="5">&nbsp;
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <%--<td align="left" valign="top" width="19%">Date
+                                                                    </td>
+                                                                    <td align="center" valign="top" width="2%">:
+                                                                    </td>
+                                                                    <td align="left" valign="top" style="padding-left: 5px;">
+                                                                        <asp:TextBox ID="txtACI_Notes_Date" runat="server" SkinID="txtDate" MaxLength="12" autocomplete="off"
+                                                                            onpaste="return false"></asp:TextBox>
+                                                                        <img alt="Report Date" onclick="return showCalendar('<%= txtACI_Notes_Date.ClientID %>', 'mm/dd/y');"
+                                                                            onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
+                                                                            align="middle" />
+                                                                        <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ValidationGroup="vsErrorGroup"
+                                                                            Display="none" ErrorMessage="[ACI Notes Grid]/Date Sonic is not a valid date"
+                                                                            SetFocusOnError="true" ControlToValidate="txtDate_Sent" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
+                                                                        <asp:CompareValidator ID="CompareValidator1" runat="server" ControlToCompare="txtCurrentDate"
+                                                                            ControlToValidate="txtACI_Notes_Date" Display="None" Text="*" ErrorMessage="[ACI Notes Grid]/Date should not be greater than current date."
+                                                                            Operator="LessThanEqual" Type="Date" ValidationGroup="vsErrorGroup"></asp:CompareValidator>
+                                                                    </td>--%>
+                                                                    <td align="left" valign="top" width="19%">Note
+                                                                    </td>
+                                                                    <td align="center" valign="top" width="2%">:
+                                                                    </td>
+                                                                    <td align="left" valign="top" style="padding-left: 5px;">
+                                                                        <uc:ctrlMultiLineTextBox ID="txtACI_Notes" runat="server" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left"></td>
+                                                                    <td align="center"></td>
+                                                                    <td align="left" colspan="4">
+                                                                        <asp:Button ID="btnACINotesAdd" OnClick="btnACINotesAdd_Click" runat="server" ValidationGroup="vsErrorGroup"
+                                                                            OnClientClick="javascript:return checkLength();" Text="Add" Width="70px"></asp:Button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                        <asp:Button ID="btnACINotesCancel" OnClick="btnACINotesCancel_Click" runat="server"
+                                                                            Text="Cancel" Width="70px"></asp:Button>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </table>
                                             </asp:Panel>
                                         </div>
                                         <asp:Panel ID="pnl6" runat="server" Style="display: none;" Width="794px">
@@ -3159,13 +3178,7 @@
                                             </table>
                                         </asp:Panel>
                                         <asp:Panel ID="pnlAttachment" runat="server" Style="display: none;" Width="794px">
-                                            <table cellpadding="0" cellspacing="0" border="0" width="100%">
-                                                <tr>
-                                                    <td align="left" valign="top" width="100%" style="height: 200px;">
-                                                        <uc:Attachment ID="ucAttachment" runat="server" Attachment_Table="Event" MajorCoverage="Event" />
-                                                    </td>
-                                                </tr>
-                                            </table>
+                                            
                                         </asp:Panel>
                                     </td>
                                 </tr>

@@ -244,10 +244,10 @@ public partial class Event_Event_New : clsBasePage
                     if (Request.QueryString["Notes"] == null)
                         hdnPanel.Value = "3";
 
-                    lblMenu2.Text = lblMenu2Header.Text = "Sonic Notes";
-                    revtxtOfficer_Phone.ErrorMessage = "[Sonic Notes] / Please Enter Agency Phone # in XXX-XXX-XXXX format";
-                    revtxtDate_Closed.ErrorMessage = "[Sonic Notes] /Date Closed is not a valid date";
-                    cmptxtDate_Closed.ErrorMessage = "[Sonic Notes] /Date Closed should not be greater than current date";
+                    lblMenu2.Text = lblMenu2Header.Text = "Notes";
+                    revtxtOfficer_Phone.ErrorMessage = "[Notes] / Please Enter Agency Phone # in XXX-XXX-XXXX format";
+                    revtxtDate_Closed.ErrorMessage = "[Notes] /Date Closed is not a valid date";
+                    cmptxtDate_Closed.ErrorMessage = "[Notes] /Date Closed should not be greater than current date";
                 }
                 else
                 {

@@ -86,8 +86,8 @@ public partial class Event_EventSearch_New : clsBasePage
                 btnSearch_Click(null, null);
             }
 
-            if (clsSession.IsACIUser)
-                btnAdd.Visible = false;
+            //if (clsSession.IsACIUser)
+            //    btnAdd.Visible = false;
         }
 
         //btnAdd.Visible = (App_Access != AccessType.View);
@@ -223,12 +223,12 @@ public partial class Event_EventSearch_New : clsBasePage
         //ComboHelper.FillLocation(new DropDownList[] { drpLocation }, true);
         ComboHelper.FillLocationByACIUser_New((new DropDownList[] { drpLocation }), Convert.ToDecimal(clsSession.UserID), true);
 
-        if (clsSession.IsACIUser)
-        {
-            rdoSonic_Event.Items.Remove(rdoSonic_Event.Items.FindByValue("Y"));
-            rdoSonic_Event.Items.Remove(rdoSonic_Event.Items.FindByValue("A"));
-            rdoSonic_Event.SelectedValue = "N";
-        }
+        //if (clsSession.IsACIUser)
+        //{
+        //    rdoSonic_Event.Items.Remove(rdoSonic_Event.Items.FindByValue("Y"));
+        //    rdoSonic_Event.Items.Remove(rdoSonic_Event.Items.FindByValue("A"));
+        //    rdoSonic_Event.SelectedValue = "N";
+        //}
         
     }
 
@@ -593,7 +593,8 @@ public partial class Event_EventSearch_New : clsBasePage
 
             btnOpen.Visible = true;
             //btnDelete.Visible = true;
-            btnDelete.Visible = btnEdit.Visible = (clsSession.IsACIUser && (Sonic_Event != "Y") || !clsSession.IsACIUser && (Sonic_Event == "Y"));
+            //btnEdit.Visible 
+            btnDelete.Visible =  (clsSession.IsACIUser && (Sonic_Event != "Y") || !clsSession.IsACIUser && (Sonic_Event == "Y"));
             btnSelect.Visible = false;
         }
     }
