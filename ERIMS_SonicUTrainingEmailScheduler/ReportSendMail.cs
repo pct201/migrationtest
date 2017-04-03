@@ -155,6 +155,57 @@ namespace ERIMS_SonicUTraining_EmailScheduler
             dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
+
+        /// <summary>
+        /// Get Certificate Data
+        /// </summary>
+        /// <returns></returns>
+        public static DataSet GetRLCMCertificateData(decimal? fk_Employee_Id, string region, decimal? fk_LU_Market, decimal? pk_LU_Location, decimal? pk_Employee_ID, int? year, int? quarter)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("GetRCRACertificateData");
+
+            db.AddInParameter(dbCommand, "FK_Employee_Id", DbType.Decimal, fk_Employee_Id);
+            db.AddInParameter(dbCommand, "Region", DbType.String, region);
+            db.AddInParameter(dbCommand, "FK_LU_Market", DbType.Decimal, fk_LU_Market);
+            db.AddInParameter(dbCommand, "PK_LU_Location_ID", DbType.Decimal, pk_LU_Location);
+            db.AddInParameter(dbCommand, "PK_Employee_ID", DbType.Decimal, pk_Employee_ID);
+            db.AddInParameter(dbCommand, "Year", DbType.Int16, year);
+            db.AddInParameter(dbCommand, "Quarter", DbType.Int16, quarter);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        /// <summary>
+        /// get data for Percentage Recap
+        /// </summary>
+        /// <returns></returns>
+        public static int InsertRCRACertificateSent(DateTime RCRACertificateSentDate)
+        {
+            SqlDatabase db = new SqlDatabase(strConn);
+            DbCommand dbCommand = db.GetStoredProcCommand("RCRACertificateSentInsert");
+
+            db.AddInParameter(dbCommand, "RCRACertificateSentDate", DbType.Date, RCRACertificateSentDate);
+
+            dbCommand.CommandTimeout = 1000;
+
+            // Execute the query and return the new identity value
+            int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
+            return returnValue;
+        }
+
+        /// <summary>
+        /// GetLastRCRACertificateSentDate
+        /// </summary>
+        /// <returns></returns>
+        public static DataSet GetLastRCRACertificateSentDate()
+        {
+            SqlDatabase db = new SqlDatabase(strConn);
+            DbCommand dbCommand = db.GetStoredProcCommand("GetLastRCRACertificateSentDate");
+            dbCommand.CommandTimeout = 1000;
+            return db.ExecuteDataSet(dbCommand);
+        }
+        
         
         #endregion
     }

@@ -34,6 +34,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
         public string _strPort = string.Empty;
         public string _strSentMailSubjectFrmt = string.Empty;
         public string _strSMTPmailFrom = string.Empty;
+        public string _strSitePath = string.Empty;
         DateTime quarterDate;
         public int quarterMonth = 0;
         public int quarterDay = 0;
@@ -206,6 +207,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                 _strSMTPmailFrom = ConfigurationSettings.AppSettings.Get("SMTPmailFrom");
                 _isTesting = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("IsTesting"));
                 _isTestingReport = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("IsTestingReport"));
+                _strSitePath = ConfigurationSettings.AppSettings.Get("SitePath");
 
                 _WeeklyReminderTest = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("WeeklyReminderTest"));
                 _PayrollTrainingTest = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("PayrollTrainingTest"));
@@ -302,6 +304,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                             bool bSendMailWeekly = false;
                             bSendMailWeekly = CheckFirstDayOfWeek(false);
 
+                            SendMailForRCRACertificate();
 
                             if (bSendMailWeekly && _AllowTrainingReminder)
                             {
@@ -316,6 +319,9 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                                     SendMailForPayrollTrainingReport();
                                 if (_AllowPercentageRecap)
                                     SendMailForPercentageRecap();
+
+                                //Send RCRA Certificate to Completed RCRA Training Employee
+                                SendMailForRCRACertificate();
                             }
 
                             //Send Mail for Testing if _isTesting True
@@ -1646,6 +1652,163 @@ namespace ERIMS_SonicUTraining_EmailScheduler
 
             sbRecorords.Append("</table></td></tr></table>");
             return sbRecorords;
+        }
+
+        /// <summary>
+        /// Send RCRA Certificate in mail who have completed their training 
+        /// </summary>
+        public void SendMailForRCRACertificate()
+        {
+            try
+            {
+                WriteLog("Executing SendMailForRCRACertificate()", _strCsvPath, false);
+
+                //Get the data for RCRA Certificate
+                DataTable dtData = ReportSendMail.GetRLCMCertificateData(null, "0", null, null, null, null, null).Tables[0];
+                DataTable dtRCRACertificateDate = ReportSendMail.GetLastRCRACertificateSentDate().Tables[0];
+                DataTable dtCertificateData;
+
+                if (dtRCRACertificateDate != null && dtRCRACertificateDate.Rows.Count > 0)
+                {
+                    dtCertificateData = new DataView(dtData, "Class_Name = 'RCRA'" + " AND  [Date of Completion] > '" + Convert.ToString(dtRCRACertificateDate.Rows[0]["RCRACertificateSentDate"]) + "' AND  [Date of Completion] <= '" + DateTime.Now.Date.ToString() + "'", "PK_LU_Location_ID", DataViewRowState.CurrentRows).ToTable();
+                }
+                else
+                {
+                    dtCertificateData = new DataView(dtData, "Class_Name = 'RCRA'" + " AND  [Date of Completion] <= '" + DateTime.Now.Date.ToString() + "'", "PK_LU_Location_ID", DataViewRowState.CurrentRows).ToTable();
+                }
+
+                if (dtCertificateData != null && dtCertificateData.Rows.Count > 0)
+                {
+                    foreach (DataRow drCertificateData in dtCertificateData.Rows)
+                    {
+                        FileStream fsMail = new FileStream(_strSitePath + @"RCRA_Certificate.html", FileMode.Open, FileAccess.Read);
+                        StreamReader rd = new StreamReader(fsMail);
+                        StringBuilder strBody = new StringBuilder();
+                        strBody = new StringBuilder(rd.ReadToEnd().ToString());
+                        rd.Close();
+                        fsMail.Close();
+
+                        strBody = strBody.Replace("[Employee_Name]", Convert.ToString(drCertificateData["Associate_Name"]));
+                        strBody = strBody.Replace("[Course_Name]", "Sonic/EchoPark RCRA Training");
+                        strBody = strBody.Replace("[RCRA_Certificate]", _strSitePath + "/Certificate.jpg");
+                        strBody = strBody.Replace("[RCRA_Certificate_Footer]", _strSitePath + "/imgRCRAFooter.PNG");
+                        strBody = strBody.Replace("[Date]", (Convert.ToDateTime(drCertificateData["Date of Completion"])).ToString("MMM dd, yyyy"));
+
+                        //Generate RCRA Certificate PDF and Send in Mail
+                        GenerateRCRACertificatePDF(strBody.ToString(), "RCRACertificate.pdf", drCertificateData);
+                    }
+
+                    //Insert the date when the RCRA Certificate Sent
+                    ReportSendMail.InsertRCRACertificateSent(DateTime.Now.Date);
+                }
+                else
+                {
+                    WriteLog("No data Exists for RCRA Certificate to send(No Employee has completed RCRA Training)", _strCsvPath, false);
+                }
+            }
+            catch (Exception ex)
+            {
+                WriteLog("Exception occurred while executing SendMailForRCRACertificate() " + ex.Message, _strCsvPath + ", Stack Trace: " + ex.StackTrace, true);
+            }
+        }
+
+        /// <summary>
+        /// Generate RCRA Certificate PDF
+        /// </summary>
+        /// <param name="Lettertext"></param>
+        /// <param name="strFilePath"></param>
+        public void GenerateRCRACertificatePDF(String sw, String strFileNameToSave, DataRow drCertificate)
+        {
+            try
+            {
+                string strPath = AppDomain.CurrentDomain.BaseDirectory + @"temp\" + strFileNameToSave.Replace(".pdf", "") + System.DateTime.Now.ToString("MMddyyhhmmss") + ".pdf";
+
+                bool blnHTML2PDF = false;
+                Byte[] pdfByte = null;
+                PdfConverter objPdf = new PdfConverter();
+                objPdf.LicenseKey = PDFLicenseKey;
+                objPdf.PdfDocumentOptions.LeftMargin = 46;
+                objPdf.PdfDocumentOptions.RightMargin = 46;
+                objPdf.PdfDocumentOptions.ShowHeader = true;
+                objPdf.PdfDocumentOptions.ShowFooter = true;
+                objPdf.PdfDocumentOptions.EmbedFonts = false;
+                objPdf.PdfFooterOptions.DrawFooterLine = false;
+                objPdf.PdfHeaderOptions.DrawHeaderLine = false;
+                objPdf.PdfFooterOptions.ShowPageNumber = false;
+                objPdf.PdfDocumentOptions.LiveUrlsEnabled = false;
+                objPdf.RightToLeftEnabled = false;
+                objPdf.PdfSecurityOptions.CanPrint = true;
+                objPdf.PdfSecurityOptions.CanEditContent = true;
+                objPdf.PdfSecurityOptions.UserPassword = "";
+                objPdf.PdfDocumentOptions.PdfPageOrientation = PDFPageOrientation.Portrait;
+                objPdf.PdfDocumentOptions.PdfCompressionLevel = PdfCompressionLevel.Normal;
+                objPdf.PdfDocumentOptions.PdfPageSize = PdfPageSize.Letter;
+
+                // objPdf.PdfFooterOptions.FooterText = "https://sonicuniversity.skillport.com/skillportfe/reportCertificateOfCompletion.action?time...";
+                // objPdf.PdfFooterOptions.TextArea = new TextArea(460, 15, DateTime.Now.ToString(),
+                // new System.Drawing.Font(new System.Drawing.FontFamily("Times New Roman"), 12, System.Drawing.GraphicsUnit.Point));
+                objPdf.PdfFooterOptions.FooterHeight = 29;
+                objPdf.PdfFooterOptions.FooterTextFontSize = 12;
+                objPdf.PdfHeaderOptions.HeaderHeight = 20;
+                objPdf.PdfHeaderOptions.HeaderTextFontSize = 12;
+                // objPdf.PdfHeaderOptions.TextArea = new TextArea(5, 4, "Certificate Of Completion",
+                //new System.Drawing.Font(new System.Drawing.FontFamily("Times New Roman"), 12, System.Drawing.GraphicsUnit.Point));
+                // objPdf.PdfHeaderOptions.HeaderText = "Page 1 of 1";
+                objPdf.PdfHeaderOptions.HeaderTextAlign = HorizontalTextAlign.Right;
+
+                pdfByte = objPdf.GetPdfBytesFromHtmlString(sw.ToString());
+                System.IO.File.WriteAllBytes(strPath, pdfByte);
+
+                if (File.Exists(strPath))
+                {
+                    blnHTML2PDF = true;
+                }
+
+                MemoryStream memorystream = new MemoryStream();
+
+                if (blnHTML2PDF)
+                {
+                    MailMessage mail = new MailMessage();
+                    mail.From = new MailAddress(_strSMTPmailFrom);
+                    mail.Subject = "Sonic/EchoPark RCRA Course Completion Certificate";
+                    memorystream = new MemoryStream(File.ReadAllBytes(strPath));
+                    Attachment atts = new Attachment(memorystream, strFileNameToSave);
+                    mail.Attachments.Add(atts);
+
+                    SmtpClient mSmtpClient = new SmtpClient();
+                    mSmtpClient.Host = _strSMTPServer;
+                    mSmtpClient.Credentials = new System.Net.NetworkCredential(_strSMTPmailFrom, _strSMTPPwd);
+
+                    try
+                    {
+                        mail.Body = "Sonic/EchoPark Associate:<br /><br />You have recently completed the Sonic/EchoPark RCRA Course and attached is your Certificate of Completion for that course.<br /><br />Congratulations!<br />";
+                        mail.IsBodyHtml = true;
+                        mail.To.Add(new MailAddress(drCertificate["Email"].ToString()));
+                        mSmtpClient.Send(mail);
+                        mail.To.Clear();
+                    }
+                    catch (Exception Ex)
+                    {
+                        EventLog.WriteEntry("Error in Sending Mail for RCRA Certificate " + Ex.Message + ",Stack Trace:" + Ex.StackTrace);
+                        WriteLog("Error in Sending Mail for RCRA Certificate" + "Message: " + Ex.Message + " , Stack Trace:" + Ex.StackTrace, _strCsvPath, true);
+                    }
+
+                    atts.Dispose();
+
+                    if (File.Exists(strPath))
+                        File.Delete(strPath);
+                }
+                else
+                {
+                    EventLog.WriteEntry("Error in converting Report to PDF for RCRA Certificate");
+                    WriteLog("Error in converting Report to PDF for RCRA Certificate", _strCsvPath, true);
+                }
+            }
+            catch (Exception ex)
+            {
+                EventLog.WriteEntry("Error in Sending Mail for RCRA Certificate " + ex.Message + ",Stack Trace:" + ex.StackTrace);
+                WriteLog("Error in Sending Mail for RCRA Certificate " + ex.Message + " , Stack Trace:" + ex.StackTrace, _strCsvPath, true);
+            }
         }
 
         #region Mail Send Method
