@@ -382,6 +382,7 @@
             }
             //			if (index == 1) document.getElementById("ctl00_ContentPlaceHolder1_btnPreviousStep").style.display = "none";
             //			else document.getElementById("ctl00_ContentPlaceHolder1_btnPreviousStep").style.display = "block";
+            ShowHideVideoRequest();
         }
 
 
