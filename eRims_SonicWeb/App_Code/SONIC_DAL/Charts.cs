@@ -28,7 +28,7 @@ public class Charts
     public static string Silver_Label_Graph = "S";
     public static string Bronze_Label_Graph = "B";
     public static string Tin_Label_Graph = "T";
-    
+
     public Charts()
     {
         //
@@ -117,9 +117,9 @@ public class Charts
     public static DataSet GetSabaTrainingByRegion(int Year)
     {
         Database db = DatabaseFactory.CreateDatabase();
-		////change Reverted for sonic u training. ticket #3503/////
-        DbCommand dbCommand = db.GetStoredProcCommand("Chart_SabaTrainingByRegion_New");
-         
+        ////change Reverted for sonic u training. ticket #3503/////
+        DbCommand dbCommand = db.GetStoredProcCommand("Chart_SabaTrainingByRegion");
+
         db.AddInParameter(dbCommand, "Year", DbType.Int32, Year);
         db.AddInParameter(dbCommand, "UserID", DbType.Decimal, clsSession.UserID);
 
@@ -130,8 +130,8 @@ public class Charts
     public static DataSet GetSabaTrainingByLocation(int Year, string Region)
     {
         Database db = DatabaseFactory.CreateDatabase();
-		////change Reverted for sonic u training. ticket #3503/////
-        DbCommand dbCommand = db.GetStoredProcCommand("Chart_SabaTrainingByLocation_New");
+        ////change Reverted for sonic u training. ticket #3503/////
+        DbCommand dbCommand = db.GetStoredProcCommand("Chart_SabaTrainingByLocation");
         db.AddInParameter(dbCommand, "Year", DbType.Int32, Year);
         db.AddInParameter(dbCommand, "Region", DbType.String, Region);
         db.AddInParameter(dbCommand, "UserID", DbType.Decimal, clsSession.UserID);
@@ -152,7 +152,7 @@ public class Charts
     }
 
 
-	////change Reverted for sonic u training. ticket #3503/////
+    ////change Reverted for sonic u training. ticket #3503/////
     public static DataSet GetSabaTrainingDetail1(int Year, string DBA, string Sonic_Location_Code, int Quarter, string AssociateStatus)
     {
         Database db = DatabaseFactory.CreateDatabase();
@@ -171,7 +171,7 @@ public class Charts
         return db.ExecuteDataSet(dbCommand);
     }
 
-    public static DataSet GetSabaTrainingDetail2(int Year, string DBA, string Sonic_Location_Code, int Quarter, string AssociateStatus,bool validate_Quarter)
+    public static DataSet GetSabaTrainingDetail2(int Year, string DBA, string Sonic_Location_Code, int Quarter, string AssociateStatus, bool validate_Quarter)
     {
         Database db = DatabaseFactory.CreateDatabase();
         DbCommand dbCommand = db.GetStoredProcCommand("DealerShipDetailsLatest_New");
@@ -420,7 +420,7 @@ public class Charts
     public static DataSet RLCMSonicUniversityTraining(decimal pk_Security_ID, string Regions, string Markets, int idState, DateTime FromDate, DateTime ToDate, DateTime PreviousFromDate, DateTime PreviousToDate, string Rlcms)
     {
         Database db = DatabaseFactory.CreateDatabase();
-		////change Reverted for sonic u training. ticket #3503/////
+        ////change Reverted for sonic u training. ticket #3503/////
         DbCommand dbCommand = db.GetStoredProcCommand("rptQuarterlyPerformanceSabaTraining_New");
 
         dbCommand.CommandTimeout = 1000;
@@ -441,7 +441,7 @@ public class Charts
     public static DataSet RLCMSonicUniversityTraining_ByRLCM(decimal pk_Security_ID, string Regions, string Markets, int idState, DateTime FromDate, DateTime ToDate, DateTime PreviousFromDate, DateTime PreviousToDate, string Rlcms)
     {
         Database db = DatabaseFactory.CreateDatabase();
-		////change Reverted for sonic u training. ticket #3503/////
+        ////change Reverted for sonic u training. ticket #3503/////
         DbCommand dbCommand = db.GetStoredProcCommand("rptQuarterlyPerformanceSabaTraining_ByRLCM_New");
 
         dbCommand.CommandTimeout = 1000;
@@ -667,7 +667,7 @@ public class Charts
         {
             color = Tin;
         }
-        
+
         return color;
     }
 }

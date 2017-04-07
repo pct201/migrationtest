@@ -137,16 +137,10 @@ public partial class DealershipDetail : System.Web.UI.Page
         MergeColumn(ref dtAggreage, dsResult.Tables[0], 1);
         dtAverage.Rows.Add(dtAverage.NewRow()[0] = (dsResult.Tables[1].Rows[0][0] != DBNull.Value ? dsResult.Tables[1].Rows[0][0] : 0));
 
-        dsResult = Charts.GetSabaTrainingDetail2(Year, DBA, Sonic_Location_Code, Quarter, AssociateStatus,false);
-        if (dsResult.Tables[1] != null && dsResult.Tables[1].Rows.Count > 0)
-            dtAggreage.Rows[1][1] = dsResult.Tables[1].Rows[0][2] != DBNull.Value ? dsResult.Tables[1].Rows[0][2] : 14;
-        else
-            dtAggreage.Rows[1][1] = 14;
+        dsResult = Charts.GetSabaTrainingByLocation(Year, Region);
+        MergeColumn(ref dtAggreage, dsResult.Tables[0], 2);
+        dtAverage.Rows.Add(dtAverage.NewRow()[0] = (dsResult.Tables[1].Rows[0][0] != DBNull.Value ? dsResult.Tables[1].Rows[0][0] : 0));
 
-        if (dsResult.Tables[1] != null && dsResult.Tables[1].Rows.Count > 0)
-            dtAggreage.Rows[1][2] = dsResult.Tables[1].Rows[0][1] != DBNull.Value ? dsResult.Tables[1].Rows[0][1] : "Platinum";            
-        else
-            dtAggreage.Rows[1][2] = "Platinum";
         //MergeColumn(ref dtAggreage, dsResult.Tables[0], 2);
         if (dsResult.Tables[1] != null && dsResult.Tables[1].Rows.Count > 1)
         dtAverage.Rows.Add(dtAverage.NewRow()[0] = (dsResult.Tables[1].Rows[1][0] != DBNull.Value ? dsResult.Tables[1].Rows[1][0] : 0));
@@ -403,211 +397,40 @@ public partial class DealershipDetail : System.Web.UI.Page
     private void BindSabaTrainingDetail()
     {
         pnlSabaTraining.Visible = true;
-        DataSet dsDetail = Charts.GetSabaTrainingDetail2(Year, DBA, Sonic_Location_Code, Quarter, AssociateStatus,false);
+        DataSet dsDetail = Charts.GetSabaTrainingDetail(Year, DBA, Sonic_Location_Code);
         lblSabaDealerShipName.Text = DBA;
 
         if (dsDetail.Tables[0].Rows.Count > 0)
         {
-            //lblSabaPerformance.Text = Convert.ToString(dsDetail.Tables[0].Rows[0]["Score"]);
+            lblSabaPerformance.Text = Convert.ToString(dsDetail.Tables[0].Rows[0]["Score"]);
 
-            if (Year != null) lblSabaTrainingYear.Text = Convert.ToString(Year);
-            DataTable dt = dsDetail.Tables[0];
-           
+            if (dsDetail.Tables[0].Rows[0]["Year"] == DBNull.Value)
+                lblSabaTrainingYear.Text = "Data Not Available";
+            else
+                lblSabaTrainingYear.Text = Convert.ToString(dsDetail.Tables[0].Rows[0]["Year"]);
 
-
-            DataRow[] result1 = dsDetail.Tables[0].Select("AssociateQuarter = '1'");
-
-            if (result1.Length > 0)
+            if (Year < 2011)
             {
-                if (string.IsNullOrEmpty(result1[0]["NumberofEmployees"].ToString()))
-                    lblSabaNumberEmployees1.Text = "0";
+                if (dsDetail.Tables[0].Rows[0]["SabaDate"] == DBNull.Value)
+                    lblSabaTrainingDate.Text = "Data Not Available";
                 else
-                    lblSabaNumberEmployees1.Text = string.Format("{0:N0}", result1[0]["NumberofEmployees"]);
+                    lblSabaTrainingDate.Text = clsGeneral.FormatDBNullDateToDisplay(dsDetail.Tables[0].Rows[0]["SabaDate"]);
             }
+
+            if (dsDetail.Tables[0].Rows[0]["Number_Trained"] == DBNull.Value)
+                lblSabaEmployeesTrained.Text = "0";
             else
-            {
-                lblSabaNumberEmployees1.Text = "0";
-            }
+                lblSabaEmployeesTrained.Text = string.Format("{0:N0}", dsDetail.Tables[0].Rows[0]["Number_Trained"]);
 
-            DataRow[] result2 = dsDetail.Tables[0].Select("AssociateQuarter = '2'");
-
-            if (result2.Length > 0)
-            {
-                if (string.IsNullOrEmpty(result2[0]["NumberofEmployees"].ToString()))
-                    lblSabaNumberEmployees2.Text = "0";
-                else
-                    lblSabaNumberEmployees2.Text = string.Format("{0:N0}", result2[0]["NumberofEmployees"]);
-            }
+            if (dsDetail.Tables[0].Rows[0]["Number_of_Employees"] == DBNull.Value)
+                lblSabaNumberEmployees.Text = "0";
             else
-            {
-                lblSabaNumberEmployees2.Text = "0";
-            }
+                lblSabaNumberEmployees.Text = string.Format("{0:N0}", dsDetail.Tables[0].Rows[0]["Number_of_Employees"]);
 
-            DataRow[] result3 = dsDetail.Tables[0].Select("AssociateQuarter = '3'");
-
-            if (result3.Length > 0)
-            {
-                if (string.IsNullOrEmpty(result3[0]["NumberofEmployees"].ToString()))
-                    lblSabaNumberEmployees3.Text = "0";
-                else
-                    lblSabaNumberEmployees3.Text = string.Format("{0:N0}", result3[0]["NumberofEmployees"]);
-            }
+            if (dsDetail.Tables[0].Rows[0]["per"] == DBNull.Value)
+                lblSabaPercentTrained.Text = "0";
             else
-            {
-                lblSabaNumberEmployees3.Text = "0";
-            }
-
-            DataRow[] result4 = dsDetail.Tables[0].Select("AssociateQuarter = '4'");
-
-            if (result4.Length > 0)
-            {
-                if (string.IsNullOrEmpty(result4[0]["NumberofEmployees"].ToString()))
-                    lblSabaNumberEmployees4.Text = "0";
-                else
-                    lblSabaNumberEmployees4.Text = string.Format("{0:N0}", result4[0]["NumberofEmployees"]);
-            }
-            else
-            {
-                lblSabaNumberEmployees4.Text = "0";
-            }
-
-
-            DataRow[] q1AssociateToTrain = dsDetail.Tables[0].Select("AssociateQuarter = '1'");
-
-            if (q1AssociateToTrain.Length > 0)
-            {
-                if (string.IsNullOrEmpty(q1AssociateToTrain[0]["AssociateTrained"].ToString()))
-                    lblSabaEmployeesTrained1.Text = "0";
-                else
-                    lblSabaEmployeesTrained1.Text = string.Format("{0:N0}", q1AssociateToTrain[0]["AssociateTrained"]);
-            }
-            else
-            {
-                lblSabaEmployeesTrained1.Text = "0";
-            }
-
-            DataRow[] q2AssociateToTrain = dsDetail.Tables[0].Select("AssociateQuarter = '2'");
-
-            if (q2AssociateToTrain.Length > 0)
-            {
-                if (string.IsNullOrEmpty(q2AssociateToTrain[0]["AssociateTrained"].ToString()))
-                    lblSabaEmployeesTrained2.Text = "0";
-                else
-                    lblSabaEmployeesTrained2.Text = string.Format("{0:N0}", q2AssociateToTrain[0]["AssociateTrained"]);
-            }
-            else
-            {
-                lblSabaEmployeesTrained2.Text = "0";
-            }
-
-
-            DataRow[] q3AssociateToTrain = dsDetail.Tables[0].Select("AssociateQuarter = '3'");
-
-            if (q3AssociateToTrain.Length > 0)
-            {
-                if (string.IsNullOrEmpty(q3AssociateToTrain[0]["AssociateTrained"].ToString()))
-                    lblSabaEmployeesTrained3.Text = "0";
-                else
-                    lblSabaEmployeesTrained3.Text = string.Format("{0:N0}", q3AssociateToTrain[0]["AssociateTrained"]);
-            }
-            else
-            {
-                lblSabaEmployeesTrained3.Text = "0";
-            }
-
-            DataRow[] q4AssociateToTrain = dsDetail.Tables[0].Select("AssociateQuarter = '4'");
-
-            if (q4AssociateToTrain.Length > 0)
-            {
-                if (string.IsNullOrEmpty(q4AssociateToTrain[0]["AssociateTrained"].ToString()))
-                    lblSabaEmployeesTrained4.Text = "0";
-                else
-                    lblSabaEmployeesTrained4.Text = string.Format("{0:N0}", q4AssociateToTrain[0]["AssociateTrained"]);
-            }
-            else
-            {
-                lblSabaEmployeesTrained4.Text = "0";
-            }
-        }
-        if (dsDetail.Tables[1].Rows.Count > 0)
-        {
-            if (Year != null) lblSabaTrainingYear.Text = Convert.ToString(Year);
-
-
-            DataRow[] result1 = dsDetail.Tables[0].Select("AssociateQuarter = '1'");
-
-            if (result1.Length > 0)
-            {
-                if (string.IsNullOrEmpty(result1[0]["Percentage"].ToString()))
-                    lblSabaPercentTrained1.Text = "100%";
-            else
-                    lblSabaPercentTrained1.Text = string.Format("{0:0.0#}", result1[0]["Percentage"]) + "%";
-            }
-            else
-            {
-                lblSabaPercentTrained1.Text = "100%";
-            }
-
-            DataRow[] result2 = dsDetail.Tables[0].Select("AssociateQuarter = '2'");
-
-            if (result2.Length > 0)
-            {
-                if (string.IsNullOrEmpty(result2[0]["Percentage"].ToString()))
-                    lblSabaPercentTrained2.Text = "100%";
-                else
-                    lblSabaPercentTrained2.Text = string.Format("{0:0.0#}", result2[0]["Percentage"]) + "%";
-            }
-            else
-            {
-                lblSabaPercentTrained2.Text = "100%";
-            }
-
-            DataRow[] result3 = dsDetail.Tables[0].Select("AssociateQuarter = '3'");
-
-            if (result3.Length > 0)
-            {
-                if (string.IsNullOrEmpty(result3[0]["Percentage"].ToString()))
-                    lblSabaPercentTrained3.Text = "100%";
-            else
-                    lblSabaPercentTrained3.Text = string.Format("{0:0.0#}", result3[0]["Percentage"]) + "%";
-            }
-            else
-            {
-                lblSabaPercentTrained3.Text = "100%";
-            }
-
-            DataRow[] result4 = dsDetail.Tables[0].Select("AssociateQuarter = '4'");
-
-            if (result4.Length > 0)
-            {
-                if (string.IsNullOrEmpty(result4[0]["Percentage"].ToString()))
-                    lblSabaPercentTrained4.Text = "100%";
-                else
-                    lblSabaPercentTrained4.Text = string.Format("{0:0.0#}", result4[0]["Percentage"]) + "%";
-            }
-            else
-            {
-                lblSabaPercentTrained4.Text = "100%";
-            }
-
-            DataRow[] result5 = dsDetail.Tables[1].Select("PerformanceLevel In ('Platinum','Gold', 'Silver', 'Bronze', 'Tin')");
-
-            if (result5.Length > 0)
-            {
-                if (string.IsNullOrEmpty(result5[0]["PerformanceLevel"].ToString()))
-                    lblSabaPerformance.Text = "Platinum";
-            else
-                    lblSabaPerformance.Text = result5[0]["PerformanceLevel"].ToString();
-
-            }
-            else
-            {
-                lblSabaPerformance.Text = "Platinum";
-            }
-        }
-            else
-        {
-            lblSabaPerformance.Text = "Platinum";
+                lblSabaPercentTrained.Text = string.Format("{0:N1}", dsDetail.Tables[0].Rows[0]["per"]);
         }
     }
 
