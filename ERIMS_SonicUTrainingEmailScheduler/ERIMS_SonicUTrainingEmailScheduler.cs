@@ -34,7 +34,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
         public string _strPort = string.Empty;
         public string _strSentMailSubjectFrmt = string.Empty;
         public string _strSMTPmailFrom = string.Empty;
-        public string _strSitePath = string.Empty;
+        
         DateTime quarterDate;
         public int quarterMonth = 0;
         public int quarterDay = 0;
@@ -49,11 +49,15 @@ namespace ERIMS_SonicUTraining_EmailScheduler
         public bool _PercentageRecapTest = false;
         public bool _EarlyAlertLocationManagersTest = false;
         public bool _RLCMLocationManagersTest = false;
+        public bool _RCRACertificateTest = false;
+
         public bool _AllowSafetyTrainingCompleted_NonCompleted = false;
         public bool _AllowTrainingReminder = false;
         public bool _AllowPayrollTraining = false;
         public bool _AllowPercentageRecap = false;
         public bool _AllowMailEveryQuarterToEmployees = false;
+        public bool _AllowAssociateNameInEmail = false;
+        public bool _AllowRCRACertificate = false;
 
         public static string PDFLicenseKey
         {
@@ -207,19 +211,23 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                 _strSMTPmailFrom = ConfigurationSettings.AppSettings.Get("SMTPmailFrom");
                 _isTesting = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("IsTesting"));
                 _isTestingReport = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("IsTestingReport"));
-                _strSitePath = ConfigurationSettings.AppSettings.Get("SitePath");
+                
 
                 _WeeklyReminderTest = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("WeeklyReminderTest"));
                 _PayrollTrainingTest = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("PayrollTrainingTest"));
                 _PercentageRecapTest = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("PercentageRecapTest"));
                 _EarlyAlertLocationManagersTest = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("EarlyAlertLocationManagersTest"));
                 _RLCMLocationManagersTest = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("RLCMLocationManagersTest"));
+                _RCRACertificateTest = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("RCRACertificateTest"));
 
                 _AllowSafetyTrainingCompleted_NonCompleted = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("AllowSafetyTrainingCompleted_NonCompleted"));
                 _AllowTrainingReminder = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("AllowTrainingReminder"));
                 _AllowPayrollTraining = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("AllowPayrollTraining"));
                 _AllowPercentageRecap = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("AllowPercentageRecap"));
-                _AllowMailEveryQuarterToEmployees = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("AllowMailEveryQuarterToEmployees")); 
+                _AllowMailEveryQuarterToEmployees = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("AllowMailEveryQuarterToEmployees"));
+                _AllowAssociateNameInEmail = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("AllowAssociateNameInEmail"));
+                _AllowRCRACertificate = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("AllowRCRACertificate"));
+
 
                 quarterDate = DateTime.Now;
                 quarterMonth = quarterDate.Month;
@@ -304,8 +312,6 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                             bool bSendMailWeekly = false;
                             bSendMailWeekly = CheckFirstDayOfWeek(false);
 
-                            SendMailForRCRACertificate();
-
                             if (bSendMailWeekly && _AllowTrainingReminder)
                             {
                                 //Send Weekly Mail To the Associate For Remaining Training
@@ -321,7 +327,8 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                                     SendMailForPercentageRecap();
 
                                 //Send RCRA Certificate to Completed RCRA Training Employee
-                                SendMailForRCRACertificate();
+                                if (_AllowRCRACertificate)
+                                    SendMailForRCRACertificate();
                             }
 
                             //Send Mail for Testing if _isTesting True
@@ -367,7 +374,10 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                             {
                                 SendMailForWeeklyReminderOfRemainingTrainingToEmployees();
                             }
-
+                            if (_RCRACertificateTest)
+                            {
+                                SendMailForRCRACertificate();
+                            }
 
                             if ((quarterDay == 1) && (quarterMonth == 1 || quarterMonth == 4 || quarterMonth == 7 || quarterMonth == 10) && _AllowMailEveryQuarterToEmployees)
                             {
@@ -1242,7 +1252,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                                 strURL = "https://sonic.erims2.com/user manual/ehs training flyer - ep - all.pdf";
                             }
 
-                            mail.Body = Convert.ToString(drEmployee["Company_Name"]) + " Associate: <br/><br/> On " + date.ToString("d MMMM, yyyy") + " you were scheduled to take the following training courses: <br/> <ul style='list-style-type:circle'>" + strClassNameList
+                            mail.Body = Convert.ToString(drEmployee["Company_Name"]) + " Associate: " + (_AllowAssociateNameInEmail ? Convert.ToString(dtEmployeeData.Rows[0]["Associate"]) : "") + " <br/><br/> On " + date.ToString("d MMMM, yyyy") + " you were scheduled to take the following training courses: <br/> <ul style='list-style-type:circle'>" + strClassNameList
                                          + "</ul><br/>It appears that you have not yet completed the above course(s); please complete your training as soon as possible.<br/><br/>Please refer to the training brochure which includes a link to the training web site by clicking <a href=\"" + strURL + "\">here.</a>" +
                                          "<br/><br/>If you have any questions please contact your Regional Loss Control Manager.<br/><br/>Thank you!";
                             bool mailSent = false;
@@ -1266,6 +1276,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                             }
                             strClassNameList = "";
                         }
+
                     }
                 }
                 else
@@ -1276,7 +1287,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
             }
             catch (Exception ex)
             {
-                WriteLog("Exception occurred while executing SendMailForWeeklyReminderOfRemainingTrainingToEmployees " + ex.Message, _strCsvPath + ", Stack Trace: " + ex.StackTrace, true);
+                WriteLog("Exception occurred while executing SendMailForWeeklyReminderOfRemainingTrainingToEmployees " + ex.Message + ", Stack Trace: " + ex.StackTrace, _strCsvPath, true);
             }
         }
 
@@ -1667,21 +1678,22 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                 DataTable dtData = ReportSendMail.GetRLCMCertificateData(null, "0", null, null, null, null, null).Tables[0];
                 DataTable dtRCRACertificateDate = ReportSendMail.GetLastRCRACertificateSentDate().Tables[0];
                 DataTable dtCertificateData;
+                string dllPath = System.Reflection.Assembly.GetAssembly(typeof(ERIMS_SonicUTrainingEmailScheduler)).Location.Replace(System.Reflection.Assembly.GetAssembly(typeof(ERIMS_SonicUTrainingEmailScheduler)).ManifestModule.ToString(), "");
 
                 if (dtRCRACertificateDate != null && dtRCRACertificateDate.Rows.Count > 0)
                 {
-                    dtCertificateData = new DataView(dtData, "Class_Name = 'RCRA'" + " AND  [Date of Completion] > '" + Convert.ToString(dtRCRACertificateDate.Rows[0]["RCRACertificateSentDate"]) + "' AND  [Date of Completion] <= '" + DateTime.Now.Date.ToString() + "'", "PK_LU_Location_ID", DataViewRowState.CurrentRows).ToTable();
+                    dtCertificateData = new DataView(dtData, " [Date of Completion] > '" + Convert.ToString(dtRCRACertificateDate.Rows[0]["RCRACertificateSentDate"]) + "' AND  [Date of Completion] <= '" + DateTime.Now.Date.ToString() + "'", "PK_LU_Location_ID", DataViewRowState.CurrentRows).ToTable();
                 }
                 else
                 {
-                    dtCertificateData = new DataView(dtData, "Class_Name = 'RCRA'" + " AND  [Date of Completion] <= '" + DateTime.Now.Date.ToString() + "'", "PK_LU_Location_ID", DataViewRowState.CurrentRows).ToTable();
+                    dtCertificateData = new DataView(dtData, " [Date of Completion] <= '" + DateTime.Now.Date.ToString() + "'", "PK_LU_Location_ID", DataViewRowState.CurrentRows).ToTable();
                 }
 
                 if (dtCertificateData != null && dtCertificateData.Rows.Count > 0)
                 {
                     foreach (DataRow drCertificateData in dtCertificateData.Rows)
                     {
-                        FileStream fsMail = new FileStream(_strSitePath + @"RCRA_Certificate.html", FileMode.Open, FileAccess.Read);
+                        FileStream fsMail = new FileStream(dllPath + @"RCRA_Certificate.html", FileMode.Open, FileAccess.Read);
                         StreamReader rd = new StreamReader(fsMail);
                         StringBuilder strBody = new StringBuilder();
                         strBody = new StringBuilder(rd.ReadToEnd().ToString());
@@ -1690,8 +1702,8 @@ namespace ERIMS_SonicUTraining_EmailScheduler
 
                         strBody = strBody.Replace("[Employee_Name]", Convert.ToString(drCertificateData["Associate_Name"]));
                         strBody = strBody.Replace("[Course_Name]", "Sonic/EchoPark RCRA Training");
-                        strBody = strBody.Replace("[RCRA_Certificate]", _strSitePath + "/Certificate.jpg");
-                        strBody = strBody.Replace("[RCRA_Certificate_Footer]", _strSitePath + "/imgRCRAFooter.PNG");
+                        strBody = strBody.Replace("[RCRA_Certificate]", dllPath + "Certificate.jpg");
+                        strBody = strBody.Replace("[RCRA_Certificate_Footer]", dllPath + "imgRCRAFooter.PNG");
                         strBody = strBody.Replace("[Date]", (Convert.ToDateTime(drCertificateData["Date of Completion"])).ToString("MMM dd, yyyy"));
 
                         //Generate RCRA Certificate PDF and Send in Mail
