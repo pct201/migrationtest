@@ -13677,7 +13677,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 DataTable dtSecAndLoc = dsSecurity.Tables[0];
                 //get distinct Security IDs
                 DataTable dtSecurityID = dsSecurity.Tables[1];
-                DataTable dtResult = Report.GetACI_Key_Contact_Report(string.Empty, string.Empty).Tables[0];
+                DataTable dtResult = Report.GetACI_Key_Contact_Report(strDBA, strJob_Titles).Tables[0];
                 String strSonicLocCode = String.Empty;
                 String strLocationID = String.Empty;
 
