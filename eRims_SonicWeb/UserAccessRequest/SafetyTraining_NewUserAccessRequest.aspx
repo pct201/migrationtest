@@ -42,7 +42,7 @@
                     <td align="left">
                         <asp:TextBox runat="server" ID="txtFirstName" MaxLength="50" Width="170px" AutoComplete="off"></asp:TextBox>
                         <asp:RequiredFieldValidator ID="rfvFirstName" ControlToValidate="txtFirstName" Display="None"
-                            runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter First Name."  SetFocusOnError="true"></asp:RequiredFieldValidator>
+                            runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter First Name"  SetFocusOnError="true"></asp:RequiredFieldValidator>
                     </td>
                     <td align="left" style="font-size: 12px;">Last Name&nbsp;<span style="color: Red;">*</span>
                     </td>
@@ -51,7 +51,7 @@
                     <td align="left">
                         <asp:TextBox runat="server" ID="txtLastName" MaxLength="50" Width="170px" AutoComplete="off"></asp:TextBox>
                         <asp:RequiredFieldValidator ID="rfvLastName" ControlToValidate="txtLastName" Display="None"
-                            runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Last Name."  SetFocusOnError="true"></asp:RequiredFieldValidator>
+                            runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Last Name"  SetFocusOnError="true"></asp:RequiredFieldValidator>
                     </td>
                 </tr>
                 <tr>
@@ -61,8 +61,10 @@
                     </td>
                     <td align="left">
                         <asp:TextBox runat="server" ID="txtSocialSecurityNumber" MaxLength="12" Width="170px" AutoComplete="off"></asp:TextBox>
-                        <asp:RegularExpressionValidator ID="rfvSocialSecurityNumber" ControlToValidate="txtSocialSecurityNumber"
-                            runat="server" ErrorMessage="Please Enter Social Security Number." Display="none" SetFocusOnError="true"></asp:RegularExpressionValidator>
+                        <asp:RequiredFieldValidator ID="rfvSocialSecurityNumber" ControlToValidate="txtSocialSecurityNumber" Display="None"
+                            runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Social Security Number"></asp:RequiredFieldValidator>
+                        <asp:RegularExpressionValidator ID="revSocialSecurityNumber" ControlToValidate="txtSocialSecurityNumber"
+                            runat="server" ErrorMessage="Social Security Number Is Invalid" Display="none" SetFocusOnError="true"></asp:RegularExpressionValidator>
                     </td>
                     <td align="left" style="font-size: 12px;">E-Mail Address&nbsp;<span style="color: Red;">*</span>
                     </td>
@@ -71,9 +73,9 @@
                     <td>
                         <asp:TextBox runat="server" ID="txtEmail" MaxLength="65" Width="170px"></asp:TextBox>
                         <asp:RequiredFieldValidator ID="rfvtxtEmail" ControlToValidate="txtEmail" Display="None"
-                            runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter E-Mail Address."></asp:RequiredFieldValidator>
+                            runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter E-Mail Address"></asp:RequiredFieldValidator>
                         <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txtEmail"
-                            ValidationGroup="vsErrorGroup" Display="None" ErrorMessage="E-mail Address Is Invalid."
+                            ValidationGroup="vsErrorGroup" Display="None" ErrorMessage="E-mail Address Is Invalid"
                             SetFocusOnError="True" Text="*" ToolTip="E-mail Address Is Invalid" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*">*</asp:RegularExpressionValidator>
                     </td>
                 </tr>
@@ -119,10 +121,10 @@
                             onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
                             align="middle" id="img0" /><br />
                         <asp:RequiredFieldValidator ID="rfvDateOfHire" runat="server" ControlToValidate="txtDateOfHire"
-                            Display="None" ErrorMessage="Please select Date Of Hire." ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                            Display="None" ErrorMessage="Please select Date Of Hire" ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
                         <asp:RegularExpressionValidator ID="rfvLast_Date_of_Hire" runat="server" ControlToValidate="txtDateOfHire" ValidationGroup="vsErrorGroup"
                             ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$"
-                            ErrorMessage="Date of Hire is Not Valid Date." Display="none" SetFocusOnError="true">
+                            ErrorMessage="Date of Hire is Not Valid Date" Display="none" SetFocusOnError="true">
                         </asp:RegularExpressionValidator>
                        <%--<asp:CompareValidator ID="CurrentFromDateCompare" runat="server" ControlToValidate="txtDateOfHire"
                             ControlToCompare="txtCurrentDate" Operator="LessThan" Type="Date" Display="None" ErrorMessage="Date of Hire should less than Current Date."
