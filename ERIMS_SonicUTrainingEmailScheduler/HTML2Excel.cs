@@ -82,11 +82,12 @@ public class HTML2Excel
 
         hDoc.LoadHtml(_htmlData);
 
-        if (isUseCSS)
-        {
-            string cssFile = AppDomain.CurrentDomain.BaseDirectory + @"ERIMS.css";
-            GetStyleSheet(cssFile);
-        }
+        //if (isUseCSS)
+        //{
+        //    string cssFile = AppConfig.SitePath + @"App_Themes\Default\ERIMS.css";
+        //    GetStyleSheet(cssFile);
+        //}
+
         HtmlNodeCollection hNodes = hDoc.DocumentNode.ChildNodes;
 
         foreach (HtmlNode hNode in hNodes)
@@ -546,6 +547,15 @@ public class HTML2Excel
 
                                         }
                                     break;
+                                case "border-left":
+                                    //if (NoOfCol > 0 && tdAttrib.Value != "0")
+                                    using (ExcelRange range = excelWorksheet.Cells[currRowNumber, currColumnNumber, currRowNumber, currColumnNumber + noOfColspan])
+                                    {
+                                        //range.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
+                                        Border border = range.Style.Border;
+                                        border.Left.Style = ExcelBorderStyle.Thin;
+                                    }
+                                    break;
                             }
                         }
 
@@ -594,6 +604,9 @@ public class HTML2Excel
                     {
                         excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
                     }
+                    break;
+                case "height":
+                    excelWorksheet.Row(currRowNumber).Height = Convert.ToDouble(tdAttrib.Value.ToUpper().Replace("PX", ""));
                     break;
             }
         }
