@@ -66,4 +66,6 @@
   <Field Title="Maintenance Item Approved By" TableName="Contractor_Security" Type="DropDown" HasCode="Y" HasUnderScore="N" DataTextField="Recipient_Name" DataValueField="PK_Contactor_Security" SortField="PK_Contactor_Security"></Field>
   <Field Title="Maintenance Item Vendor" TableName="Contractor_Firm" Type="DropDown" HasCode="Y" HasUnderScore="Y" DataTextField="Contractor_Firm_Name" DataValueField="PK_Contractor_Firm" SortField="PK_Contractor_Firm"></Field>
   <Field Title="Meeting - Time Zone" TableName="Time_Zone" Type="DropDown" HasCode="Y" HasUnderScore="N" DataTextField="Description" DataValueField="PK_Time_Zone" SortField="PK_Time_Zone"></Field>
+  <Field Title="Maintenance Item Priority" TableName="LU_Maintenance_Priority" Type="DropDown" HasCode="Y" HasUnderScore="N" DataTextField="Description" DataValueField="PK_LU_Maintenance_Priority" SortField="Description"></Field>
+  <Field Title="Maintenance Item Note Author" TableName="Contractor_Security" Type="DropDown" HasCode="Y" HasUnderScore="N" DataTextField="Recipient_Name" DataValueField="PK_Contactor_Security" SortField="Recipient_Name"></Field>
 </AdHocReportField>
