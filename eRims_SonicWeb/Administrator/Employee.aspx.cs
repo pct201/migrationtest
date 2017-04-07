@@ -86,9 +86,9 @@ public partial class Administrator_Employee : clsBasePage
             lblError.Visible = true;
             return;
         }
-        
+
         bool jobcodeChanged = false;
-        
+
         DataSet ds = Employee_Codes.SelectDataByEmployeeCodes(PK_Employee_ID);
 
         if (ds.Tables[0].Rows.Count > 0 && Convert.ToString(ds.Tables[0].Rows[0]["Code"]) != ddlJobCode.SelectedValue && PK_Employee_ID > 0)
@@ -177,14 +177,14 @@ public partial class Administrator_Employee : clsBasePage
 
         Employee objOldEmployee = new Employee(PK_Employee_ID);
         bool loginDetailchanged = false;
-        
+
         if (objOldEmployee.Social_Security_Number != objEmployee.Social_Security_Number || objOldEmployee.FK_Cost_Center != objEmployee.FK_Cost_Center || objOldEmployee.Last_Name != objEmployee.Last_Name)
         {
             loginDetailchanged = true;
         }
 
 
-       
+
 
         if (PK_Employee_ID > 0)
         {
@@ -322,9 +322,9 @@ public partial class Administrator_Employee : clsBasePage
         lblLast_date_of_hire.Text = clsGeneral.FormatDBNullDateToDisplay(objEmployee.Last_Hire_Date);
         lblDate_Of_Birth.Text = clsGeneral.FormatDBNullDateToDisplay(objEmployee.Date_Of_Birth);
         lblDate_of_Death.Text = clsGeneral.FormatDBNullDateToDisplay(objEmployee.Date_Of_Death);
-        lblSecondary_Cost_Center.Text = Convert.ToString(objEmployee.Secondary_Cost_Center);
         if (objEmployee.FK_Job_Classification != null)
             lblJobClassification.Text = new Job_Classification(Convert.ToDecimal(objEmployee.FK_Job_Classification)).Fld_Desc;
+       // lblSecondary_Cost_Center.Text = Convert.ToString(objEmployee.Secondary_Cost_Center);
 
         //if (objEmployee.FK_Bank_Number != null)
         //    lblBankNumber.Text = new Bank_Details(Convert.ToDecimal(objEmployee.FK_Bank_Number)).Fld_AccountNo;
@@ -498,11 +498,6 @@ public partial class Administrator_Employee : clsBasePage
         else
             txtWork_Phone.Text = Convert.ToString(objEmployee.Work_Phone);
 
-        if (!string.IsNullOrEmpty(objEmployee.Secondary_Cost_Center))
-        {
-            txtSecondary_Cost_Center.Text = objEmployee.Secondary_Cost_Center.Trim();
-        }
-
         txtDrivers_License_Expires.Text = clsGeneral.FormatDBNullDateToDisplay(objEmployee.Drivers_License_Expires);
         txtDrivers_License_Issued.Text = clsGeneral.FormatDBNullDateToDisplay(objEmployee.Drivers_License_Issued);
         txtDate_of_Hire.Text = clsGeneral.FormatDBNullDateToDisplay(objEmployee.Hire_Date);
@@ -510,6 +505,11 @@ public partial class Administrator_Employee : clsBasePage
         txtDate_Of_Birth.Text = clsGeneral.FormatDBNullDateToDisplay(objEmployee.Date_Of_Birth);
         txtDate_of_Death.Text = clsGeneral.FormatDBNullDateToDisplay(objEmployee.Date_Of_Death);
         txtActive_Inactive_Leave.Text = Convert.ToString(objEmployee.Active_Inactive_Leave);
+
+        //if (!string.IsNullOrEmpty(objEmployee.Secondary_Cost_Center))
+        //{
+        //    txtSecondary_Cost_Center.Text = objEmployee.Secondary_Cost_Center.Trim();
+        //}
 
         if (objEmployee.FK_Job_Classification != null)
             ddlJobClassification.SelectedValue = objEmployee.FK_Job_Classification.ToString();

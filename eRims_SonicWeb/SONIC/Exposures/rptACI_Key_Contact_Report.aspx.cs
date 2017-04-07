@@ -168,8 +168,8 @@ public partial class SONIC_Exposures_rptACI_Key_Contact_Report : clsBasePage
         dtContact_Report.Columns["email"].ColumnName = "Email Address";
         dtContact_Report.Columns["employee_cell_Phone"].ColumnName = "Cell Phone";
         dtContact_Report.Columns["work_Phone"].ColumnName = "Work Phone";
-        dtContact_Report.Columns["Secondary_Cost_Center"].ColumnName = "Secondary Cost Center";
-        dtContact_Report.Columns["FK_Cost_Center"].ColumnName = "Cost Center";
+        //dtContact_Report.Columns["Secondary_Cost_Center"].ColumnName = "Secondary Cost Center";
+        //dtContact_Report.Columns["FK_Cost_Center"].ColumnName = "Cost Center";
         ToExcel(dtContact_Report, "ACI Key Contact Report.xlsx");
     }
 

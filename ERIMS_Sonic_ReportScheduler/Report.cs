@@ -1157,6 +1157,18 @@ namespace ERIMS_Sonic_ReportScheduler
             return db.ExecuteDataSet(dbCommand);
         }
 
+        /// <summary>
+        /// Selects Security Data
+        /// </summary>
+        /// <returns></returns>
+        public static DataSet SelectEmployeeData()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("SelectFROIList");
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
         #endregion
 
         #region Exposures Reports

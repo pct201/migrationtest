@@ -11654,11 +11654,11 @@ namespace ERIMS_Sonic_ReportScheduler
                         {
                             //strScoreCardBgColor = "#76bdd5";
                             strHTML.Append("<tr bgcolor='#76bdd5'>");
-                        }   
+                        }
                         else
                             strHTML.Append("<tr>");
 
-                        
+
 
                         if (decTotalScore >= 95 && decTotalScore <= 100)
                         {
@@ -13608,27 +13608,27 @@ namespace ERIMS_Sonic_ReportScheduler
                 strHTML.Append("<table border='1'>");
                 strHTML.Append("<tr style='font-weight: bold;' valign='bottom'>");
                 strHTML.Append("<td align='left' >Sonic Automotive</td>");
-                strHTML.Append("<td align='center' colspan='13'>ACI Key Contact Report</td>");
+                strHTML.Append("<td align='center' colspan='11'>ACI Key Contact Report</td>");
                 strHTML.Append("<td align='right' > " + DateTime.Now.ToString() + " </td>");
                 strHTML.Append("</tr>");
 
                 //Sub Header
                 strHTML.Append("<tr valign='bottom' style='font-weight: bold'>");
-                strHTML.Append("<td width='250' align='right'>Location D/B/A</td>");
-                strHTML.Append("<td width='150' align='right'>Store Address 1</td>");
-                strHTML.Append("<td width='150' align='right'>Store Address 2</td>");
-                strHTML.Append("<td width='100' align='right'>Store City</td>");
-                strHTML.Append("<td width='100' align='right'>Store State</td>");
-                strHTML.Append("<td width='80' align='right'>Store Zip</td>");
-                strHTML.Append("<td width='80' align='right'>Location Code</td>");
-                strHTML.Append("<td width='120' align='right'>Job Title</td>");
-                strHTML.Append("<td width='100' align='right'>First Name</td>");
-                strHTML.Append("<td width='100' align='right'>Last Name</td>");
-                strHTML.Append("<td width='170' align='right'>Email Address</td>");
-                strHTML.Append("<td width='100' align='right'>Cell Phone</td>");
-                strHTML.Append("<td width='100' align='right'>Work Phone</td>");
-                strHTML.Append("<td width='100' align='right'>Cost Center</td>");
-                strHTML.Append("<td width='100' align='right'>Secondary Cost Center</td>");
+                strHTML.Append("<td width='250' align='left'>Location D/B/A</td>");
+                strHTML.Append("<td width='150' align='left'>Store Address 1</td>");
+                strHTML.Append("<td width='150' align='left'>Store Address 2</td>");
+                strHTML.Append("<td width='100' align='left'>Store City</td>");
+                strHTML.Append("<td width='100' align='left'>Store State</td>");
+                strHTML.Append("<td width='80' align='left'>Store Zip</td>");
+                strHTML.Append("<td width='80' align='left'>Location Code</td>");
+                strHTML.Append("<td width='120' align='left'>Job Title</td>");
+                strHTML.Append("<td width='100' align='left'>First Name</td>");
+                strHTML.Append("<td width='100' align='left'>Last Name</td>");
+                strHTML.Append("<td width='170' align='left'>Email Address</td>");
+                strHTML.Append("<td width='100' align='left'>Cell Phone</td>");
+                strHTML.Append("<td width='100' align='left'>Work Phone</td>");
+                //strHTML.Append("<td width='100' align='right'>Cost Center</td>");
+                //strHTML.Append("<td width='100' align='right'>Secondary Cost Center</td>");
                 strHTML.Append("</tr>");
 
                 //Check Whether Record Exists or Not
@@ -13651,8 +13651,8 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<td width='170'>" + Convert.ToString(dr["email"]) + "</td>");
                         strHTML.Append("<td width='100'>" + Convert.ToString(dr["employee_cell_Phone"]) + "</td>");
                         strHTML.Append("<td width='100'>" + Convert.ToString(dr["work_Phone"]) + "</td>");
-                        strHTML.Append("<td width='100'>" + Convert.ToString(dr["FK_Cost_Center"]) + "</td>");
-                        strHTML.Append("<td width='100'>" + Convert.ToString(dr["Secondary_Cost_Center"]) + "</td>");
+                        //strHTML.Append("<td width='100'>" + Convert.ToString(dr["FK_Cost_Center"]) + "</td>");
+                        //strHTML.Append("<td width='100'>" + Convert.ToString(dr["Secondary_Cost_Center"]) + "</td>");
                         strHTML.Append("</tr>");
                     }
                 }
@@ -13670,6 +13670,120 @@ namespace ERIMS_Sonic_ReportScheduler
                 htmlWrite.WriteLine(strHTML.ToString());
                 //Send Mail
                 SendMail("ACI Key Contact Report", "ACI_Key_Contact_Report.xls", strFirstName, strLastName, strMailFrom, stringWrite, dtRecipients);
+
+                #region "Send Mail to FROI"
+
+                DataSet dsSecurity = Report.SelectEmployeeData();
+                DataTable dtSecAndLoc = dsSecurity.Tables[0];
+                //get distinct Security IDs
+                DataTable dtSecurityID = dsSecurity.Tables[1];
+                DataTable dtResult = Report.GetACI_Key_Contact_Report(string.Empty, string.Empty).Tables[0];
+                String strSonicLocCode = String.Empty;
+                String strLocationID = String.Empty;
+
+                if (dtSecurityID != null && dtSecurityID.Rows.Count > 0)
+                {
+                    foreach (DataRow drSecurityID in dtSecurityID.Rows)
+                    {
+                        DataRow[] drSecAndLoc = dtSecAndLoc.Select("PK_Security_ID = '" + Convert.ToString(drSecurityID["PK_Security_ID"]) + "'");
+
+                        foreach (DataRow dr in drSecAndLoc)
+                        {
+                            strSonicLocCode = strSonicLocCode + Convert.ToString(dr["Sonic_Location_Code"]) + ",";
+                            strLocationID = strLocationID + Convert.ToString(dr["PK_LU_Location_ID"]) + ",";
+                        }
+
+                        strSonicLocCode = strSonicLocCode.TrimEnd(',');
+                        strLocationID = strLocationID.TrimEnd(',');
+
+                        DataTable dtReportData = new DataView(dtResult, "Sonic_Location_Code IN (" + strSonicLocCode + ")", "", DataViewRowState.CurrentRows).ToTable();
+                        //Create HTML for the report and write into HTML Write object
+                        StringBuilder strHTMLFROI = new StringBuilder();
+                        System.IO.StringWriter stringWriteFROI = new System.IO.StringWriter();
+                        System.Web.UI.HtmlTextWriter htmlWriteFROI = new System.Web.UI.HtmlTextWriter(stringWriteFROI);
+
+                        #region "Report Title"
+
+                        //Add Report Title and Schedule Date
+                        strHTMLFROI.Append("<table>");
+                        strHTMLFROI.Append("<tr><td colspan='12'><b>Report Title : ACI Key Contact Report</b></td></tr>");
+                        strHTMLFROI.Append("<tr><td colspan='12'><b>Report Filters </b></td></tr>");
+                        strHTMLFROI.Append("<tr><td colspan='12'>Location D/B/A   : " + ((!string.IsNullOrEmpty(strLocationID)) ? Report.GetCommaSeperatedDescFromVal("LU_Location", "dba", "PK_LU_Location_ID", strLocationID) : "") + "</td></tr>");
+
+                        #endregion
+
+                        #region "Report Grid header"
+
+                        //Top Header
+                        strHTMLFROI.Append("<table border='1'>");
+                        strHTMLFROI.Append("<tr style='font-weight: bold;' valign='bottom'>");
+                        strHTMLFROI.Append("<td align='left' >Sonic Automotive</td>");
+                        strHTMLFROI.Append("<td align='center' colspan='11'>ACI Key Contact Report</td>");
+                        strHTMLFROI.Append("<td align='right' > " + DateTime.Now.ToString() + " </td>");
+                        strHTMLFROI.Append("</tr>");
+
+                        //Sub Header
+                        strHTMLFROI.Append("<tr valign='bottom' style='font-weight: bold'>");
+                        strHTMLFROI.Append("<td width='250' align='left'>Location D/B/A</td>");
+                        strHTMLFROI.Append("<td width='150' align='left'>Store Address 1</td>");
+                        strHTMLFROI.Append("<td width='150' align='left'>Store Address 2</td>");
+                        strHTMLFROI.Append("<td width='100' align='left'>Store City</td>");
+                        strHTMLFROI.Append("<td width='100' align='left'>Store State</td>");
+                        strHTMLFROI.Append("<td width='80' align='left'>Store Zip</td>");
+                        strHTMLFROI.Append("<td width='80' align='left'>Location Code</td>");
+                        strHTMLFROI.Append("<td width='120' align='left'>Job Title</td>");
+                        strHTMLFROI.Append("<td width='100' align='left'>First Name</td>");
+                        strHTMLFROI.Append("<td width='100' align='left'>Last Name</td>");
+                        strHTMLFROI.Append("<td width='170' align='left'>Email Address</td>");
+                        strHTMLFROI.Append("<td width='100' align='left'>Cell Phone</td>");
+                        strHTMLFROI.Append("<td width='100' align='left'>Work Phone</td>");
+                        strHTMLFROI.Append("</tr>");
+
+                        //Check Whether Record Exists or Not
+                        if (dtReportData != null && dtReportData.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dtReportData.Rows)
+                            {
+                                strHTMLFROI.Append("<tr valign='top'>");
+                                strHTMLFROI.Append("<td width='250'>" + Convert.ToString(dr["dba"]) + "</td>");
+                                strHTMLFROI.Append("<td width='150'>" + Convert.ToString(dr["address_1"]) + "</td>");
+                                strHTMLFROI.Append("<td width='150'>" + Convert.ToString(dr["address_2"]) + "</td>");
+                                strHTMLFROI.Append("<td width='100'>" + Convert.ToString(dr["city"]) + "</td>");
+                                strHTMLFROI.Append("<td width='100'>" + Convert.ToString(dr["State"]) + "</td>");
+                                strHTMLFROI.Append("<td width='80'>" + Convert.ToString(dr["zip_code"]) + "</td>");
+                                strHTMLFROI.Append("<td width='80'>" + Convert.ToString(dr["Sonic_Location_Code"]) + "</td>");
+                                strHTMLFROI.Append("<td width='120'>" + Convert.ToString(dr["job_title"]) + "</td>");
+                                strHTMLFROI.Append("<td width='100'>" + Convert.ToString(dr["first_name"]) + "</td>");
+                                strHTMLFROI.Append("<td width='100'>" + Convert.ToString(dr["last_name"]) + "</td>");
+                                strHTMLFROI.Append("<td width='170'>" + Convert.ToString(dr["email"]) + "</td>");
+                                strHTMLFROI.Append("<td width='100'>" + Convert.ToString(dr["employee_cell_Phone"]) + "</td>");
+                                strHTMLFROI.Append("<td width='100'>" + Convert.ToString(dr["work_Phone"]) + "</td>");
+                                strHTMLFROI.Append("</tr>");
+                            }
+                        }
+                        else
+                        {
+                            //Add No record found line for year
+                            strHTMLFROI.Append("<tr><td align='left' style='border:thin' colspan='13'>No Record Found!</td></tr>");
+                        }
+                        strHTMLFROI.Append("</table></table>");
+
+                        #endregion
+
+                        //Write HTML in to HtmlWriter
+                        htmlWriteFROI.WriteLine(strHTMLFROI.ToString());
+
+                        //Send Mail
+                        DataTable dtRecepient = new DataTable();
+                        dtRecepient.Columns.Add("Email", typeof(String));
+                        dtRecepient.Columns.Add("FirstName", typeof(String));
+                        dtRecepient.Columns.Add("LastName", typeof(String));
+                        dtRecepient.Rows.Add(Convert.ToString(drSecurityID["Email"]), Convert.ToString(drSecurityID["FIRST_NAME"]), Convert.ToString(drSecurityID["LAST_NAME"]));
+                        SendMail("ACI Key Contact Report", "ACI_Key_Contact_Report.xls", strFirstName, strLastName, strMailFrom, stringWriteFROI, dtRecepient);
+                        strSonicLocCode = strLocationID = string.Empty;
+                    }
+                }
+                #endregion
             }
         }
 
@@ -13848,7 +13962,7 @@ namespace ERIMS_Sonic_ReportScheduler
                     if (dtFilter.Rows.Count > 0)
                     {
                         string strCoverageType = string.Empty, strOutPutFields = string.Empty, strFirstGroupBy = string.Empty, strSecGroupBy = string.Empty;
-                       
+
                         decimal _dcSelectedReport = 0;
 
                         List<ERIMS_DAL.Sonic_U_Train_AdHocFilter> lstFilter = new List<Sonic_U_Train_AdHocFilter>();
@@ -13921,7 +14035,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 EventLog.WriteEntry("Error Occurred in Safety Training Adhoc Report on " + dtSchduleDate.ToString() + ", " + ex.Message + ",Stack Trace:" + ex.StackTrace);
             }
         }
-        
+
         private void FillVocReportRows(StringBuilder sbRecorords, string category, DataRow[] drVOCEmissions, bool isAllCategories)
         {
             decimal totalGallons = 0, totalVOC_Emissions = 0;
@@ -14688,7 +14802,7 @@ namespace ERIMS_Sonic_ReportScheduler
                             strConditionVal = "<tr><td colspan='3'><b>" + lstAdhoc[0].Field_Header + " : </b>" + strConditionType + Convert.ToString(lstFilter[i].AmountFrom) + " And " + Convert.ToString(lstFilter[i].AmountTo) + "</td></tr>";
                         sbRecord.Append(strConditionVal);
                     }
-                   // sbRecord.Append("<br />");
+                    // sbRecord.Append("<br />");
                 }
                 //sbRecord.Append("<br /></td></tr></table>");
                 //sbRecord.Append("<br/>");
@@ -15529,7 +15643,7 @@ namespace ERIMS_Sonic_ReportScheduler
 
                     //Table End
                     sbRecord.Append("</table></td></tr>");
-                    
+
 
                     #region "Footer Template"
                     // IF Grand Total Option is Checked and Have record from Transaction Table to SUM
@@ -15742,7 +15856,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 }
                 //sbRecord.Append("<br /></td></tr></table>");                
                 #endregion
-               
+
                 // Check if Any record is exists or not
                 if (Reader.Read())
                 {
@@ -16601,7 +16715,7 @@ namespace ERIMS_Sonic_ReportScheduler
                             sbRecord.Append("<td style=" + strStyle + ">" + string.Format("{0:c2}", dtHeader.Rows[0][intColumn]) + "</td>");
                         // show value for Claim Count
                         //sbRecord.Append("<td style=" + strStyle + ">" + dtHeader.Rows[0][dtHeader.Columns.Count - 1] + "</td>");
-                        sbRecord.Append("</table></td></tr>");                        
+                        sbRecord.Append("</table></td></tr>");
                     }
                     sbRecord.Append("</table>");
                     #endregion
@@ -18856,7 +18970,7 @@ namespace ERIMS_Sonic_ReportScheduler
                                 {
                                     strRecord += "Waived,";
                                 }
-                                
+
                             }
                             else if (arrConditionValue[intj] == "3")
                             {
@@ -19078,7 +19192,7 @@ namespace ERIMS_Sonic_ReportScheduler
         /// <param name="dsReport">Report Dataset</param>
         private string BindConstructionReport(ref StringBuilder sbRecord, IDataReader Reader, Construction_AdHocReport ObjAdHocReport, List<Construction_AdHocFilter> lstFilter, List<Construction_AdhocReportFields> listConstruction_AdHocReportFields, string strReportSchedulerName)
         {
-            DataTable dtSchema = null, dtHeader = null;
+               DataTable dtSchema = null, dtHeader = null;
             Construction_AdhocReportFields objReportFields = new Construction_AdhocReportFields();
             string strPath = string.Empty;
             Boolean IsGroupBySelected = false;
@@ -19087,9 +19201,11 @@ namespace ERIMS_Sonic_ReportScheduler
             try
             {
                 #region "Filter and Title"
-                sbRecord.Append("<br />");
-                sbRecord.Append("<b>Report Title : " + strReportSchedulerName + " </b>");
-                sbRecord.Append("<br /><br />");
+                //sbRecord.Append("<br />");
+                //sbRecord.Append("<b>Report Title : " + strReportSchedulerName + " </b>");
+                //sbRecord.Append("<br /><br />");
+                sbRecord.Append("<table border='1' cellpadding='0' cellspacing='0' width='" + (150 * ObjAdHocReport.OutputFields.Split(',').Length).ToString() + "' style='font-size:10pt'>");
+                sbRecord.Append("<tr><td colspan='" + ObjAdHocReport.OutputFields.Split(',').Length + "'>Report Title : " + strReportSchedulerName + " </td></tr>");
                 for (int i = 0; i < lstFilter.Count; i++)
                 {
                     string strConditionVal = string.Empty;
@@ -19102,15 +19218,15 @@ namespace ERIMS_Sonic_ReportScheduler
                         else
                             strConditionType = (strConditionType == "1") ? " Contains " : (strConditionType == "2" ? " Start With " : " End With ");
                         strConditionVal = lstFilter[i].ConditionValue;
-                        sbRecord.Append("<b>" + construction_AdhocReportFields.Field_Header + " : " + strConditionType + "</b>" + lstFilter[i].ConditionValue);
+                        sbRecord.Append("<tr><td colspan='" + ObjAdHocReport.OutputFields.Split(',').Length + "'><b>" + construction_AdhocReportFields.Field_Header + "</b> : " + strConditionType + lstFilter[i].ConditionValue + "</td><tr>");                        
                     }
 
                     if (construction_AdhocReportFields.Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                     {
                         if (Convert.ToBoolean(lstFilter[i].IsNotSelected) == true)
-                            sbRecord.Append("<b>" + construction_AdhocReportFields.Field_Header + " (Not In)</b>" + " : " + FillFilterDropDownForConstructionReport(construction_AdhocReportFields.Field_Header, lstFilter[i].ConditionValue));
+                            sbRecord.Append("<tr><td colspan='" + ObjAdHocReport.OutputFields.Split(',').Length + "'><b>" + construction_AdhocReportFields.Field_Header + "</b> (Not In)" + " : " + FillFilterDropDownForConstructionReport(construction_AdhocReportFields.Field_Header, lstFilter[i].ConditionValue)+"</td></tr>");
                         else
-                            sbRecord.Append("<b>" + construction_AdhocReportFields.Field_Header + " (In)</b>" + " : " + FillFilterDropDownForConstructionReport(construction_AdhocReportFields.Field_Header, lstFilter[i].ConditionValue));
+                            sbRecord.Append("<tr><td colspan='" + ObjAdHocReport.OutputFields.Split(',').Length + "'><b>" + construction_AdhocReportFields.Field_Header + "</b> (In)" + " : " + FillFilterDropDownForConstructionReport(construction_AdhocReportFields.Field_Header, lstFilter[i].ConditionValue) + "</td></tr>");
                     }
 
                     if (construction_AdhocReportFields.Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.DateControl)
@@ -19145,7 +19261,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         else
                             strConditionVal = "<b>" + construction_AdhocReportFields.Field_Header + " : </b>" + strConditionType + dtFrom + " And " + dtTo;
 
-                        sbRecord.Append(strConditionVal);
+                        sbRecord.Append("<tr><td colspan='" + ObjAdHocReport.OutputFields.Split(',').Length + "'>" + strConditionVal + "</td></tr>");
                     }
                     if (construction_AdhocReportFields.Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.AmountControl)
                     {
@@ -19159,11 +19275,14 @@ namespace ERIMS_Sonic_ReportScheduler
                             strConditionVal = "<b>" + construction_AdhocReportFields.Field_Header + " : " + strConditionType + "</b>" + Convert.ToString(lstFilter[i].AmountFrom);
                         else
                             strConditionVal = "<b>" + construction_AdhocReportFields.Field_Header + " : </b>" + strConditionType + Convert.ToString(lstFilter[i].AmountFrom) + " And " + Convert.ToString(lstFilter[i].AmountTo);
-                        sbRecord.Append(strConditionVal);
+                        //sbRecord.Append(strConditionVal);
+                        sbRecord.Append("<tr><td colspan='" + ObjAdHocReport.OutputFields.Split(',').Length + "'>" + strConditionVal + "</td></tr>");
                     }
-                    sbRecord.Append("<br />");
+                    //sbRecord.Append("<br />");
                 }
-                sbRecord.Append("<br />");
+                //sbRecord.Append("<br />");
+                sbRecord.Append("<tr><td colspan='" + ObjAdHocReport.OutputFields.Split(',').Length + "'></td></tr>");
+                //sbRecord.Append("</table>");
 
                 #endregion
 
@@ -19206,7 +19325,7 @@ namespace ERIMS_Sonic_ReportScheduler
 
                     dtSchema = Reader.GetSchemaTable();
 
-                    sbRecord.Append("<table border='1' cellpadding='0' cellspacing='0' width='" + (150 * ObjAdHocReport.OutputFields.Split(',').Length).ToString() + "' style='font-size:10pt'>");
+                    //sbRecord.Append("<table border='1' cellpadding='0' cellspacing='0' width='" + (150 * ObjAdHocReport.OutputFields.Split(',').Length).ToString() + "' style='font-size:10pt'>");
 
                     #region "Header"
 
@@ -19803,7 +19922,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 lstAdhoc = objReportFields.GetAdHocReportFieldByPk(Convert.ToDecimal(ObjAdHocReport.ThirdSortBy));
                 strOrderBy += (string.IsNullOrEmpty(strOrderBy) ? "" : ",") + " [" + lstAdhoc[0].Field_Header + "] " + ObjAdHocReport.ThirdSortByOrder;
             }
-            
+
             return strOrderBy;
         }
         #endregion
