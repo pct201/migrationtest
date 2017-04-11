@@ -251,14 +251,27 @@
         }
 
         function CheckVideo() {
-            var values = '<%=ViewState["PK_Event_Video_Tracking_Request"]%>';
+            <%--var values = '<%=ViewState["PK_Event_Video_Tracking_Request"]%>';
                     if (values == '' || values == '0') {
                         alert('Please Save Video Request First');
                         return false;
                     }
                     else {
                         return true;
-                    }
+                    }--%>
+
+            var op = '<%=StrOperation%>';
+            if (op.toLocaleLowerCase() == "view") {
+                return true;
+            }
+            else {
+                var bValid = false;
+                if (Page_ClientValidate("vsErrorGroup")) {
+                    bValid = true;
+                }
+                
+                return bValid;
+            }
         }
 
         function SelectDeselectAllVideoNotes(bChecked) {
@@ -460,7 +473,7 @@
                                                                     ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            Work Phone&nbsp;<span id="Span8" runat="server" style="color: Red;">*</span>
+                                                            Work Phone<%--&nbsp;<span id="Span8" runat="server" style="color: Red;">*</span>--%>
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
@@ -469,9 +482,9 @@
                                                             <asp:RegularExpressionValidator ID="regtxtWork_Phone_Video" ControlToValidate="txtWork_Phone_Video"
                                                                 runat="server" SetFocusOnError="true" ErrorMessage="Please Enter Work Phone # in XXX-XXX-XXXX format"
                                                                 Display="none" ValidationGroup="vsErrorGroup" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>
-                                                            <asp:RequiredFieldValidator ID="revtxtWork_Phone_Video" runat="server" ControlToValidate="txtWork_Phone_Video"
+                                                            <%--<asp:RequiredFieldValidator ID="revtxtWork_Phone_Video" runat="server" ControlToValidate="txtWork_Phone_Video"
                                                                     InitialValue="" ErrorMessage="Please Enter Work Phone" Display="None" SetFocusOnError="true"
-                                                                    ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                                                                    ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>--%>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -487,7 +500,7 @@
                                                                     ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            Alternate Phone&nbsp;<span id="Span9" runat="server" style="color: Red;">*</span>
+                                                            Alternate Phone<%--&nbsp;<span id="Span9" runat="server" style="color: Red;">*</span>--%>
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
@@ -496,9 +509,9 @@
                                                             <asp:RegularExpressionValidator ID="regtxtAlternate_Phone_Video" ControlToValidate="txtAlternate_Phone_Video"
                                                                 runat="server" SetFocusOnError="true" ErrorMessage="Please Enter Alternate Phone # in XXX-XXX-XXXX format"
                                                                 Display="none" ValidationGroup="vsErrorGroup" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>
-                                                            <asp:RequiredFieldValidator ID="revtxtAlternate_Phone_Video" runat="server" ControlToValidate="txtAlternate_Phone_Video"
+                                                            <%--<asp:RequiredFieldValidator ID="revtxtAlternate_Phone_Video" runat="server" ControlToValidate="txtAlternate_Phone_Video"
                                                                     InitialValue="" ErrorMessage="Please Enter Alternate Phone" Display="None" SetFocusOnError="true"
-                                                                    ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                                                                    ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>--%>
                                                         </td>
                                                     </tr>
                                                     <tr>

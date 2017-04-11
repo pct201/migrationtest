@@ -895,5 +895,15 @@ namespace ERIMS.DAL
 
             return db.ExecuteDataSet(dbCommand);
         }
+
+        public static DataSet GetVideoRequestStatus(decimal PK_Event_Video_Tracking_Request)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("GetVideoRequestStatus");
+
+            db.AddInParameter(dbCommand, "PK_Event_Video_Tracking_Request", DbType.Decimal, PK_Event_Video_Tracking_Request);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
 	}
 }

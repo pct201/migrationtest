@@ -83,7 +83,7 @@ public class clsGeneral : System.Web.UI.Page
 
     public static string[] SLT_TablesNames = { "SLT_Safety_Walk", "SLT_Training", "SLT_Meeting_Review", "Main_Wall_Attachment", "SLT_BT_Security_Walk", "Dashboard_Wall_Attachment" };
 
-    public static string[] VideoRequestStatus = { "", "Submitted", "Sonic Approved", "Sonic Denied", "ACI Delivered", "Closed"};
+    public static string[] VideoRequestStatus = { "", "Submitted", "Sonic Approved", "Sonic Denied", "ACI Delivered", "Closed", "Pending"};
 
     /// <summary>
     /// enum is used to get table name to be used.
@@ -255,7 +255,8 @@ public class clsGeneral : System.Web.UI.Page
         Sonic_Approved = 2,
         Sonic_Denied = 3,
         ACI_Delivered = 4,
-        Closed = 5
+        Closed = 5,
+        Pending = 6
     }
 
     //public enum TextBoxCssClass

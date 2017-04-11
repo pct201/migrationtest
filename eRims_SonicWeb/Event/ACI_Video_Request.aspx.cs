@@ -150,7 +150,7 @@ public partial class Event_ACI_Video_Request : clsBasePage
             if (eventTarget == "UserConfirmationPostBack")
             {
                 if (eventArgument == "true")
-                    SaveRecord();
+                    SaveRecord(true);
             }
         }
         ucAttachment_Video.ReadOnly = true;
@@ -170,7 +170,7 @@ public partial class Event_ACI_Video_Request : clsBasePage
     {
         ViewState.Remove("EmailAbsratact");
 
-        SaveRecord();
+        SaveRecord(true);
 
         //if (ViewState["EmailAbsratact"] != null)
         //{
@@ -196,7 +196,7 @@ public partial class Event_ACI_Video_Request : clsBasePage
     /// <param name="e"></param>
     protected void btnSend_Notification_Video_Click(object sender, EventArgs e)
     {
-        SaveRecord();
+        SaveRecord(true);
         SendAbstractViaEmailWhileInsert();
 
         if (StrOperation.ToLower() == "add" || StrOperation.ToLower() == "addto" || StrOperation.ToLower() == "")
@@ -275,7 +275,10 @@ public partial class Event_ACI_Video_Request : clsBasePage
     /// <param name="e"></param>
     protected void btnVideoNotesAdd_Click(object sender, EventArgs e)
     {
-        //SaveRecord();
+        if (PK_Event_Video_Tracking_Request <= 0)
+        {
+            SaveRecord(false);
+        }
 
         clsVideo_Request_Notes objVideo_Notes = new clsVideo_Request_Notes();
 
@@ -300,6 +303,8 @@ public partial class Event_ACI_Video_Request : clsBasePage
         BindVideoNoteGrid(ctrlPageVideoNotes.CurrentPage, ctrlPageVideoNotes.PageSize);
         //Cancel CLick
         btnVideoNotesCancel_Click(null, null);
+
+        BindGridTracking();
     }
 
     /// <summary>
@@ -392,6 +397,8 @@ public partial class Event_ACI_Video_Request : clsBasePage
         lblLastModifiedDateTime.Text = objVideo.Update_Date == null ? "" : "Last Modified Date/Time : " + objVideo.Update_Date.Value.ToString("MM/dd/yyyy hh:mm:ss tt") + " ";
 
         BindVideoNoteGrid(ctrlPageVideoNotes.CurrentPage, ctrlPageVideoNotes.PageSize);
+
+        
     }
 
     /// <summary>
@@ -415,7 +422,7 @@ public partial class Event_ACI_Video_Request : clsBasePage
     /// <summary>
     /// Save Event Information In database
     /// </summary>
-    private void SaveRecord()
+    private void SaveRecord(bool RequestSend)
     {
         clsEvent_Video_Tracking_Request objVideo = new clsEvent_Video_Tracking_Request();
         objVideo.PK_Event_Video_Tracking_Request = PK_Event_Video_Tracking_Request;
@@ -448,7 +455,16 @@ public partial class Event_ACI_Video_Request : clsBasePage
         objVideo.Updated_By = clsSession.UserID;
         objVideo.FK_Security = Convert.ToDecimal(clsSession.UserID);
 
-        DataSet ds = clsLU_Video_Tracking_Status.GetVideoStatusbydesc(clsGeneral.VideoRequestStatus[(int)clsGeneral.VideoRequest_Status.Submitted]);
+        DataSet ds = null;
+
+        if (RequestSend)
+        {
+            ds = clsLU_Video_Tracking_Status.GetVideoStatusbydesc(clsGeneral.VideoRequestStatus[(int)clsGeneral.VideoRequest_Status.Submitted]);
+        }
+        else
+        {
+            ds = clsLU_Video_Tracking_Status.GetVideoStatusbydesc(clsGeneral.VideoRequestStatus[(int)clsGeneral.VideoRequest_Status.Pending]);
+        }
 
         if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
         {
@@ -496,6 +512,22 @@ public partial class Event_ACI_Video_Request : clsBasePage
         {
             gvTracking.DataSource = null;
             gvTracking.DataBind();
+        }
+
+        DataSet dsStatus = clsEvent_Video_Tracking_Request.GetVideoRequestStatus(PK_Event_Video_Tracking_Request);
+        
+        if (dsStatus!= null && dsStatus.Tables.Count > 0 && dsStatus.Tables[0].Rows.Count > 0)
+        {
+            bool Is_Show = Convert.ToBoolean(dsStatus.Tables[0].Rows[0]["IS_Show"]);
+
+            if(Is_Show)
+            {
+                btnSend_Notification_Video.Style.Add("display", "");
+            }
+            else
+            {
+                btnSend_Notification_Video.Style.Add("display", "none");
+            }
         }
 
     }

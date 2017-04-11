@@ -643,9 +643,9 @@
             var rfvtxtDate_Of_Event_Video = document.getElementById("<%=rfvtxtDate_Of_Event_Video.ClientID%>");
             var rfvtxtDate_Of_Request_Video = document.getElementById("<%=rfvtxtDate_Of_Request_Video.ClientID%>");
             var revtxtFull_Name_Video = document.getElementById("<%=revtxtFull_Name_Video.ClientID%>");
-            var revtxtWork_Phone_Video = document.getElementById("<%=revtxtWork_Phone_Video.ClientID%>");
+            <%--var revtxtWork_Phone_Video = document.getElementById("<%=revtxtWork_Phone_Video.ClientID%>");--%>
             var revtxtLocation_Video = document.getElementById("<%=revtxtLocation_Video.ClientID%>");
-            var revtxtAlternate_Phone_Video = document.getElementById("<%=revtxtAlternate_Phone_Video.ClientID%>");
+            <%--var revtxtAlternate_Phone_Video = document.getElementById("<%=revtxtAlternate_Phone_Video.ClientID%>");--%>
             var rfvReason_Request_Video_rfvNotes =  document.getElementById("ctl00_ContentPlaceHolder1_txtReason_Request_Video_rfvNotes");
 
             if (rdoSonicYes.checked)
@@ -656,9 +656,9 @@
                 rfvtxtDate_Of_Event_Video.enabled = true;
                 rfvtxtDate_Of_Request_Video.enabled = true;
                 revtxtFull_Name_Video.enabled = true; 
-                revtxtWork_Phone_Video.enabled = true; 
+                //revtxtWork_Phone_Video.enabled = true; 
                 revtxtLocation_Video.enabled = true; 
-                revtxtAlternate_Phone_Video.enabled = true; 
+                //revtxtAlternate_Phone_Video.enabled = true; 
                 rfvReason_Request_Video_rfvNotes.enabled = true;
                
                 setVideoRequestData();
@@ -671,9 +671,9 @@
                 rfvtxtDate_Of_Event_Video.enabled = false;
                 rfvtxtDate_Of_Request_Video.enabled = false;
                 revtxtFull_Name_Video.enabled = false; 
-                revtxtWork_Phone_Video.enabled = false; 
+                //revtxtWork_Phone_Video.enabled = false; 
                 revtxtLocation_Video.enabled = false; 
-                revtxtAlternate_Phone_Video.enabled = false; 
+                //revtxtAlternate_Phone_Video.enabled = false; 
                 rfvReason_Request_Video_rfvNotes.enabled = false;
             }
             setUrgentNeed();
@@ -764,9 +764,9 @@
             var rfvtxtDate_Of_Event_Video = document.getElementById("<%=rfvtxtDate_Of_Event_Video.ClientID%>");
             var rfvtxtDate_Of_Request_Video = document.getElementById("<%=rfvtxtDate_Of_Request_Video.ClientID%>");
             var revtxtFull_Name_Video = document.getElementById("<%=revtxtFull_Name_Video.ClientID%>");
-            var revtxtWork_Phone_Video = document.getElementById("<%=revtxtWork_Phone_Video.ClientID%>");
+            <%--var revtxtWork_Phone_Video = document.getElementById("<%=revtxtWork_Phone_Video.ClientID%>");--%>
             var revtxtLocation_Video = document.getElementById("<%=revtxtLocation_Video.ClientID%>");
-            var revtxtAlternate_Phone_Video = document.getElementById("<%=revtxtAlternate_Phone_Video.ClientID%>");
+            <%--var revtxtAlternate_Phone_Video = document.getElementById("<%=revtxtAlternate_Phone_Video.ClientID%>");--%>
             var rfvReason_Request_Video_rfvNotes =  document.getElementById("ctl00_ContentPlaceHolder1_txtReason_Request_Video_rfvNotes");
 
             var revtxtCamera_Name_Video = document.getElementById("<%=revtxtCamera_Name_Video.ClientID%>");
@@ -778,9 +778,9 @@
             rfvtxtDate_Of_Event_Video.enabled = false;
             rfvtxtDate_Of_Request_Video.enabled = false;
             revtxtFull_Name_Video.enabled = false; 
-            revtxtWork_Phone_Video.enabled = false; 
+            //revtxtWork_Phone_Video.enabled = false; 
             revtxtLocation_Video.enabled = false; 
-            revtxtAlternate_Phone_Video.enabled = false; 
+            //revtxtAlternate_Phone_Video.enabled = false; 
             rfvReason_Request_Video_rfvNotes.enabled = false;
 
             revtxtCamera_Name_Video.enabled = false;
@@ -860,13 +860,25 @@
         //}
 
         function CheckVideo() {
-            var values = '<%=ViewState["PK_Event_Video_Tracking_Request"]%>';
+            <%--var values = '<%=ViewState["PK_Event_Video_Tracking_Request"]%>';
             if (values == '' || values == '0') {
                 alert('Please Save Video Request First');
                 return false;
             }
             else {
                 return true;
+            }--%>
+            var op = '<%=StrOperation%>';
+            if (op.toLocaleLowerCase() == "view") {
+                return true;
+            }
+            else {
+                var bValid = false;
+                //ShowHideVideoRequest();
+                if (Page_ClientValidate("vsErrorGroup")) {
+                    bValid = true;
+                }
+                return bValid;
             }
         }
 
@@ -2245,7 +2257,7 @@
                                                         <td align="center" width="4%" valign="top">:
                                                         </td>
                                                         <td align="left" width="28%" valign="top">
-                                                            <asp:TextBox ID="txtEvent_Number_Sonic" runat="server" SkinID="txtDisabled" Width="170px"></asp:TextBox>
+                                                            <asp:TextBox ID="txtEvent_Number_Sonic" runat="server" SkinID="txtDisabled" Width="170px" BackColor="LightGray"></asp:TextBox>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -2924,7 +2936,7 @@
                                                                 InitialValue="" ErrorMessage="[Video Request] /  Please Enter Full Name" Display="None" SetFocusOnError="true"
                                                                 ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
                                                         </td>
-                                                        <td align="left" valign="top">Work Phone&nbsp;<span id="Span8" runat="server" style="color: Red;">*</span>
+                                                        <td align="left" valign="top">Work Phone<%--&nbsp;<span id="Span8" runat="server" style="color: Red;">*</span>--%>
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
@@ -2933,9 +2945,9 @@
                                                             <asp:RegularExpressionValidator ID="regtxtWork_Phone_Video" ControlToValidate="txtWork_Phone_Video"
                                                                 runat="server" SetFocusOnError="true" ErrorMessage="[Video Request] /  Please Enter Work Phone # in XXX-XXX-XXXX format"
                                                                 Display="none" ValidationGroup="vsErrorGroup" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>
-                                                            <asp:RequiredFieldValidator ID="revtxtWork_Phone_Video" runat="server" ControlToValidate="txtWork_Phone_Video"
+                                                           <%-- <asp:RequiredFieldValidator ID="revtxtWork_Phone_Video" runat="server" ControlToValidate="txtWork_Phone_Video"
                                                                 InitialValue="" ErrorMessage="[Video Request] /  Please Enter Work Phone" Display="None" SetFocusOnError="true"
-                                                                ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                                                                ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>--%>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -2949,7 +2961,7 @@
                                                                 InitialValue="" ErrorMessage="[Video Request] /  Please Enter Location" Display="None" SetFocusOnError="true"
                                                                 ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
                                                         </td>
-                                                        <td align="left" valign="top">Alternate Phone&nbsp;<span id="Span9" runat="server" style="color: Red;">*</span>
+                                                        <td align="left" valign="top">Alternate Phone<%--&nbsp;<span id="Span9" runat="server" style="color: Red;">*</span>--%>
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
@@ -2958,9 +2970,9 @@
                                                             <asp:RegularExpressionValidator ID="regtxtAlternate_Phone_Video" ControlToValidate="txtAlternate_Phone_Video"
                                                                 runat="server" SetFocusOnError="true" ErrorMessage="[Video Request] /  Please Enter Alternate Phone # in XXX-XXX-XXXX format"
                                                                 Display="none" ValidationGroup="vsErrorGroup" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>
-                                                            <asp:RequiredFieldValidator ID="revtxtAlternate_Phone_Video" runat="server" ControlToValidate="txtAlternate_Phone_Video"
+                                                           <%-- <asp:RequiredFieldValidator ID="revtxtAlternate_Phone_Video" runat="server" ControlToValidate="txtAlternate_Phone_Video"
                                                                 InitialValue="" ErrorMessage="[Video Request] /  Please Enter Alternate Phone" Display="None" SetFocusOnError="true"
-                                                                ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                                                                ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>--%>
                                                         </td>
                                                     </tr>
                                                     <tr>
