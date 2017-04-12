@@ -70,8 +70,8 @@ namespace ERIMS_Sonic_EmailScheduler
                                     //If reference does not contain required message id extract it from subject line
                                     //string _strItem_Number = objMessage.Subject.Substring(objMessage.Subject.IndexOf(clsGeneral.strSentMailSubjectFrmt) + clsGeneral.strSentMailSubjectFrmt.Length);
                                     string _strItem_Number = "";
-                                    if (objMsgsReceivedToday[index].Subject.Split(' ').Count > 3)
-                                        _strItem_Number = objMsgsReceivedToday[index].Subject.Split(' ')[3];
+                                    if (objMessage.Subject.Split(' ').Count() > 3)
+                                        _strItem_Number = objMessage.Subject.Split(' ')[3];
                                     ds = clsGeneral.SelectFacilityConstructionMaintenanceItemByItemNumber(_strItem_Number);
                                     if (ds.Tables[0].Rows.Count > 0)
                                         objFacility_Maintenance_Notes.FK_Facility_Maintenance_Item = Convert.ToDecimal(ds.Tables[0].Rows[0]["PK_Facility_Construction_Maintenance_Item"]);
@@ -101,11 +101,11 @@ namespace ERIMS_Sonic_EmailScheduler
                                     //Save message attachment at the specified path
                                     //Save message attachment  
                                     //For some mobile app image appears as embedded object instead of attachment
-                                    int attachmentCnt = objMsgsReceivedToday[index].EmbeddedObjects.Count;
+                                    int attachmentCnt = objMessage.EmbeddedObjects.Count;
                                     for (int j = 0; j < attachmentCnt; j++)
                                     {
-                                        string strFileName = @clsGeneral.strMailAttachmentStorePath + System.DateTime.Now.ToString("MMddyyhhmmss") + objMsgsReceivedToday[index].EmbeddedObjects[j].Filename;
-                                        System.IO.File.WriteAllBytes(strFileName, objMsgsReceivedToday[index].EmbeddedObjects[j].BinaryContent);
+                                        string strFileName = @clsGeneral.strMailAttachmentStorePath + System.DateTime.Now.ToString("MMddyyhhmmss") + objMessage.EmbeddedObjects[j].Filename;
+                                        System.IO.File.WriteAllBytes(strFileName, objMessage.EmbeddedObjects[j].BinaryContent);
 
                                         Attachment objAttachmentNotesReply = new Attachment();
                                         objAttachmentNotesReply.Attachment_Description = strFileName;

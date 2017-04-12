@@ -68,7 +68,7 @@ namespace ERIMS_Sonic_EmailScheduler
                                     //If reference does not contain required message id extract it from subject line
                                     //string _strItem_Number = objMsgsReceivedToday[index].Subject.Substring(objMsgsReceivedToday[index].Subject.IndexOf(clsGeneral.strSentMailSubjectFrmt) + clsGeneral.strSentMailSubjectFrmt.Length);
                                     string _strItem_Number = "";
-                                    if (objMsgsReceivedToday[index].Subject.Split(' ').Count > 3)
+                                    if (objMsgsReceivedToday[index].Subject.Split(' ').Count() > 3)
                                         _strItem_Number= objMsgsReceivedToday[index].Subject.Split(' ')[3];
                                     ds = clsGeneral.SelectFacilityConstructionMaintenanceItemByItemNumber(_strItem_Number);
                                     if (ds.Tables[0].Rows.Count > 0)
@@ -108,7 +108,7 @@ namespace ERIMS_Sonic_EmailScheduler
                                         System.IO.File.WriteAllBytes(strFileName, objMsgsReceivedToday[index].EmbeddedObjects[j].BinaryContent);
 
                                         Attachment objAttachmentNotesReply = new Attachment();
-                                        objAttachmentNotesReply.Attachment_Description = strFileName;
+                                        objAttachmentNotesReply.Attachment_Description = objMsgsReceivedToday[index].EmbeddedObjects[j].Filename;
                                         objAttachmentNotesReply.Attachment_Name = strFileName;
                                         objAttachmentNotesReply.Foreign_Key = IdentityValue;
                                         objAttachmentNotesReply.FK_Attachment_Type = 0;
