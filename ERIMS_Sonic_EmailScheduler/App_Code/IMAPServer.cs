@@ -104,11 +104,11 @@ namespace ERIMS_Sonic_EmailScheduler
                                     int attachmentCnt = objMsgsReceivedToday[index].EmbeddedObjects.Count;
                                     for (int j = 0; j < attachmentCnt;j++)
                                     {
-                                        string strFileName = @clsGeneral.strMailAttachmentStorePath + System.DateTime.Now.ToString("MMddyyhhmmss") + objMsgsReceivedToday[index].EmbeddedObjects[j].Filename;
-                                        System.IO.File.WriteAllBytes(strFileName, objMsgsReceivedToday[index].EmbeddedObjects[j].BinaryContent);
+                                        string strFileName =  System.DateTime.Now.ToString("MMddyyhhmmss") + objMsgsReceivedToday[index].EmbeddedObjects[j].Filename;
+                                        System.IO.File.WriteAllBytes(@clsGeneral.strMailAttachmentStorePath+strFileName, objMsgsReceivedToday[index].EmbeddedObjects[j].BinaryContent);
 
                                         Attachment objAttachmentNotesReply = new Attachment();
-                                        objAttachmentNotesReply.Attachment_Description = objMsgsReceivedToday[index].EmbeddedObjects[j].Filename;
+                                        objAttachmentNotesReply.Attachment_Description = strFileName;
                                         objAttachmentNotesReply.Attachment_Name = strFileName;
                                         objAttachmentNotesReply.Foreign_Key = IdentityValue;
                                         objAttachmentNotesReply.FK_Attachment_Type = 0;
