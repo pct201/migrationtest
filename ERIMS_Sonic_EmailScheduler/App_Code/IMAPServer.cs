@@ -52,7 +52,7 @@ namespace ERIMS_Sonic_EmailScheduler
                 //for (int index = 0; index < objMsgsReceivedToday.Count; index++)
                 for (int index = objMsgsReceivedToday.Count - 1; index >= 0; index--)
                 {
-                    if (objMsgsReceivedToday[index].HeaderFields["in-reply-to"] != null && objMsgsReceivedToday[index].Subject != null && objMsgsReceivedToday[index].Subject.Contains(clsGeneral.strSentMailSubjectFrmt)) //This indicates mail is reply
+                    if (objMsgsReceivedToday[index].HeaderFields["in-reply-to"] != null ||(objMsgsReceivedToday[index].Subject != null && objMsgsReceivedToday[index].Subject.Contains(clsGeneral.strSentMailSubjectFrmt))) //This indicates mail is reply
                     {
                         clsGeneral.WriteLog(" Message Details :" + "\n\t\t\t\t\t\tMessage Subject :" + objMsgsReceivedToday[index].Subject + "\n\t\t\t\t\t\tReply From :" + objMsgsReceivedToday[index].From + "\n\t\t\t\t\t\tReply Time :" + objMsgsReceivedToday[index].Date.ToString(), false);
                         if (_RepeatMailCount != 0)
@@ -60,13 +60,16 @@ namespace ERIMS_Sonic_EmailScheduler
                             try
                             {
                                 Facility_Maintenance_Notes objFacility_Maintenance_Notes = new Facility_Maintenance_Notes();
-                                if (objMsgsReceivedToday[index].HeaderFields["in-reply-to"].Contains("#-#"))
-                                    objFacility_Maintenance_Notes.FK_Facility_Maintenance_Item = Convert.ToDecimal(objMsgsReceivedToday[index].HeaderFields["in-reply-to"].Substring(0, objMsgsReceivedToday[index].HeaderFields["in-reply-to"].IndexOf("#-#") - 1));
+                                if (objMsgsReceivedToday[index].HeaderFields["in-reply-to"] != null && objMsgsReceivedToday[index].HeaderFields["in-reply-to"].Contains("#-#"))
+                                    objFacility_Maintenance_Notes.FK_Facility_Maintenance_Item = Convert.ToDecimal(objMsgsReceivedToday[index].HeaderFields["in-reply-to"].Substring(1, objMsgsReceivedToday[index].HeaderFields["in-reply-to"].IndexOf("#-#") - 1));
                                 else
                                 {
                                     //Fetch PK_Facility_Construction_Maintenance_Item on basis of Item_Number
                                     //If reference does not contain required message id extract it from subject line
-                                    string _strItem_Number = objMsgsReceivedToday[index].Subject.Substring(objMsgsReceivedToday[index].Subject.IndexOf(clsGeneral.strSentMailSubjectFrmt) + clsGeneral.strSentMailSubjectFrmt.Length);
+                                    //string _strItem_Number = objMsgsReceivedToday[index].Subject.Substring(objMsgsReceivedToday[index].Subject.IndexOf(clsGeneral.strSentMailSubjectFrmt) + clsGeneral.strSentMailSubjectFrmt.Length);
+                                    string _strItem_Number = "";
+                                    if (objMsgsReceivedToday[index].Subject.Split(' ').Count > 3)
+                                        _strItem_Number= objMsgsReceivedToday[index].Subject.Split(' ')[3];
                                     ds = clsGeneral.SelectFacilityConstructionMaintenanceItemByItemNumber(_strItem_Number);
                                     if (ds.Tables[0].Rows.Count > 0)
                                         objFacility_Maintenance_Notes.FK_Facility_Maintenance_Item = Convert.ToDecimal(ds.Tables[0].Rows[0]["PK_Facility_Construction_Maintenance_Item"]);
@@ -93,8 +96,28 @@ namespace ERIMS_Sonic_EmailScheduler
                                 {
                                     clsGeneral.WriteLog("Facility Management Note Record Inserted", false);
 
+                                    Message mobj = objMsgsReceivedToday[index];
                                     //Save message attachment
-                                    string updatedFileName;
+                                    //For embedded objects eg images
+                                    //For some mobile app image appears as embedded object instead of attachment
+                                    
+                                    int attachmentCnt = objMsgsReceivedToday[index].EmbeddedObjects.Count;
+                                    for (int j = 0; j < attachmentCnt;j++)
+                                    {
+                                        string strFileName = @clsGeneral.strMailAttachmentStorePath + System.DateTime.Now.ToString("MMddyyhhmmss") + objMsgsReceivedToday[index].EmbeddedObjects[j].Filename;
+                                        System.IO.File.WriteAllBytes(strFileName, objMsgsReceivedToday[index].EmbeddedObjects[j].BinaryContent);
+
+                                        Attachment objAttachmentNotesReply = new Attachment();
+                                        objAttachmentNotesReply.Attachment_Description = strFileName;
+                                        objAttachmentNotesReply.Attachment_Name = strFileName;
+                                        objAttachmentNotesReply.Foreign_Key = IdentityValue;
+                                        objAttachmentNotesReply.FK_Attachment_Type = 0;
+                                        objAttachmentNotesReply.Attachment_Table = "Facility_Maintenance_Notes";
+                                        objAttachmentNotesReply.Update_Date = DateTime.Now;
+                                        objAttachmentNotesReply.Updated_By = objFacility_Maintenance_Notes.FK_Author.ToString();
+                                        objAttachmentNotesReply.Insert();
+                                    }
+                                    //For attachment
                                     var en = objMsgsReceivedToday[index].Attachments.GetEnumerator();
                                     while (en.MoveNext())
                                     {
@@ -112,7 +135,7 @@ namespace ERIMS_Sonic_EmailScheduler
                                         objAttachmentNotesReply.Updated_By = objFacility_Maintenance_Notes.FK_Author.ToString();
                                         objAttachmentNotesReply.Insert();
                                     }
-                                    _RepeatMailCount = clsGeneral.ReadMailCount; //Reset read mail count to actual if one unprocessed mail found
+                                        _RepeatMailCount = clsGeneral.ReadMailCount; //Reset read mail count to actual if one unprocessed mail found
                                 }
                             }
                             catch (Exception Ex)

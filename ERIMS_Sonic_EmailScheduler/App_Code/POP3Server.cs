@@ -54,7 +54,7 @@ namespace ERIMS_Sonic_EmailScheduler
                 {
                     objMessage = objPop3Client.RetrieveMessageObject(i);
 
-                    if (objMessage.HeaderFields["in-reply-to"] != null && objMessage.Subject != null && objMessage.Subject.Contains(clsGeneral.strSentMailSubjectFrmt)) //This indicates mail is reply
+                    if (objMessage.HeaderFields["in-reply-to"] != null || (objMessage.Subject != null && objMessage.Subject.Contains(clsGeneral.strSentMailSubjectFrmt))) //This indicates mail is reply
                     {
                         clsGeneral.WriteLog(" Message Details :" + "\n\t\t\t\t\t\tMessage Subject :" + objMessage.Subject + "\n\t\t\t\t\t\tReply From :" + objMessage.From + "\n\t\t\t\t\t\tReply Time :" + objMessage.Date.ToString(), false);
                         if (_RepeatMailCount != 0)
@@ -68,7 +68,10 @@ namespace ERIMS_Sonic_EmailScheduler
                                 {
                                     //Fetch PK_Facility_Construction_Maintenance_Item on basis of Item_Number
                                     //If reference does not contain required message id extract it from subject line
-                                    string _strItem_Number = objMessage.Subject.Substring(objMessage.Subject.IndexOf(clsGeneral.strSentMailSubjectFrmt) + clsGeneral.strSentMailSubjectFrmt.Length);
+                                    //string _strItem_Number = objMessage.Subject.Substring(objMessage.Subject.IndexOf(clsGeneral.strSentMailSubjectFrmt) + clsGeneral.strSentMailSubjectFrmt.Length);
+                                    string _strItem_Number = "";
+                                    if (objMsgsReceivedToday[index].Subject.Split(' ').Count > 3)
+                                        _strItem_Number = objMsgsReceivedToday[index].Subject.Split(' ')[3];
                                     ds = clsGeneral.SelectFacilityConstructionMaintenanceItemByItemNumber(_strItem_Number);
                                     if (ds.Tables[0].Rows.Count > 0)
                                         objFacility_Maintenance_Notes.FK_Facility_Maintenance_Item = Convert.ToDecimal(ds.Tables[0].Rows[0]["PK_Facility_Construction_Maintenance_Item"]);
@@ -96,7 +99,26 @@ namespace ERIMS_Sonic_EmailScheduler
                                     clsGeneral.WriteLog("Facility Management Note Record Inserted", false);
 
                                     //Save message attachment at the specified path
-                                    //Save message attachment                            
+                                    //Save message attachment  
+                                    //For some mobile app image appears as embedded object instead of attachment
+                                    int attachmentCnt = objMsgsReceivedToday[index].EmbeddedObjects.Count;
+                                    for (int j = 0; j < attachmentCnt; j++)
+                                    {
+                                        string strFileName = @clsGeneral.strMailAttachmentStorePath + System.DateTime.Now.ToString("MMddyyhhmmss") + objMsgsReceivedToday[index].EmbeddedObjects[j].Filename;
+                                        System.IO.File.WriteAllBytes(strFileName, objMsgsReceivedToday[index].EmbeddedObjects[j].BinaryContent);
+
+                                        Attachment objAttachmentNotesReply = new Attachment();
+                                        objAttachmentNotesReply.Attachment_Description = strFileName;
+                                        objAttachmentNotesReply.Attachment_Name = strFileName;
+                                        objAttachmentNotesReply.Foreign_Key = IdentityValue;
+                                        objAttachmentNotesReply.FK_Attachment_Type = 0;
+                                        objAttachmentNotesReply.Attachment_Table = "Facility_Maintenance_Notes";
+                                        objAttachmentNotesReply.Update_Date = DateTime.Now;
+                                        objAttachmentNotesReply.Updated_By = objFacility_Maintenance_Notes.FK_Author.ToString();
+                                        objAttachmentNotesReply.Insert();
+                                    }
+                                    
+                                    //For attachment
                                     var en = objMessage.Attachments.GetEnumerator();
                                     while (en.MoveNext())
                                     {
