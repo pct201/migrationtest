@@ -7,7 +7,7 @@
     <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
         HeaderText="Verify the following fields:" BorderWidth="1" BorderColor="DimGray"
         ValidationGroup="vsErrorGroup" CssClass="errormessage"></asp:ValidationSummary>
-     <script type="text/javascript" language="javascript" src="../JavaScript/jquery-1.5.min.js"></script>
+    <script type="text/javascript" language="javascript" src="../JavaScript/jquery-1.5.min.js"></script>
     <script type="text/javascript" language="javascript" src="../JavaScript/jquery.maskedinput.js"></script>
     <script type="text/javascript">
         var GB_ROOT_DIR = '<%=AppConfig.SiteURL%>' + 'greybox/';
@@ -133,6 +133,21 @@
                 return false;
             }
         }
+
+        //Functions for Mover control - Report Location Selection
+        function CheckReportListItemLocation() {
+            var lstLocation = document.getElementById('<%=lstReportLocation.ClientID %>');
+
+            if (lstLocation.length <= 0) {
+                alert('No record!');
+                return false;
+            }
+            if (lstLocation.selectedIndex < 0) {
+                alert('Please select at least one Locations field(s)');
+                return false;
+            }
+        }
+
         function CheckACIListItemLocation() {
             var lstLocation = document.getElementById('<%=lstSecurityLocation.ClientID %>');
 
@@ -182,17 +197,28 @@
             }
         }
 
+        function CheckReportListItemSelected() {
+            var lstSelected = document.getElementById('<%=lstSecuritySelectedReportLocation.ClientID %>');
+            if (lstSelected.length <= 0) {
+                alert('No records');
+                return false;
+            }
+            if (lstSelected.selectedIndex < 0) {
+                alert('Please select at least one Locations field(s)');
+                return false;
+            }
+        }
 
         function CheckACIListItemSelected() {
             var lstSelected = document.getElementById('<%=lstSecuritySelectedLocation.ClientID %>');
-             if (lstSelected.length <= 0) {
-                 alert('No records');
-                 return false;
-             }
-             if (lstSelected.selectedIndex < 0) {
-                 alert('Please select at least one ACI Locations field(s)');
-                 return false;
-             }
+            if (lstSelected.length <= 0) {
+                alert('No records');
+                return false;
+            }
+            if (lstSelected.selectedIndex < 0) {
+                alert('Please select at least one ACI Locations field(s)');
+                return false;
+            }
         }
 
         function CheckEventListItemSelected() {
@@ -221,6 +247,12 @@
 
         function CheckListItemSelectedAll() {
             var lstSelected = document.getElementById('<%=lstSelectedFields.ClientID %>');
+            if (lstSelected.length <= 0)
+            { alert('No records'); return false; }
+        }
+
+        function CheckReportListItemSelectedAll() {
+            var lstSelected = document.getElementById('<%=lstSecuritySelectedReportLocation.ClientID %>');
             if (lstSelected.length <= 0)
             { alert('No records'); return false; }
         }
@@ -265,13 +297,11 @@
     <div runat="Server" id="divViewAdminList">
         <table width="100%" cellpadding="0" cellspacing="0" border="0">
             <tr>
-                <td class="bandHeaderRow" colspan="4" align="left">
-                    Security
+                <td class="bandHeaderRow" colspan="4" align="left">Security
                 </td>
             </tr>
             <tr>
-                <td colspan="4">
-                    &nbsp;<asp:HiddenField runat="server" ID="HdnEmployeeID" />
+                <td colspan="4">&nbsp;<asp:HiddenField runat="server" ID="HdnEmployeeID" />
                     <asp:HiddenField runat="server" ID="HdnEmployeeName" />
                     <input type="hidden" id="hdnEmpval" name="hdnEmpval" />
                     <input type="hidden" id="hdnEmpName" name="hdnEmpName" />
@@ -281,11 +311,9 @@
                 <td colspan="4">
                     <table cellpadding="0" cellspacing="0" border="0" width="100%">
                         <tr>
-                            <td style="width: 70%" align="right">
-                                Search by User Name
+                            <td style="width: 70%" align="right">Search by User Name
                             </td>
-                            <td style="width: 5%">
-                                &nbsp;
+                            <td style="width: 5%">&nbsp;
                             </td>
                             <td style="width: 12%" align="right">
                                 <asp:TextBox ID="txtSearch" runat="server" MaxLength="20"></asp:TextBox>
@@ -298,20 +326,17 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="4" style="height: 5px">
-                </td>
+                <td colspan="4" style="height: 5px"></td>
             </tr>
             <tr>
-                <td style="width: 44%">
-                    &nbsp;
+                <td style="width: 44%">&nbsp;
                 </td>
                 <td align="right" valign="top" colspan="3">
                     <uc:ctrlPaging ID="ctrlPageProperty" runat="server" OnGetPage="GetPage" />
                 </td>
             </tr>
             <tr>
-                <td colspan="4" style="height: 5px">
-                </td>
+                <td colspan="4" style="height: 5px"></td>
             </tr>
             <tr>
                 <td colspan="4">
@@ -325,8 +350,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td style="height: 5px;">
-                            </td>
+                            <td style="height: 5px;"></td>
                         </tr>
                         <tr>
                             <td style="text-align: left;">
@@ -337,10 +361,10 @@
                                         <asp:TemplateField>
                                             <ItemStyle Width="5%" />
                                             <ItemTemplate>
-                                                <input name="chkItem" type="checkbox" value='<%# Eval("PK_Security_ID")%>' onclick="javascript:UnCheckHeader('gvSecurity')" />
+                                                <input name="chkItem" type="checkbox" value='<%# Eval("PK_Security_ID")%>' onclick="javascript: UnCheckHeader('gvSecurity')" />
                                             </ItemTemplate>
                                             <HeaderTemplate>
-                                                <input type="checkbox" name="chkHeader" id="chkHeader" runat="Server" onclick="javascript:SelectAllCheckboxes(this)" />
+                                                <input type="checkbox" name="chkHeader" id="chkHeader" runat="Server" onclick="javascript: SelectAllCheckboxes(this)" />
                                             </HeaderTemplate>
                                             <HeaderStyle Width="5%" />
                                         </asp:TemplateField>
@@ -374,17 +398,17 @@
                                                 <asp:Button ID="btnEdit" CommandName="EditItem" CommandArgument='<%#Eval("PK_Security_ID")%>'
                                                     runat="server" Text="Edit" ToolTip="Edit the Security Details" />
                                             </ItemTemplate>
-                                            <ItemStyle Horizontalalign="center" Width="60px" />
+                                            <ItemStyle HorizontalAlign="center" Width="60px" />
                                         </asp:TemplateField>
                                         <asp:TemplateField>
                                             <ItemTemplate>
                                                 <asp:Button ID="btnView" runat="server" Text="View" CommandName="View" CommandArgument='<%#Eval("PK_Security_ID")%>'
                                                     ToolTip="View the Security Details" />
                                             </ItemTemplate>
-                                            <ItemStyle Horizontalalign="center" Width="60px" />
+                                            <ItemStyle HorizontalAlign="center" Width="60px" />
                                         </asp:TemplateField>
                                     </Columns>
-                                    <EmptyDataRowStyle ForeColor="#7f7f7f" Horizontalalign="center" />
+                                    <EmptyDataRowStyle ForeColor="#7f7f7f" HorizontalAlign="center" />
                                     <EmptyDataTemplate>
                                         No Record found.
                                     </EmptyDataTemplate>
@@ -401,16 +425,13 @@
         <div runat="server" id="DivEditSecuirty">
             <table width="100%" cellpadding="3" cellspacing="1" border="0">
                 <tr>
-                    <td class="bandHeaderRow" colspan="6" align="left">
-                        Security
+                    <td class="bandHeaderRow" colspan="6" align="left">Security
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 18%;" align="left">
-                        User ID<span style="color: Red;">*</span>
+                    <td style="width: 18%;" align="left">User ID<span style="color: Red;">*</span>
                     </td>
-                    <td style="width: 4%;" align="center">
-                        :
+                    <td style="width: 4%;" align="center">:
                     </td>
                     <td align="left" width="26%">
                         <asp:TextBox runat="server" ID="txtUserID" MaxLength="65" ValidationGroup="vsErrorGroup"
@@ -419,11 +440,9 @@
                         <asp:RequiredFieldValidator ID="rfvUserID" ControlToValidate="txtUserID" Display="None"
                             runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter User ID."></asp:RequiredFieldValidator>
                     </td>
-                    <td align="left" width="12%">
-                        &nbsp;
+                    <td align="left" width="12%">&nbsp;
                     </td>
-                    <td align="center" width="4%">
-                        &nbsp;
+                    <td align="center" width="4%">&nbsp;
                     </td>
                     <td width="36%">
                         <a href="#" onclick="OPenChangePasswordPopup();" id="PopupPassword" runat="Server"
@@ -431,25 +450,21 @@
                     </td>
                 </tr>
                 <tr runat="server" id="trPassword">
-                    <td align="left" >
-                        Password<span style="color: Red;">*</span>
+                    <td align="left">Password<span style="color: Red;">*</span>
                     </td>
-                    <td align="center" >
-                        :
+                    <td align="center">:
                     </td>
-                    <td align="left" >
+                    <td align="left">
                         <asp:TextBox runat="server" ID="txtPassword" MaxLength="100" ValidationGroup="vsErrorGroup"
                             Width="170px" TextMode="Password"></asp:TextBox>&nbsp;
                         <asp:RequiredFieldValidator ID="rfvPassword" ControlToValidate="txtPassword" Display="None"
                             runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Password."></asp:RequiredFieldValidator>
                     </td>
-                    <td align="left" >
-                        Confirm Password<span style="color: Red;">*</span>
+                    <td align="left">Confirm Password<span style="color: Red;">*</span>
                     </td>
-                    <td align="center" >
-                        :
+                    <td align="center">:
                     </td>
-                    <td align="left" >
+                    <td align="left">
                         <asp:TextBox runat="server" ID="txtConfirmPassword" MaxLength="100" ValidationGroup="vsErrorGroup"
                             Width="170px" TextMode="Password"></asp:TextBox>&nbsp;
                         <asp:RequiredFieldValidator ID="rfvConfirmPassword" ControlToValidate="txtConfirmPassword"
@@ -462,48 +477,40 @@
                     </td>
                 </tr>
                 <tr>
+                    <td align="left">First Name<span style="color: Red;">*</span>
+                    </td>
+                    <td align="center">:
+                    </td>
                     <td align="left">
-                        First Name<span style="color: Red;">*</span>
-                    </td>
-                    <td align="center" >
-                        :
-                    </td>
-                    <td align="left" >
                         <asp:TextBox runat="server" ID="txtFirstName" MaxLength="20" Width="170px"></asp:TextBox>
                         <asp:RequiredFieldValidator ID="rfvFirstName" ControlToValidate="txtFirstName" Display="None"
                             runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter First Name."></asp:RequiredFieldValidator>
                     </td>
-                    <td align="left" >
-                        Last Name<span style="color: Red;">*</span>
+                    <td align="left">Last Name<span style="color: Red;">*</span>
                     </td>
-                    <td align="center">
-                        :
+                    <td align="center">:
                     </td>
-                    <td align="left" >
+                    <td align="left">
                         <asp:TextBox runat="server" ID="txtLastName" MaxLength="20" Width="170px"></asp:TextBox>
                         <asp:RequiredFieldValidator ID="rfvLastName" ControlToValidate="txtLastName" Display="None"
                             runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Last Name."></asp:RequiredFieldValidator>
                     </td>
                 </tr>
                 <tr>
-                    <td align="left">
-                        Admin Access<span style="color: Red;">*</span>
+                    <td align="left">Admin Access<span style="color: Red;">*</span>
                     </td>
-                    <td align="center">
-                        :
+                    <td align="center">:
                     </td>
                     <td align="left">
                         <asp:RadioButtonList runat="Server" ID="rdoAdminRole" SkinID="YesNoType">
                         </asp:RadioButtonList>
                     </td>
                     <td colspan="3" align="left">
-                        <table cellpadding="0" cellspacing="0" border="0" width="100%"  id="tdRigionalOfficer" runat="server" style="display: none;">
-                            <tr style="width:100%">
-                                <td width="22%" align="left">
-                                    Is Regional Officer<span style="color: red">*</span>
+                        <table cellpadding="0" cellspacing="0" border="0" width="100%" id="tdRigionalOfficer" runat="server" style="display: none;">
+                            <tr style="width: 100%">
+                                <td width="22%" align="left">Is Regional Officer<span style="color: red">*</span>
                                 </td>
-                                <td width="9%" align="center">
-                                    :
+                                <td width="9%" align="center">:
                                 </td>
                                 <td>
                                     <asp:RadioButtonList runat="Server" ID="rdoIsRegionalOfficer" onClick="checkIsRegion();"
@@ -518,11 +525,9 @@
                     </td>
                 </tr>
                 <tr>
-                    <td align="left">
-                        Email<span style="color: Red;">*</span>
+                    <td align="left">Email<span style="color: Red;">*</span>
                     </td>
-                    <td align="center">
-                        :
+                    <td align="center">:
                     </td>
                     <td>
                         <asp:TextBox runat="server" ID="txtEmail" MaxLength="65" Width="170px"></asp:TextBox>
@@ -532,11 +537,9 @@
                             ValidationGroup="vsErrorGroup" Display="None" ErrorMessage="Email Address Is Invalid."
                             SetFocusOnError="True" Text="*" ToolTip="Email Address Is Invalid" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*">*</asp:RegularExpressionValidator>
                     </td>
-                    <td align="left">
-                        Is Sonic Employee?<span style="color: red">*</span>
+                    <td align="left">Is Sonic Employee?<span style="color: red">*</span>
                     </td>
-                    <td align="center">
-                        :
+                    <td align="center">:
                     </td>
                     <td>
                         <asp:RadioButtonList runat="server" ID="rdoIsSonicEmployee" onClick="CheckEmployee();"
@@ -547,12 +550,10 @@
                     </td>
                 </tr>
                 <tr valign="top">
-                    <td align="left">
-                        Phone<br />
+                    <td align="left">Phone<br />
                         (xxx-xxx-xxxx)
                     </td>
-                    <td align="center">
-                        :
+                    <td align="center">:
                     </td>
                     <td align="left">
                         <asp:TextBox runat="Server" ID="txtPhone" Width="170px" MaxLength="12"></asp:TextBox>
@@ -563,11 +564,9 @@
                     <td colspan="3">
                         <table cellpadding="0" cellspacing="0" border="0" width="100%" id="tdEmployee" runat="server">
                             <tr>
-                                <td style="width: 22%" align="left">
-                                    Employee<span style="color: red">*</span>
+                                <td style="width: 22%" align="left">Employee<span style="color: red">*</span>
                                 </td>
-                                <td style="width: 9%" align="center">
-                                    :
+                                <td style="width: 9%" align="center">:
                                 </td>
                                 <td>
                                     <a href="#" id="lnkAssName" onclick="OpenAssociateName();" runat="server">Associate
@@ -579,11 +578,9 @@
                     </td>
                 </tr>
                 <tr>
-                    <td align="left" valign="top">
-                        Corporate User
+                    <td align="left" valign="top">Corporate User
                     </td>
-                    <td align="center" valign="top">
-                        :
+                    <td align="center" valign="top">:
                     </td>
                     <td align="left" valign="top">
                         <asp:RadioButtonList runat="Server" ID="rdCorporateUser" SkinID="YesNoType">
@@ -592,11 +589,9 @@
                     <td colspan="3">
                         <table cellpadding="0" cellspacing="0" border="0" width="100%" id="tdRegion" runat="server" style="display: none;">
                             <tr>
-                                <td style="width: 22%" align="left" valign="top">
-                                    Region
+                                <td style="width: 22%" align="left" valign="top">Region
                                 </td>
-                                <td style="width: 9%" align="center" valign="top">
-                                    :
+                                <td style="width: 9%" align="center" valign="top">:
                                 </td>
                                 <td valign="top">
                                     <asp:ListBox runat="server" ID="lstRegion" SelectionMode="Multiple"></asp:ListBox>
@@ -606,11 +601,9 @@
                                 </td>
                             </tr>
                             <tr id="trReportType" runat="server">
-                                <td align="left" valign="top">
-                                    Report Type
+                                <td align="left" valign="top">Report Type
                                 </td>
-                                <td align="center" valign="top">
-                                    :
+                                <td align="center" valign="top">:
                                 </td>
                                 <td valign="top">
                                     <asp:ListBox runat="server" ID="lstReportType" SelectionMode="Multiple">
@@ -631,14 +624,11 @@
                     <td colspan="6">
                         <table cellpadding="0" cellspacing="0" border="0" width="100%">
                             <tr>
-                                <td style="width: 33%;">
-                                    Groups
+                                <td style="width: 33%;">Groups
                                 </td>
-                                <td style="width: 33%;">
-                                    Inherited Rights
+                                <td style="width: 33%;">Inherited Rights
                                 </td>
-                                <td style="width: 33%;">
-                                    Additional Rights
+                                <td style="width: 33%;">Additional Rights
                                 </td>
                             </tr>
                             <tr>
@@ -664,12 +654,12 @@
                                 <td valign="top">
                                     <asp:UpdatePanel runat="server" ID="updRight" UpdateMode="Always">
                                         <ContentTemplate>
-                                            <asp:CheckBoxList runat="server" ID="chkRights" RepeatColumns="2" RepeatDirection="Horizontal" OnSelectedIndexChanged="chkRights_SelectedIndexChanged" AutoPostBack="true"  >
+                                            <asp:CheckBoxList runat="server" ID="chkRights" RepeatColumns="2" RepeatDirection="Horizontal" OnSelectedIndexChanged="chkRights_SelectedIndexChanged" AutoPostBack="true">
                                             </asp:CheckBoxList>
-                                        </ContentTemplate> 
+                                        </ContentTemplate>
                                         <Triggers>
-                                            <asp:PostBackTrigger ControlID="chkRights"/>
-                                        </Triggers>                                        
+                                            <asp:PostBackTrigger ControlID="chkRights" />
+                                        </Triggers>
                                     </asp:UpdatePanel>
                                 </td>
                             </tr>
@@ -680,17 +670,14 @@
                     <td colspan="6">
                         <table width="100%" cellpadding="2" cellspacing="2">
                             <tr valign="top">
-                                <td style="width: 16%">
-                                    FROI E-Mail Recipients
+                                <td style="width: 16%">FROI E-Mail Recipients
                                 </td>
-                                <td style="width: 2%;" align="center">
-                                    :
+                                <td style="width: 2%;" align="center">:
                                 </td>
                                 <td style="width: 72%">
                                     <table width="100%">
                                         <tr>
-                                            <td align="left" style="width: 250px">
-                                                Locations Available
+                                            <td align="left" style="width: 250px">Locations Available
                                                 <asp:ListBox ID="lstFROIeMailRecipients" runat="server" Rows="10" SelectionMode="Multiple"
                                                     Width="250px"></asp:ListBox>
                                             </td>
@@ -716,8 +703,7 @@
                                                     </tr>
                                                 </table>
                                             </td>
-                                            <td align="left">
-                                                Locations Selected<br />
+                                            <td align="left">Locations Selected<br />
                                                 <asp:ListBox ID="lstSelectedFields" runat="server" Rows="10" SelectionMode="Multiple"
                                                     Width="250px"></asp:ListBox>
                                                 <%--<asp:ImageButton ID="imgUp" ImageUrl="~/Images/up-arrow.gif" runat="server" ImageAlign="top"
@@ -738,17 +724,68 @@
                     <td colspan="6">
                         <table width="100%" cellpadding="2" cellspacing="2">
                             <tr valign="top">
-                                <td style="width: 16%">
-                                    ACI Location Selection
+                                <td style="width: 16%">Report Location Selection
                                 </td>
-                                <td style="width: 2%;" align="center">
-                                    :
+                                <td style="width: 2%;" align="center">:
                                 </td>
                                 <td style="width: 72%">
                                     <table width="100%">
                                         <tr>
-                                            <td align="left" style="width: 250px">
-                                                Locations Available
+                                            <td align="left" style="width: 250px">Locations Available
+                                                <asp:ListBox ID="lstReportLocation" runat="server" Rows="10" SelectionMode="Multiple"
+                                                    Width="250px"></asp:ListBox>
+                                            </td>
+                                            <td valign="middle" align="center" style="width: 125px">
+                                                <table width="100%">
+                                                    <tr>
+                                                        <td align="center">
+                                                            <asp:Button ID="btnReportLocationSelectFields" runat="server" Text=">" Width="50px" OnClick="btnReportLocationSelectFields_Click"
+                                                                Enabled="false" OnClientClick="javascript:return CheckReportListItemLocation();" ValidationGroup="vsErrorAvailFieldss" />
+                                                            <br />
+                                                            <br />
+                                                            <asp:Button ID="btnReportLocationSelectAllFields" runat="server" Text=">>" Width="50px" Enabled="false"
+                                                                OnClick="btnReportLocationSelectAllFields_Click" />
+                                                            <br />
+                                                            <br />
+                                                            <asp:Button ID="btnReportLocationDeselectFields" runat="server" Text="<" Width="50px" OnClick="btnReportLocationDeselectFields_Click"
+                                                                Enabled="false" OnClientClick="javascript:return CheckReportListItemSelected();" ValidationGroup="vsErrorSelectFieldss" />
+                                                            <br />
+                                                            <br />
+                                                            <asp:Button ID="btnReportLocationDeselectAllFields" runat="server" Text="<<" Width="50px" OnClientClick="javascript:return CheckReportListItemSelectedAll();"
+                                                                Enabled="false" OnClick="btnReportLocationDeselectAllFields_Click" />
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td align="left">Locations Selected<br />
+                                                <asp:ListBox ID="lstSecuritySelectedReportLocation" runat="server" Rows="10" SelectionMode="Multiple"
+                                                    Width="250px"></asp:ListBox>
+                                                <%--<asp:ImageButton ID="imgUp" ImageUrl="~/Images/up-arrow.gif" runat="server" ImageAlign="top"
+                                                    OnClientClick="javascript:return CheckListItemSelected();" OnClick="imgUp_Click" />
+                                                <asp:ImageButton ID="imgDown" ImageUrl="~/Images/down-arrow.gif" runat="server" ImageAlign="top"
+                                                    OnClientClick="javascript:return CheckListItemSelected();" OnClick="imgDown_Click" />
+                                                <asp:CustomValidator ID="cstvlCompany" runat="server" ErrorMessage="Please Select at least one Location field"
+                                                    Display="None" ValidationGroup="vsErrorGroup" ClientValidationFunction="CheckLocationField"></asp:CustomValidator>--%>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="6">
+                        <table width="100%" cellpadding="2" cellspacing="2">
+                            <tr valign="top">
+                                <td style="width: 16%">ACI Location Selection
+                                </td>
+                                <td style="width: 2%;" align="center">:
+                                </td>
+                                <td style="width: 72%">
+                                    <table width="100%">
+                                        <tr>
+                                            <td align="left" style="width: 250px">Locations Available
                                                 <asp:ListBox ID="lstSecurityLocation" runat="server" Rows="10" SelectionMode="Multiple"
                                                     Width="250px"></asp:ListBox>
                                             </td>
@@ -756,8 +793,8 @@
                                                 <table width="100%">
                                                     <tr>
                                                         <td align="center">
-                                                            <asp:Button ID="btnSelectLocationFields" runat="server" Text=">" Width="50px" OnClick="btnSelectLocationFields_Click"  OnClientClick="javascript:return CheckACIListItemLocation();"
-                                                                Enabled="false"  ValidationGroup="vsErrorAvailFieldss" />
+                                                            <asp:Button ID="btnSelectLocationFields" runat="server" Text=">" Width="50px" OnClick="btnSelectLocationFields_Click" OnClientClick="javascript:return CheckACIListItemLocation();"
+                                                                Enabled="false" ValidationGroup="vsErrorAvailFieldss" />
                                                             <br />
                                                             <br />
                                                             <asp:Button ID="btnSelectAllLocationFields" runat="server" Text=">>" Width="50px" Enabled="false"
@@ -765,7 +802,7 @@
                                                             <br />
                                                             <br />
                                                             <asp:Button ID="btnDeSelectLocationFields" runat="server" Text="<" Width="50px" OnClick="btnDeSelectLocationFields_Click" OnClientClick="javascript:return CheckACIListItemSelected();"
-                                                                Enabled="false"  ValidationGroup="vsErrorSelectFieldss" />
+                                                                Enabled="false" ValidationGroup="vsErrorSelectFieldss" />
                                                             <br />
                                                             <br />
                                                             <asp:Button ID="btnDeSelectAllLocationFields" runat="server" Text="<<" Width="50px" OnClientClick="javascript:return CheckACIListItemSelectedAll();"
@@ -774,10 +811,9 @@
                                                     </tr>
                                                 </table>
                                             </td>
-                                            <td align="left">
-                                                Locations Selected<br />
+                                            <td align="left">Locations Selected<br />
                                                 <asp:ListBox ID="lstSecuritySelectedLocation" runat="server" Rows="10" SelectionMode="Multiple"
-                                                    Width="250px"></asp:ListBox>                                                
+                                                    Width="250px"></asp:ListBox>
                                             </td>
                                         </tr>
                                     </table>
@@ -791,17 +827,14 @@
                     <td colspan="6">
                         <table width="100%" cellpadding="2" cellspacing="2">
                             <tr valign="top">
-                                <td style="width: 16%">
-                                    Event Location Selection
+                                <td style="width: 16%">Event Location Selection
                                 </td>
-                                <td style="width: 2%;" align="center">
-                                    :
+                                <td style="width: 2%;" align="center">:
                                 </td>
                                 <td style="width: 72%">
                                     <table width="100%">
                                         <tr>
-                                            <td align="left" style="width: 250px">
-                                                Locations Available
+                                            <td align="left" style="width: 250px">Locations Available
                                                 <asp:ListBox ID="lstEventSecurityLocation" runat="server" Rows="10" SelectionMode="Multiple"
                                                     Width="250px"></asp:ListBox>
                                             </td>
@@ -809,16 +842,16 @@
                                                 <table width="100%">
                                                     <tr>
                                                         <td align="center">
-                                                            <asp:Button ID="btnSelectEventLocationFields" runat="server" Text=">" Width="50px" OnClick="btnSelectEventLocationFields_Click"  OnClientClick="javascript:return CheckEventListItemLocation();"
-                                                                Enabled="false"  ValidationGroup="vsErrorAvailFieldss" />
+                                                            <asp:Button ID="btnSelectEventLocationFields" runat="server" Text=">" Width="50px" OnClick="btnSelectEventLocationFields_Click" OnClientClick="javascript:return CheckEventListItemLocation();"
+                                                                Enabled="false" ValidationGroup="vsErrorAvailFieldss" />
                                                             <br />
                                                             <br />
                                                             <asp:Button ID="btnSelectAllEventLocationFields" runat="server" Text=">>" Width="50px" Enabled="false"
-                                                                OnClick="btnSelectAllEventLocationFields_Click" />  
+                                                                OnClick="btnSelectAllEventLocationFields_Click" />
                                                             <br />
                                                             <br />
                                                             <asp:Button ID="btnDeSelectEventLocationFields" runat="server" Text="<" Width="50px" OnClick="btnDeSelectEventLocationFields_Click" OnClientClick="javascript:return CheckEventListItemSelected();"
-                                                                Enabled="false"  ValidationGroup="vsErrorSelectFieldss" />
+                                                                Enabled="false" ValidationGroup="vsErrorSelectFieldss" />
                                                             <br />
                                                             <br />
                                                             <asp:Button ID="btnDeSelectAllEventLocationFields" runat="server" Text="<<" Width="50px" OnClientClick="javascript:return CheckEventListItemSelectedAll();"
@@ -827,10 +860,9 @@
                                                     </tr>
                                                 </table>
                                             </td>
-                                            <td align="left">
-                                                Locations Selected<br />
+                                            <td align="left">Locations Selected<br />
                                                 <asp:ListBox ID="lstSecurityEventSelectedLocation" runat="server" Rows="10" SelectionMode="Multiple"
-                                                    Width="250px"></asp:ListBox>                                                
+                                                    Width="250px"></asp:ListBox>
                                             </td>
                                         </tr>
                                     </table>
@@ -844,17 +876,14 @@
                     <td colspan="6">
                         <table width="100%" cellpadding="2" cellspacing="2">
                             <tr valign="top">
-                                <td style="width: 16%">
-                                    Management Location Selection
+                                <td style="width: 16%">Management Location Selection
                                 </td>
-                                <td style="width: 2%;" align="center">
-                                    :
+                                <td style="width: 2%;" align="center">:
                                 </td>
                                 <td style="width: 72%">
                                     <table width="100%">
                                         <tr>
-                                            <td align="left" style="width: 250px">
-                                                Locations Available
+                                            <td align="left" style="width: 250px">Locations Available
                                                 <asp:ListBox ID="lstManagementSecurityLocation" runat="server" Rows="10" SelectionMode="Multiple"
                                                     Width="250px"></asp:ListBox>
                                             </td>
@@ -862,8 +891,8 @@
                                                 <table width="100%">
                                                     <tr>
                                                         <td align="center">
-                                                            <asp:Button ID="btnSelectManagementLocationFields" runat="server" Text=">" Width="50px" OnClick="btnSelectManagementLocationFields_Click"  OnClientClick="javascript:return CheckManagementListItemLocation();"
-                                                                Enabled="false"  ValidationGroup="vsErrorAvailFieldss" />
+                                                            <asp:Button ID="btnSelectManagementLocationFields" runat="server" Text=">" Width="50px" OnClick="btnSelectManagementLocationFields_Click" OnClientClick="javascript:return CheckManagementListItemLocation();"
+                                                                Enabled="false" ValidationGroup="vsErrorAvailFieldss" />
                                                             <br />
                                                             <br />
                                                             <asp:Button ID="btnSelectAllManagementLocationFields" runat="server" Text=">>" Width="50px" Enabled="false"
@@ -871,7 +900,7 @@
                                                             <br />
                                                             <br />
                                                             <asp:Button ID="btnDeSelectManagementLocationFields" runat="server" Text="<" Width="50px" OnClick="btnDeSelectManagementLocationFields_Click" OnClientClick="javascript:return CheckManagementListItemSelected();"
-                                                                Enabled="false"  ValidationGroup="vsErrorSelectFieldss" />
+                                                                Enabled="false" ValidationGroup="vsErrorSelectFieldss" />
                                                             <br />
                                                             <br />
                                                             <asp:Button ID="btnDeSelectAllManagementLocationFields" runat="server" Text="<<" Width="50px" OnClientClick="javascript:return CheckManagementListItemSelectedAll();"
@@ -880,10 +909,9 @@
                                                     </tr>
                                                 </table>
                                             </td>
-                                            <td align="left">
-                                                Locations Selected<br />
+                                            <td align="left">Locations Selected<br />
                                                 <asp:ListBox ID="lstSecuritySelectedManagementLocation" runat="server" Rows="10" SelectionMode="Multiple"
-                                                    Width="250px"></asp:ListBox>                                                
+                                                    Width="250px"></asp:ListBox>
                                             </td>
                                         </tr>
                                     </table>
@@ -892,68 +920,57 @@
                         </table>
                     </td>
                 </tr>
-                 
+
             </table>
         </div>
         <div runat="server" id="DivViewSecurity">
             <table width="100%" cellpadding="3" cellspacing="1" border="0">
                 <tr>
-                    <td class="bandHeaderRow" colspan="6" align="left">
-                        Security
+                    <td class="bandHeaderRow" colspan="6" align="left">Security
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 18%;" align="left">
-                        User ID
+                    <td style="width: 18%;" align="left">User ID
                     </td>
-                    <td style="width: 4%;" align="center">
-                        :
+                    <td style="width: 4%;" align="center">:
                     </td>
                     <td colspan="4" align="left">
                         <asp:Label runat="server" ID="lblUserID"></asp:Label>
                     </td>
                 </tr>
                 <tr>
-                    <td align="left" style="width: 18%;">
-                        First Name
+                    <td align="left" style="width: 18%;">First Name
                     </td>
-                    <td align="center" style="width: 4%;">
-                        :
+                    <td align="center" style="width: 4%;">:
                     </td>
                     <td align="left" style="width: 28%;">
                         <asp:Label runat="server" ID="lblFirstName"></asp:Label>
                     </td>
-                    <td align="left" style="width: 18%;">
-                        Last Name
+                    <td align="left" style="width: 18%;">Last Name
                     </td>
-                    <td align="center" style="width: 4%;">
-                        :
+                    <td align="center" style="width: 4%;">:
                     </td>
                     <td align="left" style="width: 28%;">
                         <asp:Label runat="server" ID="lblLastName"></asp:Label>
                     </td>
                 </tr>
                 <tr>
-                    <td align="left">
-                        Admin Role
+                    <td align="left">Admin Role
                     </td>
-                    <td align="center">
-                        :
+                    <td align="center">:
                     </td>
                     <td align="left">
                         <asp:Label runat="server" ID="lblUserRole">
                         </asp:Label>
                     </td>
-                    <td colspan="3" >
+                    <td colspan="3">
                         <table cellpadding="0" cellspacing="0" border="0" width="100%" id="tdRigionalOfficerView" runat="server" style="display: none;">
                             <tr>
-                                <td style="width: 35%" align="left">
-                                    Is Regional Officer
+                                <td style="width: 35%" align="left">Is Regional Officer
                                 </td>
-                                <td style="width: 10%" align="center">
-                                    :
+                                <td style="width: 10%" align="center">:
                                 </td>
-                                <td >
+                                <td>
                                     <asp:Label runat="server" ID="lblIsRegionalOfficer"></asp:Label>
                                 </td>
                             </tr>
@@ -961,32 +978,26 @@
                     </td>
                 </tr>
                 <tr>
-                    <td align="left">
-                        Email
+                    <td align="left">Email
                     </td>
-                    <td align="center">
-                        :
+                    <td align="center">:
                     </td>
                     <td>
                         <asp:Label runat="server" ID="lblEmail"></asp:Label>
                     </td>
-                    <td align="left">
-                        Is Sonic Employee?
+                    <td align="left">Is Sonic Employee?
                     </td>
-                    <td align="center">
-                        :
+                    <td align="center">:
                     </td>
                     <td>
                         <asp:Label ID="lblIsSonicEmployee" runat="server"></asp:Label>
                     </td>
                 </tr>
                 <tr valign="top">
-                    <td align="left">
-                        Phone<br />
+                    <td align="left">Phone<br />
                         (xxx-xxx-xxxx)
                     </td>
-                    <td align="center">
-                        :
+                    <td align="center">:
                     </td>
                     <td align="left">
                         <asp:Label runat="Server" ID="lblPhone"></asp:Label>
@@ -994,13 +1005,11 @@
                     <td colspan="3" id="tdEmployeeView" runat="server" style="display: none;">
                         <table cellpadding="0" cellspacing="0" border="0" width="100%">
                             <tr>
-                                <td style="width: 35%" align="left">
-                                    Employee
+                                <td style="width: 35%" align="left">Employee
                                 </td>
-                                <td style="width: 10%" align="center">
-                                    :
+                                <td style="width: 10%" align="center">:
                                 </td>
-                                <td >
+                                <td>
                                     <asp:Label runat="server" ID="lblEmployee"></asp:Label>
                                 </td>
                             </tr>
@@ -1008,11 +1017,9 @@
                     </td>
                 </tr>
                 <tr valign="top">
-                    <td align="left" valign="top">
-                        Corporate User
+                    <td align="left" valign="top">Corporate User
                     </td>
-                    <td align="center" valign="top">
-                        :
+                    <td align="center" valign="top">:
                     </td>
                     <td align="left" valign="top">
                         <asp:Label runat="server" ID="lblCorporateUser"></asp:Label>
@@ -1020,22 +1027,18 @@
                     <td colspan="3" id="tdRegionView" runat="server" style="display: none;">
                         <table cellpadding="0" cellspacing="0" border="0" width="100%">
                             <tr>
-                                <td style="width: 35%" align="left">
-                                    Region
+                                <td style="width: 35%" align="left">Region
                                 </td>
-                                <td style="width: 10%" align="center">
-                                    :
+                                <td style="width: 10%" align="center">:
                                 </td>
                                 <td colspan="4">
                                     <asp:Label runat="server" ID="lblRegion"></asp:Label>
                                 </td>
                             </tr>
                             <tr id="trReportTypeView" runat="server">
-                                <td align="left">
-                                    Report Type
+                                <td align="left">Report Type
                                 </td>
-                                <td align="center">
-                                    :
+                                <td align="center">:
                                 </td>
                                 <td>
                                     <asp:Label runat="server" ID="lblReportType"></asp:Label>
@@ -1048,14 +1051,11 @@
                     <td colspan="6">
                         <table cellpadding="0" cellspacing="0" border="0" width="100%">
                             <tr>
-                                <td style="width: 33%;">
-                                    Groups
+                                <td style="width: 33%;">Groups
                                 </td>
-                                <td style="width: 33%;">
-                                    Inherited Rights
+                                <td style="width: 33%;">Inherited Rights
                                 </td>
-                                <td style="width: 33%;">
-                                    Additional Rights
+                                <td style="width: 33%;">Additional Rights
                                 </td>
                             </tr>
                             <tr>
@@ -1090,11 +1090,9 @@
                     <td colspan="6">
                         <table width="100%" cellpadding="2" cellspacing="2">
                             <tr valign="top">
-                                <td style="width: 16%">
-                                    FROI E-Mail Recipients (Locations Selected)
+                                <td style="width: 16%">FROI E-Mail Recipients (Locations Selected)
                                 </td>
-                                <td style="width: 2%;" align="center">
-                                    :
+                                <td style="width: 2%;" align="center">:
                                 </td>
                                 <td style="width: 82%">
                                     <asp:ListBox ID="lstSelectedFieldsView" runat="server" Rows="10" SelectionMode="Single"
@@ -1104,15 +1102,29 @@
                         </table>
                     </td>
                 </tr>
-                 <tr>
+                <tr>
                     <td colspan="6">
                         <table width="100%" cellpadding="2" cellspacing="2">
                             <tr valign="top">
-                                <td style="width: 16%">
-                                    ACI Location Selection (Locations Selected)
+                                <td style="width: 16%"> Report Location Selection (Locations Selected)
                                 </td>
-                                <td style="width: 2%;" align="center">
-                                    :
+                                <td style="width: 2%;" align="center">:
+                                </td>
+                                <td style="width: 82%">
+                                    <asp:ListBox ID="lstSelectedReportLocationView" runat="server" Rows="10" SelectionMode="Single"
+                                        Width="250px"></asp:ListBox>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="6">
+                        <table width="100%" cellpadding="2" cellspacing="2">
+                            <tr valign="top">
+                                <td style="width: 16%">ACI Location Selection (Locations Selected)
+                                </td>
+                                <td style="width: 2%;" align="center">:
                                 </td>
                                 <td style="width: 82%">
                                     <asp:ListBox ID="lstSelectedLocationView" runat="server" Rows="10" SelectionMode="Single"
@@ -1126,11 +1138,9 @@
                     <td colspan="6">
                         <table width="100%" cellpadding="2" cellspacing="2">
                             <tr valign="top">
-                                <td style="width: 16%">
-                                    Event Location Selection (Locations Selected)
+                                <td style="width: 16%">Event Location Selection (Locations Selected)
                                 </td>
-                                <td style="width: 2%;" align="center">
-                                    :
+                                <td style="width: 2%;" align="center">:
                                 </td>
                                 <td style="width: 82%">
                                     <asp:ListBox ID="lstEventSelectedLocationView" runat="server" Rows="10" SelectionMode="Single"
@@ -1144,11 +1154,9 @@
                     <td colspan="6">
                         <table width="100%" cellpadding="2" cellspacing="2">
                             <tr valign="top">
-                                <td style="width: 16%">
-                                    Management Location Selection (Locations Selected)
+                                <td style="width: 16%">Management Location Selection (Locations Selected)
                                 </td>
-                                <td style="width: 2%;" align="center">
-                                    :
+                                <td style="width: 2%;" align="center">:
                                 </td>
                                 <td style="width: 82%">
                                     <asp:ListBox ID="lstManagementSelectedLocationView" runat="server" Rows="10" SelectionMode="Single"
@@ -1158,22 +1166,20 @@
                         </table>
                     </td>
                 </tr>
-               
+
             </table>
         </div>
         <br />
-         <asp:UpdatePanel runat="server" ID="UpdatePanel2">
+        <asp:UpdatePanel runat="server" ID="UpdatePanel2">
             <ContentTemplate>
                 <table cellpadding="0" cellspacing="0" width="100%">
                     <tr>
                         <td width="100%">
                             <table cellpadding="3" cellspacing="0" width="100%" id="tblDocumentFolder" runat="server">
                                 <tr>
-                                    <td style="width: 12%; padding-left: 10px" align="left" valign="top">
-                                        Document Folder Security
+                                    <td style="width: 12%; padding-left: 10px" align="left" valign="top">Document Folder Security
                                     </td>
-                                    <td style="width: 4%" align="center" valign="top">
-                                        :
+                                    <td style="width: 4%" align="center" valign="top">:
                                     </td>
                                     <td colspan="4" align="left" width="34%">
                                         <asp:ListBox ID="lstFolderSecurity" runat="server" SelectionMode="Multiple" Width="280px"
@@ -1182,7 +1188,7 @@
                                 </tr>
                             </table>
                         </td>
-                        
+
                     </tr>
                 </table>
             </ContentTemplate>
@@ -1196,11 +1202,9 @@
                         <td width="100%">
                             <table cellpadding="3" cellspacing="0" width="100%" id="tbl" runat="server">
                                 <tr>
-                                    <td style="width: 12%; padding-left: 10px" align="left" valign="top">
-                                        Facility Construction Folder Security
+                                    <td style="width: 12%; padding-left: 10px" align="left" valign="top">Facility Construction Folder Security
                                     </td>
-                                    <td style="width: 4%" align="center" valign="top">
-                                        :
+                                    <td style="width: 4%" align="center" valign="top">:
                                     </td>
                                     <td colspan="4" align="left" width="34%">
                                         <asp:ListBox ID="lboxFCFolderSecurity" runat="server" SelectionMode="Multiple" Width="280px"
@@ -1209,7 +1213,7 @@
                                 </tr>
                             </table>
                         </td>
-                        
+
                     </tr>
                 </table>
             </ContentTemplate>
@@ -1221,8 +1225,7 @@
                 <td align="center">
                     <table cellpadding="0" cellspacing="0" border="0" width="100%">
                         <tr>
-                            <td align="center">
-                                &nbsp;<asp:Label runat="server" ID="lblError" CssClass="error" EnableViewState="false"></asp:Label>
+                            <td align="center">&nbsp;<asp:Label runat="server" ID="lblError" CssClass="error" EnableViewState="false"></asp:Label>
                             </td>
                         </tr>
                         <tr>
@@ -1234,8 +1237,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>
-                                &nbsp;
+                            <td>&nbsp;
                             </td>
                         </tr>
                     </table>

@@ -136,7 +136,7 @@ public partial class Administrator_security : clsBasePage
             //ComboHelper.FillAssociateName(new DropDownList[] { ddlEmployee }, 0, true);
         }
         //Set ListBox ToolTip
-        clsGeneral.SetListBoxToolTip(new ListBox[] { lstFROIeMailRecipients, lstSelectedFields, lstSelectedFieldsView, lstSecurityLocation, lstSecuritySelectedLocation, lstSelectedLocationView, lstEventSecurityLocation, lstSecurityEventSelectedLocation, lstEventSelectedLocationView, lstManagementSecurityLocation, lstSecuritySelectedManagementLocation, lstManagementSelectedLocationView });
+        clsGeneral.SetListBoxToolTip(new ListBox[] { lstFROIeMailRecipients, lstSelectedFields, lstSelectedFieldsView, lstSecurityLocation, lstSecuritySelectedLocation, lstSelectedLocationView, lstEventSecurityLocation, lstSecurityEventSelectedLocation, lstEventSelectedLocationView, lstManagementSecurityLocation, lstSecuritySelectedManagementLocation, lstManagementSelectedLocationView , lstReportLocation, lstSecuritySelectedReportLocation, lstSelectedReportLocationView});
 
         string pwd = txtPassword.Text;
         txtPassword.Attributes.Add("value", pwd);
@@ -212,6 +212,7 @@ public partial class Administrator_security : clsBasePage
         BindFROIeMailRecipients(false, null);
         BindSecurityACI_LocationList(false, null);
         BindEventSecurity_LocationList(false, null);
+        BindReportSecurity_LocationList(false, null);
         BindManagementSecurity_LocationList(false, null);
 
         //#3341 -- start
@@ -440,6 +441,16 @@ public partial class Administrator_security : clsBasePage
             objFROI_EMail_Recipients.FK_Security_ID = PK_Security_ID;
             objFROI_EMail_Recipients.FK_LU_Location_ID = Convert.ToInt32(Li.Value);
             objFROI_EMail_Recipients.Insert();
+        }
+
+        //Loop for inserting E-Mail Recipients List
+        clsReport_Location_Recipients.DeleteByUser(PK_Security_ID);
+        foreach (ListItem Li in lstSecuritySelectedReportLocation.Items)
+        {
+            clsReport_Location_Recipients objReport_Location_Recipients = new clsReport_Location_Recipients();
+            objReport_Location_Recipients.FK_Security_ID = PK_Security_ID;
+            objReport_Location_Recipients.FK_LU_Location_ID = Convert.ToInt32(Li.Value);
+            objReport_Location_Recipients.Insert();
         }
 
         //Loop for inserting ACI Locations
@@ -1027,6 +1038,7 @@ public partial class Administrator_security : clsBasePage
             BindFROIeMailRecipients(true, null);
             BindSecurityACI_LocationList(true, null);
             BindEventSecurity_LocationList(true, null);
+            BindReportSecurity_LocationList(true, null);
             BindManagementSecurity_LocationList(true, null);
             //else
             //{
@@ -1302,6 +1314,7 @@ public partial class Administrator_security : clsBasePage
         BindFROIeMailRecipientsView();
         BindSecurityLocationView();
         BindEventSecurityLocationView();
+        BindReportSecurityLocationView();
         BindManagementSecurityLocationView();
 
         BindDocumentFolderSecurity();
@@ -2111,6 +2124,29 @@ public partial class Administrator_security : clsBasePage
             btnSelectAllLocationFields.Enabled = true;
         }
 
+        if (lstSecuritySelectedReportLocation.Items.Count <= 0)
+        {
+            btnReportLocationDeselectFields.Enabled = false;
+            btnReportLocationDeselectAllFields.Enabled = false;//imgUp.Enabled = imgDown.Enabled = 
+        }
+        else
+        {
+            btnReportLocationDeselectFields.Enabled = true;
+            btnReportLocationDeselectAllFields.Enabled = true;//imgUp.Enabled = imgDown.Enabled = 
+        }
+
+        // IF output Fields is Empty
+        if (lstReportLocation.Items.Count <= 0)
+        {
+            btnReportLocationSelectFields.Enabled = false;
+            btnReportLocationSelectAllFields.Enabled = false;
+        }
+        else
+        {
+            btnReportLocationSelectFields.Enabled = true;
+            btnReportLocationSelectAllFields.Enabled = true;
+        }
+
         if (lstSecurityEventSelectedLocation.Items.Count <= 0)
         {
             btnDeSelectEventLocationFields.Enabled = false;
@@ -2263,6 +2299,101 @@ public partial class Administrator_security : clsBasePage
         }
     }
 
+    #endregion
+
+    #region Mover Events and Methods - Report Location Selection
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnReportLocationSelectFields_Click(object sender, EventArgs e)
+    {
+        MoveListBoxItems(lstReportLocation, lstSecuritySelectedReportLocation, true, true, false);
+    }
+
+    /// <summary>
+    /// Event to handle Deselect Fields
+    /// </summary>
+    protected void btnReportLocationDeselectFields_Click(object sender, EventArgs e)
+    {
+        MoveListBoxItems(lstSecuritySelectedReportLocation, lstReportLocation, true, false, true);
+    }
+
+    /// <summary>
+    /// Event to Handle select All output fields.
+    /// </summary>
+    protected void btnReportLocationSelectAllFields_Click(object sender, EventArgs e)
+    {
+        MoveListBoxItems(lstReportLocation, lstSecuritySelectedReportLocation, false, true, false);
+    }
+
+    /// <summary>
+    /// Event to handle DeSelect All Output Fields.
+    /// </summary>
+    protected void btnReportLocationDeselectAllFields_Click(object sender, EventArgs e)
+    {
+        MoveListBoxItems(lstSecuritySelectedReportLocation, lstReportLocation, false, false, true);
+    }
+
+    /// <summary>
+    /// Bind Report Security Location
+    /// </summary>
+    /// <param name="_EditFlag"></param>
+    /// <param name="_Employee_Id"></param>
+    private void BindReportSecurity_LocationList(bool _EditFlag, Nullable<decimal> _Employee_Id)
+    {
+        //clear list box
+        lstReportLocation.Items.Clear();
+        lstSecuritySelectedReportLocation.Items.Clear();
+
+        //Get all Locations 
+        DataSet dsData = LU_Location.SelectAll();
+        dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y'";
+        dsData.Tables[0].DefaultView.Sort = "dba asc";
+        // Bind List lstReportLocation
+        lstReportLocation.DataSource = dsData.Tables[0].DefaultView;
+        lstReportLocation.DataTextField = "dba";
+        lstReportLocation.DataValueField = "PK_LU_Location_ID";
+        lstReportLocation.DataBind();
+
+        //if opened in Edit mode, Move Selected data to right (From lstReportLocation to lstSecuritySelectedReportLocation)
+        if (_EditFlag)
+        {
+            DataSet dsSelectedData = clsReport_Location_Recipients.SelectByUser(PK_Security_ID); 
+           
+            foreach (DataRow dr in dsSelectedData.Tables[0].Rows)
+            {
+                if (dr["FK_LU_Location_ID"] != null)
+                {
+                    if (lstReportLocation.Items.FindByValue(dr["FK_LU_Location_ID"].ToString().Trim()) != null)
+                    {
+                        lstReportLocation.Items.Remove(new ListItem(dr["dba"].ToString(), dr["FK_LU_Location_ID"].ToString()));
+                        lstSecuritySelectedReportLocation.Items.Add(new ListItem(dr["dba"].ToString(), dr["FK_LU_Location_ID"].ToString()));
+                    }
+                }
+            }
+        }
+
+        //Enable/Disable buttons
+        btnReportLocationDeselectFields.Enabled = btnReportLocationDeselectAllFields.Enabled = lstSecuritySelectedReportLocation.Items.Count > 0; //imgUp.Enabled = imgDown.Enabled = 
+        btnReportLocationSelectFields.Enabled = btnReportLocationSelectAllFields.Enabled = lstReportLocation.Items.Count > 0;
+        clsGeneral.SetListBoxToolTip(new ListBox[] { lstReportLocation, lstSecuritySelectedReportLocation });
+    }
+
+    /// <summary>
+    /// Bind ReportSecurityLocationView
+    /// </summary>
+    private void BindReportSecurityLocationView()
+    {
+        lstSelectedReportLocationView.Items.Clear();
+        //Move Selected data to right (From lstFROIeMailRecipients to lstSelectedFields)
+        DataSet dsSelectedData = clsReport_Location_Recipients.SelectByUser(PK_Security_ID);
+        foreach (DataRow dr in dsSelectedData.Tables[0].Rows)
+            lstSelectedReportLocationView.Items.Add(new ListItem(dr["dba"].ToString(), dr["FK_LU_Location_ID"].ToString()));
+        clsGeneral.SetListBoxToolTip(new ListBox[] { lstSelectedReportLocationView });
+    }
     #endregion
 
     #region Security Location Selection Events and Methods
