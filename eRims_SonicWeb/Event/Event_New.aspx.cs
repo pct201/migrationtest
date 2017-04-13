@@ -288,9 +288,14 @@ public partial class Event_Event_New : clsBasePage
                 //    Response.Redirect(AppConfig.SiteURL + "Error.aspx?msg=errAcc"); //Redirect To the Incident Selection page
                 //ucIncidentInfo.Visible = false;
                 //ucIncidentInfo.FillIncidentInformation(FK_Incident, 0, 0);
-                SetEditViewRights(false);
+                //SetEditViewRights(false);
                 ucEventInfo.Visible = false;
                 ucEventInfo.FillEventInformation(PK_Event);
+
+                if (clsSession.IsACIUser)
+                    Is_Sonic_Event = false;
+                else
+                    Is_Sonic_Event = true;
 
                 PK_Event = 0;
                 StrOperation = "add"; btnViewAudit.Visible = false;
@@ -308,6 +313,13 @@ public partial class Event_Event_New : clsBasePage
                     revtxtOfficer_Phone.ErrorMessage = "[Notes] / Please Enter Agency Phone # in XXX-XXX-XXXX format";
                     revtxtDate_Closed.ErrorMessage = "[Notes] /Date Closed is not a valid date";
                     cmptxtDate_Closed.ErrorMessage = "[Notes] /Date Closed should not be greater than current date";
+                }
+                else
+                {
+                    lblMenu2.Text = lblMenu2Header.Text = "Acadian Investigations";
+                    //ImgEvent_Image.Height = 10;
+                    chkNonActionable.Enabled = false;
+                    trImgEvent_Image.Style.Add("display", "none");
                 }
 
                 BindACINoteGrid(ctrlPageAcadianNotes.CurrentPage, ctrlPageAcadianNotes.PageSize);
@@ -327,7 +339,14 @@ public partial class Event_Event_New : clsBasePage
                     SaveRecord();
             }
         }
-        if (StrOperation == "add") hdnPanel.Value = "3"; //for Add new click set tab style
+        if (StrOperation == "add")
+        {
+            if (!Is_Sonic_Event)
+                hdnPanel.Value = "1";
+            else
+                hdnPanel.Value = "3"; //for Add new click set tab style
+        }
+            
         Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:ShowPanel(" + hdnPanel.Value + ");", true);
         ucIncident.SetSelectedTab(Controls_IncidentTab_IncidentTab.Tab.Event);
 

@@ -1558,7 +1558,7 @@
                                                             </table>
                                                         </td>
                                                     </tr>--%>
-                                                    <tr>
+                                                    <tr runat="server" id="trImgEvent_Image">
                                                         <td align="left" valign="top">Event Image
                                                         </td>
                                                         <td align="center" valign="top">:
