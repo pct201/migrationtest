@@ -29,7 +29,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="bandHeaderRow" align="left" colspan="4">Administrator :: Facility Inspection Focus Area
+                        <td class="bandHeaderRow" align="left" colspan="4">Administrator :: EHS Inspection Focus Area
                         </td>
                     </tr>
                     <tr>

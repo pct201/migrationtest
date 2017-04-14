@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>eRIMS Sonic :: Facility Inspection Report</title>
+    <title>eRIMS Sonic :: EHS Inspection Report</title>
 </head>
 <body>  
     <script type="text/javascript" language="javascript" src="../JavaScript/Calendar_new.js"></script>

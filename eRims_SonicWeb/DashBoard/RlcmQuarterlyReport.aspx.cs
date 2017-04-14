@@ -357,7 +357,7 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
 
             strXml = GetXmlForFacilityInspection();
             string excelXml = string.Format(strGeneralXml, strXml);
-            DownloadFile(excelXml, "Facility Inspections");
+            DownloadFile(excelXml, "EHS Inspections");
         }
         else
         {
@@ -1315,7 +1315,7 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
         string strColumnWidthTag = string.Empty;
         strColumnWidthTag = clsGeneral.GetColumnWidth(gvFacilityInspection, 120);
 
-        strHTML.Append("<Worksheet ss:Name='Facility Inspection'>");
+        strHTML.Append("<Worksheet ss:Name='EHS Inspection'>");
         strHTML.Append("<Table>");
         if (strColumnWidthTag != string.Empty)
             strHTML.Append(strColumnWidthTag);

@@ -121,7 +121,7 @@ public partial class DealershipDetail : System.Web.UI.Page
         dtAggreage.Columns.Add("Graph", typeof(string));
         dtAggreage.Columns.Add("Score", typeof(int));
         dtAggreage.Columns.Add("Performance", typeof(string));
-        dtAggreage.Rows.Add(dtAggreage.NewRow()[0] = "Facility Inspection");
+        dtAggreage.Rows.Add(dtAggreage.NewRow()[0] = "EHS Inspection");
         dtAggreage.Rows.Add(dtAggreage.NewRow()[0] = "Safety Training");
         dtAggreage.Rows.Add(dtAggreage.NewRow()[0] = "Incident Investigation");
         dtAggreage.Rows.Add(dtAggreage.NewRow()[0] = "WC claim Management");

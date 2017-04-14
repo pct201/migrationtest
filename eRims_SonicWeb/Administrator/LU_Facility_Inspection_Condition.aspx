@@ -29,7 +29,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="bandHeaderRow" align="left" colspan="4">Administrator :: Facility Inspection Condition
+                        <td class="bandHeaderRow" align="left" colspan="4">Administrator :: EHS Inspection Condition
                         </td>
                     </tr>
                     <tr>

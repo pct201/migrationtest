@@ -20,7 +20,7 @@
         </td>
         <td id="tab8" class="tab" onclick="RedirectTo(8);">Construction
         </td>        
-        <td id="tab9" class="tab" onclick="RedirectTo(9);">Facility Inspection
+        <td id="tab9" class="tab" onclick="RedirectTo(9);">EHS Inspection
         </td>
         <td id="tab10" class="tab" onclick="RedirectTo(10);">Maintenance
         </td>

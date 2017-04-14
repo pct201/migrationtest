@@ -802,7 +802,7 @@ function ValidateFieldsBuildindOwnerSubLease(sender, args) {
                                                                                 <tbody>
                                                                                     <tr>
                                                                                         <td align="left" width="100%">
-                                                                                            <span class="LeftMenuStatic" id="PropertyMenu6" onclick="javascript:RedirectTo(9);">Facility Inspection
+                                                                                            <span class="LeftMenuStatic" id="PropertyMenu6" onclick="javascript:RedirectTo(9);">EHS Inspection
                                                                                             </span>&nbsp;<span id="MenuAsterisk5" runat="server" style="color: Red; display: none;">*</span>
                                                                                         </td>
                                                                                     </tr>
@@ -4259,12 +4259,12 @@ function ValidateFieldsBuildindOwnerSubLease(sender, args) {
                                                                                 <td class="Spacer" style="height: 8px;" colspan="6"></td>
                                                                             </tr>
                                                                             <tr runat="server" visible="false" id="trInspection">
-                                                                                <td align="left" valign="top">Facility Inspection
+                                                                                <td align="left" valign="top">EHS Inspection
                                                                                 </td>
                                                                                 <td align="center" valign="top">:
                                                                                 </td>
                                                                                 <td align="left" valign="top" colspan="4">
-                                                                                    <asp:GridView ID="gvInspection" runat="server" EmptyDataText="No Facility Inspection Records Found"
+                                                                                    <asp:GridView ID="gvInspection" runat="server" EmptyDataText="No EHS Inspection Records Found"
                                                                                         AutoGenerateColumns="false" Width="100%">
                                                                                         <Columns>
                                                                                             <asp:TemplateField HeaderText="Building Number">

@@ -84,7 +84,7 @@ public partial class SONIC_Exposures_rptFacilityInspectionReport : clsBasePage
     /// <param name="e"></param>
     protected void lbtExportToExcel_Click(object sender, EventArgs e)
     {
-        GridViewExportUtil.ExportGrid("Facility Inspection Report.xlsx", lblReport);
+        GridViewExportUtil.ExportGrid("EHS Inspection Report.xlsx", lblReport);
     }
     /// <summary>
     /// Back hrom report to Criteria
@@ -95,7 +95,7 @@ public partial class SONIC_Exposures_rptFacilityInspectionReport : clsBasePage
     {
         trCriteria.Visible = true;
         tblReport.Visible = false;
-        lblHeading.Text = "Facility Inspection Report";
+        lblHeading.Text = "EHS Inspection Report";
     }
     #endregion
 
@@ -156,7 +156,7 @@ public partial class SONIC_Exposures_rptFacilityInspectionReport : clsBasePage
             sbRecorords.Append("<table style='padding-left:4px;font-size:8.5pt;font-family:Tahoma' cellpadding='4' cellspacing='0' Width='1980px'>");//Sub Table
             sbRecorords.Append("<tr style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:11pt;height:25;border:thin'>"); //Title
             sbRecorords.Append("<td align='left' style='font-size:9pt;' colspan='2'><b>Sonic Automotive</b></td>");
-            sbRecorords.Append("<td align='center' style='font-size:9pt;' colspan='9' ><b> FACILITY INSPECTIONS - MONTHLY REPORT FOR " + drpYear.SelectedValue + " </b></td>");
+            sbRecorords.Append("<td align='center' style='font-size:9pt;' colspan='9' ><b> EHS INSPECTIONS - MONTHLY REPORT FOR " + drpYear.SelectedValue + " </b></td>");
             sbRecorords.Append("<td style='font-size:9pt' align='right' colspan='4'>Valuation Date: " + DateTime.Now.ToString("MM/dd/yyy HH:mm tt") + "</td></tr>");
 
             sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:8.5pt;border:thin'>");
@@ -255,7 +255,7 @@ public partial class SONIC_Exposures_rptFacilityInspectionReport : clsBasePage
             sbRecorords.Append("<table style='padding-left:4px;font-size:8.5pt;font-family:Tahoma' cellpadding='4' cellspacing='0' Width='995px'>");//Sub Table
             sbRecorords.Append("<tr style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:11pt;height:25;border:thin'>"); //Title
             sbRecorords.Append("<td align='left' style='font-size:9pt;' colspan='1'><b>Sonic Automotive</b></td>");
-            sbRecorords.Append("<td align='center' style='font-size:9pt;' colspan='3' ><b> FACILITY INSPECTION - QUARTERLY REPORT FOR " + drpYear.SelectedValue + " </b></td>");
+            sbRecorords.Append("<td align='center' style='font-size:9pt;' colspan='3' ><b> EHS INSPECTION - QUARTERLY REPORT FOR " + drpYear.SelectedValue + " </b></td>");
             sbRecorords.Append("<td style='font-size:9pt' align='right' colspan='3'>Valuation Date: " + DateTime.Now.ToString("MM/dd/yyy HH:mm tt") + "</td></tr>");
 
             sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:8.5pt;border:thin'>");
@@ -338,7 +338,7 @@ public partial class SONIC_Exposures_rptFacilityInspectionReport : clsBasePage
             sbRecorords.Append("<table style='padding-left:4px;font-size:8.5pt;font-family:Tahoma' cellpadding='4' cellspacing='0' Width='996px'>");//Sub Table
             sbRecorords.Append("<tr style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:11pt;height:25;border:thin'>"); //Title
             sbRecorords.Append("<td align='left' style='font-size:9pt;' colspan='1'><b>Sonic Automotive</b></td>");
-            sbRecorords.Append("<td align='center' style='font-size:9pt;' colspan='4' ><b> FACILITY INSPECTION - ANNAUL REPORT FOR " + drpYear.SelectedValue + " </b></td>");
+            sbRecorords.Append("<td align='center' style='font-size:9pt;' colspan='4' ><b> EHS INSPECTION - ANNAUL REPORT FOR " + drpYear.SelectedValue + " </b></td>");
             sbRecorords.Append("<td style='font-size:9pt' align='right' colspan='3'>Valuation Date: " + DateTime.Now.ToString("MM/dd/yyy HH:mm tt") + "</td></tr>");
 
             sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:8.5pt;border:thin'>");

@@ -44,7 +44,7 @@
         </tr>
         <tr>
             <td align="left" class="ghc" colspan="2">
-                <asp:Label ID="lblHeading" runat="server" Text="Facility Inspection Report"></asp:Label>
+                <asp:Label ID="lblHeading" runat="server" Text="EHS Inspection Report"></asp:Label>
             </td>
         </tr>
         <tr>

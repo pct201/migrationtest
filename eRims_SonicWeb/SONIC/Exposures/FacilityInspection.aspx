@@ -214,7 +214,7 @@
                                                                                 <tbody>
                                                                                     <tr>
                                                                                         <td align="left" width="100%">
-                                                                                            <span class="LeftMenuSelected" id="PropertyMenu6" onclick="javascript:void(0);">Facility Inspection
+                                                                                            <span class="LeftMenuSelected" id="PropertyMenu6" onclick="javascript:void(0);">EHS Inspection
                                                                                             </span>&nbsp;<span id="MenuAsterisk5" runat="server" style="color: Red; display: none">*</span>
                                                                                         </td>
                                                                                     </tr>
@@ -269,7 +269,7 @@
                                                 <asp:UpdatePanel runat="server" ID="updInspectionEdit" UpdateMode="Always">
                                                     <ContentTemplate>
                                                         <div class="bandHeaderRow" id="hdrInspectionEdit" runat="server">
-                                                            Facility Inspection
+                                                            EHS Inspection
                                                         </div>
                                                         <table cellpadding="3" cellspacing="1" border="0" width="100%" id="tblInspectionArea" runat="server">
                                                             <tr>
@@ -404,7 +404,7 @@
                                             </asp:Panel>
                                             <asp:Panel ID="pnlInspectionView" runat="server" Width="100%" Visible="false">
                                                 <div class="bandHeaderRow" id="hdrInspectionView" runat="server">
-                                                    Facility Inspection
+                                                    EHS Inspection
                                                 </div>
                                                 <table cellpadding="3" cellspacing="1" border="0" width="100%" id="Table1" runat="server">
                                                     <tr>

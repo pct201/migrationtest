@@ -6100,9 +6100,9 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             #region " set validation control IDs and messages "
             switch (Convert.ToString(drField["Field_Name"]))
             {
-                case "Assigned To": strCtrlsIDs += drpFK_SLT_Members.ClientID + ","; strMessages += "Please select [Quarterly Facility Inspection]/Assigned To" + ","; Span10.Style["display"] = "inline-block"; break;
-                case "Date Completed": strCtrlsIDs += txtDate_Completed_Inspection.ClientID + ","; strMessages += "Please enter [Quarterly Facility Inspection]/Date Completed" + ","; Span11.Style["display"] = "inline-block"; break;
-                case "Comments": strCtrlsIDs += txtComments_Inspection.ClientID + ","; strMessages += "Please enter [Quarterly Facility Inspection]/Comments" + ","; Span12.Style["display"] = "inline-block"; break;
+                case "Assigned To": strCtrlsIDs += drpFK_SLT_Members.ClientID + ","; strMessages += "Please select [Quarterly EHS Inspection]/Assigned To" + ","; Span10.Style["display"] = "inline-block"; break;
+                case "Date Completed": strCtrlsIDs += txtDate_Completed_Inspection.ClientID + ","; strMessages += "Please enter [Quarterly EHS Inspection]/Date Completed" + ","; Span11.Style["display"] = "inline-block"; break;
+                case "Comments": strCtrlsIDs += txtComments_Inspection.ClientID + ","; strMessages += "Please enter [Quarterly EHS Inspection]/Comments" + ","; Span12.Style["display"] = "inline-block"; break;
             }
             #endregion
         }

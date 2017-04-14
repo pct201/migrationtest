@@ -629,7 +629,7 @@
                                     <table width="100%" cellpadding="3" cellspacing="0">
                                         <tr>
                                             <td align="left">
-                                                <asp:Label ID="Label4" runat="server" Text="FACILITY INSPECTIONS"></asp:Label>
+                                                <asp:Label ID="Label4" runat="server" Text="EHS INSPECTIONS"></asp:Label>
                                             </td>
                                             <td>
                                                 <asp:Panel ID="Panel3" runat="server">
@@ -653,7 +653,7 @@
                                         <table border="0" cellpadding="2" cellspacing="2">
                                             <%--<tr>
 												<td align="left" class="heading">
-													FACILITY INSPECTIONS
+													EHS INSPECTIONS
 												</td>
 											</tr>--%>
                                             <tr>
@@ -783,7 +783,7 @@
                                         <table border="0" cellpadding="2" cellspacing="2" width="100%">
                                             <%--<tr>
 												<td align="left" style="width: 30%" class="heading">
-													Sonic University Training
+													Safety  Training
 												</td>
 											</tr>--%>
                                             <tr>
@@ -928,7 +928,7 @@
                                         <table border="0" cellpadding="2" cellspacing="2" width="100%">
                                             <%--<tr>
 												<td align="left" style="width: 30%" class="heading">
-													Sonic University Training
+													Safety  Training
 												</td>
 											</tr>--%>
                                             <tr>

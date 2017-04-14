@@ -600,7 +600,7 @@ namespace ERIMS_Sonic_ReportScheduler
             switch (objRptDashboard)
             {
                 case DashboardReport.Facility_Inspection:
-                    strReportTitle = "Facility Inspection";
+                    strReportTitle = "EHS Inspection";
                     strGridHeader = strReportTitle.ToUpper();
                     break;
                 case DashboardReport.Incident_Investigation:
@@ -10029,7 +10029,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 //Add Report Title and Schedule Date
                 strHTML.Append("<table><tr><td colspan='13'>");
                 strHTML.Append("<br />");
-                strHTML.Append("<b>Report Title : Facility Inspection </b>");
+                strHTML.Append("<b>Report Title : EHS Inspection </b>");
                 strHTML.Append("<br /><br />");
                 strHTML.Append("Schedule Date : " + Convert.ToDateTime(drReportSchedule["Scheduled_Date"]).ToString(DateDisplayFormat));
                 strHTML.Append("&nbsp;&nbsp;&nbsp;&nbsp;Schedule End Date : " + Convert.ToDateTime(drReportSchedule["Schedule_End_Date"]).ToString(DateDisplayFormat));
@@ -10071,7 +10071,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<table border='1' style='padding-left:4px;font-size:8.5pt;font-family:Tahoma' cellpadding='4' cellspacing='0' Width='1980px'>");//Sub Table
                         strHTML.Append("<tr style='font-weight: bold;font-size:11pt;height:25'>"); //Title
                         strHTML.Append("<td align='left' style='font-size:9pt;' colspan='2'><b>Sonic Automotive</b></td>");
-                        strHTML.Append("<td align='center' style='font-size:9pt;' colspan='9' ><b> FACILITY INSPECTIONS - MONTHLY REPORT FOR " + strYear + " </b></td>");
+                        strHTML.Append("<td align='center' style='font-size:9pt;' colspan='9' ><b> EHS INSPECTIONS - MONTHLY REPORT FOR " + strYear + " </b></td>");
                         strHTML.Append("<td style='font-size:9pt' align='right' colspan='4'>Valuation Date: " + DateTime.Now.ToString("MM/dd/yyy HH:mm tt") + "</td></tr>");
 
                         strHTML.Append("<tr align='left' border='1' style='border: black 0.5px solid;'>");
@@ -10142,7 +10142,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<table border='1' style='padding-left:4px;font-size:8.5pt;font-family:Tahoma' cellpadding='4' cellspacing='0' Width='995px'>");//Sub Table
                         strHTML.Append("<tr style='font-weight: bold;font-size:11pt;height:25'>"); //Title
                         strHTML.Append("<td align='left' style='font-size:9pt;' colspan='1'><b>Sonic Automotive</b></td>");
-                        strHTML.Append("<td align='center' style='font-size:9pt;' colspan='3' ><b> FACILITY INSPECTION - QUARTERLY REPORT FOR " + strYear + " </b></td>");
+                        strHTML.Append("<td align='center' style='font-size:9pt;' colspan='3' ><b> EHS INSPECTION - QUARTERLY REPORT FOR " + strYear + " </b></td>");
                         strHTML.Append("<td style='font-size:9pt' align='right' colspan='3'>Valuation Date: " + DateTime.Now.ToString("MM/dd/yyy HH:mm tt") + "</td></tr>");
 
                         strHTML.Append("<tr align='left' border='1' style='border: black 0.5px solid;' >");
@@ -10194,7 +10194,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<table border='1' style='padding-left:4px;font-size:8.5pt;font-family:Tahoma' cellpadding='4' cellspacing='0' Width='996px'>");//Sub Table
                         strHTML.Append("<tr style='font-weight: bold;font-size:11pt;height:25'>"); //Title
                         strHTML.Append("<td align='left' style='font-size:9pt;' colspan='1'><b>Sonic Automotive</b></td>");
-                        strHTML.Append("<td align='center' style='font-size:9pt;' colspan='4' ><b> FACILITY INSPECTION - ANNAUL REPORT FOR " + strYear + " </b></td>");
+                        strHTML.Append("<td align='center' style='font-size:9pt;' colspan='4' ><b> EHS INSPECTION - ANNAUL REPORT FOR " + strYear + " </b></td>");
                         strHTML.Append("<td style='font-size:9pt' align='right' colspan='3'>Valuation Date: " + DateTime.Now.ToString("MM/dd/yyy HH:mm tt") + "</td></tr>");
 
                         strHTML.Append("<tr align='left' border='1' style='border: black 0.5px solid;'>");
@@ -10244,7 +10244,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 //Write HTML in to HtmlWriter
                 htmlWrite.WriteLine(strHTML.ToString());
                 //Send Mail
-                SendMail("Facility Inspection Report", "FacilityInspectionReprot.xls", strFirstName, strLastName, strMailFrom, stringWrite, dtRecipients);
+                SendMail("EHS Inspection Report", "FacilityInspectionReprot.xls", strFirstName, strLastName, strMailFrom, stringWrite, dtRecipients);
             }
         }
 
@@ -10756,7 +10756,7 @@ namespace ERIMS_Sonic_ReportScheduler
 
                 if (objRptDashboard == DashboardReport.Facility_Inspection)
                 {
-                    strReportTitle = "Facility Inspection Report"; strXLSFileName = "FacilityInspectionReport.xls";
+                    strReportTitle = "EHS Inspection Report"; strXLSFileName = "FacilityInspectionReport.xls";
                 }
                 else if (objRptDashboard == DashboardReport.Incident_Investigation)
                 {
@@ -11608,7 +11608,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 strHTML.Append("<td align='left' style='width: 200px'>Region</td>");
                 strHTML.Append("<td align='left' style='width: 200px'>Location D/B/A</td>");
                 strHTML.Append("<td align='center' style='width: 150px'>Safety Leadership Team Score</td>");
-                strHTML.Append("<td align='center' style='width: 150px'>Facility Inspection Score</td>");
+                strHTML.Append("<td align='center' style='width: 150px'>EHS Inspection Score</td>");
                 strHTML.Append("<td align='center' style='width: 150px'>Safety Training Score</td>");
                 strHTML.Append("<td align='center' style='width: 170px'>Incident Investigation Score</td>");
                 strHTML.Append("<td align='center' style='width: 180px'>W.C. Claims Management Score</td>");

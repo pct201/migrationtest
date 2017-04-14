@@ -197,7 +197,7 @@
                                                                                 <tbody>
                                                                                     <tr>
                                                                                         <td align="left" width="100%">
-                                                                                            <span class="LeftMenuSelected" id="PropertyMenu6" onclick="javascript:void(0);">Facility Inspection
+                                                                                            <span class="LeftMenuSelected" id="PropertyMenu6" onclick="javascript:void(0);">EHS Inspection
                                                                                             </span>&nbsp;<span id="MenuAsterisk5" runat="server" style="color: Red; display: none">*</span>
                                                                                         </td>
                                                                                     </tr>
@@ -252,12 +252,12 @@
                                                 <asp:UpdatePanel runat="server" ID="updPropertyCope" UpdateMode="Always">
                                                     <ContentTemplate>
                                                         <div class="bandHeaderRow" runat="server">
-                                                            Facility Inspection
+                                                            EHS Inspection
                                                         </div>
                                                         <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                             <tr>
                                                                 <td align="left">
-                                                                    <asp:GridView ID="gvInspection" runat="server" EmptyDataText="No Facility Inspection Information Exists"
+                                                                    <asp:GridView ID="gvInspection" runat="server" EmptyDataText="No EHS Inspection Information Exists"
                                                                         AutoGenerateColumns="false" Width="100%" OnRowCommand="gvInspection_RowCommand">
                                                                         <Columns>
                                                                             <asp:TemplateField HeaderText="Building Number">

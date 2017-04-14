@@ -91,7 +91,7 @@ public partial class Administrator_LU_Facility_Inspection_Condition : clsBasePag
             // Used to Check Duplicate Media ID?
             if (_retVal == -2)
             {
-                lblError.Text = "The Description that you are trying to add already exists in the Facility Inspection Condition table.";
+                lblError.Text = "The Description that you are trying to add already exists in the EHS Inspection Condition table.";
                 ((ScriptManager)this.Master.FindControl("scMain")).SetFocus(txtDescription);
                 return;
             }
@@ -103,7 +103,7 @@ public partial class Administrator_LU_Facility_Inspection_Condition : clsBasePag
             // Used to Check Duplicate Media ID?
             if (_retVal == -2)
             {
-                lblError.Text = "The Description that you are trying to add already exists in the Facility Inspection Condition table.";
+                lblError.Text = "The Description that you are trying to add already exists in the EHS Inspection Condition table.";
                 ((ScriptManager)this.Master.FindControl("scMain")).SetFocus(txtDescription);
                 return;
             }

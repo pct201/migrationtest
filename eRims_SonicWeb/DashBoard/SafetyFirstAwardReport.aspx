@@ -126,7 +126,7 @@
                                                             Safety Leadership Team Score
                                                         </td>
                                                         <td align="center" width="150px">
-                                                            Facility Inspection Score
+                                                            EHS Inspection Score
                                                         </td>
                                                         <td align="center" width="150px">
                                                             Safety Training Score

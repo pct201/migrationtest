@@ -831,7 +831,7 @@ function DisableButton() {
                                                 </td>
                                                 <td align="left" valign="top">
                                                     <span id="Menu6" onclick="javascript:ShowPanel(6);" class="LeftMenuStatic">Quarterly
-                                                        Facility Inspection</span>
+                                                        EHS Inspection</span>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -2013,7 +2013,7 @@ function DisableButton() {
                                             </asp:Panel>
                                             <asp:Panel ID="pnl6" runat="server" Style="display: none;">
                                                 <div class="bandHeaderRow">
-                                                    Quarterly Facility Inspection
+                                                    Quarterly EHS Inspection
                                                 </div>
                                                 <table cellpadding="3" cellspacing="1" width="100%">
                                                     <tr>
@@ -2370,7 +2370,7 @@ function DisableButton() {
                                                                 onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
                                                                 align="middle" />
                                                             <asp:RegularExpressionValidator ID="revDate_Completed_Inspection" runat="server"
-                                                                ValidationGroup="vsErrorInspectionGroup" Display="none" ErrorMessage="[Quarterly Facility Inspection]/Date Completed is not a valid date"
+                                                                ValidationGroup="vsErrorInspectionGroup" Display="none" ErrorMessage="[Quarterly EHS Inspection]/Date Completed is not a valid date"
                                                                 SetFocusOnError="true" ControlToValidate="txtDate_Completed_Inspection" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
                                                         </td>
                                                     </tr>
@@ -5138,7 +5138,7 @@ function DisableButton() {
                                             </asp:Panel>
                                             <asp:Panel ID="pnl6View" runat="server" Style="display: none;">
                                                 <div class="bandHeaderRow">
-                                                    Quarterly Facility Inspection
+                                                    Quarterly EHS Inspection
                                                 </div>
                                                 <table cellpadding="3" cellspacing="1" width="100%">
                                                     <tr>

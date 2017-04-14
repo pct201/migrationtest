@@ -266,10 +266,10 @@
           <siteMapNode url="Administrator/LU_Contract_Type.aspx" title ="Contract Type" description="" roles="" />
           <siteMapNode url="Administrator/LU_PunchList_Status.aspx" title ="Punch List Status" description="" roles="" />
           <!--3408-->
-          <siteMapNode url="Administrator/LU_Facility_Inspection_Focus_Area.aspx" title ="Facility Inspection Focus Area" description="" roles="" />
-          <siteMapNode url="Administrator/LU_Facility_Inspection_Item.aspx" title ="Facility Inspection Item" description="" roles="" />
+          <siteMapNode url="Administrator/LU_Facility_Inspection_Focus_Area.aspx" title ="EHS Inspection Focus Area" description="" roles="" />
+          <siteMapNode url="Administrator/LU_Facility_Inspection_Item.aspx" title ="EHS Inspection Item" description="" roles="" />
           <siteMapNode url="Administrator/LU_Facility_Maintenance_Scope.aspx" title ="Facility Maintenance Scope" description="" roles="" />
-          <siteMapNode url="Administrator/LU_Facility_Inspection_Condition.aspx" title ="Facility Inspection Condition" description="" roles="" />
+          <siteMapNode url="Administrator/LU_Facility_Inspection_Condition.aspx" title ="EHS Inspection Condition" description="" roles="" />
           <siteMapNode url="Administrator/LU_Facility_Maintenance_Status.aspx" title ="Facility Maintenance Status" description="" roles="" />
           <siteMapNode url="Administrator/LU_Facility_Maintenance_Type.aspx" title ="Facility Maintenance Type" description="" roles="" />
           <siteMapNode url="Administrator/LU_Lease_Responsible_Party.aspx" title ="Lease Responsible Party" description="" roles="" />

@@ -237,7 +237,7 @@ function ShowAuditPopUp(url) {
                                                                                 <tbody>
                                                                                     <tr>
                                                                                         <td align="left" width="100%">
-                                                                                            <span class="LeftMenuStatic" id="PropertyMenu6" onclick="javascript:RedirectTo(9);">Facility Inspection
+                                                                                            <span class="LeftMenuStatic" id="PropertyMenu6" onclick="javascript:RedirectTo(9);">EHS Inspection
                                                                                             </span>&nbsp;<span id="MenuAsterisk5" runat="server" style="color: Red; display: none;">*</span>
                                                                                         </td>
                                                                                     </tr>

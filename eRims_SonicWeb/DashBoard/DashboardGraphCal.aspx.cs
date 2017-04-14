@@ -299,9 +299,9 @@ public partial class DashboardGraphCal : clsBasePage
 
         string strHeader = "";
         if (dtResult.Rows.Count > 1)
-            strHeader = "Facility Inspection By Region";
+            strHeader = "EHS Inspection By Region";
         else
-            strHeader = "Facility Inspection";
+            strHeader = "EHS Inspection";
 
         // Set Chart property 
         strChartXML.Append("<chart caption='" + strHeader + "' plotGradientColor='' xAxisName='Region' bgColor='#FFFFFF' yAxisName='Level' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='17' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='0' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10' trendValueFontBold ='1'>");
@@ -317,7 +317,7 @@ public partial class DashboardGraphCal : clsBasePage
         strChartXML.Append("</chart>");
 
         // Generate Chart
-        return InfoSoftGlobal.FusionCharts.RenderChart(AppConfig.SiteURL + "FusionCharts/Bar2D.swf?ChartNoDataText=No data to display for: Facility Inspection By Region", "", strChartXML.ToString(), "FacilityInspectionByRegion", "490", "400", false, true);
+        return InfoSoftGlobal.FusionCharts.RenderChart(AppConfig.SiteURL + "FusionCharts/Bar2D.swf?ChartNoDataText=No data to display for: EHS Inspection By Region", "", strChartXML.ToString(), "FacilityInspectionByRegion", "490", "400", false, true);
     }
 
     /// <summary>
