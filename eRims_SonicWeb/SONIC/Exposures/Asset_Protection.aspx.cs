@@ -785,6 +785,15 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             lblGroupIDview.Text = Convert.ToString(objAP_Property_Security.Group_ID);
         else
             lblGroupIDview.Text = string.Empty;
+        
+        if (LocationID != null && hdnBuildingNumberByLocation.Value != string.Empty)
+        {
+            DataSet ds = clsACI_Link_LU_Location.ACI_Link_LU_LocationSelectByFK_LU_Location(LocationID, hdnBuildingNumberByLocation.Value);
+
+            if (ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows[0]["Group_ID"] != null)
+                lblGroupIDview.Text = Convert.ToString(ds.Tables[0].Rows[0]["Group_ID"]);
+        }
+
         lblCreated_DateView.Text = clsGeneral.FormatDBNullDateToDisplay(objAP_Property_Security.Created_Date);
 
         //lblHours_Monitored_From.Text = objAP_Property_Security.Hours_Monitored_From;
@@ -5993,6 +6002,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
                 lblLocation_Number.Text += " - " + hdnBuildingNumber.Value;
             }
 
+            hdnBuildingNumberByLocation.Value = hdnBuildingNumber.Value;
             SetCopyButtonVisibility();
             BindDetailsForViewForProperty_Security();
             BindPropertySecurityMonitoringGrid();
