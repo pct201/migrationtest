@@ -593,13 +593,6 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         rdoLive_Burglary_Monitoring.SelectedValue = objAP_Property_Security.Live_Burglary_Monitoring;
         if (PK_AP_Property_Security == 0)
         {
-            if (LocationID != null && hdnBuildingNumberByLocation.Value != string.Empty)
-            {
-                DataSet ds = clsACI_Link_LU_Location.ACI_Link_LU_LocationSelectByFK_LU_Location(LocationID, hdnBuildingNumberByLocation.Value);
-
-                if (ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows[0]["Group_ID"] != null)
-                    lblGroupID.Text = Convert.ToString(ds.Tables[0].Rows[0]["Group_ID"]);
-            }
             //lblCreated_Date.Text = clsGeneral.FormatDBNullDateToDisplay(DateTime.Now);
             txtCreated_Date.Text = clsGeneral.FormatDBNullDateToDisplay(DateTime.Now);
         }
@@ -611,6 +604,15 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
                 lblGroupID.Text = string.Empty;
             txtCreated_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objAP_Property_Security.Created_Date);
         }
+
+        if (LocationID != null && hdnBuildingNumberByLocation.Value != string.Empty)
+        {
+            DataSet ds = clsACI_Link_LU_Location.ACI_Link_LU_LocationSelectByFK_LU_Location(LocationID, hdnBuildingNumberByLocation.Value);
+
+            if (ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows[0]["Group_ID"] != null)
+                lblGroupID.Text = Convert.ToString(ds.Tables[0].Rows[0]["Group_ID"]);
+        }
+
         //txtHours_Monitored_From.Text = objAP_Property_Security.Hours_Monitored_From;
         //txtHours_Monitored_To.Text = objAP_Property_Security.Hours_Monitored_To;
         txtExterior_Camera_Coverage_Other_Description.Text = objAP_Property_Security.Exterior_Camera_Coverage_Other_Description;
