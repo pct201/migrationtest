@@ -122,7 +122,7 @@ public partial class Administrator_Employee : clsBasePage
         objEmployee.Supervisor = Convert.ToString(txtSupervisor_Name.Text.Trim());
         objEmployee.Work_Phone = Convert.ToString(txtWork_Phone.Text.Trim());
         objEmployee.Active_Inactive_Leave = Convert.ToString(txtActive_Inactive_Leave.Text.Trim());
-        objEmployee.Secondary_Cost_Center = txtSecondary_Cost_Center.Text.Trim();
+        //objEmployee.Secondary_Cost_Center = txtSecondary_Cost_Center.Text.Trim();
 
         if (ddlJobClassification.SelectedIndex > 0)
             objEmployee.FK_Job_Classification = Convert.ToDecimal(ddlJobClassification.SelectedValue);
@@ -184,7 +184,10 @@ public partial class Administrator_Employee : clsBasePage
         }
 
 
-
+        if(ddlJobCode.SelectedValue != "0")
+        {
+            objEmployee.FK_LU_Job_Code = Convert.ToDecimal(ddlJobCode.SelectedValue);
+        }
 
         if (PK_Employee_ID > 0)
         {
@@ -216,24 +219,24 @@ public partial class Administrator_Employee : clsBasePage
             objEmployee_Codes.FK_Employee_Id = PK_Employee_ID;
             objEmployee_Codes.Insert();
         }
-        try
-        {
-            if (jobcodeChanged)
-            {
-                Sonic_U_Training.Import_Sonic_U_Training_Associate_Base();
-                Sonic_U_Training.SCORM_handle_ChangedLocation_Users();
+        //try
+        //{
+        //    if (jobcodeChanged)
+        //    {
+        //        Sonic_U_Training.Import_Sonic_U_Training_Associate_Base();
+        //        Sonic_U_Training.SCORM_handle_ChangedLocation_Users();
 
-            }
+        //    }
 
-            if (loginDetailchanged)
-            {
-                Sonic_U_Training.SCORM_handle_LastNameChange_Users();
-            }
-        }
-        catch (Exception ex)
-        {
-            throw ex;
-        }
+        //    if (loginDetailchanged)
+        //    {
+        //        Sonic_U_Training.SCORM_handle_LastNameChange_Users();
+        //    }
+        //}
+        //catch (Exception ex)
+        //{
+        //    throw ex;
+        //}
         // }
 
         clsSession.Str_Employee_Operation = "view";
@@ -262,7 +265,7 @@ public partial class Administrator_Employee : clsBasePage
         ComboHelper.FillMaritalStatus(new DropDownList[] { ddlMaritalStatus }, 0, true);
         ComboHelper.FillState(new DropDownList[] { ddlState }, 0, true);
         ComboHelper.FillCostCenter(new DropDownList[] { ddlCostCenter }, true);
-        ComboHelper.FillJobCode(new DropDownList[] { ddlJobCode }, true);
+        ComboHelper.FillJobCode_New(new DropDownList[] { ddlJobCode }, true);
 
 
         DataSet dsData = State.SelectAll();
@@ -329,16 +332,25 @@ public partial class Administrator_Employee : clsBasePage
         //if (objEmployee.FK_Bank_Number != null)
         //    lblBankNumber.Text = new Bank_Details(Convert.ToDecimal(objEmployee.FK_Bank_Number)).Fld_AccountNo;
 
-        DataSet ds = Employee_Codes.SelectDataByEmployeeCodes(PK_Employee_ID);
-        if (ds.Tables[0].Rows.Count > 0)
-        {
-            PK_Employee_Codes = ds.Tables[0].Rows[0]["Code"].ToString();
-            Sonic_U_Training_Required_Classes objSonic_U_Training_Required_Classes = new Sonic_U_Training_Required_Classes();
-            ds = objSonic_U_Training_Required_Classes.SelectByCode(PK_Employee_Codes);
-            if (ds.Tables[0].Rows.Count > 0)
-                lblJobCode.Text = Convert.ToString(ds.Tables[0].Rows[0]["JobDescription"]);
-        }
+        #region Old Logic for Job code
+        //DataSet ds = Employee_Codes.SelectDataByEmployeeCodes(PK_Employee_ID);
+        //if (ds.Tables[0].Rows.Count > 0)
+        //{
+        //    PK_Employee_Codes = ds.Tables[0].Rows[0]["Code"].ToString();
+        //    Sonic_U_Training_Required_Classes objSonic_U_Training_Required_Classes = new Sonic_U_Training_Required_Classes();
+        //    ds = objSonic_U_Training_Required_Classes.SelectByCode(PK_Employee_Codes);
+        //    if (ds.Tables[0].Rows.Count > 0)
+        //        lblJobCode.Text = Convert.ToString(ds.Tables[0].Rows[0]["JobDescription"]);
+        //}
+        #endregion
 
+        #region new Logic for Job Code LU_Job_Code
+        if(objEmployee.FK_LU_Job_Code.HasValue)
+        {
+            clsLU_Job_Code objLU_Job_Code = new clsLU_Job_Code(objEmployee.FK_LU_Job_Code.Value);
+            lblJobCode.Text = objLU_Job_Code.Code;
+        }
+        #endregion
 
         if (objEmployee.Number_Of_Dependents != null)
             lblNumber_of_Dependents.Text = string.Format("{0:N0}", objEmployee.Number_Of_Dependents);
@@ -518,12 +530,20 @@ public partial class Administrator_Employee : clsBasePage
         //    ddlBankNumber.SelectedValue = objEmployee.FK_Bank_Number.ToString();
 
         //Employee_Codes objEmployee_Codes = new Employee_Codes(objEmployee.Employee_Id);
-        DataSet ds = Employee_Codes.SelectDataByEmployeeCodes(PK_Employee_ID);
-        if (ds.Tables[0].Rows.Count > 0)
+        //DataSet ds = Employee_Codes.SelectDataByEmployeeCodes(PK_Employee_ID);
+        //if (ds.Tables[0].Rows.Count > 0)
+        //{
+        //    ddlJobCode.SelectedValue = ds.Tables[0].Rows[0]["Code"].ToString();
+        //    PK_Employee_Codes = ds.Tables[0].Rows[0]["Code"].ToString();
+        //}
+
+        #region new Logic for Job Code LU_Job_Code
+        if (objEmployee.FK_LU_Job_Code.HasValue)
         {
-            ddlJobCode.SelectedValue = ds.Tables[0].Rows[0]["Code"].ToString();
-            PK_Employee_Codes = ds.Tables[0].Rows[0]["Code"].ToString();
+            ddlJobCode.SelectedValue = Convert.ToString(objEmployee.FK_LU_Job_Code.Value);
         }
+        #endregion
+
 
         if (objEmployee.Number_Of_Dependents != null)
             txtNumber_of_Dependents.Text = string.Format("{0:N0}", objEmployee.Number_Of_Dependents);

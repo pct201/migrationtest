@@ -365,7 +365,7 @@
                                     Display="None" ErrorMessage="Please enter Department" InitialValue="0"></asp:RequiredFieldValidator>
                             </td>
                         </tr>
-                        <tr align="left">
+                        <%--<tr align="left">
                             <td>Secondary Cost Center
                             </td>
                             <td align="center">:
@@ -373,7 +373,7 @@
                             <td align="left">
                                 <asp:TextBox ID="txtSecondary_Cost_Center" runat="server" Width="170px" MaxLength="200"></asp:TextBox>
                             </td>
-                        </tr>
+                        </tr>--%>
                         <tr>
                             <td align="left">
                                 Salary
@@ -865,7 +865,7 @@
                                 <asp:Label ID="lblDepartment" runat="server"></asp:Label>
                             </td>
                         </tr>
-						<tr align="left">
+						<%--<tr align="left">
                             <td>Secondary Cost Center
                             </td>
                             <td align="center">:
@@ -873,7 +873,7 @@
                             <td>
                                 <asp:Label ID="lblSecondary_Cost_Center" runat="server"></asp:Label>
                             </td>
-						</tr>
+						</tr>--%>
                         <tr>
                             <td align="left">
                                 Salary

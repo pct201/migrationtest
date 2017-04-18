@@ -57,6 +57,9 @@ namespace ERIMS.DAL
         private string _Department;
         private DateTime? _Last_Hire_Date;
         private string _Secondary_Cost_Center;
+        private string _SCORM_username;
+        private string _SCORM_Password;
+        private decimal? _FK_LU_Job_Code;
         #endregion
 
 
@@ -470,6 +473,39 @@ namespace ERIMS.DAL
             set { _Secondary_Cost_Center = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the SCORM_username.
+        /// </summary>
+        /// <value>
+        /// The SCORM_username.
+        /// </value>
+        public string SCORM_username
+        {
+            get { return _SCORM_username; }
+            set { _SCORM_username = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the SCORM_Password.
+        /// </summary>
+        /// <value>
+        /// The SCORM_Password.
+        /// </value>
+        public string SCORM_Password
+        {
+            get { return _SCORM_Password; }
+            set { _SCORM_Password = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the FK_LU_Job_Code value.
+        /// </summary>
+        public decimal? FK_LU_Job_Code
+        {
+            get { return _FK_LU_Job_Code; }
+            set { _FK_LU_Job_Code = value; }
+        }
+
         #endregion
 
 
@@ -525,6 +561,7 @@ namespace ERIMS.DAL
             this._Email = null;
             this._Department = null;
             this._Last_Hire_Date = null;
+            this._FK_LU_Job_Code = null;
         }
 
         /// <summary> 
@@ -760,6 +797,11 @@ namespace ERIMS.DAL
                     this._Last_Hire_Date = null;
                 else
                     this._Last_Hire_Date = (DateTime?)drEmployee["Last_Date_Of_Hire"];
+
+                if (drEmployee["FK_LU_Job_Code"] == DBNull.Value)
+                    this._FK_LU_Job_Code = null;
+                else
+                    this._FK_LU_Job_Code = (decimal?)drEmployee["FK_LU_Job_Code"];
 
             }
             else
@@ -1113,6 +1155,8 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "Last_Date_Of_Hire", DbType.DateTime, this._Last_Hire_Date);
 
+            db.AddInParameter(dbCommand, "FK_LU_Job_Code", DbType.Decimal, this._FK_LU_Job_Code);
+
             // Execute the query and return the new identity value
             decimal returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
 
@@ -1359,6 +1403,8 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Secondary_Cost_Center", DbType.String, this._Secondary_Cost_Center);
 
             db.AddInParameter(dbCommand, "Last_Date_Of_Hire", DbType.DateTime, this._Last_Hire_Date);
+
+            db.AddInParameter(dbCommand, "FK_LU_Job_Code", DbType.Decimal, this._FK_LU_Job_Code);
 
             db.ExecuteNonQuery(dbCommand);
         }
