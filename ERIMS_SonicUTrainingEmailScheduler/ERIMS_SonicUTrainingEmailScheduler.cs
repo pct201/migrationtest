@@ -255,11 +255,13 @@ namespace ERIMS_SonicUTraining_EmailScheduler
             firstWeekDay = startDate.DayOfWeek;
             if ((firstWeekDay == DayOfWeek.Sunday))
             {
-                addDays += 1;
+                startDate = startDate.AddDays(1);
+               // addDays += 1;
             }
             else if ((firstWeekDay == DayOfWeek.Saturday))
             {
-                addDays += 2;
+                startDate = startDate.AddDays(2);
+               // addDays += 2;
             }
 
             do
