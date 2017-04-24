@@ -2817,9 +2817,9 @@ public partial class Exposures_Property : clsBasePage
         txtMonthlyMonitoringAmount.Text = clsGeneral.FormatCommaSeperatorCurrency(objContact.Fire_Alarm_Monitoring_Monthly_Amount);
         //txtControlPanel.Text = objContact.Fire_Alarm_Monitoring_Control_Panel;
 
-        if (objContact.FK_Building_ID != null)
+        if (PK_Building_ID > 0)
         {
-            DataSet ds = clsAP_Property_Security.GetFireAlarmMonitoringDetailByFK_Building(objContact.FK_Building_ID);
+            DataSet ds = clsAP_Property_Security.GetFireAlarmMonitoringDetailByFK_Building(PK_Building_ID);
 
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
