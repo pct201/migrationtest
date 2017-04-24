@@ -1635,7 +1635,7 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" style="padding-left: 5px;">Police Dept Agency Name
+                                                                    <td align="left" valign="top" style="padding-left: 1px;">Police Dept Agency Name
                                                                     </td>
                                                                     <td align="center" valign="top">:
                                                                     </td>
@@ -1644,7 +1644,7 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" style="padding-left: 5px;">Police Officer Name
+                                                                    <td align="left" valign="top" style="padding-left: 1px;">Police Officer Name
                                                                     </td>
                                                                     <td align="center" valign="top">:
                                                                     </td>
@@ -1653,7 +1653,7 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" style="padding-left: 5px;">Police Department Phone #
+                                                                    <td align="left" valign="top" style="padding-left: 1px;">Police Department Phone #
                                                                     </td>
                                                                     <td align="center" valign="top">:
                                                                     </td>
@@ -1665,7 +1665,7 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" style="padding-left: 5px;">Police Report #
+                                                                    <td align="left" valign="top" style="padding-left: 1px;">Police Report #
                                                                     </td>
                                                                     <td align="center" valign="top">:
                                                                     </td>
