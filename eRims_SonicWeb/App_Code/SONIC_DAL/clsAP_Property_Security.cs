@@ -135,6 +135,10 @@ namespace ERIMS.DAL
         private string _Fire_Company_Contact_Name;
         private string _Fire_Comapny_Contact_Telephone;
         private string _Fire_Company_Contact_EMail;
+        private string _Fire_Alarm_Monitoring_Fire_Alarm_Panel;
+        private string _Fire_Alarm_Monitoring_Model_Series;
+        private string _Fire_Alarm_Monitoring_Brand;
+        private string _Fire_Alarm_Monitoring_Account_PassCode;
 
         #endregion
 
@@ -1238,6 +1242,42 @@ namespace ERIMS.DAL
             get { return _Fire_Company_Contact_EMail; }
             set { _Fire_Company_Contact_EMail = value; }
         }
+
+        /// <summary>
+        /// Gets or sets the Fire_Alarm_Monitoring_Fire_Alarm_Panel value.
+        /// </summary>
+        public string Fire_Alarm_Monitoring_Fire_Alarm_Panel
+        {
+            get { return _Fire_Alarm_Monitoring_Fire_Alarm_Panel; }
+            set { _Fire_Alarm_Monitoring_Fire_Alarm_Panel = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Fire_Alarm_Monitoring_Model_Series value.
+        /// </summary>
+        public string Fire_Alarm_Monitoring_Model_Series
+        {
+            get { return _Fire_Alarm_Monitoring_Model_Series; }
+            set { _Fire_Alarm_Monitoring_Model_Series = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Fire_Alarm_Monitoring_Brand value.
+        /// </summary>
+        public string Fire_Alarm_Monitoring_Brand
+        {
+            get { return _Fire_Alarm_Monitoring_Brand; }
+            set { _Fire_Alarm_Monitoring_Brand = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Fire_Alarm_Monitoring_Account_PassCode value.
+        /// </summary>
+        public string Fire_Alarm_Monitoring_Account_PassCode
+        {
+            get { return _Fire_Alarm_Monitoring_Account_PassCode; }
+            set { _Fire_Alarm_Monitoring_Account_PassCode = value; }
+        }
         #endregion
 
         #region Default Constructors
@@ -1881,6 +1921,26 @@ namespace ERIMS.DAL
                 this._Fire_Company_Contact_EMail = null;
             else
                 this._Fire_Company_Contact_EMail = (string)drAP_Property_Security["Fire_Company_Contact_EMail"];
+
+            if (drAP_Property_Security["Fire_Alarm_Monitoring_Fire_Alarm_Panel"] == DBNull.Value)
+                this._Fire_Alarm_Monitoring_Fire_Alarm_Panel = null;
+            else
+                this._Fire_Alarm_Monitoring_Fire_Alarm_Panel = (string)drAP_Property_Security["Fire_Alarm_Monitoring_Fire_Alarm_Panel"];
+
+            if (drAP_Property_Security["Fire_Alarm_Monitoring_Model_Series"] == DBNull.Value)
+                this._Fire_Alarm_Monitoring_Model_Series = null;
+            else
+                this._Fire_Alarm_Monitoring_Model_Series = (string)drAP_Property_Security["Fire_Alarm_Monitoring_Model_Series"];
+
+            if (drAP_Property_Security["Fire_Alarm_Monitoring_Brand"] == DBNull.Value)
+                this._Fire_Alarm_Monitoring_Brand = null;
+            else
+                this._Fire_Alarm_Monitoring_Brand = (string)drAP_Property_Security["Fire_Alarm_Monitoring_Brand"];
+
+            if (drAP_Property_Security["Fire_Alarm_Monitoring_Account_PassCode"] == DBNull.Value)
+                this._Fire_Alarm_Monitoring_Account_PassCode = null;
+            else
+                this._Fire_Alarm_Monitoring_Account_PassCode = (string)drAP_Property_Security["Fire_Alarm_Monitoring_Account_PassCode"];
         }
 
 
@@ -2462,6 +2522,26 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Fire_Company_Contact_EMail", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Fire_Company_Contact_EMail", DbType.String, this._Fire_Company_Contact_EMail);
+
+            if (string.IsNullOrEmpty(this._Fire_Alarm_Monitoring_Fire_Alarm_Panel))
+                db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Fire_Alarm_Panel", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Fire_Alarm_Panel", DbType.String, this._Fire_Alarm_Monitoring_Fire_Alarm_Panel);
+
+            if (string.IsNullOrEmpty(this._Fire_Alarm_Monitoring_Model_Series))
+                db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Model_Series", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Model_Series", DbType.String, this._Fire_Alarm_Monitoring_Model_Series);
+
+            if (string.IsNullOrEmpty(this._Fire_Alarm_Monitoring_Brand))
+                db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Brand", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Brand", DbType.String, this._Fire_Alarm_Monitoring_Brand);
+
+            if (string.IsNullOrEmpty(this._Fire_Alarm_Monitoring_Account_PassCode))
+                db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Account_PassCode", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Account_PassCode", DbType.String, this._Fire_Alarm_Monitoring_Account_PassCode);
 
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -3068,6 +3148,26 @@ namespace ERIMS.DAL
             else
                 db.AddInParameter(dbCommand, "Fire_Company_Contact_EMail", DbType.String, this._Fire_Company_Contact_EMail);
 
+            if (string.IsNullOrEmpty(this._Fire_Alarm_Monitoring_Fire_Alarm_Panel))
+                db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Fire_Alarm_Panel", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Fire_Alarm_Panel", DbType.String, this._Fire_Alarm_Monitoring_Fire_Alarm_Panel);
+
+            if (string.IsNullOrEmpty(this._Fire_Alarm_Monitoring_Model_Series))
+                db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Model_Series", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Model_Series", DbType.String, this._Fire_Alarm_Monitoring_Model_Series);
+
+            if (string.IsNullOrEmpty(this._Fire_Alarm_Monitoring_Brand))
+                db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Brand", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Brand", DbType.String, this._Fire_Alarm_Monitoring_Brand);
+
+            if (string.IsNullOrEmpty(this._Fire_Alarm_Monitoring_Account_PassCode))
+                db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Account_PassCode", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Account_PassCode", DbType.String, this._Fire_Alarm_Monitoring_Account_PassCode);
+
             db.ExecuteNonQuery(dbCommand);
         }
 
@@ -3135,6 +3235,14 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "PK_AP_Property_Security", DbType.Decimal, pK_AP_Property_Security);
 
             db.ExecuteNonQuery(dbCommand);
+        }
+
+        public static DataSet GetFireAlarmMonitoringDetailByFK_Building(decimal FK_Building_ID)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("GetFireAlarmMonitoringDetailByFK_Building");
+            db.AddInParameter(dbCommand, "FK_Building_ID", DbType.Decimal, FK_Building_ID);
+            return db.ExecuteDataSet(dbCommand);
         }
     }
 }

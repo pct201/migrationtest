@@ -1207,19 +1207,19 @@ public partial class Exposures_Property : clsBasePage
                 objContact.After_Hours_Contact_Cell_Phone = txtAfter_Hours_Contact_Cell_Phone.Text.Trim();
                 objContact.Updated_By = Convert.ToDecimal(clsSession.UserID);
                 objContact.Updated_Date = DateTime.Now;
-                objContact.Fire_Alarm_Monitoring_Company_Name = txtCompanyName.Text.Trim();
-                objContact.Fire_Alarm_Monitoring_Contact_Name = txtContactName.Text.Trim();
-                objContact.Fire_Alarm_Monitoring_Address = txtAddress.Text.Trim();
-                objContact.Fire_Alarm_Monitoring_City = txtCity1.Text.Trim();
-                if (ddlContactState.SelectedIndex > 0)
-                    objContact.FK_Fire_Alarm_Monitoring_State = Convert.ToInt32(ddlContactState.SelectedValue);
-                else
-                    objContact.FK_Fire_Alarm_Monitoring_State = 0;
-                objContact.Fire_Alarm_Monitoring_Zip_Code = txtZipCode.Text;
-                objContact.Fire_Alarm_Monitoring_Telephone = txtTelephone1.Text.Trim();
-                objContact.Fire_Alarm_Monitoring_Account_Number = txtAccountNumber.Text.Trim();
+                //objContact.Fire_Alarm_Monitoring_Company_Name = txtCompanyName.Text.Trim();
+                //objContact.Fire_Alarm_Monitoring_Contact_Name = txtContactName.Text.Trim();
+                //objContact.Fire_Alarm_Monitoring_Address = txtAddress.Text.Trim();
+                //objContact.Fire_Alarm_Monitoring_City = txtCity1.Text.Trim();
+                //if (ddlContactState.SelectedIndex > 0)
+                //    objContact.FK_Fire_Alarm_Monitoring_State = Convert.ToInt32(ddlContactState.SelectedValue);
+                //else
+                //    objContact.FK_Fire_Alarm_Monitoring_State = 0;
+                //objContact.Fire_Alarm_Monitoring_Zip_Code = txtZipCode.Text;
+                //objContact.Fire_Alarm_Monitoring_Telephone = txtTelephone1.Text.Trim();
+                //objContact.Fire_Alarm_Monitoring_Account_Number = txtAccountNumber.Text.Trim();
                 objContact.Fire_Alarm_Monitoring_Monthly_Amount = clsGeneral.GetDecimalNullableValue(txtMonthlyMonitoringAmount);
-                objContact.Fire_Alarm_Monitoring_Control_Panel = txtControlPanel.Text.Trim();
+                //objContact.Fire_Alarm_Monitoring_Control_Panel = txtControlPanel.Text.Trim();
                 // insert or update the contact record depending on primary key
                 if (PK_Property_Contact_ID > 0)
                     objContact.Update();
@@ -2803,19 +2803,54 @@ public partial class Exposures_Property : clsBasePage
         txtAfter_Hours_Contact_Phone.Text = objContact.After_Hours_Contact_Phone;
         txtAfter_Hours_Contact_Cell_Phone.Text = objContact.After_Hours_Contact_Cell_Phone;
 
-        txtCompanyName.Text = objContact.Fire_Alarm_Monitoring_Company_Name;
-        txtContactName.Text = objContact.Fire_Alarm_Monitoring_Contact_Name;
-        txtAddress.Text = objContact.Fire_Alarm_Monitoring_Address;
-        txtCity1.Text = objContact.Fire_Alarm_Monitoring_City;
-        if (objContact.FK_Fire_Alarm_Monitoring_State != 0)
-            ddlContactState.SelectedValue = Convert.ToString(objContact.FK_Fire_Alarm_Monitoring_State);
-        else
-            ddlContactState.SelectedIndex = 0;
-        txtZipCode.Text = objContact.Fire_Alarm_Monitoring_Zip_Code;
-        txtTelephone1.Text = objContact.Fire_Alarm_Monitoring_Telephone;
-        txtAccountNumber.Text = objContact.Fire_Alarm_Monitoring_Account_Number;
+        //txtCompanyName.Text = objContact.Fire_Alarm_Monitoring_Company_Name;
+        //txtContactName.Text = objContact.Fire_Alarm_Monitoring_Contact_Name;
+        //txtAddress.Text = objContact.Fire_Alarm_Monitoring_Address;
+        //txtCity1.Text = objContact.Fire_Alarm_Monitoring_City;
+        //if (objContact.FK_Fire_Alarm_Monitoring_State != 0)
+        //    ddlContactState.SelectedValue = Convert.ToString(objContact.FK_Fire_Alarm_Monitoring_State);
+        //else
+        //    ddlContactState.SelectedIndex = 0;
+        //txtZipCode.Text = objContact.Fire_Alarm_Monitoring_Zip_Code;
+        //txtTelephone1.Text = objContact.Fire_Alarm_Monitoring_Telephone;
+        //txtAccountNumber.Text = objContact.Fire_Alarm_Monitoring_Account_Number;
         txtMonthlyMonitoringAmount.Text = clsGeneral.FormatCommaSeperatorCurrency(objContact.Fire_Alarm_Monitoring_Monthly_Amount);
-        txtControlPanel.Text = objContact.Fire_Alarm_Monitoring_Control_Panel;
+        //txtControlPanel.Text = objContact.Fire_Alarm_Monitoring_Control_Panel;
+
+        if (objContact.FK_Building_ID != null)
+        {
+            DataSet ds = clsAP_Property_Security.GetFireAlarmMonitoringDetailByFK_Building(objContact.FK_Building_ID);
+
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                lblCompanyName.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Company_Name"]);
+                lblContactName.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Company_Contact_Name"]);
+                lblAddress.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Company_Address"]);
+                lblCity1.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Company_City"]);
+                lblContactState.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Company_State"]);
+                lblZipCode.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Company_Zip"]);
+                lblTelephone1.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Comapny_Contact_Telephone"]);
+                lblAccountNumber.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Alarm_Monitoring_Account_PassCode"]);
+                lblControlPanel.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Alarm_Monitoring_Fire_Alarm_Panel"]);
+                lblModel_Series.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Alarm_Monitoring_Model_Series"]);
+                lblBrand.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Alarm_Monitoring_Brand"]);
+            }
+            else
+            {
+                lblCompanyName.Text = string.Empty;
+                lblContactName.Text = string.Empty;
+                lblAddress.Text = string.Empty;
+                lblCity1.Text = string.Empty;
+                lblContactState.Text = string.Empty;
+                lblZipCode.Text = string.Empty;
+                lblTelephone1.Text = string.Empty;
+                lblAccountNumber.Text = string.Empty;
+                lblControlPanel.Text = string.Empty;
+                lblModel_Series.Text = string.Empty;
+                lblBrand.Text = string.Empty;
+            }
+        }
+        
 
         // bind emergency, utility and other contact grid
         BindEmergencyContactGrid();
@@ -2916,11 +2951,11 @@ public partial class Exposures_Property : clsBasePage
         ddlLoss_Payees_State.Items.Insert(0, new ListItem("--SELECT--", ""));
 
         //binds Contact state dropdown
-        ddlContactState.DataSource = dtState;
-        ddlContactState.DataTextField = "FLD_state";
-        ddlContactState.DataValueField = "PK_ID";
-        ddlContactState.DataBind();
-        ddlContactState.Items.Insert(0, new ListItem("--SELECT--", ""));
+        //ddlContactState.DataSource = dtState;
+        //ddlContactState.DataTextField = "FLD_state";
+        //ddlContactState.DataValueField = "PK_ID";
+        //ddlContactState.DataBind();
+        //ddlContactState.Items.Insert(0, new ListItem("--SELECT--", ""));
 
 
         //binds saba training year dropdown
@@ -4657,16 +4692,16 @@ public partial class Exposures_Property : clsBasePage
                 case "After Hours Contact - Name": strCtrlsIDsContact += txtAfter_Hours_Contact_Name.ClientID + ","; strMessagesContact += "Please enter [Contacts]/After Hours Contact - Name" + ","; Span135.Style["display"] = "inline-block"; break;
                 case "After Hours Contact - Cell Phone": strCtrlsIDsContact += txtAfter_Hours_Contact_Cell_Phone.ClientID + ","; strMessagesContact += "Please enter [Contacts]/After Hours Contact - Cell Phone" + ","; Span136.Style["display"] = "inline-block"; break;
                 case "After Hours Contact - Facility Telephone": strCtrlsIDsContact += txtAfter_Hours_Contact_Phone.ClientID + ","; strMessagesContact += "Please enter [Contacts]/After Hours Contact - Facility Telephone" + ","; Span137.Style["display"] = "inline-block"; break;
-                case "Fire Alarm Monitoring Company - Company Name": strCtrlsIDsContact += txtCompanyName.ClientID + ","; strMessagesContact += "Please enter [Contacts]/Fire Alarm Monitoring Company - Company Name" + ","; spnCompanyName.Style["display"] = "inline-block"; break;
-                case "Fire Alarm Monitoring Company - Contact Name": strCtrlsIDsContact += txtContactName.ClientID + ","; strMessagesContact += "Please enter [Contacts]/Fire Alarm Monitoring Company - Contact Name" + ","; spnContactName.Style["display"] = "inline-block"; break;
-                case "Fire Alarm Monitoring Company - Address": strCtrlsIDsContact += txtAddress.ClientID + ","; strMessagesContact += "Please enter [Contacts]/Fire Alarm Monitoring Company - Address" + ","; spnAddress.Style["display"] = "inline-block"; break;
-                case "Fire Alarm Monitoring Company - City": strCtrlsIDsContact += txtCity1.ClientID + ","; strMessagesContact += "Please enter [Contacts]/Fire Alarm Monitoring Company - City" + ","; spnCity.Style["display"] = "inline-block"; break;
-                case "Fire Alarm Monitoring Company - State": strCtrlsIDsContact += ddlContactState.ClientID + ","; strMessagesContact += "Please enter [Contacts]/Fire Alarm Monitoring Company - State" + ","; spnContactState.Style["display"] = "inline-block"; break;
-                case "Fire Alarm Monitoring Company - Zip Code": strCtrlsIDsContact += txtZipCode.ClientID + ","; strMessagesContact += "Please enter [Contacts]/Fire Alarm Monitoring Company - ZipCode" + ","; spnZipCode.Style["display"] = "inline-block"; break;
-                case "Fire Alarm Monitoring Company - Telephone": strCtrlsIDsContact += txtTelephone1.ClientID + ","; strMessagesContact += "Please enter [Contacts]/Fire Alarm Monitoring Company - Telephone" + ","; spntxtTelephone1.Style["display"] = "inline-block"; break;
-                case "Fire Alarm Monitoring Company - Account Number": strCtrlsIDsContact += txtAccountNumber.ClientID + ","; strMessagesContact += "Please enter [Contacts]/Fire Alarm Monitoring Company - Account Number" + ","; spnAccountNumber.Style["display"] = "inline-block"; break;
+                //case "Fire Alarm Monitoring Company - Company Name": strCtrlsIDsContact += txtCompanyName.ClientID + ","; strMessagesContact += "Please enter [Contacts]/Fire Alarm Monitoring Company - Company Name" + ","; spnCompanyName.Style["display"] = "inline-block"; break;
+                //case "Fire Alarm Monitoring Company - Contact Name": strCtrlsIDsContact += txtContactName.ClientID + ","; strMessagesContact += "Please enter [Contacts]/Fire Alarm Monitoring Company - Contact Name" + ","; spnContactName.Style["display"] = "inline-block"; break;
+                //case "Fire Alarm Monitoring Company - Address": strCtrlsIDsContact += txtAddress.ClientID + ","; strMessagesContact += "Please enter [Contacts]/Fire Alarm Monitoring Company - Address" + ","; spnAddress.Style["display"] = "inline-block"; break;
+                //case "Fire Alarm Monitoring Company - City": strCtrlsIDsContact += txtCity1.ClientID + ","; strMessagesContact += "Please enter [Contacts]/Fire Alarm Monitoring Company - City" + ","; spnCity.Style["display"] = "inline-block"; break;
+                //case "Fire Alarm Monitoring Company - State": strCtrlsIDsContact += ddlContactState.ClientID + ","; strMessagesContact += "Please enter [Contacts]/Fire Alarm Monitoring Company - State" + ","; spnContactState.Style["display"] = "inline-block"; break;
+                //case "Fire Alarm Monitoring Company - Zip Code": strCtrlsIDsContact += txtZipCode.ClientID + ","; strMessagesContact += "Please enter [Contacts]/Fire Alarm Monitoring Company - ZipCode" + ","; spnZipCode.Style["display"] = "inline-block"; break;
+                //case "Fire Alarm Monitoring Company - Telephone": strCtrlsIDsContact += txtTelephone1.ClientID + ","; strMessagesContact += "Please enter [Contacts]/Fire Alarm Monitoring Company - Telephone" + ","; spntxtTelephone1.Style["display"] = "inline-block"; break;
+                //case "Fire Alarm Monitoring Company - Account Number": strCtrlsIDsContact += txtAccountNumber.ClientID + ","; strMessagesContact += "Please enter [Contacts]/Fire Alarm Monitoring Company - Account Number" + ","; spnAccountNumber.Style["display"] = "inline-block"; break;
                 case "Fire Alarm Monitoring Company - Monthly Monitoring Amount": strCtrlsIDsContact += txtMonthlyMonitoringAmount.ClientID + ","; strMessagesContact += "Please enter [Contacts]/Fire Alarm Monitoring Company - Monthly Monitoring Account" + ","; spnMonthlyMonitoringAmount.Style["display"] = "inline-block"; break;
-                case "Fire Alarm Monitoring Company - Control Panel": strCtrlsIDsContact += txtControlPanel.ClientID + ","; strMessagesContact += "Please enter [Contacts]/Fire Alarm Monitoring Company - Control Panel" + ","; spnControlPanel.Style["display"] = "inline-block"; break;
+                //case "Fire Alarm Monitoring Company - Control Panel": strCtrlsIDsContact += txtControlPanel.ClientID + ","; strMessagesContact += "Please enter [Contacts]/Fire Alarm Monitoring Company - Control Panel" + ","; spnControlPanel.Style["display"] = "inline-block"; break;
             }
 
             #endregion

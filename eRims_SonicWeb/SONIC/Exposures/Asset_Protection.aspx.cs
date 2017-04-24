@@ -640,6 +640,10 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         txtFire_Company_Contact_Name.Text = objAP_Property_Security.Fire_Company_Contact_Name;
         txtFire_Comapny_Contact_Telephone.Text = objAP_Property_Security.Fire_Comapny_Contact_Telephone;
         txtFire_Company_Contact_EMail.Text = objAP_Property_Security.Fire_Company_Contact_EMail;
+        txtFire_Alarm_Monitoring_Fire_Alarm_Panel.Text = objAP_Property_Security.Fire_Alarm_Monitoring_Fire_Alarm_Panel;
+        txtFire_Alarm_Monitoring_Account_PassCode.Text = objAP_Property_Security.Fire_Alarm_Monitoring_Account_PassCode;
+        txtFire_Alarm_Monitoring_Model_Series.Text = objAP_Property_Security.Fire_Alarm_Monitoring_Model_Series;
+        txtFire_Alarm_Monitoring_Brand.Text = objAP_Property_Security.Fire_Alarm_Monitoring_Brand;
 
         txtGuard_Company_Name.Text = objAP_Property_Security.Guard_Company_Name;
         txtGuard_Company_Address_1.Text = objAP_Property_Security.Guard_Company_Address_1;
@@ -837,6 +841,10 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         lblFire_Company_Contact_Name.Text = objAP_Property_Security.Fire_Company_Contact_Name;
         lblFire_Comapny_Contact_Telephone.Text = objAP_Property_Security.Fire_Comapny_Contact_Telephone;
         lblFire_Company_Contact_E_Mail.Text = objAP_Property_Security.Fire_Company_Contact_EMail;
+        lblFire_Alarm_Monitoring_Fire_Alarm_Panel.Text = objAP_Property_Security.Fire_Alarm_Monitoring_Fire_Alarm_Panel;
+        lblFire_Alarm_Monitoring_Account_PassCode.Text = objAP_Property_Security.Fire_Alarm_Monitoring_Account_PassCode;
+        lblFire_Alarm_Monitoring_Model_Series.Text = objAP_Property_Security.Fire_Alarm_Monitoring_Model_Series;
+        lblFire_Alarm_Monitoring_Brand.Text = objAP_Property_Security.Fire_Alarm_Monitoring_Brand;
 
         lblGuard_Company_Name.Text = objAP_Property_Security.Guard_Company_Name;
         lblGuard_Company_Address_1.Text = objAP_Property_Security.Guard_Company_Address_1;
@@ -1005,6 +1013,10 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         objAP_Property_Security.Fire_Company_Contact_Name = txtFire_Company_Contact_Name.Text.Trim();
         objAP_Property_Security.Fire_Comapny_Contact_Telephone = txtFire_Comapny_Contact_Telephone.Text.Trim();
         objAP_Property_Security.Fire_Company_Contact_EMail = txtFire_Company_Contact_EMail.Text.Trim();
+        objAP_Property_Security.Fire_Alarm_Monitoring_Fire_Alarm_Panel = txtFire_Alarm_Monitoring_Fire_Alarm_Panel.Text.Trim();
+        objAP_Property_Security.Fire_Alarm_Monitoring_Account_PassCode = txtFire_Alarm_Monitoring_Account_PassCode.Text.Trim();
+        objAP_Property_Security.Fire_Alarm_Monitoring_Model_Series = txtFire_Alarm_Monitoring_Model_Series.Text.Trim();
+        objAP_Property_Security.Fire_Alarm_Monitoring_Brand = txtFire_Alarm_Monitoring_Brand.Text.Trim();
 
         objAP_Property_Security.Guard_Company_Name = txtGuard_Company_Name.Text.Trim();
         objAP_Property_Security.Guard_Company_Address_1 = txtGuard_Company_Address_1.Text.Trim();

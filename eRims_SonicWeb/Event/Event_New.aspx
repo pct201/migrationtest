@@ -1073,7 +1073,7 @@
                                                             <asp:TextBox ID="txtACI_EventID" runat="server" MaxLength="30" Width="170px"></asp:TextBox>
                                                         </td>
                                                     </tr>
-                                                    <tr>
+                                                    <%--<tr>
                                                         <td align="left" valign="top">Event Level
                                                         </td>
                                                         <td align="center" valign="top">:
@@ -1083,7 +1083,7 @@
                                                         </td>
                                                         <td colspan="3">&nbsp;
                                                         </td>
-                                                    </tr>
+                                                    </tr>--%>
                                                     <tr>
                                                         <td colspan="3">
                                                             <u><b>Actionable Event Type</b></u>
@@ -1635,7 +1635,7 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" style="padding-left: 60px;">Agency Name
+                                                                    <td align="left" valign="top" style="padding-left: 5px;">Police Dept Agency Name
                                                                     </td>
                                                                     <td align="center" valign="top">:
                                                                     </td>
@@ -1644,7 +1644,7 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" style="padding-left: 60px;">Officer Name
+                                                                    <td align="left" valign="top" style="padding-left: 5px;">Police Officer Name
                                                                     </td>
                                                                     <td align="center" valign="top">:
                                                                     </td>
@@ -1653,7 +1653,7 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" style="padding-left: 60px;">Phone #
+                                                                    <td align="left" valign="top" style="padding-left: 5px;">Police Department Phone #
                                                                     </td>
                                                                     <td align="center" valign="top">:
                                                                     </td>
@@ -1665,7 +1665,7 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" style="padding-left: 60px;">Police Report #
+                                                                    <td align="left" valign="top" style="padding-left: 5px;">Police Report #
                                                                     </td>
                                                                     <td align="center" valign="top">:
                                                                     </td>
@@ -2324,7 +2324,7 @@
                                                             <asp:TextBox ID="txtSource_Of_Information" runat="server" MaxLength="100" Width="170px"></asp:TextBox>
                                                         </td>
                                                     </tr>
-                                                    <tr>
+                                                    <%--<tr>
                                                         <td align="left" valign="top">Event Level
                                                         </td>
                                                         <td align="center" valign="top">:
@@ -2332,7 +2332,7 @@
                                                         <td align="left" valign="top" colspan="4">
                                                             <asp:DropDownList ID="ddlEvent_Level_Sonic" runat="server" Width="175px" SkinID="dropGen"></asp:DropDownList>
                                                         </td>
-                                                    </tr>
+                                                    </tr>--%>
                                                     <tr>
                                                         <td colspan="6">&nbsp;
                                                             <asp:Button ID="btnhdnReload" runat="server" OnClick="btnhdnReload_Click" Style="display: none;" />

@@ -377,6 +377,10 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
             strEbdy = strEbdy.Replace("[Fire_Company_Contact_Name]", objAP_Property_Security.Fire_Company_Contact_Name);
             strEbdy = strEbdy.Replace("[Fire_Company_Contact_Telephone]", objAP_Property_Security.Fire_Comapny_Contact_Telephone);
             strEbdy = strEbdy.Replace("[Fire_Company_Contact_EMail]", objAP_Property_Security.Fire_Company_Contact_EMail);
+            strEbdy = strEbdy.Replace("[Fire_Company_Alarm_Panel]", objAP_Property_Security.Fire_Alarm_Monitoring_Fire_Alarm_Panel);
+            strEbdy = strEbdy.Replace("[Fire_Company_Account_Pass_Code]", objAP_Property_Security.Fire_Alarm_Monitoring_Account_PassCode);
+            strEbdy = strEbdy.Replace("[Fire_Company_Brand]", objAP_Property_Security.Fire_Alarm_Monitoring_Brand);
+            strEbdy = strEbdy.Replace("[Fire_Company_Model_Series]", objAP_Property_Security.Fire_Alarm_Monitoring_Model_Series);
             strEbdy = strEbdy.Replace("[Guard_Company_Name]", objAP_Property_Security.Guard_Company_Name);
             strEbdy = strEbdy.Replace("[Guard_Company_Address1]", objAP_Property_Security.Guard_Company_Address_1);
             strEbdy = strEbdy.Replace("[Guard_Company_Address2]", objAP_Property_Security.Guard_Company_Address_2);
@@ -877,6 +881,10 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
             htFindAndReplace.Add("[Fire_Company_Contact_Name]", objAP_Property_Security.Fire_Company_Contact_Name);
             htFindAndReplace.Add("[Fire_Company_Contact_Telephone]", objAP_Property_Security.Fire_Comapny_Contact_Telephone);
             htFindAndReplace.Add("[Fire_Company_Contact_EMail]", objAP_Property_Security.Fire_Company_Contact_EMail);
+            htFindAndReplace.Add("[Fire_Company_Alarm_Panel]", objAP_Property_Security.Fire_Alarm_Monitoring_Fire_Alarm_Panel);
+            htFindAndReplace.Add("[Fire_Company_Account_Pass_Code]", objAP_Property_Security.Fire_Alarm_Monitoring_Account_PassCode);
+            htFindAndReplace.Add("[Fire_Company_Brand]", objAP_Property_Security.Fire_Alarm_Monitoring_Brand);
+            htFindAndReplace.Add("[Fire_Company_Model_Series]", objAP_Property_Security.Fire_Alarm_Monitoring_Model_Series);
             htFindAndReplace.Add("[Guard_Company_Name]", objAP_Property_Security.Guard_Company_Name);
             htFindAndReplace.Add("[Guard_Company_Address1]", objAP_Property_Security.Guard_Company_Address_1);
             htFindAndReplace.Add("[Guard_Company_Address2]", objAP_Property_Security.Guard_Company_Address_2);
@@ -1361,6 +1369,10 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
             strEbdy = strEbdy.Replace("[Fire_Company_Contact_Name]", objAP_Property_Security.Fire_Company_Contact_Name);
             strEbdy = strEbdy.Replace("[Fire_Company_Contact_Telephone]", objAP_Property_Security.Fire_Comapny_Contact_Telephone);
             strEbdy = strEbdy.Replace("[Fire_Company_Contact_EMail]", objAP_Property_Security.Fire_Company_Contact_EMail);
+            strEbdy = strEbdy.Replace("[Fire_Company_Alarm_Panel]", objAP_Property_Security.Fire_Alarm_Monitoring_Fire_Alarm_Panel);
+            strEbdy = strEbdy.Replace("[Fire_Company_Account_Pass_Code]", objAP_Property_Security.Fire_Alarm_Monitoring_Account_PassCode);
+            strEbdy = strEbdy.Replace("[Fire_Company_Brand]", objAP_Property_Security.Fire_Alarm_Monitoring_Brand);
+            strEbdy = strEbdy.Replace("[Fire_Company_Model_Series]", objAP_Property_Security.Fire_Alarm_Monitoring_Model_Series);
             strEbdy = strEbdy.Replace("[Guard_Company_Name]", objAP_Property_Security.Guard_Company_Name);
             strEbdy = strEbdy.Replace("[Guard_Company_Address1]", objAP_Property_Security.Guard_Company_Address_1);
             strEbdy = strEbdy.Replace("[Guard_Company_Address2]", objAP_Property_Security.Guard_Company_Address_2);
@@ -1794,6 +1806,10 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
             htFindAndReplace.Add("[Fire_Company_Contact_Name]", objAP_Property_Security.Fire_Company_Contact_Name);
             htFindAndReplace.Add("[Fire_Company_Contact_Telephone]", objAP_Property_Security.Fire_Comapny_Contact_Telephone);
             htFindAndReplace.Add("[Fire_Company_Contact_EMail]", objAP_Property_Security.Fire_Company_Contact_EMail);
+            htFindAndReplace.Add("[Fire_Company_Alarm_Panel]", objAP_Property_Security.Fire_Alarm_Monitoring_Fire_Alarm_Panel);
+            htFindAndReplace.Add("[Fire_Company_Account_Pass_Code]", objAP_Property_Security.Fire_Alarm_Monitoring_Account_PassCode);
+            htFindAndReplace.Add("[Fire_Company_Brand]", objAP_Property_Security.Fire_Alarm_Monitoring_Brand);
+            htFindAndReplace.Add("[Fire_Company_Model_Series]", objAP_Property_Security.Fire_Alarm_Monitoring_Model_Series);
             htFindAndReplace.Add("[Guard_Company_Name]", objAP_Property_Security.Guard_Company_Name);
             htFindAndReplace.Add("[Guard_Company_Address1]", objAP_Property_Security.Guard_Company_Address_1);
             htFindAndReplace.Add("[Guard_Company_Address2]", objAP_Property_Security.Guard_Company_Address_2);

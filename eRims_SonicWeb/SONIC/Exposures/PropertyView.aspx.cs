@@ -1219,16 +1219,16 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
         // create object for contact
         Property_Contact objContact = new Property_Contact(PK_Property_Contact_ID);
 
-        DataTable dtState = State.SelectByPK(objContact.FK_Fire_Alarm_Monitoring_State).Tables[0];
-        if (dtState.Rows.Count > 0)
-        {
-            DataRow drFKA = dtState.Rows[0];
-            lblContactState.Text = Convert.ToString(drFKA["Fld_State"]);
-        }
-        else
-        {
-            lblContactState.Text = string.Empty;
-        }
+        //DataTable dtState = State.SelectByPK(objContact.FK_Fire_Alarm_Monitoring_State).Tables[0];
+        //if (dtState.Rows.Count > 0)
+        //{
+        //    DataRow drFKA = dtState.Rows[0];
+        //    lblContactState.Text = Convert.ToString(drFKA["Fld_State"]);
+        //}
+        //else
+        //{
+        //    lblContactState.Text = string.Empty;
+        //}
 
         // set values in page controls
         lblName.Text = objContact.Name;
@@ -1238,15 +1238,52 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
         lblAfter_Hours_Contact_Phone.Text = objContact.After_Hours_Contact_Phone;
         lblAfter_Hours_Contact_Cell_Phone.Text = objContact.After_Hours_Contact_Cell_Phone;
 
-        lblCompanyName.Text = objContact.Fire_Alarm_Monitoring_Company_Name; ;
-        lblContactName.Text = objContact.Fire_Alarm_Monitoring_Contact_Name;
-        lblAddress.Text = objContact.Fire_Alarm_Monitoring_Address;
-        lblCity1.Text = objContact.Fire_Alarm_Monitoring_City;
-        lblZipCode.Text = objContact.Fire_Alarm_Monitoring_Zip_Code;
-        lblTelephone1.Text = objContact.Fire_Alarm_Monitoring_Telephone;
-        lblAccountNumber.Text = objContact.Fire_Alarm_Monitoring_Account_Number;
+        //lblCompanyName.Text = objContact.Fire_Alarm_Monitoring_Company_Name; ;
+        //lblContactName.Text = objContact.Fire_Alarm_Monitoring_Contact_Name;
+        //lblAddress.Text = objContact.Fire_Alarm_Monitoring_Address;
+        //lblCity1.Text = objContact.Fire_Alarm_Monitoring_City;
+        //lblZipCode.Text = objContact.Fire_Alarm_Monitoring_Zip_Code;
+        //lblTelephone1.Text = objContact.Fire_Alarm_Monitoring_Telephone;
+        //lblAccountNumber.Text = objContact.Fire_Alarm_Monitoring_Account_Number;
         lblMonthlyMonitoringAmount.Text = clsGeneral.FormatCommaSeperatorCurrency(objContact.Fire_Alarm_Monitoring_Monthly_Amount);
-        lblControlPanel.Text = objContact.Fire_Alarm_Monitoring_Control_Panel;
+        //lblControlPanel.Text = objContact.Fire_Alarm_Monitoring_Control_Panel;
+
+        if (objContact.FK_Building_ID != null)
+        {
+            DataSet ds = clsAP_Property_Security.GetFireAlarmMonitoringDetailByFK_Building(objContact.FK_Building_ID);
+
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                lblCompanyName.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Company_Name"]);
+                lblContactName.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Company_Contact_Name"]);
+                lblAddress.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Company_Address"]);
+                lblCity1.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Company_City"]);
+                lblContactState.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Company_State"]);
+                lblZipCode.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Company_Zip"]);
+                lblTelephone1.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Comapny_Contact_Telephone"]);
+                lblAccountNumber.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Alarm_Monitoring_Account_PassCode"]);
+                lblControlPanel.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Alarm_Monitoring_Fire_Alarm_Panel"]);
+                lblModel_Series.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Alarm_Monitoring_Model_Series"]);
+                lblBrand.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Alarm_Monitoring_Brand"]);
+            }
+            else
+            {
+                lblCompanyName.Text = string.Empty;
+                lblContactName.Text = string.Empty;
+                lblAddress.Text = string.Empty;
+                lblCity1.Text = string.Empty;
+                lblContactState.Text = string.Empty;
+                lblZipCode.Text = string.Empty;
+                lblTelephone1.Text = string.Empty;
+                lblAccountNumber.Text = string.Empty;
+                lblControlPanel.Text = string.Empty;
+                lblModel_Series.Text = string.Empty;
+                lblBrand.Text = string.Empty;
+            }
+        }
+        
+
+
 
         // bind emergency, utility and other contact grid
         BindEmergencyContactGrid();

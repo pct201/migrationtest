@@ -592,6 +592,13 @@ function ValidateFieldsBuildindOwnerSubLease(sender, args) {
         args.IsValid = true;
     }
 }
+
+        function formatCurrencyOnBlur(ctrl) {
+            if (ctrl.value != '') {
+                var val = ctrl.value.replace(",", "").replace(",", "");
+                ctrl.value = formatCurrency(val).replace("$", "");
+            }
+        }
     </script>
     <link href="<%=AppConfig.SiteURL%>greybox/gb_styles.css" rel="stylesheet" type="text/css" />
     <asp:ValidationSummary ID="valBuildingInfo" runat="server" ValidationGroup="vsErrorBuildingInfo"
@@ -5998,7 +6005,8 @@ function ValidateFieldsBuildindOwnerSubLease(sender, args) {
                                                                                 <asp:Label ID="Label75" runat="server" Text=":" Width="31px"></asp:Label>
                                                                             </td>
                                                                             <td align="left" style="width: 28%; padding-left: 3px">
-                                                                                <asp:TextBox runat="server" ID="txtCompanyName" Width="170px" MaxLength="75" />
+                                                                                <%--<asp:TextBox runat="server" ID="txtCompanyName" Width="170px" MaxLength="75" />--%>
+                                                                                <asp:Label runat="server" ID="lblCompanyName" Width="170px" Style="word-wrap: normal; word-break: break-all" />
                                                                             </td>
                                                                             <td align="left" style="width: 18%; padding-left: 9px;">
                                                                                 <asp:Label ID="Label77" runat="server" Text="Contact Name"></asp:Label>
@@ -6008,7 +6016,8 @@ function ValidateFieldsBuildindOwnerSubLease(sender, args) {
                                                                                 <asp:Label ID="Label79" runat="server" Text=":" Width="31px"></asp:Label>
                                                                             </td>
                                                                             <td align="left" style="width: 28%; padding-left: 3px">
-                                                                                <asp:TextBox runat="server" ID="txtContactName" Width="170px" MaxLength="75"></asp:TextBox>
+                                                                                <%--<asp:TextBox runat="server" ID="txtContactName" Width="170px" MaxLength="75"></asp:TextBox>--%>
+                                                                                <asp:Label runat="server" ID="lblContactName" Width="170px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                                                                             </td>
                                                                         </tr>
                                                                         <tr>
@@ -6021,7 +6030,8 @@ function ValidateFieldsBuildindOwnerSubLease(sender, args) {
                                                                             <td align="center">:
                                                                             </td>
                                                                             <td align="left" style="width: 28%; padding-left: 3px">
-                                                                                <asp:TextBox runat="server" ID="txtAddress" Width="170px" MaxLength="75"></asp:TextBox>
+                                                                                <%--<asp:TextBox runat="server" ID="txtAddress" Width="170px" MaxLength="75"></asp:TextBox>--%>
+                                                                                <asp:Label runat="server" ID="lblAddress" Width="170px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                                                                             </td>
                                                                             <td align="left" style="padding-left: 9px;">
                                                                                 <asp:Label ID="Label80" runat="server" Text="City"></asp:Label>
@@ -6030,7 +6040,8 @@ function ValidateFieldsBuildindOwnerSubLease(sender, args) {
                                                                             <td align="center">:
                                                                             </td>
                                                                             <td align="left" style="width: 28%; padding-left: 3px">
-                                                                                <asp:TextBox runat="server" ID="txtCity1" Width="170px" MaxLength="75"></asp:TextBox>
+                                                                                <%--<asp:TextBox runat="server" ID="txtCity1" Width="170px" MaxLength="75"></asp:TextBox>--%>
+                                                                                <asp:Label runat="server" ID="lblCity1" Width="170px" MaxLength="75" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                                                                             </td>
                                                                         </tr>
                                                                         <tr>
@@ -6039,7 +6050,8 @@ function ValidateFieldsBuildindOwnerSubLease(sender, args) {
                                                                             <td align="center">:
                                                                             </td>
                                                                             <td align="left" style="width: 28%; padding-left: 3px">
-                                                                                <asp:DropDownList runat="server" ID="ddlContactState" Width="170px"></asp:DropDownList>
+                                                                                <%--<asp:DropDownList runat="server" ID="ddlContactState" Width="170px"></asp:DropDownList>--%>
+                                                                                <asp:Label runat="server" ID="lblContactState" Width="170px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                                                                             </td>
                                                                             <td align="left" style="padding-left: 9px;">
                                                                                 <asp:Label ID="Label81" runat="server" Text="Zip Code"></asp:Label>
@@ -6048,10 +6060,11 @@ function ValidateFieldsBuildindOwnerSubLease(sender, args) {
                                                                             <td align="center">:
                                                                             </td>
                                                                             <td align="left" style="width: 28%; padding-left: 3px">
-                                                                                <asp:TextBox runat="server" ID="txtZipCode" Width="170px" MaxLength="10" onKeyPress="javascript:return FormatZipCode(event,this.id);"></asp:TextBox>
+                                                                                <%--<asp:TextBox runat="server" ID="txtZipCode" Width="170px" MaxLength="10" onKeyPress="javascript:return FormatZipCode(event,this.id);"></asp:TextBox>
                                                                                 <asp:RegularExpressionValidator ID="RegularExpressionValidator6" runat="server" ErrorMessage="Please Enter Zip Code in xxxxx-xxxx format."
                                                                                     ValidationGroup="vsErrorContact" SetFocusOnError="true" ControlToValidate="txtZipCode"
-                                                                                    ValidationExpression="\b[0-9]{5}-[0-9]{4}\b|\b[0-9]{5}\b" Display="none" Enabled="true" />
+                                                                                    ValidationExpression="\b[0-9]{5}-[0-9]{4}\b|\b[0-9]{5}\b" Display="none" Enabled="true" />--%>
+                                                                                <asp:Label runat="server" ID="lblZipCode" Width="170px" MaxLength="10" Style="word-wrap: normal; word-break: break-all" onKeyPress="javascript:return FormatZipCode(event,this.id);"></asp:Label>
                                                                             </td>
                                                                         </tr>
                                                                         <tr>
@@ -6063,10 +6076,11 @@ function ValidateFieldsBuildindOwnerSubLease(sender, args) {
                                                                             <td align="center">:
                                                                             </td>
                                                                             <td align="left" style="width: 28%; padding-left: 3px">
-                                                                                <asp:TextBox runat="server" ID="txtTelephone1" Width="170px" MaxLength="12" SkinID="txtPhone"></asp:TextBox>
+                                                                                <%--<asp:TextBox runat="server" ID="txtTelephone1" Width="170px" MaxLength="12" SkinID="txtPhone"></asp:TextBox>
                                                                                 <asp:RegularExpressionValidator ID="RegularExpressionValidator5" ControlToValidate="txtTelephone1" ValidationGroup="vsErrorContact"
                                                                                     SetFocusOnError="true" runat="server" ErrorMessage="Please Enter Telephone Number in xxx-xxx-xxxx format."
-                                                                                    Display="none" Enabled="true" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>
+                                                                                    Display="none" Enabled="true" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>--%>
+                                                                                <asp:Label runat="server" ID="lblTelephone1" Width="170px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                                                                             </td>
                                                                             <td align="left" style="padding-left: 9px;"></td>
                                                                             <td align="center"></td>
@@ -6074,12 +6088,13 @@ function ValidateFieldsBuildindOwnerSubLease(sender, args) {
                                                                         </tr>
 
                                                                         <tr>
-                                                                            <td align="left">Account Number&nbsp;<span id="spnAccountNumber" style="color: Red; display: none;" runat="server">*</span>
+                                                                            <td align="left">Account Pass Code&nbsp;<span id="spnAccountNumber" style="color: Red; display: none;" runat="server">*</span>
                                                                             </td>
                                                                             <td align="center">:
                                                                             </td>
                                                                             <td align="left" style="width: 28%; padding-left: 3px">
-                                                                                <asp:TextBox runat="server" ID="txtAccountNumber" Width="170px" MaxLength="75"></asp:TextBox>
+                                                                                <%--<asp:TextBox runat="server" ID="txtAccountNumber" Width="170px" MaxLength="75"></asp:TextBox>--%>
+                                                                                <asp:Label runat="server" ID="lblAccountNumber" Width="170px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                                                                             </td>
                                                                             <td align="left" style="padding-left: 9px;">Monthly Monitoring Amount<span id="spnMonthlyMonitoringAmount" style="color: Red; display: none;" runat="server">*</span>
                                                                             </td>
@@ -6090,16 +6105,35 @@ function ValidateFieldsBuildindOwnerSubLease(sender, args) {
                                                                         </tr>
 
                                                                         <tr>
-                                                                            <td align="left">Control Panel&nbsp;<span id="spnControlPanel" style="color: Red; display: none;" runat="server">*</span>
+                                                                            <td align="left">Fire Alarm Panel&nbsp;<span id="spnControlPanel" style="color: Red; display: none;" runat="server">*</span>
                                                                             </td>
                                                                             <td align="center">:
                                                                             </td>
                                                                             <td align="left" style="width: 28%; padding-left: 3px">
-                                                                                <asp:TextBox runat="server" ID="txtControlPanel" Width="170px" MaxLength="75"></asp:TextBox>
+                                                                                <%--<asp:TextBox runat="server" ID="txtControlPanel" Width="170px" MaxLength="75"></asp:TextBox>--%>
+                                                                                <asp:Label runat="server" ID="lblControlPanel" Width="170px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                                                                             </td>
                                                                             <td align="left" style="padding-left: 9px;"></td>
                                                                             <td align="center"></td>
                                                                             <td align="left" style="width: 28%; padding-left: 3px"></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td align="left">Model/Series
+                                                                            </td>
+                                                                            <td align="center">:
+                                                                            </td>
+                                                                            <td align="left" style="width: 28%; padding-left: 3px">
+                                                                                <%--<asp:TextBox runat="server" ID="txtModel_Series" Width="170px" MaxLength="150"></asp:TextBox>--%>
+                                                                                <asp:Label runat="server" ID="lblModel_Series" Width="170px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
+                                                                            </td>
+                                                                            <td align="left" style="padding-left: 9px;">Brand
+                                                                            </td>
+                                                                            <td align="center">:
+                                                                            </td>
+                                                                            <td align="left" style="width: 28%; padding-left: 3px">
+                                                                                <%--<asp:TextBox runat="server" ID="txtBrand" Width="170px" MaxLength="150"></asp:TextBox>--%>
+                                                                                <asp:Label runat="server" ID="lblBrand" Width="170px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
+                                                                            </td>
                                                                         </tr>
                                                                         <tr height="10">
                                                                             <td></td>

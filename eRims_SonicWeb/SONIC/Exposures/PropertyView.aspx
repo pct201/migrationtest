@@ -4608,7 +4608,7 @@ function ShowAuditPopUp(url) {
                                                                 <td align="left" style="width: 28%; padding-left: 3px"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td align="left">Account Number
+                                                                <td align="left">Account Pass Code
                                                                 </td>
                                                                 <td align="center">:
                                                                 </td>
@@ -4624,7 +4624,7 @@ function ShowAuditPopUp(url) {
                                                                 </td>
                                                             </tr>
                                                             <tr>
-                                                                <td align="left">Control Panel
+                                                                <td align="left">Fire Alarm Panel
                                                                 </td>
                                                                 <td align="center">:
                                                                 </td>
@@ -4634,6 +4634,22 @@ function ShowAuditPopUp(url) {
                                                                 <td align="left" style="padding-left: 9px;"></td>
                                                                 <td align="center"></td>
                                                                 <td align="left" style="width: 28%; padding-left: 3px"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left">Model/Series
+                                                                </td>
+                                                                <td align="center">:
+                                                                </td>
+                                                                <td align="left" style="width: 28%; padding-left: 3px">
+                                                                    <asp:Label runat="server" ID="lblModel_Series" Width="170px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
+                                                                </td>
+                                                                <td align="left" style="padding-left: 9px;">Brand
+                                                                </td>
+                                                                <td align="center">:
+                                                                </td>
+                                                                <td align="left" style="width: 28%; padding-left: 3px">
+                                                                    <asp:Label runat="server" ID="lblBrand" Width="170px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
+                                                                </td>
                                                             </tr>
                                                             <tr>
                                                                 <td align="center" colspan="6">
