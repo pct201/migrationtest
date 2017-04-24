@@ -311,10 +311,10 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                         {
                             ReportSendMail.strConn = ConfigurationManager.ConnectionStrings[i].ConnectionString;
 
-                            bool bSendMailWeekly = false;
-                            bSendMailWeekly = CheckFirstDayOfWeek(false);
+                            //bool bSendMailWeekly = false;
+                            //bSendMailWeekly = CheckFirstDayOfWeek(false);
 
-                            if (bSendMailWeekly && _AllowTrainingReminder)
+                            if (DateTime.Now.DayOfWeek == DayOfWeek.Monday && _AllowTrainingReminder)
                             {
                                 //Send Weekly Mail To the Associate For Remaining Training
                                 SendMailForWeeklyReminderOfRemainingTrainingToEmployees();
@@ -394,10 +394,10 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                                 //For 1st and 2nd month of quarter send mail for first day of week
                                 if (quarterMonth % 3 != 0)
                                 {
-                                    bool bSendMail = false;
-                                    bSendMail = CheckFirstDayOfWeek(false);
+                                    //bool bSendMail = false;
+                                    //bSendMail = CheckFirstDayOfWeek(false);
 
-                                    if (bSendMail)
+                                    if (quarterDate.DayOfWeek == DayOfWeek.Monday)
                                     {
                                         SendMailToEarlyAlertLocationManagers();
                                         SendMailToRLCMLocationManagers();
