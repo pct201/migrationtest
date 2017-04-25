@@ -150,7 +150,7 @@
                                  :
                             </td>
                              <td align="left" valign="top">
-                                 <asp:RadioButtonList ID="rdoSonic_Event" runat="server"  Width="80%">
+                                 <asp:RadioButtonList ID="rdoSonic_Event" runat="server"  Width="80%" AutoPostBack="true" OnSelectedIndexChanged="rdoSonic_Event_SelectedIndexChanged">
                                     <asp:ListItem Text="Sonic" Value="Y"></asp:ListItem>
                                     <asp:ListItem Text="Acadian" Value="N"></asp:ListItem>
                                     <asp:ListItem Text="All" Value="A" Selected="True"></asp:ListItem>

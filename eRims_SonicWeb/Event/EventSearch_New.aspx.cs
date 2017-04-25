@@ -217,7 +217,8 @@ public partial class Event_EventSearch_New : clsBasePage
     private void BindDropDownList()
     {
         //ComboHelper.FillState(new DropDownList[] { drpState }, true);
-        ComboHelper.FillEventType(new DropDownList[] { drpEventType }, true);
+        //ComboHelper.FillEventType(new DropDownList[] { drpEventType }, true);
+        FillEventType(new DropDownList[] { drpEventType }, true, "ALL");
         //ComboHelper.FillLU_Camera_Type(new DropDownList[] { drpCameraType }, true);
         //ComboHelper.FillLU_Alarm_Type(new DropDownList[] { drpAlarmType }, true);
         //ComboHelper.FillLocation(new DropDownList[] { drpLocation }, true);
@@ -519,6 +520,44 @@ public partial class Event_EventSearch_New : clsBasePage
         context.Response.End();
     }
 
+
+    /// <summary>
+    /// Fill Event Type
+    /// </summary>
+    /// <param name="dropDowns"></param>
+    /// <param name="booladdSelectAsFirstElement"></param>
+    public static void FillEventType(DropDownList[] dropDowns, bool booladdSelectAsFirstElement, string ReportedBy)
+    {
+        DataSet dsData = clsLU_Event_Type.SelectAll();
+
+        if (ReportedBy == "ACI")
+        {
+            dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y' AND Is_Actionable = 'Y' AND Fld_Desc <> 'FROI Event/Other' AND Fld_Desc <> 'Vehicle Damage' AND Fld_Desc <> 'Slip and Fall'";
+        }
+        else if (ReportedBy == "Sonic")
+        {
+            dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y' AND Is_Actionable = 'Y' AND Fld_Desc <> 'FROI Event/Other' AND Fld_Desc <> 'Friendly Voice Down' AND Fld_Desc <> 'Stern voice Down'";
+        }
+        else
+        {
+            dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y'";
+        }
+
+        foreach (DropDownList ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Fld_Desc";
+            ddlToFill.DataValueField = "PK_LU_Event_Type";
+            ddlToFill.DataSource = dsData.Tables[0].DefaultView;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem("-- Select --", "0"));
+            }
+        }
+    }
+
     #endregion
 
     #region "Grid Events"
@@ -647,4 +686,19 @@ public partial class Event_EventSearch_New : clsBasePage
     }
 
     #endregion
+    protected void rdoSonic_Event_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (rdoSonic_Event.SelectedValue == "Y")
+        {
+            FillEventType(new DropDownList[] { drpEventType }, true, "Sonic");
+        }
+        else if (rdoSonic_Event.SelectedValue == "N")
+        {
+            FillEventType(new DropDownList[] { drpEventType }, true, "ACI");
+        }
+        else
+        {
+            FillEventType(new DropDownList[] { drpEventType }, true, "ALL");
+        }
+    }
 }
