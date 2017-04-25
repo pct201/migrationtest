@@ -2304,22 +2304,33 @@ public partial class Event_Event_New : clsBasePage
                 intImagescount++;
             }
 
-            //DataTable dtInvestigationImages = ds_Event.Tables[6];
+            DataTable dtInvestigationImages = ds_Event.Tables[6];
 
-            //if (!string.IsNullOrEmpty(_strAttachmentName) && File.Exists(AppConfig.DocumentsPath + "EventImage\\" + _strAttachmentName))
-            //{
-            //    lstImages.Insert(intImagescount, AppConfig.DocumentsPath + "EventImage\\" + _strAttachmentName);
-            //    intImagescount++;
-            //}
+            if (!string.IsNullOrEmpty(_strAttachmentName) && File.Exists(AppConfig.DocumentsPath + "EventImage\\" + _strAttachmentName))
+            {
+                lstImages.Insert(intImagescount, AppConfig.DocumentsPath + "EventImage\\" + _strAttachmentName);
+                intImagescount++;
+            }
 
-            //foreach (DataRow drEvent_Images in dtInvestigationImages.Rows)
-            //{
-            //    if (!string.IsNullOrEmpty(Convert.ToString(drEvent_Images["Attachment_Name"])) && File.Exists(AppConfig.SitePath + "Documents\\Attach\\" + drEvent_Images["Attachment_Name"]))
-            //    {
-            //        lstImages.Insert(intImagescount, AppConfig.SitePath + "Documents\\Attach\\" + drEvent_Images["Attachment_Name"]);
-            //        intImagescount++;
-            //    }
-            //}
+            foreach (DataRow drEvent_Images in dtInvestigationImages.Rows)
+            {
+                if (!string.IsNullOrEmpty(Convert.ToString(drEvent_Images["Attachment_Name"])) && File.Exists(AppConfig.SitePath + "Documents\\Attach\\" + drEvent_Images["Attachment_Name"]))
+                {
+                    lstImages.Insert(intImagescount, AppConfig.SitePath + "Documents\\Attach\\" + drEvent_Images["Attachment_Name"]);
+                    intImagescount++;
+                }
+            }
+
+            DataTable dtEventAttachment = ds_Event.Tables[9];
+
+            foreach (DataRow drEvent_Attachment in dtEventAttachment.Rows)
+            {
+                if (!string.IsNullOrEmpty(Convert.ToString(drEvent_Attachment["Attachment_Name"])) && File.Exists(AppConfig.SitePath + "Documents\\Attach\\" + drEvent_Attachment["Attachment_Name"]))
+                {
+                    lstImages.Insert(intImagescount, AppConfig.SitePath + "Documents\\Attach\\" + drEvent_Attachment["Attachment_Name"]);
+                    intImagescount++;
+                }
+            }
 
             string[] strTemp = lstImages.ToArray();
 
