@@ -320,6 +320,14 @@ public partial class Event_Event_New : clsBasePage
                     //ImgEvent_Image.Height = 10;
                     chkNonActionable.Enabled = false;
                     trImgEvent_Image.Style.Add("display", "none");
+
+                    DataSet dsACIID = clsEvent.GetLatestACIEventID();
+
+                    if (dsACIID != null && dsACIID.Tables.Count > 0 && dsACIID.Tables[0].Rows.Count > 0)
+                    {
+                        txtACI_EventID.Text = Convert.ToString(dsACIID.Tables[0].Rows[0]["New_ACI_EventID"]);
+                    }
+
                 }
 
                 BindACINoteGrid(ctrlPageAcadianNotes.CurrentPage, ctrlPageAcadianNotes.PageSize);

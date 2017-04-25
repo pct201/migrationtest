@@ -1070,7 +1070,7 @@
                                                         <td align="center" width="4%" valign="top">:
                                                         </td>
                                                         <td align="left" width="28%" valign="top">
-                                                            <asp:TextBox ID="txtACI_EventID" runat="server" MaxLength="30" Width="170px"></asp:TextBox>
+                                                            <asp:TextBox ID="txtACI_EventID" runat="server" MaxLength="30" Width="170px" Enabled="false"></asp:TextBox>
                                                         </td>
                                                     </tr>
                                                     <%--<tr>

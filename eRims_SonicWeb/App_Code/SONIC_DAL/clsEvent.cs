@@ -2699,5 +2699,15 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
+        public static DataSet GetLatestACIEventID()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("GetLatestACIEventID");
+
+            dbCommand.CommandTimeout = 100000;
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
     }
 }
