@@ -43,6 +43,7 @@ namespace ERIMS.DAL
         private decimal? _FK_LU_Contract_Type;
         private int? _IS_SRM;
         private int? _IS_GC;
+        private decimal? _FK_LU_User_Status;
 
         #endregion
 
@@ -315,6 +316,15 @@ namespace ERIMS.DAL
             set { _IS_GC = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the Fk_LU_User_Status value.
+        /// </summary>
+        public decimal? FK_LU_User_Status
+        {
+            get { return _FK_LU_User_Status; }
+            set { _FK_LU_User_Status = value; }
+        }
+
         #endregion
 
         #region Default Constructors
@@ -492,6 +502,11 @@ namespace ERIMS.DAL
                 this._IS_GC = null;
             else
                 this._IS_GC = (int?)drContractor_Security["IS_GC"];
+
+            if (drContractor_Security["FK_LU_User_Status"] == DBNull.Value)
+                this._FK_LU_User_Status = null;
+            else
+                this._FK_LU_User_Status = (decimal)drContractor_Security["FK_LU_User_Status"];
         }
 
 
@@ -623,6 +638,8 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "IS_SRM", DbType.Int32, this._IS_SRM);
 
             db.AddInParameter(dbCommand, "IS_GC", DbType.Int32, this._IS_GC);
+
+            db.AddInParameter(dbCommand, "FK_LU_User_Status", DbType.Decimal, clsGeneral.UserStatus.Active);
 
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -847,6 +864,8 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "IS_GC", DbType.Int32, this._IS_GC);
 
+            db.AddInParameter(dbCommand, "FK_LU_User_Status", DbType.Decimal, this._FK_LU_User_Status);
+
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
             return returnValue;
         }
@@ -934,6 +953,8 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "ActionType", DbType.String, ActionType);
 
             db.AddInParameter(dbCommand, "PK_Contactor_Security", DbType.Decimal, this._PK_Contactor_Security);
+
+            db.AddInParameter(dbCommand, "FK_LU_User_Status", DbType.Decimal, clsGeneral.UserStatus.Active);
 
             db.AddOutParameter(dbCommand, "Status", DbType.String, 10);
             // Execute the query and return the new identity value
@@ -1031,6 +1052,21 @@ namespace ERIMS.DAL
 
             return db.ExecuteDataSet(dbCommand);
         }
+
+
+        /// <summary>
+        /// Selects all Maintenance type user records from the Contractor_Security table.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static DataSet SelectAllMaintenanceUser()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Contractor_SecuritySelectAllMaintenanceUser");
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+
+
         
         /// <summary>
         /// select user with EVP OR Management Role
@@ -1050,6 +1086,7 @@ namespace ERIMS.DAL
         }
 
     
+
 
     }
 }

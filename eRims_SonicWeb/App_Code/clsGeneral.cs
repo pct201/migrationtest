@@ -41,6 +41,17 @@ public class clsGeneral : System.Web.UI.Page
         Edit = 1
     }
 
+    /// <summary>
+    /// User Status Enum,.
+    /// </summary>
+    public enum UserStatus
+    {        
+        InActive=3,        
+        Pending=2,
+        Active=1
+    }
+
+
     #region " Get or Set QueryString"
     public static Decimal GetQueryStringID(string strID)
     {
@@ -2253,13 +2264,20 @@ public class clsGeneral : System.Web.UI.Page
         mMailMessage.IsBodyHtml = boolIsHTML;
         // Set the priority of the mail message to normal
         mMailMessage.Priority = MailPriority.Normal;
-        
+
         mMailMessage.Headers.Add("Message-ID", PK_Facility_Construction_Maintenance_Item + "-" + Guid.NewGuid() + "@me.com ");
         // Instantiate a new instance of SmtpClient
         SmtpClient mSmtpClient = new SmtpClient(AppConfig.SMTPServer, Convert.ToInt32(AppConfig.Port));
         mSmtpClient.EnableSsl = true;
         mSmtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
         mSmtpClient.Credentials = new NetworkCredential(strFrom, AppConfig.SMTPpwd);
+        
+        //mMailMessage.Headers.Add("Message-ID", PK_Facility_Construction_Maintenance_Item + "#-#" + Guid.NewGuid() + "@me.com ");
+        //// Instantiate a new instance of SmtpClient
+        //SmtpClient mSmtpClient = new SmtpClient(AppConfig.MaintenanceSMTPServer, Convert.ToInt32(AppConfig.MaintenanceSMTPPort));
+        //mSmtpClient.EnableSsl = Convert.ToBoolean(AppConfig.MaintenanceSMTPEnableSsl);
+        //mSmtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+        //mSmtpClient.Credentials = new NetworkCredential(strFrom, AppConfig.MaintenanceSMTPPswd);
 
         try
         {

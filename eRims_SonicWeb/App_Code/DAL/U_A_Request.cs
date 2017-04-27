@@ -661,6 +661,8 @@ namespace ERIMS.DAL
             else
                 db.AddInParameter(dbCommand, "Cell_Phone_Number", DbType.String, this._Cell_Phone_Number);
 
+            db.AddInParameter(dbCommand, "Updated_By_Table", DbType.String, "Security");
+
 			// Execute the query and return the new identity value
 			int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
 
@@ -799,6 +801,8 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Cell_Phone_Number", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Cell_Phone_Number", DbType.String, this._Cell_Phone_Number);
+
+            db.AddInParameter(dbCommand, "Updated_By_Table", DbType.String, "Security");
 
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));

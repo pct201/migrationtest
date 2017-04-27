@@ -662,7 +662,8 @@ public partial class Administrator_Contractor_Security : clsBasePage
         PK_Contactor_Security = Convert.ToInt32(objContractorSecurity.PK_Contactor_Security);
         txtLoginUserName.Text = Convert.ToString(objContractorSecurity.User_Name);
         ddlDashboardType.SelectedValue = Convert.ToString(objContractorSecurity.Dashboard_Type);
-        ddlContractType.SelectedValue = objContractorSecurity.FK_LU_Contract_Type.HasValue ? Convert.ToString(objContractorSecurity.FK_LU_Contract_Type) : "0";
+        //ddlContractType.SelectedValue = objContractorSecurity.FK_LU_Contract_Type.HasValue ? Convert.ToString(objContractorSecurity.FK_LU_Contract_Type) : "0";
+        clsGeneral.SetDropdownValue(ddlContractType,objContractorSecurity.FK_LU_Contract_Type,true);
         txtVendorNumber.Text = Convert.ToString(objContractorSecurity.Vendor_Number);
 
         if (!string.IsNullOrEmpty(objContractorSecurity.Password))
