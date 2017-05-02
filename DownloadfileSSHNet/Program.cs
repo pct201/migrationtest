@@ -107,6 +107,11 @@ namespace DownloadfileSSHNet
 
             try
             {
+                using (var myFile = File.Create(LocalDirectory + "/" + NewLocalFileName))
+                {
+                    myFile.Close();
+                }
+
                 WriteLog("SFTP sever connection established", _strSFTPLogPath, false);
                 client.Connect();
                 WriteLog("SFTP sever Connected", _strSFTPLogPath, false);
@@ -121,6 +126,9 @@ namespace DownloadfileSSHNet
                 }
                 client.Disconnect();
                 WriteLog("SFTP sever connection Closed", _strSFTPLogPath, false);
+
+                
+                File.WriteAllText(LocalDirectory + "/" + "temp.txt","Dummy");
 
                 return true;
             }
@@ -148,9 +156,9 @@ namespace DownloadfileSSHNet
 
                 foreach (var file in files)
                 {
-                    using (Stream file1 = new FileStream(file, FileMode.Open))
+                    using (MemoryStream file1 = new MemoryStream(File.ReadAllBytes(file)))
                     {
-                        client.UploadFile(file1, ftpDirectory + "/" + System.DateTime.Now.ToString("MMddyyhhmmss") + DestiFileName, null);
+                        client.UploadFile(file1, ftpDirectory + "/" + System.DateTime.Now.ToString("MMddyyhhmmss") + DestiFileName, null);                        
                     }                    
                 }                
                 client.Disconnect();
