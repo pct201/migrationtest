@@ -6905,7 +6905,309 @@ public class ComboHelper
         }
     }
 
-/////////////////////////////////////ad-Hoc///////////////////////////////////////////////
+    /// <summary>
+    /// Used to bind Work to be completed By drop down of Management Task Process
+    /// </summary>
+    /// <param name="dropDownList"></param>
+    /// <param name="p"></param>
+    public static void FillManagement_Task_Process(DropDownList[] dropDownList, bool p)
+    {
+        DataSet dsData = clsLU_Management_Task_Process.SelectAll();
+        dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y'";
+        foreach (DropDownList ddlToFill in dropDownList)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Fld_Desc";
+            ddlToFill.DataValueField = "PK_LU_Management_Task_Process";
+            ddlToFill.DataSource = dsData.Tables[0].DefaultView;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (p)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+    public static void FillManagement_Task_Process(ListBox[] LstBox, bool booladdSelectAsFirstElement)
+    {
+        DataSet dsData = ERIMS.DAL.clsLU_Management_Task_Process.SelectAll();
+        foreach (ListBox lstBox in LstBox)
+        {
+            lstBox.Items.Clear();
+            lstBox.DataTextField = "Fld_Desc";
+            lstBox.DataValueField = "PK_LU_Management_Task_Process";
+            lstBox.DataSource = dsData;
+            lstBox.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                lstBox.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Fill Building by Location.
+    /// </summary>
+    /// <param name="lstBox"></param>
+    /// <param name="booladdSelectAsFirstElement"></param>
+    public static void FillBuildingByFK_LU_Location(DropDownList[] dropDowns, bool booladdSelectAsFirstElement, decimal FK_LU_Location_ID)
+    {
+        DataSet dsData = ERIMS.DAL.clsACI_Link_LU_Location.GetBuildingByFK_LU_Location_ID(FK_LU_Location_ID);
+        foreach (DropDownList lstToFill in dropDowns)
+        {
+            lstToFill.Items.Clear();
+            lstToFill.DataTextField = "Building_Occupacy";
+            lstToFill.DataValueField = "PK_Building_ID";
+            lstToFill.DataSource = dsData.Tables[0].DefaultView;
+            lstToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                lstToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+    public static void FillCause_Investigation(DropDownList[] dropDownList, bool p)
+    {
+        DataSet dsData = clsLU_Cause_Investigation.SelectAll();
+        dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y'";
+        foreach (DropDownList ddlToFill in dropDownList)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Fld_Desc";
+            ddlToFill.DataValueField = "PK_LU_Cause_Investigation";
+            ddlToFill.DataSource = dsData.Tables[0].DefaultView;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (p)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Used to bind Cause Investigation for Event
+    /// </summary>
+    /// <param name="dropDownList"></param>
+    /// <param name="p"></param>
+    public static void FillCause_Investigation(ListBox[] LstBox, bool booladdSelectAsFirstElement)
+    {
+        DataSet dsData = ERIMS.DAL.clsLU_Cause_Investigation.SelectAll();
+        foreach (ListBox lstBox in LstBox)
+        {
+            lstBox.Items.Clear();
+            lstBox.DataTextField = "Fld_Desc";
+            lstBox.DataValueField = "PK_LU_Cause_Investigation";
+            lstBox.DataSource = dsData;
+            lstBox.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                lstBox.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+    public static void FillVideoRequestType(DropDownList[] dropDownList, bool p)
+    {
+        foreach (DropDownList ddlToFill in dropDownList)
+        {
+            ddlToFill.Items.Clear();
+            //check require to add "-- select --" at first item of dropdown.
+            if (p)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, ""));
+            }
+            ddlToFill.Items.Insert(1, new ListItem("SRE Video Request", "SRE Video Request"));
+            ddlToFill.Items.Insert(2, new ListItem("3rd Party Request", "3rd Party Request"));
+        }
+    }
+
+    public static void FillVideoRequestStatus(DropDownList[] dropDownList, bool p)
+    {
+        DataSet dsData = ERIMS.DAL.clsLU_Video_Tracking_Status.SelectAll();
+        dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y'";
+        foreach (DropDownList ddlToFill in dropDownList)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Fld_Desc";
+            ddlToFill.DataValueField = "PK_LU_Video_Tracking_Status";
+            ddlToFill.DataSource = dsData.Tables[0].DefaultView;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (p)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+    /// <summary> 
+    /// Used to bind Course Name 
+    /// </summary> 
+    /// <param name="dropDownList"></param> 
+    /// <param name="p"></param> 
+    public static void FillCorseName(ListBox[] dropDowns, bool booladdSelectAsFirstElement)
+    {
+        DataSet dsData = Sonic_U_Training_Classes.SelectAll();
+        dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y'";
+        foreach (ListBox ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Class_Name";
+            ddlToFill.DataValueField = "Class_Name";
+            ddlToFill.DataSource = dsData.Tables[0].DefaultView;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown. 
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+    /// <summary> 
+    /// FillTrainingType 
+    /// </summary> 
+    /// <param name="LstBox"></param> 
+    /// <param name="booladdSelectAsFirstElement"></param> 
+    public static void FillTrainingType(ListBox[] LstBox, bool booladdSelectAsFirstElement)
+    {
+        foreach (ListBox li in LstBox)
+        {
+            li.Items.Clear();
+            li.Items.Add(new ListItem("Manual", "Manual"));
+            li.Items.Add(new ListItem("Automated", "Automated"));
+
+            //check require to add "-- select --" at first item of dropdown. 
+            if (booladdSelectAsFirstElement)
+            {
+                li.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+    /// <summary> 
+    /// Used tp bind Region from Lu_Location Table 
+    /// </summary> 
+    /// <param name="dropDowns">Dropdown Lists</param> 
+    /// <param name="addSelectAsFirstElement">Require to add "--Select--" as a first element of dropdown</param> 
+    public static void FillRegionByRLCM(DropDownList[] dropDowns, decimal fK_Employee_Id, bool booladdSelectAsFirstElement)
+    {
+        DataTable dtData = ERIMS.DAL.LU_Location.GetRegionListByRLCM(fK_Employee_Id).Tables[0];
+        foreach (DropDownList ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "region";
+            ddlToFill.DataValueField = "region";
+            ddlToFill.DataSource = dtData;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown. 
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+    /// <summary> 
+    /// Used to bind market By RLCM and Region 
+    /// </summary> 
+    /// <param name="dropDowns">Dropdown Lists</param> 
+    /// <param name="addSelectAsFirstElement">Require to add "--Select--" as a first element of dropdown</param> 
+    public static void FillMarketByRLCMAndRegion(DropDownList[] dropDowns, decimal fK_Employee_Id, string region, bool booladdSelectAsFirstElement)
+    {
+        DataTable dtData = ERIMS.DAL.LU_Location.GetMarketListByRLCMAndRegion(fK_Employee_Id, region).Tables[0];
+        foreach (DropDownList ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Market";
+            ddlToFill.DataValueField = "PK_LU_Market";
+            ddlToFill.DataSource = dtData;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown. 
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+    /// <summary> 
+    /// Used to bind market By RLCM and Region 
+    /// </summary> 
+    /// <param name="dropDowns">Dropdown Lists</param> 
+    /// <param name="addSelectAsFirstElement">Require to add "--Select--" as a first element of dropdown</param> 
+    public static void FillLocationByRLCMRegionMarket(DropDownList[] dropDowns, decimal fK_Employee_Id, string region, decimal fk_LU_Market, bool booladdSelectAsFirstElement)
+    {
+        DataTable dtData = ERIMS.DAL.LU_Location.GetLocationByRLCMRegionMarket(fK_Employee_Id, region, fk_LU_Market).Tables[0];
+        foreach (DropDownList ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Location";
+            ddlToFill.DataValueField = "PK_LU_Location_ID";
+            ddlToFill.DataSource = dtData;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown. 
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+    /// <summary> 
+    /// Used to bind Associate By RLCM and Region 
+    /// </summary> 
+    /// <param name="dropDowns">Dropdown Lists</param> 
+    /// <param name="addSelectAsFirstElement">Require to add "--Select--" as a first element of dropdown</param> 
+    public static void FillAssociateByRLCMRegionMarketLocation(DropDownList[] dropDowns, decimal fK_Employee_Id, string region, decimal fk_LU_Market, decimal pk_LU_Location, bool booladdSelectAsFirstElement)
+    {
+        DataTable dtData = ERIMS.DAL.LU_Location.GetAssociateByRLCMRegionMarketLocation(fK_Employee_Id, region, fk_LU_Market, pk_LU_Location).Tables[0];
+        foreach (DropDownList ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "NAME";
+            ddlToFill.DataValueField = "PK_Employee_ID";
+            ddlToFill.DataSource = dtData;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown. 
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Fill Cost Center Drop Down
+    /// </summary>
+    /// <param name="dropDowns"></param>
+    /// <param name="booladdSelectAsFirstElement"></param>
+    public static void FillJobCode_New(DropDownList[] dropDowns, bool booladdSelectAsFirstElement)
+    {
+        DataTable dtData = ERIMS.DAL.clsLU_Job_Code.SelectAll().Tables[0];
+
+        foreach (DropDownList ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Code";
+            ddlToFill.DataValueField = "pk_lu_job_code";
+            ddlToFill.DataSource = dtData;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+ 
+    /////////////////////////////////////ad-Hoc///////////////////////////////////////////////
 
     /// <summary>
     /// Used to bind Course Name
@@ -7053,4 +7355,5 @@ public class ComboHelper
     }
 
     //////////////////////////// New Screen for Sonic_U_Training_Required_By_Job_Code //////////////////////
+
 }
