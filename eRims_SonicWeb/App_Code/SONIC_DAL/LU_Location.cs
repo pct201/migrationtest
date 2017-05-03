@@ -1099,6 +1099,106 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
+        /// <summary> 
+        /// Get top one FK_Cost_Center  by Location 
+        /// </summary> 
+        /// <param name="pK_LU_Location_ID"></param> 
+        /// <returns></returns> 
+        public static int SelectFKCostCenterByLocation(decimal pK_LU_Location_ID)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Lu_Location_SelectFKCostCenterByLocation");
+
+            db.AddInParameter(dbCommand, "FK_LU_Location_ID", DbType.Decimal, pK_LU_Location_ID);
+
+            int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
+            return returnValue;
+        }
+
+        /// <summary> 
+        /// Get Region List By RLCM 
+        /// </summary> 
+        /// <returns></returns> 
+        public static DataSet GetRegionListByRLCM(decimal fk_Employee_Id)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Region_By_RLCM");
+
+            db.AddInParameter(dbCommand, "FK_Employee_Id", DbType.Decimal, fk_Employee_Id);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        /// <summary> 
+        /// Get Market List By RLCM and Region 
+        /// </summary> 
+        /// <returns></returns> 
+        public static DataSet GetMarketListByRLCMAndRegion(decimal fk_Employee_Id, string region)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("GetMarketByRLCMAndRegion");
+
+            db.AddInParameter(dbCommand, "FK_Employee_Id", DbType.Decimal, fk_Employee_Id);
+            db.AddInParameter(dbCommand, "Region", DbType.String, region);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        /// <summary> 
+        /// Get Market List By RLCM,Region and MArket 
+        /// </summary> 
+        /// <returns></returns> 
+        public static DataSet GetLocationByRLCMRegionMarket(decimal fk_Employee_Id, string region, decimal fk_LU_Market)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("GetLocationByRLCM_Region_Market");
+
+            db.AddInParameter(dbCommand, "FK_Employee_Id", DbType.Decimal, fk_Employee_Id);
+            db.AddInParameter(dbCommand, "Region", DbType.String, region);
+            db.AddInParameter(dbCommand, "FK_LU_Market", DbType.Decimal, fk_LU_Market);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        /// <summary> 
+        /// Get Market List By RLCM,Region,Market,Location 
+        /// </summary> 
+        /// <returns></returns> 
+        public static DataSet GetAssociateByRLCMRegionMarketLocation(decimal fk_Employee_Id, string region, decimal fk_LU_Market, decimal pk_LU_Location)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("GetAssociateByRLCM_Region_Market_Location");
+
+            db.AddInParameter(dbCommand, "FK_Employee_Id", DbType.Decimal, fk_Employee_Id);
+            db.AddInParameter(dbCommand, "Region", DbType.String, region);
+            db.AddInParameter(dbCommand, "FK_LU_Market", DbType.Decimal, fk_LU_Market);
+            db.AddInParameter(dbCommand, "PK_LU_Location_ID", DbType.Decimal, pk_LU_Location);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        /// <summary> 
+        /// Get Certificate Data 
+        /// </summary> 
+        /// <returns></returns> 
+        public static DataSet GetRLCMCertificateData(decimal fk_Employee_Id, string region, decimal fk_LU_Market, decimal pk_LU_Location, decimal pk_Employee_ID, int year, int quarter)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("GetRCRACertificateData");
+
+            db.AddInParameter(dbCommand, "FK_Employee_Id", DbType.Decimal, fk_Employee_Id);
+            db.AddInParameter(dbCommand, "Region", DbType.String, region);
+            db.AddInParameter(dbCommand, "FK_LU_Market", DbType.Decimal, fk_LU_Market);
+            db.AddInParameter(dbCommand, "PK_LU_Location_ID", DbType.Decimal, pk_LU_Location);
+            db.AddInParameter(dbCommand, "PK_Employee_ID", DbType.Decimal, pk_Employee_ID);
+            db.AddInParameter(dbCommand, "Year", DbType.Int16, year);
+            db.AddInParameter(dbCommand, "Quarter", DbType.Int16, quarter);
+
+            return db.ExecuteDataSet(dbCommand);
+        } 
+
+
+
         #endregion
     }
 }
