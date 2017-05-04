@@ -4723,7 +4723,7 @@ public partial class Exposures_Property : clsBasePage
     /// </summary>
     private void DisableAddChangeBuildingLocation()
     {
-        string[] strAddChangeBuildingUser = strAddChangeBuildingUser = System.Configuration.ConfigurationManager.AppSettings["AddOrChangeBuildingUser"].ToString().Split(',');
+        string[] strAddChangeBuildingUser = System.Configuration.ConfigurationManager.AppSettings["AddOrChangeBuildingUser"].ToString().Split(new string[]{","},StringSplitOptions.RemoveEmptyEntries);
         bool right = false;
 
         foreach (string user in strAddChangeBuildingUser)
