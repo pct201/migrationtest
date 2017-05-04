@@ -235,6 +235,7 @@ public partial class Exposures_Property : clsBasePage
                 SetValidationsAdditionalInsureds();
                 SetValidationsLossPayee();
                 SetValidationBuildingOwnershipSubLease();
+                DisableAddChangeBuildingLocation();
 
                 if (Request.QueryString["build"] != null)
                 {
@@ -2567,6 +2568,8 @@ public partial class Exposures_Property : clsBasePage
             btnShowChangeBuildingLocationScreen.Style["display"] = "";
         }
 
+        DisableAddChangeBuildingLocation();
+
         //ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "", "javascript:seLocationBuildingNumber('" + strLocationCode + "');", true);
     }
 
@@ -4713,6 +4716,30 @@ public partial class Exposures_Property : clsBasePage
 
         hdnControlIDsContact.Value = strCtrlsIDsContact;
         hdnErrorMsgsContact.Value = strMessagesContact;
+    }
+
+    /// <summary>
+    /// Disables the add change building location.
+    /// </summary>
+    private void DisableAddChangeBuildingLocation()
+    {
+        string[] strAddChangeBuildingUser = strAddChangeBuildingUser = System.Configuration.ConfigurationManager.AppSettings["AddOrChangeBuildingUser"].ToString().Split(',');
+        bool right = false;
+
+        foreach (string user in strAddChangeBuildingUser)
+        {
+            if (clsSession.UserName == user)
+            {
+                right = true;
+                break;
+            }
+        }
+
+        if (right == false)
+        {
+            btnShowChangeBuildingLocationScreen.OnClientClick = "alert('You don\\'t have rights to perform this action, Please Contact Tim Hallice'); return false;";
+            lnkAddNewBuilding.OnClientClick = "alert('You don\\'t have rights to perform this action, Please Contact Tim Hallice'); return false;";
+        }
     }
 
     /// <summary>
