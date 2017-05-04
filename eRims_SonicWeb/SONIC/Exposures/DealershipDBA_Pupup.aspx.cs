@@ -141,6 +141,7 @@ public partial class SONIC_RealEstate_DealershipDBA_Pupup : clsBasePage
             LU_Location objLocation = new LU_Location(_PK_LU_Location);
 
             txtDba.Text = objLocation.dba;
+            txtSecondDBA.Text = objLocation.Secondary_dba;
             //txtLegalEntity.Text = objLocation.legal_entity;
             txtAddress1.Text = objLocation.Address_1;
             txtAddress2.Text = objLocation.Address_2;
@@ -259,6 +260,7 @@ public partial class SONIC_RealEstate_DealershipDBA_Pupup : clsBasePage
     {
         objLocation.PK_LU_Location_ID = _PK_LU_Location;
         objLocation.dba = Convert.ToString(txtDba.Text);
+        objLocation.Secondary_dba = Convert.ToString(txtSecondDBA.Text);
         //objLocation.legal_entity = Convert.ToString(txtLegalEntity.Text);
         objLocation.Address_1 = Convert.ToString(txtAddress1.Text);
         objLocation.Address_2 = Convert.ToString(txtAddress2.Text);

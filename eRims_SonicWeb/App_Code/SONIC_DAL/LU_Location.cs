@@ -40,6 +40,7 @@ namespace ERIMS.DAL
         private string _County;
         private string _Web_site;
         private string _dba;
+        private string _Secondary_dba;
         private string _legal_entity;
         private decimal _FK_Regional_Loss_Control_ID;
         private string _ADP_DMS;
@@ -192,6 +193,14 @@ namespace ERIMS.DAL
             set { _dba = value; }
         }
 
+        /// <summary> 
+        /// Gets or sets the dba value.
+        /// </summary>
+        public string Secondary_dba
+        {
+            get { return _Secondary_dba; }
+            set { _Secondary_dba = value; }
+        }
 
         /// <summary> 
         /// Gets or sets the legal_entity value.
@@ -353,6 +362,7 @@ namespace ERIMS.DAL
             this._County = "";
             this._Web_site = "";
             this._dba = "";
+            this._Secondary_dba = "";
             this._legal_entity = "";
             this._FK_Regional_Loss_Control_ID = -1;
             this._ADP_DMS = "";
@@ -394,6 +404,7 @@ namespace ERIMS.DAL
                 this._County = Convert.ToString(drLU_Location["County"]);
                 this._Web_site = Convert.ToString(drLU_Location["Web_site"]);
                 this._dba = Convert.ToString(drLU_Location["dba"]);
+                this._Secondary_dba = Convert.ToString(drLU_Location["Secondary_dba"]);
                 this._legal_entity = Convert.ToString(drLU_Location["legal_entity"]);
                 this._FK_Regional_Loss_Control_ID = drLU_Location["FK_Regional_Loss_Control_ID"] != DBNull.Value ? Convert.ToDecimal(drLU_Location["FK_Regional_Loss_Control_ID"]) : 0;
                 this._ADP_DMS = Convert.ToString(drLU_Location["ADP_DMS"]);
@@ -427,6 +438,7 @@ namespace ERIMS.DAL
                 this._County = "";
                 this._Web_site = "";
                 this._dba = "";
+                this._Secondary_dba = "";
                 this._legal_entity = "";
                 this._FK_Regional_Loss_Control_ID = -1;
                 this._ADP_DMS = "";
@@ -470,6 +482,7 @@ namespace ERIMS.DAL
                 this._County = Convert.ToString(drLU_Location["County"]);
                 this._Web_site = Convert.ToString(drLU_Location["Web_site"]);
                 this._dba = Convert.ToString(drLU_Location["dba"]);
+                this._Secondary_dba = Convert.ToString(drLU_Location["Secondary_dba"]);
                 this._legal_entity = Convert.ToString(drLU_Location["legal_entity"]);
                 this._FK_Regional_Loss_Control_ID = drLU_Location["FK_Regional_Loss_Control_ID"] != DBNull.Value ? Convert.ToDecimal(drLU_Location["FK_Regional_Loss_Control_ID"]) : 0;
                 this._ADP_DMS = Convert.ToString(drLU_Location["ADP_DMS"]);
@@ -502,6 +515,7 @@ namespace ERIMS.DAL
                 this._County = "";
                 this._Web_site = "";
                 this._dba = "";
+                this._Secondary_dba = "";
                 this._legal_entity = "";
                 this._FK_Regional_Loss_Control_ID = -1;
                 this._ADP_DMS = "";
@@ -545,6 +559,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "County", DbType.String, this._County);
             db.AddInParameter(dbCommand, "Web_site", DbType.String, this._Web_site);
             db.AddInParameter(dbCommand, "dba", DbType.String, this._dba);
+            db.AddInParameter(dbCommand, "Secondary_dba", DbType.String, this._Secondary_dba);
             db.AddInParameter(dbCommand, "legal_entity", DbType.String, this._legal_entity);
             db.AddInParameter(dbCommand, "ADP_DMS", DbType.String, this._ADP_DMS);
             db.AddInParameter(dbCommand, "Region", DbType.String, this._Region);
@@ -822,6 +837,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "County", DbType.String, this._County);
             db.AddInParameter(dbCommand, "Web_site", DbType.String, this._Web_site);
             db.AddInParameter(dbCommand, "dba", DbType.String, this._dba);
+            db.AddInParameter(dbCommand, "Secondary_dba", DbType.String, this._Secondary_dba);
             db.AddInParameter(dbCommand, "legal_entity", DbType.String, this._legal_entity);
             db.AddInParameter(dbCommand, "ADP_DMS", DbType.String, this._ADP_DMS);
             db.AddInParameter(dbCommand, "Region", DbType.String, this._Region);

@@ -99,6 +99,15 @@
                                         ValidationGroup="vsErrorGroup" SetFocusOnError="true" ControlToValidate="txtDba"
                                         Display="None"></asp:RequiredFieldValidator>
                                 </td>
+                                 <td align="left" width="18%" style="padding-left: 5px;">
+                                   Secondary DBA 
+                                </td>
+                                <td align="center" width="2%">
+                                    :
+                                </td>
+                                <td align="left" width="30%">
+                                    <asp:TextBox ID="txtSecondDBA" runat="server" Width="170px" MaxLength="50" />
+                                </td>
                                <%-- <td align="left" width="18%">
                                     Legal Entity <span style="color: Red">*</span>
                                 </td>
