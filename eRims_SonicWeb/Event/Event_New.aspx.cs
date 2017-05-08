@@ -1883,7 +1883,7 @@ public partial class Event_Event_New : clsBasePage
         DataSet dsData = clsLU_Event_Type.SelectAll();
 
         //dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y' AND Is_Actionable = 'Y' AND Fld_Desc <> 'FROI Event/Other'"; //#Issue 3422
-        dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y' AND Is_Actionable = 'Y' AND Fld_Desc <> 'FROI Event/Other' AND Fld_Desc <> 'Vehicle Damage' AND Fld_Desc <> 'Slip and Fall'";
+        dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y' AND Is_Actionable = 'Y' AND Fld_Desc <> 'FROI Event/Other' AND Fld_Desc <> 'Vehicle Damage' AND Fld_Desc <> 'Slip and Fall' AND Fld_Desc <> ' Staff/Cleaner/Delivery on site' ";
 
         rptEventType.DataSource = dsData.Tables[0].DefaultView.ToTable();
         rptEventType.DataBind();
@@ -1894,7 +1894,7 @@ public partial class Event_Event_New : clsBasePage
     {
         DataSet dsData = clsLU_Event_Type.SelectAll();
         //dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y' AND Is_Actionable = 'Y' AND Fld_Desc <> 'Voice Down' ";//#Issue 3190
-        dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y' AND Is_Actionable = 'Y' AND Fld_Desc <> 'FROI Event/Other' AND Fld_Desc <> 'Friendly Voice Down' AND Fld_Desc <> 'Stern voice Down'"; //#Issue 3422
+        dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y' AND Is_Actionable = 'Y' AND Fld_Desc <> 'FROI Event/Other' AND Fld_Desc <> 'Friendly Voice Down' AND Fld_Desc <> 'Stern voice Down' AND Fld_Desc <> ' Staff/Cleaner/Delivery on site' AND Fld_Desc <> ' Cleaning Crew Not Wearing Vests' AND Fld_Desc <> 'Staff Not Calling In' "; //#Issue 3422
 
         rptEventTypeSonic.DataSource = dsData.Tables[0].DefaultView.ToTable();
         rptEventTypeSonic.DataBind();

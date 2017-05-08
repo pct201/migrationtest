@@ -536,11 +536,11 @@ public partial class Event_EventSearch_New : clsBasePage
         }
         else if (ReportedBy == "Sonic")
         {
-            dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y' AND Is_Actionable = 'Y' AND Fld_Desc <> 'FROI Event/Other' AND Fld_Desc <> 'Friendly Voice Down' AND Fld_Desc <> 'Stern voice Down'";
+            dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y' AND Is_Actionable = 'Y' AND Fld_Desc <> 'FROI Event/Other' AND Fld_Desc <> 'Friendly Voice Down' AND Fld_Desc <> 'Stern voice Down' AND Fld_Desc <> ' Cleaning Crew Not Wearing Vests' AND Fld_Desc <> 'Staff Not Calling In'";
         }
         else
         {
-            dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y'";
+            dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y' AND Fld_Desc <> 'Staff/Cleaner/Delivery on site'";
         }
 
         foreach (DropDownList ddlToFill in dropDowns)
