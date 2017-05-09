@@ -298,7 +298,7 @@
         function SetMenuStyle(index) {
             var i;
             for (i = 1; i <= 8; i++) {
-                if(i==4)i++;
+                //if(i==4)i++;
                 if(i==5)i++;
                 var tb = document.getElementById("Menu" + i);
                 if (i == index) {
@@ -1012,11 +1012,11 @@
                                         <span id="Menu7" onclick="javascript:ShowPanel(7);" class="LeftMenuStatic">Cause Investigations</span>
                                     </td>
                                 </tr>
-                                <%--<tr>
+                                <tr>
                                     <td align="left" width="100%">
                                         <span id="Menu4" onclick="javascript:ShowPanel(4);" class="LeftMenuStatic">Insurance Type Claim</span>
                                     </td>
-                                </tr>--%>
+                                </tr>
                                 <tr>
                                     <td align="left" width="100%">
                                         <span id="Menu6" onclick="javascript:ShowPanel(6);" class="LeftMenuStatic">Abstracts & Custom Letters</span>
