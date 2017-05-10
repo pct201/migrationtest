@@ -88,13 +88,12 @@ public partial class Event_ACI_Approve_Deny : System.Web.UI.Page
                     
                     clsEvent_Video_Tracking_Request.Event_Video_Tracking_RequestUpdateStatus(PK_Event_Video_Tracking_Request, StrStatus, FK_Security_ID, null);
                     SendNotificatonToCreater(ds);
-
-                    this.Page.ClientScript.RegisterStartupScript(this.GetType(), DateTime.Now.ToString(), "javascript:this.close();", true);
+                    this.Page.ClientScript.RegisterStartupScript(this.GetType(), DateTime.Now.ToString(), "javascript:closewindow();", true);
                 }
             }
             catch (Exception ex)
             {
-                this.Page.ClientScript.RegisterStartupScript(this.GetType(), DateTime.Now.ToString(), "javascript:this.close();", true);
+                this.Page.ClientScript.RegisterStartupScript(this.GetType(), DateTime.Now.ToString(), "javascript:closewindow();", true);
             }
         }
         
