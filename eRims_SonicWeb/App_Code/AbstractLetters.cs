@@ -37,6 +37,7 @@ public class AbstractLetters
             DataTable dtEventImages = dsEvent.Tables[6];
             DataTable dtVehicleInformation = dsEvent.Tables[7];
             DataTable dtSuspectInformation = dsEvent.Tables[8];
+            DataTable dtEvent_Buidling = dsEvent.Tables[10];
 
             FileStream fsMail = null;
 
@@ -61,8 +62,10 @@ public class AbstractLetters
 
             string strActionableEvent = string.Empty;
 
-            if (!Is_Sonic_Event)
-                dtActionable_Event.DefaultView.RowFilter = "Actionable_Event_Desc <> 'FROI Event/Other'"; //#Issue 3422
+            //if (!Is_Sonic_Event)
+            //    dtActionable_Event.DefaultView.RowFilter = "Actionable_Event_Desc <> 'FROI Event/Other' AND Actionable_Event_Desc <> 'Vehicle Damage' AND Fld_Desc <> 'Slip and Fall' AND Actionable_Event_Desc <> ' Staff/Cleaner/Delivery on site' "; //#Issue 3422
+            //else
+            //    dtActionable_Event.DefaultView.RowFilter = "Actionable_Event_Desc <> 'FROI Event/Other' AND Actionable_Event_Desc <> 'Friendly Voice Down' AND Fld_Desc <> 'Stern voice Down' AND Actionable_Event_Desc <> ' Staff/Cleaner/Delivery on site' AND Fld_Desc <> ' Cleaning Crew Not Wearing Vests' AND Actionable_Event_Desc <> 'Staff Not Calling In' "; //#Issue 3422
 
             DataTable dtFiltered_Event = dtActionable_Event.DefaultView.ToTable();
 
@@ -84,6 +87,7 @@ public class AbstractLetters
             }
             strBody = strBody.Replace("[Actionable_Event_Type]", strActionableEvent);
             strBody = strBody.Replace("[Description_of_Event]", Convert.ToString(dtEvent.Rows[0]["Event_Desc"]));
+            strBody = strBody.Replace("[Event_Building_Grid]", GetEventBuildingDetails(dtEvent_Buidling));
             if (!string.IsNullOrEmpty(Convert.ToString(dtEvent.Rows[0]["Event_Start_Date"])))
                 strBody = strBody.Replace("[Date_of_Event]", clsGeneral.FormatDBNullDateToDisplay(dtEvent.Rows[0]["Event_Start_Date"]));
             else
@@ -112,7 +116,7 @@ public class AbstractLetters
             string AttachmentDocPath = "Documents/EventImage";
             if (!string.IsNullOrEmpty(Convert.ToString(dtEvent.Rows[0]["Event_Image"])) && File.Exists(AppConfig.DocumentsPath + "EventImage\\" + dtEvent.Rows[0]["Event_Image"]))
             {
-                strBody = strBody.Replace("[Event_Image]", "<img  alt='' src='" + AppConfig.SiteURL + AttachmentDocPath + "/" + dtEvent.Rows[0]["Event_Image"] + "' Height='200' Width='200' />");
+                strBody = strBody.Replace("[Event_Image]", "<img  alt='' src='" + AppConfig.SiteURL + AttachmentDocPath + "/" + dtEvent.Rows[0]["Event_Image"] + "' Height='288' Width='352' />");
             }
             else
                 strBody = strBody.Replace("[Event_Image]", string.Empty);
@@ -147,6 +151,7 @@ public class AbstractLetters
             strBody = strBody.Replace("[Acadian_Notes_Grid]", GetACINotesDetails(dtACINotes));
 
             strBody = strBody.Replace("[Sonic_Notes_Grid]", GetSonicNotesDetails(dtSonicNotes));
+            strBody = strBody.Replace("[Cause_Investigation]", Convert.ToString(dtEvent.Rows[0]["Cause_Investigation"]));
             //if (Is_Sonic_Event)
             //{
             //    strBody = strBody.Replace("[Sonic_Notes_Grid]", GetSonicNotesDetails(dtSonicNotes));
@@ -165,8 +170,8 @@ public class AbstractLetters
                         int originalWidth = bmp.Width;
                         int originalHeight = bmp.Height;
 
-                        float ratioX = (float)600 / (float)originalWidth;
-                        float ratioY = (float)200 / (float)originalHeight;
+                        float ratioX = (float)700 / (float)originalWidth;
+                        float ratioY = (float)300 / (float)originalHeight;
                         float ratio = Math.Min(ratioX, ratioY);
 
                         // New width and height based on aspect ratio
@@ -400,6 +405,50 @@ public class AbstractLetters
         return sbGrid.ToString();
     }
 
+    public static string GetEventBuildingDetails(DataTable dtEventBuildingGrid)
+    {
+        StringBuilder sbGrid = new StringBuilder(string.Empty);
+        sbGrid = new StringBuilder(string.Empty);
+        sbGrid.Append("<tr style='page-break-inside: avoid'><td colspan='3'> <table border='0' cellspacing='1' cellpadding='1' width='100%'>");
+        sbGrid.Append("<tr style='page-break-inside: avoid'>");
+        sbGrid.Append("<td style='font-size: 12px; font-family: Arial; font-weight: bold;page-break-inside : avoid' class='HeaderRow' colspan='6'>Building Grid</td></tr>");
+        sbGrid.Append("<tr style='page-break-inside: avoid'><td style='font-size: 12px; font-family: Arial;'  colspan='3'>");
+        if (dtEventBuildingGrid.Rows.Count > 0)
+        {
+            sbGrid.Append("<table width='100%'>");
+            sbGrid.Append("<tr style='background-color: #7f7f7f; font-family: Arial; color: white; font-size: 12px; font-weight: bold' valign=top>");
+            sbGrid.Append("<td  style='font-family: Arial; font-size: 12px;' align='left'> Building Description </td>");
+            sbGrid.Append("<td  style='font-family: Arial; font-size: 12px;' align='left'> Exterior/Interior </td>");
+            sbGrid.Append("<td  style='font-family: Arial; font-size: 12px;' align='left'> Restricted </td>");
+            sbGrid.Append("</tr>");
+
+            foreach (DataRow dr in dtEventBuildingGrid.Rows)
+            {
+                sbGrid.Append("<tr valign=top>");
+                sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left'>  {0} </td>", dr["Building_Description"]);
+                sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left'>  {0} </td>", dr["Exterior_Interior"]);
+                sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left'>  {0} </td>", dr["Restricted"]);
+                sbGrid.Append("</tr>");
+            }
+            sbGrid.Append("</table>");
+            sbGrid.Append("</td>");
+            sbGrid.Append("</tr>");
+            sbGrid.Append("</table>");
+        }
+        else
+        {
+            sbGrid.Append("<table width='100%'>");
+            sbGrid.Append("<tr valign='top' style='font-family: Arial; font-size: 12px; padding-left:20px;' align='center'><td align='left'>No Records Found.</td></tr>");
+            sbGrid.Append("</table>");
+            sbGrid.Append("</td>");
+            sbGrid.Append("</tr>");
+            sbGrid.Append("</table>");
+        }
+        sbGrid.Append("</td></tr>");
+        sbGrid.Append("<tr><td>&nbsp;</td></tr>");
+        return sbGrid.ToString();
+    }
+
     public static string GetStoreContactDetails(DataTable dtStoreContactDetails)
     {
         StringBuilder sbGrid = new StringBuilder(string.Empty);
@@ -547,6 +596,37 @@ public class AbstractLetters
                 sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left'>  {0} </td>", clsGeneral.FormatDBNullDateToDisplay(dr["Invoice_Date"]));
                 sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left'>  {0} </td>", string.Format("{0:C2}", dr["Invoice_Amount"]));
                 sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left'>  {0} </td>", Convert.ToString(dr["Vendor"]));
+                sbGrid.Append("</tr>");
+            }
+            sbGrid.Append("</table>");
+        }
+        else
+        {
+            sbGrid.Append("No Records found.");
+        }
+
+        return sbGrid.ToString();
+    }
+
+    public static string GetVideoNotesDetails(DataTable dtVideoNote)
+    {
+        StringBuilder sbGrid = new StringBuilder(string.Empty);
+        sbGrid = new StringBuilder(string.Empty);
+        if (dtVideoNote.Rows.Count > 0)
+        {
+            sbGrid.Append("<table width='100%'>");
+            sbGrid.Append("<tr style='background-color: #7f7f7f; font-family: Arial; color: white; font-size: 12px; font-weight: bold' valign=top>");
+            sbGrid.Append("<td  style='font-family: Arial; font-size: 12px;' align='left'> Note Date </td>");
+            sbGrid.Append("<td  style='font-family: Arial; font-size: 12px;' align='left'> User </td>");
+            sbGrid.Append("<td  style='font-family: Arial; font-size: 12px;' align='left'> Notes </td>");
+            sbGrid.Append("</tr>");
+
+            foreach (DataRow dr in dtVideoNote.Rows)
+            {
+                sbGrid.Append("<tr valign=top>");
+                sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left'>  {0} </td>", clsGeneral.FormatDBNullDateToDisplay(dr["Note_Date"]));
+                sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left'>  {0} </td>", dr["Updated_by_Name"]);
+                sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left'>  {0} </td>", dr["Note"]);
                 sbGrid.Append("</tr>");
             }
             sbGrid.Append("</table>");
@@ -781,6 +861,7 @@ public class AbstractLetters
         if (dsVideo != null && dsVideo.Tables.Count > 0 && dsVideo.Tables[0].Rows.Count > 0)
         {
             DataTable dtVideo = dsVideo.Tables[0];
+            DataTable dtNotes = dsVideo.Tables[1];
 
             FileStream fsMail = null;
 
@@ -814,6 +895,8 @@ public class AbstractLetters
             strBody = strBody.Replace("[Urgent_Need]", Convert.ToString(dtVideo.Rows[0]["Urgent_Need"]));
             strBody = strBody.Replace("[Mailing_Address]", Convert.ToString(dtVideo.Rows[0]["Mailing_Address"]));
             strBody = strBody.Replace("[Shipping_Method]", Convert.ToString(dtVideo.Rows[0]["Shipping_Method"]));
+
+            strBody = strBody.Replace("[Video_Notes_Grid]", GetSonicNotesDetails(dtNotes));
 
             #endregion
         }

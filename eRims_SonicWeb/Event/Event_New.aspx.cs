@@ -263,6 +263,18 @@ public partial class Event_Event_New : clsBasePage
                 ucEventInfo.Visible = true;
                 ucEventInfo.FillEventInformation(PK_Event);
 
+                if (clsSession.IsACIUser)
+                {
+                    csvSonicNoteGrid.Enabled = true;
+                    spanmenu2.Style.Add("display", "");
+
+                }
+                else
+                {
+                    csvSonicNoteGrid.Enabled = false;
+                    spanmenu2.Style.Add("display", "none");
+                }
+
                 if (Is_Sonic_Event)
                 {
                     if (Request.QueryString["Notes"] == null)
@@ -272,13 +284,17 @@ public partial class Event_Event_New : clsBasePage
                     revtxtOfficer_Phone.ErrorMessage = "[Notes] / Please Enter Agency Phone # in XXX-XXX-XXXX format";
                     revtxtDate_Closed.ErrorMessage = "[Notes] /Date Closed is not a valid date";
                     cmptxtDate_Closed.ErrorMessage = "[Notes] /Date Closed should not be greater than current date";
+                    csvSonicNoteGrid.ErrorMessage = "[Notes] /Please add at least one Note";
                 }
                 else
                 {
                     lblMenu2.Text = lblMenu2Header.Text = "Acadian Investigations";
+                    csvSonicNoteGrid.ErrorMessage = "[Acadian Investigations] /Please add at least one Note";
                 }
 
                 ucAbstractLetter.FK_Event = PK_Event;
+
+
             }
             else
             {
@@ -293,9 +309,19 @@ public partial class Event_Event_New : clsBasePage
                 ucEventInfo.FillEventInformation(PK_Event);
 
                 if (clsSession.IsACIUser)
+                {
                     Is_Sonic_Event = false;
+                    csvSonicNoteGrid.Enabled = true;
+                    spanmenu2.Style.Add("display", "");
+                    
+                }
                 else
+                {
                     Is_Sonic_Event = true;
+                    csvSonicNoteGrid.Enabled = false;
+                    spanmenu2.Style.Add("display", "none");
+                }
+                    
 
                 PK_Event = 0;
                 StrOperation = "add"; btnViewAudit.Visible = false;
@@ -313,6 +339,7 @@ public partial class Event_Event_New : clsBasePage
                     revtxtOfficer_Phone.ErrorMessage = "[Notes] / Please Enter Agency Phone # in XXX-XXX-XXXX format";
                     revtxtDate_Closed.ErrorMessage = "[Notes] /Date Closed is not a valid date";
                     cmptxtDate_Closed.ErrorMessage = "[Notes] /Date Closed should not be greater than current date";
+                    csvSonicNoteGrid.ErrorMessage = "[Notes] /Please add at least one Note";
                 }
                 else
                 {
@@ -320,6 +347,7 @@ public partial class Event_Event_New : clsBasePage
                     //ImgEvent_Image.Height = 10;
                     chkNonActionable.Enabled = false;
                     trImgEvent_Image.Style.Add("display", "none");
+                    csvSonicNoteGrid.ErrorMessage = "[Acadian Investigations] /Please add at least one Note";
 
                     DataSet dsACIID = clsEvent.GetLatestACIEventID();
 
@@ -413,11 +441,12 @@ public partial class Event_Event_New : clsBasePage
 
         SaveVideoRequest(true);
 
-        SendAbstractViaEmailWhileInsert();
         if (rblVideoRequestedBySonic.SelectedValue == "Y")
         {
             SendVideoRequest();
         }
+        SendAbstractViaEmailWhileInsertPDF();
+        
         
         ClearControl();
         if (StrOperation.ToLower() == "add" || StrOperation.ToLower() == "addto" || StrOperation.ToLower() == "")
@@ -778,6 +807,7 @@ public partial class Event_Event_New : clsBasePage
         txtSonic_Notes.Text = string.Empty;
         btnSonicNotesAdd.Text = "Add";
         //((ScriptManager)this.Master.FindControl("scMain")).SetFocus(txtACI_Notes_Date);
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
     }
 
     /// <summary>
@@ -2347,7 +2377,110 @@ public partial class Event_Event_New : clsBasePage
             if (EmailTo.Length > 0)
             {
                 EmailHelper objEmail = new EmailHelper(AppConfig.SMTPServer, AppConfig.MailFrom, AppConfig.SMTPpwd, Convert.ToInt32(AppConfig.Port));
-                objEmail.SendEventMailMessageDOC(AppConfig.ManagementEmailID, " ", EmailTo, "ACI Actionable Event Abstract", Emailbody, true, strTemp, AppConfig.MailCC);
+                objEmail.SendEventMailMessage(AppConfig.ManagementEmailID, " ", EmailTo, "ACI Actionable Event Abstract", Emailbody, true, strTemp, AppConfig.MailCC);
+            }
+
+            //for (int i = 0; i < dtEmailList.Rows.Count; i++)
+            //{
+            //    strEmailIds[0] = Convert.ToString(dtEmailList.Rows[i]["Email"]);
+            //    EmailHelper objEmail = new EmailHelper(AppConfig.SMTPServer, AppConfig.MailFrom, AppConfig.SMTPpwd, Convert.ToInt32(AppConfig.Port));
+            //    objEmail.SendMailMessage(AppConfig.ManagementEmailID, " ", strEmailIds, "ACI Actionable Event Abstract.", strAbstractReportData, true, attchment, AppConfig.MailCC);
+            //    strEmailIds[0] = string.Empty;
+            //}
+
+            //ViewState.Remove("Attchments");
+        }
+    }
+
+    private void SendAbstractViaEmailWhileInsertPDF()
+    {
+        if (PK_Event > 0)
+        {
+            clsEvent objEvent = new clsEvent(PK_Event);
+            DataTable dtEmailList = Security.GetEmailsByLocationForEvent(objEvent.FK_LU_Location).Tables[0];
+            //string[] strEmailIds = new string[1];
+
+            DataSet ds_Event = clsEvent.GetEventAbstractLetterData(PK_Event);
+
+            string strAbstractReportData = Convert.ToString(Event_AbstactReport(ds_Event, PK_Event, false, clsGeneral.Major_Coverage.Event));
+
+            //string[] attchment = null;
+            //if (ViewState["Attchments"] != null)
+            //{
+            //    attchment = new string[1];
+            //    attchment[0] = AppConfig.SitePath + "Documents/EventImage" + "/" + Convert.ToString(ViewState["Attchments"]);
+            //}
+
+            #region " Generate PDF "
+            byte[] bPDF = null;
+
+            string strPath = AppConfig.DocumentsPath + "Attach\\" + @"Event_Abstract.pdf";
+            
+            bPDF = GetBytypesFromString();
+
+            File.WriteAllBytes(strPath, bPDF);
+
+            #endregion
+
+            System.Collections.Generic.List<string> lstMail = new System.Collections.Generic.List<string>();
+
+            int intToMailCount = 0;
+            if (dtEmailList.Rows.Count > 0)
+            {
+                foreach (DataRow drRecipient in dtEmailList.Rows)
+                {
+                    lstMail.Insert(intToMailCount, drRecipient["Email"].ToString());
+                    intToMailCount++;
+                }
+            }
+
+            string[] EmailTo = lstMail.ToArray();
+
+            System.Collections.Generic.List<string> lstImages = new System.Collections.Generic.List<string>();
+            int intImagescount = 0;
+            
+            DataTable dtInvestigationImages = ds_Event.Tables[6];
+
+            if (!string.IsNullOrEmpty(_strAttachmentName) && File.Exists(AppConfig.DocumentsPath + "EventImage\\" + _strAttachmentName))
+            {
+                lstImages.Insert(intImagescount, AppConfig.DocumentsPath + "EventImage\\" + _strAttachmentName);
+                intImagescount++;
+            }
+
+            foreach (DataRow drEvent_Images in dtInvestigationImages.Rows)
+            {
+                if (!string.IsNullOrEmpty(Convert.ToString(drEvent_Images["Attachment_Name"])) && File.Exists(AppConfig.SitePath + "Documents\\Attach\\" + drEvent_Images["Attachment_Name"]))
+                {
+                    lstImages.Insert(intImagescount, AppConfig.SitePath + "Documents\\Attach\\" + drEvent_Images["Attachment_Name"]);
+                    intImagescount++;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(strPath) && File.Exists(strPath))
+            {
+                lstImages.Insert(intImagescount, strPath);
+                intImagescount++;
+            }
+
+            DataTable dtEventAttachment = ds_Event.Tables[9];
+
+            foreach (DataRow drEvent_Attachment in dtEventAttachment.Rows)
+            {
+                if (!string.IsNullOrEmpty(Convert.ToString(drEvent_Attachment["Attachment_Name"])) && File.Exists(AppConfig.SitePath + "Documents\\Attach\\" + drEvent_Attachment["Attachment_Name"]))
+                {
+                    lstImages.Insert(intImagescount, AppConfig.SitePath + "Documents\\Attach\\" + drEvent_Attachment["Attachment_Name"]);
+                    intImagescount++;
+                }
+            }
+
+
+
+            string[] strTemp = lstImages.ToArray();
+
+            if (EmailTo.Length > 0)
+            {
+                EmailHelper objEmail = new EmailHelper(AppConfig.SMTPServer, AppConfig.MailFrom, AppConfig.SMTPpwd, Convert.ToInt32(AppConfig.Port));
+                objEmail.SendEventMailMessage(AppConfig.ManagementEmailID, " ", EmailTo, "ACI Actionable Event Abstract", strAbstractReportData, true, strTemp, AppConfig.MailCC);
             }
 
             //for (int i = 0; i < dtEmailList.Rows.Count; i++)
@@ -2504,6 +2637,7 @@ public partial class Event_Event_New : clsBasePage
             DataTable dtEventImages = dsEvent.Tables[6];
             DataTable dtVehicleInformation = dsEvent.Tables[7];
             DataTable dtSuspectInformation = dsEvent.Tables[8];
+            DataTable dtEvent_Buidling = dsEvent.Tables[10];
 
             FileStream fsMail = null;
 
@@ -2551,6 +2685,7 @@ public partial class Event_Event_New : clsBasePage
             }
             strBody = strBody.Replace("[Actionable_Event_Type]", strActionableEvent);
             strBody = strBody.Replace("[Description_of_Event]", Convert.ToString(dtEvent.Rows[0]["Event_Desc"]));
+            strBody = strBody.Replace("[Event_Building_Grid]", GetEventBuildingDetails(dtEvent_Buidling));
             if (!string.IsNullOrEmpty(Convert.ToString(dtEvent.Rows[0]["Event_Start_Date"])))
                 strBody = strBody.Replace("[Date_of_Event]", clsGeneral.FormatDBNullDateToDisplay(dtEvent.Rows[0]["Event_Start_Date"]));
             else
@@ -2641,6 +2776,7 @@ public partial class Event_Event_New : clsBasePage
                 strBody = strBody.Replace("[Date_Closed]", string.Empty);
 
             strBody = strBody.Replace("[Sonic_Notes_Grid]", GetSonicNotesDetails(dtSonicNotes));
+            strBody = strBody.Replace("[Cause_Investigation]", Convert.ToString(dtEvent.Rows[0]["Cause_Investigation"]));
             //if (Is_Sonic_Event)
             //{
             //    strBody = strBody.Replace("[Sonic_Notes_Grid]", GetSonicNotesDetails(dtSonicNotes));
@@ -2650,40 +2786,42 @@ public partial class Event_Event_New : clsBasePage
 
             #region "Images of Event"
 
-            string strEventImages = string.Empty;
-            if (dtEventImages.Rows.Count > 0)
-            {
-                strEventImages = "<table cellpadding='1' cellspacing='1' width='95%'>";
+            //string strEventImages = string.Empty;
+            //if (dtEventImages.Rows.Count > 0)
+            //{
+            //    strEventImages = "<table cellpadding='1' cellspacing='1' width='95%'>";
 
-                foreach (DataRow drEvent_Images in dtEventImages.Rows)
-                {
-                    if (!string.IsNullOrEmpty(Convert.ToString(drEvent_Images["Attachment_Name"])) && File.Exists(AppConfig.DocumentsPath + "Attach\\" + drEvent_Images["Attachment_Name"]))
-                    {
-                        System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(AppConfig.SitePath + "Documents\\Attach\\" + drEvent_Images["Attachment_Name"]);
+            //    foreach (DataRow drEvent_Images in dtEventImages.Rows)
+            //    {
+            //        if (!string.IsNullOrEmpty(Convert.ToString(drEvent_Images["Attachment_Name"])) && File.Exists(AppConfig.DocumentsPath + "Attach\\" + drEvent_Images["Attachment_Name"]))
+            //        {
+            //            System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(AppConfig.SitePath + "Documents\\Attach\\" + drEvent_Images["Attachment_Name"]);
 
-                        int originalWidth = bmp.Width;
-                        int originalHeight = bmp.Height;
+            //            int originalWidth = bmp.Width;
+            //            int originalHeight = bmp.Height;
 
-                        float ratioX = (float)600 / (float)originalWidth;
-                        float ratioY = (float)200 / (float)originalHeight;
-                        float ratio = Math.Min(ratioX, ratioY);
+            //            float ratioX = (float)700 / (float)originalWidth;
+            //            float ratioY = (float)300 / (float)originalHeight;
+            //            float ratio = Math.Min(ratioX, ratioY);
 
-                        // New width and height based on aspect ratio
-                        int newWidth = (int)(originalWidth * ratio);
-                        int newHeight = (int)(originalHeight * ratio);
+            //            // New width and height based on aspect ratio
+            //            int newWidth = (int)(originalWidth * ratio);
+            //            int newHeight = (int)(originalHeight * ratio);
 
-                        bmp.Dispose();
+            //            bmp.Dispose();
 
-                        strEventImages += "<tr style='page-break-inside: avoid'><td valign='top' align='center' border='3px solid'><img src=\"cid:Event_Images_" + ImageCounter + "\" BorderWidth='1px' BorderStyle='Solid' BorderColor='Black' Height='" + newHeight + "' Width='" + newWidth + "' /></td></tr>";
-                        ImageCounter++;
-                    }
-                }
-                strEventImages += "</table>";
-            }
+            //            strEventImages += "<tr style='page-break-inside: avoid'><td valign='top' align='center' border='3px solid'><img src=\"cid:Event_Images_" + ImageCounter + "\" BorderWidth='1px' BorderStyle='Solid' BorderColor='Black' Height='" + newHeight + "' Width='" + newWidth + "' /></td></tr>";
+            //            ImageCounter++;
+            //        }
+            //    }
+            //    strEventImages += "</table>";
+            //}
 
-            strBody = strBody.Replace("[Images_of_Event]", strEventImages);
+            //strBody = strBody.Replace("[Images_of_Event]", strEventImages);
 
+            strBody = strBody.Replace("[Images_of_Event]", string.Empty);
             #endregion
+
         }
 
         return strBody;
@@ -2892,6 +3030,50 @@ public partial class Event_Event_New : clsBasePage
             sbGrid.Append("No Records found.");
         }
 
+        return sbGrid.ToString();
+    }
+
+    public string GetEventBuildingDetails(DataTable dtEventBuildingGrid)
+    {
+        StringBuilder sbGrid = new StringBuilder(string.Empty);
+        sbGrid = new StringBuilder(string.Empty);
+        sbGrid.Append("<tr style='page-break-inside: avoid'><td colspan='3'> <table border='0' cellspacing='1' cellpadding='1' width='100%'>");
+        sbGrid.Append("<tr style='page-break-inside: avoid'>");
+        sbGrid.Append("<td style='font-size: 12px; font-family: Arial; font-weight: bold;page-break-inside : avoid' class='HeaderRow' colspan='6'>Building Grid</td></tr>");
+        sbGrid.Append("<tr style='page-break-inside: avoid'><td style='font-size: 12px; font-family: Arial;'  colspan='3'>");
+        if (dtEventBuildingGrid.Rows.Count > 0)
+        {
+            sbGrid.Append("<table width='100%'>");
+            sbGrid.Append("<tr style='background-color: #7f7f7f; font-family: Arial; color: white; font-size: 12px; font-weight: bold' valign=top>");
+            sbGrid.Append("<td  style='font-family: Arial; font-size: 12px;' align='left'> Building Description </td>");
+            sbGrid.Append("<td  style='font-family: Arial; font-size: 12px;' align='left'> Exterior/Interior </td>");
+            sbGrid.Append("<td  style='font-family: Arial; font-size: 12px;' align='left'> Restricted </td>");
+            sbGrid.Append("</tr>");
+
+            foreach (DataRow dr in dtEventBuildingGrid.Rows)
+            {
+                sbGrid.Append("<tr valign=top>");
+                sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left'>  {0} </td>", dr["Building_Description"]);
+                sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left'>  {0} </td>", dr["Exterior_Interior"]);
+                sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left'>  {0} </td>", dr["Restricted"]);
+                sbGrid.Append("</tr>");
+            }
+            sbGrid.Append("</table>");
+            sbGrid.Append("</td>");
+            sbGrid.Append("</tr>");
+            sbGrid.Append("</table>");
+        }
+        else
+        {
+            sbGrid.Append("<table width='100%'>");
+            sbGrid.Append("<tr valign='top' style='font-family: Arial; font-size: 12px; padding-left:20px;' align='center'><td align='left'>No Records Found.</td></tr>");
+            sbGrid.Append("</table>");
+            sbGrid.Append("</td>");
+            sbGrid.Append("</tr>");
+            sbGrid.Append("</table>");
+        }
+        sbGrid.Append("</td></tr>");
+        sbGrid.Append("<tr><td>&nbsp;</td></tr>");
         return sbGrid.ToString();
     }
 
@@ -3361,6 +3543,38 @@ public partial class Event_Event_New : clsBasePage
         strRetVal = clsGeneral.GetFileName(strFulleName);
 
         return strRetVal;
+    }
+
+    public byte[] GetBytypesFromString()
+    {
+        string strFileName = string.Empty;
+        PdfConverter objPdf = new PdfConverter();
+        StringBuilder sbHtml = new StringBuilder();
+        Byte[] pdfByte = null;
+        objPdf.LicenseKey = AppConfig._strHtmltoPDFConverterKey;
+        objPdf.PdfDocumentOptions.TopMargin = 20;
+        objPdf.PdfDocumentOptions.LeftMargin = 20;
+        objPdf.PdfDocumentOptions.RightMargin = 20;
+        objPdf.PdfDocumentOptions.BottomMargin = 20;
+        objPdf.PdfDocumentOptions.ShowHeader = false;
+        objPdf.PdfDocumentOptions.ShowFooter = false;
+        objPdf.PdfDocumentOptions.EmbedFonts = false;
+
+        objPdf.PdfDocumentOptions.LiveUrlsEnabled = false;
+        objPdf.RightToLeftEnabled = false;
+        objPdf.PdfSecurityOptions.CanPrint = true;
+        objPdf.PdfSecurityOptions.CanEditContent = true;
+        objPdf.PdfSecurityOptions.UserPassword = "";
+        objPdf.PdfDocumentOptions.PdfPageOrientation = PDFPageOrientation.Landscape;
+        objPdf.PdfDocumentOptions.PdfPageSize = PdfPageSize.Letter;
+        objPdf.PdfDocumentInfo.AuthorName = "eRIMS2";
+
+        sbHtml = AbstractLetters.Event_AbstactReport(PK_Event, false, clsGeneral.Major_Coverage.Event);
+        strFileName = "Event_Abstract.pdf";
+
+        pdfByte = objPdf.GetPdfBytesFromHtmlString(sbHtml.ToString());
+
+        return pdfByte;
     }
 
     /// <summary>

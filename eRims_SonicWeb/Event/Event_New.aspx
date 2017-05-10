@@ -215,6 +215,8 @@
 
         function checkLengthSonic() 
         {
+            document.getElementById('<%=csvSonicNoteGrid.ClientID%>').enabled = false;
+
             if (Page_ClientValidate("vsErrorGroup"))
             {
                 var oObject = document.getElementById('ctl00_ContentPlaceHolder1_txtSonic_Notes_txtNote') 
@@ -913,6 +915,27 @@
                 document.getElementById(headerChkID).checked = true;
             else
                 document.getElementById(headerChkID).checked = false;
+        }
+
+        function Sonicnotecount(obj, args) {
+            var gv = document.getElementById('<%=gvSonic_Notes.ClientID%>');
+                    if (gv.rows.length <= 1) {
+                        args.IsValid = false;
+                    }
+                    else {
+                        args.IsValid = true;
+                    }
+                    return args.IsValid;
+
+        }
+
+        function CheckSonicNote() {
+            document.getElementById('<%=csvSonicNoteGrid.ClientID%>').enabled = false;
+                if (Page_ClientValidate('vsErrorGroup')) {
+                    return true;
+                }
+                else
+                    return false;
             }
 
 
@@ -997,7 +1020,7 @@
                                 <tr>
                                     <td align="left" width="100%">
                                         <span id="Menu2" onclick="javascript:ShowPanel(2);" class="LeftMenuStatic">
-                                            <asp:Label runat="server" ID="lblMenu2"></asp:Label>
+                                            <asp:Label runat="server" ID="lblMenu2"></asp:Label>&nbsp;<span id="spanmenu2" runat="server" style="color: Red;">*</span>
                                         </span><%--Acadian Investigations--%>
                                     </td>
                                 </tr>
@@ -2119,13 +2142,15 @@
                                                                                     </table>
                                                                                 </EmptyDataTemplate>
                                                                             </asp:GridView>
+                                                                            <asp:CustomValidator ID="csvSonicNoteGrid" runat="Server" ErrorMessage="Please add at least one Note"
+                                                                                    Display="None" ValidationGroup="vsErrorGroup" ClientValidationFunction="Sonicnotecount"></asp:CustomValidator>
                                                                         </div>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td style="padding-bottom: 5px;" colspan="6">
                                                                         <asp:LinkButton Style="display: inline" ID="lnkAddSonicNotesNew" OnClick="lnkAddSonicNotesNew_Click"
-                                                                            runat="server" Text="Add New" OnClientClick="return CheckEvent();"></asp:LinkButton>&nbsp;&nbsp;&nbsp;
+                                                                            runat="server" Text="Add New" OnClientClick="return CheckSonicNote();"></asp:LinkButton>&nbsp;&nbsp;&nbsp;
                                                                           <asp:Button ID="btnSonicNoteView" runat="server" Text=" View" OnClientClick="return AciSelectedNotePopup('','SonicView');" />&nbsp;&nbsp;
                                                                                     <asp:Button ID="btnSonicPrint" runat="server" Text=" Print " OnClick="btnSonicPrint_Click"
                                                                                         OnClientClick="return CheckSelectedSonicNotes('Print');" />
