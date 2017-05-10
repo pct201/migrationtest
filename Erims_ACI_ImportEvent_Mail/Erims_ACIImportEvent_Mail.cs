@@ -10,6 +10,7 @@ using System.Text;
 using System.Net.Mail;
 using System.Drawing;
 using Aspose.Words;
+using Winnovative.WnvHtmlConvert;
 
 namespace Erims_ACI_ImportEvent_Mail
 {
@@ -67,7 +68,8 @@ namespace Erims_ACI_ImportEvent_Mail
             _strInvestigationImagePath = ConfigurationSettings.AppSettings.Get("InvestigationImagePath");
             _strCsvProtocol = ConfigurationSettings.AppSettings.Get("CsvProtocol");
             _strEvent_Start_Time_Offset = ConfigurationSettings.AppSettings.Get("Event_Start_Time_Offset");
-            _strEvent_Run_Time_Interval = ConfigurationSettings.AppSettings.Get("Event_Run_Time_Interval");
+            //_strEvent_Run_Time_Interval = ConfigurationSettings.AppSettings.Get("Event_Run_Time_Interval");
+            _strEvent_Run_Time_Interval = "1";
             _strACI_ActionableEvent_Time = ConfigurationSettings.AppSettings.Get("ACI_ActionableEvent_Time");
             _strFormatDateToDisplay = ConfigurationSettings.AppSettings.Get("DisplayDateFormat");
             _strSMTPMailFrom = ConfigurationSettings.AppSettings.Get("SMTPMailFrom");
@@ -147,56 +149,66 @@ namespace Erims_ACI_ImportEvent_Mail
 
                                         DataSet ds_Event = Event.GetEventAbstractLetterData(Convert.ToDecimal(drEmailTO["PK_Event"]));
 
-                                        string strEventAbstrct = Convert.ToString(Event_AbstactReportDOC(ds_Event, Convert.ToDecimal(drEmailTO["PK_Event"]), false, Event.Claim_Major_Coverage.Event));
+                                        string strEventAbstrct = Convert.ToString(Event_AbstactReport(ds_Event, Convert.ToDecimal(drEmailTO["PK_Event"]), false, Event.Claim_Major_Coverage.Event, true));
 
-                                        string strPath = AppDomain.CurrentDomain.BaseDirectory + @"Event.doc";
+                                        //string strPath = AppDomain.CurrentDomain.BaseDirectory + @"Event.doc";
 
-                                        #region " Generate WORD Doc "
-                                        string strLisenceFile = AppDomain.CurrentDomain.BaseDirectory + @"Aspose.Words.lic";
+                                        //#region " Generate WORD Doc "
+                                        //string strLisenceFile = AppDomain.CurrentDomain.BaseDirectory + @"Aspose.Words.lic";
 
-                                        if (File.Exists(strLisenceFile))
-                                        {
-                                            Aspose.Words.License license = new Aspose.Words.License();
-                                            license.SetLicense(strLisenceFile);
-                                        }
+                                        //if (File.Exists(strLisenceFile))
+                                        //{
+                                        //    Aspose.Words.License license = new Aspose.Words.License();
+                                        //    license.SetLicense(strLisenceFile);
+                                        //}
 
-                                        Aspose.Words.Document doc = new Aspose.Words.Document();
+                                        //Aspose.Words.Document doc = new Aspose.Words.Document();
 
-                                        Aspose.Words.DocumentBuilder builder = new Aspose.Words.DocumentBuilder(doc);
-                                        builder.PageSetup.BottomMargin = 20;
-                                        builder.PageSetup.TopMargin = 20;
-                                        builder.PageSetup.LeftMargin = 20;
-                                        builder.PageSetup.RightMargin = 20;
-                                        builder.Font.Size = 10;
-                                        builder.PageSetup.PaperSize = PaperSize.A4;
-                                        //builder.Font.Bold = false;
-                                        //builder.Font.Color = System.Drawing.Color.Black;
-                                        builder.Font.Name = "Arial";
-                                        builder.InsertParagraph();
-                                        builder.InsertHtml(strEventAbstrct);
+                                        //Aspose.Words.DocumentBuilder builder = new Aspose.Words.DocumentBuilder(doc);
+                                        //builder.PageSetup.BottomMargin = 20;
+                                        //builder.PageSetup.TopMargin = 20;
+                                        //builder.PageSetup.LeftMargin = 20;
+                                        //builder.PageSetup.RightMargin = 20;
+                                        //builder.Font.Size = 10;
+                                        //builder.PageSetup.PaperSize = PaperSize.A4;
+                                        ////builder.Font.Bold = false;
+                                        ////builder.Font.Color = System.Drawing.Color.Black;
+                                        //builder.Font.Name = "Arial";
+                                        //builder.InsertParagraph();
+                                        //builder.InsertHtml(strEventAbstrct);
 
-                                        //imageFileName = AppConfig.ImageURL + "letter-footer.JPG";
-                                        //builder.InsertImage(imageFileName, Aspose.Words.Drawing.RelativeHorizontalPosition.Page, 25, Aspose.Words.Drawing.RelativeVerticalPosition.Page, 710, 550, 42, Aspose.Words.Drawing.WrapType.Through);
+                                        ////imageFileName = AppConfig.ImageURL + "letter-footer.JPG";
+                                        ////builder.InsertImage(imageFileName, Aspose.Words.Drawing.RelativeHorizontalPosition.Page, 25, Aspose.Words.Drawing.RelativeVerticalPosition.Page, 710, 550, 42, Aspose.Words.Drawing.WrapType.Through);
 
-                                        //Don't need merge fields in the document anymore.
-                                        doc.MailMerge.DeleteFields();
-                                        //builder.MoveToSection(0);
-                                        //builder.MoveToHeaderFooter(HeaderFooterType.FooterPrimary);
-                                        //builder.PageSetup.PageNumberStyle = NumberStyle.Number;
-                                        //builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
-                                        //builder.Write("Page ");
-                                        //builder.InsertField("PAGE", "");
-                                        //builder.Write(" of ");
-                                        //builder.InsertField("NUMPAGES", "");
-                                        //Section section = doc.Sections[0];
-                                        //section.PageSetup.PageStartingNumber = 1;
-                                        //section.PageSetup.RestartPageNumbering = true;
-                                        //section.PageSetup.PageNumberStyle = NumberStyle.Arabic;
+                                        ////Don't need merge fields in the document anymore.
+                                        //doc.MailMerge.DeleteFields();
+                                        ////builder.MoveToSection(0);
+                                        ////builder.MoveToHeaderFooter(HeaderFooterType.FooterPrimary);
+                                        ////builder.PageSetup.PageNumberStyle = NumberStyle.Number;
+                                        ////builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+                                        ////builder.Write("Page ");
+                                        ////builder.InsertField("PAGE", "");
+                                        ////builder.Write(" of ");
+                                        ////builder.InsertField("NUMPAGES", "");
+                                        ////Section section = doc.Sections[0];
+                                        ////section.PageSetup.PageStartingNumber = 1;
+                                        ////section.PageSetup.RestartPageNumbering = true;
+                                        ////section.PageSetup.PageNumberStyle = NumberStyle.Arabic;
 
-                                        doc.Save(strPath, Aspose.Words.SaveFormat.Doc);
+                                        //doc.Save(strPath, Aspose.Words.SaveFormat.Doc);
                                         
-                                        #endregion
+                                        //#endregion
 
+                                        #region " Generate PDF "
+                                        byte[] bPDF = null;
+
+                                        string strPath = AppDomain.CurrentDomain.BaseDirectory + @"Event_Abstract.pdf";
+
+                                        bPDF = GetBytypesFromString(ds_Event, Convert.ToDecimal(drEmailTO["PK_Event"]));
+
+                                        File.WriteAllBytes(strPath, bPDF);
+
+                                        #endregion
 
 
                                         WriteLog("Sending Event Abstract Notification for Event Number: " + drEmailTO["Event_Number"], _strCsvPath, false);
@@ -204,23 +216,22 @@ namespace Erims_ACI_ImportEvent_Mail
                                         System.Collections.Generic.List<string> lstImages = new System.Collections.Generic.List<string>();
                                         int intImagescount = 0;
 
-                                        
-                                        //if (!string.IsNullOrEmpty(_strAttachmentName) && File.Exists(_strImagePath + _strAttachmentName))
-                                        //{
-                                        //    lstImages.Insert(intImagescount, _strImagePath + _strAttachmentName);
-                                        //    intImagescount++;
-                                        //}
+                                        if (!string.IsNullOrEmpty(_strAttachmentName) && File.Exists(_strImagePath + _strAttachmentName))
+                                        {
+                                            lstImages.Insert(intImagescount, _strImagePath + _strAttachmentName);
+                                            intImagescount++;
+                                        }
 
-                                        //DataTable dtInvestigationImages = ds_Event.Tables[6];
+                                        DataTable dtInvestigationImages = ds_Event.Tables[6];
 
-                                        //foreach (DataRow drEvent_Images in dtInvestigationImages.Rows)
-                                        //{
-                                        //    if (!string.IsNullOrEmpty(Convert.ToString(drEvent_Images["Attachment_Name"])) && File.Exists(_strInvestigationImagePath + drEvent_Images["Attachment_Name"]))
-                                        //    {
-                                        //        lstImages.Insert(intImagescount, _strInvestigationImagePath + drEvent_Images["Attachment_Name"]);
-                                        //        intImagescount++;
-                                        //    }
-                                        //}
+                                        foreach (DataRow drEvent_Images in dtInvestigationImages.Rows)
+                                        {
+                                            if (!string.IsNullOrEmpty(Convert.ToString(drEvent_Images["Attachment_Name"])) && File.Exists(_strInvestigationImagePath + drEvent_Images["Attachment_Name"]))
+                                            {
+                                                lstImages.Insert(intImagescount, _strInvestigationImagePath + drEvent_Images["Attachment_Name"]);
+                                                intImagescount++;
+                                            }
+                                        }
 
                                         DataTable dtEventAttachment = ds_Event.Tables[9];
 
@@ -244,6 +255,15 @@ namespace Erims_ACI_ImportEvent_Mail
                                         mSmtpClient.Host = _strSMTPServer;
                                         mSmtpClient.Credentials = new System.Net.NetworkCredential(_strSMTPmail, _strSMTPPwd);
 
+                                        int Imagecouter = 0;
+                                        Attachment attachment = null;
+                                        if (!string.IsNullOrEmpty(_strAttachmentName) && File.Exists(_strImagePath + _strAttachmentName))
+                                        {
+                                            attachment = new Attachment(_strImagePath + _strAttachmentName);
+                                            string ContentID = "Event_Images_" + Imagecouter;
+                                            attachment.ContentId = ContentID;
+                                        }
+
                                         if (!string.IsNullOrEmpty(Convert.ToString(drEmailTO["Email"])))
                                         {
                                             if (Convert.ToString(drEmailTO["Email"]).Contains(","))
@@ -265,24 +285,44 @@ namespace Erims_ACI_ImportEvent_Mail
                                             {
                                                 try
                                                 {
-                                                    //mail.Body = strEventAbstrct;
-                                                    mail.Body = "ACI Actionable Event Abstract for Event Number: " + drEmailTO["Event_Number"] + ".<br/>Thank You";
-                                                    if (strTemp != null && strTemp.Length > 0)
-                                                    {
-                                                        #region " Generate Zip "
+                                                    mail.Body = strEventAbstrct;
+                                                    //mail.Body = "ACI Actionable Event Abstract for Event Number: " + drEmailTO["Event_Number"] + ".<br/>Thank You";
+                                                    //if (strTemp != null && strTemp.Length > 0)
+                                                    //{
+                                                    //    #region " Generate Zip "
 
-                                                        string strzipDir = AppDomain.CurrentDomain.BaseDirectory + @"Event_Attachment";
-                                                        AciImportHelper.SetZipDirectory(strTemp, strzipDir);
-                                                        AciImportHelper.ConvertZIP(strzipDir);
-                                                        System.IO.FileInfo file = new System.IO.FileInfo(strzipDir + ".Zip");
-                                                        string zipFile = Convert.ToString(file);
-                                                        mail.Attachments.Add(new Attachment(zipFile));
+                                                    //    string strzipDir = AppDomain.CurrentDomain.BaseDirectory + @"Event_Attachment";
+                                                    //    AciImportHelper.SetZipDirectory(strTemp, strzipDir);
+                                                    //    AciImportHelper.ConvertZIP(strzipDir);
+                                                    //    System.IO.FileInfo file = new System.IO.FileInfo(strzipDir + ".Zip");
+                                                    //    string zipFile = Convert.ToString(file);
+                                                    //    mail.Attachments.Add(new Attachment(zipFile));
                                                         
-                                                        #endregion
+                                                    //    #endregion
+                                                    //}
+
+                                                    
+                                                    foreach (string strAttachment in strTemp)
+                                                    {
+                                                        if (File.Exists(strAttachment))
+                                                        {
+                                                            System.Net.Mail.Attachment MailAttachment = new System.Net.Mail.Attachment(strAttachment);
+                                                            //MailAttachment.ContentId = "Event_Images_" + Imagecouter;
+                                                            if (MailAttachment != null)
+                                                            {
+                                                                mail.Attachments.Add(MailAttachment);
+                                                            }
+                                                        }
+                                                        //Imagecouter++;
                                                     }
+
                                                     if (!string.IsNullOrEmpty(strPath) && File.Exists(strPath))
                                                     {
                                                         mail.Attachments.Add(new Attachment(strPath));
+                                                    }
+                                                    if (attachment != null)
+                                                    {
+                                                        mail.Attachments.Add(attachment);
                                                     }
 
                                                     mail.IsBodyHtml = true;
@@ -336,7 +376,7 @@ namespace Erims_ACI_ImportEvent_Mail
 
                     if (ms > 0)
                     {
-                        WriteLog("Thread sleeps for next " + ms/60000 + " Minutes", _strCsvPath, false);
+                        //WriteLog("Thread sleeps for next " + ms/60000 + " Minutes", _strCsvPath, false);
                         Thread.Sleep(ms);
                     }
              
@@ -647,6 +687,50 @@ namespace Erims_ACI_ImportEvent_Mail
             return sbGrid.ToString();
         }
 
+        public string GetEventBuildingDetails(DataTable dtEventBuildingGrid)
+        {
+            StringBuilder sbGrid = new StringBuilder(string.Empty);
+            sbGrid = new StringBuilder(string.Empty);
+            sbGrid.Append("<tr style='page-break-inside: avoid'><td colspan='3'> <table border='0' cellspacing='1' cellpadding='1' width='100%'>");
+            sbGrid.Append("<tr style='page-break-inside: avoid'>");
+            sbGrid.Append("<td style='font-size: 12px; font-family: Arial; font-weight: bold;page-break-inside : avoid' class='HeaderRow' colspan='6'>Building Grid</td></tr>");
+            sbGrid.Append("<tr style='page-break-inside: avoid'><td style='font-size: 12px; font-family: Arial;'  colspan='3'>");
+            if (dtEventBuildingGrid.Rows.Count > 0)
+            {
+                sbGrid.Append("<table width='100%'>");
+                sbGrid.Append("<tr style='background-color: #7f7f7f; font-family: Arial; color: white; font-size: 12px; font-weight: bold' valign=top>");
+                sbGrid.Append("<td  style='font-family: Arial; font-size: 12px;' align='left'> Building Description </td>");
+                sbGrid.Append("<td  style='font-family: Arial; font-size: 12px;' align='left'> Exterior/Interior </td>");
+                sbGrid.Append("<td  style='font-family: Arial; font-size: 12px;' align='left'> Restricted </td>");
+                sbGrid.Append("</tr>");
+
+                foreach (DataRow dr in dtEventBuildingGrid.Rows)
+                {
+                    sbGrid.Append("<tr valign=top>");
+                    sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left'>  {0} </td>", dr["Building_Description"]);
+                    sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left'>  {0} </td>", dr["Exterior_Interior"]);
+                    sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left'>  {0} </td>", dr["Restricted"]);
+                    sbGrid.Append("</tr>");
+                }
+                sbGrid.Append("</table>");
+                sbGrid.Append("</td>");
+                sbGrid.Append("</tr>");
+                sbGrid.Append("</table>");
+            }
+            else
+            {
+                sbGrid.Append("<table width='100%'>");
+                sbGrid.Append("<tr valign='top' style='font-family: Arial; font-size: 12px; padding-left:20px;' align='center'><td align='left'>No Records Found.</td></tr>");
+                sbGrid.Append("</table>");
+                sbGrid.Append("</td>");
+                sbGrid.Append("</tr>");
+                sbGrid.Append("</table>");
+            }
+            sbGrid.Append("</td></tr>");
+            sbGrid.Append("<tr><td>&nbsp;</td></tr>");
+            return sbGrid.ToString();
+        }
+
         public string GetBuildingDetailsDOC(DataTable dtBuilding)
         {
             StringBuilder sbGrid = new StringBuilder(string.Empty);
@@ -852,7 +936,7 @@ namespace Erims_ACI_ImportEvent_Mail
             return sbGrid.ToString();
         }
 
-        public StringBuilder Event_AbstactReport(DataSet dsEvent, decimal _PK_Event, bool ShowAttachments, Event.Claim_Major_Coverage MajorCoverageType)
+        public StringBuilder Event_AbstactReport(DataSet dsEvent, decimal _PK_Event, bool ShowAttachments, Event.Claim_Major_Coverage MajorCoverageType, bool ISBody)
         {
             //DataSet dsEvent = Event.GetEventAbstractLetterData(_PK_Event);
 
@@ -869,6 +953,7 @@ namespace Erims_ACI_ImportEvent_Mail
                 DataTable dtEventImages = dsEvent.Tables[6];
                 DataTable dtVehicleInformation = dsEvent.Tables[7];
                 DataTable dtSuspectInformation = dsEvent.Tables[8];
+                DataTable dtEvent_Buidling = dsEvent.Tables[10];
 
                 FileStream fsMail = null;
 
@@ -910,6 +995,7 @@ namespace Erims_ACI_ImportEvent_Mail
                 }
                 strBody = strBody.Replace("[Actionable_Event_Type]", strActionableEvent);
                 strBody = strBody.Replace("[Description_of_Event]", Convert.ToString(dtEvent.Rows[0]["Event_Desc"]));
+                strBody = strBody.Replace("[Event_Building_Grid]", GetEventBuildingDetails(dtEvent_Buidling));
                 if (!string.IsNullOrEmpty(Convert.ToString(dtEvent.Rows[0]["Event_Start_Date"])))
                     strBody = strBody.Replace("[Date_of_Event]", FormatDBNullDateToDisplay(dtEvent.Rows[0]["Event_Start_Date"]));
                 else
@@ -934,8 +1020,11 @@ namespace Erims_ACI_ImportEvent_Mail
                 {
                     //strBody = strBody.Replace("[Event_Image]", "<img  alt='' src='" + AppConfig.SiteURL + AttachmentDocPath + "/" + dtEvent.Rows[0]["Event_Image"] + "' Height='200' Width='200' />");
                     _strAttachmentName = Convert.ToString(dtEvent.Rows[0]["Event_Image"]);
-                    //strBody = strBody.Replace("[Event_Image]", "<img src=\"cid:Event_Images_" + ImageCounter + "\" Height=\"288\" Width=\"352\" />");
-                    strBody = strBody.Replace("[Event_Image]", string.Empty);
+                    if(ISBody)
+                        strBody = strBody.Replace("[Event_Image]", "<img src=\"cid:Event_Images_" + ImageCounter + "\" Height=\"288\" Width=\"352\" />");
+                    else
+                        strBody = strBody.Replace("[Event_Image]", "<img  alt='' src='" + _strImagePath + dtEvent.Rows[0]["Event_Image"] + "' Height='288' Width='352' />");
+                    //strBody = strBody.Replace("[Event_Image]", string.Empty);
                     ImageCounter++;
                 }
                 else
@@ -944,6 +1033,14 @@ namespace Erims_ACI_ImportEvent_Mail
                     _strAttachmentName = string.Empty;
                 }
                 #endregion
+
+                strBody = strBody.Replace("[AL_FR_Number]", Convert.ToString(dtEvent.Rows[0]["AL_FR_Number"]));
+                strBody = strBody.Replace("[DPD_FR_Number]", Convert.ToString(dtEvent.Rows[0]["DPD_FR_Number"]));
+                strBody = strBody.Replace("[PL_FR_Number]", Convert.ToString(dtEvent.Rows[0]["PL_FR_Number"]));
+                strBody = strBody.Replace("[Prop_FR_Number]", Convert.ToString(dtEvent.Rows[0]["Prop_FR_Number"]));
+                strBody = strBody.Replace("[Event_Root_Cause]", Convert.ToString(dtEvent.Rows[0]["Event_Root_Cause"]));
+                strBody = strBody.Replace("[How_Event_Prevented]", Convert.ToString(dtEvent.Rows[0]["How_Event_Prevented"]));
+                strBody = strBody.Replace("[Financial_Loss]", string.Format("{0:C2}", dtEvent.Rows[0]["Financial_Loss"]));
 
                 #region "Sonic Reported Event"
 
@@ -972,13 +1069,52 @@ namespace Erims_ACI_ImportEvent_Mail
                 strBody = strBody.Replace("[Suspect_Information_Grid]", GetSuspectDetails(dtSuspectInformation));
                 strBody = strBody.Replace("[Acadian_Notes_Grid]", GetACINotesDetails(dtACINotes));
 
+                strBody = strBody.Replace("[Status]", Convert.ToString(dtEvent.Rows[0]["Status"]));
+                if (!string.IsNullOrEmpty(Convert.ToString(dtEvent.Rows[0]["Date_Closed"])))
+                    strBody = strBody.Replace("[Date_Closed]", FormatDBNullDateToDisplay(dtEvent.Rows[0]["Date_Closed"]));
+                else
+                    strBody = strBody.Replace("[Date_Closed]", string.Empty);
+
                 strBody = strBody.Replace("[Sonic_Notes_Grid]", GetSonicNotesDetails(dtSonicNotes));
+                strBody = strBody.Replace("[Cause_Investigation]", Convert.ToString(dtEvent.Rows[0]["Cause_Investigation"]));
                
                 #endregion
 
                 #region "Images of Event"
 
                 string strEventImages = string.Empty;
+                if (!ISBody)
+                {
+                    if (dtEventImages.Rows.Count > 0)
+                    {
+                        strEventImages = "<table cellpadding='1' cellspacing='1' width='95%'>";
+
+                        foreach (DataRow drEvent_Images in dtEventImages.Rows)
+                        {
+                            if (!string.IsNullOrEmpty(Convert.ToString(drEvent_Images["Attachment_Name"])) && File.Exists(_strInvestigationImagePath + drEvent_Images["Attachment_Name"]))
+                            {
+                                System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(_strInvestigationImagePath + drEvent_Images["Attachment_Name"]);
+
+                                int originalWidth = bmp.Width;
+                                int originalHeight = bmp.Height;
+
+                                float ratioX = (float)700 / (float)originalWidth;
+                                float ratioY = (float)300 / (float)originalHeight;
+                                float ratio = Math.Min(ratioX, ratioY);
+
+                                // New width and height based on aspect ratio
+                                int newWidth = (int)(originalWidth * ratio);
+                                int newHeight = (int)(originalHeight * ratio);
+
+                                bmp.Dispose();
+
+                                strEventImages += "<tr style='page-break-inside: avoid'><td valign='top' align='center' border='3px solid'><img  alt='' src='" + _strInvestigationImagePath + drEvent_Images["Attachment_Name"] + "' BorderWidth='1px' BorderStyle='Solid' BorderColor='Black' Height='" + newHeight + "' Width='" + newWidth + "' /></td></tr>";
+                                ImageCounter++;
+                            }
+                        }
+                        strEventImages += "</table>";
+                    }
+                }
 
                 strBody = strBody.Replace("[Images_of_Event]", strEventImages);
 
@@ -1070,7 +1206,7 @@ namespace Erims_ACI_ImportEvent_Mail
                 if (!DBNull.Value.Equals(dtEvent.Rows[0]["Event_Image"]) && File.Exists(_strImagePath + dtEvent.Rows[0]["Event_Image"]) && !Is_Sonic_Event)
                 {
                     //strBody = strBody.Replace("[Event_Image]", "<img  alt='' src='" + AppConfig.SiteURL + AttachmentDocPath + "/" + dtEvent.Rows[0]["Event_Image"] + "' Height='200' Width='200' />");
-                    _strAttachmentName = Convert.ToString(dtEvent.Rows[0]["Event_Image"]);
+                    //_strAttachmentName = Convert.ToString(dtEvent.Rows[0]["Event_Image"]);
                     //strBody = strBody.Replace("[Event_Image]", "<img src=\"cid:Event_Images_" + ImageCounter + "\" Height=\"288\" Width=\"352\" />");
                     //strBody = strBody.Replace("[Event_Image]", string.Empty);
                     strBody = strBody.Replace("[Event_Image]", "<img  alt='' src='" + _strImagePath + dtEvent.Rows[0]["Event_Image"] + "' Height='288' Width='352' />");
@@ -1150,6 +1286,38 @@ namespace Erims_ACI_ImportEvent_Mail
 
             return strBody;
 
+        }
+
+        public byte[] GetBytypesFromString(DataSet dsEvent, decimal PK_Event)
+        {
+            string strFileName = string.Empty;
+            PdfConverter objPdf = new PdfConverter();
+            StringBuilder sbHtml = new StringBuilder();
+            Byte[] pdfByte = null;
+            objPdf.LicenseKey = "5M/VxNXE0NPE0srUxNfVytXWyt3d3d0=";
+            objPdf.PdfDocumentOptions.TopMargin = 20;
+            objPdf.PdfDocumentOptions.LeftMargin = 20;
+            objPdf.PdfDocumentOptions.RightMargin = 20;
+            objPdf.PdfDocumentOptions.BottomMargin = 20;
+            objPdf.PdfDocumentOptions.ShowHeader = false;
+            objPdf.PdfDocumentOptions.ShowFooter = false;
+            objPdf.PdfDocumentOptions.EmbedFonts = false;
+
+            objPdf.PdfDocumentOptions.LiveUrlsEnabled = false;
+            objPdf.RightToLeftEnabled = false;
+            objPdf.PdfSecurityOptions.CanPrint = true;
+            objPdf.PdfSecurityOptions.CanEditContent = true;
+            objPdf.PdfSecurityOptions.UserPassword = "";
+            objPdf.PdfDocumentOptions.PdfPageOrientation = PDFPageOrientation.Landscape;
+            objPdf.PdfDocumentOptions.PdfPageSize = PdfPageSize.Letter;
+            objPdf.PdfDocumentInfo.AuthorName = "eRIMS2";
+
+            sbHtml = Event_AbstactReport(dsEvent, PK_Event, false, Event.Claim_Major_Coverage.Event, false);
+            strFileName = "Event_Abstract.pdf";
+
+            pdfByte = objPdf.GetPdfBytesFromHtmlString(sbHtml.ToString());
+
+            return pdfByte;
         }
 
     }

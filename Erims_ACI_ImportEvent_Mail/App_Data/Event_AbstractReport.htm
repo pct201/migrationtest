@@ -40,11 +40,11 @@
         <tr>
             <td style="font-size: 12px; font-family: Arial;">
                 <table width="100%" style="font-weight: bold">
-                    <tr>
+                    <!--<tr>
                         <td style="border-bottom: 1px solid #000000; font-size: large" class="HeaderRow">
                             <b>ACI System, Inc.</b>
                         </td>
-                    </tr>
+                    </tr>-->
                     <tr>
                         <td style="font-size: 14px; font-family: Arial; font-weight: bold">
                             <b>Event Abstract</b>
@@ -98,6 +98,14 @@
                         </td>
                         <td style="font-size: 12px; font-family: Arial; vertical-align: top;" colspan="3">
                             [Description_of_Event]
+                            <table width="100%">
+                                <tr>
+                                    <td>
+                                        [Event_Building_Grid]
+                                    </td>
+                                </tr>
+                            </table>
+
                         </td>
                     </tr>
                     <tr>
@@ -131,7 +139,7 @@
                             [Event_End_Time]
                         </td>
                     </tr>
-                    <tr>
+                   <!-- <tr>
                         <td style="font-size: 12px; font-family: Arial; font-weight: bold;">
                             <b>Event Level</b>
                         </td>
@@ -142,7 +150,7 @@
                             [Event_Level]
                         </td>
                     </tr>
-                    <!--[BuildingInformation]
+                    [BuildingInformation]
                     <tr style="page-break-inside: avoid">
                         <td style="font-size: 12px; font-family: Arial; font-weight: bold; vertical-align: top">
                             <b>Camera Grid</b>
@@ -225,7 +233,7 @@
                     </tr>
                     <tr>
                         <td style="font-size: 12px; font-family: Arial; font-weight: bold;">
-                            <b>Video Requested By Sonic?</b>
+                            <b>Do you want to Request Video?</b>
                         </td>
                         <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;">
                             :
@@ -234,7 +242,7 @@
                             [Video_Requested_By_Sonic]
                         </td>
                     </tr>
-                    <tr>
+                    <!--<tr>
                         <td style="font-size: 12px; font-family: Arial; font-weight: bold;">
                             <b>Police Called?</b>
                         </td>
@@ -244,7 +252,7 @@
                         <td style="font-size: 12px; font-family: Arial;">
                             [Police_Called]
                         </td>
-                    </tr>
+                    </tr>-->
                     <tr>
                         <td colspan="6" style="font-size: 12px; font-family: Arial;">
                             <table width="100%" cellpadding="3" cellspacing="1">
@@ -274,7 +282,7 @@
                                 <tr style="page-break-inside: avoid">
                                     <td style="font-size: 12px; font-family: Arial; font-weight: bold; padding-left: 60px;"
                                         width="24%">
-                                        <b>Agency Name</b>
+                                        <b>Police Dept Agency Name</b>
                                     </td>
                                     <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;"
                                         width="4%">
@@ -287,7 +295,7 @@
                                 <tr style="page-break-inside: avoid">
                                     <td style="font-size: 12px; font-family: Arial; font-weight: bold; padding-left: 60px;"
                                         width="24%">
-                                        <b>Officer Name</b>
+                                        <b>Police Officer Name</b>
                                     </td>
                                     <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;"
                                         width="4%">
@@ -300,7 +308,7 @@
                                 <tr style="page-break-inside: avoid">
                                     <td style="font-size: 12px; font-family: Arial; font-weight: bold; padding-left: 60px;"
                                         width="24%">
-                                        <b>Phone #</b>
+                                        <b>Police Department Phone #</b>
                                     </td>
                                     <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;"
                                         width="4%">
@@ -326,8 +334,13 @@
                             </table>
                         </td>
                     </tr>
+                    <tr>
+                        <td colspan="6">
+                            &nbsp;
+                        </td>
+                    </tr>
                     <tr style="page-break-inside: avoid">
-                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; vertical-align: text-top;">
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; vertical-align: top;">
                             <b>Vehicle Information Grid</b>
                         </td>
                         <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;">
@@ -344,7 +357,7 @@
                         </td>
                     </tr>
                     <tr style="page-break-inside: avoid">
-                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; vertical-align: text-top;">
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; vertical-align: top;">
                             <b>Suspect Information Grid</b>
                         </td>
                         <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;">
@@ -361,7 +374,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="font-size: 12px; font-family: Arial; font-weight: bold;">
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; vertical-align: top;">
                             <b>Incident Report</b>
                         </td>
                         <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;">
@@ -369,6 +382,166 @@
                         </td>
                         <td style="font-size: 12px; font-family: Arial;" colspan="4">
                             [Incident_Report_Desc]
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">
+                            &nbsp;
+                        </td>
+                    </tr>
+                    <!--<tr style="page-break-inside: avoid">
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; vertical-align: top;">
+                            <b>Acadian Notes Grid</b>
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;">
+                            :
+                        </td>
+                        <td colspan="4" style="font-size: 12px; font-family: Arial;">
+                            <table width="100%" cellpadding="3" cellspacing="1">
+                                <tr style="page-break-inside: avoid">
+                                    <td style="font-size: 12px; font-family: Arial;" colspan="6">
+                                        [Acadian_Notes_Grid]
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>-->
+                    <!--<tr>
+                        <td colspan="6">
+                            &nbsp;
+                        </td>
+                    </tr>
+                    <tr style="page-break-inside: avoid">
+                        <td colspan="6">
+                            <table width="100%">
+                                <tr style="page-break-inside: avoid">
+                                    <td style="font-size: 12px; font-family: Arial; font-weight: bold;" colspan="6" class="HeaderRow">
+                                        <b>Sonic Notes</b>
+                                    </td>
+                                </tr>
+                                <tr style="page-break-inside: avoid">
+                                    <td style="font-size: 12px; font-family: Arial; font-weight: bold; vertical-align:top;" width="18%">
+                                        <b>Sonic Notes Grid</b>
+                                    </td>
+                                    <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;" width="4%">
+                                        :
+                                    </td>    
+                                    <td colspan="4" style="font-size: 12px; font-family: Arial;">
+                                        <table width="100%" cellpadding="3" cellspacing="1">
+                                            <tr style="page-break-inside: avoid">
+                                                <td style="font-size: 12px; font-family: Arial;" colspan="6">
+                                                    [Sonic_Notes_Grid]
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>-->
+                    <tr>
+                        <td colspan="6">
+                            &nbsp;
+                        </td>
+                    </tr>
+                    <tr style="page-break-inside: avoid">
+                        <td colspan="6">
+                            <table width="100%">
+                                <tr style="page-break-inside: avoid">
+                                    <td style="font-size: 12px; font-family: arial; font-weight: bold;" colspan="6" class="HeaderRow">
+                                        <b>Notes</b>
+                                    </td>
+                                </tr>
+                                <tr style="page-break-inside: avoid">
+                                    <td style="font-size: 12px; font-family: arial; font-weight: bold; vertical-align:top;" width="18%">
+                                        <b>Notes grid</b>
+                                    </td>
+                                    <td style="font-size: 12px; font-family: arial; vertical-align: top; text-align: center;" width="4%">
+                                        :
+                                    </td>    
+                                    <td colspan="4" style="font-size: 12px; font-family: arial;">
+                                        <table width="100%" cellpadding="3" cellspacing="1">
+                                            <tr style="page-break-inside: avoid">
+                                                <td style="font-size: 12px; font-family: arial;" colspan="6">
+                                                    [Sonic_Notes_Grid]
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">
+                            &nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" valign="top">
+                            <b>Images of Event : </b>
+                        </td>
+                        <td align="center" valign="top" colspan="5">
+                            &nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" align="center">
+                            <div style="width: 95%; border: 3px solid;">
+                                [Images_of_Event]
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">
+                            &nbsp;
+                        </td>
+                    </tr>
+                    <tr style="page-break-inside: avoid">
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; vertical-align: top;"
+                            width="18%">
+                            <b>Status</b>
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;"
+                            width="4%">
+                            :
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: top;" width="28%">
+                            [Status]
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; vertical-align: top;"
+                            width="20%">
+                            <b>Date Closed</b>
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;"
+                            width="4%">
+                            :
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: top;" width="26%">
+                            [Date_Closed]
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">
+                            &nbsp;
+                        </td>
+                    </tr>
+                    <tr style="page-break-inside: avoid">
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold;" colspan="6" class="HeaderRow">
+                            <b>Cause Investigation</b>
+                        </td>
+                    </tr>
+                    <tr style="page-break-inside: avoid">
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; vertical-align: top;"
+                            width="18%">
+                            <b>Cause Investigation</b>
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;"
+                            width="4%">
+                            :
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: top;" width="78%" colspan="4">
+                            [Cause_Investigation]
                         </td>
                     </tr>
                     <tr>
@@ -403,78 +576,106 @@
                             <table width="100%">
                                 <tr style="page-break-inside: avoid">
                                     <td style="font-size: 12px; font-family: Arial; font-weight: bold;" colspan="6" class="HeaderRow">
-                                        <b>Sonic Notes</b>
+                                        <b>Insurance Type Claim</b>
                                     </td>
                                 </tr>
                                 <tr style="page-break-inside: avoid">
-                                    <td style="font-size: 12px; font-family: Arial; font-weight: bold; vertical-align:top;" width="18%">
-                                        <b>Sonic Notes Grid</b>
+                                    <td style="font-size: 12px; font-family: Arial; font-weight: bold;" width="32%">
+                                        <b>Claim Type</b>
                                     </td>
-                                    <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;" width="4%">
+                                    <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;"
+                                        width="4%"></td>
+                                    <td style="font-size: 12px; font-family: Arial;" width="14%">
+                                        &nbsp;
+                                    </td>
+                                </tr>
+                                <tr style="page-break-inside: avoid">
+                                    <td style="font-size: 12px; font-family: Arial; font-weight: bold;" width="32%">
+                                        <b>Auto Liability - FROI #</b>
+                                    </td>
+                                    <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;"
+                                        width="4%">
                                         :
-                                    </td>    
-                                    <td colspan="4" style="font-size: 12px; font-family: Arial;">
-                                        <table width="100%" cellpadding="3" cellspacing="1">
-                                            <tr style="page-break-inside: avoid">
-                                                <td style="font-size: 12px; font-family: Arial;" colspan="6">
-                                                    [Sonic_Notes_Grid]
-                                                </td>
-                                            </tr>
-                                        </table>
+                                    </td>
+                                    <td style="font-size: 12px; font-family: Arial;" width="14%">
+                                        [AL_FR_Number]
+                                    </td>
+                                </tr>
+                                <tr style="page-break-inside: avoid">
+                                    <td style="font-size: 12px; font-family: Arial; font-weight: bold;" width="32%">
+                                        <b>DPD - FROI #</b>
+                                    </td>
+                                    <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;"
+                                        width="4%">
+                                        :
+                                    </td>
+                                    <td style="font-size: 12px; font-family: Arial;" width="14%">
+                                        [DPD_FR_Number]
+                                    </td>
+                                </tr>
+                                <tr style="page-break-inside: avoid">
+                                    <td style="font-size: 12px; font-family: Arial; font-weight: bold;" width="32%">
+                                        <b>Premises Liability - FROI #</b>
+                                    </td>
+                                    <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;"
+                                        width="4%">
+                                        :
+                                    </td>
+                                    <td style="font-size: 12px; font-family: Arial;" width="14%">
+                                        [PL_FR_Number]
+                                    </td>
+                                </tr>
+                                <tr style="page-break-inside: avoid">
+                                    <td style="font-size: 12px; font-family: Arial; font-weight: bold;" width="32%">
+                                        <b>Property Damage - FROI #</b>
+                                    </td>
+                                    <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;"
+                                        width="4%">
+                                        :
+                                    </td>
+                                    <td style="font-size: 12px; font-family: Arial;" width="14%">
+                                        [Prop_FR_Number]
+                                    </td>
+                                </tr>
+                                <tr style="page-break-inside: avoid">
+                                    <td style="font-size: 12px; font-family: Arial; font-weight: bold;" width="32%">
+                                        <b>What is the Event's root cause?</b>
+                                    </td>
+                                    <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;"
+                                        width="4%">
+                                        :
+                                    </td>
+                                    <td style="font-size: 12px; font-family: Arial;" width="14%">
+                                        [Event_Root_Cause]
+                                    </td>
+                                </tr>
+                                <tr style="page-break-inside: avoid">
+                                    <td style="font-size: 12px; font-family: Arial; font-weight: bold;" width="32%">
+                                        <b>How can the event be prevented from happening again?</b>
+                                    </td>
+                                    <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;"
+                                        width="4%">
+                                        :
+                                    </td>
+                                    <td style="font-size: 12px; font-family: Arial;" width="14%">
+                                        [How_Event_Prevented]
+                                    </td>
+                                </tr>
+                                <tr style="page-break-inside: avoid">
+                                    <td style="font-size: 12px; font-family: Arial; font-weight: bold;" width="32%">
+                                        <b>Financial Loss</b>
+                                    </td>
+                                    <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;"
+                                        width="4%">
+                                        :
+                                    </td>
+                                    <td style="font-size: 12px; font-family: Arial;" width="14%">
+                                        [Financial_Loss]
                                     </td>
                                 </tr>
                             </table>
                         </td>
                     </tr>
-                    <tr>
-                        <td colspan="6">
-                            &nbsp;
-                        </td>
-                    </tr>
-                    <!--<tr style="page-break-inside: avoid">
-                        <td colspan="6">
-                            <table width="100%">
-                                <tr style="page-break-inside: avoid">
-                                    <td style="font-size: 12px; font-family: Arial; font-weight: bold;" colspan="6" class="HeaderRow">
-                                        <b>Sonic Notes</b>
-                                    </td>
-                                </tr>
-                                <tr style="page-break-inside: avoid">
-                                    <td style="font-size: 12px; font-family: Arial; font-weight: bold; vertical-align:top;" width="18%">
-                                        <b>Sonic Notes Grid</b>
-                                    </td>
-                                    <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center;" width="4%">
-                                        :
-                                    </td>    
-                                    <td colspan="4" style="font-size: 12px; font-family: Arial;">
-                                        <table width="100%" cellpadding="3" cellspacing="1">
-                                            <tr style="page-break-inside: avoid">
-                                                <td style="font-size: 12px; font-family: Arial;" colspan="6">
-                                                    [Sonic_Notes_Grid]
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>-->
-                    <tr>
-                        <td align="left" valign="top">
-                            <b>Images of Event : </b>
-                        </td>
-                        <td align="center" valign="top" colspan="5">
-                            &nbsp;
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="6" align="center">
-                            <div style="width: 95%; border: 3px solid;">
-                                [Images_of_Event]
-                            </div>
-                        </td>
-                    </tr>
-
                 </table>
             </td>
         </tr>
