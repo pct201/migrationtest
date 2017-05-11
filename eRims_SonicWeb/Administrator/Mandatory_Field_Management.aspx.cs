@@ -127,7 +127,7 @@ public partial class Administrator_Mandatory_Field_Management : clsBasePage
     /// </summary>
     private void BindDropDowns()
     {
-        ComboHelper.FillLookUp(new DropDownList[] { drpModules }, "Module", "ModuleId", "ModuleName", "", "", "ModuleName");
+        ComboHelper.FillLookUp(new DropDownList[] { drpModules }, "Module", "ModuleId", "ModuleName", string.Empty, "ModuleName<>'Event'", "ModuleName");
 
         ListItem lst = drpModules.Items.FindByText("RealEstate");
         if (lst != null)

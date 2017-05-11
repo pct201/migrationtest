@@ -124,6 +124,7 @@ public partial class Management_Management : clsBasePage
                 {
                     BindDropDown();
                     BindDetailsForEdit();
+                    SetValidationsManagement();
                     ucAttachment.FK_Table = PK_Management;
                     ucAttachment.ReadOnly = false;
                     btnResendManagementAbstract.Text = "Save and Send Management Abstract";
@@ -153,6 +154,7 @@ public partial class Management_Management : clsBasePage
                 txtDate_Entered.Text = DateTime.Now.ToString("MM/dd/yyyy");
                 txtRequestedBy.Text = clsSession.FirstName.Trim() + " " + clsSession.LastName.Trim();
                 txtCreatedBy.Text = clsSession.FirstName.Trim() + " " + clsSession.LastName.Trim();
+                SetValidationsManagement();
             }
 
             BindProjectCostGrid();
@@ -190,6 +192,8 @@ public partial class Management_Management : clsBasePage
     /// </summary>
     private void SaveRecord()
     {
+        bool AllApproved = false;
+
         clsManagement objRecord = new clsManagement();
         objRecord.PK_Management_ID = PK_Management;
 
@@ -261,20 +265,24 @@ public partial class Management_Management : clsBasePage
 
         //objRecord.No_Approval_Needed = chkNoApprovalNeeded.Checked;
 
-       // if (clsGeneral.GetDecimalValue(txtService_Repair_Cost) > 1000)
-       // {
-           // objRecord.Approval_Needed = chkApprovalNeeded.Checked;
-            objRecord.No_Approval_Needed = chkNoApprovalNeeded.Checked;
-       // }
-       // else if (clsGeneral.GetDecimalValue(txtService_Repair_Cost) < 1000)
-       // {
-            objRecord.Approval_Needed = chkApprovalNeeded.Checked;
-       //     objRecord.No_Approval_Needed = chkNoApprovalNeeded.Checked;
-       // }
+        // if (clsGeneral.GetDecimalValue(txtService_Repair_Cost) > 1000)
+        // {
+        // objRecord.Approval_Needed = chkApprovalNeeded.Checked;
+        objRecord.No_Approval_Needed = chkNoApprovalNeeded.Checked;
+        // }
+        // else if (clsGeneral.GetDecimalValue(txtService_Repair_Cost) < 1000)
+        // {
+        objRecord.Approval_Needed = chkApprovalNeeded.Checked;
+        //     objRecord.No_Approval_Needed = chkNoApprovalNeeded.Checked;
+        // }
+
+        decimal? temp_FK_LU_Approval_Submission = null;
+        if(PK_Management > 0)
+            temp_FK_LU_Approval_Submission = (new clsManagement(PK_Management)).FK_LU_Approval_Submission;
 
         if (chkNoApprovalNeeded.Checked)
             objRecord.FK_LU_Approval_Submission = Convert.ToDecimal(drpFK_LU_Approval_Submission.Items.FindByText("Yes").Value);
-        else 
+        else
             objRecord.FK_LU_Approval_Submission = Convert.ToDecimal(hdnApprovalSubmission.Value);
 
         if (!string.IsNullOrEmpty(Convert.ToString(rdbRPMApproval.SelectedValue)))
@@ -320,7 +328,7 @@ public partial class Management_Management : clsBasePage
             objRecord.GM_Decision = false;
         else
             objRecord.GM_Decision = null;
-        
+
         objRecord.RLCM_Email_To = txtRLCM_Email_To.Text;
         objRecord.RLCM_Last_Email_Date = clsGeneral.FormatNullDateToStore(txtRLCM_Last_Email_Date.Text);
         objRecord.RLCM_Response_Date = clsGeneral.FormatNullDateToStore(txtRLCM_Response_Date.Text);
@@ -370,6 +378,9 @@ public partial class Management_Management : clsBasePage
             PK_Management = objRecord.Insert();
             //ViewState["EmailAbsratact"] = PK_Management;
         }
+
+        if (!temp_FK_LU_Approval_Submission.HasValue && objRecord.FK_LU_Approval_Submission.Value != 0 && (new clsLU_Approval_Submission(objRecord.FK_LU_Approval_Submission.Value)).Fld_Desc.ToLower() == "yes")
+            SendAbstractViaEmailWhileInsert();
     }
 
     /// <summary>
@@ -439,12 +450,18 @@ public partial class Management_Management : clsBasePage
                 trApprovals.Style.Add("display", "none");
                 chkNoApprovalNeeded.Checked = true;
                 showHideOriginalService(true);
+                if (objRecord.Approval_Needed.HasValue && objRecord.Approval_Needed.Value)
+                    trApprovals.Style.Add("display", "block");
             }
             else
             {
                 trApprovals.Style.Add("display", "block");
                 chkNoApprovalNeeded.Checked = false;
                 showHideOriginalService(false);
+                if (objRecord.Approval_Needed.HasValue && objRecord.Approval_Needed.Value)
+                    trApprovals.Style.Add("display", "block");
+                else
+                    trApprovals.Style.Add("display", "none");
             }
 
             if (objRecord.Approval_Needed.HasValue && objRecord.Approval_Needed.Value)
@@ -484,10 +501,10 @@ public partial class Management_Management : clsBasePage
             else
                 trRPMApproval.Style.Add("display", "none");
 
-            txtPreviousContractAmount.Text = clsGeneral.GetStringValue(objRecord.Previous_Contract_Amount );
-            txtRevisedContractAmount.Text =  clsGeneral.GetStringValue(objRecord.Revised_Contract_Amount);
+            txtPreviousContractAmount.Text = clsGeneral.GetStringValue(objRecord.Previous_Contract_Amount);
+            txtRevisedContractAmount.Text = clsGeneral.GetStringValue(objRecord.Revised_Contract_Amount);
             ctrlReason_Request.Text = objRecord.Reason_for_Request != null ? Convert.ToString(objRecord.Reason_for_Request) : "";
-            
+
             clsGeneral.SetDropdownValue(drpFK_Work_Completed, objRecord.FK_LU_Work_Completed, true);
 
             txtdate_Scheduled.Text = clsGeneral.FormatDBNullDateToDisplay(objRecord.Date_Scheduled);
@@ -524,7 +541,7 @@ public partial class Management_Management : clsBasePage
 
             txtDRM_Email_To.Text = Convert.ToString(objRecord.DRM_Email_To);
             txtDRM_Last_Email_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objRecord.DRM_Last_Email_Date);
-            txtDRM_Response_Date .Text = clsGeneral.FormatDBNullDateToDisplay(objRecord.DRM_Response_Date);
+            txtDRM_Response_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objRecord.DRM_Response_Date);
             if (!string.IsNullOrEmpty(Convert.ToString(objRecord.DRM_Decision)))
                 rdoDRM_Decision.SelectedValue = Convert.ToString(Convert.ToDecimal(objRecord.DRM_Decision));
             else
@@ -532,14 +549,14 @@ public partial class Management_Management : clsBasePage
 
             txtComments.Text = Convert.ToString(objRecord.Comment);
 
-            if (chkApprovalNeeded.Checked || !chkNoApprovalNeeded.Checked)
-            {
-                trApprovals.Style.Add("display", "block");
-            }
-            else
-            {
-                trApprovals.Style.Add("display", "none");
-            }
+            //if (chkApprovalNeeded.Checked || !chkNoApprovalNeeded.Checked)
+            //{
+            //    trApprovals.Style.Add("display", "block");
+            //}
+            //else
+            //{
+            //    trApprovals.Style.Add("display", "none");
+            //}
 
             //********************* Approval screen end**********************//
             BindManagementNoteGrid(ctrlPageSonicNotes.CurrentPage, ctrlPageSonicNotes.PageSize);
@@ -630,6 +647,22 @@ public partial class Management_Management : clsBasePage
             lblFK_LU_Maintenance_Status.Text = objRecord.FK_LU_Maintenance_Status.HasValue ? new LU_Maintenance_Status(objRecord.FK_LU_Maintenance_Status.Value).Fld_Desc : "";
             if (objRecord.No_Approval_Needed != null) chkNoAppovalNeededView.Checked = objRecord.No_Approval_Needed.Value;
             if (objRecord.Approval_Needed != null) chkApprovalNeededView.Checked = objRecord.Approval_Needed.Value;
+
+
+            if (objRecord.No_Approval_Needed.HasValue && objRecord.No_Approval_Needed.Value)
+            {
+                trApprovals.Style.Add("display", "none");
+                if (objRecord.Approval_Needed.HasValue && objRecord.Approval_Needed.Value)
+                    trApprovals.Style.Add("display", "block");
+            }
+            else
+            {
+                trApprovals.Style.Add("display", "block");                
+                if (objRecord.Approval_Needed.HasValue && objRecord.Approval_Needed.Value)
+                    trApprovals.Style.Add("display", "block");
+                else
+                    trApprovals.Style.Add("display", "none");
+            }
             //if (objRecord.FK_LU_State != null)
             //    lblState.Text = new LU_State((decimal)objRecord.FK_LU_State).Fld_Desc;
             //else
@@ -759,7 +792,7 @@ public partial class Management_Management : clsBasePage
                     lblGM_Decisionview.Text = "";
                     break;
             }
-            
+
 
             lblRLCM_Email_To.Text = Convert.ToString(objRecord.RLCM_Email_To);
             lblRLCM_Last_Email_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objRecord.RLCM_Last_Email_Date);
@@ -776,7 +809,7 @@ public partial class Management_Management : clsBasePage
                     lblRLCM_Decisionview.Text = "";
                     break;
             }
-           
+
 
             lblNAPM_Email_To.Text = Convert.ToString(objRecord.NAPM_Email_To);
             lblNAPM_Last_Email_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objRecord.NAPM_Last_Email_Date);
@@ -809,17 +842,17 @@ public partial class Management_Management : clsBasePage
                     lblDRM_Decisionview.Text = "";
                     break;
             }
-           
+
             lblComments.Text = Convert.ToString(objRecord.Comment);
 
-            if (chkApprovalNeededView.Checked || !chkNoAppovalNeededView.Checked)
-            {
-                trApprovals.Style.Add("display", "block");
-            }
-            else
-            {
-                trApprovals.Style.Add("display", "none");
-            }
+            //if (chkApprovalNeededView.Checked || !chkNoAppovalNeededView.Checked)
+            //{
+            //    trApprovals.Style.Add("display", "block");
+            //}
+            //else
+            //{
+            //    trApprovals.Style.Add("display", "none");
+            //}
 
             //********************* Approval screen end**********************//
 
@@ -1179,7 +1212,7 @@ public partial class Management_Management : clsBasePage
             strBody = strBody.Replace("[CRApproved]", clsGeneral.FormatDBNullDateToDisplay(dtManagementDetail.Rows[0]["CR_Approved"]));
             strBody = strBody.Replace("[RecordType]", Convert.ToString(dtManagementDetail.Rows[0]["RecordType"]));
             strBody = strBody.Replace("[Approval_Submission]", Convert.ToString(dtManagementDetail.Rows[0]["Approval_Submission"]));
-            
+
             //strBody = strBody.Replace("[RecordTypeOther]", Convert.ToString(dtManagementDetail.Rows[0]["Record_Type_Other"]));
             strBody = strBody.Replace("[Job#]", Convert.ToString(dtManagementDetail.Rows[0]["Job"]));
             //strBody = strBody.Replace("[Order#]", Convert.ToString(dtManagementDetail.Rows[0]["Order"]));
@@ -1559,7 +1592,8 @@ public partial class Management_Management : clsBasePage
 
         SaveRecord();
 
-        SendAbstractViaEmailWhileInsert();
+        if (StrOperation.ToLower() == "add")
+            SendAbstractViaEmailWhileInsert();
 
         //if (ViewState["EmailAbsratact"] != null)
         //{
@@ -1568,11 +1602,11 @@ public partial class Management_Management : clsBasePage
 
         if (StrOperation.ToLower() == "add" || StrOperation.ToLower() == "addto" || StrOperation.ToLower() == "")
         {
-            Response.Redirect("Management.aspx?id=" + Encryption.Encrypt(PK_Management.ToString()) + "&pnl=" + hdnPanel.Value +"&mode=edit"  , true);
+            Response.Redirect("Management.aspx?id=" + Encryption.Encrypt(PK_Management.ToString()) + "&pnl=" + hdnPanel.Value + "&mode=edit", true);
         }
         else
         {
-            Response.Redirect("Management.aspx?id=" + Encryption.Encrypt(PK_Management.ToString()) + "&pnl=" + hdnPanel.Value + "&mode=view" , true);
+            Response.Redirect("Management.aspx?id=" + Encryption.Encrypt(PK_Management.ToString()) + "&pnl=" + hdnPanel.Value + "&mode=view", true);
 
         }
     }
@@ -1853,7 +1887,7 @@ public partial class Management_Management : clsBasePage
         if (PK_Management > 0)
         {
             Response.Redirect("ACI_Management_ProjectCost_Invoice.aspx?id=" + Encryption.Encrypt(Convert.ToString(PK_Management)) + "&pnl=" + hdnPanel.Value + "&op=add", true);
-        }      
+        }
     }
 
     /// <summary>
@@ -1863,7 +1897,7 @@ public partial class Management_Management : clsBasePage
     /// <param name="e"></param>
     protected void lnkAddManagementNotesNew_Click(object sender, EventArgs e)
     {
-        
+
         _PK_Management_Notes = 0;
         trManagementNotesGrid.Style.Add("display", "none");
         trManagementNotes.Style.Add("display", "");
@@ -1872,6 +1906,10 @@ public partial class Management_Management : clsBasePage
         //txtACI_Notes_Date.Text = string.Empty;
         txtManagement_Notes.Text = string.Empty;
         drpFK_LU_Management_Task_Process.SelectedIndex = -1;
+
+        string strCtrlsIDsManagement = "";
+        string strMessagesManagement = "";
+
         //((ScriptManager)this.Master.FindControl("scMain")).SetFocus(txtACI_Notes_Date);
     }
 
@@ -2004,7 +2042,7 @@ public partial class Management_Management : clsBasePage
             _PK_ID_Store = Convert.ToDecimal(e.CommandArgument);
             // show and hide Add-edit row
             trstoreGrid.Style.Add("display", "none");
-            trstoreContact.Style.Add("display", "block");
+            trstoreContact.Style.Add("display", "");
             lnkStoreCancel.Style.Add("display", "inline");
             btnStoreAdd.Text = "Update";
             // get record from database
@@ -2079,7 +2117,7 @@ public partial class Management_Management : clsBasePage
             _PK_ID_ACI = Convert.ToDecimal(e.CommandArgument);
             // show and hide Add-edit row
             trACIGrid.Style.Add("display", "none");
-            trACIContact.Style.Add("display", "block");
+            trACIContact.Style.Add("display", "");
             lnkACICancel.Style.Add("display", "inline");
             btnACIAdd.Text = "Update";
             // get record from database
@@ -2196,14 +2234,14 @@ public partial class Management_Management : clsBasePage
             //    Response.Redirect("ACI_Management_Project_Cost.aspx?id=" + Encryption.Encrypt(decFK_Management.ToString()) + "&PCI=" + Encryption.Encrypt(decPK_ACIManagement_ProjectCost.ToString()) + "&pnl=" + hdnPanel.Value + "&op=edit", true);
             //}
             //else
-             Response.Redirect("ACI_Management_Project_Cost.aspx?id=" + Encryption.Encrypt(decFK_Management.ToString()) + "&PCI=" + Encryption.Encrypt(decPK_ACIManagement_ProjectCost.ToString()) + "&pnl=" + hdnPanel.Value + "&op="+StrOperation, true);
+            Response.Redirect("ACI_Management_Project_Cost.aspx?id=" + Encryption.Encrypt(decFK_Management.ToString()) + "&PCI=" + Encryption.Encrypt(decPK_ACIManagement_ProjectCost.ToString()) + "&pnl=" + hdnPanel.Value + "&op=" + StrOperation, true);
         }
         if (e.CommandName == "RemoveProjectCost")
         {
             clsACIManagement_ProjectCost.DeleteByPK(Convert.ToDecimal(e.CommandArgument));
             BindProjectCostGrid();
             //chkIncludeCompProject.Checked = false;
-            ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel("+ hdnPanel.Value +");", true);
+            ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(" + hdnPanel.Value + ");", true);
         }
     }
     /// <summary>
@@ -2217,8 +2255,8 @@ public partial class Management_Management : clsBasePage
         if (PK_Management > 0)
         {
             Response.Redirect("ACI_Management_Project_Cost.aspx?id=" + Encryption.Encrypt(PK_Management.ToString()) + "&PCI=" + Encryption.Encrypt(PK_ACIManagement_ProjectCost.ToString()) + "&pnl=" + hdnPanel.Value + "&op=add", true);
-        }    
-     
+        }
+
     }
 
     protected void gvInvoice_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -2231,7 +2269,7 @@ public partial class Management_Management : clsBasePage
         {
             clsACIManagement_ProjectCost_Invoice.DeleteByPK(Convert.ToDecimal(e.CommandArgument));
             BindInvoiceGrid();
-            ScriptManager.RegisterStartupScript(this, this.GetType(), System.DateTime.Now.ToString(), "javascrip:ShowPanel("+hdnPanel.Value+");", true);
+            ScriptManager.RegisterStartupScript(this, this.GetType(), System.DateTime.Now.ToString(), "javascrip:ShowPanel(" + hdnPanel.Value + ");", true);
         }
     }
 
@@ -2344,9 +2382,93 @@ public partial class Management_Management : clsBasePage
     }
     #endregion
 
+    #region Dynamic Validations
+    /// <summary>
+    /// Set all Validations-Claim Information
+    /// </summary>
+    private void SetValidationsManagement()
+    {
+        string strCtrlsIDsManagement = "";
+        string strMessagesManagement = "";
+
+        string strCtrlsIDsStoreContact = "";
+        string strMessagesStoreContact = "";
+
+        string strCtrlsIDsACIContact = "";
+        string strMessagesACIContact = "";
+
+        #region " Fetch Management Required fields and set its validation messages "
+        DataTable dtFields = clsScreen_Validators.SelectByScreen(237).Tables[0];
+        dtFields.DefaultView.RowFilter = "IsRequired = '1'";
+        dtFields = dtFields.DefaultView.ToTable();
+
+        MenuAsterisk1.Style["display"] = (dtFields.Select("LeftMenuIndex = 1").Length > 0) ? "inline-block" : "none";
+
+        foreach (DataRow drField in dtFields.Rows)
+        {
+            #region " set validation control IDs and messages "
+            switch (Convert.ToString(drField["Field_Name"]))
+            {
+                case "DBA": strCtrlsIDsManagement += drpLocation.ClientID + ","; strMessagesManagement += "Please select [Management]/DBA" + ","; Span1.Style["display"] = "inline-block"; break;
+                case "Date Scheduled": strCtrlsIDsManagement += txtdate_Scheduled.ClientID + ","; strMessagesManagement += "Please enter [Management]/Date Scheduled" + ","; Span2.Style["display"] = "inline-block"; break;
+                case "Date Completed": strCtrlsIDsManagement += txtdate_Scheduled.ClientID + ","; strMessagesManagement += "Please enter [Management]/Date Completed" + ","; Span3.Style["display"] = "inline-block"; break;
+                case "Work To Be Completed": strCtrlsIDsManagement += drpFK_Work_Completed.ClientID + ","; strMessagesManagement += "Please select [Management]/Work To Be Completed" + ","; Span4.Style["display"] = "inline-block"; break;
+                case "Other": strCtrlsIDsManagement += txtWork_To_Complete_Other.ClientID + ","; strMessagesManagement += "Please enter [Management]/Other" + ","; Span5.Style["display"] = "inline-block"; break;
+                case "Work To Be Completed By": strCtrlsIDsManagement += drpFK_Work_To_Be_Completed_By.ClientID + ","; strMessagesManagement += "Please select [Management]/Work To Be Completed By" + ","; Span6.Style["display"] = "inline-block"; break;
+                case "Status": strCtrlsIDsManagement += drpMaintenanceStatus.ClientID + ","; strMessagesManagement += "Please select [Management]/Status" + ","; Span7.Style["display"] = "inline-block"; break;
+                case "Record Type": strCtrlsIDsManagement += drpFK_Record_Type.ClientID + ","; strMessagesManagement += "Please select [Management]/Record Type" + ","; Span10.Style["display"] = "inline-block"; break;
+                case "CR Approved": strCtrlsIDsManagement += txtCR_Approved.ClientID + ","; strMessagesManagement += "Please enter [Management]/CR Approved" + ","; Span11.Style["display"] = "inline-block"; break;
+                case "Job": strCtrlsIDsManagement += txtJob.ClientID + ","; strMessagesManagement += "Please enter [Management]/Job" + ","; Span12.Style["display"] = "inline-block"; break;
+                case "Order Date": strCtrlsIDsManagement += txtOrderDate.ClientID + ","; strMessagesManagement += "Please enter [Management]/Order Date" + ","; Span13.Style["display"] = "inline-block"; break;
+                case "Requested By": strCtrlsIDsManagement += txtRequestedBy.ClientID + ","; strMessagesManagement += "Please enter [Management]/Requested By" + ","; Span14.Style["display"] = "inline-block"; break;
+                case "Created By": strCtrlsIDsManagement += txtCreatedBy.ClientID + ","; strMessagesManagement += "Please enter [Management]/Created By" + ","; Span15.Style["display"] = "inline-block"; break;
+                case "Reason for Request": strCtrlsIDsManagement += ctrlReason_Request.ClientID + ","; strMessagesManagement += "Please enter [Management]/Reason for Request" + ","; Span16.Style["display"] = "inline-block"; break;
+                case "Recommendation": strCtrlsIDsManagement += ctrlRecommendation.ClientID + ","; strMessagesManagement += "Please enter [Management]/Recommendation" + ","; Span17.Style["display"] = "inline-block"; break;
+
+                case "Store Contact First Name": strCtrlsIDsStoreContact += txtStore_Contact_First_Name.ClientID + ","; strMessagesStoreContact += "Please enter [Management]/Store Contact First Name" + ","; Span18.Style["display"] = "inline-block"; break;
+                case "Store Contact Last Name": strCtrlsIDsStoreContact += txtStore_Contact_Last_Name.ClientID + ","; strMessagesStoreContact += "Please enter [Management]/Store Contact Last Name" + ","; Span19.Style["display"] = "inline-block"; break;
+                case "Store Contact Phone": strCtrlsIDsStoreContact += txtStore_Contact_Phone.ClientID + ","; strMessagesStoreContact += "Please enter [Management]/Store Contact Phone" + ","; Span20.Style["display"] = "inline-block"; break;
+                case "Store Contact Email": strCtrlsIDsStoreContact += txtStore_Contact_Email.ClientID + ","; strMessagesStoreContact += "Please enter [Management]/Store Contact Email" + ","; Span21.Style["display"] = "inline-block"; break;
+
+                case "ACI Contact First Name": strCtrlsIDsACIContact += txtAci_Contact_First_Name.ClientID + ","; strMessagesACIContact += "Please enter [Management]/ACI Contact First Name" + ","; Span22.Style["display"] = "inline-block"; break;
+                case "ACI Contact Last Name": strCtrlsIDsACIContact += txtAci_Contact_Last_Name.ClientID + ","; strMessagesACIContact += "Please enter [Management]/ACI Contact Last Name" + ","; Span23.Style["display"] = "inline-block"; break;
+                case "ACI Contact Phone": strCtrlsIDsACIContact += txtAci_Contact_Phone.ClientID + ","; strMessagesACIContact += "Please enter [Management]/ACI Contact Phone" + ","; Span24.Style["display"] = "inline-block"; break;
+                case "ACI Contact Email": strCtrlsIDsACIContact += txtAci_Contact_Email.ClientID + ","; strMessagesACIContact += "Please enter [Management]/ACI Contact Email" + ","; Span25.Style["display"] = "inline-block"; break;
+                default: break;
+            }
+            #endregion
+        }
+
+        #endregion
+
+        strCtrlsIDsManagement = strCtrlsIDsManagement.TrimEnd(',');
+        strMessagesManagement = strMessagesManagement.TrimEnd(',');
+
+        strCtrlsIDsStoreContact = strCtrlsIDsStoreContact.TrimEnd(',');
+        strMessagesStoreContact = strMessagesStoreContact.TrimEnd(',');
+
+        strCtrlsIDsACIContact = strCtrlsIDsACIContact.TrimEnd(',');
+        strMessagesACIContact = strMessagesACIContact.TrimEnd(',');
+
+        hdnControlIDsManagement.Value = strCtrlsIDsManagement;
+        hdnErrorMsgsManagement.Value = strMessagesManagement;
+
+        hdnControlIDsACIContact.Value = strCtrlsIDsACIContact;
+        hdnErrorMsgsACIContact.Value = strMessagesACIContact;
+
+        hdnControlIDsStoreContact.Value = strCtrlsIDsStoreContact;
+        hdnErrorMsgsStoreContact.Value = strMessagesStoreContact;
+    }
+
+    #endregion
+
     protected void chkNoApprovalNeeded_CheckedChanged(object sender, EventArgs e)
     {
         showHideOriginalService(chkNoApprovalNeeded.Checked);
+        if (chkApprovalNeeded.Checked)
+            trApprovals.Style.Add("display", "block");
+        else
+            trApprovals.Style.Add("display", "none");
     }
 
 
@@ -2365,6 +2487,9 @@ public partial class Management_Management : clsBasePage
         {
             trApprovals.Style.Add("display", "none");
         }
+
+        //if (chkApprovalNeeded.Checked && !chkNoApprovalNeeded.Checked)
+        //    trApprovals.Style.Add("display", "none");
     }
 
     protected void drpFK_Work_Completed_SelectedIndexChanged(object sender, EventArgs e)

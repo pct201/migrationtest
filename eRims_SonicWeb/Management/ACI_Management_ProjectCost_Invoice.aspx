@@ -242,7 +242,7 @@
                                     </tr>
                                     <tr>
                                         <td align="left" valign="top">
-                                            Comments
+                                            Comments&nbsp;<span id="spnComments" style="color: Red; display: none;" runat="server">*</span>
                                         </td>
                                         <td align="center" valign="top" width="4%">:</td>
                                         <td align="left" valign="top" colspan="4"><uc:ctrlMultiLineCommentTextBox ID="txtComments" runat="server" /></td>

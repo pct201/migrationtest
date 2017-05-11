@@ -13,12 +13,12 @@
     <script language="javascript" type="text/javascript">
         var GB_ROOT_DIR = '<%=AppConfig.SiteURL%>' + 'greybox/';
     </script>
-    <script type="text/javascript" src="<%=AppConfig.SiteURL%>JavaScript/JFunctions.js"></script>
-    <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/Calendar_new.js"></script>
-    <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/calendar-en.js"></script>
-    <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/Calendar.js"></script>
-    <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/Validator.js"></script>
-    <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/Date_Validation.js"></script>
+    <script type="text/javascript" src="../JavaScript/JFunctions.js"></script>
+    <script type="text/javascript" language="javascript" src="../JavaScript/Calendar_new.js"></script>
+    <script type="text/javascript" language="javascript" src="../JavaScript/calendar-en.js"></script>
+    <script type="text/javascript" language="javascript" src="../JavaScript/Calendar.js"></script>
+    <script type="text/javascript" language="javascript" src="../JavaScript/Validator.js"></script>
+    <script type="text/javascript" language="javascript" src="../JavaScript/Date_Validation.js"></script>
     <script type="text/javascript" language="javascript" src="../JavaScript/jquery-1.5.min.js"></script>
     <script type="text/javascript" language="javascript" src="../JavaScript/jquery.maskedinput.js"></script>
     <script type="text/javascript">
@@ -256,7 +256,7 @@
         }
 
         function SetApprovalSubmissionOnSaveButton() {
-            if (Page_ClientValidate('vsErrorGroup')) {
+            if (Page_ClientValidate('vsManagementGroup')) {
 
                 var selectedWork = $('#ctl00_ContentPlaceHolder1_drpFK_Work_Completed option:selected').text().trim().toLowerCase();
 
@@ -463,11 +463,19 @@
 
         function CheckManagementNote() {
             document.getElementById('<%=csvManagmentNote.ClientID%>').enabled = false;
-            if (Page_ClientValidate('vsErrorGroup')) {
+            if (Page_ClientValidate('vsManagementGroup')) {
                 return true;
             }
             else
                 return false;
+            <%--var values = '<%=ViewState["PK_Management"]%>';
+            if (values == '' || values == '0') {
+                alert('Please Save Management Record First');
+                return false;
+            }
+            else {
+                return true;
+            }--%>
         }
 
         function CheckManagement() {
@@ -570,7 +578,8 @@
 
         function managementnotecount(obj, args) {
             var gv = document.getElementById('<%=gvManagement_Notes.ClientID%>');
-            if (gv.rows.length <= 1) {
+            var isACIUser = "<%=clsSession.IsACIUser %>" ;
+            if (gv.rows.length <= 1 && isACIUser == "True") {
                 args.IsValid = false;
             }
             else {
@@ -581,7 +590,15 @@
         }
     </script>
     <div>
-        <asp:ValidationSummary ID="vsError" runat="server" CssClass="errormessage" ValidationGroup="vsErrorGroup"
+        <asp:ValidationSummary ID="vsError" runat="server" CssClass="errormessage" ValidationGroup="vsManagementGroup"
+            BorderColor="DimGray" BorderWidth="1" HeaderText="Verify the following fields:"
+            ShowMessageBox="true" ShowSummary="false"></asp:ValidationSummary>
+
+        <asp:ValidationSummary ID="vsACIContact" runat="server" CssClass="errormessage" ValidationGroup="vsACIContactGroup"
+            BorderColor="DimGray" BorderWidth="1" HeaderText="Verify the following fields:"
+            ShowMessageBox="true" ShowSummary="false"></asp:ValidationSummary>
+
+        <asp:ValidationSummary ID="vsStoreContact" runat="server" CssClass="errormessage" ValidationGroup="vsStoreContactGroup"
             BorderColor="DimGray" BorderWidth="1" HeaderText="Verify the following fields:"
             ShowMessageBox="true" ShowSummary="false"></asp:ValidationSummary>
     </div>
@@ -688,9 +705,10 @@
                                                         <td align="left" width="28%" valign="top">
                                                             <asp:TextBox ID="txtCompany" MaxLength="50" runat="server" Width="170px"></asp:TextBox>
                                                             <asp:RequiredFieldValidator ID="rfvtxtCompany" runat="server" ControlToValidate="txtCompany"
-                                                                ErrorMessage="Please Enter Company" Display="None" SetFocusOnError="true" ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                                                                ErrorMessage="Please Enter Company" Display="None" SetFocusOnError="true" ValidationGroup="vsManagementGroup"></asp:RequiredFieldValidator>
                                                         </td>--%>
-                                                            <td align="left" width="18%" valign="top">DBA<span class="mf">*</span>
+                                                            <td align="left" width="18%" valign="top">DBA&nbsp;<span id="Span1" style="color: Red; display: none;"
+                                                                runat="server">*</span>
                                                             </td>
                                                             <td align="center" width="4%" valign="top">:
                                                             </td>
@@ -698,9 +716,9 @@
                                                                 <asp:DropDownList ID="drpLocation" runat="server" Width="170px" SkinID="dropGen"
                                                                     AutoPostBack="true" OnSelectedIndexChanged="drpLocation_SelectedIndexChanged">
                                                                 </asp:DropDownList>
-                                                                <asp:RequiredFieldValidator ID="rfvdrpLocation" runat="server" ControlToValidate="drpLocation"
+                                                               <%-- <asp:RequiredFieldValidator ID="rfvdrpLocation" runat="server" ControlToValidate="drpLocation"
                                                                     InitialValue="0" ErrorMessage="Please Select DBA" Display="None" SetFocusOnError="true"
-                                                                    ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                                                                    ValidationGroup="vsManagementGroup"></asp:RequiredFieldValidator>--%>
                                                             </td>
                                                             <td align="left" width="18%" valign="top">Location Code
                                                             </td>
@@ -730,7 +748,7 @@
                                                                 SkinID="txtPhone" />
                                                             <asp:RegularExpressionValidator ID="revPhone" ControlToValidate="txtCompany_Phone"
                                                                 runat="server" SetFocusOnError="true" ErrorMessage="Please Enter valid Company Phone No"
-                                                                Display="none" ValidationGroup="vsErrorGroup" ValidationExpression="[0-9\-\(\)]+"></asp:RegularExpressionValidator>
+                                                                Display="none" ValidationGroup="vsManagementGroup" ValidationExpression="[0-9\-\(\)]+"></asp:RegularExpressionValidator>
                                                         </td>
                                                         <td align="left" valign="top" colspan="3">
                                                         </td>
@@ -797,24 +815,26 @@
                                                         </td>
                                                     </tr>--%>
                                                         <tr>
-                                                            <td align="left" valign="top">Date Scheduled
+                                                            <td align="left" valign="top">Date Scheduled&nbsp;<span id="Span2" style="color: Red; display: none;"
+                                                                runat="server">*</span>
                                                             </td>
                                                             <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
-                                                                <asp:TextBox ID="txtdate_Scheduled" runat="server" SkinID="txtDate"/>
+                                                                <asp:TextBox ID="txtdate_Scheduled" runat="server" SkinID="txtDate" />
                                                                 <asp:TextBox ID="txtCurrentDate" runat="server" Width="180px" MaxLength="10" Style="display: none;"></asp:TextBox>
-                                                                  <img alt="Scheduled Date" onclick="return showCalendar('<%= txtdate_Scheduled.ClientID %>', 'mm/dd/y');"
+                                                                <img alt="Scheduled Date" onclick="return showCalendar('<%= txtdate_Scheduled.ClientID %>', 'mm/dd/y');"
                                                                     onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
                                                                     align="middle" />
-                                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ValidationGroup="vsErrorGroup"
+                                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ValidationGroup="vsManagementGroup"
                                                                     Display="none" ErrorMessage="Date Scheduled is not a valid date" SetFocusOnError="true"
                                                                     ControlToValidate="txtdate_Scheduled" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
                                                                 <%--<asp:CompareValidator ID="cmpvalid" runat="server" ErrorMessage="Date Sheduled should be greater than or equal to current date"
-                                                                    Display="none" ValidationGroup="vsErrorGroup" SetFocusOnError="true" ControlToCompare="txtCurrentDate"
+                                                                    Display="none" ValidationGroup="vsManagementGroup" SetFocusOnError="true" ControlToCompare="txtCurrentDate"
                                                                     ControlToValidate="txtdate_Scheduled" Type="Date" Operator="GreaterThanEqual"></asp:CompareValidator>--%>
                                                             </td>
-                                                            <td align="left" valign="top">Date Completed
+                                                            <td align="left" valign="top">Date Completed&nbsp;<span id="Span3" style="color: Red; display: none;"
+                                                                runat="server">*</span>
                                                             </td>
                                                             <td align="center" valign="top">:
                                                             </td>
@@ -823,27 +843,29 @@
                                                                 <img alt="Completed Date" onclick="return showCalendar('<%= txtDate_Completed.ClientID %>', 'mm/dd/y');"
                                                                     onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
                                                                     align="middle" />
-                                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ValidationGroup="vsErrorGroup"
+                                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ValidationGroup="vsManagementGroup"
                                                                     Display="none" ErrorMessage="Completed Date is not a valid date" SetFocusOnError="true"
                                                                     ControlToValidate="txtDate_Completed" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
                                                                 <%--<asp:CompareValidator ID="CompareValidator1" runat="server" ErrorMessage="Date Completed should be less than or equal to current date"
-                                                                    Display="none" ValidationGroup="vsErrorGroup" SetFocusOnError="true" ControlToCompare="txtCurrentDate"
+                                                                    Display="none" ValidationGroup="vsManagementGroup" SetFocusOnError="true" ControlToCompare="txtCurrentDate"
                                                                     ControlToValidate="txtDate_Completed" Type="Date" Operator="LessThanEqual"></asp:CompareValidator>--%>
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td align="left" valign="top">Work To Be Completed<span class="mf">*</span>
+                                                            <td align="left" valign="top">Work To Be Completed&nbsp;<span id="Span4" style="color: Red; display: none;"
+                                                                runat="server">*</span>
                                                             </td>
                                                             <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
                                                                 <asp:DropDownList ID="drpFK_Work_Completed" runat="server" Width="175px" SkinID="dropGen" OnSelectedIndexChanged="drpFK_Work_Completed_SelectedIndexChanged" AutoPostBack="true">
                                                                 </asp:DropDownList>
-                                                                <asp:RequiredFieldValidator ID="rfvFK_Work_Completed" runat="server" ControlToValidate="drpFK_Work_Completed"
+                                                                <%--<asp:RequiredFieldValidator ID="rfvFK_Work_Completed" runat="server" ControlToValidate="drpFK_Work_Completed"
                                                                     InitialValue="0" ErrorMessage="Please Select Work to be Completed" Display="None" SetFocusOnError="true"
-                                                                    ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                                                                    ValidationGroup="vsManagementGroup"></asp:RequiredFieldValidator>--%>
                                                             </td>
-                                                            <td align="left" valign="top">Other
+                                                            <td align="left" valign="top">Other&nbsp;<span id="Span5" style="color: Red; display: none;"
+                                                                runat="server">*</span>
                                                             </td>
                                                             <td align="center" valign="top">:
                                                             </td>
@@ -852,7 +874,8 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td align="left" valign="top">Work To Be Completed By
+                                                            <td align="left" valign="top">Work To Be Completed By&nbsp;<span id="Span6" style="color: Red; display: none;"
+                                                                runat="server">*</span>
                                                             </td>
                                                             <td align="center" valign="top">:
                                                             </td>
@@ -864,7 +887,8 @@
                                                                 <asp:DropDownList ID="drpFK_Work_To_Be_Completed_By" runat="server" Width="175px" SkinID="dropGen">
                                                                 </asp:DropDownList>
                                                             </td>
-                                                            <td align="left" valign="top">Status<span class="mf">*</span>
+                                                            <td align="left" valign="top">Status&nbsp;<span id="Span7" style="color: Red; display: none;"
+                                                                runat="server">*</span>
                                                             </td>
                                                             <td align="center" valign="top">:
                                                             </td>
@@ -874,9 +898,9 @@
                                                                     <asp:ListItem Text="No" Value="0" Selected="True"></asp:ListItem>
                                                                 </asp:RadioButtonList>--%>
                                                                 <asp:DropDownList runat="server" ID="drpMaintenanceStatus" Width="175px"></asp:DropDownList>
-                                                                <asp:RequiredFieldValidator ID="rfvMaintenanceStatus" runat="server" ControlToValidate="drpMaintenanceStatus"
+                                                               <%-- <asp:RequiredFieldValidator ID="rfvMaintenanceStatus" runat="server" ControlToValidate="drpMaintenanceStatus"
                                                                     InitialValue="0" ErrorMessage="Please Select Status" Display="None" SetFocusOnError="true"
-                                                                    ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                                                                    ValidationGroup="vsManagementGroup"></asp:RequiredFieldValidator>--%>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -897,7 +921,8 @@
                                                         </tr>
                                                         <tr>
                                                             <td align="left" valign="top">
-                                                                <label runat="server" id="lblOriginalService" style="display: none">Original Service Estimate<span class="mf" id="spOriginalService" runat="server" style="display: none">*</span></label>
+                                                                <label runat="server" id="lblOriginalService" style="display: none">
+                                                                    Original Service Estimate&nbsp;<span class="mf" id="spOriginalService" runat="server" style="display: none">*</span></label>
                                                             </td>
                                                             <td align="center" valign="top">
                                                                 <label runat="server" id="lblOriginalServiceCol" style="display: none">:</label>
@@ -908,10 +933,11 @@
                                                                     runat="server" Width="165px" onkeypress="javascript:return FormatNumber(event,this.id,12,false,true);" />
                                                                 <asp:RequiredFieldValidator ID="rfvPreviousContractAmount" runat="server" ControlToValidate="txtPreviousContractAmount"
                                                                     InitialValue="" ErrorMessage="Please Enter Original Service Estimate" Display="None" SetFocusOnError="true"
-                                                                    ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                                                                    ValidationGroup="vsManagementGroup"></asp:RequiredFieldValidator>
                                                             </td>
                                                             <td align="left" valign="top">
-                                                                <label runat="server" id="lblRepairEstimate" style="display: none">Repair and Estimate Amount<span class="mf" id="spRepairEstimate" runat="server" style="display: none">*</span></label>
+                                                                <label runat="server" id="lblRepairEstimate" style="display: none">
+                                                                    Repair and Estimate Amount&nbsp;<span class="mf" id="spRepairEstimate" runat="server" style="display: none">*</span></label>
                                                             </td>
                                                             <td align="center" valign="top">
                                                                 <label runat="server" id="lblRepairEstimateCol" style="display: none">:</label>
@@ -922,7 +948,7 @@
                                                                     runat="server" Width="165px" onkeypress="javascript:return FormatNumber(event,this.id,12,false,true);" />
                                                                 <asp:RequiredFieldValidator ID="rfvRevisedContractAmount" runat="server" ControlToValidate="txtRevisedContractAmount"
                                                                     InitialValue="" ErrorMessage="Please Enter Repair and Estimate Amount" Display="None" SetFocusOnError="true"
-                                                                    ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                                                                    ValidationGroup="vsManagementGroup"></asp:RequiredFieldValidator>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -948,18 +974,20 @@
 
                                                         </tr>
                                                         <tr>
-                                                            <td align="left" valign="top">Record Type<span class="mf">*</span>
+                                                            <td align="left" valign="top">Record Type<span id="Span10" style="color: Red; display: none;"
+                                                                runat="server">*</span>
                                                             </td>
                                                             <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
                                                                 <asp:DropDownList ID="drpFK_Record_Type" runat="server" Width="175px" SkinID="dropGen">
                                                                 </asp:DropDownList>
-                                                                <asp:RequiredFieldValidator ID="rfvFK_Record_Type" runat="server" ControlToValidate="drpFK_Record_Type"
+                                                                <%--<asp:RequiredFieldValidator ID="rfvFK_Record_Type" runat="server" ControlToValidate="drpFK_Record_Type"
                                                                     InitialValue="0" ErrorMessage="Please Select Record Type" Display="None" SetFocusOnError="true"
-                                                                    ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                                                                    ValidationGroup="vsManagementGroup"></asp:RequiredFieldValidator>--%>
                                                             </td>
-                                                            <td align="left" valign="top">CR Approved
+                                                            <td align="left" valign="top">CR Approved<span id="Span11" style="color: Red; display: none;"
+                                                                runat="server">*</span>
                                                             </td>
                                                             <td align="center" valign="top">:
                                                             </td>
@@ -968,37 +996,39 @@
                                                                 <%--<img alt="CR Approved Date" onclick="return showCalendar('<%= txtCR_Approved.ClientID %>', 'mm/dd/y');"
                                                                     onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
                                                                     align="middle" />--%>
-                                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator3" runat="server" ValidationGroup="vsErrorGroup"
+                                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator3" runat="server" ValidationGroup="vsManagementGroup"
                                                                     Display="none" ErrorMessage="CR Approved Date is not a valid date" SetFocusOnError="true"
                                                                     ControlToValidate="txtCR_Approved" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
                                                                 <asp:CompareValidator ID="CompareValidator2" runat="server" ErrorMessage="CR Approved should be less than or equal to current date"
-                                                                    Display="none" ValidationGroup="vsErrorGroup" SetFocusOnError="true" ControlToCompare="txtCurrentDate"
+                                                                    Display="none" ValidationGroup="vsManagementGroup" SetFocusOnError="true" ControlToCompare="txtCurrentDate"
                                                                     ControlToValidate="txtCR_Approved" Type="Date" Operator="LessThanEqual"></asp:CompareValidator>
                                                             </td>
 
                                                         </tr>
                                                         <tr>
-                                                            <td align="left" valign="top">Job #
+                                                            <td align="left" valign="top">Job #<span id="Span12" style="color: Red; display: none;"
+                                                                runat="server">*</span>
                                                             </td>
                                                             <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
                                                                 <asp:TextBox ID="txtJob" MaxLength="50" runat="server" Width="170px"></asp:TextBox>
                                                             </td>
-                                                            <td align="left" valign="top">Order Date
+                                                            <td align="left" valign="top">Order Date<span id="Span13" style="color: Red; display: none;"
+                                                                runat="server">*</span>
                                                             </td>
                                                             <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
                                                                 <asp:TextBox ID="txtOrderDate" runat="server" SkinID="txtDate" />
-                                                                 <img alt="Order Date" onclick="return showCalendar('<%= txtOrderDate.ClientID %>', 'mm/dd/y');"
+                                                                <img alt="Order Date" onclick="return showCalendar('<%= txtOrderDate.ClientID %>', 'mm/dd/y');"
                                                                     onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
                                                                     align="middle" />
-                                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator4" runat="server" ValidationGroup="vsErrorGroup"
+                                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator4" runat="server" ValidationGroup="vsManagementGroup"
                                                                     Display="none" ErrorMessage="Order Date is not a valid date" SetFocusOnError="true"
                                                                     ControlToValidate="txtOrderDate" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
-                                                               <%-- <asp:CompareValidator ID="CompareValidator1" runat="server" ErrorMessage="Order Date should be less than or equal to current date"
-                                                                    Display="none" ValidationGroup="vsErrorGroup" SetFocusOnError="true" ControlToCompare="txtCurrentDate"
+                                                                <%-- <asp:CompareValidator ID="CompareValidator1" runat="server" ErrorMessage="Order Date should be less than or equal to current date"
+                                                                    Display="none" ValidationGroup="vsManagementGroup" SetFocusOnError="true" ControlToCompare="txtCurrentDate"
                                                                     ControlToValidate="txtOrderDate" Type="Date" Operator="LessThanEqual"></asp:CompareValidator>--%>
                                                             </td>
                                                         </tr>
@@ -1012,11 +1042,11 @@
                                                                 <%-- <img alt="Order Date" onclick="return showCalendar('<%= txtOrderDate.ClientID %>', 'mm/dd/y');"
                                                                     onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
                                                                     align="middle" />
-                                                                <asp:RegularExpressionValidator ID="rgvtxtOrderDate" runat="server" ValidationGroup="vsErrorGroup"
+                                                                <asp:RegularExpressionValidator ID="rgvtxtOrderDate" runat="server" ValidationGroup="vsManagementGroup"
                                                                     Display="none" ErrorMessage="Order Date is not a valid date" SetFocusOnError="true"
                                                                     ControlToValidate="txtOrderDate" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
                                                                 <asp:CompareValidator ID="cmp" runat="server" ErrorMessage="Order Date should be less than or equal to current date"
-                                                                    Display="none" ValidationGroup="vsErrorGroup" SetFocusOnError="true" ControlToCompare="txtCurrentDate"
+                                                                    Display="none" ValidationGroup="vsManagementGroup" SetFocusOnError="true" ControlToCompare="txtCurrentDate"
                                                                     ControlToValidate="txtOrderDate" Type="Date" Operator="LessThanEqual"></asp:CompareValidator>
                                                             </td>
                                                             <td align="left" valign="top">Order #
@@ -1052,26 +1082,28 @@
                                                         </td>
                                                     </tr>--%>
                                                         <tr>
-                                                            <td align="left" valign="top">Requested By<span class="mf">*</span>
+                                                            <td align="left" valign="top">Requested By<span id="Span14" style="color: Red; display: none;"
+                                                                runat="server">*</span>
                                                             </td>
                                                             <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
                                                                 <asp:TextBox ID="txtRequestedBy" MaxLength="50" runat="server" Width="170px"></asp:TextBox>
-                                                                <asp:RequiredFieldValidator ID="rfvRequestedBy" runat="server" ControlToValidate="txtRequestedBy"
+                                                                <%--<asp:RequiredFieldValidator ID="rfvRequestedBy" runat="server" ControlToValidate="txtRequestedBy"
                                                                     InitialValue="" ErrorMessage="Please Enter Request By" Display="None" SetFocusOnError="true"
-                                                                    ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                                                                    ValidationGroup="vsManagementGroup"></asp:RequiredFieldValidator>--%>
                                                             </td>
-                                                            <td align="left" valign="top">Created By<span class="mf">*</span>
+                                                            <td align="left" valign="top">Created By<span id="Span15" style="color: Red; display: none;"
+                                                                runat="server">*</span>
                                                             </td>
                                                             <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
                                                                 <asp:TextBox ID="txtCreatedBy" MaxLength="50" runat="server" Width="170px"></asp:TextBox>
 
-                                                                <asp:RequiredFieldValidator ID="rfvCreatedBy" runat="server" ControlToValidate="txtCreatedBy"
+                                                                <%--<asp:RequiredFieldValidator ID="rfvCreatedBy" runat="server" ControlToValidate="txtCreatedBy"
                                                                     InitialValue="" ErrorMessage="Please Enter Created By" Display="None" SetFocusOnError="true"
-                                                                    ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                                                                    ValidationGroup="vsManagementGroup"></asp:RequiredFieldValidator>--%>
                                                             </td>
                                                         </tr>
 
@@ -1091,34 +1123,36 @@
                                                         </td>
                                                         <td align="left" valign="top" colspan="4">
                                                             <uc:ctrlMultiLineTextBox ID="ctrlCameraConcern" runat="server" IsRequired="true"
-                                                                ValidationGroup="vsErrorGroup" RequiredFieldMessage="Please Enter Camera Concern" />
+                                                                ValidationGroup="vsManagementGroup" RequiredFieldMessage="Please Enter Camera Concern" />
                                                         </td>
                                                     </tr>--%>
                                                         <tr>
-                                                            <td align="left" valign="top">Reason for Request<span class="mf">*</span>
+                                                            <td align="left" valign="top">Reason for Request<span id="Span16" style="color: Red; display: none;"
+                                                                runat="server">*</span>
                                                             </td>
                                                             <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top" colspan="4">
-                                                                <uc:ctrlMultiLineTextBox ID="ctrlReason_Request" runat="server" IsRequired="true"
-                                                                    ValidationGroup="vsErrorGroup" RequiredFieldMessage="Please Enter Reason for Request" />
+                                                                <uc:ctrlMultiLineTextBox ID="ctrlReason_Request" runat="server" IsRequired="false"
+                                                                    ValidationGroup="vsManagementGroup" RequiredFieldMessage="Please Enter Reason for Request" />
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td align="left" valign="top">Recommendation<span class="mf">*</span>
+                                                            <td align="left" valign="top">Recommendation<span id="Span17" style="color: Red; display: none;"
+                                                                runat="server">*</span>
                                                             </td>
                                                             <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top" colspan="4">
-                                                                <uc:ctrlMultiLineTextBox ID="ctrlRecommendation" runat="server" IsRequired="true"
-                                                                    ValidationGroup="vsErrorGroup" RequiredFieldMessage="Please Enter Recommendation" />
+                                                                <uc:ctrlMultiLineTextBox ID="ctrlRecommendation" runat="server" IsRequired="false"
+                                                                    ValidationGroup="vsManagementGroup" RequiredFieldMessage="Please Enter Recommendation" />
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td colspan="6">&nbsp;
                                                             </td>
                                                         </tr>
-                                                       
+
                                                         <tr runat="server" id="trstoreGrid">
                                                             <td align="left" valign="top">
                                                                 <b>Store Contact</b>
@@ -1205,14 +1239,16 @@
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td align="left" width="18%" valign="top">First Name
+                                                                        <td align="left" width="18%" valign="top">First Name<span id="Span18" style="color: Red; display: none;"
+                                                                            runat="server">*</span>
                                                                         </td>
                                                                         <td align="center" width="4%" valign="top">:
                                                                         </td>
                                                                         <td align="left" width="28%" valign="top">
                                                                             <asp:TextBox ID="txtStore_Contact_First_Name" MaxLength="40" runat="server" Width="170px"></asp:TextBox>
                                                                         </td>
-                                                                        <td align="left" width="18%" valign="top">Last Name
+                                                                        <td align="left" width="18%" valign="top">Last Name<span id="Span19" style="color: Red; display: none;"
+                                                                            runat="server">*</span>
                                                                         </td>
                                                                         <td align="center" width="4%" valign="top">:
                                                                         </td>
@@ -1222,7 +1258,8 @@
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td align="left" valign="top">Phone
+                                                                        <td align="left" valign="top">Phone<span id="Span20" style="color: Red; display: none;"
+                                                                            runat="server">*</span>
                                                                         </td>
                                                                         <td align="center" valign="top">:
                                                                         </td>
@@ -1231,9 +1268,10 @@
                                                                                 MaxLength="12" autocomplete="off" onpaste="return false"></asp:TextBox>
                                                                             <asp:RegularExpressionValidator ID="revtxtCell_phone" ControlToValidate="txtStore_Contact_Phone"
                                                                                 runat="server" ErrorMessage="Please Enter Store Contact Phone in XXX-XXX-XXXX format."
-                                                                                Display="none" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$" ValidationGroup="vsErrorGroup"></asp:RegularExpressionValidator>
+                                                                                Display="none" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$" ValidationGroup="vsManagementGroup"></asp:RegularExpressionValidator>
                                                                         </td>
-                                                                        <td align="left" valign="top">Email
+                                                                        <td align="left" valign="top">Email<span id="Span21" style="color: Red; display: none;"
+                                                                            runat="server">*</span>
                                                                         </td>
                                                                         <td align="center" valign="top">:
                                                                         </td>
@@ -1241,14 +1279,14 @@
                                                                             <asp:TextBox ID="txtStore_Contact_Email" runat="server" Width="170px" MaxLength="100"></asp:TextBox>
                                                                             <asp:RegularExpressionValidator ID="revtxtStore_Contact_Email" runat="server" ControlToValidate="txtStore_Contact_Email"
                                                                                 Display="None" ErrorMessage="Store contact Email Address is not valid" SetFocusOnError="True"
-                                                                                ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" ValidationGroup="vsErrorGroup"></asp:RegularExpressionValidator>
+                                                                                ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" ValidationGroup="vsManagementGroup"></asp:RegularExpressionValidator>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
                                                                         <td align="left"></td>
                                                                         <td align="center"></td>
                                                                         <td align="left" colspan="4">
-                                                                            <asp:Button ID="btnStoreAdd" OnClick="btnStoreAdd_Click" runat="server" ValidationGroup="vsErrorGroup"
+                                                                            <asp:Button ID="btnStoreAdd" OnClick="btnStoreAdd_Click" runat="server" ValidationGroup="vsStoreContactGroup"
                                                                                 Text="Add" Width="70px"></asp:Button>&nbsp;&nbsp;&nbsp;&nbsp;
                                                                             <asp:Button ID="btnStoreCancel" OnClick="lnkStoreCancel_Click" runat="server" Text="Cancel"
                                                                                 Width="70px"></asp:Button>
@@ -1347,14 +1385,16 @@
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td align="left" width="18%" valign="top">First Name
+                                                                        <td align="left" width="18%" valign="top">First Name<span id="Span22" style="color: Red; display: none;"
+                                                                            runat="server">*</span>
                                                                         </td>
                                                                         <td align="center" width="4%" valign="top">:
                                                                         </td>
                                                                         <td align="left" width="28%" valign="top">
                                                                             <asp:TextBox ID="txtAci_Contact_First_Name" MaxLength="40" runat="server" Width="170px"></asp:TextBox>
                                                                         </td>
-                                                                        <td align="left" width="18%" valign="top">Last Name
+                                                                        <td align="left" width="18%" valign="top">Last Name<span id="Span23" style="color: Red; display: none;"
+                                                                            runat="server">*</span>
                                                                         </td>
                                                                         <td align="center" width="4%" valign="top">:
                                                                         </td>
@@ -1363,7 +1403,8 @@
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td align="left" valign="top">Phone
+                                                                        <td align="left" valign="top">Phone<span id="Span24" style="color: Red; display: none;"
+                                                                            runat="server">*</span>
                                                                         </td>
                                                                         <td align="center" valign="top">:
                                                                         </td>
@@ -1372,9 +1413,10 @@
                                                                                 MaxLength="12" autocomplete="off" onpaste="return false"></asp:TextBox>
                                                                             <asp:RegularExpressionValidator ID="revtxtAci_Contact_Phone" ControlToValidate="txtAci_Contact_Phone"
                                                                                 runat="server" ErrorMessage="Please Enter ACI Contact Phone in XXX-XXX-XXXX format."
-                                                                                Display="none" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$" ValidationGroup="vsErrorGroup"></asp:RegularExpressionValidator>
+                                                                                Display="none" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$" ValidationGroup="vsManagementGroup"></asp:RegularExpressionValidator>
                                                                         </td>
-                                                                        <td align="left" valign="top">Email
+                                                                        <td align="left" valign="top">Email<span id="Span25" style="color: Red; display: none;"
+                                                                            runat="server">*</span>
                                                                         </td>
                                                                         <td align="center" valign="top">:
                                                                         </td>
@@ -1382,14 +1424,14 @@
                                                                             <asp:TextBox ID="txtAci_Contact_Email" runat="server" Width="170px" MaxLength="100"></asp:TextBox>
                                                                             <asp:RegularExpressionValidator ID="revtxtAci_Contact_Email" runat="server" ControlToValidate="txtAci_Contact_Email"
                                                                                 Display="None" ErrorMessage="ACI contact Email Address is not valid" SetFocusOnError="True"
-                                                                                ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" ValidationGroup="vsErrorGroup"></asp:RegularExpressionValidator>
+                                                                                ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" ValidationGroup="vsManagementGroup"></asp:RegularExpressionValidator>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
                                                                         <td align="left"></td>
                                                                         <td align="center"></td>
                                                                         <td align="left" colspan="4">
-                                                                            <asp:Button ID="btnACIAdd" OnClick="btnACIAdd_Click" runat="server" ValidationGroup="vsErrorGroup"
+                                                                            <asp:Button ID="btnACIAdd" OnClick="btnACIAdd_Click" runat="server" ValidationGroup="vsACIContactGroup"
                                                                                 Text="Add" Width="70px"></asp:Button>&nbsp;&nbsp;&nbsp;&nbsp;
                                                                             <asp:Button ID="btnACICancel" OnClick="lnkACICancel_Click" runat="server" Text="Cancel"
                                                                                 Width="70px"></asp:Button>
@@ -1409,7 +1451,7 @@
                                                         Notes
                                                     </div>
                                                     <table cellpadding="3" cellspacing="1" border="0" width="100%">
-                                                         <tr runat="server" id="trManagementNotes" style="display: none;">
+                                                        <tr runat="server" id="trManagementNotes" style="display: none;">
                                                             <td colspan="6">
                                                                 <table width="100%">
                                                                     <tr>
@@ -1420,7 +1462,8 @@
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td align="left" valign="top" width="19%">Task Process
+                                                                        <td align="left" valign="top" width="19%">Task Process<span id="Span56" style="color: Red; display: none;"
+                                                                            runat="server">*</span>
                                                                         </td>
                                                                         <td align="center" valign="top" width="2%">:
                                                                         </td>
@@ -1443,7 +1486,7 @@
                                                                         <td align="center"></td>
                                                                         <td align="left" colspan="4">
                                                                             <asp:Button ID="btnManagementNotesAdd" OnClick="btnManagementNotesAdd_Click" runat="server"
-                                                                                ValidationGroup="vsErrorGroup" OnClientClick="javascript:return checkLengthSonic();"
+                                                                                ValidationGroup="vsManagementGroup" OnClientClick="javascript:return checkLengthSonic();"
                                                                                 Text="Add" Width="70px"></asp:Button>&nbsp;&nbsp;&nbsp;&nbsp;
                                                                             <asp:Button ID="btnManagementNotesCancel" OnClick="btnManagementNotesCancel_Click"
                                                                                 runat="server" Text="Cancel" Width="70px"></asp:Button>
@@ -1536,14 +1579,14 @@
                                                                                         </table>
                                                                                     </EmptyDataTemplate>
                                                                                 </asp:GridView>
-                                                                                 <asp:CustomValidator ID="csvManagmentNote" runat="Server" ErrorMessage="Please add at least one Management Note"
-                                                                                    Display="None" ValidationGroup="vsErrorGroup" ClientValidationFunction="managementnotecount"></asp:CustomValidator>
+                                                                                <asp:CustomValidator ID="csvManagmentNote" runat="Server" ErrorMessage="Please add at least one Management Note"
+                                                                                    Display="None" ValidationGroup="vsManagementGroup" ClientValidationFunction="managementnotecount"></asp:CustomValidator>
                                                                             </div>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
                                                                         <td style="padding-bottom: 5px;" colspan="6">
-                                                                            <asp:LinkButton Style="display: inline" ID="lnkAddManagementNotesNew" OnClick="lnkAddManagementNotesNew_Click"
+                                                                            <asp:LinkButton Style="display: inline" CausesValidation="false" ID="lnkAddManagementNotesNew" OnClick="lnkAddManagementNotesNew_Click"
                                                                                 runat="server" Text="Add New" OnClientClick="return CheckManagementNote();"></asp:LinkButton>&nbsp;&nbsp;&nbsp;
                                                                             <asp:Button ID="btnManagementNoteView" runat="server" Text=" View" OnClientClick="return SonicSelectedNotePopup('','ManagementView');" />&nbsp;&nbsp;
                                                                             <asp:Button ID="btnManagementPrint" runat="server" Text=" Print " OnClick="btnManagementPrint_Click"
@@ -1600,7 +1643,7 @@
                                                             <td colspan="6" style="width: 100%;">
                                                                 <table cellpadding="0" cellspacing="0" width="100%" border="0">
                                                                     <tr>
-                                                                        <td align="left" width="20%">E-Mail To&nbsp;<span id="Span16" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left" width="20%">E-Mail To&nbsp;<span id="Span30" style="color: Red; display: none;" runat="server">*</span>
                                                                             <br />
                                                                             --<a href="#" onclick="OpenWizardPopup(<%=ViewState["PK_Management"] %>,'GM');">Email GM</a>--
                                                                         </td>
@@ -1609,10 +1652,10 @@
                                                                         <td align="left" width="26%">
                                                                             <asp:TextBox runat="server" ID="txtGM_Email_To" MaxLength="100"></asp:TextBox>
                                                                             <asp:RegularExpressionValidator ID="revEmail" runat="server" ControlToValidate="txtGM_Email_To"
-                                                                                ValidationGroup="vsErrorGroup" Display="None" ErrorMessage="[Approvals]/GM Email To Address Is Invalid"
+                                                                                ValidationGroup="vsManagementGroup" Display="None" ErrorMessage="[Approvals]/GM Email To Address Is Invalid"
                                                                                 SetFocusOnError="True" ToolTip="Email Address Is Invalid" ValidationExpression="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*([,]\s*\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)*">*</asp:RegularExpressionValidator>
                                                                         </td>
-                                                                        <td align="left" width="20%">Last E-Mail Date&nbsp;<span id="Span17" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left" width="20%">Last E-Mail Date&nbsp;<span id="Span31" style="color: Red; display: none;" runat="server">*</span>
                                                                         </td>
                                                                         <td align="center" width="4%">:
                                                                         </td>
@@ -1622,10 +1665,10 @@
                                                                                 alt="GM Last Email Date" src="../Images/iconPicDate.gif" align="middle" /><br />
                                                                             <asp:RegularExpressionValidator ID="revtxtGM_Last_Email_Date" runat="server" ControlToValidate="txtGM_Last_Email_Date"
                                                                                 ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([01])(\d{1})|([8901])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([2-9])(\d{1})|(20)([01])(\d{1})|([8901])(\d{1})))$"
-                                                                                ErrorMessage="[Approvals]/Date Not Valid(GM Last E-Mail Date)" Display="none" ValidationGroup="vsErrorGroup">
+                                                                                ErrorMessage="[Approvals]/Date Not Valid(GM Last E-Mail Date)" Display="none" ValidationGroup="vsManagementGroup">
                                                                             </asp:RegularExpressionValidator>
                                                                             <%--<asp:CustomValidator ID="cvGM_Last_Email_Date" runat="server" ControlToValidate="txtGM_Last_Email_Date"
-                                                                                ValidationGroup="vsErrorGroup" ClientValidationFunction="CheckDate" ErrorMessage="[Approvals]/GM Last Email Date is not valid."
+                                                                                ValidationGroup="vsManagementGroup" ClientValidationFunction="CheckDate" ErrorMessage="[Approvals]/GM Last Email Date is not valid."
                                                                                 Display="None">
                                                                             </asp:CustomValidator>--%>
                                                                         </td>
@@ -1638,9 +1681,9 @@
                                                                         <td align="left">
                                                                             <asp:RadioButtonList runat="server" ID="rdoGM_Decision" SkinID="ApprovedNotApprovedTypeNullSelection" onclick="SetApprovalSubmission();" Style="float: left">
                                                                             </asp:RadioButtonList>
-                                                                            <asp:Button runat="server" Text="C" CommandArgument="GM" OnClick="btnClear_Click" OnClientClick="ClearReponseDateControls('GM');" ValidationGroup="vsErrorGroup" Style="float: left; margin-left: 5px;" />
+                                                                            <asp:Button runat="server" Text="C" CommandArgument="GM" OnClick="btnClear_Click" OnClientClick="ClearReponseDateControls('GM');" ValidationGroup="vsManagementGroup" Style="float: left; margin-left: 5px;" />
                                                                         </td>
-                                                                        <td align="left">GM Response Date&nbsp;<span id="Span18" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left">GM Response Date&nbsp;<span id="Span32" style="color: Red; display: none;" runat="server">*</span>
                                                                         </td>
                                                                         <td align="center">:
                                                                         </td>
@@ -1650,9 +1693,9 @@
                                                                                 alt="GM Response Date" src="../Images/iconPicDate.gif" align="middle" /><br />
                                                                             <asp:RegularExpressionValidator ID="revtxtGM_Response_Date" runat="server" ControlToValidate="txtGM_Response_Date"
                                                                                 ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([01])(\d{1})|([8901])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([2-9])(\d{1})|(20)([01])(\d{1})|([8901])(\d{1})))$"
-                                                                                ErrorMessage="[Approvals]/Date Not Valid(GM Response Date)" Display="none" ValidationGroup="vsErrorGroup"></asp:RegularExpressionValidator>
+                                                                                ErrorMessage="[Approvals]/Date Not Valid(GM Response Date)" Display="none" ValidationGroup="vsManagementGroup"></asp:RegularExpressionValidator>
                                                                             <%--  <asp:CustomValidator ID="cvGM_Response_Date" runat="server" ControlToValidate="txtGM_Response_Date"
-                                                                                ValidationGroup="vsErrorGroup" ClientValidationFunction="CheckDate" ErrorMessage="[Approvals]/GM Response Date is not valid."
+                                                                                ValidationGroup="vsManagementGroup" ClientValidationFunction="CheckDate" ErrorMessage="[Approvals]/GM Response Date is not valid."
                                                                                 Display="None">
                                                                             </asp:CustomValidator>--%>
                                                                         </td>
@@ -1668,7 +1711,7 @@
                                                             <td colspan="6" style="width: 100%;">
                                                                 <table cellpadding="0" cellspacing="0" width="100%" border="0">
                                                                     <tr>
-                                                                        <td align="left" width="20%">E-Mail To&nbsp;<span id="Span19" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left" width="20%">E-Mail To&nbsp;<span id="Span33" style="color: Red; display: none;" runat="server">*</span>
                                                                             <br />
                                                                             --<a href="#" onclick="OpenWizardPopup(<%=ViewState["PK_Management"] %>,'RLCM');">Email
                                                                                 RLCM--</a>
@@ -1678,10 +1721,10 @@
                                                                         <td align="left" width="26%">
                                                                             <asp:TextBox runat="server" ID="txtRLCM_Email_To" MaxLength="100"></asp:TextBox>
                                                                             <asp:RegularExpressionValidator ID="rgvRLCM_Email_To" runat="server" ControlToValidate="txtRLCM_Email_To"
-                                                                                ValidationGroup="vsErrorGroup" Display="None" ErrorMessage="[Approvals]/RLCM Email To Address Is Invalid"
+                                                                                ValidationGroup="vsManagementGroup" Display="None" ErrorMessage="[Approvals]/RLCM Email To Address Is Invalid"
                                                                                 SetFocusOnError="True" ToolTip="Email Address Is Invalid" ValidationExpression="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*([,]\s*\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)*">*</asp:RegularExpressionValidator>
                                                                         </td>
-                                                                        <td align="left" width="20%">Last E-Mail Date&nbsp;<span id="Span20" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left" width="20%">Last E-Mail Date&nbsp;<span id="Span34" style="color: Red; display: none;" runat="server">*</span>
                                                                         </td>
                                                                         <td align="center" width="4%">:
                                                                         </td>
@@ -1691,9 +1734,9 @@
                                                                                 alt="RLCM Last Email Date" src="../Images/iconPicDate.gif" align="middle" /><br />
                                                                             <asp:RegularExpressionValidator ID="revtxtRLCM_Last_Email_Date" runat="server" ControlToValidate="txtRLCM_Last_Email_Date"
                                                                                 ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([01])(\d{1})|([8901])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([2-9])(\d{1})|(20)([01])(\d{1})|([8901])(\d{1})))$"
-                                                                                ErrorMessage="[Approvals]/Date Not Valid(Last E-Mail Date)" Display="none" ValidationGroup="vsErrorGroup"></asp:RegularExpressionValidator>
+                                                                                ErrorMessage="[Approvals]/Date Not Valid(Last E-Mail Date)" Display="none" ValidationGroup="vsManagementGroup"></asp:RegularExpressionValidator>
                                                                             <%--  <asp:CustomValidator ID="cvRLCM_Last_Email_Date" runat="server" ControlToValidate="txtRLCM_Last_Email_Date"
-                                                                                ValidationGroup="vsErrorGroup" ClientValidationFunction="CheckDate" ErrorMessage="[Approvals]/RLCM Last Email Date is not valid."
+                                                                                ValidationGroup="vsManagementGroup" ClientValidationFunction="CheckDate" ErrorMessage="[Approvals]/RLCM Last Email Date is not valid."
                                                                                 Display="None">
                                                                             </asp:CustomValidator>--%>
                                                                         </td>
@@ -1706,9 +1749,9 @@
                                                                         <td align="left">
                                                                             <asp:RadioButtonList runat="server" ID="rdoRLCM_Decision" SkinID="ApprovedNotApprovedTypeNullSelection" onclick="SetApprovalSubmission();" Style="float: left">
                                                                             </asp:RadioButtonList>
-                                                                            <asp:Button runat="server" Text="C" CommandArgument="RLCM" OnClick="btnClear_Click" OnClientClick="ClearReponseDateControls('RLCM');" ValidationGroup="vsErrorGroup" Style="float: left; margin-left: 5px;" />
+                                                                            <asp:Button runat="server" Text="C" CommandArgument="RLCM" OnClick="btnClear_Click" OnClientClick="ClearReponseDateControls('RLCM');" ValidationGroup="vsManagementGroup" Style="float: left; margin-left: 5px;" />
                                                                         </td>
-                                                                        <td align="left">RLCM Response Date&nbsp;<span id="Span21" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left">RLCM Response Date&nbsp;<span id="Span35" style="color: Red; display: none;" runat="server">*</span>
                                                                         </td>
                                                                         <td align="center">:
                                                                         </td>
@@ -1718,9 +1761,9 @@
                                                                                 alt="RLCM Response Date" src="../Images/iconPicDate.gif" align="middle" /><br />
                                                                             <asp:RegularExpressionValidator ID="revtxtRLCM_Response_Date" runat="server" ControlToValidate="txtRLCM_Response_Date"
                                                                                 ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([01])(\d{1})|([8901])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([2-9])(\d{1})|(20)([01])(\d{1})|([8901])(\d{1})))$"
-                                                                                ErrorMessage="[Approvals]/Date Not Valid(RLCM Response Date)" Display="none" ValidationGroup="vsErrorGroup"></asp:RegularExpressionValidator>
+                                                                                ErrorMessage="[Approvals]/Date Not Valid(RLCM Response Date)" Display="none" ValidationGroup="vsManagementGroup"></asp:RegularExpressionValidator>
                                                                             <%-- <asp:CustomValidator ID="cvRLCM_Response_Date" runat="server" ControlToValidate="txtRLCM_Response_Date"
-                                                                                ValidationGroup="vsErrorGroup" ClientValidationFunction="CheckDate" ErrorMessage="[Approvals]/RLCM Response Date is not valid."
+                                                                                ValidationGroup="vsManagementGroup" ClientValidationFunction="CheckDate" ErrorMessage="[Approvals]/RLCM Response Date is not valid."
                                                                                 Display="None">
                                                                             </asp:CustomValidator>--%>
                                                                         </td>
@@ -1736,7 +1779,7 @@
                                                             <td colspan="6" style="width: 100%;">
                                                                 <table cellpadding="0" cellspacing="0" width="100%" border="0">
                                                                     <tr>
-                                                                        <td align="left" width="20%">E-Mail To&nbsp;<span id="Span22" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left" width="20%">E-Mail To&nbsp;<span id="Span36" style="color: Red; display: none;" runat="server">*</span>
                                                                             <br />
                                                                             --<a href="#" onclick="OpenWizardPopup(<%=ViewState["PK_Management"] %>,'NAPM');">Email
                                                                                 NAPM</a>--
@@ -1746,10 +1789,10 @@
                                                                         <td align="left" width="26%">
                                                                             <asp:TextBox runat="server" ID="txtNAPM_Email_To" MaxLength="100"></asp:TextBox>
                                                                             <asp:RegularExpressionValidator ID="rgvNAPM_Email_To" runat="server" ControlToValidate="txtNAPM_Email_To"
-                                                                                ValidationGroup="vsErrorGroup" Display="None" ErrorMessage="[Approvals]/NAPM Email To Address Is Invalid"
+                                                                                ValidationGroup="vsManagementGroup" Display="None" ErrorMessage="[Approvals]/NAPM Email To Address Is Invalid"
                                                                                 SetFocusOnError="True" ToolTip="Email Address Is Invalid" ValidationExpression="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*([,]\s*\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)*">*</asp:RegularExpressionValidator>
                                                                         </td>
-                                                                        <td align="left" width="20%">Last E-Mail Date&nbsp;<span id="Span23" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left" width="20%">Last E-Mail Date&nbsp;<span id="Span37" style="color: Red; display: none;" runat="server">*</span>
                                                                         </td>
                                                                         <td align="center" width="4%">:
                                                                         </td>
@@ -1759,9 +1802,9 @@
                                                                                 alt="NAPM Last Email Date" src="../Images/iconPicDate.gif" align="middle" /><br />
                                                                             <asp:RegularExpressionValidator ID="revtxtNAPM_Last_Email_Date" runat="server" ControlToValidate="txtNAPM_Last_Email_Date"
                                                                                 ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([01])(\d{1})|([8901])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([2-9])(\d{1})|(20)([01])(\d{1})|([8901])(\d{1})))$"
-                                                                                ErrorMessage="[Approvals]/Date Not Valid(Last E-Mail Date)" Display="none" ValidationGroup="vsErrorGroup"></asp:RegularExpressionValidator>
+                                                                                ErrorMessage="[Approvals]/Date Not Valid(Last E-Mail Date)" Display="none" ValidationGroup="vsManagementGroup"></asp:RegularExpressionValidator>
                                                                             <%-- <asp:CustomValidator ID="cvNAPM_Last_Email_Date" runat="server" ControlToValidate="txtNAPM_Last_Email_Date"
-                                                                                ValidationGroup="vsErrorGroup" ClientValidationFunction="CheckDate" ErrorMessage="[Approvals]/NAPM Last Email Date is not valid."
+                                                                                ValidationGroup="vsManagementGroup" ClientValidationFunction="CheckDate" ErrorMessage="[Approvals]/NAPM Last Email Date is not valid."
                                                                                 Display="None">
                                                                             </asp:CustomValidator>--%>
                                                                         </td>
@@ -1774,9 +1817,9 @@
                                                                         <td align="left">
                                                                             <asp:RadioButtonList runat="server" ID="rdoNAPM_Decision" SkinID="ApprovedNotApprovedTypeNullSelection" onclick="SetApprovalSubmission();" Style="float: left">
                                                                             </asp:RadioButtonList>
-                                                                            <asp:Button runat="server" Text="C" CommandArgument="NAPM" OnClick="btnClear_Click" OnClientClick="ClearReponseDateControls('NAPM');" ValidationGroup="vsErrorGroup" Style="float: left; margin-left: 5px;" />
+                                                                            <asp:Button runat="server" Text="C" CommandArgument="NAPM" OnClick="btnClear_Click" OnClientClick="ClearReponseDateControls('NAPM');" ValidationGroup="vsManagementGroup" Style="float: left; margin-left: 5px;" />
                                                                         </td>
-                                                                        <td align="left">NAPM Response Date&nbsp;<span id="Span24" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left">NAPM Response Date&nbsp;<span id="Span38" style="color: Red; display: none;" runat="server">*</span>
                                                                         </td>
                                                                         <td align="center">:
                                                                         </td>
@@ -1786,9 +1829,9 @@
                                                                                 alt="NAPM Response Date" src="../Images/iconPicDate.gif" align="middle" /><br />
                                                                             <asp:RegularExpressionValidator ID="revtxtNAPM_Response_Date" runat="server" ControlToValidate="txtNAPM_Response_Date"
                                                                                 ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([01])(\d{1})|([8901])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([2-9])(\d{1})|(20)([01])(\d{1})|([8901])(\d{1})))$"
-                                                                                ErrorMessage="[Approvals]/Date Not Valid(NAPM Response Date)" Display="none" ValidationGroup="vsErrorGroup"></asp:RegularExpressionValidator>
+                                                                                ErrorMessage="[Approvals]/Date Not Valid(NAPM Response Date)" Display="none" ValidationGroup="vsManagementGroup"></asp:RegularExpressionValidator>
                                                                             <%-- <asp:CustomValidator ID="cvNAPM_Response_Date" runat="server" ControlToValidate="txtNAPM_Response_Date"
-                                                                                ValidationGroup="vsErrorGroup" ClientValidationFunction="CheckDate" ErrorMessage="[Approvals]/NAPM Response Date is not valid."
+                                                                                ValidationGroup="vsManagementGroup" ClientValidationFunction="CheckDate" ErrorMessage="[Approvals]/NAPM Response Date is not valid."
                                                                                 Display="None">
                                                                             </asp:CustomValidator>--%>
                                                                         </td>
@@ -1804,7 +1847,7 @@
                                                             <td colspan="6" style="width: 100%;">
                                                                 <table cellpadding="0" cellspacing="0" width="100%" border="0">
                                                                     <tr>
-                                                                        <td align="left" width="20%">E-Mail To&nbsp;<span id="Span28" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left" width="20%">E-Mail To&nbsp;<span id="Span39" style="color: Red; display: none;" runat="server">*</span>
                                                                             <br />
                                                                             --<a href="#" onclick="OpenWizardPopup(<%=ViewState["PK_Management"] %>,'DRM');">Email
                                                                                 DRM</a>--
@@ -1814,10 +1857,10 @@
                                                                         <td align="left" width="26%">
                                                                             <asp:TextBox runat="server" ID="txtDRM_Email_To" MaxLength="100"></asp:TextBox>
                                                                             <asp:RegularExpressionValidator ID="rgvDRM_Email_To" runat="server" ControlToValidate="txtDRM_Email_To"
-                                                                                ValidationGroup="vsErrorGroup" Display="None" ErrorMessage="[Approvals]/DRM Email To Address Is Invalid"
+                                                                                ValidationGroup="vsManagementGroup" Display="None" ErrorMessage="[Approvals]/DRM Email To Address Is Invalid"
                                                                                 SetFocusOnError="True" ToolTip="Email Address Is Invalid" ValidationExpression="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*([,]\s*\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)*">*</asp:RegularExpressionValidator>
                                                                         </td>
-                                                                        <td align="left" width="20%">Last E-Mail Date&nbsp;<span id="Span29" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left" width="20%">Last E-Mail Date&nbsp;<span id="Span40" style="color: Red; display: none;" runat="server">*</span>
                                                                         </td>
                                                                         <td align="center" width="4%">:
                                                                         </td>
@@ -1826,7 +1869,7 @@
                                                                             <img onmouseover="javascript:this.style.cursor='hand';" onclick="return showCalendar('<%= txtDRM_Last_Email_Date.ClientID %>', 'mm/dd/y');"
                                                                                 alt="DRM Last Email Date" src="../Images/iconPicDate.gif" align="middle" /><br />
                                                                             <%-- <asp:CustomValidator ID="cvDRM_Last_Email_Date" runat="server" ControlToValidate="txtDRM_Last_Email_Date"
-                                                                                ValidationGroup="vsErrorGroup" ClientValidationFunction="CheckDate" ErrorMessage="[Approvals]/DRM Last Email Date is not valid."
+                                                                                ValidationGroup="vsManagementGroup" ClientValidationFunction="CheckDate" ErrorMessage="[Approvals]/DRM Last Email Date is not valid."
                                                                                 Display="None">
                                                                             </asp:CustomValidator>--%>
                                                                         </td>
@@ -1839,9 +1882,9 @@
                                                                         <td align="left">
                                                                             <asp:RadioButtonList runat="server" ID="rdoDRM_Decision" SkinID="ApprovedNotApprovedTypeNullSelection" onclick="SetApprovalSubmission();" Style="float: left">
                                                                             </asp:RadioButtonList>
-                                                                            <asp:Button runat="server" Text="C" CommandArgument="DRM" OnClick="btnClear_Click" OnClientClick="ClearReponseDateControls('DRM');" ValidationGroup="vsErrorGroup" Style="float: left; margin-left: 5px;" />
+                                                                            <asp:Button runat="server" Text="C" CommandArgument="DRM" OnClick="btnClear_Click" OnClientClick="ClearReponseDateControls('DRM');" ValidationGroup="vsManagementGroup" Style="float: left; margin-left: 5px;" />
                                                                         </td>
-                                                                        <td align="left">DRM Response Date&nbsp;<span id="Span30" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left">DRM Response Date&nbsp;<span id="Span41" style="color: Red; display: none;" runat="server">*</span>
                                                                         </td>
                                                                         <td align="center">:
                                                                         </td>
@@ -1850,7 +1893,7 @@
                                                                             <img onmouseover="javascript:this.style.cursor='hand';" onclick="return showCalendar('<%= txtDRM_Response_Date.ClientID %>', 'mm/dd/y');"
                                                                                 alt="DRM Response Date" src="../Images/iconPicDate.gif" align="middle" /><br />
                                                                             <%-- <asp:CustomValidator ID="cvDRM_Response_Date" runat="server" ControlToValidate="txtDRM_Response_Date"
-                                                                                ValidationGroup="vsErrorGroup" ClientValidationFunction="CheckDate" ErrorMessage="[Approvals]/DRM Response Date is not valid."
+                                                                                ValidationGroup="vsManagementGroup" ClientValidationFunction="CheckDate" ErrorMessage="[Approvals]/DRM Response Date is not valid."
                                                                                 Display="None">
                                                                             </asp:CustomValidator>--%>
                                                                         </td>
@@ -1859,7 +1902,7 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td align="left" width="20%" valign="top">Comments&nbsp;<span id="Span37" style="color: Red; display: none;" runat="server">*</span>
+                                                            <td align="left" width="20%" valign="top">Comments&nbsp;<span id="Span42" style="color: Red; display: none;" runat="server">*</span>
                                                             </td>
                                                             <td align="center" width="4%" valign="top">:
                                                             </td>
@@ -1981,7 +2024,7 @@
                                                             </td>
                                                             <td align="center" valign="top" style="width: 3%">&nbsp;:
                                                             </td>
-                                                            <td style="margin-left: 40px" style="width: 650px" align="left">
+                                                            <td style="margin-left: 40px; width: 650px" align="left">
                                                                 <asp:GridView ID="gvInvoice" runat="server" AutoGenerateColumns="false" Width="100%"
                                                                     OnRowCommand="gvInvoice_RowCommand">
                                                                     <EmptyDataTemplate>
@@ -2376,7 +2419,7 @@
                                                                 <uc:ctrlMultiLineTextBox ID="lblRecommendation" runat="server" ControlType="Label" />
                                                             </td>
                                                         </tr>
-                                                        
+
                                                         <tr>
                                                             <td colspan="6">&nbsp;
                                                             </td>
@@ -2683,14 +2726,14 @@
                                                             <td colspan="6" style="width: 100%;">
                                                                 <table cellpadding="0" cellspacing="0" width="100%" border="0">
                                                                     <tr>
-                                                                        <td align="left" width="20%">E-Mail To&nbsp;<span id="Span1" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left" width="20%">E-Mail To&nbsp;<span id="Span43" style="color: Red; display: none;" runat="server">*</span>
                                                                         </td>
                                                                         <td align="center" width="4%">:
                                                                         </td>
                                                                         <td align="left" width="26%">
                                                                             <asp:Label runat="server" ID="lblGM_Email_To"></asp:Label>
                                                                         </td>
-                                                                        <td align="left" width="20%">Last E-Mail Date&nbsp;<span id="Span2" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left" width="20%">Last E-Mail Date&nbsp;<span id="Span44" style="color: Red; display: none;" runat="server">*</span>
                                                                         </td>
                                                                         <td align="center" width="4%">:
                                                                         </td>
@@ -2707,7 +2750,7 @@
                                                                             <asp:Label runat="server" ID="lblGM_Decisionview">
                                                                             </asp:Label>
                                                                         </td>
-                                                                        <td align="left">GM Response Date&nbsp;<span id="Span3" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left">GM Response Date&nbsp;<span id="Span45" style="color: Red; display: none;" runat="server">*</span>
                                                                         </td>
                                                                         <td align="center">:
                                                                         </td>
@@ -2726,14 +2769,14 @@
                                                             <td colspan="6" style="width: 100%;">
                                                                 <table cellpadding="0" cellspacing="0" width="100%" border="0">
                                                                     <tr>
-                                                                        <td align="left" width="20%">E-Mail To&nbsp;<span id="Span4" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left" width="20%">E-Mail To&nbsp;<span id="Span46" style="color: Red; display: none;" runat="server">*</span>
                                                                         </td>
                                                                         <td align="center" width="4%">:
                                                                         </td>
                                                                         <td align="left" width="26%">
                                                                             <asp:Label runat="server" ID="lblRLCM_Email_To"></asp:Label>
                                                                         </td>
-                                                                        <td align="left" width="20%">Last E-Mail Date&nbsp;<span id="Span5" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left" width="20%">Last E-Mail Date&nbsp;<span id="Span47" style="color: Red; display: none;" runat="server">*</span>
                                                                         </td>
                                                                         <td align="center" width="4%">:
                                                                         </td>
@@ -2750,7 +2793,7 @@
                                                                             <asp:Label runat="server" ID="lblRLCM_Decisionview">
                                                                             </asp:Label>
                                                                         </td>
-                                                                        <td align="left">RLCM Response Date&nbsp;<span id="Span6" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left">RLCM Response Date&nbsp;<span id="Span48" style="color: Red; display: none;" runat="server">*</span>
                                                                         </td>
                                                                         <td align="center">:
                                                                         </td>
@@ -2769,14 +2812,14 @@
                                                             <td colspan="6" style="width: 100%;">
                                                                 <table cellpadding="0" cellspacing="0" width="100%" border="0">
                                                                     <tr>
-                                                                        <td align="left" width="20%">E-Mail To&nbsp;<span id="Span7" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left" width="20%">E-Mail To&nbsp;<span id="Span49" style="color: Red; display: none;" runat="server">*</span>
                                                                         </td>
                                                                         <td align="center" width="4%">:
                                                                         </td>
                                                                         <td align="left" width="26%">
                                                                             <asp:Label runat="server" ID="lblNAPM_Email_To"></asp:Label>
                                                                         </td>
-                                                                        <td align="left" width="20%">Last E-Mail Date&nbsp;<span id="Span8" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left" width="20%">Last E-Mail Date&nbsp;<span id="Span50" style="color: Red; display: none;" runat="server">*</span>
                                                                         </td>
                                                                         <td align="center" width="4%">:
                                                                         </td>
@@ -2793,7 +2836,7 @@
                                                                             <asp:Label runat="server" ID="lblNAPM_DecisionView">
                                                                             </asp:Label>
                                                                         </td>
-                                                                        <td align="left">NAPM Response Date&nbsp;<span id="Span9" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left">NAPM Response Date&nbsp;<span id="Span51" style="color: Red; display: none;" runat="server">*</span>
                                                                         </td>
                                                                         <td align="center">:
                                                                         </td>
@@ -2812,14 +2855,14 @@
                                                             <td colspan="6" style="width: 100%;">
                                                                 <table cellpadding="0" cellspacing="0" width="100%" border="0">
                                                                     <tr>
-                                                                        <td align="left" width="20%">E-Mail To&nbsp;<span id="Span10" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left" width="20%">E-Mail To&nbsp;<span id="Span52" style="color: Red; display: none;" runat="server">*</span>
                                                                         </td>
                                                                         <td align="center" width="4%">:
                                                                         </td>
                                                                         <td align="left" width="26%">
                                                                             <asp:Label runat="server" ID="lblDRM_Email_To"></asp:Label>
                                                                         </td>
-                                                                        <td align="left" width="20%">Last E-Mail Date&nbsp;<span id="Span11" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left" width="20%">Last E-Mail Date&nbsp;<span id="Span53" style="color: Red; display: none;" runat="server">*</span>
                                                                         </td>
                                                                         <td align="center" width="4%">:
                                                                         </td>
@@ -2836,7 +2879,7 @@
                                                                             <asp:Label runat="server" ID="lblDRM_Decisionview">
                                                                             </asp:Label>
                                                                         </td>
-                                                                        <td align="left">DRM Response Date&nbsp;<span id="Span12" style="color: Red; display: none;" runat="server">*</span>
+                                                                        <td align="left">DRM Response Date&nbsp;<span id="Span54" style="color: Red; display: none;" runat="server">*</span>
                                                                         </td>
                                                                         <td align="center">:
                                                                         </td>
@@ -2848,7 +2891,7 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td align="left" width="20%" valign="top">Comments&nbsp;<span id="Span13" style="color: Red; display: none;" runat="server">*</span>
+                                                            <td align="left" width="20%" valign="top">Comments&nbsp;<span id="Span55" style="color: Red; display: none;" runat="server">*</span>
                                                             </td>
                                                             <td align="center" width="4%" valign="top">:
                                                             </td>
@@ -2958,7 +3001,7 @@
                                                             </td>
                                                             <td align="center" valign="top" style="width: 3%">&nbsp;:
                                                             </td>
-                                                            <td style="margin-left: 40px" style="width: 650px" align="left">
+                                                            <td style="margin-left: 40px; width: 650px" align="left">
                                                                 <asp:GridView ID="gvInvoiceView" runat="server" AutoGenerateColumns="false" Width="100%"
                                                                     OnRowCommand="gvInvoice_RowCommand">
                                                                     <EmptyDataTemplate>
@@ -3031,13 +3074,13 @@
                                 <asp:Button ID="btnPreviousStep" ToolTip="Previous Step" runat="server" Text="Previous Step"
                                     CausesValidation="false" OnClientClick="return  onPreviousStep();" />
                                 &nbsp; &nbsp;
-                                <asp:Button ID="btnSave" runat="server" Text="Save" CausesValidation="false" ValidationGroup="vsErrorGroup"
+                                <asp:Button ID="btnSave" runat="server" Text="Save" CausesValidation="false" ValidationGroup="vsManagementGroup"
                                     OnClick="btnSave_Click" ToolTip="Save" OnClientClick="SetApprovalSubmissionOnSaveButton();" UseSubmitBehavior="false" />
                                 <asp:Button ID="btnEdit" runat="server" Text=" Edit " CausesValidation="false" OnClick="btnEdit_Click"
                                     Visible="false" />
                                 &nbsp; &nbsp;
                                 <asp:Button ID="btnResendManagementAbstract" runat="server" Text="Save and Send Management Abstract" CausesValidation="true" Visible="false"
-                                    OnClick="btnResendManagementAbstract_Click" ValidationGroup="vsErrorGroup" />
+                                    OnClick="btnResendManagementAbstract_Click" ValidationGroup="vsManagementGroup" />
                                 &nbsp; &nbsp;
                                 <asp:Button ID="btnCancel" runat="server" Text="Cancel" CausesValidation="false"
                                     OnClick="btnCancel_Click" />
@@ -3046,7 +3089,8 @@
                                     Visible="false" OnClientClick="javascript:return AuditPopUp();" ToolTip="View Audit Trail" />
                                 &nbsp; &nbsp;
                                 <asp:Button ID="btnNextStep" runat="server" ToolTip="Next Step" Text="Next Step"
-                                    CausesValidation="true" ValidationGroup="vsErrorGroup" OnClientClick="javascript:return onNextStep();" />
+                                    CausesValidation="true" ValidationGroup="vsManagementGroup" OnClientClick="javascript:return onNextStep();" />
+                                
                             </td>
                         </tr>
                         <tr>
@@ -3057,6 +3101,20 @@
                 </td>
             </tr>
         </table>
+        <asp:CustomValidator ID="CustomValidatorManagement" runat="server" ErrorMessage=""
+                                ClientValidationFunction="ValidateFieldsManagement" Display="None" ValidationGroup="vsManagementGroup" />
+                                <input id="hdnControlIDsManagement" runat="server" type="hidden" />
+                                <input id="hdnErrorMsgsManagement" runat="server" type="hidden" />
+
+        <asp:CustomValidator ID="CustomValidatorStoreContact" runat="server" ErrorMessage=""
+                                ClientValidationFunction="ValidateFieldsStoreContact" Display="None" ValidationGroup="vsStoreContactGroup" />
+                                <input id="hdnControlIDsStoreContact" runat="server" type="hidden" />
+                                <input id="hdnErrorMsgsStoreContact" runat="server" type="hidden" />
+
+        <asp:CustomValidator ID="CustomValidatorACIContact" runat="server" ErrorMessage=""
+                                ClientValidationFunction="ValidateFieldsACIContact" Display="None" ValidationGroup="vsACIContactGroup" />
+                                <input id="hdnControlIDsACIContact" runat="server" type="hidden" />
+                                <input id="hdnErrorMsgsACIContact" runat="server" type="hidden" />
     </div>
     <script type="text/javascript">
 
@@ -3135,6 +3193,99 @@
             num.substring(num.length - (4 * i + 3));
 
             return (((sign) ? '' : '-') + num + '.' + cents);
+        }
+
+        function ValidateFieldsManagement(sender, args) {
+            var msg = '';
+            var ctrlIDs = document.getElementById('<%=hdnControlIDsManagement.ClientID%>').value.split(',');
+            var Messages = document.getElementById('<%=hdnErrorMsgsManagement.ClientID%>').value.split(',');
+            var focusCtrlID = "";
+            if (document.getElementById('<%=hdnControlIDsManagement.ClientID%>').value != "") {
+                var i = 0;
+                for (i = 0; i < ctrlIDs.length; i++) {
+                    var bEmpty = false;
+                    var ctrl = document.getElementById(ctrlIDs[i]);
+                    switch (ctrl.type) {
+                        case "textarea":
+                        case "text": if (ctrl.value == '') bEmpty = true; break;
+                        case "select-one": if (ctrl.selectedIndex == 0) bEmpty = true; break;
+                        case "select-multiple": if (ctrl.selectedIndex == -1) bEmpty = true; break;
+                    }
+                    if (bEmpty && focusCtrlID == "") focusCtrlID = ctrlIDs[i];
+                    if (bEmpty) msg += (msg.length > 0 ? "- " : "") + Messages[i] + "\n";
+                }
+                if (msg.length > 0) {
+                    sender.errormessage = msg;
+                    args.IsValid = false;
+                }
+                else
+                    args.IsValid = true;
+            }
+            else {
+                args.IsValid = true;
+            }
+        }
+
+        function ValidateFieldsStoreContact(sender, args) {
+            var msg = '';
+            var ctrlIDs = document.getElementById('<%=hdnControlIDsStoreContact.ClientID%>').value.split(',');
+            var Messages = document.getElementById('<%=hdnErrorMsgsStoreContact.ClientID%>').value.split(',');
+            var focusCtrlID = "";
+            if (document.getElementById('<%=hdnControlIDsStoreContact.ClientID%>').value != "") {
+                var i = 0;
+                for (i = 0; i < ctrlIDs.length; i++) {
+                    var bEmpty = false;
+                    var ctrl = document.getElementById(ctrlIDs[i]);
+                    switch (ctrl.type) {
+                        case "textarea":
+                        case "text": if (ctrl.value == '') bEmpty = true; break;
+                        case "select-one": if (ctrl.selectedIndex == 0) bEmpty = true; break;
+                        case "select-multiple": if (ctrl.selectedIndex == -1) bEmpty = true; break;
+                    }
+                    if (bEmpty && focusCtrlID == "") focusCtrlID = ctrlIDs[i];
+                    if (bEmpty) msg += (msg.length > 0 ? "- " : "") + Messages[i] + "\n";
+                }
+                if (msg.length > 0) {
+                    sender.errormessage = msg;
+                    args.IsValid = false;
+                }
+                else
+                    args.IsValid = true;
+            }
+            else {
+                args.IsValid = true;
+            }
+        }
+
+        function ValidateFieldsACIContact (sender, args) {
+            var msg = '';
+            var ctrlIDs = document.getElementById('<%=hdnControlIDsACIContact.ClientID%>').value.split(',');
+            var Messages = document.getElementById('<%=hdnErrorMsgsACIContact.ClientID%>').value.split(',');
+            var focusCtrlID = "";
+            if (document.getElementById('<%=hdnControlIDsACIContact.ClientID%>').value != "") {
+                var i = 0;
+                for (i = 0; i < ctrlIDs.length; i++) {
+                    var bEmpty = false;
+                    var ctrl = document.getElementById(ctrlIDs[i]);
+                    switch (ctrl.type) {
+                        case "textarea":
+                        case "text": if (ctrl.value == '') bEmpty = true; break;
+                        case "select-one": if (ctrl.selectedIndex == 0) bEmpty = true; break;
+                        case "select-multiple": if (ctrl.selectedIndex == -1) bEmpty = true; break;
+                    }
+                    if (bEmpty && focusCtrlID == "") focusCtrlID = ctrlIDs[i];
+                    if (bEmpty) msg += (msg.length > 0 ? "- " : "") + Messages[i] + "\n";
+                }
+                if (msg.length > 0) {
+                    sender.errormessage = msg;
+                    args.IsValid = false;
+                }
+                else
+                    args.IsValid = true;
+            }
+            else {
+                args.IsValid = true;
+            }
         }
     </script>
     <script type="text/javascript" src="<%=AppConfig.SiteURL%>greybox/AJS.js"></script>

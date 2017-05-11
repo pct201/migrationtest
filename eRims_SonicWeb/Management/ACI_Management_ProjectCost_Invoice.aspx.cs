@@ -70,11 +70,13 @@ public partial class SONIC_Exposures_ACI_Management_ProjectCost_Invoice : clsBas
             if (StrOperation.ToLower() == "add")
             {
                 btnProjectCost_Audit.Visible = false;
+                SetValidations();
             }
 
             if (StrOperation.ToLower() == "edit")
             {
                 BindProjectCostDetailsForEdit();
+                SetValidations();
             }
             else if (StrOperation.ToLower() == "view")
             {
@@ -206,40 +208,41 @@ public partial class SONIC_Exposures_ACI_Management_ProjectCost_Invoice : clsBas
     private void SetValidations()
     {
         #region " Identification"
-        //string strCtrlsIDsProjectCost = "";
-        //string strMessagesProjectCost = "";
-        //DataTable dtFieldsProjectCost = clsScreen_Validators.SelectByScreen(214).Tables[0];
-        //dtFieldsProjectCost.DefaultView.RowFilter = "IsRequired = '1'";
-        //dtFieldsProjectCost = dtFieldsProjectCost.DefaultView.ToTable();
-        //MenuAsterisk1.Style["display"] = (dtFieldsProjectCost.Select("LeftMenuIndex = 1").Length > 0) ? "inline-block" : "none";
-        //foreach (DataRow drFieldsProjectCost in dtFieldsProjectCost.Rows)
-        //{
-        //    #region " set validation control IDs and messages "
-        //    switch (Convert.ToString(drFieldsProjectCost["Field_Name"]))
-        //    {
-        //        case "Invoice Number": strCtrlsIDsProjectCost += txtInvoiceNumber.ClientID + ","; strMessagesProjectCost += "Please select [Project Cost - Invoice]/Invoice Number" + ","; spnInvoiceNumber.Style["display"] = "inline-block"; break;
-        //        case "Invoice Date": strCtrlsIDsProjectCost += txtInvoiceDate.ClientID + ","; strMessagesProjectCost += "Please select [Project Cost - Invoice]/Invoice Date" + ","; spnInvoiceDate.Style["display"] = "inline-block"; break;
-        //        case "Invoice Amount": strCtrlsIDsProjectCost += txtInvoiceAmount.ClientID + ","; strMessagesProjectCost += "Please select [Project Cost - Invoice]/Invoice Amount" + ","; spnInvoiceAmount.Style["display"] = "inline-block"; break;
-        //        case "Risk Management": strCtrlsIDsProjectCost += txtRiskManagement.ClientID + ","; strMessagesProjectCost += "Please select [Project Cost - Invoice]/Risk Management" + ","; spnRiskManagement.Style["display"] = "inline-block"; break;
-        //        case "Corporate Development/Real Estate": strCtrlsIDsProjectCost += txtCorporateDevelopment.ClientID + ","; strMessagesProjectCost += "Please select [Project Cost - Invoice]/Corporate Development" + ","; spnCorporateDevelopment.Style["display"] = "inline-block"; break;
-        //        case "Store": strCtrlsIDsProjectCost += txtStore.ClientID + ","; strMessagesProjectCost += "Please select [Project Cost - Invoice]/Store" + ","; spnStore.Style["display"] = "inline-block"; break;
-        //        case "Vendor": strCtrlsIDsProjectCost += txtVendor.ClientID + ","; strMessagesProjectCost += "Please select [Project Cost - Invoice]/Vendor" + ","; spnVendor.Style["display"] = "inline-block"; break;
-        //        case "Vendor Address": strCtrlsIDsProjectCost += txtVendorAddress.ClientID + ","; strMessagesProjectCost += "Please select [Project Cost - Invoice]/Vendor Address" + ","; spnVendorAddress.Style["display"] = "inline-block"; break;
-        //        case "Vendor City": strCtrlsIDsProjectCost += txtVendorCity.ClientID + ","; strMessagesProjectCost += "Please select [Project Cost - Invoice]/Vendor City" + ","; spnVendorCity .Style["display"] = "inline-block"; break;
-        //        case "Vendor State": strCtrlsIDsProjectCost += ddlVendorState.ClientID + ","; strMessagesProjectCost += "Please select [Project Cost - Invoice]/Vendor State" + ","; spnVendorState.Style["display"] = "inline-block"; break;
-        //        case "Vendor Zip": strCtrlsIDsProjectCost += txtVendorZip.ClientID + ","; strMessagesProjectCost += "Please select [Project Cost - Invoice]/Vendor Zip" + ","; spnVendorZip.Style["display"] = "inline-block"; break;
-        //        case "Vendor Contact Name": strCtrlsIDsProjectCost += txtVendorContactName.ClientID + ","; strMessagesProjectCost += "Please select [Project Cost - Invoice]/Vendor Contact Name" + ","; spnVendorContactName.Style["display"] = "inline-block"; break;
-        //        case "Vendor Telephone": strCtrlsIDsProjectCost += txtVendorTelephone.ClientID + ","; strMessagesProjectCost += "Please select [Project Cost - Invoice]/Vendor Telephone" + ","; spnVendorTelephone.Style["display"] = "inline-block"; break;
-        //        case "Vendor E-Mail": strCtrlsIDsProjectCost += txtVendorEmail.ClientID + ","; strMessagesProjectCost += "Please select [Project Cost - Invoice]/Vendor Email" + ","; spnVendorEmail.Style["display"] = "inline-block"; break;
+        string strCtrlsIDsProjectCost = "";
+        string strMessagesProjectCost = "";
+        DataTable dtFieldsProjectCost = clsScreen_Validators.SelectByScreen(239).Tables[0];
+        dtFieldsProjectCost.DefaultView.RowFilter = "IsRequired = '1'";
+        dtFieldsProjectCost = dtFieldsProjectCost.DefaultView.ToTable();
+        MenuAsterisk1.Style["display"] = (dtFieldsProjectCost.Select("LeftMenuIndex = 1").Length > 0) ? "inline-block" : "none";
+        foreach (DataRow drFieldsProjectCost in dtFieldsProjectCost.Rows)
+        {
+            #region " set validation control IDs and messages "
+            switch (Convert.ToString(drFieldsProjectCost["Field_Name"]))
+            {
+                case "Invoice Number": strCtrlsIDsProjectCost += txtInvoiceNumber.ClientID + ","; strMessagesProjectCost += "Please select [Project Cost - Invoice]/Invoice Number" + ","; spnInvoiceNumber.Style["display"] = "inline-block"; break;
+                case "Invoice Date": strCtrlsIDsProjectCost += txtInvoiceDate.ClientID + ","; strMessagesProjectCost += "Please select [Project Cost - Invoice]/Invoice Date" + ","; spnInvoiceDate.Style["display"] = "inline-block"; break;
+                case "Invoice Amount": strCtrlsIDsProjectCost += txtInvoiceAmount.ClientID + ","; strMessagesProjectCost += "Please select [Project Cost - Invoice]/Invoice Amount" + ","; spnInvoiceAmount.Style["display"] = "inline-block"; break;
+                case "Risk Management": strCtrlsIDsProjectCost += txtRiskManagement.ClientID + ","; strMessagesProjectCost += "Please select [Project Cost - Invoice]/Risk Management" + ","; spnRiskManagement.Style["display"] = "inline-block"; break;
+                case "Corporate Development/Real Estate": strCtrlsIDsProjectCost += txtCorporateDevelopment.ClientID + ","; strMessagesProjectCost += "Please select [Project Cost - Invoice]/Corporate Development" + ","; spnCorporateDevelopment.Style["display"] = "inline-block"; break;
+                case "Store": strCtrlsIDsProjectCost += txtStore.ClientID + ","; strMessagesProjectCost += "Please select [Project Cost - Invoice]/Store" + ","; spnStore.Style["display"] = "inline-block"; break;
+                case "Vendor": strCtrlsIDsProjectCost += txtVendor.ClientID + ","; strMessagesProjectCost += "Please select [Project Cost - Invoice]/Vendor" + ","; spnVendor.Style["display"] = "inline-block"; break;
+                case "Vendor Address": strCtrlsIDsProjectCost += txtVendorAddress.ClientID + ","; strMessagesProjectCost += "Please select [Project Cost - Invoice]/Vendor Address" + ","; spnVendorAddress.Style["display"] = "inline-block"; break;
+                case "Vendor City": strCtrlsIDsProjectCost += txtVendorCity.ClientID + ","; strMessagesProjectCost += "Please select [Project Cost - Invoice]/Vendor City" + ","; spnVendorCity.Style["display"] = "inline-block"; break;
+                case "Vendor State": strCtrlsIDsProjectCost += ddlVendorState.ClientID + ","; strMessagesProjectCost += "Please select [Project Cost - Invoice]/Vendor State" + ","; spnVendorState.Style["display"] = "inline-block"; break;
+                case "Vendor Zip": strCtrlsIDsProjectCost += txtVendorZip.ClientID + ","; strMessagesProjectCost += "Please select [Project Cost - Invoice]/Vendor Zip" + ","; spnVendorZip.Style["display"] = "inline-block"; break;
+                case "Vendor Contact Name": strCtrlsIDsProjectCost += txtVendorContactName.ClientID + ","; strMessagesProjectCost += "Please select [Project Cost - Invoice]/Vendor Contact Name" + ","; spnVendorContactName.Style["display"] = "inline-block"; break;
+                case "Vendor Telephone": strCtrlsIDsProjectCost += txtVendorTelephone.ClientID + ","; strMessagesProjectCost += "Please select [Project Cost - Invoice]/Vendor Telephone" + ","; spnVendorTelephone.Style["display"] = "inline-block"; break;
+                case "Vendor E-Mail": strCtrlsIDsProjectCost += txtVendorEmail.ClientID + ","; strMessagesProjectCost += "Please select [Project Cost - Invoice]/Vendor Email" + ","; spnVendorEmail.Style["display"] = "inline-block"; break;
+                case "Comments": strCtrlsIDsProjectCost += txtComments.ClientID + ","; strMessagesProjectCost += "Please select [Project Cost - Invoice]/Comments" + ","; spnComments.Style["display"] = "inline-block"; break;
 
-        //    }
-        //    #endregion
-        //}
-        //strCtrlsIDsProjectCost = strCtrlsIDsProjectCost.TrimEnd(',');
-        //strMessagesProjectCost = strMessagesProjectCost.TrimEnd(',');
+            }
+            #endregion
+        }
+        strCtrlsIDsProjectCost = strCtrlsIDsProjectCost.TrimEnd(',');
+        strMessagesProjectCost = strMessagesProjectCost.TrimEnd(',');
 
-        //hdnControlIDsProjectCost.Value = strCtrlsIDsProjectCost;
-        //hdnErrorMsgsProjectCost.Value = strMessagesProjectCost;
+        hdnControlIDsProjectCost.Value = strCtrlsIDsProjectCost;
+        hdnErrorMsgsProjectCost.Value = strMessagesProjectCost;
 
         #endregion
     }

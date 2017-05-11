@@ -69,11 +69,13 @@ public partial class SONIC_ACI_Management_Project_Cost : clsBasePage
             if (StrOperation.ToLower() == "add")
             {
                 btnProjectCost_Audit.Visible = false;
+                SetValidations();
             }
 
             if (StrOperation.ToLower() == "edit")
             {
                 BindProjectCostDetailsForEdit();
+                SetValidations();
             }
             else if (StrOperation.ToLower() == "view")
             {
@@ -192,35 +194,35 @@ public partial class SONIC_ACI_Management_Project_Cost : clsBasePage
     private void SetValidations()
     {
         #region " Identification"
-        //string strCtrlsIDsProjectCost = "";
-        //string strMessagesProjectCost = "";
-        //DataTable dtFieldsProjectCost = clsScreen_Validators.SelectByScreen(196).Tables[0];
-        //dtFieldsProjectCost.DefaultView.RowFilter = "IsRequired = '1'";
-        //dtFieldsProjectCost = dtFieldsProjectCost.DefaultView.ToTable();
-        //MenuAsterisk1.Style["display"] = (dtFieldsProjectCost.Select("LeftMenuIndex = 1").Length > 0) ? "inline-block" : "none";
-        //foreach (DataRow drFieldsProjectCost in dtFieldsProjectCost.Rows)
-        //{
-        //    #region " set validation control IDs and messages "
-        //    switch (Convert.ToString(drFieldsProjectCost["Field_Name"]))
-        //    {
-        //        case "Project Phase": strCtrlsIDsProjectCost += drpProject_Phase.ClientID + ","; strMessagesProjectCost += "Please select [Project Cost]/Project Phase" + ","; Span1.Style["display"] = "inline-block"; break;
-        //        case "Comments/Description": strCtrlsIDsProjectCost += txtCommentsOrDesc.ClientID + ","; strMessagesProjectCost += "Please enter [Project Cost]/Comments/Description" + ","; Span2.Style["display"] = "inline-block"; break;
-        //        case "Budget": strCtrlsIDsProjectCost += txtBudget.ClientID + ","; strMessagesProjectCost += "Please enter [Project Cost]/Budget" + ","; Span3.Style["display"] = "inline-block"; break;
-        //        case "Date Budget Established ": strCtrlsIDsProjectCost += txtDate_Budget_Established.ClientID + ","; strMessagesProjectCost += "Please enter [Project Cost]/Date Budget Established " + ","; Span4.Style["display"] = "inline-block"; break;
-        //        case "Estimated Cost": strCtrlsIDsProjectCost += txtEstimated_Cost.ClientID + ","; strMessagesProjectCost += "Please enter [Project Cost]/Estimated Cost" + ","; Span5.Style["display"] = "inline-block"; break;
-        //        case "Date Estimated Cost Derived ": strCtrlsIDsProjectCost += txtDate_Estimated_Cost_Derived.ClientID + ","; strMessagesProjectCost += "Please enter [Project Cost]/Date Estimated Cost Derived " + ","; Span6.Style["display"] = "inline-block"; break;
-        //        case "Original Estimated Cost": strCtrlsIDsProjectCost += txtOriginal_Estimated_Cost.ClientID + ","; strMessagesProjectCost += "Please enter [Project Cost]/Original Estimated Cost" + ","; Span7.Style["display"] = "inline-block"; break;
-        //        case "Date Original Estimated Cost Derived ": strCtrlsIDsProjectCost += txtDate_Original_Estimated_Cost_Derived.ClientID + ","; strMessagesProjectCost += "Please enter [Project Cost]/Date Original Estimated Cost Derived " + ","; Span8.Style["display"] = "inline-block"; break;
-        //        case "Actual Cost": strCtrlsIDsProjectCost += txtActual_Cost.ClientID + ","; strMessagesProjectCost += "Please enter [Project Cost]/Actual Cost" + ","; Span9.Style["display"] = "inline-block"; break;
-        //        case "Date Actual Cost Incurred": strCtrlsIDsProjectCost += txtDate_Actual_Cost_Incurred.ClientID + ","; strMessagesProjectCost += "Please enter [Project Cost]/Date Actual Cost Incurred" + ","; Span10.Style["display"] = "inline-block"; break;
-        //    }
-        //    #endregion
-        //}
-        //strCtrlsIDsProjectCost = strCtrlsIDsProjectCost.TrimEnd(',');
-        //strMessagesProjectCost = strMessagesProjectCost.TrimEnd(',');
+        string strCtrlsIDsProjectCost = "";
+        string strMessagesProjectCost = "";
+        DataTable dtFieldsProjectCost = clsScreen_Validators.SelectByScreen(238).Tables[0];
+        dtFieldsProjectCost.DefaultView.RowFilter = "IsRequired = '1'";
+        dtFieldsProjectCost = dtFieldsProjectCost.DefaultView.ToTable();
+        MenuAsterisk1.Style["display"] = (dtFieldsProjectCost.Select("LeftMenuIndex = 1").Length > 0) ? "inline-block" : "none";
+        foreach (DataRow drFieldsProjectCost in dtFieldsProjectCost.Rows)
+        {
+            #region " set validation control IDs and messages "
+            switch (Convert.ToString(drFieldsProjectCost["Field_Name"]))
+            {
+                case "Project Phase": strCtrlsIDsProjectCost += drpProject_Phase.ClientID + ","; strMessagesProjectCost += "Please select [Project Cost]/Project Phase" + ","; Span1.Style["display"] = "inline-block"; break;
+                case "Comments/Description": strCtrlsIDsProjectCost += txtCommentsOrDesc.ClientID + ","; strMessagesProjectCost += "Please enter [Project Cost]/Comments/Description" + ","; Span2.Style["display"] = "inline-block"; break;
+                case "Budget": strCtrlsIDsProjectCost += txtBudget.ClientID + ","; strMessagesProjectCost += "Please enter [Project Cost]/Budget" + ","; Span3.Style["display"] = "inline-block"; break;
+                case "Date Budget Established": strCtrlsIDsProjectCost += txtDate_Budget_Established.ClientID + ","; strMessagesProjectCost += "Please enter [Project Cost]/Date Budget Established " + ","; Span4.Style["display"] = "inline-block"; break;
+                case "Estimated Cost": strCtrlsIDsProjectCost += txtEstimated_Cost.ClientID + ","; strMessagesProjectCost += "Please enter [Project Cost]/Estimated Cost" + ","; Span5.Style["display"] = "inline-block"; break;
+                case "Date Estimated Cost Derived": strCtrlsIDsProjectCost += txtDate_Estimated_Cost_Derived.ClientID + ","; strMessagesProjectCost += "Please enter [Project Cost]/Date Estimated Cost Derived " + ","; Span6.Style["display"] = "inline-block"; break;
+                case "Original Estimated Cost": strCtrlsIDsProjectCost += txtOriginal_Estimated_Cost.ClientID + ","; strMessagesProjectCost += "Please enter [Project Cost]/Original Estimated Cost" + ","; Span7.Style["display"] = "inline-block"; break;
+                case "Date Original Estimated Cost Derived": strCtrlsIDsProjectCost += txtDate_Original_Estimated_Cost_Derived.ClientID + ","; strMessagesProjectCost += "Please enter [Project Cost]/Date Original Estimated Cost Derived " + ","; Span8.Style["display"] = "inline-block"; break;
+                case "Actual Cost": strCtrlsIDsProjectCost += txtActual_Cost.ClientID + ","; strMessagesProjectCost += "Please enter [Project Cost]/Actual Cost" + ","; Span9.Style["display"] = "inline-block"; break;
+                case "Date Actual Cost Incurred": strCtrlsIDsProjectCost += txtDate_Actual_Cost_Incurred.ClientID + ","; strMessagesProjectCost += "Please enter [Project Cost]/Date Actual Cost Incurred" + ","; Span10.Style["display"] = "inline-block"; break;
+            }
+            #endregion
+        }
+        strCtrlsIDsProjectCost = strCtrlsIDsProjectCost.TrimEnd(',');
+        strMessagesProjectCost = strMessagesProjectCost.TrimEnd(',');
 
-        //hdnControlIDsProjectCost.Value = strCtrlsIDsProjectCost;
-        //hdnErrorMsgsProjectCost.Value = strMessagesProjectCost;
+        hdnControlIDsProjectCost.Value = strCtrlsIDsProjectCost;
+        hdnErrorMsgsProjectCost.Value = strMessagesProjectCost;
 
         #endregion
     }
