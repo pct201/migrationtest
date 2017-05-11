@@ -84,7 +84,7 @@
                                     <th class="cols">
                                         <span style="display: inline-block; width: 180px;">email</span>
                                     </th>                                    
-                                    <th class="cols">
+                                    <%--<th class="cols">
                                         <span style="display: inline-block; width: 150px;">Fire Alarm Monitoring Company Name</span>
                                     </th>
                                     <th class="cols">
@@ -113,7 +113,7 @@
                                     </th>
                                     <th class="cols">
                                         <span style="display: inline-block; width: 150px;">Fire Alarm Monitoring Control Panel</span>
-                                    </th>
+                                    </th>--%>
                                     <th class="cols">
                                         <span style="display: inline-block; width: 120px">Updated_By</span>
                                     </th>
@@ -208,7 +208,7 @@
                                         <asp:Label ID="lblemail" runat="server" Text='<%#Eval("email")%>' Width="180px"></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Fire_Alarm_Monitoring_Company_Name">
+                                <%--<asp:TemplateField HeaderText="Fire_Alarm_Monitoring_Company_Name">
                                     <ItemStyle CssClass="cols" />
                                     <ItemTemplate>
                                         <asp:Label ID="lblFire_Alarm_Monitoring_Company_Name" runat="server" Text='<%#Eval("Fire_Alarm_Monitoring_Company_Name")%>' Width="150px" CssClass="TextClip"></asp:Label>
@@ -267,7 +267,7 @@
                                     <ItemTemplate>
                                         <asp:Label ID="lblFire_Alarm_Monitoring_Control_Panel" runat="server" Text='<%#Eval("Fire_Alarm_Monitoring_Control_Panel")%>' Width="150px" CssClass="TextClip"></asp:Label>
                                     </ItemTemplate>
-                                </asp:TemplateField>
+                                </asp:TemplateField>--%>
                                 <asp:TemplateField HeaderText="Updated_By">
                                     <ItemStyle CssClass="cols" />
                                     <ItemTemplate>

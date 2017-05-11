@@ -1219,7 +1219,7 @@ public partial class Exposures_Property : clsBasePage
                 //objContact.Fire_Alarm_Monitoring_Zip_Code = txtZipCode.Text;
                 //objContact.Fire_Alarm_Monitoring_Telephone = txtTelephone1.Text.Trim();
                 //objContact.Fire_Alarm_Monitoring_Account_Number = txtAccountNumber.Text.Trim();
-                objContact.Fire_Alarm_Monitoring_Monthly_Amount = clsGeneral.GetDecimalNullableValue(txtMonthlyMonitoringAmount);
+                //objContact.Fire_Alarm_Monitoring_Monthly_Amount = clsGeneral.GetDecimalNullableValue(txtMonthlyMonitoringAmount);
                 //objContact.Fire_Alarm_Monitoring_Control_Panel = txtControlPanel.Text.Trim();
                 // insert or update the contact record depending on primary key
                 if (PK_Property_Contact_ID > 0)
@@ -2817,7 +2817,7 @@ public partial class Exposures_Property : clsBasePage
         //txtZipCode.Text = objContact.Fire_Alarm_Monitoring_Zip_Code;
         //txtTelephone1.Text = objContact.Fire_Alarm_Monitoring_Telephone;
         //txtAccountNumber.Text = objContact.Fire_Alarm_Monitoring_Account_Number;
-        txtMonthlyMonitoringAmount.Text = clsGeneral.FormatCommaSeperatorCurrency(objContact.Fire_Alarm_Monitoring_Monthly_Amount);
+        //txtMonthlyMonitoringAmount.Text = clsGeneral.FormatCommaSeperatorCurrency(objContact.Fire_Alarm_Monitoring_Monthly_Amount);
         //txtControlPanel.Text = objContact.Fire_Alarm_Monitoring_Control_Panel;
 
         if (PK_Building_ID > 0)
@@ -2826,31 +2826,37 @@ public partial class Exposures_Property : clsBasePage
 
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
-                lblCompanyName.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Company_Name"]);
-                lblContactName.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Company_Contact_Name"]);
-                lblAddress.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Company_Address"]);
-                lblCity1.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Company_City"]);
-                lblContactState.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Company_State"]);
-                lblZipCode.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Company_Zip"]);
-                lblTelephone1.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Comapny_Contact_Telephone"]);
-                lblAccountNumber.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Alarm_Monitoring_Account_PassCode"]);
-                lblControlPanel.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Alarm_Monitoring_Fire_Alarm_Panel"]);
-                lblModel_Series.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Alarm_Monitoring_Model_Series"]);
-                lblBrand.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Alarm_Monitoring_Brand"]);
+                lblFire_Company_Name.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Company_Name"]);
+                lblFire_Company_Address_1.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Company_Address_1"]);
+                lblFire_Company_Address_2.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Company_Address_2"]);
+                lblFire_Company_City.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Company_City"]);
+                lblFK_Fire_Company_State.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Company_State"]);
+                lblFire_Company_Zip.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Company_Zip"]);
+                lblFire_Company_Contact_Name.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Company_Contact_Name"]);
+                lblFire_Comapny_Contact_Telephone.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Comapny_Contact_Telephone"]);
+                lblFire_Company_Contact_E_Mail.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Alarm_Monitoring_Account_PassCode"]);
+                lblFire_Alarm_Monitoring_Fire_Alarm_Panel.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Alarm_Monitoring_Fire_Alarm_Panel"]);
+                lblFire_Alarm_Monitoring_Account_PassCode.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Alarm_Monitoring_Account_PassCode"]);
+                lblFire_Alarm_Monitoring_Model_Series.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Alarm_Monitoring_Model_Series"]);
+                lblFire_Alarm_Monitoring_Account_Number.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Alarm_Monitoring_Account_Number"]);
+                lblFire_Alarm_Monitoring_Monthly_Amount.Text = clsGeneral.FormatCommaSeperatorCurrency(Convert.ToString(ds.Tables[0].Rows[0]["Fire_Alarm_Monitoring_Monthly_Amount"]));
             }
             else
             {
-                lblCompanyName.Text = string.Empty;
-                lblContactName.Text = string.Empty;
-                lblAddress.Text = string.Empty;
-                lblCity1.Text = string.Empty;
-                lblContactState.Text = string.Empty;
-                lblZipCode.Text = string.Empty;
-                lblTelephone1.Text = string.Empty;
-                lblAccountNumber.Text = string.Empty;
-                lblControlPanel.Text = string.Empty;
-                lblModel_Series.Text = string.Empty;
-                lblBrand.Text = string.Empty;
+                lblFire_Company_Name.Text = string.Empty;
+                lblFire_Company_Address_1.Text = string.Empty;
+                lblFire_Company_Address_2.Text = string.Empty;
+                lblFire_Company_City.Text = string.Empty;
+                lblFK_Fire_Company_State.Text = string.Empty;
+                lblFire_Company_Zip.Text = string.Empty;
+                lblFire_Company_Contact_Name.Text = string.Empty;
+                lblFire_Comapny_Contact_Telephone.Text = string.Empty;
+                lblFire_Company_Contact_E_Mail.Text = string.Empty;
+                lblFire_Alarm_Monitoring_Fire_Alarm_Panel.Text = string.Empty;
+                lblFire_Alarm_Monitoring_Account_PassCode.Text = string.Empty;
+                lblFire_Alarm_Monitoring_Model_Series.Text = string.Empty;
+                lblFire_Alarm_Monitoring_Account_Number.Text = string.Empty;
+                lblFire_Alarm_Monitoring_Monthly_Amount.Text = string.Empty;
             }
         }
         
@@ -4703,7 +4709,7 @@ public partial class Exposures_Property : clsBasePage
                 //case "Fire Alarm Monitoring Company - Zip Code": strCtrlsIDsContact += txtZipCode.ClientID + ","; strMessagesContact += "Please enter [Contacts]/Fire Alarm Monitoring Company - ZipCode" + ","; spnZipCode.Style["display"] = "inline-block"; break;
                 //case "Fire Alarm Monitoring Company - Telephone": strCtrlsIDsContact += txtTelephone1.ClientID + ","; strMessagesContact += "Please enter [Contacts]/Fire Alarm Monitoring Company - Telephone" + ","; spntxtTelephone1.Style["display"] = "inline-block"; break;
                 //case "Fire Alarm Monitoring Company - Account Number": strCtrlsIDsContact += txtAccountNumber.ClientID + ","; strMessagesContact += "Please enter [Contacts]/Fire Alarm Monitoring Company - Account Number" + ","; spnAccountNumber.Style["display"] = "inline-block"; break;
-                case "Fire Alarm Monitoring Company - Monthly Monitoring Amount": strCtrlsIDsContact += txtMonthlyMonitoringAmount.ClientID + ","; strMessagesContact += "Please enter [Contacts]/Fire Alarm Monitoring Company - Monthly Monitoring Account" + ","; spnMonthlyMonitoringAmount.Style["display"] = "inline-block"; break;
+                //case "Fire Alarm Monitoring Company - Monthly Monitoring Amount": strCtrlsIDsContact += txtMonthlyMonitoringAmount.ClientID + ","; strMessagesContact += "Please enter [Contacts]/Fire Alarm Monitoring Company - Monthly Monitoring Account" + ","; spnMonthlyMonitoringAmount.Style["display"] = "inline-block"; break;
                 //case "Fire Alarm Monitoring Company - Control Panel": strCtrlsIDsContact += txtControlPanel.ClientID + ","; strMessagesContact += "Please enter [Contacts]/Fire Alarm Monitoring Company - Control Panel" + ","; spnControlPanel.Style["display"] = "inline-block"; break;
             }
 

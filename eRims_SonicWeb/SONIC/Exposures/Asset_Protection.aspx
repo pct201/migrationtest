@@ -2200,7 +2200,7 @@ function IsValidMonitorTimeGuard() {
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">Fire Company Name&nbsp;<span id="Span160" style="color: Red; display: none;" runat="server">*</span>
+                                                        <td align="left" valign="top">Fire Monitoring Company Name&nbsp;<span id="Span160" style="color: Red; display: none;" runat="server">*</span>
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
@@ -2209,7 +2209,7 @@ function IsValidMonitorTimeGuard() {
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">Fire Company Address 1&nbsp;<span id="Span161" style="color: Red; display: none;"
+                                                        <td align="left" valign="top">Fire Monitoring Company Address 1&nbsp;<span id="Span161" style="color: Red; display: none;"
                                                             runat="server">*</span>
                                                         </td>
                                                         <td align="center" valign="top">:
@@ -2217,7 +2217,7 @@ function IsValidMonitorTimeGuard() {
                                                         <td align="left" valign="top">
                                                             <asp:TextBox ID="txtFire_Company_Address_1" runat="server" Width="170px" MaxLength="100" />
                                                         </td>
-                                                        <td align="left" valign="top">Fire Company Address 2&nbsp;<span id="Span162" style="color: Red; display: none;"
+                                                        <td align="left" valign="top">Fire Monitoring Company Address 2&nbsp;<span id="Span162" style="color: Red; display: none;"
                                                             runat="server">*</span>
                                                         </td>
                                                         <td align="center" valign="top">:
@@ -2227,14 +2227,14 @@ function IsValidMonitorTimeGuard() {
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">Fire Company City&nbsp;<span id="Span163" style="color: Red; display: none;" runat="server">*</span>
+                                                        <td align="left" valign="top">Fire Monitoring Company City&nbsp;<span id="Span163" style="color: Red; display: none;" runat="server">*</span>
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
                                                             <asp:TextBox ID="txtFire_Company_City" runat="server" Width="170px" MaxLength="50" />
                                                         </td>
-                                                        <td align="left" valign="top">Fire Company State&nbsp;<span id="Span164" style="color: Red; display: none;" runat="server">*</span>
+                                                        <td align="left" valign="top">Fire Monitoring Company State&nbsp;<span id="Span164" style="color: Red; display: none;" runat="server">*</span>
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
@@ -2244,15 +2244,14 @@ function IsValidMonitorTimeGuard() {
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">Fire Company Zip&nbsp;<span id="Span165" style="color: Red; display: none;" runat="server">*</span><br />
-                                                            (99999-9999)
+                                                        <td align="left" valign="top">Fire Monitoring Company Zip&nbsp;<span id="Span165" style="color: Red; display: none;" runat="server">*</span><br />
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
                                                             <asp:TextBox ID="txtFire_Company_Zip" runat="server" Width="170px" MaxLength="10"
                                                                 SkinID="txtZipCode" onKeyPress="javascript:return FormatZipCode(event,this.id);" />
-                                                            <asp:RegularExpressionValidator ID="retxtFire_Company_Zip" runat="server" ErrorMessage="[Property Security]/Fire Company Zip is not valid"
+                                                            <asp:RegularExpressionValidator ID="retxtFire_Company_Zip" runat="server" ErrorMessage="[Property Security]/Fire Monitoring Company Zip is not valid"
                                                                 SetFocusOnError="true" ControlToValidate="txtFire_Company_Zip" ValidationExpression="\b[0-9]{5}-[0-9]{4}\b|\b[0-9]{5}\b"
                                                                 ValidationGroup="vsErrorProperty_Security" Display="none" />
                                                         </td>
@@ -2264,7 +2263,7 @@ function IsValidMonitorTimeGuard() {
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">Fire Company Contact Name&nbsp;<span id="Span166" style="color: Red; display: none;"
+                                                        <td align="left" valign="top">Fire Monitoring Company Contact Name&nbsp;<span id="Span166" style="color: Red; display: none;"
                                                             runat="server">*</span>
                                                         </td>
                                                         <td align="center" valign="top">:
@@ -2272,9 +2271,8 @@ function IsValidMonitorTimeGuard() {
                                                         <td align="left" valign="top">
                                                             <asp:TextBox ID="txtFire_Company_Contact_Name" runat="server" Width="170px" MaxLength="50" />
                                                         </td>
-                                                        <td align="left" valign="top">Fire Company Contact Telephone&nbsp;<span id="Span167" style="color: Red; display: none;"
+                                                        <td align="left" valign="top">Fire Monitoring Company Contact Telephone&nbsp;<span id="Span167" style="color: Red; display: none;"
                                                             runat="server">*</span><br />
-                                                            (999-999-9999)
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
@@ -2282,12 +2280,32 @@ function IsValidMonitorTimeGuard() {
                                                             <asp:TextBox ID="txtFire_Comapny_Contact_Telephone" runat="server" Width="170px"
                                                                 SkinID="txtPhone" MaxLength="12" onKeyPress="javascript:return FormatPhone(event,this.id);" />
                                                             <asp:RegularExpressionValidator ID="retxtFire_Comapny_Contact_Telephone" ControlToValidate="txtFire_Comapny_Contact_Telephone"
-                                                                runat="server" ErrorMessage="Please Enter [Property Security]/Fire Company Contact Telephone in XXX-XXX-XXXX format."
+                                                                runat="server" ErrorMessage="Please Enter [Property Security]/Fire Monitoring Company Contact Telephone in XXX-XXX-XXXX format."
                                                                 ValidationGroup="vsErrorProperty_Security" Display="none" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">Fire Company Contact E-Mail&nbsp;<span id="Span168" style="color: Red; display: none;"
+                                                        <td align="left" valign="top">
+                                                            &nbsp;
+                                                        </td>
+                                                        <td align="center" valign="top">
+                                                            &nbsp;
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            &nbsp;
+                                                        </td>
+                                                        <td align="left" valign="top">Fire Monitoring Monthly Amount&nbsp;<span id="Span170" style="color: Red; display: none;"
+                                                            runat="server">*</span><br />
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            $&nbsp;&nbsp;<asp:TextBox runat="server" ID="txtFire_Alarm_Monitoring_Monthly_Amount" Width="158px" onpaste="return false"
+                                                                                                    onkeypress="return FormatNumberToDec(event,this.id,12,false,2);"></asp:TextBox>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" valign="top">Fire Monitoring Company Contact E-Mail&nbsp;<span id="Span168" style="color: Red; display: none;"
                                                             runat="server">*</span>
                                                         </td>
                                                         <td align="center" valign="top">:
@@ -2295,13 +2313,13 @@ function IsValidMonitorTimeGuard() {
                                                         <td align="left" valign="top" colspan="4">
                                                             <asp:TextBox ID="txtFire_Company_Contact_EMail" runat="server" Width="563px" MaxLength="255" />
                                                             <asp:RegularExpressionValidator ID="retxtFire_Company_Contact_EMail" runat="server"
-                                                                ControlToValidate="txtFire_Company_Contact_EMail" Display="None" ErrorMessage="Please Enter Valid [Property Security]/Fire Company Contact E-Mail"
-                                                                SetFocusOnError="True" ValidationGroup="vsErrorProperty_Security" ToolTip="Please Enter Valid [Property Security]/Fire Company Contact E-Mail"
+                                                                ControlToValidate="txtFire_Company_Contact_EMail" Display="None" ErrorMessage="Please Enter Valid [Property Security]/Fire Monitoring Company Contact E-Mail"
+                                                                SetFocusOnError="True" ValidationGroup="vsErrorProperty_Security" ToolTip="Please Enter Valid [Property Security]/Fire Monitoring Company Contact E-Mail"
                                                                 ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*"></asp:RegularExpressionValidator>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">Fire Company Alarm Panel
+                                                        <td align="left" valign="top">Fire Alarm Panel
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
@@ -2309,31 +2327,31 @@ function IsValidMonitorTimeGuard() {
                                                             <asp:TextBox ID="txtFire_Alarm_Monitoring_Fire_Alarm_Panel" runat="server" Width="170px" MaxLength="150" />
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            Fire Company Account Pass Code
+                                                            Fire Monitoring Company Account Number
+                                                        </td>
+                                                        <td align="center" valign="top">
+                                                            :
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:TextBox ID="txtFire_Alarm_Monitoring_Account_Number" runat="server" Width="170px" MaxLength="150" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" valign="top">Fire Alarm Panel Model/Series
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:TextBox ID="txtFire_Alarm_Monitoring_Model_Series" runat="server" Width="170px" MaxLength="150" />
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            Fire Monitoring Account Pass Code
                                                         </td>
                                                         <td align="center" valign="top">
                                                             :
                                                         </td>
                                                         <td align="left" valign="top">
                                                             <asp:TextBox ID="txtFire_Alarm_Monitoring_Account_PassCode" runat="server" Width="170px" MaxLength="150" />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="left" valign="top">Fire Company Brand
-                                                        </td>
-                                                        <td align="center" valign="top">:
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            <asp:TextBox ID="txtFire_Alarm_Monitoring_Brand" runat="server" Width="170px" MaxLength="150" />
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            Fire Company Model/Series
-                                                        </td>
-                                                        <td align="center" valign="top">
-                                                            :
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            <asp:TextBox ID="txtFire_Alarm_Monitoring_Model_Series" runat="server" Width="170px" MaxLength="150" />
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -7249,7 +7267,7 @@ function IsValidMonitorTimeGuard() {
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">Fire Company Name
+                                                        <td align="left" valign="top">Fire Monitoring Company Name
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
@@ -7258,14 +7276,14 @@ function IsValidMonitorTimeGuard() {
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">Fire Company Address 1
+                                                        <td align="left" valign="top">Fire Monitoring Company Address 1
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
                                                             <asp:Label ID="lblFire_Company_Address_1" runat="server"></asp:Label>
                                                         </td>
-                                                        <td align="left" valign="top">Fire Company Address 2
+                                                        <td align="left" valign="top">Fire Monitoring Company Address 2
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
@@ -7274,14 +7292,14 @@ function IsValidMonitorTimeGuard() {
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">Fire Company City
+                                                        <td align="left" valign="top">Fire Monitoring Company City
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
                                                             <asp:Label ID="lblFire_Company_City" runat="server"></asp:Label>
                                                         </td>
-                                                        <td align="left" valign="top">Fire Company State
+                                                        <td align="left" valign="top">Fire Monitoring Company State
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
@@ -7290,9 +7308,7 @@ function IsValidMonitorTimeGuard() {
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">Fire Company Zip
-                                                            <br />
-                                                            (99999-9999)
+                                                        <td align="left" valign="top">Fire Monitoring Company Zip
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
@@ -7307,16 +7323,14 @@ function IsValidMonitorTimeGuard() {
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">Fire Company Contact Name
+                                                        <td align="left" valign="top">Fire Monitoring Company Contact Name
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
                                                             <asp:Label ID="lblFire_Company_Contact_Name" runat="server"></asp:Label>
                                                         </td>
-                                                        <td align="left" valign="top">Fire Company Contact Telephone
-                                                            <br />
-                                                            (999-999-9999)
+                                                        <td align="left" valign="top">Fire Monitoring Company Contact Telephone
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
@@ -7325,7 +7339,24 @@ function IsValidMonitorTimeGuard() {
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">Fire Company Contact E-Mail
+                                                        <td align="left" valign="top">&nbsp;
+                                                        </td>
+                                                        <td align="center" valign="top">
+                                                            &nbsp;
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            &nbsp;
+                                                        </td>
+                                                        <td align="left" valign="top">Fire Monitoring Monthly Amount
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:Label ID="lblFire_Alarm_Monitoring_Monthly_Amount" runat="server"></asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" valign="top">Fire Monitoring Company Contact E-Mail
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
@@ -7334,39 +7365,39 @@ function IsValidMonitorTimeGuard() {
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">Fire Company Alarm Panel
+                                                        <td align="left" valign="top">Fire Alarm Panel
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
                                                             <asp:Label ID="lblFire_Alarm_Monitoring_Fire_Alarm_Panel" runat="server" />
                                                         </td>
-                                                        <td align="left" valign="top">
-                                                            Fire Company Account Pass Code
-                                                        </td>
-                                                        <td align="center" valign="top">
-                                                            :
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            <asp:Label ID="lblFire_Alarm_Monitoring_Account_PassCode" runat="server" />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="left" valign="top">Fire Company Brand
+                                                        <td align="left" valign="top">Fire Monitoring Company Account Number
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            <asp:Label ID="lblFire_Alarm_Monitoring_Brand" runat="server" />
+                                                            <asp:Label ID="lblFire_Alarm_Monitoring_Account_Number" runat="server" />
                                                         </td>
+                                                    </tr>
+                                                    <tr>
                                                         <td align="left" valign="top">
-                                                            Fire Company Model/Series
+                                                            Fire Alarm Panel Model/Series
                                                         </td>
                                                         <td align="center" valign="top">
                                                             :
                                                         </td>
                                                         <td align="left" valign="top">
                                                             <asp:Label ID="lblFire_Alarm_Monitoring_Model_Series" runat="server" />
+                                                        </td>
+                                                         <td align="left" valign="top">
+                                                            Fire Monitoring Account Pass Code
+                                                        </td>
+                                                        <td align="center" valign="top">
+                                                            :
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:Label ID="lblFire_Alarm_Monitoring_Account_PassCode" runat="server" />
                                                         </td>
                                                     </tr>
                                                     <tr>

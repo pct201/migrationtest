@@ -139,6 +139,8 @@ namespace ERIMS.DAL
         private string _Fire_Alarm_Monitoring_Model_Series;
         private string _Fire_Alarm_Monitoring_Brand;
         private string _Fire_Alarm_Monitoring_Account_PassCode;
+        private decimal? _Fire_Alarm_Monitoring_Monthly_Amount;
+        private string _Fire_Alarm_Monitoring_Account_Number;
 
         #endregion
 
@@ -1278,6 +1280,25 @@ namespace ERIMS.DAL
             get { return _Fire_Alarm_Monitoring_Account_PassCode; }
             set { _Fire_Alarm_Monitoring_Account_PassCode = value; }
         }
+
+        /// <summary>
+        /// Gets or sets the Fire_Alarm_Monitoring_Monthly_Amount value.
+        /// </summary>
+        public decimal? Fire_Alarm_Monitoring_Monthly_Amount
+        {
+            get { return _Fire_Alarm_Monitoring_Monthly_Amount; }
+            set { _Fire_Alarm_Monitoring_Monthly_Amount = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Fire_Alarm_Monitoring_Account_Number value.
+        /// </summary>
+        public string Fire_Alarm_Monitoring_Account_Number
+        {
+            get { return _Fire_Alarm_Monitoring_Account_Number; }
+            set { _Fire_Alarm_Monitoring_Account_Number = value; }
+        }
+
         #endregion
 
         #region Default Constructors
@@ -1941,6 +1962,16 @@ namespace ERIMS.DAL
                 this._Fire_Alarm_Monitoring_Account_PassCode = null;
             else
                 this._Fire_Alarm_Monitoring_Account_PassCode = (string)drAP_Property_Security["Fire_Alarm_Monitoring_Account_PassCode"];
+
+            if (drAP_Property_Security["Fire_Alarm_Monitoring_Monthly_Amount"] == DBNull.Value)
+                this._Fire_Alarm_Monitoring_Monthly_Amount = null;
+            else
+                this._Fire_Alarm_Monitoring_Monthly_Amount = (decimal?)drAP_Property_Security["Fire_Alarm_Monitoring_Monthly_Amount"];
+
+            if (drAP_Property_Security["Fire_Alarm_Monitoring_Account_Number"] == DBNull.Value)
+                this._Fire_Alarm_Monitoring_Account_Number = null;
+            else
+                this._Fire_Alarm_Monitoring_Account_Number = (string)drAP_Property_Security["Fire_Alarm_Monitoring_Account_Number"];
         }
 
 
@@ -2542,6 +2573,13 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Account_PassCode", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Account_PassCode", DbType.String, this._Fire_Alarm_Monitoring_Account_PassCode);
+
+            db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Monthly_Amount", DbType.Decimal, this._Fire_Alarm_Monitoring_Monthly_Amount);
+
+            if (string.IsNullOrEmpty(this._Fire_Alarm_Monitoring_Account_Number))
+                db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Account_Number", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Account_Number", DbType.String, this._Fire_Alarm_Monitoring_Account_Number);
 
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -3167,6 +3205,13 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Account_PassCode", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Account_PassCode", DbType.String, this._Fire_Alarm_Monitoring_Account_PassCode);
+
+            db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Monthly_Amount", DbType.Decimal, this._Fire_Alarm_Monitoring_Monthly_Amount);
+
+            if (string.IsNullOrEmpty(this._Fire_Alarm_Monitoring_Account_Number))
+                db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Account_Number", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Account_Number", DbType.String, this._Fire_Alarm_Monitoring_Account_Number);
 
             db.ExecuteNonQuery(dbCommand);
         }

@@ -381,6 +381,11 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
             strEbdy = strEbdy.Replace("[Fire_Company_Account_Pass_Code]", objAP_Property_Security.Fire_Alarm_Monitoring_Account_PassCode);
             strEbdy = strEbdy.Replace("[Fire_Company_Brand]", objAP_Property_Security.Fire_Alarm_Monitoring_Brand);
             strEbdy = strEbdy.Replace("[Fire_Company_Model_Series]", objAP_Property_Security.Fire_Alarm_Monitoring_Model_Series);
+            strEbdy = strEbdy.Replace("[Fire_Company_Account_Number]", objAP_Property_Security.Fire_Alarm_Monitoring_Account_Number);
+            if(objAP_Property_Security.Fire_Alarm_Monitoring_Monthly_Amount != null)
+                strEbdy = strEbdy.Replace("[Fire_Monitoring_Monthly_Amount]", clsGeneral.FormatCommaSeperatorCurrency(objAP_Property_Security.Fire_Alarm_Monitoring_Monthly_Amount));
+            else
+                strEbdy = strEbdy.Replace("[Fire_Monitoring_Monthly_Amount]", string.Empty);
             strEbdy = strEbdy.Replace("[Guard_Company_Name]", objAP_Property_Security.Guard_Company_Name);
             strEbdy = strEbdy.Replace("[Guard_Company_Address1]", objAP_Property_Security.Guard_Company_Address_1);
             strEbdy = strEbdy.Replace("[Guard_Company_Address2]", objAP_Property_Security.Guard_Company_Address_2);
@@ -885,6 +890,9 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
             htFindAndReplace.Add("[Fire_Company_Account_Pass_Code]", objAP_Property_Security.Fire_Alarm_Monitoring_Account_PassCode);
             htFindAndReplace.Add("[Fire_Company_Brand]", objAP_Property_Security.Fire_Alarm_Monitoring_Brand);
             htFindAndReplace.Add("[Fire_Company_Model_Series]", objAP_Property_Security.Fire_Alarm_Monitoring_Model_Series);
+            htFindAndReplace.Add("[Fire_Company_Account_Number]", objAP_Property_Security.Fire_Alarm_Monitoring_Account_Number);
+            htFindAndReplace.Add("[Fire_Monitoring_Monthly_Amount]", clsGeneral.FormatCommaSeperatorCurrency(objAP_Property_Security.Fire_Alarm_Monitoring_Monthly_Amount));
+
             htFindAndReplace.Add("[Guard_Company_Name]", objAP_Property_Security.Guard_Company_Name);
             htFindAndReplace.Add("[Guard_Company_Address1]", objAP_Property_Security.Guard_Company_Address_1);
             htFindAndReplace.Add("[Guard_Company_Address2]", objAP_Property_Security.Guard_Company_Address_2);
@@ -1373,6 +1381,11 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
             strEbdy = strEbdy.Replace("[Fire_Company_Account_Pass_Code]", objAP_Property_Security.Fire_Alarm_Monitoring_Account_PassCode);
             strEbdy = strEbdy.Replace("[Fire_Company_Brand]", objAP_Property_Security.Fire_Alarm_Monitoring_Brand);
             strEbdy = strEbdy.Replace("[Fire_Company_Model_Series]", objAP_Property_Security.Fire_Alarm_Monitoring_Model_Series);
+            strEbdy = strEbdy.Replace("[Fire_Company_Account_Number]", objAP_Property_Security.Fire_Alarm_Monitoring_Account_Number);
+            if (objAP_Property_Security.Fire_Alarm_Monitoring_Monthly_Amount != null)
+                strEbdy = strEbdy.Replace("[Fire_Monitoring_Monthly_Amount]", clsGeneral.FormatCommaSeperatorCurrency(objAP_Property_Security.Fire_Alarm_Monitoring_Monthly_Amount));
+            else
+                strEbdy = strEbdy.Replace("[Fire_Monitoring_Monthly_Amount]", string.Empty);
             strEbdy = strEbdy.Replace("[Guard_Company_Name]", objAP_Property_Security.Guard_Company_Name);
             strEbdy = strEbdy.Replace("[Guard_Company_Address1]", objAP_Property_Security.Guard_Company_Address_1);
             strEbdy = strEbdy.Replace("[Guard_Company_Address2]", objAP_Property_Security.Guard_Company_Address_2);
@@ -1810,6 +1823,9 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
             htFindAndReplace.Add("[Fire_Company_Account_Pass_Code]", objAP_Property_Security.Fire_Alarm_Monitoring_Account_PassCode);
             htFindAndReplace.Add("[Fire_Company_Brand]", objAP_Property_Security.Fire_Alarm_Monitoring_Brand);
             htFindAndReplace.Add("[Fire_Company_Model_Series]", objAP_Property_Security.Fire_Alarm_Monitoring_Model_Series);
+            htFindAndReplace.Add("[Fire_Company_Account_Number]", objAP_Property_Security.Fire_Alarm_Monitoring_Account_Number);
+            htFindAndReplace.Add("[Fire_Monitoring_Monthly_Amount]", clsGeneral.FormatCommaSeperatorCurrency(objAP_Property_Security.Fire_Alarm_Monitoring_Monthly_Amount));
+
             htFindAndReplace.Add("[Guard_Company_Name]", objAP_Property_Security.Guard_Company_Name);
             htFindAndReplace.Add("[Guard_Company_Address1]", objAP_Property_Security.Guard_Company_Address_1);
             htFindAndReplace.Add("[Guard_Company_Address2]", objAP_Property_Security.Guard_Company_Address_2);

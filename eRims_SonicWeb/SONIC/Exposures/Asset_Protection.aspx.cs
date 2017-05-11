@@ -643,7 +643,9 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         txtFire_Alarm_Monitoring_Fire_Alarm_Panel.Text = objAP_Property_Security.Fire_Alarm_Monitoring_Fire_Alarm_Panel;
         txtFire_Alarm_Monitoring_Account_PassCode.Text = objAP_Property_Security.Fire_Alarm_Monitoring_Account_PassCode;
         txtFire_Alarm_Monitoring_Model_Series.Text = objAP_Property_Security.Fire_Alarm_Monitoring_Model_Series;
-        txtFire_Alarm_Monitoring_Brand.Text = objAP_Property_Security.Fire_Alarm_Monitoring_Brand;
+        //txtFire_Alarm_Monitoring_Brand.Text = objAP_Property_Security.Fire_Alarm_Monitoring_Brand;
+        txtFire_Alarm_Monitoring_Account_Number.Text = objAP_Property_Security.Fire_Alarm_Monitoring_Account_Number;
+        txtFire_Alarm_Monitoring_Monthly_Amount.Text = clsGeneral.FormatCommaSeperatorCurrency(objAP_Property_Security.Fire_Alarm_Monitoring_Monthly_Amount);
 
         txtGuard_Company_Name.Text = objAP_Property_Security.Guard_Company_Name;
         txtGuard_Company_Address_1.Text = objAP_Property_Security.Guard_Company_Address_1;
@@ -844,7 +846,9 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         lblFire_Alarm_Monitoring_Fire_Alarm_Panel.Text = objAP_Property_Security.Fire_Alarm_Monitoring_Fire_Alarm_Panel;
         lblFire_Alarm_Monitoring_Account_PassCode.Text = objAP_Property_Security.Fire_Alarm_Monitoring_Account_PassCode;
         lblFire_Alarm_Monitoring_Model_Series.Text = objAP_Property_Security.Fire_Alarm_Monitoring_Model_Series;
-        lblFire_Alarm_Monitoring_Brand.Text = objAP_Property_Security.Fire_Alarm_Monitoring_Brand;
+        //lblFire_Alarm_Monitoring_Brand.Text = objAP_Property_Security.Fire_Alarm_Monitoring_Brand;
+        lblFire_Alarm_Monitoring_Account_Number.Text = objAP_Property_Security.Fire_Alarm_Monitoring_Account_Number;
+        lblFire_Alarm_Monitoring_Monthly_Amount.Text = clsGeneral.FormatCommaSeperatorCurrency(objAP_Property_Security.Fire_Alarm_Monitoring_Monthly_Amount);
 
         lblGuard_Company_Name.Text = objAP_Property_Security.Guard_Company_Name;
         lblGuard_Company_Address_1.Text = objAP_Property_Security.Guard_Company_Address_1;
@@ -1016,7 +1020,9 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         objAP_Property_Security.Fire_Alarm_Monitoring_Fire_Alarm_Panel = txtFire_Alarm_Monitoring_Fire_Alarm_Panel.Text.Trim();
         objAP_Property_Security.Fire_Alarm_Monitoring_Account_PassCode = txtFire_Alarm_Monitoring_Account_PassCode.Text.Trim();
         objAP_Property_Security.Fire_Alarm_Monitoring_Model_Series = txtFire_Alarm_Monitoring_Model_Series.Text.Trim();
-        objAP_Property_Security.Fire_Alarm_Monitoring_Brand = txtFire_Alarm_Monitoring_Brand.Text.Trim();
+        //objAP_Property_Security.Fire_Alarm_Monitoring_Brand = txtFire_Alarm_Monitoring_Brand.Text.Trim();
+        objAP_Property_Security.Fire_Alarm_Monitoring_Account_Number = txtFire_Alarm_Monitoring_Account_Number.Text.Trim();
+        objAP_Property_Security.Fire_Alarm_Monitoring_Monthly_Amount = clsGeneral.GetDecimalNullableValue(txtFire_Alarm_Monitoring_Monthly_Amount);
 
         objAP_Property_Security.Guard_Company_Name = txtGuard_Company_Name.Text.Trim();
         objAP_Property_Security.Guard_Company_Address_1 = txtGuard_Company_Address_1.Text.Trim();

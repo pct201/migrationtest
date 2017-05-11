@@ -5991,150 +5991,150 @@ function ValidateFieldsBuildindOwnerSubLease(sender, args) {
                                                             </tr>
                                                             <tr>
                                                                 <td align="left" colspan="6">
-                                                                    <b>Fire Alarm Monitoring Company</b>
+                                                                    <b>Fire Alarm Monitoring Provider</b>
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <td align="center" colspan="6">
                                                                     <table cellpadding="0" cellspacing="0" border="0">
                                                                         <tr>
-                                                                            <td align="left" style="width: 18%">Company Name
-                                                                                <span id="spnCompanyName" style="color: Red; display: none;" runat="server">*</span>
+                                                                            <td align="left" valign="top" style="width: 18%">Fire Monitoring Company Name
                                                                             </td>
-                                                                            <td align="center" style="width: 4%">
-                                                                                <asp:Label ID="Label75" runat="server" Text=":" Width="31px"></asp:Label>
+                                                                            <td align="center" valign="top" style="width: 4%">:
                                                                             </td>
-                                                                            <td align="left" style="width: 28%; padding-left: 3px">
-                                                                                <%--<asp:TextBox runat="server" ID="txtCompanyName" Width="170px" MaxLength="75" />--%>
-                                                                                <asp:Label runat="server" ID="lblCompanyName" Width="170px" Style="word-wrap: normal; word-break: break-all" />
-                                                                            </td>
-                                                                            <td align="left" style="width: 18%; padding-left: 9px;">
-                                                                                <asp:Label ID="Label77" runat="server" Text="Contact Name"></asp:Label>
-                                                                                &nbsp;<span id="spnContactName" style="color: Red; display: none;" runat="server">*</span>
-                                                                            </td>
-                                                                            <td align="center" style="width: 4%">
-                                                                                <asp:Label ID="Label79" runat="server" Text=":" Width="31px"></asp:Label>
-                                                                            </td>
-                                                                            <td align="left" style="width: 28%; padding-left: 3px">
-                                                                                <%--<asp:TextBox runat="server" ID="txtContactName" Width="170px" MaxLength="75"></asp:TextBox>--%>
-                                                                                <asp:Label runat="server" ID="lblContactName" Width="170px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
+                                                                            <td align="left" valign="top" colspan="4"  style="width: 78%">
+                                                                                <asp:Label ID="lblFire_Company_Name" runat="server"></asp:Label>
                                                                             </td>
                                                                         </tr>
                                                                         <tr>
                                                                             <td height="4"></td>
                                                                         </tr>
                                                                         <tr>
-                                                                            <td align="left">Address&nbsp;<span id="spnAddress" style="color: Red; display: none;"
-                                                                                runat="server">*</span>
+                                                                          <td align="left" valign="top" style="width: 18%">Fire Monitoring Company Address 1
                                                                             </td>
-                                                                            <td align="center">:
+                                                                            <td align="center" valign="top" style="width: 4%">:
                                                                             </td>
-                                                                            <td align="left" style="width: 28%; padding-left: 3px">
-                                                                                <%--<asp:TextBox runat="server" ID="txtAddress" Width="170px" MaxLength="75"></asp:TextBox>--%>
-                                                                                <asp:Label runat="server" ID="lblAddress" Width="170px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
+                                                                            <td align="left" valign="top" style="width: 28%">
+                                                                                <asp:Label ID="lblFire_Company_Address_1" runat="server"></asp:Label>
                                                                             </td>
-                                                                            <td align="left" style="padding-left: 9px;">
-                                                                                <asp:Label ID="Label80" runat="server" Text="City"></asp:Label>
-                                                                                &nbsp;<span id="spnCity" style="color: Red; display: none;" runat="server">*</span>
+                                                                            <td align="left" valign="top" style="width: 18%">Fire Monitoring Company Address 2
                                                                             </td>
-                                                                            <td align="center">:
+                                                                            <td align="center" valign="top" style="width: 4%">:
                                                                             </td>
-                                                                            <td align="left" style="width: 28%; padding-left: 3px">
-                                                                                <%--<asp:TextBox runat="server" ID="txtCity1" Width="170px" MaxLength="75"></asp:TextBox>--%>
-                                                                                <asp:Label runat="server" ID="lblCity1" Width="170px" MaxLength="75" Style="word-wrap: normal; word-break: break-all"></asp:Label>
+                                                                            <td align="left" valign="top" style="width: 28%">
+                                                                                <asp:Label ID="lblFire_Company_Address_2" runat="server"></asp:Label>
                                                                             </td>
                                                                         </tr>
                                                                         <tr>
-                                                                            <td align="left">State&nbsp;<span id="spnContactState" style="color: Red; display: none;" runat="server">*</span>
+                                                                           <td align="left" valign="top">Fire Monitoring Company City
                                                                             </td>
-                                                                            <td align="center">:
+                                                                            <td align="center" valign="top">:
                                                                             </td>
-                                                                            <td align="left" style="width: 28%; padding-left: 3px">
-                                                                                <%--<asp:DropDownList runat="server" ID="ddlContactState" Width="170px"></asp:DropDownList>--%>
-                                                                                <asp:Label runat="server" ID="lblContactState" Width="170px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
+                                                                            <td align="left" valign="top">
+                                                                                <asp:Label ID="lblFire_Company_City" runat="server"></asp:Label>
                                                                             </td>
-                                                                            <td align="left" style="padding-left: 9px;">
-                                                                                <asp:Label ID="Label81" runat="server" Text="Zip Code"></asp:Label>
-                                                                                &nbsp;<span id="spnZipCode" style="color: Red; display: none;" runat="server">*</span>
+                                                                            <td align="left" valign="top">Fire Monitoring Company State
                                                                             </td>
-                                                                            <td align="center">:
+                                                                            <td align="center" valign="top">:
                                                                             </td>
-                                                                            <td align="left" style="width: 28%; padding-left: 3px">
-                                                                                <%--<asp:TextBox runat="server" ID="txtZipCode" Width="170px" MaxLength="10" onKeyPress="javascript:return FormatZipCode(event,this.id);"></asp:TextBox>
-                                                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator6" runat="server" ErrorMessage="Please Enter Zip Code in xxxxx-xxxx format."
-                                                                                    ValidationGroup="vsErrorContact" SetFocusOnError="true" ControlToValidate="txtZipCode"
-                                                                                    ValidationExpression="\b[0-9]{5}-[0-9]{4}\b|\b[0-9]{5}\b" Display="none" Enabled="true" />--%>
-                                                                                <asp:Label runat="server" ID="lblZipCode" Width="170px" MaxLength="10" Style="word-wrap: normal; word-break: break-all" onKeyPress="javascript:return FormatZipCode(event,this.id);"></asp:Label>
+                                                                            <td align="left" valign="top">
+                                                                                <asp:Label ID="lblFK_Fire_Company_State" runat="server"></asp:Label>
                                                                             </td>
                                                                         </tr>
                                                                         <tr>
-                                                                            <td height="4"></td>
+                                                                            <td align="left" valign="top">Fire Monitoring Company Zip
+                                                                            </td>
+                                                                            <td align="center" valign="top">:
+                                                                            </td>
+                                                                            <td align="left" valign="top">
+                                                                                <asp:Label ID="lblFire_Company_Zip" runat="server"></asp:Label>
+                                                                            </td>
+                                                                            <td align="left" valign="top">&nbsp;
+                                                                            </td>
+                                                                            <td align="center" valign="top">&nbsp;
+                                                                            </td>
+                                                                            <td align="left" valign="top">&nbsp;
+                                                                            </td>
                                                                         </tr>
                                                                         <tr>
-                                                                            <td align="left">Telephone (XXX-XXX-XXXX)&nbsp;<span id="spntxtTelephone1" style="color: Red; display: none;" runat="server">*</span>
+                                                                            <td align="left" valign="top">Fire Monitoring Company Contact Name
                                                                             </td>
-                                                                            <td align="center">:
+                                                                            <td align="center" valign="top">:
                                                                             </td>
-                                                                            <td align="left" style="width: 28%; padding-left: 3px">
-                                                                                <%--<asp:TextBox runat="server" ID="txtTelephone1" Width="170px" MaxLength="12" SkinID="txtPhone"></asp:TextBox>
-                                                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator5" ControlToValidate="txtTelephone1" ValidationGroup="vsErrorContact"
-                                                                                    SetFocusOnError="true" runat="server" ErrorMessage="Please Enter Telephone Number in xxx-xxx-xxxx format."
-                                                                                    Display="none" Enabled="true" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>--%>
-                                                                                <asp:Label runat="server" ID="lblTelephone1" Width="170px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
+                                                                            <td align="left" valign="top">
+                                                                                <asp:Label ID="lblFire_Company_Contact_Name" runat="server"></asp:Label>
                                                                             </td>
-                                                                            <td align="left" style="padding-left: 9px;"></td>
-                                                                            <td align="center"></td>
-                                                                            <td align="left" style="width: 28%; padding-left: 3px"></td>
-                                                                        </tr>
-
-                                                                        <tr>
-                                                                            <td align="left">Account Pass Code&nbsp;<span id="spnAccountNumber" style="color: Red; display: none;" runat="server">*</span>
+                                                                            <td align="left" valign="top">Fire Monitoring Company Contact Telephone
                                                                             </td>
-                                                                            <td align="center">:
+                                                                            <td align="center" valign="top">:
                                                                             </td>
-                                                                            <td align="left" style="width: 28%; padding-left: 3px">
-                                                                                <%--<asp:TextBox runat="server" ID="txtAccountNumber" Width="170px" MaxLength="75"></asp:TextBox>--%>
-                                                                                <asp:Label runat="server" ID="lblAccountNumber" Width="170px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
+                                                                            <td align="left" valign="top">
+                                                                                <asp:Label ID="lblFire_Comapny_Contact_Telephone" runat="server"></asp:Label>
                                                                             </td>
-                                                                            <td align="left" style="padding-left: 9px;">Monthly Monitoring Amount<span id="spnMonthlyMonitoringAmount" style="color: Red; display: none;" runat="server">*</span>
-                                                                            </td>
-                                                                            <td align="center">:
-                                                                            </td>
-                                                                            <td align="left" style="width: 28%; padding-left: 3px">$&nbsp;&nbsp;&nbsp;&nbsp;<asp:TextBox runat="server" ID="txtMonthlyMonitoringAmount" Width="170px" MaxLength="13" SkinID="txtCurrency"></asp:TextBox>
-                                                                            </td>
-                                                                        </tr>
-
-                                                                        <tr>
-                                                                            <td align="left">Fire Alarm Panel&nbsp;<span id="spnControlPanel" style="color: Red; display: none;" runat="server">*</span>
-                                                                            </td>
-                                                                            <td align="center">:
-                                                                            </td>
-                                                                            <td align="left" style="width: 28%; padding-left: 3px">
-                                                                                <%--<asp:TextBox runat="server" ID="txtControlPanel" Width="170px" MaxLength="75"></asp:TextBox>--%>
-                                                                                <asp:Label runat="server" ID="lblControlPanel" Width="170px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
-                                                                            </td>
-                                                                            <td align="left" style="padding-left: 9px;"></td>
-                                                                            <td align="center"></td>
-                                                                            <td align="left" style="width: 28%; padding-left: 3px"></td>
                                                                         </tr>
                                                                         <tr>
-                                                                            <td align="left">Model/Series
+                                                                            <td align="left" valign="top">&nbsp;
                                                                             </td>
-                                                                            <td align="center">:
+                                                                            <td align="center" valign="top">
+                                                                                &nbsp;
                                                                             </td>
-                                                                            <td align="left" style="width: 28%; padding-left: 3px">
-                                                                                <%--<asp:TextBox runat="server" ID="txtModel_Series" Width="170px" MaxLength="150"></asp:TextBox>--%>
-                                                                                <asp:Label runat="server" ID="lblModel_Series" Width="170px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
+                                                                            <td align="left" valign="top">
+                                                                                &nbsp;
                                                                             </td>
-                                                                            <td align="left" style="padding-left: 9px;">Brand
+                                                                            <td align="left" valign="top">Fire Monitoring Monthly Amount
                                                                             </td>
-                                                                            <td align="center">:
+                                                                            <td align="center" valign="top">:
                                                                             </td>
-                                                                            <td align="left" style="width: 28%; padding-left: 3px">
-                                                                                <%--<asp:TextBox runat="server" ID="txtBrand" Width="170px" MaxLength="150"></asp:TextBox>--%>
-                                                                                <asp:Label runat="server" ID="lblBrand" Width="170px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
+                                                                            <td align="left" valign="top">
+                                                                                $&nbsp;<asp:Label ID="lblFire_Alarm_Monitoring_Monthly_Amount" runat="server"></asp:Label>
                                                                             </td>
                                                                         </tr>
+                                                                        <tr>
+                                                                            <td align="left" valign="top">Fire Monitoring Company Contact E-Mail
+                                                                            </td>
+                                                                            <td align="center" valign="top">:
+                                                                            </td>
+                                                                            <td align="left" valign="top" colspan="4">
+                                                                                <asp:Label ID="lblFire_Company_Contact_E_Mail" runat="server"></asp:Label>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td align="left" valign="top">Fire Alarm Panel
+                                                                            </td>
+                                                                            <td align="center" valign="top">:
+                                                                            </td>
+                                                                            <td align="left" valign="top">
+                                                                                <asp:Label ID="lblFire_Alarm_Monitoring_Fire_Alarm_Panel" runat="server" />
+                                                                            </td>
+                                                                            <td align="left" valign="top">Fire Monitoring Company Account Number
+                                                                            </td>
+                                                                            <td align="center" valign="top">:
+                                                                            </td>
+                                                                            <td align="left" valign="top">
+                                                                                <asp:Label ID="lblFire_Alarm_Monitoring_Account_Number" runat="server" />
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td align="left" valign="top">
+                                                                                Fire Alarm Panel Model/Series
+                                                                            </td>
+                                                                            <td align="center" valign="top">
+                                                                                :
+                                                                            </td>
+                                                                            <td align="left" valign="top">
+                                                                                <asp:Label ID="lblFire_Alarm_Monitoring_Model_Series" runat="server" />
+                                                                            </td>
+                                                                             <td align="left" valign="top">
+                                                                                Fire Monitoring Account Pass Code
+                                                                            </td>
+                                                                            <td align="center" valign="top">
+                                                                                :
+                                                                            </td>
+                                                                            <td align="left" valign="top">
+                                                                                <asp:Label ID="lblFire_Alarm_Monitoring_Account_PassCode" runat="server" />
+                                                                            </td>
+                                                                        </tr>
+                                                                       
                                                                         <tr height="10">
                                                                             <td></td>
                                                                         </tr>
