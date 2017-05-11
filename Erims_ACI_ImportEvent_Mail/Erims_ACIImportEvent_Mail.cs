@@ -222,15 +222,21 @@ namespace Erims_ACI_ImportEvent_Mail
                                             intImagescount++;
                                         }
 
-                                        DataTable dtInvestigationImages = ds_Event.Tables[6];
+                                        //DataTable dtInvestigationImages = ds_Event.Tables[6];
 
-                                        foreach (DataRow drEvent_Images in dtInvestigationImages.Rows)
+                                        //foreach (DataRow drEvent_Images in dtInvestigationImages.Rows)
+                                        //{
+                                        //    if (!string.IsNullOrEmpty(Convert.ToString(drEvent_Images["Attachment_Name"])) && File.Exists(_strInvestigationImagePath + drEvent_Images["Attachment_Name"]))
+                                        //    {
+                                        //        lstImages.Insert(intImagescount, _strInvestigationImagePath + drEvent_Images["Attachment_Name"]);
+                                        //        intImagescount++;
+                                        //    }
+                                        //}
+
+                                        if (!string.IsNullOrEmpty(strPath) && File.Exists(strPath))
                                         {
-                                            if (!string.IsNullOrEmpty(Convert.ToString(drEvent_Images["Attachment_Name"])) && File.Exists(_strInvestigationImagePath + drEvent_Images["Attachment_Name"]))
-                                            {
-                                                lstImages.Insert(intImagescount, _strInvestigationImagePath + drEvent_Images["Attachment_Name"]);
-                                                intImagescount++;
-                                            }
+                                            lstImages.Insert(intImagescount, strPath);
+                                            intImagescount++;
                                         }
 
                                         DataTable dtEventAttachment = ds_Event.Tables[9];
@@ -256,13 +262,14 @@ namespace Erims_ACI_ImportEvent_Mail
                                         mSmtpClient.Credentials = new System.Net.NetworkCredential(_strSMTPmail, _strSMTPPwd);
 
                                         int Imagecouter = 0;
-                                        Attachment attachment = null;
-                                        if (!string.IsNullOrEmpty(_strAttachmentName) && File.Exists(_strImagePath + _strAttachmentName))
-                                        {
-                                            attachment = new Attachment(_strImagePath + _strAttachmentName);
-                                            string ContentID = "Event_Images_" + Imagecouter;
-                                            attachment.ContentId = ContentID;
-                                        }
+                                        //Attachment attachment = null;
+                                        //if (!string.IsNullOrEmpty(_strAttachmentName) && File.Exists(_strImagePath + _strAttachmentName))
+                                        //{
+                                        //    attachment = new Attachment(_strImagePath + _strAttachmentName);
+                                        //    string ContentID = "Event_Images_" + Imagecouter;
+                                        //    attachment.ContentId = ContentID;
+                                        //    mail.Attachments.Add(attachment);
+                                        //}
 
                                         if (!string.IsNullOrEmpty(Convert.ToString(drEmailTO["Email"])))
                                         {
@@ -307,7 +314,7 @@ namespace Erims_ACI_ImportEvent_Mail
                                                         if (File.Exists(strAttachment))
                                                         {
                                                             System.Net.Mail.Attachment MailAttachment = new System.Net.Mail.Attachment(strAttachment);
-                                                            //MailAttachment.ContentId = "Event_Images_" + Imagecouter;
+                                                            MailAttachment.ContentId = "Event_Images_" + Imagecouter;
                                                             if (MailAttachment != null)
                                                             {
                                                                 mail.Attachments.Add(MailAttachment);
@@ -316,14 +323,14 @@ namespace Erims_ACI_ImportEvent_Mail
                                                         //Imagecouter++;
                                                     }
 
-                                                    if (!string.IsNullOrEmpty(strPath) && File.Exists(strPath))
-                                                    {
-                                                        mail.Attachments.Add(new Attachment(strPath));
-                                                    }
-                                                    if (attachment != null)
-                                                    {
-                                                        mail.Attachments.Add(attachment);
-                                                    }
+                                                    //if (!string.IsNullOrEmpty(strPath) && File.Exists(strPath))
+                                                    //{
+                                                    //    mail.Attachments.Add(new Attachment(strPath));
+                                                    //}
+                                                    //if (attachment != null)
+                                                    //{
+                                                    //    mail.Attachments.Add(attachment);
+                                                    //}
 
                                                     mail.IsBodyHtml = true;
                                                     mSmtpClient.Send(mail);
@@ -731,6 +738,37 @@ namespace Erims_ACI_ImportEvent_Mail
             return sbGrid.ToString();
         }
 
+        public string GetVideoNotesDetails(DataTable dtVideoNote)
+        {
+            StringBuilder sbGrid = new StringBuilder(string.Empty);
+            sbGrid = new StringBuilder(string.Empty);
+            if (dtVideoNote.Rows.Count > 0)
+            {
+                sbGrid.Append("<table width='100%'>");
+                sbGrid.Append("<tr style='background-color: #7f7f7f; font-family: Arial; color: white; font-size: 12px; font-weight: bold' valign=top>");
+                sbGrid.Append("<td  style='font-family: Arial; font-size: 12px;' align='left'> Note Date </td>");
+                sbGrid.Append("<td  style='font-family: Arial; font-size: 12px;' align='left'> User </td>");
+                sbGrid.Append("<td  style='font-family: Arial; font-size: 12px;' align='left'> Notes </td>");
+                sbGrid.Append("</tr>");
+
+                foreach (DataRow dr in dtVideoNote.Rows)
+                {
+                    sbGrid.Append("<tr valign=top>");
+                    sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left'>  {0} </td>", FormatDBNullDateToDisplay(dr["Note_Date"]));
+                    sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left'>  {0} </td>", dr["Updated_by_Name"]);
+                    sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left'>  {0} </td>", dr["Note"]);
+                    sbGrid.Append("</tr>");
+                }
+                sbGrid.Append("</table>");
+            }
+            else
+            {
+                sbGrid.Append("No Records found.");
+            }
+
+            return sbGrid.ToString();
+        }
+
         public string GetBuildingDetailsDOC(DataTable dtBuilding)
         {
             StringBuilder sbGrid = new StringBuilder(string.Empty);
@@ -954,6 +992,7 @@ namespace Erims_ACI_ImportEvent_Mail
                 DataTable dtVehicleInformation = dsEvent.Tables[7];
                 DataTable dtSuspectInformation = dsEvent.Tables[8];
                 DataTable dtEvent_Buidling = dsEvent.Tables[10];
+                DataTable dtVideoNotes = dsEvent.Tables[11];
 
                 FileStream fsMail = null;
 
@@ -1076,6 +1115,7 @@ namespace Erims_ACI_ImportEvent_Mail
                     strBody = strBody.Replace("[Date_Closed]", string.Empty);
 
                 strBody = strBody.Replace("[Sonic_Notes_Grid]", GetSonicNotesDetails(dtSonicNotes));
+                strBody = strBody.Replace("[Video_Request_Notes_Grid]", GetVideoNotesDetails(dtSonicNotes));
                 strBody = strBody.Replace("[Cause_Investigation]", Convert.ToString(dtEvent.Rows[0]["Cause_Investigation"]));
                
                 #endregion
