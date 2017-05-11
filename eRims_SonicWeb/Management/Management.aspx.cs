@@ -2382,7 +2382,7 @@ public partial class Management_Management : clsBasePage
     }
     #endregion
 
-    #region Dynamic Validations
+    #region Dynamic Validations 
     /// <summary>
     /// Set all Validations-Claim Information
     /// </summary>
@@ -2398,7 +2398,7 @@ public partial class Management_Management : clsBasePage
         string strMessagesACIContact = "";
 
         #region " Fetch Management Required fields and set its validation messages "
-        DataTable dtFields = clsScreen_Validators.SelectByScreen(237).Tables[0];
+        DataTable dtFields = clsScreen_Validators.SelectByScreen(clsScreen.ScreenSelectByName("Management")).Tables[0];
         dtFields.DefaultView.RowFilter = "IsRequired = '1'";
         dtFields = dtFields.DefaultView.ToTable();
 

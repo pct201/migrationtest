@@ -210,7 +210,7 @@ public partial class SONIC_Exposures_ACI_Management_ProjectCost_Invoice : clsBas
         #region " Identification"
         string strCtrlsIDsProjectCost = "";
         string strMessagesProjectCost = "";
-        DataTable dtFieldsProjectCost = clsScreen_Validators.SelectByScreen(239).Tables[0];
+        DataTable dtFieldsProjectCost = clsScreen_Validators.SelectByScreen(clsScreen.ScreenSelectByName("Project Cost - Invoice")).Tables[0];
         dtFieldsProjectCost.DefaultView.RowFilter = "IsRequired = '1'";
         dtFieldsProjectCost = dtFieldsProjectCost.DefaultView.ToTable();
         MenuAsterisk1.Style["display"] = (dtFieldsProjectCost.Select("LeftMenuIndex = 1").Length > 0) ? "inline-block" : "none";
