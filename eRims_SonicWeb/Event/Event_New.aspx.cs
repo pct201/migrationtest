@@ -263,17 +263,17 @@ public partial class Event_Event_New : clsBasePage
                 ucEventInfo.Visible = true;
                 ucEventInfo.FillEventInformation(PK_Event);
 
-                if (clsSession.IsACIUser)
-                {
-                    csvSonicNoteGrid.Enabled = true;
-                    spanmenu2.Style.Add("display", "");
+                //if (clsSession.IsACIUser)
+                //{
+                //    csvSonicNoteGrid.Enabled = true;
+                //    spanmenu2.Style.Add("display", "");
 
-                }
-                else
-                {
-                    csvSonicNoteGrid.Enabled = false;
-                    spanmenu2.Style.Add("display", "none");
-                }
+                //}
+                //else
+                //{
+                //    csvSonicNoteGrid.Enabled = false;
+                //    spanmenu2.Style.Add("display", "none");
+                //}
 
                 if (Is_Sonic_Event)
                 {
@@ -311,15 +311,15 @@ public partial class Event_Event_New : clsBasePage
                 if (clsSession.IsACIUser)
                 {
                     Is_Sonic_Event = false;
-                    csvSonicNoteGrid.Enabled = true;
-                    spanmenu2.Style.Add("display", "");
+                    //csvSonicNoteGrid.Enabled = true;
+                    //spanmenu2.Style.Add("display", "");
                     
                 }
                 else
                 {
                     Is_Sonic_Event = true;
-                    csvSonicNoteGrid.Enabled = false;
-                    spanmenu2.Style.Add("display", "none");
+                    //csvSonicNoteGrid.Enabled = false;
+                    //spanmenu2.Style.Add("display", "none");
                 }
                     
 
@@ -2439,22 +2439,22 @@ public partial class Event_Event_New : clsBasePage
             System.Collections.Generic.List<string> lstImages = new System.Collections.Generic.List<string>();
             int intImagescount = 0;
             
-            DataTable dtInvestigationImages = ds_Event.Tables[6];
-
             if (!string.IsNullOrEmpty(_strAttachmentName) && File.Exists(AppConfig.DocumentsPath + "EventImage\\" + _strAttachmentName))
             {
                 lstImages.Insert(intImagescount, AppConfig.DocumentsPath + "EventImage\\" + _strAttachmentName);
                 intImagescount++;
             }
 
-            foreach (DataRow drEvent_Images in dtInvestigationImages.Rows)
-            {
-                if (!string.IsNullOrEmpty(Convert.ToString(drEvent_Images["Attachment_Name"])) && File.Exists(AppConfig.SitePath + "Documents\\Attach\\" + drEvent_Images["Attachment_Name"]))
-                {
-                    lstImages.Insert(intImagescount, AppConfig.SitePath + "Documents\\Attach\\" + drEvent_Images["Attachment_Name"]);
-                    intImagescount++;
-                }
-            }
+            //DataTable dtInvestigationImages = ds_Event.Tables[6];
+
+            //foreach (DataRow drEvent_Images in dtInvestigationImages.Rows)
+            //{
+            //    if (!string.IsNullOrEmpty(Convert.ToString(drEvent_Images["Attachment_Name"])) && File.Exists(AppConfig.SitePath + "Documents\\Attach\\" + drEvent_Images["Attachment_Name"]))
+            //    {
+            //        lstImages.Insert(intImagescount, AppConfig.SitePath + "Documents\\Attach\\" + drEvent_Images["Attachment_Name"]);
+            //        intImagescount++;
+            //    }
+            //}
 
             if (!string.IsNullOrEmpty(strPath) && File.Exists(strPath))
             {
@@ -2638,6 +2638,7 @@ public partial class Event_Event_New : clsBasePage
             DataTable dtVehicleInformation = dsEvent.Tables[7];
             DataTable dtSuspectInformation = dsEvent.Tables[8];
             DataTable dtEvent_Buidling = dsEvent.Tables[10];
+            DataTable dtVideoNotes = dsEvent.Tables[11];
 
             FileStream fsMail = null;
 
@@ -2776,6 +2777,7 @@ public partial class Event_Event_New : clsBasePage
                 strBody = strBody.Replace("[Date_Closed]", string.Empty);
 
             strBody = strBody.Replace("[Sonic_Notes_Grid]", GetSonicNotesDetails(dtSonicNotes));
+            strBody = strBody.Replace("[Video_Request_Notes_Grid]", GetVideoNotesDetails(dtVideoNotes));
             strBody = strBody.Replace("[Cause_Investigation]", Convert.ToString(dtEvent.Rows[0]["Cause_Investigation"]));
             //if (Is_Sonic_Event)
             //{
@@ -3074,6 +3076,37 @@ public partial class Event_Event_New : clsBasePage
         }
         sbGrid.Append("</td></tr>");
         sbGrid.Append("<tr><td>&nbsp;</td></tr>");
+        return sbGrid.ToString();
+    }
+
+    public string GetVideoNotesDetails(DataTable dtVideoNote)
+    {
+        StringBuilder sbGrid = new StringBuilder(string.Empty);
+        sbGrid = new StringBuilder(string.Empty);
+        if (dtVideoNote.Rows.Count > 0)
+        {
+            sbGrid.Append("<table width='100%'>");
+            sbGrid.Append("<tr style='background-color: #7f7f7f; font-family: Arial; color: white; font-size: 12px; font-weight: bold' valign=top>");
+            sbGrid.Append("<td  style='font-family: Arial; font-size: 12px;' align='left'> Note Date </td>");
+            sbGrid.Append("<td  style='font-family: Arial; font-size: 12px;' align='left'> User </td>");
+            sbGrid.Append("<td  style='font-family: Arial; font-size: 12px;' align='left'> Notes </td>");
+            sbGrid.Append("</tr>");
+
+            foreach (DataRow dr in dtVideoNote.Rows)
+            {
+                sbGrid.Append("<tr valign=top>");
+                sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left'>  {0} </td>", clsGeneral.FormatDBNullDateToDisplay(dr["Note_Date"]));
+                sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left'>  {0} </td>", dr["Updated_by_Name"]);
+                sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left'>  {0} </td>", dr["Note"]);
+                sbGrid.Append("</tr>");
+            }
+            sbGrid.Append("</table>");
+        }
+        else
+        {
+            sbGrid.Append("No Records found.");
+        }
+
         return sbGrid.ToString();
     }
 

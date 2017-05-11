@@ -38,6 +38,7 @@ public class AbstractLetters
             DataTable dtVehicleInformation = dsEvent.Tables[7];
             DataTable dtSuspectInformation = dsEvent.Tables[8];
             DataTable dtEvent_Buidling = dsEvent.Tables[10];
+            DataTable dtVideoNotes = dsEvent.Tables[11];
 
             FileStream fsMail = null;
 
@@ -151,6 +152,7 @@ public class AbstractLetters
             strBody = strBody.Replace("[Acadian_Notes_Grid]", GetACINotesDetails(dtACINotes));
 
             strBody = strBody.Replace("[Sonic_Notes_Grid]", GetSonicNotesDetails(dtSonicNotes));
+            strBody = strBody.Replace("[Video_Request_Notes_Grid]", GetVideoNotesDetails(dtVideoNotes));
             strBody = strBody.Replace("[Cause_Investigation]", Convert.ToString(dtEvent.Rows[0]["Cause_Investigation"]));
             //if (Is_Sonic_Event)
             //{
