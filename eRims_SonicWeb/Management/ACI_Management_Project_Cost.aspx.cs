@@ -196,7 +196,7 @@ public partial class SONIC_ACI_Management_Project_Cost : clsBasePage
         #region " Identification"
         string strCtrlsIDsProjectCost = "";
         string strMessagesProjectCost = "";
-        DataTable dtFieldsProjectCost = clsScreen_Validators.SelectByScreen(clsScreen.ScreenSelectByName("Project Cost")).Tables[0];
+        DataTable dtFieldsProjectCost = clsScreen_Validators.SelectByScreen(clsScreen.ScreenSelectByName("Project Cost", "ACI Management", "ACI Management")).Tables[0];
         dtFieldsProjectCost.DefaultView.RowFilter = "IsRequired = '1'";
         dtFieldsProjectCost = dtFieldsProjectCost.DefaultView.ToTable();
         MenuAsterisk1.Style["display"] = (dtFieldsProjectCost.Select("LeftMenuIndex = 1").Length > 0) ? "inline-block" : "none";

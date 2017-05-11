@@ -190,12 +190,14 @@ namespace ERIMS.DAL
 			db.ExecuteNonQuery(dbCommand);
 		}
 
-        public static int ScreenSelectByName(string ScreenName)
+        public static int ScreenSelectByName(string ScreenName, string SubModule, string Module)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("ScreenSelectByName");
 
             db.AddInParameter(dbCommand, "ScreenName", DbType.String, ScreenName);
+            db.AddInParameter(dbCommand, "SubModule", DbType.String, SubModule);
+            db.AddInParameter(dbCommand, "Module", DbType.String, Module);
 
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
 
