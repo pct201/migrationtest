@@ -1262,7 +1262,7 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
                 lblFire_Company_Zip.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Company_Zip"]);
                 lblFire_Company_Contact_Name.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Company_Contact_Name"]);
                 lblFire_Comapny_Contact_Telephone.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Comapny_Contact_Telephone"]);
-                lblFire_Company_Contact_E_Mail.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Alarm_Monitoring_Account_PassCode"]);
+                lblFire_Company_Contact_E_Mail.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Company_Contact_EMail"]);
                 lblFire_Alarm_Monitoring_Fire_Alarm_Panel.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Alarm_Monitoring_Fire_Alarm_Panel"]);
                 lblFire_Alarm_Monitoring_Account_PassCode.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Alarm_Monitoring_Account_PassCode"]);
                 lblFire_Alarm_Monitoring_Model_Series.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Alarm_Monitoring_Model_Series"]);
