@@ -286,7 +286,7 @@ public partial class Management_Management : clsBasePage
         //     objRecord.No_Approval_Needed = chkNoApprovalNeeded.Checked;
         // }
 
-        decimal? temp_FK_LU_Approval_Submission = null;
+        decimal? temp_FK_LU_Approval_Submission = 0;
         if(PK_Management > 0)
             temp_FK_LU_Approval_Submission = (new clsManagement(PK_Management)).FK_LU_Approval_Submission;
 
@@ -389,7 +389,7 @@ public partial class Management_Management : clsBasePage
             //ViewState["EmailAbsratact"] = PK_Management;
         }
 
-        if ((!temp_FK_LU_Approval_Submission.HasValue || temp_FK_LU_Approval_Submission == 0) && objRecord.FK_LU_Approval_Submission.Value != 0 && (new clsLU_Approval_Submission(objRecord.FK_LU_Approval_Submission.Value)).Fld_Desc.ToLower() == "yes")
+        if (temp_FK_LU_Approval_Submission.Value != objRecord.FK_LU_Approval_Submission.Value && (new clsLU_Approval_Submission(objRecord.FK_LU_Approval_Submission.Value)).Fld_Desc.ToLower() == "yes")
         {
             _bIsSentEmail = true;
             SendAbstractViaEmailWhileInsert();
