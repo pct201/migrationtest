@@ -91,6 +91,16 @@ public partial class Management_Management : clsBasePage
         get { return (!clsGeneral.IsNull(ViewState["SortOrder"]) ? ViewState["SortOrder"].ToString() : string.Empty); }
         set { ViewState["SortOrder"] = value; }
     }
+
+    /// <summary>
+    /// Denotes whether user has access rights for edit or not
+    /// </summary>
+    public bool _bIsSentEmail
+    {
+        get { return ViewState["bIsSentEmail"] != null ? Convert.ToBoolean(ViewState["bIsSentEmail"]) : false; }
+        set { ViewState["bIsSentEmail"] = value; }
+    }
+
     #endregion
 
     #region "Page Events"
@@ -380,7 +390,11 @@ public partial class Management_Management : clsBasePage
         }
 
         if (!temp_FK_LU_Approval_Submission.HasValue && objRecord.FK_LU_Approval_Submission.Value != 0 && (new clsLU_Approval_Submission(objRecord.FK_LU_Approval_Submission.Value)).Fld_Desc.ToLower() == "yes")
+        {
+            _bIsSentEmail = true;
             SendAbstractViaEmailWhileInsert();
+        }
+            
     }
 
     /// <summary>
@@ -1592,7 +1606,7 @@ public partial class Management_Management : clsBasePage
 
         SaveRecord();
 
-        if (StrOperation.ToLower() == "add")
+        if (StrOperation.ToLower() == "add" && !_bIsSentEmail)
             SendAbstractViaEmailWhileInsert();
 
         //if (ViewState["EmailAbsratact"] != null)
@@ -2007,7 +2021,8 @@ public partial class Management_Management : clsBasePage
         if (StrOperation.ToLower() == "edit")
         {
             SaveRecord();
-            SendAbstractViaEmailWhileInsert();
+            if (!_bIsSentEmail)
+                SendAbstractViaEmailWhileInsert();
             Response.Redirect("Management.aspx?id=" + Encryption.Encrypt(PK_Management.ToString()) + "&pnl=" + hdnPanel.Value + "&mode=edit", true);
         }
         else
