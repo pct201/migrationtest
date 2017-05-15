@@ -317,7 +317,7 @@ public partial class DashboardGraphCal : clsBasePage
         strChartXML.Append("</chart>");
 
         // Generate Chart
-        return InfoSoftGlobal.FusionCharts.RenderChart(AppConfig.SiteURL + "FusionCharts/Bar2D.swf?ChartNoDataText=No data to display for: EHS Inspection By Region", "", strChartXML.ToString(), "FacilityInspectionByRegion", "490", "400", false, true);
+        return InfoSoftGlobal.FusionCharts.RenderChart(AppConfig.SiteURL + "FusionCharts/Bar2D.swf?ChartNoDataText=No data to display for: EHS Inspection By Region", "", strChartXML.ToString(), "EHSInspectionByRegion", "490", "400", false, true);
     }
 
     /// <summary>

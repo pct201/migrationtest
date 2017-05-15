@@ -653,7 +653,7 @@
                                         <table border="0" cellpadding="2" cellspacing="2">
                                             <%--<tr>
 												<td align="left" class="heading">
-													EHS INSPECTIONS
+													FACILITY INSPECTIONS
 												</td>
 											</tr>--%>
                                             <tr>
@@ -783,7 +783,7 @@
                                         <table border="0" cellpadding="2" cellspacing="2" width="100%">
                                             <%--<tr>
 												<td align="left" style="width: 30%" class="heading">
-													Safety  Training
+													Sonic University Training
 												</td>
 											</tr>--%>
                                             <tr>
@@ -928,7 +928,7 @@
                                         <table border="0" cellpadding="2" cellspacing="2" width="100%">
                                             <%--<tr>
 												<td align="left" style="width: 30%" class="heading">
-													Safety  Training
+													Sonic University Training
 												</td>
 											</tr>--%>
                                             <tr>
