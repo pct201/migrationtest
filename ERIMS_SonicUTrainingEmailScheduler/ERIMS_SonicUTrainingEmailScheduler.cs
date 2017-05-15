@@ -34,7 +34,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
         public string _strPort = string.Empty;
         public string _strSentMailSubjectFrmt = string.Empty;
         public string _strSMTPmailFrom = string.Empty;
-        
+
         DateTime quarterDate;
         public int quarterMonth = 0;
         public int quarterDay = 0;
@@ -42,8 +42,8 @@ namespace ERIMS_SonicUTraining_EmailScheduler
         public DayOfWeek currentWeekDay;
         public DateTime nextMailSendDate;
         public string _strServiceRunTime = string.Empty;
-        public bool _isTesting = false;
-        public bool _isTestingReport = false;
+        //public bool _isTesting = false;
+        //public bool _isTestingReport = false;
         public bool _WeeklyReminderTest = false;
         public bool _PayrollTrainingTest = false;
         public bool _PercentageRecapTest = false;
@@ -58,6 +58,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
         public bool _AllowMailEveryQuarterToEmployees = false;
         public bool _AllowAssociateNameInEmail = false;
         public bool _AllowRCRACertificate = false;
+        public string _RunFrequency = string.Empty;
 
         public static string PDFLicenseKey
         {
@@ -209,9 +210,9 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                 _strSMTPPwd = ConfigurationSettings.AppSettings.Get("SMTPPwd");
                 _strPort = ConfigurationSettings.AppSettings.Get("Port");
                 _strSMTPmailFrom = ConfigurationSettings.AppSettings.Get("SMTPmailFrom");
-                _isTesting = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("IsTesting"));
-                _isTestingReport = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("IsTestingReport"));
-                
+                //_isTesting = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("IsTesting"));
+                //_isTestingReport = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("IsTestingReport"));
+
 
                 _WeeklyReminderTest = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("WeeklyReminderTest"));
                 _PayrollTrainingTest = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("PayrollTrainingTest"));
@@ -227,7 +228,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                 _AllowMailEveryQuarterToEmployees = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("AllowMailEveryQuarterToEmployees"));
                 _AllowAssociateNameInEmail = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("AllowAssociateNameInEmail"));
                 _AllowRCRACertificate = Convert.ToBoolean(ConfigurationSettings.AppSettings.Get("AllowRCRACertificate"));
-
+                _RunFrequency = Convert.ToString(ConfigurationSettings.AppSettings.Get("RunFrequency"));
 
                 quarterDate = DateTime.Now;
                 quarterMonth = quarterDate.Month;
@@ -256,12 +257,12 @@ namespace ERIMS_SonicUTraining_EmailScheduler
             if ((firstWeekDay == DayOfWeek.Sunday))
             {
                 startDate = startDate.AddDays(1);
-               // addDays += 1;
+                // addDays += 1;
             }
             else if ((firstWeekDay == DayOfWeek.Saturday))
             {
                 startDate = startDate.AddDays(2);
-               // addDays += 2;
+                // addDays += 2;
             }
 
             do
@@ -291,6 +292,8 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                 object objMailSending = ConfigurationManager.AppSettings.Get("AllowMailSending");
                 bool _bAllowMailSending = false;
                 bool bOutMail;
+                List<DayOfWeek> serviceRunDays = new List<DayOfWeek>();
+
                 if (bool.TryParse(Convert.ToString(objMailSending), out bOutMail))
                     _bAllowMailSending = bOutMail;
                 else
@@ -299,6 +302,33 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                 //Check send mail status for today
                 if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + @"temp\"))
                     Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"temp\");
+
+                if (!string.IsNullOrEmpty(_RunFrequency))
+                {
+                    switch (_RunFrequency.ToUpper())
+                    {
+                        case "EVERYDAY":
+                            foreach (DayOfWeek day in Enum.GetValues(typeof(DayOfWeek)))
+                            {
+                                serviceRunDays.Add(day);
+                            }
+                            break;
+                        case "WEEKDAYS":
+                            foreach (DayOfWeek day in Enum.GetValues(typeof(DayOfWeek)))
+                            {
+                                if (day != DayOfWeek.Saturday && day != DayOfWeek.Sunday)
+                                    serviceRunDays.Add(day);
+                            }
+                            break;
+                        default:
+                            DayOfWeek tempday;
+                            if (Enum.TryParse<DayOfWeek>(_RunFrequency, out tempday))
+                            {
+                                serviceRunDays.Add(tempday);
+                            }
+                            break;
+                    }
+                }
 
                 if (flgSendEmail && _bAllowMailSending)
                 {
@@ -314,13 +344,8 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                             //bool bSendMailWeekly = false;
                             //bSendMailWeekly = CheckFirstDayOfWeek(false);
 
-                            if (DateTime.Now.DayOfWeek == DayOfWeek.Monday && _AllowTrainingReminder)
-                            {
-                                //Send Weekly Mail To the Associate For Remaining Training
-                                SendMailForWeeklyReminderOfRemainingTrainingToEmployees();
-                            }
-
-                            if (DateTime.Now.DayOfWeek == DayOfWeek.Monday)
+                            //if (DateTime.Now.DayOfWeek == DayOfWeek.Monday)
+                            if (serviceRunDays.Contains(DateTime.Now.DayOfWeek))
                             {
                                 //Send Payroll training and percent recap report out every Monday
                                 if (_AllowPayrollTraining)
@@ -331,54 +356,10 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                                 //Send RCRA Certificate to Completed RCRA Training Employee
                                 if (_AllowRCRACertificate)
                                     SendMailForRCRACertificate();
-                            }
 
-                            //Send Mail for Testing if _isTesting True
-                            //if (_isTesting && (!_isTestingReport))
-                            //{
-                            //    SendMailEveryQuarterToEmployees();
-                            //    SendMailToEarlyAlertLocationManagers();
-                            //    SendMailToRLCMLocationManagers();
-
-                            //}
-
-                            ////Send Mail for Testing Reports if _isTestingReport True
-                            //if (_isTestingReport && _isTesting)
-                            //{
-                            //    //Mail for Safety Remaining Training Report
-                            //    SendMailToEarlyAlertLocationManagers();
-                            //    //Mail for Associate Training Report
-                            //    SendMailToRLCMLocationManagers();
-                            //    //Percent Recap report
-                            //    SendMailForPercentageRecap();
-                            //    //Payroll training report
-                            //    SendMailForPayrollTrainingReport();
-                            //}
-
-                            // Send mail for Payroll training report when testing flag is true and same for below methods
-                            if (_PayrollTrainingTest)
-                            {
-                                SendMailForPayrollTrainingReport();
-                            }
-                            if (_EarlyAlertLocationManagersTest)
-                            {
-                                SendMailToEarlyAlertLocationManagers();
-                            }
-                            if (_PercentageRecapTest)
-                            {
-                                SendMailForPercentageRecap();
-                            }
-                            if (_RLCMLocationManagersTest)
-                            {
-                                SendMailToRLCMLocationManagers();
-                            }
-                            if (_WeeklyReminderTest)
-                            {
-                                SendMailForWeeklyReminderOfRemainingTrainingToEmployees();
-                            }
-                            if (_RCRACertificateTest)
-                            {
-                                SendMailForRCRACertificate();
+                                //Send Weekly Mail To the Associate For Remaining Training
+                                if (_AllowTrainingReminder)
+                                    SendMailForWeeklyReminderOfRemainingTrainingToEmployees();
                             }
 
                             if ((quarterDay == 1) && (quarterMonth == 1 || quarterMonth == 4 || quarterMonth == 7 || quarterMonth == 10) && _AllowMailEveryQuarterToEmployees)
@@ -389,52 +370,85 @@ namespace ERIMS_SonicUTraining_EmailScheduler
 
 
                             // Send Safety Training Completed/Non-Completed report only if flag is true in config file
+                            
                             if (_AllowSafetyTrainingCompleted_NonCompleted)
                             {
                                 //For 1st and 2nd month of quarter send mail for first day of week
-                                if (quarterMonth % 3 != 0)
+                                //Commented logic of first two quarter and last quarter as pre John. Service should send mails everyday.
+                                //if (quarterMonth % 3 != 0)
                                 {
                                     //bool bSendMail = false;
                                     //bSendMail = CheckFirstDayOfWeek(false);
 
-                                    if (quarterDate.DayOfWeek == DayOfWeek.Monday)
+                                    //if (quarterDate.DayOfWeek == DayOfWeek.Monday)
+                                    if (serviceRunDays.Contains(quarterDate.DayOfWeek))
                                     {
                                         SendMailToEarlyAlertLocationManagers();
                                         SendMailToRLCMLocationManagers();
                                     }
+                                    //}
+                                    ////For 3rd month of quarter send mail for each weekday
+                                    //else if (quarterDate.DayOfWeek != DayOfWeek.Saturday && quarterDate.DayOfWeek != DayOfWeek.Sunday)
+                                    //{
+                                    //    SendMailToEarlyAlertLocationManagers();
+                                    //    SendMailToRLCMLocationManagers();
+                                    //}
                                 }
-                                //For 3rd month of quarter send mail for each weekday
-                                else if (quarterDate.DayOfWeek != DayOfWeek.Saturday && quarterDate.DayOfWeek != DayOfWeek.Sunday)
+                                //WriteLog("After _AllowSafetyTrainingCompleted_NonCompleted", _strCsvPath, false);
+
+                                // Send mail for Payroll training report when testing flag is true and same for below methods
+                                if (_PayrollTrainingTest)
+                                {
+                                    SendMailForPayrollTrainingReport();
+                                }
+                                if (_EarlyAlertLocationManagersTest)
                                 {
                                     SendMailToEarlyAlertLocationManagers();
+                                }
+                                if (_PercentageRecapTest)
+                                {
+                                    SendMailForPercentageRecap();
+                                }
+                                if (_RLCMLocationManagersTest)
+                                {
                                     SendMailToRLCMLocationManagers();
                                 }
+                                if (_WeeklyReminderTest)
+                                {
+                                    SendMailForWeeklyReminderOfRemainingTrainingToEmployees();
+                                }
+                                if (_RCRACertificateTest)
+                                {
+                                    SendMailForRCRACertificate();
+                                }
+
+
                             }
                         }
+                        flgSendEmail = false;
                     }
-                    flgSendEmail = false;
-                }
 
-                //Stop Process For 1 Hour to reduce CPU Utilization
-                //Thread.Sleep(3600000);
+                    //Stop Process For 1 Hour to reduce CPU Utilization
+                    //Thread.Sleep(3600000);
 
-                //service start at 9:00 AM everyday
-                //get current date time and tomorrow date time with 9:00 am ::subtract that and get ms this is sleep time of thread
-                //if (string.IsNullOrEmpty(_strEvent_Run_Time_Interval)) _strEvent_Run_Time_Interval = "09:00:00";
+                    //service start at 9:00 AM everyday
+                    //get current date time and tomorrow date time with 9:00 am ::subtract that and get ms this is sleep time of thread
+                    //if (string.IsNullOrEmpty(_strEvent_Run_Time_Interval)) _strEvent_Run_Time_Interval = "09:00:00";
 
-                DateTime dtNextDateTime = Convert.ToDateTime(DateTime.Now.AddDays(1).ToString("yyyy-MM-dd") + " " + _strServiceRunTime);
-                DateTime dtCurrentDateTime = DateTime.Now;
+                    DateTime dtNextDateTime = Convert.ToDateTime(DateTime.Now.AddDays(1).ToString("yyyy-MM-dd") + " " + _strServiceRunTime);
+                    DateTime dtCurrentDateTime = DateTime.Now;
 
-                TimeSpan span = dtNextDateTime - dtCurrentDateTime;
-                int ms = (int)span.TotalMilliseconds;
+                    TimeSpan span = dtNextDateTime - dtCurrentDateTime;
+                    int ms = (int)span.TotalMilliseconds;
 
-                if (ms > 0)
-                {
-                    EventLog.WriteEntry("Thread sleeps for next " + ms / 3600000 + " Hours");
-                    WriteLog("Thread sleeps for next " + ms / 3600000 + " Hours", _strCsvPath, false);
-                    Thread.Sleep(ms);
-                    //dtSchduleDate = DateTime.Today;
-                    flgSendEmail = true;
+                    if (ms > 0)
+                    {
+                        EventLog.WriteEntry("Thread sleeps for next " + ms / 3600000 + " Hours");
+                        WriteLog("Thread sleeps for next " + ms / 3600000 + " Hours", _strCsvPath, false);
+                        Thread.Sleep(ms);
+                        //dtSchduleDate = DateTime.Today;
+                        flgSendEmail = true;
+                    }
                 }
             }
         }
@@ -1316,32 +1330,59 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                 System.IO.StringWriter stringWrite = new System.IO.StringWriter();
                 System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
 
-                foreach (DataRow drLocationID in dtLocationIDs.Rows) //Location wise
+                // Get FROI Location list for Security
+                DataSet dsSecurity = ReportSendMail.SelectEmployeeData();
+                DataTable dtSecAndLoc = dsSecurity.Tables[0];
+                //get distinct Security IDs
+                DataTable dtSecurityID = dsSecurity.Tables[1];
+
+                //foreach (DataRow drLocationID in dtLocationIDs.Rows) //Location wise
+                if (File.Exists(Path.Combine(_strCsvPath, "tempPayrollReport")))
+                    File.Delete(Path.Combine(_strCsvPath, "tempPayrollReport"));
+
+                if (dtSecurityID != null && dtSecurityID.Rows.Count > 0)
                 {
-                    sbRecorords.Clear();
-
-                    try
+                    foreach (DataRow drSecurityID in dtSecurityID.Rows)
                     {
-                        sbRecorords = GenerateReportForPayrollTraining(dtReportData, drLocationID, sbRecorords, "Payroll Training Report", dtReportDataLastWeek);
-                    }
-                    catch (Exception ex)
-                    {
-                        WriteLog("Exception occurred  for Location ID: " + Convert.ToDecimal(drLocationID["PK_LU_Location_ID"]) + ", Exception Message :" + ex.Message + ", Stack Trace:" + ex.StackTrace, _strCsvPath, true);
-                        EventLog.WriteEntry("Error in function SendMailForPayrollTrainingReport()" + ex.Message + ",Stack Trace:" + ex.StackTrace);
-                    }
+                        DataRow[] drSecAndLoc = dtSecAndLoc.Select("PK_Security_ID = '" + Convert.ToString(drSecurityID["PK_Security_ID"]) + "'");
+                        sbRecorords.Clear();
+                        foreach (DataRow dr in drSecAndLoc)
+                        {
+                            try
+                            {
+                                GenerateReportForPayrollTraining(dtReportData, dr, sbRecorords, "Payroll Training Report", dtReportDataLastWeek);
+                                sbRecorords.Append("<br><br><br>");
+                                if (!File.Exists(Path.Combine(_strCsvPath, "tempPayrollReport")))
+                                    File.WriteAllText(Path.Combine(_strCsvPath, "tempPayrollReport"), sbRecorords.ToString());
+                                else
+                                    File.AppendAllText(Path.Combine(_strCsvPath, "tempPayrollReport"), sbRecorords.ToString());
+                                sbRecorords.Clear();
+                            }
+                            catch (Exception ex)
+                            {
+                                WriteLog("Exception occurred  for Location ID: " + Convert.ToDecimal(dr["PK_LU_Location_ID"]) + ", Exception Message :" + ex.Message + ", Stack Trace:" + ex.StackTrace, _strCsvPath, true);
+                                EventLog.WriteEntry("Error in function SendMailForPayrollTrainingReport()" + ex.Message + ",Stack Trace:" + ex.StackTrace);
+                                if (File.Exists(Path.Combine(_strCsvPath, "tempPayrollReport")))
+                                    File.Delete(Path.Combine(_strCsvPath, "tempPayrollReport"));
+                            }
+                        }
 
-                    //Write HTML in to HtmlWriter
-                    htmlWrite.WriteLine(sbRecorords.ToString());
-                    DataRow[] drReceipientNew = dtReceipient.Select("PK_LU_Location_ID ='" + drLocationID["PK_LU_Location_ID"].ToString() + "'");
-                    SendMail("Payroll Training Report", "Payroll Training Report.xls", sbRecorords.ToString(), drReceipientNew, String.Empty, String.Empty, String.Empty, "Payroll Training Report");
+                        //Write HTML in to HtmlWriter
+                        //htmlWrite.WriteLine(sbRecorords.ToString());                        
+                        //DataRow[] drReceipientNew = dtReceipient.Select("PK_LU_Location_ID ='" + drLocationID["PK_LU_Location_ID"].ToString() + "'");
+                        SendMail("Payroll Training Report", "Payroll Training Report.xls", File.ReadAllText(Path.Combine(_strCsvPath, "tempPayrollReport")), new DataRow[] { drSecurityID }, String.Empty, String.Empty, String.Empty, "Payroll Training Report");
+                        if (File.Exists(Path.Combine(_strCsvPath, "tempPayrollReport")))
+                            File.Delete(Path.Combine(_strCsvPath, "tempPayrollReport"));
+                    }
                 }
-
                 WriteLog("Function SendMailForPayrollTrainingReport executed", _strCsvPath, false);
             }
             catch (Exception ex)
             {
                 EventLog.WriteEntry("Error in function SendMailForPayrollTrainingReport()" + ex.Message + ",Stack Trace:" + ex.StackTrace);
                 WriteLog("Exception " + ex.Message + " occurred in SendMailForPayrollTrainingReport and Stack Trace:" + ex.StackTrace, _strCsvPath, true);
+                if (File.Exists(Path.Combine(_strCsvPath, "tempPayrollReport")))
+                    File.Delete(Path.Combine(_strCsvPath, "tempPayrollReport"));
             }
         }
 
@@ -1366,11 +1407,11 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                 sbRecorords.Append("<tr style='font-weight: bold;' valign='top'><td align='left' style='font-size:9pt'  colspan='3'>" + DateTime.Now.ToString("dd MMMM yyyy") + "</td></tr><tr colspan='3'><td>&nbsp;</td></tr>");
                 sbRecorords.Append("<tr colspan='3'><td>Associates Trained in Last Week</td></tr>");
                 sbRecorords = GenerateTable(sbRecorords, dtReportDataLastWeek, drLocationID);
-                WriteLog("Executing GenerateTable Method Executed", _strCsvPath, false);
+                //WriteLog("Executing GenerateTable Method Executed", _strCsvPath, false);
                 sbRecorords.Append("<tr colspan='3'><td>&nbsp;</td></tr>");
                 sbRecorords.Append("<tr colspan='3'><td>Associates Trained in Quarter minus Last Week</td></tr>");
                 sbRecorords = GenerateTable(sbRecorords, dtReportData, drLocationID);
-                WriteLog("Executing GenerateTable Method Executed", _strCsvPath, false);
+                //WriteLog("Executing GenerateTable Method Executed", _strCsvPath, false);
             }
             else
             {
@@ -1384,12 +1425,12 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                 sbRecorords.Append("<tr style='font-weight: bold;' valign='top'><td><table border='1' cellspacing='0' width='100%' cellpadding='0' style='border: black 0.5px solid'><tr style='font-weight: bold;background-color:#95B3D7;color:Black;font-size:11pt;height:25px;'  valign='top'>");
                 sbRecorords.Append("<td align='left' style='width:15%;font-size:9pt;padding-left:10px;'>Associate</td>");
                 sbRecorords.Append("<td align='left' style='width:55%;font-size:9pt;padding-left:10px;'>Completed Training Class</td>");
-                sbRecorords.Append("<td align='left' style='width:55%;font-size:9pt;padding-left:10px;'>Date of Completion</td>");
+                sbRecorords.Append("<td align='left' style='width:55%;font-size:9pt;padding-left:10px;'>Date of Completion</td></tr>");
                 sbRecorords.Append("<tr valign='top' style='background-color:#F2F2F2;color:Black;page-break-inside: avoid;'>");
-                sbRecorords.Append("<td align='center' colspan='3' style='font-size:9pt;'>No Associates Trained.</td></tr>");
+                sbRecorords.Append("<td align='center' colspan='3' style='font-size:9pt;'>No Associates Trained.</td></tr></table>");
             }
 
-            sbRecorords.Append("</td></tr></table>");
+            sbRecorords.Append("</td></tr><tr><td >&nbsp;</td></tr><tr><td >&nbsp;</td></tr><tr><td>&nbsp;</td></tr></table>");
             return sbRecorords;
         }
 
@@ -1406,7 +1447,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
             string strPrevAssoName;
             strPrevAssoName = "#";
             DataTable dtRptDataForCurLocAndDeptAndAssocName, dtUniqueAssocName;
-            WriteLog("Executing GenerateTable Method", _strCsvPath, false);
+            //WriteLog("Executing GenerateTable Method", _strCsvPath, false);
             sbRecorords.Append("<tr style='font-weight: bold;' valign='top'><td><table border='1' cellspacing='0' width='100%' cellpadding='0' style='border: black 0.5px solid'><tr style='font-weight: bold;background-color:#95B3D7;color:Black;font-size:11pt;height:25px;'  valign='top'>");
             sbRecorords.Append("<td align='left' style='width:15%;font-size:9pt;padding-left:10px;'>Associate</td>");
             sbRecorords.Append("<td align='left' style='width:55%;font-size:9pt;padding-left:10px;'>Completed Training Class</td>");
@@ -1681,7 +1722,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                 DataTable dtRCRACertificateDate = ReportSendMail.GetLastRCRACertificateSentDate().Tables[0];
                 DataTable dtCertificateData;
                 string dllPath = System.Reflection.Assembly.GetAssembly(typeof(ERIMS_SonicUTrainingEmailScheduler)).Location.Replace(System.Reflection.Assembly.GetAssembly(typeof(ERIMS_SonicUTrainingEmailScheduler)).ManifestModule.ToString(), "");
-
+                WriteLog("dllpath : " + dllPath, _strCsvPath, false);
                 if (dtRCRACertificateDate != null && dtRCRACertificateDate.Rows.Count > 0)
                 {
                     dtCertificateData = new DataView(dtData, " [Date of Completion] > '" + Convert.ToString(dtRCRACertificateDate.Rows[0]["RCRACertificateSentDate"]) + "' AND  [Date of Completion] <= '" + DateTime.Now.Date.ToString() + "'", "PK_LU_Location_ID", DataViewRowState.CurrentRows).ToTable();
@@ -1703,13 +1744,13 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                         fsMail.Close();
 
                         strBody = strBody.Replace("[Employee_Name]", Convert.ToString(drCertificateData["Associate_Name"]));
-                        strBody = strBody.Replace("[Course_Name]", "Sonic/EchoPark RCRA Training");
+                        strBody = strBody.Replace("[Course_Name]", "Sonic/EchoPark " + Convert.ToString(drCertificateData["Class_Name"]) + " Training");
                         strBody = strBody.Replace("[RCRA_Certificate]", dllPath + "Certificate.jpg");
                         strBody = strBody.Replace("[RCRA_Certificate_Footer]", dllPath + "imgRCRAFooter.PNG");
                         strBody = strBody.Replace("[Date]", (Convert.ToDateTime(drCertificateData["Date of Completion"])).ToString("MMM dd, yyyy"));
 
                         //Generate RCRA Certificate PDF and Send in Mail
-                        GenerateRCRACertificatePDF(strBody.ToString(), "RCRACertificate.pdf", drCertificateData);
+                        GenerateRCRACertificatePDF(strBody.ToString(), Convert.ToString(drCertificateData["Class_Name"]), Convert.ToString(drCertificateData["Class_Name"]).Replace(" ", "_") + "Certificate.pdf", drCertificateData);
                     }
 
                     //Insert the date when the RCRA Certificate Sent
@@ -1722,7 +1763,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
             }
             catch (Exception ex)
             {
-                WriteLog("Exception occurred while executing SendMailForRCRACertificate() " + ex.Message, _strCsvPath + ", Stack Trace: " + ex.StackTrace, true);
+                WriteLog("Exception occurred while executing SendMailForRCRACertificate() " + ex.Message + ", Stack Trace: " + ex.StackTrace, _strCsvPath, true);
             }
         }
 
@@ -1731,7 +1772,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
         /// </summary>
         /// <param name="Lettertext"></param>
         /// <param name="strFilePath"></param>
-        public void GenerateRCRACertificatePDF(String sw, String strFileNameToSave, DataRow drCertificate)
+        public void GenerateRCRACertificatePDF(String sw, String Course, String strFileNameToSave, DataRow drCertificate)
         {
             try
             {
@@ -1784,7 +1825,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                 {
                     MailMessage mail = new MailMessage();
                     mail.From = new MailAddress(_strSMTPmailFrom);
-                    mail.Subject = "Sonic/EchoPark RCRA Course Completion Certificate";
+                    mail.Subject = "Sonic/EchoPark " + Course + " Course Completion Certificate";
                     memorystream = new MemoryStream(File.ReadAllBytes(strPath));
                     Attachment atts = new Attachment(memorystream, strFileNameToSave);
                     mail.Attachments.Add(atts);
@@ -1795,8 +1836,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
 
                     try
                     {
-                        mail.Body = "Sonic/EchoPark Associate:<br /><br />You have recently completed the Sonic/EchoPark RCRA Course and attached is your Certificate of Completion for that course.<br /><br />Congratulations!<br />";
-                        mail.IsBodyHtml = true;
+                        mail.Body = "Sonic/EchoPark Associate:<br /><br />You have recently completed the Sonic/EchoPark " + Course + " Course and attached is your Certificate of Completion for that course.<br /><br />Congratulations!<br />"; mail.IsBodyHtml = true;
                         mail.To.Add(new MailAddress(drCertificate["Email"].ToString()));
                         mSmtpClient.Send(mail);
                         mail.To.Clear();
