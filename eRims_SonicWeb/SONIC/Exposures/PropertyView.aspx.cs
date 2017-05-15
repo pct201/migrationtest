@@ -1267,7 +1267,10 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
                 lblFire_Alarm_Monitoring_Account_PassCode.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Alarm_Monitoring_Account_PassCode"]);
                 lblFire_Alarm_Monitoring_Model_Series.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Alarm_Monitoring_Model_Series"]);
                 lblFire_Alarm_Monitoring_Account_Number.Text = Convert.ToString(ds.Tables[0].Rows[0]["Fire_Alarm_Monitoring_Account_Number"]);
-                lblFire_Alarm_Monitoring_Monthly_Amount.Text = clsGeneral.FormatCommaSeperatorCurrency(Convert.ToString(ds.Tables[0].Rows[0]["Fire_Alarm_Monitoring_Monthly_Amount"]));
+                if (ds.Tables[0].Rows[0]["Fire_Alarm_Monitoring_Monthly_Amount"] != null && !string.IsNullOrEmpty(Convert.ToString(ds.Tables[0].Rows[0]["Fire_Alarm_Monitoring_Monthly_Amount"])))
+                    lblFire_Alarm_Monitoring_Monthly_Amount.Text = clsGeneral.FormatCommaSeperatorCurrency(Convert.ToString(ds.Tables[0].Rows[0]["Fire_Alarm_Monitoring_Monthly_Amount"]));
+                else
+                    lblFire_Alarm_Monitoring_Monthly_Amount.Text = string.Empty;
             }
             else
             {
