@@ -163,7 +163,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
         public static DataSet GetRLCMCertificateData(decimal? fk_Employee_Id, string region, decimal? fk_LU_Market, decimal? pk_LU_Location, decimal? pk_Employee_ID, int? year, int? quarter)
         {
             Database db = DatabaseFactory.CreateDatabase();
-            DbCommand dbCommand = db.GetStoredProcCommand("GetRCRACertificateData");
+            DbCommand dbCommand = db.GetStoredProcCommand("GetRCRACertificateData_New");
 
             db.AddInParameter(dbCommand, "FK_Employee_Id", DbType.Decimal, fk_Employee_Id);
             db.AddInParameter(dbCommand, "Region", DbType.String, region);
@@ -203,6 +203,18 @@ namespace ERIMS_SonicUTraining_EmailScheduler
             SqlDatabase db = new SqlDatabase(strConn);
             DbCommand dbCommand = db.GetStoredProcCommand("GetLastRCRACertificateSentDate");
             dbCommand.CommandTimeout = 1000;
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        /// <summary>
+        /// Selects Security Data
+        /// </summary>
+        /// <returns></returns>
+        public static DataSet SelectEmployeeData()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("SelectFROIList");
+
             return db.ExecuteDataSet(dbCommand);
         }
         
