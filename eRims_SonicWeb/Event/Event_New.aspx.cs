@@ -263,17 +263,17 @@ public partial class Event_Event_New : clsBasePage
                 ucEventInfo.Visible = true;
                 ucEventInfo.FillEventInformation(PK_Event);
 
-                //if (clsSession.IsACIUser)
-                //{
-                //    csvSonicNoteGrid.Enabled = true;
-                //    spanmenu2.Style.Add("display", "");
+                if (clsSession.IsACIUser)
+                {
+                    csvSonicNoteGrid.Enabled = false;
+                    spanmenu2.Style.Add("display", "none");
 
-                //}
-                //else
-                //{
-                //    csvSonicNoteGrid.Enabled = false;
-                //    spanmenu2.Style.Add("display", "none");
-                //}
+                }
+                else
+                {
+                    csvSonicNoteGrid.Enabled = true;
+                    spanmenu2.Style.Add("display", "");
+                }
 
                 if (Is_Sonic_Event)
                 {
@@ -311,15 +311,15 @@ public partial class Event_Event_New : clsBasePage
                 if (clsSession.IsACIUser)
                 {
                     Is_Sonic_Event = false;
-                    //csvSonicNoteGrid.Enabled = true;
-                    //spanmenu2.Style.Add("display", "");
+                    csvSonicNoteGrid.Enabled = false;
+                    spanmenu2.Style.Add("display", "none");
                     
                 }
                 else
                 {
                     Is_Sonic_Event = true;
-                    //csvSonicNoteGrid.Enabled = false;
-                    //spanmenu2.Style.Add("display", "none");
+                    csvSonicNoteGrid.Enabled = true;
+                    spanmenu2.Style.Add("display", "");
                 }
                     
 
