@@ -272,6 +272,21 @@ public class InspectionWordDocument
             //Send Mail
             // SendMail("InspectionReport" + Session.SessionID + ".doc", strMailFrom, sb, _IsAttachment);
         }
+
+        //deleting temp folders
+        string[] strFiles = Directory.GetFiles(strTempDir);
+
+        foreach (string strFile in strFiles)
+        {
+            if (File.Exists(strFile))
+                File.Delete(strFile);
+        }
+
+        if (Directory.Exists(strTempDir))
+        {
+            Directory.Delete(strTempDir, true);
+        }
+
         return sb.ToString();
     }
     private static string GetAttachmetHTML(string strFocusArea, int PK_Inspection_ID)
