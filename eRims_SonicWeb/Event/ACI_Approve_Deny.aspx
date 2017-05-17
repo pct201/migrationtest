@@ -18,29 +18,29 @@
     </div>
     <script type="text/javascript" language="javascript" src="../JavaScript/Validator.js"></script>
     <script language="javascript" type="text/javascript">
-             function closeForm() {
-                 alert('Your comment saved successfully.');
-                 window.location = "../Logoff.aspx";
-             }
-             function closeFormGrid() {
-                 alert('Your comment saved successfully.');
-                 window.opener.document.getElementById("ctl00_ContentPlaceHolder1_hdnbtnRefresh").click();
-             }
-             function closewindow()
-             {
-                 var isiPad = navigator.userAgent.match(/iPad/i) != null;
-                 var isiPhone = navigator.userAgent.match(/iPhone/i) != null;
-                 if (isiPad || isiPhone) {
-                     
-                     setTimeout( "about:blank", 300 );
-                 } else if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
-                     window.open("<%=AppConfig.SiteURL%>Signin.aspx", '_self').close();
+        function closeForm() {
+            alert('Your comment saved successfully.');
+            window.location = "../Logoff.aspx";
+        }
+        function closeFormGrid() {
+            alert('Your comment saved successfully.');
+            window.opener.document.getElementById("ctl00_ContentPlaceHolder1_hdnbtnRefresh").click();
+        }
+        function closewindow() {
+            var isiPad = navigator.userAgent.match(/iPad/i) != null;
+            var isiPhone = navigator.userAgent.match(/iPhone/i) != null;
+            if (isiPad || isiPhone) {
+
+                setTimeout("about:blank", 300);
+                window.open("about:blank", '_self').close();
+            } else if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+                window.open("<%=AppConfig.SiteURL%>Signin.aspx", '_self').close();
                  }
-                 else{
-                     window.open("about:blank",'_self').close();
+                 else {
+                     window.open("about:blank", '_self').close();
                  }
-                
-             }
+             window.location = "../Logoff.aspx";
+         }
     </script>
     
     <table cellpadding="0" cellspacing="0" width="100%">
