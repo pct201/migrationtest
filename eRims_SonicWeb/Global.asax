@@ -3,12 +3,23 @@
 <%@ Import Namespace="System.Net" %>
 <%@ Import Namespace="System.Net.Mail" %>
 <%@ Import Namespace="System.Configuration" %>
+<%@ Import Namespace="System.Reflection" %>
 <script runat="server">
 
     void Application_Start(object sender, EventArgs e) 
     {
         // Code that runs on application startup
         AppConfig.OnApplicationStart();
+
+        //Issue no-4010
+        //Added by Poonam Parekh on 18/5/2017
+        //This is to disable the file changes Monitor on subdirectories of the application root folder 
+        PropertyInfo p = typeof(System.Web.HttpRuntime).GetProperty("FileChangesMonitor", BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static);
+        object o = p.GetValue(null, null);
+        FieldInfo f = o.GetType().GetField("_dirMonSubdirs", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.IgnoreCase);
+        object monitor = f.GetValue(o);
+        MethodInfo m = monitor.GetType().GetMethod("StopMonitoring", BindingFlags.Instance | BindingFlags.NonPublic);
+        m.Invoke(monitor, new object[] { });
     }
     
     void Application_End(object sender, EventArgs e) 
