@@ -502,7 +502,7 @@ public partial class Exposures_Inspections : clsBasePage
     protected void gvOtherInspections_RowCommand(object sender, GridViewCommandEventArgs e)
     {
         // if passed command is for viewing details 
-        if (e.CommandName == "ViewDetails")
+         if (e.CommandName == "ViewDetails")
         {
             gvAllInspections.Dispose();
             dvAllInspections.Style["display"] = "none";
@@ -615,7 +615,7 @@ public partial class Exposures_Inspections : clsBasePage
                 string strFilepath = Encryption.Encrypt(AppConfig.InspectionDocPath + strFileName);
                 ScriptManager.RegisterStartupScript(this, GetType(), DateTime.Now.ToString(), "javascript:ShowEmailPopUp(" + Pk_ID.ToString() + ",'" + strFilepath + "');", true);
             }
-
+                        
             //decimal FileSize = GetAttachmentSize(Pk_ID);
             //if (FileSize > 5.00M)
             //{
@@ -1482,9 +1482,11 @@ public partial class Exposures_Inspections : clsBasePage
 
         //doc.Save("InspectionReport.doc", Aspose.Words.SaveFormat.Doc, Aspose.Words.SaveType.OpenInWord, Response);
         doc.Save(Response, "InspectionReport.doc", ContentDisposition.Attachment, Aspose.Words.Saving.SaveOptions.CreateSaveOptions(SaveFormat.Doc));
+
+        if (Directory.Exists(InspectionWordDocument.strTempDir))
+            Directory.Delete(InspectionWordDocument.strTempDir, true);
+                
         Response.End();
-        //if (Directory.Exists(InspectionWordDocument.strTempDir))
-        //    Directory.Delete(InspectionWordDocument.strTempDir, true);
         #endregion
     }
 
@@ -1571,6 +1573,9 @@ public partial class Exposures_Inspections : clsBasePage
         }
 
         doc.Save(AppConfig.InspectionDocPath + strFileNameToSave, Aspose.Words.SaveFormat.Doc);
+
+        if (Directory.Exists(InspectionWordDocument.strTempDir))
+            Directory.Delete(InspectionWordDocument.strTempDir, true);
 
         #endregion
 
