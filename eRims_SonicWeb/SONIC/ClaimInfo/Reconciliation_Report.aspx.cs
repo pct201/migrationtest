@@ -307,6 +307,9 @@ public partial class Claim_Reconciliation_Report : clsBasePage
         if (!Directory.Exists(AppConfig.SitePath + @"temp\"))
             Directory.CreateDirectory(AppConfig.SitePath + @"temp\");
 
+        if (File.Exists(strPath))
+            File.Delete(strPath);
+
         File.SetAttributes(AppDomain.CurrentDomain.BaseDirectory, FileAttributes.Normal);
         using (StreamWriter sw = File.CreateText(strPath))
         {
@@ -326,6 +329,9 @@ public partial class Claim_Reconciliation_Report : clsBasePage
 
         if (!Directory.Exists(AppConfig.SitePath + @"temp\"))
             Directory.CreateDirectory(AppConfig.SitePath + @"temp\");
+
+        if (File.Exists(strPath))
+            File.Delete(strPath);
         
         ms.Seek(0, SeekOrigin.Begin);
         FileStream outStream = File.OpenWrite(strPath);
