@@ -94,7 +94,7 @@ public class clsGeneral : System.Web.UI.Page
 
     public static string[] SLT_TablesNames = { "SLT_Safety_Walk", "SLT_Training", "SLT_Meeting_Review", "Main_Wall_Attachment", "SLT_BT_Security_Walk", "Dashboard_Wall_Attachment" };
 
-    public static string[] VideoRequestStatus = { "", "Submitted", "Sonic Approved", "Sonic Denied", "ACI Delivered", "Closed", "Pending"};
+    public static string[] VideoRequestStatus = { "", "Submitted", "Sonic Approved", "Sonic Denied", "ACI Delivered", "Closed", "Open"};
 
     /// <summary>
     /// enum is used to get table name to be used.

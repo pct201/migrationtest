@@ -208,7 +208,7 @@
                                 <div style="overflow-x: scroll; overflow-y: none; text-align: left; width: 999px;"
                                     id="dvSearchResult" runat="server">
                                     <asp:GridView ID="gvVideo" runat="server" GridLines="None" CellPadding="4" CellSpacing="0"
-                                        AutoGenerateColumns="false" AllowSorting="true" Width="1130px" EnableTheming="false"
+                                        AutoGenerateColumns="false" AllowSorting="true" Width="1000px" EnableTheming="false"
                                         OnRowCommand="gvVideo_RowCommand" OnRowCreated="gvVideo_RowCreated" OnSorting="gvVideo_Sorting"
                                         OnRowDataBound="gvVideo_RowDataBound" DataKeyNames="PK_Event_Video_Tracking_Request">
                                         <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" Font-Names="Tahoma"
@@ -238,6 +238,14 @@
                                                     <asp:LinkButton ID="btnDelete" runat="server" Text="Delete" CommandName="DeleteVideo" 
                                                         ToolTip="Delete Event" CommandArgument='<%#Eval("PK_Event_Video_Tracking_Request")%>' CausesValidation="false"
                                                         OnClientClick="return ConfirmDelete();" />&nbsp;&nbsp;
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Status" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left"
+                                                SortExpression="Status">
+                                                <ItemStyle Width="150px" />
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblStatus" runat="server" Text='<%# Eval("Status")%>'></asp:Label>
+                                                    <asp:Label ID="lblIs_Legal" runat="server" Text='<%# Eval("IS_Legal")%>' Style="display:none"></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Request Number" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left"
@@ -282,14 +290,7 @@
                                                     <%# Eval("Requsted_By")%>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                            <asp:TemplateField HeaderText="Status" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left"
-                                                SortExpression="Status">
-                                                <ItemStyle Width="150px" />
-                                                <ItemTemplate>
-                                                    <asp:Label ID="lblStatus" runat="server" Text='<%# Eval("Status")%>'></asp:Label>
-                                                    <asp:Label ID="lblIs_Legal" runat="server" Text='<%# Eval("IS_Legal")%>' Style="display:none"></asp:Label>
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
+
                                         </Columns>
                                         <EmptyDataRowStyle ForeColor="#7f7f7f" HorizontalAlign="Center" />
                                         <EmptyDataTemplate>

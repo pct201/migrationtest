@@ -104,6 +104,7 @@ public partial class Event_ACI_Video_Request : clsBasePage
                 BindEmployeeDetails();
                 ShowHideUrgentneed(false);
                 txtDate_Of_Request_Video.Text = clsGeneral.FormatDBNullDateToDisplay(DateTime.Now);
+
             }
 
             ucAttachment_Video.FK_Table = PK_Event_Video_Tracking_Request;
@@ -139,6 +140,11 @@ public partial class Event_ACI_Video_Request : clsBasePage
                 ucAttachment_Video.ReadOnly = true;
                 BindGridTracking();
                 BindVideoNoteGrid(ctrlPageVideoNotes.CurrentPage, ctrlPageVideoNotes.PageSize);
+
+                //drpStatus.SelectedItem.Text = clsGeneral.VideoRequestStatus[(int)clsGeneral.VideoRequest_Status.Pending];
+                //drpStatus.Enabled = false;
+                ComboHelper.FillVideoStatus(new DropDownList[] { drpStatus }, false, "'Open'");
+
             }
         }
         else
@@ -362,6 +368,11 @@ public partial class Event_ACI_Video_Request : clsBasePage
         txtWork_Phone_Video.Text = objVideo.Work_Phone;
         txtLocation_Video.Text = objVideo.Location;
         txtAlternate_Phone_Video.Text = objVideo.Alternate_Phone;
+
+        clsGeneral.SetDropdownValue(drpStatus, objVideo.Status, true);
+        ComboHelper.FillVideoStatus(new DropDownList[] { drpStatus }, false, "'" + Convert.ToString(drpStatus.SelectedItem.Text) + "'");
+        
+
         txtReason_Request_Video.Text = objVideo.Reason_Request;
 
         BindGridTracking();
@@ -417,6 +428,7 @@ public partial class Event_ACI_Video_Request : clsBasePage
     {
         ComboHelper.FillLocationByACIUser_New((new DropDownList[] { ddlLocation_Video }), Convert.ToDecimal(clsSession.UserID), true);
         ComboHelper.FillEventType(new DropDownList[] { ddlFK_LU_Type_of_Activity_Video }, true);
+        ComboHelper.FillVideoRequestStatus(new DropDownList[] { drpStatus }, true);
     }
 
     /// <summary>
@@ -474,6 +486,9 @@ public partial class Event_ACI_Video_Request : clsBasePage
 
         if (PK_Event_Video_Tracking_Request > 0)
         {
+            if (drpStatus.SelectedIndex > 0)
+                objVideo.Status = Convert.ToDecimal(drpStatus.SelectedValue);
+
             objVideo.Update();
             ViewState.Remove("EmailAbsratact");
         }

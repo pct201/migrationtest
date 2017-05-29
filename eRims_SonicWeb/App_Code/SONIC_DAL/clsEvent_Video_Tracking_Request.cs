@@ -905,5 +905,15 @@ namespace ERIMS.DAL
 
             return db.ExecuteDataSet(dbCommand);
         }
+
+        public static DataSet GetCloseStatusforVideo(string CurrentStatus)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("GetCloseStatusforVideo");
+
+            db.AddInParameter(dbCommand, "CurrentStatus", DbType.String, CurrentStatus);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
 	}
 }

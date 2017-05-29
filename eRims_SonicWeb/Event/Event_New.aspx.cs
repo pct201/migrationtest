@@ -361,6 +361,8 @@ public partial class Event_Event_New : clsBasePage
                 BindACINoteGrid(ctrlPageAcadianNotes.CurrentPage, ctrlPageAcadianNotes.PageSize);
                 BindSonicNoteGrid(ctrlPageSonicNotes.CurrentPage, ctrlPageSonicNotes.PageSize);
                 BindVideoNoteGrid(ctrlPageVideoNotes.CurrentPage, ctrlPageVideoNotes.PageSize);
+
+                ComboHelper.FillVideoStatus(new DropDownList[] { drpStatus }, false, "'Open'");
             }
         }
         else
@@ -1393,6 +1395,10 @@ public partial class Event_Event_New : clsBasePage
                 txtWork_Phone_Video.Text = objVideo.Work_Phone;
                 txtLocation_Video.Text = objVideo.Location;
                 txtAlternate_Phone_Video.Text = objVideo.Alternate_Phone;
+
+                clsGeneral.SetDropdownValue(drpStatus, objVideo.Status, true);
+                ComboHelper.FillVideoStatus(new DropDownList[] { drpStatus }, false, "'" + Convert.ToString(drpStatus.SelectedItem.Text) + "'");
+
                 txtReason_Request_Video.Text = objVideo.Reason_Request;
 
                 BindGridTracking();
@@ -1474,6 +1480,7 @@ public partial class Event_Event_New : clsBasePage
         //ComboHelper.FillEventLevel(new DropDownList[] { ddlEvent_Level, ddlEvent_Level_Sonic }, true);
         ComboHelper.FillCause_Investigation(new DropDownList[] { ddlFK_LU_Cause_Investigation }, true);
         ComboHelper.FillEventType(new DropDownList[] { ddlFK_LU_Type_of_Activity_Video }, true);
+        ComboHelper.FillVideoRequestStatus(new DropDownList[] { drpStatus }, true);
 
 
         BindReapterEventType();
@@ -1692,6 +1699,9 @@ public partial class Event_Event_New : clsBasePage
 
             if (_PK_Event_Video_Tracking_Request > 0)
             {
+                if (drpStatus.SelectedIndex > 0)
+                    objVideo.Status = Convert.ToDecimal(drpStatus.SelectedValue);
+
                 objVideo.Update();
             }
             else

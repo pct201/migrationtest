@@ -936,7 +936,20 @@
                 }
                 else
                     return false;
-            }
+        }
+
+        function showbutton()
+        {
+            var savebutton =  document.getElementById("<%=btnSend_Notification.ClientID%>");
+                    var status =  document.getElementById("<%=drpStatus.ClientID%>");
+                    var selectedText = status.options[status.selectedIndex].text;
+
+                    if(selectedText == 'Closed')
+                        savebutton.style.display = "";
+                    else
+                        savebutton.style.display = "none";
+
+        }
 
 
     </script>
@@ -2998,6 +3011,26 @@
                                                            <%-- <asp:RequiredFieldValidator ID="revtxtAlternate_Phone_Video" runat="server" ControlToValidate="txtAlternate_Phone_Video"
                                                                 InitialValue="" ErrorMessage="[Video Request] /  Please Enter Alternate Phone" Display="None" SetFocusOnError="true"
                                                                 ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>--%>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" width="18%" valign="top">
+                                                            &nbsp;
+                                                        </td>
+                                                        <td align="center" width="4%" valign="top">
+                                                            &nbsp;
+                                                        </td>
+                                                        <td align="left" width="28%" valign="top">
+                                                            &nbsp;
+                                                        </td>
+                                                        <td align="left" width="18%" valign="top">
+                                                            Status&nbsp;<span id="Span9" runat="server" style="color: Red;">*</span>
+                                                        </td>
+                                                        <td align="center" width="4%" valign="top">:
+                                                        </td>
+                                                        <td align="left" width="28%" valign="top">
+                                                            <asp:DropDownList ID="drpStatus" runat="server" Width="1750px" onchange="return showbutton();">
+                                                            </asp:DropDownList>
                                                         </td>
                                                     </tr>
                                                     <tr>
