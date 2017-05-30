@@ -1403,6 +1403,7 @@ public partial class Event_Event_New : clsBasePage
                 txtLocation_Video.Text = objVideo.Location;
                 txtAlternate_Phone_Video.Text = objVideo.Alternate_Phone;
 
+                ComboHelper.FillVideoRequestStatus(new DropDownList[] { drpStatus }, true);
                 clsGeneral.SetDropdownValue(drpStatus, objVideo.Status, true);
                 ComboHelper.FillVideoStatus(new DropDownList[] { drpStatus }, false, "'" + Convert.ToString(drpStatus.SelectedItem.Text) + "'");
 
