@@ -2146,6 +2146,7 @@ public partial class Event_Event_New : clsBasePage
             txtWork_Phone_Video.Enabled = Is_Enable;
             txtLocation_Video.Enabled = Is_Enable;
             txtAlternate_Phone_Video.Enabled = Is_Enable;
+            drpStatus.Enabled = Is_Enable;
             //txtReason_Request_Video.Enable = Is_Enable;
             txtReason_Request_Video.ControlType = Is_Enable ? Controls_LongDescription_LongDescription_SpellCheck.CtrlType.Label : Controls_LongDescription_LongDescription_SpellCheck.CtrlType.TextBox;
             txtCamera_Name_Video.Enabled = Is_Enable;

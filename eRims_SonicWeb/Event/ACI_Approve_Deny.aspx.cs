@@ -70,15 +70,40 @@ public partial class Event_ACI_Approve_Deny : System.Web.UI.Page
         {
             try
             {
+                trDeny.Style.Add("display", "none");
+                trstatus.Style.Add("display", "none");
+
                 PK_Event_Video_Tracking_Request = Convert.ToDecimal(clsGeneral.GetQueryStringID(Request.QueryString["tid"]));
                 FK_Security_ID = Convert.ToDecimal(clsGeneral.GetQueryStringID(Request.QueryString["sid"]));
                 StrStatus = Convert.ToString(Encryption.Decrypt(Request.QueryString["status"]));
                 StrGroup = Convert.ToString(Encryption.Decrypt(Request.QueryString["grp"]));
                 PK_Attachment_Event = Convert.ToDecimal(clsGeneral.GetQueryStringID(Request.QueryString["aid"]));
 
-                if (StrStatus.ToLower() != clsGeneral.VideoRequestStatus[(int)clsGeneral.VideoRequest_Status.Sonic_Denied].ToLower())
+                DataSet ds = clsEvent_Video_Tracking_Request.GetVideoRequestData(PK_Event_Video_Tracking_Request);
+
+                string currentstatus = string.Empty;
+                bool Isclose = false;
+                if (ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows[0]["Status"] != null)
                 {
-                    DataSet ds = clsEvent_Video_Tracking_Request.GetVideoRequestData(PK_Event_Video_Tracking_Request);
+                    currentstatus = Convert.ToString(ds.Tables[0].Rows[0]["Status"]);
+                }
+
+                if (currentstatus.ToLower() != clsGeneral.VideoRequestStatus[(int)clsGeneral.VideoRequest_Status.Pending].ToLower()
+                    & currentstatus.ToLower() != clsGeneral.VideoRequestStatus[(int)clsGeneral.VideoRequest_Status.Submitted].ToLower())
+                {
+                    lblStatus.Text = "Video Request Status is already updated to " + currentstatus;
+                    trstatus.Style.Add("display", "");
+                    Isclose = true;
+                }
+                else
+                {
+                    trDeny.Style.Add("display", "");
+                }
+
+
+                if (StrStatus.ToLower() != clsGeneral.VideoRequestStatus[(int)clsGeneral.VideoRequest_Status.Sonic_Denied].ToLower() && !Isclose)
+                {
+                    //DataSet ds = clsEvent_Video_Tracking_Request.GetVideoRequestData(PK_Event_Video_Tracking_Request);
 
                     //if (StrGroup.ToLower() == "rlcmd")
                     //{
@@ -90,6 +115,7 @@ public partial class Event_ACI_Approve_Deny : System.Web.UI.Page
                     SendNotificatonToCreater(ds);
                     this.Page.ClientScript.RegisterStartupScript(this.GetType(), DateTime.Now.ToString(), "javascript:closewindow();", true);
                 }
+                
             }
             catch (Exception ex)
             {
@@ -108,6 +134,16 @@ public partial class Event_ACI_Approve_Deny : System.Web.UI.Page
     {
         SaveRecord();
 
+    }
+
+    /// <summary>
+    /// Send Notification
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+         Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:closewindow();", true);
     }
 
         /// <summary>
@@ -136,8 +172,6 @@ public partial class Event_ACI_Approve_Deny : System.Web.UI.Page
             {
                 Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:closeForm();", true);
             }
-
-            
         }
         catch (Exception ex)
         {

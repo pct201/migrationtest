@@ -66,7 +66,7 @@
                 </div>
             </td>
         </tr>
-        <tr>
+        <tr runat="server" id="trDeny">
             <td>
                 <table cellpadding="0" cellspacing="0" width="100%">
                     <tr>
@@ -130,6 +130,29 @@
                                     </tr>
                                 </table>
                             </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr id="trstatus" runat="server">
+            <td style="padding-left:50px;">
+                <table cellpadding="0" cellspacing="0" width="100%">
+                    <tr>
+                        <td class="Spacer" style="height: 10px;"></td>
+                    </tr>
+                    <tr>
+                        <td valign="top" align="left">
+                            <asp:Label ID="lblStatus" runat="server" Font-Bold="true"></asp:Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="Spacer" style="height: 10px;"></td>
+                    </tr>
+                    <tr>
+                        <td align="left">
+                            <asp:Button ID="btnCancel" runat="server" ToolTip=" Cancel " Text=" Cancel "
+                                OnClick="btnCancel_Click" Width="190px" />
                         </td>
                     </tr>
                 </table>
