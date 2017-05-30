@@ -1429,6 +1429,7 @@ public partial class Event_Event_New : clsBasePage
             {
                 BindEmployeeDetails();
                 ShowHideVideoRequest(false);
+                ComboHelper.FillVideoStatus(new DropDownList[] { drpStatus }, false, "'Open'");
                 txtDate_Of_Request_Video.Text = clsGeneral.FormatDBNullDateToDisplay(DateTime.Now);
             }
 
