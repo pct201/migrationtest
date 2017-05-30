@@ -363,6 +363,7 @@ public partial class Event_Event_New : clsBasePage
                 BindVideoNoteGrid(ctrlPageVideoNotes.CurrentPage, ctrlPageVideoNotes.PageSize);
 
                 ComboHelper.FillVideoStatus(new DropDownList[] { drpStatus }, false, "'Open'");
+                ShowHideVideoRequestRadiobutton();
             }
         }
         else
@@ -551,6 +552,7 @@ public partial class Event_Event_New : clsBasePage
         txtMake.Text = txtModel.Text = txtLicense.Text = txtColor.Text = string.Empty;
         ddlVehicle_InfoState.SelectedIndex = 0;
         rdoSuspect_Vehicle.SelectedValue = "N";
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(8);", true);
     }
 
     /// <summary>
@@ -567,6 +569,7 @@ public partial class Event_Event_New : clsBasePage
         btnSuspect_InfoAdd.Text = "Add";
         txtSuspect_Information_Note.Text = string.Empty;
         rdoSex.SelectedValue = "F";
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(8);", true);
     }
 
     /// <summary>
@@ -618,6 +621,7 @@ public partial class Event_Event_New : clsBasePage
 
         BindVehicle_InformationGrid();
         btnVehicle_InfoCancel_Click(null, null);
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(8);", true);
     }
 
     /// <summary>
@@ -633,6 +637,7 @@ public partial class Event_Event_New : clsBasePage
         txtMake.Text = txtColor.Text = txtModel.Text = txtLicense.Text = string.Empty;
         ddlVehicle_InfoState.SelectedIndex = 0;
         rdoSuspect_Vehicle.SelectedValue = "N";
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(8);", true);
 
     }
 
@@ -662,6 +667,7 @@ public partial class Event_Event_New : clsBasePage
 
         BindSuspect_InformationGrid();
         btnSuspect_InfoCancel_Click(null, null);
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(8);", true);
     }
 
     /// <summary>
@@ -676,6 +682,7 @@ public partial class Event_Event_New : clsBasePage
         btnSuspect_InfoCancel.Style.Add("display", "none");
         txtSuspect_Information_Note.Text = string.Empty;
         rdoSex.SelectedValue = "F";
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(8);", true);
 
     }
 
@@ -3858,7 +3865,7 @@ public partial class Event_Event_New : clsBasePage
             clsSuspect_Information.DeleteByPK(Convert.ToDecimal(e.CommandArgument));
 
             BindSuspect_InformationGrid();
-            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(8);", true);
             #endregion
         }
         else if (e.CommandName == "ViewEventCamera")
@@ -3881,6 +3888,7 @@ public partial class Event_Event_New : clsBasePage
                 rdoSex.SelectedValue = Convert.ToString(objSuspect_Information.Sex);
             ((ScriptManager)this.Master.FindControl("scMain")).SetFocus(txtSuspect_Information_Note);
         }
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(8);", true);
     }
 
     /// <summary>
@@ -3896,7 +3904,7 @@ public partial class Event_Event_New : clsBasePage
             clsVehicle_Information.DeleteByPK(Convert.ToDecimal(e.CommandArgument));
 
             BindVehicle_InformationGrid();
-            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
+            //Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(8);", true);
             #endregion
         }
         else if (e.CommandName == "ViewEventCamera")
@@ -3924,6 +3932,7 @@ public partial class Event_Event_New : clsBasePage
                 rdoSuspect_Vehicle.SelectedValue = Convert.ToString(objVehicle_Information.Suspect_Vehicle);
             ((ScriptManager)this.Master.FindControl("scMain")).SetFocus(txtMake);
         }
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(8);", true);
     }
 
     /// <summary>
