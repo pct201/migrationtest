@@ -203,8 +203,11 @@ public partial class Event_ACI_Video_Request : clsBasePage
     protected void btnSend_Notification_Video_Click(object sender, EventArgs e)
     {
         SaveRecord(true);
-        SendAbstractViaEmailWhileInsert();
-
+        if (drpStatus.SelectedItem.Text.ToLower() != clsGeneral.VideoRequestStatus[(int)clsGeneral.VideoRequest_Status.Closed].ToLower())
+        {
+            SendAbstractViaEmailWhileInsert();
+        }
+        
         if (StrOperation.ToLower() == "add" || StrOperation.ToLower() == "addto" || StrOperation.ToLower() == "")
         {
             Response.Redirect("ACI_Video_Request.aspx?tid=" + Encryption.Encrypt(PK_Event_Video_Tracking_Request.ToString()) + "&mode=edit&pnl=" + hdnPanel.Value, true);

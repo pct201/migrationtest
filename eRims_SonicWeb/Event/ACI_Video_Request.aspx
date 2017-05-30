@@ -313,10 +313,16 @@
             var status =  document.getElementById("<%=drpStatus.ClientID%>");
             var selectedText = status.options[status.selectedIndex].text;
 
-            if(selectedText == 'Closed')
+            if(selectedText == 'Closed'){
                 savebutton.style.display = "";
+                savebutton.value = "Save";
+            }
             else
+            {
                 savebutton.style.display = "none";
+                savebutton.value = "Save and Send Notification";
+            }
+                
 
         }
 

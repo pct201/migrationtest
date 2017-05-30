@@ -444,7 +444,7 @@ public partial class Event_Event_New : clsBasePage
 
         SaveVideoRequest(true);
 
-        if (rblVideoRequestedBySonic.SelectedValue == "Y")
+        if (rblVideoRequestedBySonic.SelectedValue == "Y" && drpStatus.SelectedItem.Text.ToLower() != clsGeneral.VideoRequestStatus[(int)clsGeneral.VideoRequest_Status.Closed].ToLower())
         {
             SendVideoRequest();
         }
