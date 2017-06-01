@@ -6970,25 +6970,6 @@ public class ComboHelper
         }
     }
 
-    public static void FillCause_Investigation(DropDownList[] dropDownList, bool p)
-    {
-        DataSet dsData = clsLU_Cause_Investigation.SelectAll();
-        dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y'";
-        foreach (DropDownList ddlToFill in dropDownList)
-        {
-            ddlToFill.Items.Clear();
-            ddlToFill.DataTextField = "Fld_Desc";
-            ddlToFill.DataValueField = "PK_LU_Cause_Investigation";
-            ddlToFill.DataSource = dsData.Tables[0].DefaultView;
-            ddlToFill.DataBind();
-            //check require to add "-- select --" at first item of dropdown.
-            if (p)
-            {
-                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
-            }
-        }
-    }
-
     /// <summary>
     /// Used to bind Cause Investigation for Event
     /// </summary>
@@ -7090,6 +7071,27 @@ public class ComboHelper
             }
         }
     }
+
+
+    public static void FillCause_Investigation(DropDownList[] dropDownList, bool p)
+    {
+        DataSet dsData = clsLU_Cause_Investigation.SelectAll();
+        dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y'";
+        foreach (DropDownList ddlToFill in dropDownList)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Fld_Desc";
+            ddlToFill.DataValueField = "PK_LU_Cause_Investigation";
+            ddlToFill.DataSource = dsData.Tables[0].DefaultView;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (p)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
 
     /// <summary>
     /// Fill Cost Center Drop Down
@@ -7212,6 +7214,55 @@ public class ComboHelper
             if (booladdSelectAsFirstElement)
             {
                 ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+    public static void FillVideoStatus(DropDownList[] dropDownList, bool p, string strstatus)
+    {
+        DataSet dsData = clsEvent_Video_Tracking_Request.GetCloseStatusforVideo(strstatus);
+        dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y'";
+
+        foreach (DropDownList ddlToFill in dropDownList)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Fld_Desc";
+            ddlToFill.DataValueField = "PK_LU_Video_Tracking_Status";
+            ddlToFill.DataSource = dsData.Tables[0].DefaultView;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (p)
+            {
+                ddlToFill.Items.Insert(0, new ListItem("-- Select --", "0"));
+            }
+        }
+    }
+
+    public static void FillACIActiveLocation(DropDownList[] dropDowns, int intID, bool booladdSelectAsFirstElement)
+    {
+        DataTable dtData = ERIMS.DAL.LU_Location.SelectACIActiveLocation().Tables[0];
+        foreach (DropDownList ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "dba";
+            ddlToFill.DataValueField = "PK_LU_Location_ID";
+            ddlToFill.DataSource = dtData;
+            //ddlToFill.Style.Add("font-size", "x-small");
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+            //check id greater 0 than find the value in dropdown list. if find than select the item.
+            if (intID > 0)
+            {
+                ListItem lst = new ListItem();
+                lst = ddlToFill.Items.FindByValue(intID.ToString());
+                if (lst != null)
+                {
+                    lst.Selected = true;
+                }
             }
         }
     }

@@ -1211,7 +1211,15 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Quarter", DbType.Int16, quarter);
 
             return db.ExecuteDataSet(dbCommand);
-        } 
+        }
+
+        public static DataSet SelectACIActiveLocation()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("GetACIActiveLocation");
+
+            return db.ExecuteDataSet(dbCommand);
+        }
 
 
 
