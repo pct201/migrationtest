@@ -141,6 +141,7 @@ namespace ERIMS.DAL
         private string _Fire_Alarm_Monitoring_Account_PassCode;
         private decimal? _Fire_Alarm_Monitoring_Monthly_Amount;
         private string _Fire_Alarm_Monitoring_Account_Number;
+        private decimal? _Is_Active;
 
         #endregion
 
@@ -1299,6 +1300,15 @@ namespace ERIMS.DAL
             set { _Fire_Alarm_Monitoring_Account_Number = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the IsActive value.
+        /// </summary>
+        public decimal? IsActive
+        {
+            get { return _Is_Active; }
+            set { _Is_Active = value; }
+        }
+
         #endregion
 
         #region Default Constructors
@@ -1338,6 +1348,11 @@ namespace ERIMS.DAL
         /// </summary>
         private void SetValue(DataRow drAP_Property_Security)
         {
+            if (drAP_Property_Security["IsActive"] == DBNull.Value)
+                this._Is_Active = null;
+            else
+                this._Is_Active = (decimal?)drAP_Property_Security["IsActive"];
+
             if (drAP_Property_Security["PK_AP_Property_Security"] == DBNull.Value)
                 this._PK_AP_Property_Security = null;
             else
@@ -1972,6 +1987,11 @@ namespace ERIMS.DAL
                 this._Fire_Alarm_Monitoring_Account_Number = null;
             else
                 this._Fire_Alarm_Monitoring_Account_Number = (string)drAP_Property_Security["Fire_Alarm_Monitoring_Account_Number"];
+
+            if (drAP_Property_Security["Fire_Alarm_Monitoring_Account_Number"] == DBNull.Value)
+                this._Fire_Alarm_Monitoring_Account_Number = null;
+            else
+                this._Fire_Alarm_Monitoring_Account_Number = (string)drAP_Property_Security["Fire_Alarm_Monitoring_Account_Number"];
         }
 
 
@@ -1986,6 +2006,7 @@ namespace ERIMS.DAL
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("AP_Property_SecurityInsert");
 
+            db.AddInParameter(dbCommand, "IsActive", DbType.Decimal, this._Is_Active);
 
             db.AddInParameter(dbCommand, "FK_LU_Location_Id", DbType.Decimal, this._FK_LU_Location_Id);
 
@@ -2621,6 +2642,7 @@ namespace ERIMS.DAL
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("AP_Property_SecurityUpdate");
 
+            db.AddInParameter(dbCommand, "IsActive", DbType.Decimal, this._Is_Active);
 
             db.AddInParameter(dbCommand, "PK_AP_Property_Security", DbType.Decimal, this._PK_AP_Property_Security);
 

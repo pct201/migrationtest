@@ -578,6 +578,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     private void BindDetailsForEditForProperty_Security()
     {
         clsAP_Property_Security objAP_Property_Security = new clsAP_Property_Security(PK_AP_Property_Security);
+        clsGeneral.SetDropdownValue(drp_IsActive, objAP_Property_Security.IsActive,true);
         txtCCTV_Company_Name.Text = objAP_Property_Security.CCTV_Company_Name;
         txtCCTV_Company_Address_1.Text = objAP_Property_Security.CCTV_Company_Address_1;
         txtCCTV_Company_Address_2.Text = objAP_Property_Security.CCTV_Company_Address_2;
@@ -765,6 +766,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     {
         dvProperty_SecuritySave.Visible = false;
         clsAP_Property_Security objAP_Property_Security = new clsAP_Property_Security(PK_AP_Property_Security);
+        lblIsActive.Text = !string.IsNullOrEmpty(Convert.ToString(objAP_Property_Security.IsActive)) && objAP_Property_Security.IsActive !=0? (objAP_Property_Security.IsActive == 1 ? "Yes" : "No") : "";
         lblCCTV_Company_Name.Text = objAP_Property_Security.CCTV_Company_Name;
         lblCCTV_Company_Address_1.Text = objAP_Property_Security.CCTV_Company_Address_1;
         lblCCTV_Company_Address_2.Text = objAP_Property_Security.CCTV_Company_Address_2;
@@ -1116,6 +1118,8 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             objAP_Property_Security.Total_Hours_CCTV_Monitored_Per_Week = Convert.ToString(txttotalHoursMonitoredPerWeek.Text.Trim());
 
         if (ddlCap_Index_Risk_Category.SelectedIndex > 0) objAP_Property_Security.Cap_Index_Risk_Cateogory = Convert.ToDecimal(ddlCap_Index_Risk_Category.SelectedValue);
+
+        objAP_Property_Security.IsActive = Convert.ToInt16(drp_IsActive.SelectedValue);
         if (objAP_Property_Security.PK_AP_Property_Security > 0)
         {
             objAP_Property_Security.Update();
@@ -5673,6 +5677,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             #region " set validation control IDs and messages "
             switch (Convert.ToString(drFieldProperty_Security["Field_Name"]))
             {
+                case "Is Active": strCtrlsIDsProperty_Security += drp_IsActive.ClientID + ","; strMessagesProperty_Security += "Please select Is Active" + ","; Span169.Style["display"] = "inline-block"; break;
                 case "CCTV Company Name": strCtrlsIDsProperty_Security += txtCCTV_Company_Name.ClientID + ","; strMessagesProperty_Security += "Please enter [Property Security]/CCTV Company Name" + ","; Span1.Style["display"] = "inline-block"; break;
                 case "CCTV Company Address 1": strCtrlsIDsProperty_Security += txtCCTV_Company_Address_1.ClientID + ","; strMessagesProperty_Security += "Please enter [Property Security]/CCTV Company Address 1" + ","; Span2.Style["display"] = "inline-block"; break;
                 case "CCTV Company Address 2": strCtrlsIDsProperty_Security += txtCCTV_Company_Address_2.ClientID + ","; strMessagesProperty_Security += "Please enter [Property Security]/CCTV Company Address 2" + ","; Span3.Style["display"] = "inline-block"; break;

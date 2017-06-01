@@ -853,7 +853,7 @@ function IsValidMonitorTimeGuard() {
                             <table style="background-color: black" cellspacing="1" cellpadding="3" width="100%"
                                 border="0">
                                 <tbody>
-                                    <tr class="PropertyInfoBG">
+                                     <tr class="PropertyInfoBG">
                                         <td style="width: 19%" align="left">
                                             <asp:Label ID="lblHeaderLocationNumber" runat="server" Text="Location Number"></asp:Label>
                                         </td>
@@ -1014,6 +1014,19 @@ function IsValidMonitorTimeGuard() {
                                                         <td colspan="6">
                                                             <strong>CCTV Alarm Systems</strong>
                                                         </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" width="18%" valign="top">Is Active&nbsp;<span id="Span169" style="color: Red; display: none;" runat="server">*</span>
+                                                        </td>
+                                                        <td align="center" width="4%" valign="top">:
+                                                        </td>
+                                                        <td align="left" width="28%" valign="top">
+                                                            <asp:DropDownList ID="drp_IsActive" runat="server">
+                                                                <asp:ListItem Value="0">--Select--</asp:ListItem>
+                                                                <asp:ListItem Value="1">Yes</asp:ListItem>
+                                                                <asp:ListItem Value="2">No</asp:ListItem>
+                                                                                            </asp:DropDownList>
+                                                        </td>                                                        
                                                     </tr>
                                                     <tr>
                                                         <td align="left" width="18%" valign="top">CCTV Company Name&nbsp;<span id="Span1" style="color: Red; display: none;" runat="server">*</span>
@@ -3699,7 +3712,9 @@ function IsValidMonitorTimeGuard() {
                                                 </table>
                                                 <table border="0" cellpadding="3" cellspacing="1" width="100%">
                                                     <div class="bandHeaderRow">
-                                                        Investigation
+                                                        <caption>
+                                                            Investigation
+                                                        </caption>
                                                     </div>
                                                     <tr>
                                                         <td align="left" width="22%" colspan="2"></td>
@@ -6626,6 +6641,15 @@ function IsValidMonitorTimeGuard() {
                                                         <td colspan="6">
                                                             <strong>CCTV Alarm Systems</strong>
                                                         </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" width="18%" valign="top">Is Active&nbsp;
+                                                        </td>
+                                                        <td align="center" width="4%" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top" colspan="4">
+                                                          <asp:Label ID="lblIsActive" runat="server"></asp:Label>
+                                                        </td>  
                                                     </tr>
                                                     <tr>
                                                         <td align="left" width="18%" valign="top">CCTV Company Name
