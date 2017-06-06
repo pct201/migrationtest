@@ -397,7 +397,7 @@ public partial class Event_ACI_Monitor_Location : System.Web.UI.Page
     /// </summary>
     private void BindDropDownList()
     {
-        ComboHelper.FillACIActiveLocation(new DropDownList[] { drpFK_LU_Location }, 0, true);
+        ComboHelper.FillLocationDBA_All(new DropDownList[] { drpFK_LU_Location }, 0, true);
         ComboHelper.FillBuildingByFK_LU_Location(new DropDownList[] { drpFK_Building_ID }, true, 0);
     }
 
