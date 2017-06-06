@@ -287,10 +287,10 @@ namespace ERIMS.DAL
 				else
 					this._Update_Date = (DateTime?)drACIManagement_ProjectCost["Update_Date"];
 
-				if (drACIManagement_ProjectCost["Unique_Val"] == DBNull.Value)
-					this._Unique_Val = null;
-				else
-					this._Unique_Val = (string)drACIManagement_ProjectCost["Unique_Val"];
+                //if (drACIManagement_ProjectCost["Unique_Val"] == DBNull.Value)
+                //    this._Unique_Val = null;
+                //else
+                //    this._Unique_Val = (string)drACIManagement_ProjectCost["Unique_Val"];
 
 				if (drACIManagement_ProjectCost["Created_Date"] == DBNull.Value)
 					this._Created_Date = null;
@@ -344,10 +344,10 @@ namespace ERIMS.DAL
 			
 			db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);
 			
-			if (string.IsNullOrEmpty(this._Unique_Val))
-				db.AddInParameter(dbCommand, "Unique_Val", DbType.String, DBNull.Value);
-			else
-				db.AddInParameter(dbCommand, "Unique_Val", DbType.String, this._Unique_Val);
+            //if (string.IsNullOrEmpty(this._Unique_Val))
+            //    db.AddInParameter(dbCommand, "Unique_Val", DbType.String, DBNull.Value);
+            //else
+            //    db.AddInParameter(dbCommand, "Unique_Val", DbType.String, this._Unique_Val);
 			
 			db.AddInParameter(dbCommand, "Created_Date", DbType.DateTime, this._Created_Date);
 
@@ -426,10 +426,10 @@ namespace ERIMS.DAL
 			
 			db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);
 			
-			if (string.IsNullOrEmpty(this._Unique_Val))
-				db.AddInParameter(dbCommand, "Unique_Val", DbType.String, DBNull.Value);
-			else
-				db.AddInParameter(dbCommand, "Unique_Val", DbType.String, this._Unique_Val);
+            //if (string.IsNullOrEmpty(this._Unique_Val))
+            //    db.AddInParameter(dbCommand, "Unique_Val", DbType.String, DBNull.Value);
+            //else
+            //    db.AddInParameter(dbCommand, "Unique_Val", DbType.String, this._Unique_Val);
 			
 			db.AddInParameter(dbCommand, "Created_Date", DbType.DateTime, this._Created_Date);
 
