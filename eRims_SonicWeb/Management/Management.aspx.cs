@@ -389,7 +389,7 @@ public partial class Management_Management : clsBasePage
             //ViewState["EmailAbsratact"] = PK_Management;
         }
 
-        if (objRecord.FK_LU_Approval_Submission != null && temp_FK_LU_Approval_Submission.Value != objRecord.FK_LU_Approval_Submission.Value && (new clsLU_Approval_Submission(objRecord.FK_LU_Approval_Submission.Value)).Fld_Desc.ToLower() == "yes")
+        if (objRecord.FK_LU_Approval_Submission != 0  && temp_FK_LU_Approval_Submission.Value != objRecord.FK_LU_Approval_Submission.Value && (new clsLU_Approval_Submission(objRecord.FK_LU_Approval_Submission.Value)).Fld_Desc.ToLower() == "yes")
         {
             _bIsSentEmail = true;
             SendAbstractViaEmailWhileInsert();
