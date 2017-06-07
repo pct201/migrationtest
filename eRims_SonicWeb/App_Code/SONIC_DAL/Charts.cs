@@ -174,7 +174,7 @@ public class Charts
     public static DataSet GetSabaTrainingDetail2(int Year, string DBA, string Sonic_Location_Code, int Quarter, string AssociateStatus, bool validate_Quarter)
     {
         Database db = DatabaseFactory.CreateDatabase();
-        DbCommand dbCommand = db.GetStoredProcCommand("DealerShipDetailsLatest_New");
+        DbCommand dbCommand = db.GetStoredProcCommand("DealerShipDetailsLatest_New_ByDave");
 
         db.AddInParameter(dbCommand, "@DealerShipYear", DbType.Int32, Year);
         if (Quarter == 0)
