@@ -15,8 +15,9 @@
     function showAudit(divHeader, divGrid) {
         var divheight, i;
 
-        divHeader.style.width = window.screen.availWidth - 720 + "px";
-        divGrid.style.width = window.screen.availWidth - 720 + "px";
+        divHeader.style.width = window.innerWidth - 30 + "px";
+        divGrid.style.width = window.innerWidth - 13 + "px";
+        divGrid.style.height = window.innerHeight - 70 + "px";
 
         divheight = divGrid.style.height;
         i = divheight.indexOf('px');
@@ -75,6 +76,9 @@
                                     <th class="cols">
                                         <span style="display: inline-block; width: 100px;">Project Description</span>
                                     </th>
+                                     <th class="cols">
+                                        <span style="display: inline-block; width: 100px;">Project Status</span>
+                                    </th>
                                     <th class="cols">
                                         <span style="display: inline-block; width: 100px;">Updated by</span>
                                     </th>
@@ -88,7 +92,7 @@
                     <div style="overflow: scroll; width: 600px; height: 380px;" id="divPollution_Grid"
                         runat="server">
                         <asp:GridView ID="gvSIUtilityProvider" runat="server" AutoGenerateColumns="False"
-                            CellPadding="4" EnableTheming="True" EmptyDataText="No records found!" ShowHeader="false">
+                            CellPadding="4" EnableTheming="True" EmptyDataText="No records found!" ShowHeader="false" >
                             <RowStyle HorizontalAlign="Left" VerticalAlign="Top" />
                             <Columns>
                                 <asp:TemplateField HeaderText="Audit DateTime">
@@ -145,6 +149,13 @@
                                     <ItemStyle CssClass="cols" />
                                     <ItemTemplate>
                                         <asp:Label ID="lbProjectDescription" runat="server" Text='<%#Eval("Project_Description")%>' CssClass="TextClip"
+                                            Width="100px"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField>
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="lbProjectStatus" runat="server" Text='<%#Eval("Project_Status")%>' CssClass="TextClip"
                                             Width="100px"></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>

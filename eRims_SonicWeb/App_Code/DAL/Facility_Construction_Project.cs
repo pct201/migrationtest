@@ -17,6 +17,7 @@ namespace ERIMS.DAL
         private string _Project_Number;
         private decimal? _FK_Location;
         private decimal? _FK_LU_Facility_Project_Type;
+        private decimal? _FK_LU_Construction_Project_Status;
         private DateTime? _Estimated_Start_Date;
         private DateTime? _Estimated_Completion_Date;
         private string _Project_Description;
@@ -65,6 +66,15 @@ namespace ERIMS.DAL
         {
             get { return _FK_LU_Facility_Project_Type; }
             set { _FK_LU_Facility_Project_Type = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the FK_LU_Construction_Project_Status value.
+        /// </summary>
+        public decimal? FK_LU_Construction_Project_Status
+        {
+            get { return _FK_LU_Construction_Project_Status; }
+            set { _FK_LU_Construction_Project_Status = value; }
         }
 
         /// <summary>
@@ -205,6 +215,11 @@ namespace ERIMS.DAL
             else
                 this._FK_LU_Facility_Project_Type = (decimal?)drFacility_Construction_Project["FK_LU_Facility_Project_Type"];
 
+            if (drFacility_Construction_Project["FK_LU_Construction_Project_Status"] == DBNull.Value)
+                this._FK_LU_Construction_Project_Status = null;
+            else
+                this._FK_LU_Construction_Project_Status = (decimal?)drFacility_Construction_Project["FK_LU_Construction_Project_Status"];
+
             if (drFacility_Construction_Project["Estimated_Start_Date"] == DBNull.Value)
                 this._Estimated_Start_Date = null;
             else
@@ -256,6 +271,8 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "FK_Location", DbType.Decimal, this._FK_Location);
 
             db.AddInParameter(dbCommand, "FK_LU_Facility_Project_Type", DbType.Decimal, this._FK_LU_Facility_Project_Type);
+
+            db.AddInParameter(dbCommand, "FK_LU_Construction_Project_Status", DbType.Decimal, this._FK_LU_Construction_Project_Status);
 
             db.AddInParameter(dbCommand, "Estimated_Start_Date", DbType.DateTime, this._Estimated_Start_Date);
 
@@ -326,6 +343,8 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "FK_Location", DbType.Decimal, this._FK_Location);
 
             db.AddInParameter(dbCommand, "FK_LU_Facility_Project_Type", DbType.Decimal, this._FK_LU_Facility_Project_Type);
+
+            db.AddInParameter(dbCommand, "FK_LU_Construction_Project_Status", DbType.Decimal, this._FK_LU_Construction_Project_Status);
 
             db.AddInParameter(dbCommand, "Estimated_Start_Date", DbType.DateTime, this._Estimated_Start_Date);
 
@@ -478,6 +497,18 @@ namespace ERIMS.DAL
             DbCommand dbCommand = db.GetStoredProcCommand("Facility_Construction_ProjectByProjNumber");
 
             db.AddInParameter(dbCommand, "Project_Number", DbType.String, project_Number);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        /// <summary>
+        /// Selects all records from the LU_Construction_Project_Status table.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static DataSet SelectAllProjectStatus()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("LU_Construction_Project_StatusSelectAll");
 
             return db.ExecuteDataSet(dbCommand);
         }

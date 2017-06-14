@@ -220,6 +220,15 @@
                                                             <asp:Label ID="lbTitle" runat="server" />
                                                         </td>
                                                     </tr>
+                                                     <tr>
+                                                        <td align="left" valign="top" width="20%">Project Status
+                                                        </td>
+                                                        <td align="center" valign="top" width="4%">:
+                                                        </td>
+                                                        <td align="left" valign="top" colspan="4">
+                                                            <asp:Label ID="lblProjectSatus" runat="server" />
+                                                        </td>
+                                                    </tr>
                                                     <tr>
                                                         <td align="left" valign="top" width="20%">Building(s)
                                                         </td>
@@ -298,6 +307,13 @@
                                                         </td>
                                                         <td align="left" valign="top" width="26%">
                                                             <asp:TextBox ID="txtTitle" runat="server" Width="170px" MaxLength="100" />
+                                                        </td>
+                                                        <td align="left" valign="top" width="20%">Project Status&nbsp;
+                                                        </td>
+                                                        <td align="center" valign="top" width="4%">:
+                                                        </td>
+                                                        <td align="left" valign="top" width="26%">
+                                                            <asp:DropDownList ID="drpFK_LU_Construction_Project_Status" runat="server" Width="170px"/>
                                                         </td>
                                                     </tr>
                                                     <tr>

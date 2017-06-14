@@ -58,6 +58,7 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
             BindHeaderInfo();
             BindBuildings();
             BindProjectType();
+            BindProjectStatus();
 
             DataSet dsRight = new DataSet();
             dsRight = Security.SelectRightsByUserID(Convert.ToDecimal(clsSession.UserID));
@@ -267,6 +268,17 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
                 ddProjectType.SelectedValue = "0";
             }
 
+            if (dsProjectDetail.Tables[0].Rows[0]["Fld_Desc"] != null)
+            {
+                lblProjectSatus.Text = Convert.ToString(dsProjectDetail.Tables[0].Rows[0]["Fld_Desc"]);
+                drpFK_LU_Construction_Project_Status.SelectedValue = Convert.ToString(dsProjectDetail.Tables[0].Rows[0]["FK_LU_Construction_Project_Status"]);
+            }
+            else
+            {
+                lblProjectSatus.Text = string.Empty;
+                drpFK_LU_Construction_Project_Status.SelectedValue = "0";
+            }
+
             if (dsProjectDetail.Tables[0].Rows[0]["Project_Description"] != null)
             {
                 lbProject_Description.Text = Convert.ToString(dsProjectDetail.Tables[0].Rows[0]["Project_Description"]);
@@ -307,6 +319,19 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
         ddProjectType.DataBind();
 
         ddProjectType.Items.Insert(0, new ListItem("--select--", "0"));
+    }
+
+    /// <summary>
+    /// Bind Facility Construction Project Status 
+    /// </summary>
+    private void BindProjectStatus()
+    {
+        drpFK_LU_Construction_Project_Status.DataSource = Facility_Construction_Project.SelectAllProjectStatus();  
+        drpFK_LU_Construction_Project_Status.DataTextField = "Fld_Desc";
+        drpFK_LU_Construction_Project_Status.DataValueField = "PK_LU_Construction_Project_Status";
+        drpFK_LU_Construction_Project_Status.DataBind();
+
+        drpFK_LU_Construction_Project_Status.Items.Insert(0, new ListItem("-- Select --", "0"));
     }
 
     /// <summary>
@@ -466,6 +491,7 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
 
                 facility_Construction_Project.FK_Location = LocationID;
                 facility_Construction_Project.FK_LU_Facility_Project_Type = Convert.ToDecimal(ddProjectType.SelectedValue);
+                facility_Construction_Project.FK_LU_Construction_Project_Status = Convert.ToDecimal(drpFK_LU_Construction_Project_Status.SelectedValue);
                 facility_Construction_Project.UpdatedBy = clsSession.UserID;
                 facility_Construction_Project.UpdatedDate = DateTime.Now;
 
