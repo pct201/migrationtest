@@ -317,7 +317,7 @@
                                 <asp:TemplateField HeaderText="Method" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
                                     <ItemStyle Width="20%" />
                                     <ItemTemplate>
-                                        <asp:Label ID="Label1" runat="server" Text='<%# Eval("Pk_Manage_Training_Data") == DBNull.Value ? "Auto" : "Manual" %>'></asp:Label>
+                                        <asp:Label ID="Label1" runat="server" Text='<%# Eval("Method")%>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Disposition" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">

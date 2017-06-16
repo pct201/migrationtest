@@ -42,7 +42,7 @@ public partial class Administrator_Sonic_U_Training_Required_By_Job_Code : clsBa
     /// <param name="e"></param>
     protected void Page_Load(object sender, EventArgs e)
     {
-       
+
         //check Is Page Post Back
         if (!IsPostBack)
         {
@@ -94,7 +94,8 @@ public partial class Administrator_Sonic_U_Training_Required_By_Job_Code : clsBa
     /// </summary>
     private void BindDropDown()
     {
-        ComboHelper.FillAllJobCode(new DropDownList[] { drpJobCodeSearch }, true);
+        ComboHelper.FillJobCode_New(new DropDownList[] { drpJobCodeSearch }, true);
+        ComboHelper.FillJobCode_SelectRemaining(new DropDownList[] { drpJobCode }, true);
         ComboHelper.FillTrainingClassName(new DropDownList[] { drpTrainingClassSearch }, true);
     }
 
@@ -105,7 +106,8 @@ public partial class Administrator_Sonic_U_Training_Required_By_Job_Code : clsBa
     {
         //clear control
         PK_Sonic_U_Training_Required_By_Job_Code = 0;
-        drpJobCode.SelectedIndex = 0;
+        if (drpJobCode.Items.Count > 0)
+            drpJobCode.SelectedIndex = 0;
         drpJobCodeSearch.SelectedIndex = 0;
         drpTrainingClassSearch.SelectedIndex = 0;
     }
@@ -144,7 +146,7 @@ public partial class Administrator_Sonic_U_Training_Required_By_Job_Code : clsBa
     /// <param name="e"></param>
     protected void btnSave_Click(object sender, EventArgs e)
     {
-       // Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "CheckValidation();", true);
+        // Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "CheckValidation();", true);
 
         string strInsertXML, strUpdateXML;
         strInsertXML = strUpdateXML = "<ImportXML>";
@@ -192,7 +194,7 @@ public partial class Administrator_Sonic_U_Training_Required_By_Job_Code : clsBa
         strInsertXML += "</ImportXML>";
         strUpdateXML += "</ImportXML>";
 
-         Sonic_U_Training_Required_By_Job_Code.ImportXML(strInsertXML, strUpdateXML);
+        Sonic_U_Training_Required_By_Job_Code.ImportXML(strInsertXML, strUpdateXML);
 
         //show hide grid
         trTraining.Visible = true;
@@ -309,9 +311,10 @@ public partial class Administrator_Sonic_U_Training_Required_By_Job_Code : clsBa
             btnAddNew.Visible = false;
             trTrainingAdd.Visible = true;
             //drpJobCode.SelectedIndex = 0;
-            drpJobCode.Visible = false;
+            drpJobCode.Visible = string.IsNullOrEmpty(strCode) ? true : false;
+            spn.Visible = string.IsNullOrEmpty(strCode) ? true : false;
             lblJobCode.Visible = true;
-            spn.Visible = false;
+            
             lblJobCode.Text = string.IsNullOrEmpty(strCode) ? "" : strCode;
             btnSave.Text = "Update";
         }
@@ -373,5 +376,5 @@ public partial class Administrator_Sonic_U_Training_Required_By_Job_Code : clsBa
 
     #endregion
 
-   
+
 }

@@ -279,6 +279,73 @@
                     </tr>
                 </tbody>
             </table>
+            <table>
+                <tbody>
+                    <tr id="tr1" runat="server">
+                        <td>&nbsp;
+                        </td>
+                        <td colspan="2">
+                            <table cellspacing="0" cellpadding="0" width="100%" border="0">
+                                <tbody>
+                                    <tr>
+                                        <td align="center">&nbsp;
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center">
+                                            <table width="100%">
+                                                <tr>
+                                                    <td>
+                                                        Job Code
+                                                    </td>
+                                                    <td>
+                                                        :
+                                                    </td>
+                                                    <td>
+                                                        <asp:DropDownList ID="ddlLU_Job_Code" runat="server"></asp:DropDownList>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Required Classes
+                                                    </td>
+                                                    <td>
+                                                        :
+                                                    </td>
+                                                    <td>
+                                                        <asp:ListBox ID="lstSonic_U_Training_Classes" runat="server"></asp:ListBox>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td>&nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">&nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 5%">&nbsp;
+                        </td>
+                        <td colspan="2" align="center">
+                            <asp:Button ID="Button1" runat="server" Text="Update" OnClick="btnSave_Click" Visible="false"></asp:Button>
+                            &nbsp;&nbsp;&nbsp;
+                            <asp:Button ID="Button2" runat="server" Text="Cancel" OnClick="btnCancel_Click" Visible="false"></asp:Button>
+                        </td>
+                        <td style="width: 5%">&nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">&nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
             <asp:UpdateProgress runat="server" ID="upProgress">
                 <ProgressTemplate>
                     <div class="UpdatePanelloading" id="divProgress" style="width: 100%;">

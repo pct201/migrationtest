@@ -197,6 +197,7 @@ public partial class Administrator_Employee : clsBasePage
         else
         {
             PK_Employee_ID = objEmployee.Insert();
+            Sonic_U_Training.Import_Sonic_U_Training_Associate_Base_New(PK_Employee_ID);
         }
         //if (txtEmployeeID.Text.Length > 0) commented as per ticket 3698 comment 38348  point 4
         //{

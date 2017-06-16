@@ -167,6 +167,9 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
         year = Convert.ToInt32(ddlYear.SelectedValue);
         if (ddlAssociate.SelectedIndex > 0) Associate = Convert.ToDecimal(ddlAssociate.SelectedValue);
 
+        DataTable dtEmployee = new DataTable();
+        dtEmployee.Columns.Add("PK_Employee_ID");
+
         if (gvTraining != null)
         {
             foreach (GridViewRow gvTrain in gvTraining.Rows)
@@ -190,6 +193,11 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
                     if (hdnChangeIDs.Value.Contains(rblIs_Complete.ClientID) && !hdnChangeIDs.Value.Contains(rblIs_Complete.ClientID + "_" + rblIs_Complete.SelectedValue))
                     {
                         Sonic_U_Training.Manage_Training_Data_InsertUpdate(hdnEmployee_ID.Value, hdnCode.Value, year, Qaurter, Convert.ToDecimal(hdnFK_Employee.Value), lblClass_Name.Text, Convert.ToBoolean(Convert.ToInt16(rblIs_Complete.SelectedValue)), Convert.ToDecimal(hdnFK_LU_Location_ID.Value), Convert.ToDecimal(hdnPK_Sonic_U_Associate_Training_Manual.Value));
+                        
+                        DataRow drEmp = dtEmployee.NewRow();
+                        drEmp["PK_Employee_ID"] = Convert.ToDecimal(hdnFK_Employee.Value);
+                        dtEmployee.Rows.Add(drEmp);
+
                         strCode[i] = hdnCode.Value;
                     }
                     
@@ -204,14 +212,19 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
             }
 
             strCode = RemoveDuplicates(strCode);
+            
+            if(dtEmployee.Rows.Count > 0)
+            {
+                Sonic_U_Training.Sonic_U_Training_Associate_Training_Assignment_New(dtEmployee,year,Qaurter);
+            }
 
             ///update Sonic_U_Training_Associate_Training per employee training per training_Code.
             for (int j = 0; j < strCode.Length; j++)
             {
                 if (gvTraining != null)
                 {
-                    Sonic_U_Training.Complete_Sonic_U_Training(year, Qaurter, Associate, strCode[j], is_AllTraining_Completed);
-                    Sonic_U_Training.Sonic_U_Training_Associate_Training_Assignment((int)Associate, year, Qaurter);
+                    //Sonic_U_Training.Complete_Sonic_U_Training(year, Qaurter, Associate, strCode[j], is_AllTraining_Completed);
+                    //Sonic_U_Training.Sonic_U_Training_Associate_Training_Assignment((int)Associate, year, Qaurter);
                 }
             }
 

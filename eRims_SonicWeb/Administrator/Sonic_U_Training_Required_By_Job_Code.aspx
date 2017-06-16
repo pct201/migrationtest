@@ -112,6 +112,11 @@
                                                             <asp:Label ID="lblRequirement_Description" runat="server" Text='<%# Eval("Requirement_Description")%>'></asp:Label>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
+                                                    <asp:TemplateField ItemStyle-Width="100px" HeaderText="Active">
+                                                        <ItemTemplate>
+                                                            <asp:Label ID="lblActive" runat="server" Text='<%# Eval("Active_Desc")%>'></asp:Label>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
                                                     <asp:TemplateField>
                                                         <ItemTemplate>
                                                             <asp:LinkButton runat="server" ID="lnkEdit" Text="Edit" CommandName="EditRecord" CommandArgument='<%#Eval("PK_Sonic_U_Training_Required_By_Job_Code")  + ":" + Eval("FK_lu_job_code") %>'></asp:LinkButton>

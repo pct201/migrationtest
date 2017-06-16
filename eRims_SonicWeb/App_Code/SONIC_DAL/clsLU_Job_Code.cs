@@ -139,6 +139,18 @@ namespace ERIMS.DAL
 			return db.ExecuteDataSet(dbCommand);
 		}
 
+        /// <summary>
+        /// Selects all records from the LU_Job_Code table.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static DataSet SelectRemaining()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("LU_Job_CodeSelectRemaining");
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
 		/// <summary>
 		/// Updates a record in the LU_Job_Code table.
 		/// </summary>

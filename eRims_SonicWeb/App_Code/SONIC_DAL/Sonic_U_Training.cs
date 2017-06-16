@@ -26,7 +26,7 @@ namespace ERIMS.DAL
         public static DataSet Associate_Training_Search(decimal? Associate, int year, int quarter,decimal? fk_LU_Location)
         {
             Database db = DatabaseFactory.CreateDatabase();
-            DbCommand dbCommand = db.GetStoredProcCommand("Sonic_University_Training_Data");
+            DbCommand dbCommand = db.GetStoredProcCommand("Sonic_University_Training_Data_New");
             db.AddInParameter(dbCommand, "FK_Employee_ID", DbType.Decimal, Associate);
             db.AddInParameter(dbCommand, "Year", DbType.Int32, year);
             db.AddInParameter(dbCommand, "Quarter", DbType.Int32, quarter);
@@ -207,6 +207,7 @@ namespace ERIMS.DAL
             db.ExecuteScalar(dbCommand);
         }
 
+        
         public static void Sonic_U_Training_Associate_Training_Assignment(int FK_Employee, int Year, int Quarter)
         {
             Database db = DatabaseFactory.CreateDatabase();
@@ -235,6 +236,42 @@ namespace ERIMS.DAL
 
             dbCommand.CommandTimeout = 10000;
             db.ExecuteScalar(dbCommand);
+        }
+
+        public static void Import_Sonic_U_Training_Associate_Base_New(decimal? FK_Employee)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Import_Sonic_U_Training_Associate_Base_New");
+            db.AddInParameter(dbCommand, "FK_Employee_ID", DbType.Int32, FK_Employee);
+
+            dbCommand.CommandTimeout = 10000;
+            db.ExecuteScalar(dbCommand);
+        }
+
+        public static void Sonic_U_Training_Associate_Training_Assignment_New(DataTable dtEmployee)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Sonic_U_Training_Associate_Training_Assignment_New");
+            dbCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("NewEmployees", dtEmployee));
+
+            
+
+            dbCommand.CommandTimeout = 10000;
+            int test = Convert.ToInt16(db.ExecuteScalar(dbCommand));
+        }
+
+        public static void Sonic_U_Training_Associate_Training_Assignment_New(DataTable dtEmployee,int year,int quarter)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Sonic_U_Training_Associate_Training_Assignment_New");
+            db.AddInParameter(dbCommand, "year", DbType.Decimal, year);
+            db.AddInParameter(dbCommand, "quarter", DbType.Decimal, quarter);
+            dbCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("NewEmployees", dtEmployee));
+
+
+
+            dbCommand.CommandTimeout = 10000;
+            int test = Convert.ToInt16(db.ExecuteScalar(dbCommand));
         }
 
     }

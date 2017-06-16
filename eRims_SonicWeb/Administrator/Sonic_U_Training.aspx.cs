@@ -37,6 +37,7 @@ public partial class Administrator_Sonic_U_Training_Required_Classes : clsBasePa
         {
             //Bind Training Grid Function
             BindGrid();
+            BindDropdowns();
         }
     }
 
@@ -66,7 +67,7 @@ public partial class Administrator_Sonic_U_Training_Required_Classes : clsBasePa
         }
         btnCancel.Visible = true;
         trTraining.Style.Add("display", "none");
-        trTrainingAdd.Style.Add("display", "");
+        tr1.Style.Add("display", "");
         btnAddNew.Visible = false;
     }
 
@@ -134,6 +135,16 @@ public partial class Administrator_Sonic_U_Training_Required_Classes : clsBasePa
         DataSet dsTraining = Sonic_U_Training_Required_Classes.SelectAll();
         gvTraining.DataSource = dsTraining;
         gvTraining.DataBind();
+    }
+
+    private void BindDropdowns()
+    {
+        ComboHelper.FillJobCode_New(new DropDownList[] {ddlLU_Job_Code }, true);
+        DataSet dsClasses= Sonic_U_Training_Classes.SelectAll();
+        lstSonic_U_Training_Classes.DataSource = dsClasses;
+        lstSonic_U_Training_Classes.DataTextField = "Class_Name";
+        lstSonic_U_Training_Classes.DataValueField = "PK_Sonic_U_Training_Classes";
+        lstSonic_U_Training_Classes.DataBind();
     }
 
     /// Used to Clear the controls

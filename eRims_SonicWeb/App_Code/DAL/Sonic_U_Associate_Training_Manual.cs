@@ -204,7 +204,7 @@ namespace ERIMS.DAL
 		public int Insert()
 		{
 			Database db = DatabaseFactory.CreateDatabase();
-			DbCommand dbCommand = db.GetStoredProcCommand("Sonic_U_Associate_Training_ManualInsert");
+            DbCommand dbCommand = db.GetStoredProcCommand("Sonic_U_Associate_Training_ManualInsert_New");
 
 			
 			db.AddInParameter(dbCommand, "FK_Employee", DbType.Decimal, this._FK_Employee);
