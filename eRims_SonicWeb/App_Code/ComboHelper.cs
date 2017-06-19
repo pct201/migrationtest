@@ -7116,6 +7116,30 @@ public class ComboHelper
             }
         }
     }
+
+    /// <summary>
+    /// Fill Cost Center Drop Down
+    /// </summary>
+    /// <param name="dropDowns"></param>
+    /// <param name="booladdSelectAsFirstElement"></param>
+    public static void FillJobCode_SelectRemaining(DropDownList[] dropDowns, bool booladdSelectAsFirstElement)
+    {
+        DataTable dtData = ERIMS.DAL.clsLU_Job_Code.SelectRemaining().Tables[0];
+
+        foreach (DropDownList ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Code";
+            ddlToFill.DataValueField = "pk_lu_job_code";
+            ddlToFill.DataSource = dtData;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
  
     /////////////////////////////////////ad-Hoc///////////////////////////////////////////////
 
