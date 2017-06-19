@@ -276,12 +276,13 @@ public class HTML2Excel
                                     break;
                                 case "border-right":
                                     //if (NoOfCol > 0 && tdAttrib.Value != "0")
-                                    using (ExcelRange range = excelWorksheet.Cells[currRowNumber, currColumnNumber - 2, currRowNumber, currColumnNumber - 1])
-                                    {
-                                        //range.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
-                                        Border border = range.Style.Border;
-                                        border.Right.Style = ExcelBorderStyle.Thin;
-                                    }
+                                    if (currColumnNumber > 2)
+                                        using (ExcelRange range = excelWorksheet.Cells[currRowNumber, currColumnNumber - 2, currRowNumber, currColumnNumber - 1])
+                                        {
+                                            //range.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
+                                            Border border = range.Style.Border;
+                                            border.Right.Style = ExcelBorderStyle.Thin;
+                                        }
                                     break;
                                 case "border-left":
                                     //if (NoOfCol > 0 && tdAttrib.Value != "0")
