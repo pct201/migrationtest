@@ -23,7 +23,7 @@ namespace ERIMS.DAL
         /// select by search criteria
         /// </summary>
         /// <returns></returns>
-        public static DataSet Associate_Training_Search(decimal? Associate, int year, int quarter,decimal? fk_LU_Location)
+        public static DataSet Associate_Training_Search(decimal? Associate, int year, int quarter, decimal? fk_LU_Location)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("Sonic_University_Training_Data_New");
@@ -36,7 +36,7 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static void Manage_Training_Data_InsertUpdate(string Employee_Id, string Code, int year, int quarter, decimal FK_Employee, string Class_Name, bool Completed, decimal? fk_LU_Location, decimal? PK_Sonic_U_Associate_Training_Manual)
+        public static void Manage_Training_Data_InsertUpdate(string Employee_Id, string Code, int year, int quarter, decimal FK_Employee, string Class_Name, bool Completed, decimal? fk_LU_Location, decimal? PK_Sonic_U_Associate_Training_Manual, Int16 fk_Lu_Sonic_Training_Status)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("Manage_Training_Data_InsertUpdate");
@@ -48,13 +48,13 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Class_Name", DbType.String, Class_Name);
             db.AddInParameter(dbCommand, "Completed", DbType.Boolean, Completed);
             db.AddInParameter(dbCommand, "FK_LU_Location_ID", DbType.Decimal, fk_LU_Location);
-            db.AddInParameter(dbCommand, "PK_Sonic_U_Associate_Training_Manual", DbType.Decimal, PK_Sonic_U_Associate_Training_Manual);           
-
+            db.AddInParameter(dbCommand, "PK_Sonic_U_Associate_Training_Manual", DbType.Decimal, PK_Sonic_U_Associate_Training_Manual);
+            db.AddInParameter(dbCommand, "fk_Lu_Sonic_Training_Status", DbType.Int16, fk_Lu_Sonic_Training_Status);
             dbCommand.CommandTimeout = 10000;
             db.ExecuteNonQuery(dbCommand);
         }
 
-        public static void Complete_Sonic_U_Training(int year, int quarter, decimal fK_Employee,string code,  bool completed)
+        public static void Complete_Sonic_U_Training(int year, int quarter, decimal fK_Employee, string code, bool completed)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("Complete_Sonic_U_Training");
@@ -68,7 +68,7 @@ namespace ERIMS.DAL
             db.ExecuteNonQuery(dbCommand);
         }
 
-        public static DataSet Associate_Training_Data(int quarter, string dba,int year)
+        public static DataSet Associate_Training_Data(int quarter, string dba, int year)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("Associate_Training_Data");
@@ -80,7 +80,7 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet Learning_Program(int year,int quarter)
+        public static DataSet Learning_Program(int year, int quarter)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("Learning_Program_Current_Quarter_New");
@@ -157,6 +157,14 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
+        public static DataSet SelectAllTrainingStatus()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetSqlStringCommand("SelectAllTrainingStatus");
+
+            dbCommand.CommandTimeout = 10000;
+            return db.ExecuteDataSet(dbCommand);
+        }
         /// <summary>
         /// Select All Learning Program status
         /// </summary>
@@ -187,7 +195,7 @@ namespace ERIMS.DAL
         ///Check for Admin or RLCM User
         /// </summary>
         /// <returns></returns>
-        public static int  CheckForAdminOrRLCMUser(int pk_Security_ID)
+        public static int CheckForAdminOrRLCMUser(int pk_Security_ID)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("CheckAdminORRLCMUser");
@@ -207,7 +215,7 @@ namespace ERIMS.DAL
             db.ExecuteScalar(dbCommand);
         }
 
-        
+
         public static void Sonic_U_Training_Associate_Training_Assignment(int FK_Employee, int Year, int Quarter)
         {
             Database db = DatabaseFactory.CreateDatabase();
@@ -254,13 +262,13 @@ namespace ERIMS.DAL
             DbCommand dbCommand = db.GetStoredProcCommand("Sonic_U_Training_Associate_Training_Assignment_New");
             dbCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("NewEmployees", dtEmployee));
 
-            
+
 
             dbCommand.CommandTimeout = 10000;
             int test = Convert.ToInt16(db.ExecuteScalar(dbCommand));
         }
 
-        public static void Sonic_U_Training_Associate_Training_Assignment_New(DataTable dtEmployee,int year,int quarter)
+        public static void Sonic_U_Training_Associate_Training_Assignment_New(DataTable dtEmployee, int year, int quarter)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("Sonic_U_Training_Associate_Training_Assignment_New");

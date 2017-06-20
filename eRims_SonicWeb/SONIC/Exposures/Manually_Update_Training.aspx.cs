@@ -71,7 +71,7 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
     /// Bind Search Result
     /// </summary>
     private void BindSearchResult()
-    {
+   {
         decimal? Associate = null;
         int year = 0, Qaurter = 0;
 
@@ -103,6 +103,8 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
 
         gvTraining.DataSource = dsSearchResult.Tables[0];
         gvTraining.DataBind();
+
+        
         Session["location"] = ddlLocation.SelectedValue;
         lblLocation.Text = ddlLocation.SelectedIndex > 0 ? ddlLocation.SelectedItem.Text : string.Empty;
         lblYear.Text = Convert.ToString(year);
@@ -190,9 +192,10 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
                     }
 
                     RadioButtonList rblIs_Complete = (RadioButtonList)gvTrain.FindControl("rblIs_Complete");
-                    if (hdnChangeIDs.Value.Contains(rblIs_Complete.ClientID) && !hdnChangeIDs.Value.Contains(rblIs_Complete.ClientID + "_" + rblIs_Complete.SelectedValue))
+                    DropDownList ddlTrainingStatus = (DropDownList)gvTrain.FindControl("ddlTrainingStatus");
+                    if ((hdnChangeIDs.Value.Contains(rblIs_Complete.ClientID) && !hdnChangeIDs.Value.Contains(rblIs_Complete.ClientID + "_" + rblIs_Complete.SelectedValue)) || (hdnChangeIDs.Value.Contains(ddlTrainingStatus.ClientID)))
                     {
-                        Sonic_U_Training.Manage_Training_Data_InsertUpdate(hdnEmployee_ID.Value, hdnCode.Value, year, Qaurter, Convert.ToDecimal(hdnFK_Employee.Value), lblClass_Name.Text, Convert.ToBoolean(Convert.ToInt16(rblIs_Complete.SelectedValue)), Convert.ToDecimal(hdnFK_LU_Location_ID.Value), Convert.ToDecimal(hdnPK_Sonic_U_Associate_Training_Manual.Value));
+                        Sonic_U_Training.Manage_Training_Data_InsertUpdate(hdnEmployee_ID.Value, hdnCode.Value, year, Qaurter, Convert.ToDecimal(hdnFK_Employee.Value), lblClass_Name.Text, Convert.ToBoolean(Convert.ToInt16(rblIs_Complete.SelectedValue)), Convert.ToDecimal(hdnFK_LU_Location_ID.Value), Convert.ToDecimal(hdnPK_Sonic_U_Associate_Training_Manual.Value),  Convert.ToInt16(ddlTrainingStatus.SelectedValue));
                         
                         DataRow drEmp = dtEmployee.NewRow();
                         drEmp["PK_Employee_ID"] = Convert.ToDecimal(hdnFK_Employee.Value);
@@ -303,7 +306,22 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
             HiddenField hdnPK_Sonic_U_Associate_Training_Manual = (HiddenField)e.Row.FindControl("hdnPK_Sonic_U_Associate_Training_Manual");
             LinkButton lnkEdit = (LinkButton)e.Row.FindControl("lknEdit");
             LinkButton lnkDelete = (LinkButton)e.Row.FindControl("lnkDelete");
-
+            DropDownList ddlStatus = (e.Row.FindControl("ddlTrainingStatus") as DropDownList);
+            RequiredFieldValidator rfv = (e.Row.FindControl("rfvStatus") as RequiredFieldValidator);
+            rfv.Enabled = true;
+          
+                DataSet ds = Sonic_U_Training.SelectAllTrainingStatus();
+                ddlStatus.DataSource = ds.Tables[0];
+          
+                ddlStatus.DataTextField = "Fld_Desc";
+                ddlStatus.DataValueField = "PK_LU_Sonic_Training_Status";
+                ddlStatus.DataBind();
+                ddlStatus.Items.Insert(0, new ListItem("-select-"));
+                if ((DataBinder.Eval(e.Row.DataItem, "Training_Status")).ToString() != "")
+                {
+                    ddlStatus.SelectedIndex = Convert.ToInt16(DataBinder.Eval(e.Row.DataItem, "Training_Status"));
+                }
+ 
             if (!string.IsNullOrEmpty(Convert.ToString(hdnPK_Sonic_U_Associate_Training_Manual.Value)))
             {
                 //make edit and delete link visible for Manual entry data only
@@ -324,6 +342,7 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
                 lnkEdit.Visible = false;
                 lnkDelete.Visible = false;
             }
+            
         }
     }
 
