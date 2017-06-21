@@ -262,6 +262,7 @@ public partial class SONIC_FirstReport_RptSonicCauseCodeReclassification : clsBa
         DataSet dsLocation = ERIMS.DAL.LU_Location.SelectAll(CurrentEmployee, Regional.ToString().TrimEnd(Convert.ToChar(",")));
         lstLocation.Items.Clear();
 
+        dsLocation.Tables[0].DefaultView.RowFilter = " Active = 'Y' and Show_On_Dashboard = 'Y' ";
         dsLocation.Tables[0].DefaultView.Sort = "dba";
         lstLocation.DataTextField = "dba";
         lstLocation.DataValueField = Convert.ToString(dsLocation.Tables[0].Columns["PK_LU_Location_ID"]);

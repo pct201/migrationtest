@@ -69,10 +69,10 @@ public partial class SONIC_FirstReport_WCMonthlyAllocationSummaryReport : clsBas
         drResult[13] = dtResult.Compute("Sum(OCT)", "");
         drResult[14] = dtResult.Compute("Sum(NOV)", "");
         drResult[15] = dtResult.Compute("Sum(DEC)", "");
-        drResult[16] = dtResult.Compute("Sum(Next_JAN)", "");
-        drResult[17] = dtResult.Compute("Sum(Next_FEB)", "");
-        drResult[18] = dtResult.Compute("Sum(Next_MAR)", "");
-        drResult[19] = dtResult.Compute("Sum(Total)", "");
+        //drResult[16] = dtResult.Compute("Sum(Next_JAN)", "");
+        //drResult[17] = dtResult.Compute("Sum(Next_FEB)", "");
+        //drResult[18] = dtResult.Compute("Sum(Next_MAR)", "");
+        drResult[16] = dtResult.Compute("Sum(Total)", "");
         dtResult.Rows.Add(drResult);
         gvworkers_comp_summary.DataSource = dtResult;
         gvworkers_comp_summary.DataBind();
@@ -151,10 +151,10 @@ public partial class SONIC_FirstReport_WCMonthlyAllocationSummaryReport : clsBas
         gvworkers_comp_summary.HeaderRow.Cells[13].HorizontalAlign = HorizontalAlign.Right;
         gvworkers_comp_summary.HeaderRow.Cells[14].HorizontalAlign = HorizontalAlign.Right;
         gvworkers_comp_summary.HeaderRow.Cells[15].HorizontalAlign = HorizontalAlign.Right;
+        //gvworkers_comp_summary.HeaderRow.Cells[16].HorizontalAlign = HorizontalAlign.Right;
+        //gvworkers_comp_summary.HeaderRow.Cells[17].HorizontalAlign = HorizontalAlign.Right;
+        //gvworkers_comp_summary.HeaderRow.Cells[18].HorizontalAlign = HorizontalAlign.Right;
         gvworkers_comp_summary.HeaderRow.Cells[16].HorizontalAlign = HorizontalAlign.Right;
-        gvworkers_comp_summary.HeaderRow.Cells[17].HorizontalAlign = HorizontalAlign.Right;
-        gvworkers_comp_summary.HeaderRow.Cells[18].HorizontalAlign = HorizontalAlign.Right;
-        gvworkers_comp_summary.HeaderRow.Cells[19].HorizontalAlign = HorizontalAlign.Right;
 
         if (rdoRunBy.SelectedValue == "Region")
         {
@@ -175,10 +175,10 @@ public partial class SONIC_FirstReport_WCMonthlyAllocationSummaryReport : clsBas
                 row.Cells[13].HorizontalAlign = HorizontalAlign.Right;
                 row.Cells[14].HorizontalAlign = HorizontalAlign.Right;
                 row.Cells[15].HorizontalAlign = HorizontalAlign.Right;
+                //row.Cells[16].HorizontalAlign = HorizontalAlign.Right;
+                //row.Cells[17].HorizontalAlign = HorizontalAlign.Right;
+                //row.Cells[18].HorizontalAlign = HorizontalAlign.Right;
                 row.Cells[16].HorizontalAlign = HorizontalAlign.Right;
-                row.Cells[17].HorizontalAlign = HorizontalAlign.Right;
-                row.Cells[18].HorizontalAlign = HorizontalAlign.Right;
-                row.Cells[19].HorizontalAlign = HorizontalAlign.Right;
             }
 
         }
@@ -201,10 +201,10 @@ public partial class SONIC_FirstReport_WCMonthlyAllocationSummaryReport : clsBas
                 row.Cells[13].HorizontalAlign = HorizontalAlign.Right;
                 row.Cells[14].HorizontalAlign = HorizontalAlign.Right;
                 row.Cells[15].HorizontalAlign = HorizontalAlign.Right;
+                //row.Cells[16].HorizontalAlign = HorizontalAlign.Right;
+                //row.Cells[17].HorizontalAlign = HorizontalAlign.Right;
+                //row.Cells[18].HorizontalAlign = HorizontalAlign.Right;
                 row.Cells[16].HorizontalAlign = HorizontalAlign.Right;
-                row.Cells[17].HorizontalAlign = HorizontalAlign.Right;
-                row.Cells[18].HorizontalAlign = HorizontalAlign.Right;
-                row.Cells[19].HorizontalAlign = HorizontalAlign.Right;
             }
         }
         string htmlContent = GridViewExportUtil.ExportAdHoc_New(gvworkers_comp_summary);
@@ -277,10 +277,10 @@ public partial class SONIC_FirstReport_WCMonthlyAllocationSummaryReport : clsBas
             row.Cells[13].Text = row.Cells[13].Text + "'" + ViewState["Year"].ToString();
             row.Cells[14].Text = row.Cells[14].Text + "'" + ViewState["Year"].ToString();
             row.Cells[15].Text = row.Cells[15].Text + "'" + ViewState["Year"].ToString();
-            row.Cells[16].Text = row.Cells[16].Text + "'" + string.Format("{0:D2}", (Convert.ToInt32(ViewState["Year"]) + 1));
-            row.Cells[17].Text = row.Cells[17].Text + "'" + string.Format("{0:D2}", (Convert.ToInt32(ViewState["Year"]) + 1));
-            row.Cells[18].Text = row.Cells[18].Text + "'" + string.Format("{0:D2}", (Convert.ToInt32(ViewState["Year"]) + 1));
-            row.Cells[19].Text = row.Cells[19].Text + "'" + ViewState["Year"].ToString();
+            //row.Cells[16].Text = row.Cells[16].Text + "'" + string.Format("{0:D2}", (Convert.ToInt32(ViewState["Year"]) + 1));
+            //row.Cells[17].Text = row.Cells[17].Text + "'" + string.Format("{0:D2}", (Convert.ToInt32(ViewState["Year"]) + 1));
+            //row.Cells[18].Text = row.Cells[18].Text + "'" + string.Format("{0:D2}", (Convert.ToInt32(ViewState["Year"]) + 1));
+            row.Cells[16].Text = row.Cells[16].Text + "'" + ViewState["Year"].ToString();
 
         }
 

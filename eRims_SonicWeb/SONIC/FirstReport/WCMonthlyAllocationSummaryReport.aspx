@@ -183,7 +183,7 @@
                                         Width="80px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="JAN" ItemStyle-HorizontalAlign="right">
+                <%--            <asp:TemplateField HeaderText="JAN" ItemStyle-HorizontalAlign="right">
                                 <HeaderStyle HorizontalAlign="right" />
                                 <ItemStyle HorizontalAlign="right" />
                                 <ItemTemplate>
@@ -206,7 +206,7 @@
                                     <asp:Label ID="lblNextMAR" runat="server" Text='<%# "$" + clsGeneral.GetStringValue(Eval("Next_MAR"))%>'
                                         Width="80px"></asp:Label>
                                 </ItemTemplate>
-                            </asp:TemplateField>
+                            </asp:TemplateField>--%>
                             <asp:TemplateField HeaderText="Total" ItemStyle-HorizontalAlign="right">
                                 <HeaderStyle HorizontalAlign="right" />
                                 <ItemStyle HorizontalAlign="Right" />
