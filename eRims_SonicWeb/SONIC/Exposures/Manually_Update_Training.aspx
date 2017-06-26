@@ -2,16 +2,76 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <script type="text/javascript" src="../../JavaScript/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../../JavaScript/JSON-js-master/json2.js"></script>
     <script language="javascript" type="text/javascript">
         var waivedIds = [];
         var notwaivedIds = [];
         var count = 0;
         var newIds = [];
+        var explicitCall = false;
         function change(row) {
             var id = row.id;
-            count = count + 1;
-            newIds.push(id);
+            //count = count + 1;
+            //newIds.push(id);
+            var dropdownID = id.replace("rblIs_Complete", "ddlTrainingStatus");
+            var validatorID = id.replace("rblIs_Complete", "rfvStatus");
             $("#<%= hdnChangeIDs.ClientID %>").val(newIds);
+
+            if ($('#' + id + ' input:checked').val() == "1" && $.inArray(id + "_" + $('#' + id + ' input:checked').val(), notwaivedIds) != -1) {
+
+                $("#" + dropdownID).removeAttr('disabled');
+                //ValidatorEnable($("#" + validatorID )[0], true);
+                $("span[id*=" + validatorID + "]").each(function () {
+                    ValidatorEnable(this, true);
+                });
+                //$("#" + dropdownID + " option[title='Not Completed']").remove();
+                bindStatus(dropdownID, true);
+
+            }
+            else if ($('#' + id + ' input:checked').val() == "0" && $.inArray(id + "_" + $('#' + id + ' input:checked').val(), waivedIds) != -1) {
+                $("#" + dropdownID).removeAttr('disabled');
+                $("span[id*=" + validatorID + "]").each(function () {
+                    ValidatorEnable(this, true);
+                });
+
+                bindStatus(dropdownID, false);
+            }
+            else {
+                $("#" + dropdownID).val('-Select-');
+                $("#" + dropdownID).attr('disabled', 'disabled');
+                $("span[id*=" + validatorID + "]").each(function () {
+                    ValidatorEnable(this, false);
+                });
+            }
+
+
+
+
+        }
+
+
+        function bindStatus(dropdownID, IS_Complete) {
+            $.ajax({
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                url: "Manually_Update_Training.aspx/bindStatus",
+                data: JSON.stringify({ 'IS_Complete': IS_Complete }),
+                dataType: "json",
+                success: function (data) {
+                    $("#" + dropdownID).empty();
+                    $.each(data, function (key, value) {
+                        $("#" + dropdownID).append($("<option></option>").val(value.PK_LU_Sonic_Training_Status).html(value.Fld_Desc));
+                    });
+                },
+                error: function (result) {
+                    alert("Error");
+                }
+            });
+        }
+
+        function radioClick(row) {
+            if (explicitCall != true)
+                change(row);
         }
         function openPopUp(pkID) {
             if (pkID == 0) {
@@ -52,12 +112,11 @@
 
         function ConfirmWaive() {
             var response;
-            if (Page_ClientValidate("vsErrorGroup"))
-            {
+            if (Page_ClientValidate("vsErrorGroup")) {
                 $('input:radio').each(function () {
-                        var $this = $(this),
-                        id = $this.attr('id'),
-                        url = $this.attr('datasrc');
+                    var $this = $(this),
+                    id = $this.attr('id'),
+                    url = $this.attr('datasrc');
                     if ($(this).prop('checked')) {
                         var selectedValue = $this.val();
                         if (selectedValue == "1") {
@@ -74,39 +133,35 @@
                         }
                     }
                 });
-                if (count > 0)
-                {
-                        var response = confirm("Any course/class that is manually marked as completed or uncompleted will not be overridden by the auto update feature of eRIMS2 for setting course/class completions. Any changes to manually updated statuses will need to be performed manually.");
-                        if (response == true)
-                        {
-                            $("#<%= hdnChangeIDs.ClientID %>").val(newIds);
-                            return true;
-                        }
-                        else
-                        {
-                            newIds.forEach(function (item) {
-                                $("#" + item).prop('checked', false);
-                                $("#" + item.replace("_0", "_1")).prop('checked', true)
-                            });
-
-                            return false;
-                            }
+                if (count > 0) {
+                    var response = confirm("Any course/class that is manually marked as completed or uncompleted will not be overridden by the auto update feature of eRIMS2 for setting course/class completions. Any changes to manually updated statuses will need to be performed manually.");
+                    if (response == true) {
+                        $("#<%= hdnChangeIDs.ClientID %>").val(newIds);
+                        return true;
                     }
-                else
-                {
+                    else {
+                        explicitCall = true;
+                        newIds.forEach(function (item) {
+                            $("#" + item).prop('checked', false);
+                            $("#" + item.replace("_0", "_1")).prop('checked', true)
+                        });
+                        explicitCall = false;
+                        return false;
+                    }
+                }
+                else {
                     alert("There was no change in data.");
                     return false;
                 }
             }
-            else
-            {
+            else {
                 return false;
             }
 
         }
 
         $(document).ready(function () {
-                $('input:radio').each(function () {
+            $('input:radio').each(function () {
                 var $this = $(this),
                     id = $this.attr('id');
                 var selectedValue = $this.val();
@@ -116,6 +171,10 @@
                 if (selectedValue == "0" && $(this).prop('checked')) {
                     notwaivedIds.push(id);
                 }
+            });
+
+            $("span[id*=rfvStatus]").each(function () {
+                ValidatorEnable(this, false);
             });
         });
 
@@ -228,14 +287,12 @@
                     <td>&nbsp;</td>
                 </tr>
                 <tr>
-                    <td width="170">
-                         &nbsp;&nbsp;&nbsp;
+                    <td width="170">&nbsp;&nbsp;&nbsp;
                     </td>
                     <td align="center" width="250">
                         <asp:Button ID="btnAdd" runat="server" Width="240px" Text="Add Training Courses for Associates" ValidationGroup="vsErrorGroup" CausesValidation="true" OnClick="btnAdd_Click" />
                     </td>
-                     <td width="80">
-                         &nbsp;&nbsp;&nbsp;
+                    <td width="80">&nbsp;&nbsp;&nbsp;
                     </td>
                     <td align="left">
                         <asp:Button ID="btnSubmit" runat="server" Text="Waive Training Class" ValidationGroup="vsErrorGroup" CausesValidation="true" OnClick="btnSubmit_Click" />
@@ -310,6 +367,7 @@
                                         <asp:Label ID="lblName" runat="server" Text='<%# Eval("NAME")%>'></asp:Label>
                                         <asp:HiddenField ID="hdnFK_Employee" runat="server" Value='<%# Eval("FK_Employee")%>' />
                                         <asp:HiddenField ID="hdnFK_LU_Location_ID" runat="server" Value='<%# Eval("FK_LU_Location_ID")%>' />
+                                        <asp:HiddenField ID="hdnPK_Sonic_U_Associate_Training_Manual" runat="server" Value='<%# Eval("PK_Sonic_U_Associate_Training_Manual")%>' />
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Class" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
@@ -320,10 +378,10 @@
                                         <asp:HiddenField ID="hdnCode" runat="server" Value='<%# Eval("Code")%>' />
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Completed/Waived" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
+                                <asp:TemplateField HeaderText="Completed/Resolved" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
                                     <ItemStyle Width="20%" />
                                     <ItemTemplate>
-                                        <asp:RadioButtonList ID="rblIs_Complete" runat="server" SkinID="YesNoTypeNullSelection"></asp:RadioButtonList>
+                                        <asp:RadioButtonList ID="rblIs_Complete" runat="server" SkinID="YesNoTypeNullSelection" onclick="radioClick(this);" ></asp:RadioButtonList>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Method" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
@@ -333,23 +391,23 @@
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Status <span style='color: #FF0000;'>*</span> " ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
-                                    
+
                                     <ItemStyle Width="35%" />
                                     <ItemTemplate>
-                                     <asp:DropDownList ID="ddlTrainingStatus" runat="server" onchange="change(this)"></asp:DropDownList>
-                                        
+                                        <asp:DropDownList ID="ddlTrainingStatus" runat="server" Enabled="false"></asp:DropDownList>
+
                                         <asp:RequiredFieldValidator ID="rfvStatus" Enabled="true" Display="none" runat="server" ControlToValidate="ddlTrainingStatus"
-                            ErrorMessage="Please Select Status." Text="*" ValidationGroup="vsErrorGroup" InitialValue="-select-" ></asp:RequiredFieldValidator>
+                                            ErrorMessage="Please Select Status." Text="*" ValidationGroup="vsErrorGroup" InitialValue="0"></asp:RequiredFieldValidator>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Disposition" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
+                                <%--<asp:TemplateField HeaderText="Disposition" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
                                     <ItemStyle Width="15%" />
                                     <ItemTemplate>
-                                        <asp:HiddenField ID="hdnPK_Sonic_U_Associate_Training_Manual" runat="server" Value='<%# Eval("PK_Sonic_U_Associate_Training_Manual")%>' />
+                                        
                                         <asp:LinkButton ID="lknEdit" runat="server" Text="Edit" CommandArgument='<%# Eval("PK_Sonic_U_Associate_Training_Manual")%>' CommandName="EditRecord" Visible="false"></asp:LinkButton>
                                         <asp:LinkButton runat="server" ID="lnkDelete" Text="Delete" CommandName="Remove" OnClientClick="javascript:return confirm('Do you want to REMOVE the selected Manually Input Training from eRIMS2?')" CommandArgument='<%# Eval("PK_Sonic_U_Associate_Training_Manual")%>'></asp:LinkButton>
                                     </ItemTemplate>
-                                </asp:TemplateField>
+                                </asp:TemplateField>--%>
                             </Columns>
                         </asp:GridView>
                     </td>
@@ -364,11 +422,11 @@
                 <tr>
                     <td align="center" style="padding-left: 35px" width="100%">
                         <%--<asp:Button ID="btnAdd" runat="server" Text="Add" ValidationGroup="vsErrorGroup" OnClick="btnAdd_Click" OnClientClick="return openPopUp(0);" />
-                        &nbsp;&nbsp;&nbsp;--%> 
+                        &nbsp;&nbsp;&nbsp;--%>
                         <asp:HiddenField ID="hdnWaivedIDs" runat="server" Value="0" />
                         <asp:Button ID="btnSave" runat="server" Text="Save" ValidationGroup="vsErrorGroup" OnClientClick="javascript:return ConfirmWaive();" OnClick="btnSave_Click" />
                         &nbsp;&nbsp;&nbsp;
-                        <asp:Button ID="btnCancel" runat="server" Text="Cancel"  OnClick="btnCancel_Click" />
+                        <asp:Button ID="btnCancel" runat="server" Text="Cancel" OnClick="btnCancel_Click" />
                         <asp:Button ID="btnhdnReload" runat="server" OnClick="btnhdnReload_Click" Style="display: none;" />
                         <asp:HiddenField ID="hdnChangeIDs" runat="server" Value="0" />
                     </td>

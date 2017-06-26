@@ -71,7 +71,7 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
     /// Bind Search Result
     /// </summary>
     private void BindSearchResult()
-   {
+    {
         decimal? Associate = null;
         int year = 0, Qaurter = 0;
 
@@ -104,7 +104,7 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
         gvTraining.DataSource = dsSearchResult.Tables[0];
         gvTraining.DataBind();
 
-        
+
         Session["location"] = ddlLocation.SelectedValue;
         lblLocation.Text = ddlLocation.SelectedIndex > 0 ? ddlLocation.SelectedItem.Text : string.Empty;
         lblYear.Text = Convert.ToString(year);
@@ -195,15 +195,15 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
                     DropDownList ddlTrainingStatus = (DropDownList)gvTrain.FindControl("ddlTrainingStatus");
                     if ((hdnChangeIDs.Value.Contains(rblIs_Complete.ClientID) && !hdnChangeIDs.Value.Contains(rblIs_Complete.ClientID + "_" + rblIs_Complete.SelectedValue)) || (hdnChangeIDs.Value.Contains(ddlTrainingStatus.ClientID)))
                     {
-                        Sonic_U_Training.Manage_Training_Data_InsertUpdate(hdnEmployee_ID.Value, hdnCode.Value, year, Qaurter, Convert.ToDecimal(hdnFK_Employee.Value), lblClass_Name.Text, Convert.ToBoolean(Convert.ToInt16(rblIs_Complete.SelectedValue)), Convert.ToDecimal(hdnFK_LU_Location_ID.Value), Convert.ToDecimal(hdnPK_Sonic_U_Associate_Training_Manual.Value),  Convert.ToInt16(ddlTrainingStatus.SelectedValue));
-                        
+                        Sonic_U_Training.Manage_Training_Data_InsertUpdate(hdnEmployee_ID.Value, hdnCode.Value, year, Qaurter, Convert.ToDecimal(hdnFK_Employee.Value), lblClass_Name.Text, Convert.ToBoolean(Convert.ToInt16(rblIs_Complete.SelectedValue)), Convert.ToDecimal(hdnFK_LU_Location_ID.Value), Convert.ToDecimal(hdnPK_Sonic_U_Associate_Training_Manual.Value), Convert.ToInt16(ddlTrainingStatus.SelectedValue));
+
                         DataRow drEmp = dtEmployee.NewRow();
                         drEmp["PK_Employee_ID"] = Convert.ToDecimal(hdnFK_Employee.Value);
                         dtEmployee.Rows.Add(drEmp);
 
                         strCode[i] = hdnCode.Value;
                     }
-                    
+
                     ///Mark as completed in Sonic_U_Training_Associate_Training if all training is manually completed. 
                     if (Convert.ToInt16(rblIs_Complete.SelectedValue) == 0)
                     {
@@ -215,10 +215,10 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
             }
 
             strCode = RemoveDuplicates(strCode);
-            
-            if(dtEmployee.Rows.Count > 0)
+
+            if (dtEmployee.Rows.Count > 0)
             {
-                Sonic_U_Training.Sonic_U_Training_Associate_Training_Assignment_New(dtEmployee,year,Qaurter);
+                Sonic_U_Training.Sonic_U_Training_Associate_Training_Assignment_New(dtEmployee, year, Qaurter);
             }
 
             ///update Sonic_U_Training_Associate_Training per employee training per training_Code.
@@ -309,40 +309,40 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
             DropDownList ddlStatus = (e.Row.FindControl("ddlTrainingStatus") as DropDownList);
             RequiredFieldValidator rfv = (e.Row.FindControl("rfvStatus") as RequiredFieldValidator);
             rfv.Enabled = true;
-          
-                DataSet ds = Sonic_U_Training.SelectAllTrainingStatus();
-                ddlStatus.DataSource = ds.Tables[0];
-          
-                ddlStatus.DataTextField = "Fld_Desc";
-                ddlStatus.DataValueField = "PK_LU_Sonic_Training_Status";
-                ddlStatus.DataBind();
-                ddlStatus.Items.Insert(0, new ListItem("-select-"));
-                if ((DataBinder.Eval(e.Row.DataItem, "Training_Status")).ToString() != "")
-                {
-                    ddlStatus.SelectedIndex = Convert.ToInt16(DataBinder.Eval(e.Row.DataItem, "Training_Status"));
-                }
- 
-            if (!string.IsNullOrEmpty(Convert.ToString(hdnPK_Sonic_U_Associate_Training_Manual.Value)))
+
+            DataSet ds = Sonic_U_Training.SelectAllTrainingStatus();
+            ddlStatus.DataSource = ds.Tables[0];
+
+            ddlStatus.DataTextField = "Fld_Desc";
+            ddlStatus.DataValueField = "PK_LU_Sonic_Training_Status";
+            ddlStatus.DataBind();
+            ddlStatus.Items.Insert(0, new ListItem("-Select-"));
+            if ((DataBinder.Eval(e.Row.DataItem, "Training_Status")).ToString() != "")
             {
-                //make edit and delete link visible for Manual entry data only
-                if (Sonic_U_Training.CheckForAdminOrRLCMUser(Convert.ToInt16(clsSession.UserID)) == -1)
-                {
-                    lnkEdit.Enabled = false;
-                    lnkDelete.Enabled = false;
-                    rblIs_Complete.Enabled = false;
-                }
-                else
-                {
-                    //lnkEdit.Enabled = true;
-                    lnkDelete.Enabled = true;
-                }
+                ddlStatus.SelectedIndex = Convert.ToInt16(DataBinder.Eval(e.Row.DataItem, "Training_Status"));
             }
-            else
-            {
-                lnkEdit.Visible = false;
-                lnkDelete.Visible = false;
-            }
-            
+
+            //if (!string.IsNullOrEmpty(Convert.ToString(hdnPK_Sonic_U_Associate_Training_Manual.Value)))
+            //{
+            //    //make edit and delete link visible for Manual entry data only
+            //    if (Sonic_U_Training.CheckForAdminOrRLCMUser(Convert.ToInt16(clsSession.UserID)) == -1)
+            //    {
+            //        lnkEdit.Enabled = false;
+            //        lnkDelete.Enabled = false;
+            //        rblIs_Complete.Enabled = false;
+            //    }
+            //    else
+            //    {
+            //        //lnkEdit.Enabled = true;
+            //        lnkDelete.Enabled = true;
+            //    }
+            //}
+            //else
+            //{
+            //    lnkEdit.Visible = false;
+            //    lnkDelete.Visible = false;
+            //}
+
         }
     }
 
@@ -373,4 +373,47 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
     {
         BindSearchResult();
     }
+
+    [System.Web.Services.WebMethod]
+    public static LU_Sonic_Training_Status[] bindStatus(bool IS_Complete)
+    {
+        List<LU_Sonic_Training_Status> statusDetails = new List<LU_Sonic_Training_Status>();
+
+        DataSet ds = Sonic_U_Training.SelectAllTrainingStatus();
+        if (ds != null && ds.Tables.Count > 0)
+        {
+            LU_Sonic_Training_Status status0 = new LU_Sonic_Training_Status();
+            status0.PK_LU_Sonic_Training_Status = 0;
+            status0.Fld_Desc = "-Select-";
+            statusDetails.Add(status0);
+            
+            foreach (DataRow dr in ds.Tables[0].Rows)
+            {
+                if (IS_Complete == true && Convert.ToString(dr["Fld_Desc"]) != "Not Completed")
+                {
+                    LU_Sonic_Training_Status status = new LU_Sonic_Training_Status();
+                    status.PK_LU_Sonic_Training_Status = Convert.ToInt16(dr["PK_LU_Sonic_Training_Status"]);
+                    status.Fld_Desc = Convert.ToString(dr["Fld_Desc"]);
+                    statusDetails.Add(status);
+                }
+                else if (IS_Complete == false && Convert.ToString(dr["Fld_Desc"]) == "Not Completed")
+                {
+                    LU_Sonic_Training_Status status = new LU_Sonic_Training_Status();
+                    status.PK_LU_Sonic_Training_Status = Convert.ToInt16(dr["PK_LU_Sonic_Training_Status"]);
+                    status.Fld_Desc = Convert.ToString(dr["Fld_Desc"]);
+                    statusDetails.Add(status);
+                }
+
+            }
+        }
+        return statusDetails.ToArray();
+
+    }
+
+    public class LU_Sonic_Training_Status
+    {
+        public int PK_LU_Sonic_Training_Status;
+        public string Fld_Desc;
+    }
 }
+
