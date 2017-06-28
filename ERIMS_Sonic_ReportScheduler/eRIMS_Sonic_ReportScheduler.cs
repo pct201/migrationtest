@@ -13673,116 +13673,116 @@ namespace ERIMS_Sonic_ReportScheduler
 
                 #region "Send Mail to FROI"
 
-                DataSet dsSecurity = Report.SelectEmployeeData();
-                DataTable dtSecAndLoc = dsSecurity.Tables[0];
-                //get distinct Security IDs
-                DataTable dtSecurityID = dsSecurity.Tables[1];
-                DataTable dtResult = Report.GetACI_Key_Contact_Report(strDBA, strJob_Titles).Tables[0];
-                String strSonicLocCode = String.Empty;
-                String strLocationID = String.Empty;
+                //DataSet dsSecurity = Report.SelectEmployeeData();
+                //DataTable dtSecAndLoc = dsSecurity.Tables[0];
+                ////get distinct Security IDs
+                //DataTable dtSecurityID = dsSecurity.Tables[1];
+                //DataTable dtResult = Report.GetACI_Key_Contact_Report(strDBA, strJob_Titles).Tables[0];
+                //String strSonicLocCode = String.Empty;
+                //String strLocationID = String.Empty;
 
-                if (dtSecurityID != null && dtSecurityID.Rows.Count > 0)
-                {
-                    foreach (DataRow drSecurityID in dtSecurityID.Rows)
-                    {
-                        DataRow[] drSecAndLoc = dtSecAndLoc.Select("PK_Security_ID = '" + Convert.ToString(drSecurityID["PK_Security_ID"]) + "'");
+                //if (dtSecurityID != null && dtSecurityID.Rows.Count > 0)
+                //{
+                //    foreach (DataRow drSecurityID in dtSecurityID.Rows)
+                //    {
+                //        DataRow[] drSecAndLoc = dtSecAndLoc.Select("PK_Security_ID = '" + Convert.ToString(drSecurityID["PK_Security_ID"]) + "'");
 
-                        foreach (DataRow dr in drSecAndLoc)
-                        {
-                            strSonicLocCode = strSonicLocCode + Convert.ToString(dr["Sonic_Location_Code"]) + ",";
-                            strLocationID = strLocationID + Convert.ToString(dr["PK_LU_Location_ID"]) + ",";
-                        }
+                //        foreach (DataRow dr in drSecAndLoc)
+                //        {
+                //            strSonicLocCode = strSonicLocCode + Convert.ToString(dr["Sonic_Location_Code"]) + ",";
+                //            strLocationID = strLocationID + Convert.ToString(dr["PK_LU_Location_ID"]) + ",";
+                //        }
 
-                        strSonicLocCode = strSonicLocCode.TrimEnd(',');
-                        strLocationID = strLocationID.TrimEnd(',');
+                //        strSonicLocCode = strSonicLocCode.TrimEnd(',');
+                //        strLocationID = strLocationID.TrimEnd(',');
 
-                        DataTable dtReportData = new DataView(dtResult, "Sonic_Location_Code IN (" + strSonicLocCode + ")", "", DataViewRowState.CurrentRows).ToTable();
-                        //Create HTML for the report and write into HTML Write object
-                        StringBuilder strHTMLFROI = new StringBuilder();
-                        System.IO.StringWriter stringWriteFROI = new System.IO.StringWriter();
-                        System.Web.UI.HtmlTextWriter htmlWriteFROI = new System.Web.UI.HtmlTextWriter(stringWriteFROI);
+                //        DataTable dtReportData = new DataView(dtResult, "Sonic_Location_Code IN (" + strSonicLocCode + ")", "", DataViewRowState.CurrentRows).ToTable();
+                //        //Create HTML for the report and write into HTML Write object
+                //        StringBuilder strHTMLFROI = new StringBuilder();
+                //        System.IO.StringWriter stringWriteFROI = new System.IO.StringWriter();
+                //        System.Web.UI.HtmlTextWriter htmlWriteFROI = new System.Web.UI.HtmlTextWriter(stringWriteFROI);
 
-                        #region "Report Title"
+                //        #region "Report Title"
 
-                        //Add Report Title and Schedule Date
-                        strHTMLFROI.Append("<table>");
-                        strHTMLFROI.Append("<tr><td colspan='12'><b>Report Title : ACI Key Contact Report</b></td></tr>");
-                        strHTMLFROI.Append("<tr><td colspan='12'><b>Report Filters </b></td></tr>");
-                        strHTMLFROI.Append("<tr><td colspan='12'>Location D/B/A   : " + ((!string.IsNullOrEmpty(strLocationID)) ? Report.GetCommaSeperatedDescFromVal("LU_Location", "dba", "PK_LU_Location_ID", strLocationID) : "") + "</td></tr>");
+                //        //Add Report Title and Schedule Date
+                //        strHTMLFROI.Append("<table>");
+                //        strHTMLFROI.Append("<tr><td colspan='12'><b>Report Title : ACI Key Contact Report</b></td></tr>");
+                //        strHTMLFROI.Append("<tr><td colspan='12'><b>Report Filters </b></td></tr>");
+                //        strHTMLFROI.Append("<tr><td colspan='12'>Location D/B/A   : " + ((!string.IsNullOrEmpty(strLocationID)) ? Report.GetCommaSeperatedDescFromVal("LU_Location", "dba", "PK_LU_Location_ID", strLocationID) : "") + "</td></tr>");
 
-                        #endregion
+                //        #endregion
 
-                        #region "Report Grid header"
+                //        #region "Report Grid header"
 
-                        //Top Header
-                        strHTMLFROI.Append("<table border='1'>");
-                        strHTMLFROI.Append("<tr style='font-weight: bold;' valign='bottom'>");
-                        strHTMLFROI.Append("<td align='left' >Sonic Automotive</td>");
-                        strHTMLFROI.Append("<td align='center' colspan='11'>ACI Key Contact Report</td>");
-                        strHTMLFROI.Append("<td align='right' > " + DateTime.Now.ToString() + " </td>");
-                        strHTMLFROI.Append("</tr>");
+                //        //Top Header
+                //        strHTMLFROI.Append("<table border='1'>");
+                //        strHTMLFROI.Append("<tr style='font-weight: bold;' valign='bottom'>");
+                //        strHTMLFROI.Append("<td align='left' >Sonic Automotive</td>");
+                //        strHTMLFROI.Append("<td align='center' colspan='11'>ACI Key Contact Report</td>");
+                //        strHTMLFROI.Append("<td align='right' > " + DateTime.Now.ToString() + " </td>");
+                //        strHTMLFROI.Append("</tr>");
 
-                        //Sub Header
-                        strHTMLFROI.Append("<tr valign='bottom' style='font-weight: bold'>");
-                        strHTMLFROI.Append("<td width='250' align='left'>Location D/B/A</td>");
-                        strHTMLFROI.Append("<td width='150' align='left'>Store Address 1</td>");
-                        strHTMLFROI.Append("<td width='150' align='left'>Store Address 2</td>");
-                        strHTMLFROI.Append("<td width='100' align='left'>Store City</td>");
-                        strHTMLFROI.Append("<td width='100' align='left'>Store State</td>");
-                        strHTMLFROI.Append("<td width='80' align='left'>Store Zip</td>");
-                        strHTMLFROI.Append("<td width='80' align='left'>Location Code</td>");
-                        strHTMLFROI.Append("<td width='120' align='left'>Job Title</td>");
-                        strHTMLFROI.Append("<td width='100' align='left'>First Name</td>");
-                        strHTMLFROI.Append("<td width='100' align='left'>Last Name</td>");
-                        strHTMLFROI.Append("<td width='170' align='left'>Email Address</td>");
-                        strHTMLFROI.Append("<td width='100' align='left'>Cell Phone</td>");
-                        strHTMLFROI.Append("<td width='100' align='left'>Work Phone</td>");
-                        strHTMLFROI.Append("</tr>");
+                //        //Sub Header
+                //        strHTMLFROI.Append("<tr valign='bottom' style='font-weight: bold'>");
+                //        strHTMLFROI.Append("<td width='250' align='left'>Location D/B/A</td>");
+                //        strHTMLFROI.Append("<td width='150' align='left'>Store Address 1</td>");
+                //        strHTMLFROI.Append("<td width='150' align='left'>Store Address 2</td>");
+                //        strHTMLFROI.Append("<td width='100' align='left'>Store City</td>");
+                //        strHTMLFROI.Append("<td width='100' align='left'>Store State</td>");
+                //        strHTMLFROI.Append("<td width='80' align='left'>Store Zip</td>");
+                //        strHTMLFROI.Append("<td width='80' align='left'>Location Code</td>");
+                //        strHTMLFROI.Append("<td width='120' align='left'>Job Title</td>");
+                //        strHTMLFROI.Append("<td width='100' align='left'>First Name</td>");
+                //        strHTMLFROI.Append("<td width='100' align='left'>Last Name</td>");
+                //        strHTMLFROI.Append("<td width='170' align='left'>Email Address</td>");
+                //        strHTMLFROI.Append("<td width='100' align='left'>Cell Phone</td>");
+                //        strHTMLFROI.Append("<td width='100' align='left'>Work Phone</td>");
+                //        strHTMLFROI.Append("</tr>");
 
-                        //Check Whether Record Exists or Not
-                        if (dtReportData != null && dtReportData.Rows.Count > 0)
-                        {
-                            foreach (DataRow dr in dtReportData.Rows)
-                            {
-                                strHTMLFROI.Append("<tr valign='top'>");
-                                strHTMLFROI.Append("<td width='250'>" + Convert.ToString(dr["dba"]) + "</td>");
-                                strHTMLFROI.Append("<td width='150'>" + Convert.ToString(dr["address_1"]) + "</td>");
-                                strHTMLFROI.Append("<td width='150'>" + Convert.ToString(dr["address_2"]) + "</td>");
-                                strHTMLFROI.Append("<td width='100'>" + Convert.ToString(dr["city"]) + "</td>");
-                                strHTMLFROI.Append("<td width='100'>" + Convert.ToString(dr["State"]) + "</td>");
-                                strHTMLFROI.Append("<td width='80'>" + Convert.ToString(dr["zip_code"]) + "</td>");
-                                strHTMLFROI.Append("<td width='80'>" + Convert.ToString(dr["Sonic_Location_Code"]) + "</td>");
-                                strHTMLFROI.Append("<td width='120'>" + Convert.ToString(dr["job_title"]) + "</td>");
-                                strHTMLFROI.Append("<td width='100'>" + Convert.ToString(dr["first_name"]) + "</td>");
-                                strHTMLFROI.Append("<td width='100'>" + Convert.ToString(dr["last_name"]) + "</td>");
-                                strHTMLFROI.Append("<td width='170'>" + Convert.ToString(dr["email"]) + "</td>");
-                                strHTMLFROI.Append("<td width='100'>" + Convert.ToString(dr["employee_cell_Phone"]) + "</td>");
-                                strHTMLFROI.Append("<td width='100'>" + Convert.ToString(dr["work_Phone"]) + "</td>");
-                                strHTMLFROI.Append("</tr>");
-                            }
-                        }
-                        else
-                        {
-                            //Add No record found line for year
-                            strHTMLFROI.Append("<tr><td align='left' style='border:thin' colspan='13'>No Record Found!</td></tr>");
-                        }
-                        strHTMLFROI.Append("</table></table>");
+                //        //Check Whether Record Exists or Not
+                //        if (dtReportData != null && dtReportData.Rows.Count > 0)
+                //        {
+                //            foreach (DataRow dr in dtReportData.Rows)
+                //            {
+                //                strHTMLFROI.Append("<tr valign='top'>");
+                //                strHTMLFROI.Append("<td width='250'>" + Convert.ToString(dr["dba"]) + "</td>");
+                //                strHTMLFROI.Append("<td width='150'>" + Convert.ToString(dr["address_1"]) + "</td>");
+                //                strHTMLFROI.Append("<td width='150'>" + Convert.ToString(dr["address_2"]) + "</td>");
+                //                strHTMLFROI.Append("<td width='100'>" + Convert.ToString(dr["city"]) + "</td>");
+                //                strHTMLFROI.Append("<td width='100'>" + Convert.ToString(dr["State"]) + "</td>");
+                //                strHTMLFROI.Append("<td width='80'>" + Convert.ToString(dr["zip_code"]) + "</td>");
+                //                strHTMLFROI.Append("<td width='80'>" + Convert.ToString(dr["Sonic_Location_Code"]) + "</td>");
+                //                strHTMLFROI.Append("<td width='120'>" + Convert.ToString(dr["job_title"]) + "</td>");
+                //                strHTMLFROI.Append("<td width='100'>" + Convert.ToString(dr["first_name"]) + "</td>");
+                //                strHTMLFROI.Append("<td width='100'>" + Convert.ToString(dr["last_name"]) + "</td>");
+                //                strHTMLFROI.Append("<td width='170'>" + Convert.ToString(dr["email"]) + "</td>");
+                //                strHTMLFROI.Append("<td width='100'>" + Convert.ToString(dr["employee_cell_Phone"]) + "</td>");
+                //                strHTMLFROI.Append("<td width='100'>" + Convert.ToString(dr["work_Phone"]) + "</td>");
+                //                strHTMLFROI.Append("</tr>");
+                //            }
+                //        }
+                //        else
+                //        {
+                //            //Add No record found line for year
+                //            strHTMLFROI.Append("<tr><td align='left' style='border:thin' colspan='13'>No Record Found!</td></tr>");
+                //        }
+                //        strHTMLFROI.Append("</table></table>");
 
-                        #endregion
+                //        #endregion
 
-                        //Write HTML in to HtmlWriter
-                        htmlWriteFROI.WriteLine(strHTMLFROI.ToString());
+                //        //Write HTML in to HtmlWriter
+                //        htmlWriteFROI.WriteLine(strHTMLFROI.ToString());
 
-                        //Send Mail
-                        DataTable dtRecepient = new DataTable();
-                        dtRecepient.Columns.Add("Email", typeof(String));
-                        dtRecepient.Columns.Add("FirstName", typeof(String));
-                        dtRecepient.Columns.Add("LastName", typeof(String));
-                        dtRecepient.Rows.Add(Convert.ToString(drSecurityID["Email"]), Convert.ToString(drSecurityID["FIRST_NAME"]), Convert.ToString(drSecurityID["LAST_NAME"]));
-                        SendMail("ACI Key Contact Report", "ACI_Key_Contact_Report.xls", strFirstName, strLastName, strMailFrom, stringWriteFROI, dtRecepient);
-                        strSonicLocCode = strLocationID = string.Empty;
-                    }
-                }
+                //        //Send Mail
+                //        DataTable dtRecepient = new DataTable();
+                //        dtRecepient.Columns.Add("Email", typeof(String));
+                //        dtRecepient.Columns.Add("FirstName", typeof(String));
+                //        dtRecepient.Columns.Add("LastName", typeof(String));
+                //        dtRecepient.Rows.Add(Convert.ToString(drSecurityID["Email"]), Convert.ToString(drSecurityID["FIRST_NAME"]), Convert.ToString(drSecurityID["LAST_NAME"]));
+                //        SendMail("ACI Key Contact Report", "ACI_Key_Contact_Report.xls", strFirstName, strLastName, strMailFrom, stringWriteFROI, dtRecepient);
+                //        strSonicLocCode = strLocationID = string.Empty;
+                //    }
+                //}
                 #endregion
             }
         }
