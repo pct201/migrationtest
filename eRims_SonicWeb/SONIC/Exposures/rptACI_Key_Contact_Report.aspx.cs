@@ -44,6 +44,7 @@ public partial class SONIC_Exposures_rptACI_Key_Contact_Report : clsBasePage
         //lstRegions.DataBind();
 
         ComboHelper.FillLocationdbaOnlyListBox(new ListBox[] { lstLocationDBA }, 0, false,false);
+        ComboHelper.FillEmployee_JobTitle(new ListBox[] { lstJob_Titles }, false);
 
     }
 
@@ -59,6 +60,23 @@ public partial class SONIC_Exposures_rptACI_Key_Contact_Report : clsBasePage
         {
             if (itmRegion.Selected)
                 strRegion = strRegion + itmRegion.Value + ",";
+        }
+        strRegion = strRegion.TrimEnd(',');
+        return strRegion;
+    }
+
+    /// <summary>
+    /// Get Comma separated List items
+    /// </summary>
+    /// <param name="lst"></param>
+    /// <returns></returns>
+    private string GetCommaSeparatedstringValues(ListBox lst)
+    {
+        string strRegion = string.Empty;
+        foreach (ListItem itmRegion in lst.Items)
+        {
+            if (itmRegion.Selected)
+                strRegion = strRegion + " '" + itmRegion.Value + "' " + ",";
         }
         strRegion = strRegion.TrimEnd(',');
         return strRegion;
@@ -91,7 +109,7 @@ public partial class SONIC_Exposures_rptACI_Key_Contact_Report : clsBasePage
 
         //strRegion = GetCommaSeparatedValues(lstRegions);// get selected regions
         strDba = GetCommaSeparatedValues(lstLocationDBA);
-        strJob_Titles = GetCommaSeparatedValues(lstJob_Titles);
+        strJob_Titles = GetCommaSeparatedstringValues(lstJob_Titles);
 
         DataSet dsReport = clsExposuresReports.GetACI_Key_Contact_Report(strDba, strJob_Titles);
         DataTable dtContact_Report = dsReport.Tables[0];
@@ -150,7 +168,7 @@ public partial class SONIC_Exposures_rptACI_Key_Contact_Report : clsBasePage
 
         string strJob_Titles, strDba = string.Empty;
         strDba = GetCommaSeparatedValues(lstLocationDBA);
-        strJob_Titles = GetCommaSeparatedValues(lstJob_Titles);
+        strJob_Titles = GetCommaSeparatedstringValues(lstJob_Titles);
 
         DataSet dsReport = clsExposuresReports.GetACI_Key_Contact_Report(strDba, strJob_Titles);
         DataTable dtContact_Report = dsReport.Tables[0];

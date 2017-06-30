@@ -41,7 +41,7 @@ public partial class SONIC_Exposures_SchedulerptACI_Key_Contact_Report : System.
             
             //Report Filters
             obj.DBA = GetCommaSeparatedValues(lstLocationDBA);
-            obj.Job_Title = GetCommaSeparatedValues(lstJob_Titles);
+            obj.Job_Title = GetCommaSeparatedstringValues(lstJob_Titles);
             
             //Report Schedule Details
             obj.FK_Report = Convert.ToDecimal(Request.QueryString["PK_ReportID"]);
@@ -77,6 +77,7 @@ public partial class SONIC_Exposures_SchedulerptACI_Key_Contact_Report : System.
     {
         
         ComboHelper.FillLocationdbaOnlyListBox(new ListBox[] { lstLocationDBA }, 0, false,false);
+        ComboHelper.FillEmployee_JobTitle(new ListBox[] { lstJob_Titles }, false);
 
         //Display Recipient List..
         DataSet ds = Report.GetRecipientList();
@@ -101,6 +102,23 @@ public partial class SONIC_Exposures_SchedulerptACI_Key_Contact_Report : System.
         {
             if (itmRegion.Selected)
                 strRegion = strRegion + itmRegion.Value + ",";
+        }
+        strRegion = strRegion.TrimEnd(',');
+        return strRegion;
+    }
+
+    /// <summary>
+    /// Get Comma separated string List items
+    /// </summary>
+    /// <param name="lst"></param>
+    /// <returns></returns>
+    private string GetCommaSeparatedstringValues(ListBox lst)
+    {
+        string strRegion = string.Empty;
+        foreach (ListItem itmRegion in lst.Items)
+        {
+            if (itmRegion.Selected)
+                strRegion = strRegion + " '" + itmRegion.Value + "' " + ",";
         }
         strRegion = strRegion.TrimEnd(',');
         return strRegion;

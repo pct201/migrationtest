@@ -1661,6 +1661,18 @@ namespace ERIMS.DAL
             dbCommand.CommandTimeout = 1000;
             return Convert.ToInt32(db.ExecuteScalar(dbCommand));
         }
+
+        /// <summary>
+        /// Get Employee Job Code
+        /// </summary>
+        /// <returns></returns>
+        public static DataSet GetEmployeeJobCode()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("GetEmployeJobTitles");
+
+            return db.ExecuteDataSet(dbCommand);
+        }
         #endregion
     }
 }
