@@ -7293,4 +7293,23 @@ public class ComboHelper
 
     //////////////////////////// New Screen for Sonic_U_Training_Required_By_Job_Code //////////////////////
 
+
+    public static void FillEmployee_JobTitle(ListBox[] LstBox ,bool booladdSelectAsFirstElement)
+    {
+        DataTable dtData = Employee.GetEmployeeJobCode().Tables[0];
+
+        foreach (ListBox ddlToFill in LstBox)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Job_Title";
+            ddlToFill.DataValueField = "Job_Title";
+            ddlToFill.DataSource = dtData;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
 }
