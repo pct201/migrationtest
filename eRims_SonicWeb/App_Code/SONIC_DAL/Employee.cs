@@ -1669,7 +1669,7 @@ namespace ERIMS.DAL
         public static DataSet GetEmployeeJobCode()
         {
             Database db = DatabaseFactory.CreateDatabase();
-            DbCommand dbCommand = db.GetStoredProcCommand("GetEmployeJobTitles");
+            DbCommand dbCommand = db.GetStoredProcCommand("GetEmployeeJobTitles");
 
             return db.ExecuteDataSet(dbCommand);
         }
