@@ -187,115 +187,90 @@
         <asp:Panel ID="pnlSabaTraining" runat="server" Visible="false">
             <table width="100%" style="text-align: left" cellpadding="2" cellspacing="3">
                 <tr align="left">
-                    <td style="width: 50%">Dealership Name
+                    <td  style="width: 50%">
+                        Dealership Name
                     </td>
-                    <td align="center" style="width: 5%">:
+                    <td align="center" style="width: 5%">
+                        :
                     </td>
-                    <td colspan="4">
+                    <td >
                         <asp:Label ID="lblSabaDealerShipName" runat="server"></asp:Label>
                     </td>
                 </tr>
                 <tr>
-                    <td>&nbsp;
+                    <td>
+                        &nbsp;
                     </td>
                 </tr>
-              <%--  <tr>
-                    <td>Date
+                <tr>
+                    <td>
+                         Date
                     </td>
-                    <td align="center" style="width: 5%">:
+                    <td align="center" style="width: 5%">
+                        :
                     </td>
-                    <td colspan="4">
+                    <td>
                         <asp:Label ID="lblSabaTrainingDate" runat="server" Text=""></asp:Label>
                     </td>
-                </tr>--%>
+                </tr>
                 <tr>
-                    <td>Year
+                    <td>
+                         Year
                     </td>
-                    <td align="center" style="width: 5%">:
+                    <td align="center" style="width: 5%">
+                        :
                     </td>
-                    <td colspan="4">
+                    <td>
                         <asp:Label ID="lblSabaTrainingYear" runat="server" Text=""></asp:Label>
                     </td>
                 </tr>
                 <tr>
-                    <td>Quarter
+                    <td>
+                        Total Number of Associates To Train
                     </td>
-                    <td align="center" style="width: 5%">:
+                    <td align="center" style="width: 5%">
+                        :
                     </td>
-                    <td >Q1
-                    </td>
-                    <td >Q2
-                    </td>
-                    <td >Q3
-                    </td >
-                    <td >Q4
+                    <td>
+                        <asp:Label ID="lblSabaNumberEmployees" runat="server" Text="0"></asp:Label>
                     </td>
                 </tr>
                 <tr>
-                    <td>Total Number of Associates To Train
+                    <td>
+                        Total Number of Associates Trained
                     </td>
-                    <td align="center" style="width: 5%">:
+                    <td align="center" style="width: 5%">
+                        :
                     </td>
-                    <td >
-                        <asp:LinkButton ID="lblSabaNumberEmployees1" runat="server" OnClick="lblSabaNumberEmployees_Click" Text="0"></asp:LinkButton>
-                    </td>
-                    <td >
-                        <asp:LinkButton ID="lblSabaNumberEmployees2" runat="server" OnClick="lblSabaNumberEmployees_Click" Text="0"></asp:LinkButton>
-                    </td>
-                    <td >
-                        <asp:LinkButton ID="lblSabaNumberEmployees3" runat="server" OnClick="lblSabaNumberEmployees_Click" Text="0"></asp:LinkButton>
-                    </td>
-                    <td >
-                        <asp:LinkButton ID="lblSabaNumberEmployees4" runat="server" OnClick="lblSabaNumberEmployees_Click" Text="0"></asp:LinkButton>
+                    <td>
+                        <asp:Label ID="lblSabaEmployeesTrained" runat="server" Text="0"></asp:Label>
                     </td>
                 </tr>
                 <tr>
-                    <td>Total Number of Associates Trained
+                    <td>
+                        Percent of Associates Trained
                     </td>
-                    <td align="center" style="width: 5%">:
+                    <td align="center" style="width: 5%">
+                        :
                     </td>
-                    <td >
-                        <asp:LinkButton ID="lblSabaEmployeesTrained1" runat="server" OnClick="lblSabaNumberEmployees_Click" Text="0"></asp:LinkButton>
-                    </td>
-                    <td >
-                        <asp:LinkButton ID="lblSabaEmployeesTrained2" runat="server" OnClick="lblSabaNumberEmployees_Click" Text="0"></asp:LinkButton>
-                    </td>
-                    <td >
-                        <asp:LinkButton ID="lblSabaEmployeesTrained3" runat="server" OnClick="lblSabaNumberEmployees_Click" Text="0"></asp:LinkButton>
-                    </td>
-                    <td >
-                        <asp:LinkButton ID="lblSabaEmployeesTrained4" runat="server" OnClick="lblSabaNumberEmployees_Click" Text="0"></asp:LinkButton>
+                    <td>
+                        <asp:Label ID="lblSabaPercentTrained" runat="server" Text="0"></asp:Label>
                     </td>
                 </tr>
                 <tr>
-                    <td>Percent of Associates Trained
-                    </td>
-                    <td align="center" style="width: 5%">:
-                    </td>
-                    <td >
-                        <asp:Label ID="lblSabaPercentTrained1" runat="server" Text="0"></asp:Label>
-                    </td>
-                    <td >
-                        <asp:Label ID="lblSabaPercentTrained2" runat="server" Text="0"></asp:Label>
-                    </td>
-                    <td >
-                        <asp:Label ID="lblSabaPercentTrained3" runat="server" Text="0"></asp:Label>
-                    </td>
-                    <td >
-                        <asp:Label ID="lblSabaPercentTrained4" runat="server" Text="0"></asp:Label>
+                    <td>
+                        &nbsp;
                     </td>
                 </tr>
                 <tr>
-                    <td>&nbsp;
+                    <td>
+                        Performance Level
                     </td>
-                </tr>
-                <tr>
-                    <td>Aggregate Performance
+                    <td align="center" style="width: 5%">
+                        :
                     </td>
-                    <td align="center" style="width: 5%">:
-                    </td>
-                    <td colspan="4">
-                        <asp:Label ID="lblSabaPerformance" runat="server" ></asp:Label>
+                    <td>
+                        <asp:Label ID="lblSabaPerformance" runat="server" Text="All Pro"></asp:Label>
                     </td>
                 </tr>
             </table>
