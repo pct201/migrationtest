@@ -289,6 +289,9 @@ namespace ERIMS_SonicUTraining_EmailScheduler
             {
                 WriteLog("//////////////////////////////////Email Sending from SMTP server Starts Now ///////////////////////////////////////////////", _strCsvPath, false);
 
+                //Read Config Settings
+                ReadConfigSetting();
+
                 object objMailSending = ConfigurationManager.AppSettings.Get("AllowMailSending");
                 bool _bAllowMailSending = false;
                 bool bOutMail;
