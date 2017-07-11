@@ -2567,7 +2567,7 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "DateRestrictedEndEndDate", DbType.DateTime, this._DateRestrictedEndEndDate);
 
-            dbCommand.CommandTimeout = 10000;
+            dbCommand.CommandTimeout = 90000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -2712,7 +2712,7 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "DateRestrictedEndEndDate", DbType.DateTime, this._DateRestrictedEndEndDate);
 
-            dbCommand.CommandTimeout = 10000;
+            dbCommand.CommandTimeout = 90000;
             return db.ExecuteDataSet(dbCommand);
         }
 
