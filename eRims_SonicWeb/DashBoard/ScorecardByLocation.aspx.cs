@@ -388,7 +388,7 @@ public partial class ScorecardByLocation : System.Web.UI.Page
     public string GetSabaTrainingByLocation()
     {
         string strReg = (Region == "Western Region") ? "NCA" : Region;
-        DataSet dsReport = Charts.GetSabaTrainingByLocation(Year, strReg);
+        DataSet dsReport = Charts.GetSafetyTrainingByLocation(Year, strReg);
         DataTable dtReport = dsReport.Tables[0];
 
         if (dsReport.Tables.Count > 1)
@@ -396,7 +396,7 @@ public partial class ScorecardByLocation : System.Web.UI.Page
 
         if (Region == "Western Region")
         {
-            DataSet dsSCA = Charts.GetSabaTrainingByLocation(Year, "SCA");
+            DataSet dsSCA = Charts.GetSafetyTrainingByLocation(Year, "SCA");
             dtReport.Merge(dsSCA.Tables[0]);
             dtReport.DefaultView.Sort = "Score DESC, DBA ASC";
             dtReport = dtReport.DefaultView.ToTable();

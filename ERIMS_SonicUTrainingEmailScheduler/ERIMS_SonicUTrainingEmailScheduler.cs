@@ -373,7 +373,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
 
 
                             // Send Safety Training Completed/Non-Completed report only if flag is true in config file
-                            
+
                             if (_AllowSafetyTrainingCompleted_NonCompleted)
                             {
                                 //For 1st and 2nd month of quarter send mail for first day of week
@@ -1333,21 +1333,16 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                 System.IO.StringWriter stringWrite = new System.IO.StringWriter();
                 System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
 
-                // Get FROI Location list for Security
-                DataSet dsSecurity = ReportSendMail.SelectEmployeeData();
-                DataTable dtSecAndLoc = dsSecurity.Tables[0];
-                //get distinct Security IDs
-                DataTable dtSecurityID = dsSecurity.Tables[1];
-
-                //foreach (DataRow drLocationID in dtLocationIDs.Rows) //Location wise
                 if (File.Exists(Path.Combine(_strCsvPath, "tempPayrollReport")))
                     File.Delete(Path.Combine(_strCsvPath, "tempPayrollReport"));
+
+                DataTable dtSecurityID = dtReceipient.DefaultView.ToTable(true, new string[] { "pk_employee_id", "First_Name", "Last_Name", "Email" });
 
                 if (dtSecurityID != null && dtSecurityID.Rows.Count > 0)
                 {
                     foreach (DataRow drSecurityID in dtSecurityID.Rows)
                     {
-                        DataRow[] drSecAndLoc = dtSecAndLoc.Select("PK_Security_ID = '" + Convert.ToString(drSecurityID["PK_Security_ID"]) + "'");
+                        DataRow[] drSecAndLoc = dtReceipient.Select("pk_employee_id = '" + Convert.ToString(drSecurityID["pk_employee_id"]) + "'");
                         sbRecorords.Clear();
                         foreach (DataRow dr in drSecAndLoc)
                         {
@@ -1378,16 +1373,36 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                             File.Delete(Path.Combine(_strCsvPath, "tempPayrollReport"));
                     }
                 }
+
+                //foreach (DataRow drLocationID in dtLocationIDs.Rows) //Location wise
+                //{
+                //    sbRecorords.Clear();
+
+                //    try
+                //    {
+                //        sbRecorords = GenerateReportForPayrollTraining(dtReportData, drLocationID, sbRecorords, "Payroll Training Report", dtReportDataLastWeek);
+                //    }
+                //    catch (Exception ex)
+                //    {
+                //        WriteLog("Exception occurred  for Location ID: " + Convert.ToDecimal(drLocationID["PK_LU_Location_ID"]) + ", Exception Message :" + ex.Message + ", Stack Trace:" + ex.StackTrace, _strCsvPath, true);
+                //        EventLog.WriteEntry("Error in function SendMailForPayrollTrainingReport()" + ex.Message + ",Stack Trace:" + ex.StackTrace);
+                //    }
+
+                //    //Write HTML in to HtmlWriter
+                //    htmlWrite.WriteLine(sbRecorords.ToString());
+                //    DataRow[] drReceipientNew = dtReceipient.Select("PK_LU_Location_ID ='" + drLocationID["PK_LU_Location_ID"].ToString() + "'");
+                //    SendMail("Payroll Training Report", "Payroll Training Report.xls", sbRecorords.ToString(), drReceipientNew, String.Empty, String.Empty, String.Empty, "Payroll Training Report");
+                //}
+
                 WriteLog("Function SendMailForPayrollTrainingReport executed", _strCsvPath, false);
             }
             catch (Exception ex)
             {
                 EventLog.WriteEntry("Error in function SendMailForPayrollTrainingReport()" + ex.Message + ",Stack Trace:" + ex.StackTrace);
                 WriteLog("Exception " + ex.Message + " occurred in SendMailForPayrollTrainingReport and Stack Trace:" + ex.StackTrace, _strCsvPath, true);
-                if (File.Exists(Path.Combine(_strCsvPath, "tempPayrollReport")))
-                    File.Delete(Path.Combine(_strCsvPath, "tempPayrollReport"));
             }
         }
+
 
         /// <summary>
         /// GenerateReportForPayrollTraining 

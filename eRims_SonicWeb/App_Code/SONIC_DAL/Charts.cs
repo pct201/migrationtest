@@ -670,4 +670,44 @@ public class Charts
 
         return color;
     }
+
+
+    // Sonic U Training as per new data strcture.
+    public static DataSet GetSafetyTrainingByRegion(int Year)
+    {
+        Database db = DatabaseFactory.CreateDatabase();
+        DbCommand dbCommand = db.GetStoredProcCommand("Chart_SafetyTrainingByRegion");
+
+        db.AddInParameter(dbCommand, "Year", DbType.Int32, Year);
+        db.AddInParameter(dbCommand, "UserID", DbType.Decimal, clsSession.UserID);
+
+        dbCommand.CommandTimeout = 10000;
+        return db.ExecuteDataSet(dbCommand);
+    }
+
+    public static DataSet GetSafetyTrainingByLocation(int Year, string Region)
+    {
+        Database db = DatabaseFactory.CreateDatabase();
+        ////change Reverted for sonic u training. ticket #3503/////
+        DbCommand dbCommand = db.GetStoredProcCommand("Chart_SafetyTrainingByLocation");
+        db.AddInParameter(dbCommand, "Year", DbType.Int32, Year);
+        db.AddInParameter(dbCommand, "Region", DbType.String, Region);
+        db.AddInParameter(dbCommand, "UserId", DbType.Decimal, clsSession.UserID);
+        dbCommand.CommandTimeout = 10000;
+        return db.ExecuteDataSet(dbCommand);
+    }
+
+    public static DataSet GetSafetyTrainingDetail(int Year, string DBA)
+    {
+        Database db = DatabaseFactory.CreateDatabase();
+        DbCommand dbCommand = db.GetStoredProcCommand("Chart_SafetyTrainingDetail");
+
+        db.AddInParameter(dbCommand, "@DealerShipYear", DbType.Int32, Year);
+        db.AddInParameter(dbCommand, "DBA", DbType.String, DBA);
+        
+
+        dbCommand.CommandTimeout = 10000;
+        return db.ExecuteDataSet(dbCommand);
+    }
+
 }

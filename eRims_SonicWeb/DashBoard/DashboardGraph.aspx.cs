@@ -95,7 +95,7 @@ public partial class DashboardGraph : clsBasePage
         decimal _decAvg = 0;
 
 
-        DataSet ds = Charts.GetSabaTrainingByRegion(Year);
+        DataSet ds = Charts.GetSafetyTrainingByRegion(Year);
         if (ds.Tables.Count > 1)
         {
             // Get Result for facility inspection Region
@@ -160,7 +160,7 @@ public partial class DashboardGraph : clsBasePage
         dtResult.Merge(dsResult.Tables[0]);
         dtAverage.Rows.Add(dtAverage.NewRow()[0] = dsResult.Tables[1].Rows[0][0]);
 
-        dsResult = Charts.GetSabaTrainingByRegion(Year);
+        dsResult = Charts.GetSafetyTrainingByRegion(Year);
         dtResult.Merge(dsResult.Tables[0]);
         dtAverage.Rows.Add(dtAverage.NewRow()[0] = (dsResult.Tables[1].Rows[0][0] != DBNull.Value ? dsResult.Tables[1].Rows[0][0] : 0));
 
