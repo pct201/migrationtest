@@ -159,7 +159,7 @@ public partial class Event_ACI_Video_Request : clsBasePage
                     SaveRecord(true);
             }
         }
-        ucAttachment_Video.ReadOnly = true;
+        //ucAttachment_Video.ReadOnly = true;
         if (StrOperation == "add") hdnPanel.Value = "1"; //for Add new click set tab style
         Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:ShowPanel(" + hdnPanel.Value + ");", true);
     }
@@ -785,7 +785,7 @@ public partial class Event_ACI_Video_Request : clsBasePage
                 }
             }
 
-            ucAttachment_Video.ReadOnly = true;
+            //ucAttachment_Video.ReadOnly = true;
             ucAttachment_Video.BindGridFolders();
         }
     }
