@@ -25,7 +25,7 @@
                         <HeaderStyle HorizontalAlign="Left" />
                         <ItemStyle Width="30%" HorizontalAlign="left" />
                         <ItemTemplate>
-                            <%# Eval("EmployeeName") %> 
+                            <%# Eval("Associate_Name") %> 
                             </a>
                         </ItemTemplate>
                     </asp:TemplateField>

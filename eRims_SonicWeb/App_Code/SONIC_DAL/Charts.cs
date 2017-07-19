@@ -710,4 +710,23 @@ public class Charts
         return db.ExecuteDataSet(dbCommand);
     }
 
+    public static DataSet Sonic_U_Training_Get_Region_Location_data(int? Year, int? CurrentQuarter, string Region, string DBA, int? ListQuarter, int? ListEmployee, int? Complete)
+    {
+        Database db = DatabaseFactory.CreateDatabase();
+        DbCommand dbCommand = db.GetStoredProcCommand("Sonic_U_Training_Get_Region_Location_data");
+
+        db.AddInParameter(dbCommand, "UserID", DbType.Int32, clsSession.UserID);
+        db.AddInParameter(dbCommand, "CurrentYear", DbType.Int32, Year);
+        db.AddInParameter(dbCommand, "CurrentQuarter", DbType.Int32, CurrentQuarter);
+        db.AddInParameter(dbCommand, "Region", DbType.String, Region);        
+        db.AddInParameter(dbCommand, "DBA", DbType.String, DBA);
+        db.AddInParameter(dbCommand, "ListQuarter", DbType.Int32, ListQuarter);
+        db.AddInParameter(dbCommand, "ListEmployee", DbType.Int32, ListEmployee);
+        db.AddInParameter(dbCommand, "Complete", DbType.Int32, Complete);
+
+
+        dbCommand.CommandTimeout = 10000;
+        return db.ExecuteDataSet(dbCommand);
+    }
+
 }

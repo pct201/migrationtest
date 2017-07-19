@@ -682,6 +682,7 @@ public partial class DealershipDetail : System.Web.UI.Page
     protected void lblSabaNumberEmployees_Click(object sender, EventArgs e)
     {
         LinkButton lnk = (LinkButton)sender;
+        int? Complete = null;
         switch (lnk.ID)
         {
             case "lblSabaNumberEmployees1":
@@ -704,25 +705,29 @@ public partial class DealershipDetail : System.Web.UI.Page
             case "lblSabaEmployeesTrained1":
                 Quarter = 1;
                 AssociateStatus = "'AssociateTrained'";
+                Complete = 1;
                 break;
             case "lblSabaEmployeesTrained2":
                 Quarter = 2;
                 AssociateStatus = "'AssociateTrained'";
+                Complete = 1;
                 break;
             case "lblSabaEmployeesTrained3":
                 Quarter = 3;
                 AssociateStatus = "'AssociateTrained'";
+                Complete = 1;
                 break;
             case "lblSabaEmployeesTrained4":
                 Quarter = 4;
                 AssociateStatus = "'AssociateTrained'";
+                Complete = 1;
                 break;
-        }       
+        }
 
-        DataSet dsDetail = Charts.GetSabaTrainingDetail2(Year, DBA, Sonic_Location_Code, Quarter, AssociateStatus,false);
+        DataSet dsDetail = Charts.Sonic_U_Training_Get_Region_Location_data(Year, Quarter, "", DBA, null, 1, Complete);
         DataTable dt = null;
-        if(dsDetail.Tables[2] != null)
-            dt = dsDetail.Tables[2];
+        if(dsDetail.Tables[0] != null)
+            dt = dsDetail.Tables[0];
         
         if(dt != null)
             Session["EmployeeDetails"] = dt;
