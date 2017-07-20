@@ -127,7 +127,7 @@ public partial class Administrator_Sonic_U_Training_Required_By_Job_Code : clsBa
         gvTrainingEdit.DataSource = Sonic_U_Training_Required_By_Job_Code.SelectRecords();
         gvTrainingEdit.DataBind();
 
-        ComboHelper.FillDistinctJobCode(new DropDownList[] { drpJobCode }, true);
+        //ComboHelper.FillDistinctJobCode(new DropDownList[] { drpJobCode }, true);
         drpJobCodeSearch.SelectedIndex = 0;
         drpTrainingClassSearch.SelectedIndex = 0;
         trTraining.Visible = false;
