@@ -222,14 +222,14 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
             }
 
             ///update Sonic_U_Training_Associate_Training per employee training per training_Code.
-            for (int j = 0; j < strCode.Length; j++)
-            {
-                if (gvTraining != null)
-                {
-                    //Sonic_U_Training.Complete_Sonic_U_Training(year, Qaurter, Associate, strCode[j], is_AllTraining_Completed);
-                    //Sonic_U_Training.Sonic_U_Training_Associate_Training_Assignment((int)Associate, year, Qaurter);
-                }
-            }
+            //for (int j = 0; j < strCode.Length; j++)
+            //{
+            //    if (gvTraining != null)
+            //    {
+            //        //Sonic_U_Training.Complete_Sonic_U_Training(year, Qaurter, Associate, strCode[j], is_AllTraining_Completed);
+            //        //Sonic_U_Training.Sonic_U_Training_Associate_Training_Assignment((int)Associate, year, Qaurter);
+            //    }
+            //}
 
 
 

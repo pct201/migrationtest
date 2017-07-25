@@ -123,10 +123,20 @@ public partial class Administrator_Sonic_U_Training_Required_By_Job_Code : clsBa
     /// <param name="e"></param>
     protected void btnAddNew_Click(object sender, EventArgs e)
     {
+
+        ComboHelper.FillJobCode_SelectRemaining(new DropDownList[] { drpJobCode }, true);
+
+        if(drpJobCode.Items.Count == 1)
+        {
+            ScriptManager.RegisterStartupScript(this, Page.GetType(), DateTime.Now.ToString(), "javascript:alert('All Job Codes have already assigned training at least one or more, so please click on edit to make change on Job Code Class requirement.');", true);
+            return;
+        }
+        
+        
         //bind Grid 
         gvTrainingEdit.DataSource = Sonic_U_Training_Required_By_Job_Code.SelectRecords();
         gvTrainingEdit.DataBind();
-
+        
         //ComboHelper.FillDistinctJobCode(new DropDownList[] { drpJobCode }, true);
         drpJobCodeSearch.SelectedIndex = 0;
         drpTrainingClassSearch.SelectedIndex = 0;
