@@ -384,7 +384,13 @@
                                         <asp:RadioButtonList ID="rblIs_Complete" runat="server" SkinID="YesNoTypeNullSelection" onclick="radioClick(this);" ></asp:RadioButtonList>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Method" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
+                                 <asp:TemplateField HeaderText="Assigned Method" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
+                                    <ItemStyle Width="15%" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblAssignMethod" runat="server" Text='<%# Eval("Assign")%>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Completed Method" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
                                     <ItemStyle Width="15%" />
                                     <ItemTemplate>
                                         <asp:Label ID="Label1" runat="server" Text='<%# Eval("Method")%>'></asp:Label>
