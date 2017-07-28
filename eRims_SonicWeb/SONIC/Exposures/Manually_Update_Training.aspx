@@ -335,7 +335,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td align="left" style="width: 18%" valign="top">Year
+                    <td align="left" style="width: 12%" valign="top">Year
                     </td>
                     <td align="center" style="width: 2%" valign="top">:
                     </td>
@@ -346,7 +346,7 @@
                     </td>
                     <td align="center" style="width: 2%" valign="top">:
                     </td>
-                    <td align="left" style="width: 26%" valign="top">
+                    <td align="left" style="width: 32%" valign="top">
                         <asp:Label ID="lblQuarter" runat="server"></asp:Label>
                     </td>
                 </tr>
@@ -371,7 +371,7 @@
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Class" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
-                                    <ItemStyle Width="30%" />
+                                    <ItemStyle Width="28%" />
                                     <ItemTemplate>
                                         <asp:Label ID="lblClass_Name" runat="server" Text='<%# Eval("Class_Name")%>'></asp:Label>
                                         <asp:HiddenField ID="hdnEmployee_ID" runat="server" Value='<%# Eval("Employee_Id")%>' />
@@ -379,26 +379,26 @@
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Completed/Resolved" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
-                                    <ItemStyle Width="20%" />
+                                    <ItemStyle Width="18%" />
                                     <ItemTemplate>
                                         <asp:RadioButtonList ID="rblIs_Complete" runat="server" SkinID="YesNoTypeNullSelection" onclick="radioClick(this);" ></asp:RadioButtonList>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                  <asp:TemplateField HeaderText="Assigned Method" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
-                                    <ItemStyle Width="15%" />
+                                    <ItemStyle Width="10%" />
                                     <ItemTemplate>
                                         <asp:Label ID="lblAssignMethod" runat="server" Text='<%# Eval("Assign")%>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Completed Method" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
-                                    <ItemStyle Width="15%" />
+                                    <ItemStyle Width="10%" />
                                     <ItemTemplate>
                                         <asp:Label ID="Label1" runat="server" Text='<%# Eval("Method")%>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Status <span style='color: #FF0000;'>*</span> " ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
 
-                                    <ItemStyle Width="35%" />
+                                    <ItemStyle Width="45%" />
                                     <ItemTemplate>
                                         <asp:DropDownList ID="ddlTrainingStatus" runat="server" Enabled="false"></asp:DropDownList>
 
