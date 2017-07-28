@@ -1743,7 +1743,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                 WriteLog("dllpath : " + dllPath, _strCsvPath, false);
                 if (dtRCRACertificateDate != null && dtRCRACertificateDate.Rows.Count > 0)
                 {
-                    dtCertificateData = new DataView(dtData, " [Date of Completion] > '" + Convert.ToString(dtRCRACertificateDate.Rows[0]["RCRACertificateSentDate"]) + "' AND  [Date of Completion] <= '" + DateTime.Now.Date.ToString() + "'", "PK_LU_Location_ID", DataViewRowState.CurrentRows).ToTable();
+                    dtCertificateData = new DataView(dtData, " [Date of Completion] > '" + Convert.ToString(dtRCRACertificateDate.Rows[0]["RCRACertificateSentDate"]) + "' AND  [Date of Completion] <= '" + DateTime.Now.ToString() + "'", "PK_LU_Location_ID", DataViewRowState.CurrentRows).ToTable();
                 }
                 else
                 {
@@ -1769,6 +1769,7 @@ namespace ERIMS_SonicUTraining_EmailScheduler
 
                         //Generate RCRA Certificate PDF and Send in Mail
                         GenerateRCRACertificatePDF(strBody.ToString(), Convert.ToString(drCertificateData["Class_Name"]), Convert.ToString(drCertificateData["Class_Name"]).Replace(" ", "_") + "Certificate.pdf", drCertificateData);
+                        WriteLog("Certificate has been sent to " + Convert.ToString(drCertificateData["Associate_Name"]) + " for " + Convert.ToString(drCertificateData["Class_Name"]) + " Course on " + drCertificateData["Email"].ToString(), _strCsvPath, false);
                     }
 
                     //Insert the date when the RCRA Certificate Sent
