@@ -165,7 +165,11 @@
                 var $this = $(this),
                     id = $this.attr('id');
                 var selectedValue = $this.val();
+                var rbl_id = $this.attr('id');
                 if (selectedValue == "1" && $(this).prop('checked')) {
+                    rbl_id = id.replace("_0", "_1");
+                    $("#" + rbl_id).attr('disabled', true);
+                    $("#" + id).attr('disabled', true);
                     waivedIds.push(id);
                 }
                 if (selectedValue == "0" && $(this).prop('checked')) {
@@ -390,7 +394,7 @@
                                         <asp:Label ID="lblAssignMethod" runat="server" Text='<%# Eval("Assign")%>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Completed Method" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
+                                <asp:TemplateField HeaderText="Completed/Resolved Method" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
                                     <ItemStyle Width="10%" />
                                     <ItemTemplate>
                                         <asp:Label ID="Label1" runat="server" Text='<%# Eval("Method")%>'></asp:Label>
