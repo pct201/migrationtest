@@ -37,7 +37,7 @@
                 bindStatus(dropdownID, false);
             }
             else {
-                $("#" + dropdownID).val('-Select-');
+                $("#" + dropdownID).val(0);
                 $("#" + dropdownID).attr('disabled', 'disabled');
                 $("span[id*=" + validatorID + "]").each(function () {
                     ValidatorEnable(this, false);
@@ -168,8 +168,8 @@
                 var rbl_id = $this.attr('id');
                 if (selectedValue == "1" && $(this).prop('checked')) {
                     rbl_id = id.replace("_0", "_1");
-                    $("#" + rbl_id).attr('disabled', true);
-                    $("#" + id).attr('disabled', true);
+                    $("#" + rbl_id).attr('hidden', true);
+                    document.getElementById(rbl_id).nextSibling.style.display = 'none';
                     waivedIds.push(id);
                 }
                 if (selectedValue == "0" && $(this).prop('checked')) {
@@ -395,14 +395,14 @@
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Completed/Resolved Method" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
-                                    <ItemStyle Width="10%" />
+                                    <ItemStyle Width="12%" />
                                     <ItemTemplate>
                                         <asp:Label ID="Label1" runat="server" Text='<%# Eval("Method")%>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Status <span style='color: #FF0000;'>*</span> " ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
 
-                                    <ItemStyle Width="45%" />
+                                    <ItemStyle Width="43%" />
                                     <ItemTemplate>
                                         <asp:DropDownList ID="ddlTrainingStatus" runat="server" Enabled="false"></asp:DropDownList>
 
