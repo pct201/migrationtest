@@ -2336,7 +2336,7 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" style="padding-left: 60px;">Budge #
+                                                                    <td align="left" valign="top" style="padding-left: 60px;">Badge #
                                                                     </td>
                                                                     <td align="center" valign="top">:
                                                                     </td>
