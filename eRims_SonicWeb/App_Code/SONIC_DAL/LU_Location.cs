@@ -1081,6 +1081,19 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
+        /// <summary>
+        /// Location data for manage_Training_data
+        /// </summary>
+        /// <returns></returns>
+        public static DataSet GetLocationForManageTrainingData()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Get_Location_For_Manage_Training_Data");
+
+            dbCommand.CommandTimeout = 1000;
+            return db.ExecuteDataSet(dbCommand);
+        }
+
       /// <summary>
       /// get dataset by location and phone number
       /// </summary>

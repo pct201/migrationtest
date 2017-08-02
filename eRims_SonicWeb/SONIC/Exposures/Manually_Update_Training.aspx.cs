@@ -63,7 +63,7 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
             ddlYear.Items.Add(new ListItem(i.ToString(), i.ToString()));
         }
 
-        ComboHelper.FillLocationByRLCM(new DropDownList[] { ddlLocation }, null, true, true);
+        ComboHelper.FillLocationForManageTrainingData(new DropDownList[] { ddlLocation }, true, false);
         Session["location"] = ddlLocation.SelectedValue;
     }
 
