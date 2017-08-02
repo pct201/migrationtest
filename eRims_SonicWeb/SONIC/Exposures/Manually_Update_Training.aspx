@@ -168,7 +168,8 @@
                 var rbl_id = $this.attr('id');
                 if (selectedValue == "1" && $(this).prop('checked')) {
                     rbl_id = id.replace("_0", "_1");
-                    $("#" + rbl_id).attr('hidden', true);
+                    //$("#" + rbl_id).attr('hidden', true);
+                    document.getElementById(rbl_id).style.display = 'none';
                     document.getElementById(rbl_id).nextSibling.style.display = 'none';
                     waivedIds.push(id);
                 }
