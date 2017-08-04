@@ -908,7 +908,7 @@ public class AdHocReportHelper
     public static IDataReader GetAdHocReportSonicUTraining(string SelectedField, string GroupBy, string SqlWhere1, string SqlSortBy, string strFilterIds, decimal PK_Security_ID)
     {
         Database db = DatabaseFactory.CreateDatabase();
-        DbCommand dbCommand = db.GetStoredProcCommand("rptSonic_U_Train_AdHocReport");
+        DbCommand dbCommand = db.GetStoredProcCommand("rptSonic_U_Train_AdHocReport_New");
         dbCommand.CommandTimeout = 100000;
 
         db.AddInParameter(dbCommand, "@SelectedField", DbType.String, SelectedField);

@@ -16802,7 +16802,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         strConditionType = (strConditionType == "1") ? " Contains " : (strConditionType == "2" ? " Start With " : " End With ");
                         strConditionVal = lstFilter[i].ConditionValue;
                         lstAdhoc = obj.GetAdHocReportFieldByPk(Convert.ToDecimal(lstFilter[i].FK_AdHocReportFields));
-                        sbRecord.Append("<tr><td colspan='3'><b>" + lstAdhoc[0].Field_Header + " : " + strConditionType + "</b>" + lstFilter[i].ConditionValue + "</td></tr>");
+                        sbRecord.Append("<tr><td colspan='3'><b>" + lstAdhoc[0].Field_Header + strConditionType + " : " + "</b>" + lstFilter[i].ConditionValue + "</td></tr>");
                     }
 
                     if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
@@ -17984,8 +17984,8 @@ namespace ERIMS_Sonic_ReportScheduler
                 }
                 else if (strField == "PK_LU_Approval_Submission" && strConditionValue == "0")
                     strWhere = " And " + strTableName + ".[" + strField + "] IS NULL ";
-                else if (strField == "Completed")
-                    strWhere = " And ( CASE WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 0 ) THEN '1' WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 1 ) THEN '0' ELSE '2' END ) IN (" + strConditionValue + ") ";
+                //else if (strField == "Completed")
+                //    strWhere = " And ( CASE WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 0 ) THEN '1' WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 1 ) THEN '0' ELSE '2' END ) IN (" + strConditionValue + ") ";
                 else
                     strWhere = " And " + strTableName + ".[" + strField + "] IN (" + strConditionValue + ") ";
             }
@@ -18958,18 +18958,18 @@ namespace ERIMS_Sonic_ReportScheduler
                             }
                             else if (strField_Name == "Training Completed")
                             {
-                                if (arrConditionValue[intj] == "'0'")
+                                if (arrConditionValue[intj] == "'Completed'")
                                 {
                                     strRecord += "Completed,";
                                 }
-                                else if (arrConditionValue[intj] == "'1'")
+                                else if (arrConditionValue[intj] == "'Incomplete'")
                                 {
                                     strRecord += "Incomplete,";
                                 }
-                                else if (arrConditionValue[intj] == "'2'")
-                                {
-                                    strRecord += "Waived,";
-                                }
+                                //else if (arrConditionValue[intj] == "'2'")
+                                //{
+                                //    strRecord += "Waived,";
+                                //}
 
                             }
                             else if (arrConditionValue[intj] == "3")

@@ -1197,7 +1197,7 @@ public partial class SONIC_SLT_SonicUTraining_AdHocReportWriter : clsBasePage
                     }
                     else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "market")
                     {
-                        ComboHelper.FillMarketListBox(new ListBox[] { lst_F }, false);
+                        ComboHelper.FillMarketListBoxForSonicUTraining(new ListBox[] { lst_F }, false);
                     }
                     else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "region")
                     {
@@ -1206,9 +1206,9 @@ public partial class SONIC_SLT_SonicUTraining_AdHocReportWriter : clsBasePage
                     else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "training completed")
                     {
                         lst_F.Items.Clear();
-                        lst_F.Items.Insert(0, new ListItem("Completed", "0"));
-                        lst_F.Items.Insert(1, new ListItem("Incomplete", "1"));
-                        lst_F.Items.Insert(2, new ListItem("Waived", "2"));
+                        lst_F.Items.Insert(0, new ListItem("Completed", "Completed"));
+                        lst_F.Items.Insert(1, new ListItem("Incomplete", "Incomplete"));
+                       // lst_F.Items.Insert(2, new ListItem("Waived", "2"));
                     }
                     else
                     {
@@ -1900,10 +1900,10 @@ public partial class SONIC_SLT_SonicUTraining_AdHocReportWriter : clsBasePage
                     {
                         strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F1, true));
                     }
-                    else if(lstAdhoc[iSelected].Field_Header == "Training Completed")
-                    {
-                        strWhere += GetListBoxWhereCondition("( CASE WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 0 ) THEN '1' WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 1 ) THEN '0' ELSE '2' END )", GetSelectedItemString(lst_F1, true));
-                    }
+                    //else if(lstAdhoc[iSelected].Field_Header == "Training Completed")
+                    //{
+                    //    strWhere += GetListBoxWhereCondition("( CASE WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 0 ) THEN '1' WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 1 ) THEN '0' ELSE '2' END )", GetSelectedItemString(lst_F1, true));
+                    //}
                     else
                     {
                         strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F1, false));
@@ -1936,10 +1936,10 @@ public partial class SONIC_SLT_SonicUTraining_AdHocReportWriter : clsBasePage
                     {
                         strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F2, true));
                     }
-                    else if (lstAdhoc[iSelected].Field_Header == "Training Completed")
-                    {
-                        strWhere += GetListBoxWhereCondition("( CASE WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 0 ) THEN '1' WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 1 ) THEN '0' ELSE '2' END )", GetSelectedItemString(lst_F2, true));
-                    }
+                    //else if (lstAdhoc[iSelected].Field_Header == "Training Completed")
+                    //{
+                    //    strWhere += GetListBoxWhereCondition("( CASE WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 0 ) THEN '1' WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 1 ) THEN '0' ELSE '2' END )", GetSelectedItemString(lst_F2, true));
+                    //}
                     else
                     {
                         strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F2, false));
@@ -1972,10 +1972,10 @@ public partial class SONIC_SLT_SonicUTraining_AdHocReportWriter : clsBasePage
                     {
                         strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F3, true));
                     }
-                    else if (lstAdhoc[iSelected].Field_Header == "Training Completed")
-                    {
-                        strWhere += GetListBoxWhereCondition("( CASE WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 0 ) THEN '1' WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 1 ) THEN '0' ELSE '2' END )", GetSelectedItemString(lst_F3, true));
-                    }
+                    //else if (lstAdhoc[iSelected].Field_Header == "Training Completed")
+                    //{
+                    //    strWhere += GetListBoxWhereCondition("( CASE WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 0 ) THEN '1' WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 1 ) THEN '0' ELSE '2' END )", GetSelectedItemString(lst_F3, true));
+                    //}
                     else
                     {
                         strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F3, false));
@@ -2008,10 +2008,10 @@ public partial class SONIC_SLT_SonicUTraining_AdHocReportWriter : clsBasePage
                     {
                         strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F4, true));
                     }
-                    else if (lstAdhoc[iSelected].Field_Header == "Training Completed")
-                    {
-                        strWhere += GetListBoxWhereCondition("( CASE WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 0 ) THEN '1' WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 1 ) THEN '0' ELSE '2' END )", GetSelectedItemString(lst_F4, true));
-                    }
+                    //else if (lstAdhoc[iSelected].Field_Header == "Training Completed")
+                    //{
+                    //    strWhere += GetListBoxWhereCondition("( CASE WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 0 ) THEN '1' WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 1 ) THEN '0' ELSE '2' END )", GetSelectedItemString(lst_F4, true));
+                    //}
                     else
                     {
                         strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F4, false));
@@ -2044,10 +2044,10 @@ public partial class SONIC_SLT_SonicUTraining_AdHocReportWriter : clsBasePage
                     {
                         strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F5, true));
                     }
-                    else if (lstAdhoc[iSelected].Field_Header == "Training Completed")
-                    {
-                        strWhere += GetListBoxWhereCondition("( CASE WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 0 ) THEN '1' WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 1 ) THEN '0' ELSE '2' END )", GetSelectedItemString(lst_F5, true));
-                    }
+                    //else if (lstAdhoc[iSelected].Field_Header == "Training Completed")
+                    //{
+                    //    strWhere += GetListBoxWhereCondition("( CASE WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 0 ) THEN '1' WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 1 ) THEN '0' ELSE '2' END )", GetSelectedItemString(lst_F5, true));
+                    //}
                     else
                     {
                         strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F5, false));
@@ -2080,10 +2080,10 @@ public partial class SONIC_SLT_SonicUTraining_AdHocReportWriter : clsBasePage
                     {
                         strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F6, true));
                     }
-                    else if (lstAdhoc[iSelected].Field_Header == "Training Completed")
-                    {
-                        strWhere += GetListBoxWhereCondition("( CASE WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 0 ) THEN '1' WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 1 ) THEN '0' ELSE '2' END )", GetSelectedItemString(lst_F6, true));
-                    }
+                    //else if (lstAdhoc[iSelected].Field_Header == "Training Completed")
+                    //{
+                    //    strWhere += GetListBoxWhereCondition("( CASE WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 0 ) THEN '1' WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 1 ) THEN '0' ELSE '2' END )", GetSelectedItemString(lst_F6, true));
+                    //}
                     else
                     {
                         strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F6, false));
@@ -2116,10 +2116,10 @@ public partial class SONIC_SLT_SonicUTraining_AdHocReportWriter : clsBasePage
                     {
                         strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F7, true));
                     }
-                    else if (lstAdhoc[iSelected].Field_Header == "Training Completed")
-                    {
-                        strWhere += GetListBoxWhereCondition("( CASE WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 0 ) THEN '1' WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 1 ) THEN '0' ELSE '2' END )", GetSelectedItemString(lst_F7, true));
-                    }
+                    //else if (lstAdhoc[iSelected].Field_Header == "Training Completed")
+                    //{
+                    //    strWhere += GetListBoxWhereCondition("( CASE WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 0 ) THEN '1' WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 1 ) THEN '0' ELSE '2' END )", GetSelectedItemString(lst_F7, true));
+                    //}
                     else
                     {
                         strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F7, false));
@@ -2152,10 +2152,10 @@ public partial class SONIC_SLT_SonicUTraining_AdHocReportWriter : clsBasePage
                     {
                         strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F8, true));
                     }
-                    else if (lstAdhoc[iSelected].Field_Header == "Training Completed")
-                    {
-                        strWhere += GetListBoxWhereCondition("( CASE WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 0 ) THEN '1' WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 1 ) THEN '0' ELSE '2' END )", GetSelectedItemString(lst_F8, true));
-                    }
+                    //else if (lstAdhoc[iSelected].Field_Header == "Training Completed")
+                    //{
+                    //    strWhere += GetListBoxWhereCondition("( CASE WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 0 ) THEN '1' WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 1 ) THEN '0' ELSE '2' END )", GetSelectedItemString(lst_F8, true));
+                    //}
                     else
                     {
                         strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F8, false));
@@ -2189,10 +2189,10 @@ public partial class SONIC_SLT_SonicUTraining_AdHocReportWriter : clsBasePage
                     {
                         strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F9, true));
                     }
-                    else if (lstAdhoc[iSelected].Field_Header == "Training Completed")
-                    {
-                        strWhere += GetListBoxWhereCondition("( CASE WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 0 ) THEN '1' WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 1 ) THEN '0' ELSE '2' END )", GetSelectedItemString(lst_F9, true));
-                    }
+                    //else if (lstAdhoc[iSelected].Field_Header == "Training Completed")
+                    //{
+                    //    strWhere += GetListBoxWhereCondition("( CASE WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 0 ) THEN '1' WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 1 ) THEN '0' ELSE '2' END )", GetSelectedItemString(lst_F9, true));
+                    //}
                     else
                     {
                         strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F9, false));
@@ -2225,10 +2225,10 @@ public partial class SONIC_SLT_SonicUTraining_AdHocReportWriter : clsBasePage
                     {
                         strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F10, true));
                     }
-                    else if (lstAdhoc[iSelected].Field_Header == "Training Completed")
-                    {
-                        strWhere += GetListBoxWhereCondition("( CASE WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 0 ) THEN '1' WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 1 ) THEN '0' ELSE '2' END )", GetSelectedItemString(lst_F10, true));
-                    }
+                    //else if (lstAdhoc[iSelected].Field_Header == "Training Completed")
+                    //{
+                    //    strWhere += GetListBoxWhereCondition("( CASE WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 0 ) THEN '1' WHEN ( MTD.Pk_Manage_Training_Data IS NULL AND TD.Completed = 1 ) THEN '0' ELSE '2' END )", GetSelectedItemString(lst_F10, true));
+                    //}
                     else
                     {
                         strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F10, false));
@@ -2934,7 +2934,7 @@ public partial class SONIC_SLT_SonicUTraining_AdHocReportWriter : clsBasePage
         }
         else if (Convert.ToString(Field_Header).ToLower().Trim() == "market")
         {
-            ComboHelper.FillMarketListBox(new ListBox[] { lst_F }, false);
+            ComboHelper.FillMarketListBoxForSonicUTraining(new ListBox[] { lst_F }, false);
         }
         else if (Convert.ToString(Field_Header).ToLower().Trim() == "region")
         {
@@ -2943,9 +2943,9 @@ public partial class SONIC_SLT_SonicUTraining_AdHocReportWriter : clsBasePage
         else if (Convert.ToString(Field_Header).ToLower().Trim() == "training completed")
         {
             lst_F.Items.Clear();
-            lst_F.Items.Insert(0, new ListItem("Completed", "0"));
-            lst_F.Items.Insert(1, new ListItem("Incomplete", "1"));
-            lst_F.Items.Insert(2, new ListItem("Waived", "2"));
+            lst_F.Items.Insert(0, new ListItem("Completed", "Completed"));
+            lst_F.Items.Insert(1, new ListItem("Incomplete", "Incomplete"));
+            //lst_F.Items.Insert(2, new ListItem("Waived", "2"));
         }
         else
         {
