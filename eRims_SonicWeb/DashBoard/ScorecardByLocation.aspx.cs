@@ -137,7 +137,7 @@ public partial class ScorecardByLocation : System.Web.UI.Page
             dtAverage.Rows.Add(dtAverage.NewRow()[0] = (dsSCA.Tables[1].Rows[0][0] != DBNull.Value ? dsSCA.Tables[1].Rows[0][0] : 0));
         }
         //---------------------------------
-        dsResult = Charts.GetSabaTrainingByLocation(Year, strReg);
+        dsResult = Charts.GetSafetyTrainingByLocation(Year, strReg);
         MergeColumn(ref dtResult, dsResult.Tables[0]);
         dtAverage.Rows.Add(dtAverage.NewRow()[0] = (dsResult.Tables[1].Rows[0][0] != DBNull.Value ? dsResult.Tables[1].Rows[0][0] : 0));
         if (Region == "Western Region")
