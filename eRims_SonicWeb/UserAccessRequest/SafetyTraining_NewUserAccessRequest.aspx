@@ -13,6 +13,16 @@
             alert("The information has been submitted to create a Safety Training catalogue for <%=lblFirstName.Text %> <%=lblLastName.Text %>. An e-mail containing this information has been sent to <%=lblEmail.Text %> and the system administrator.");
             return true;
         }
+        function onlyNumbers(evt) {
+
+            var charCode = evt.charCode || evt.keyCode;;
+
+            if (charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+
+            return true;
+
+        }
     </script>
     <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
         HeaderText="Verify the following fields:" BorderWidth="1" BorderColor="DimGray"
@@ -60,11 +70,12 @@
                     <td align="center">:
                     </td>
                     <td align="left">
-                        <asp:TextBox runat="server" ID="txtSocialSecurityNumber" MaxLength="12" Width="170px" AutoComplete="off"></asp:TextBox>
+                        <asp:TextBox runat="server" ID="txtSocialSecurityNumber" MaxLength="9" Width="170px" AutoComplete="off" onkeypress="return onlyNumbers(event);"></asp:TextBox>
                         <asp:RequiredFieldValidator ID="rfvSocialSecurityNumber" ControlToValidate="txtSocialSecurityNumber" Display="None"
                             runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Social Security Number"></asp:RequiredFieldValidator>
                         <asp:RegularExpressionValidator ID="revSocialSecurityNumber" ControlToValidate="txtSocialSecurityNumber"
-                            runat="server" ErrorMessage="Social Security Number Is Invalid" Display="none" SetFocusOnError="true"></asp:RegularExpressionValidator>
+                            runat="server" ErrorMessage="Social Security Number Is Invalid" Display="none" SetFocusOnError="true" 
+                            ValidationExpression="^\d{9}$" ValidationGroup="vsErrorGroup" Text="*" ToolTip="Social Security Number Is Invalid"></asp:RegularExpressionValidator>
                     </td>
                     <td align="left" style="font-size: 12px;">E-Mail Address&nbsp;<span style="color: Red;">*</span>
                     </td>
