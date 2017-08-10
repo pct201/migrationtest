@@ -331,5 +331,20 @@ namespace ERIMS.DAL
             return returnValue;
         }
 
+        public static void Sonic_U_Associate_Training_Manual_RemoveEnrollment(decimal FK_Employee, decimal Year, decimal Quarter, decimal FK_Sonic_U_Training_Class)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Sonic_U_Associate_Training_Manual_RemoveEnrollment");
+            db.AddInParameter(dbCommand, "FK_Employee", DbType.Decimal, FK_Employee);
+            db.AddInParameter(dbCommand, "Year", DbType.Decimal, Year);
+            db.AddInParameter(dbCommand, "Train_Quarter", DbType.Decimal, Quarter);
+            db.AddInParameter(dbCommand, "FK_Sonic_U_Training_Class", DbType.Decimal, FK_Sonic_U_Training_Class);
+            //return db.ExecuteDataSet(dbCommand);
+            // Execute the query and return the new identity value
+            db.ExecuteNonQuery(dbCommand);
+
+            
+        }
+
 	}
 }

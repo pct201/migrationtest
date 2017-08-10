@@ -16,6 +16,20 @@
         window.close();
     }
 
+    function ConfirmAssign()
+    {
+        var result = confirm("This class is already completed by associate, Do you still want to manually add this class for Associate?");
+        if(result == true)
+        {
+            var clickButton = document.getElementById("<%= btnAssignTraining.ClientID %>");
+            clickButton.click();            
+        }
+        else
+        {
+            return false;
+        }
+    }
+
 </script>
 <body>
     <form id="form1" runat="server">
@@ -73,6 +87,7 @@
                 <td align="center" colspan="6">
                     <asp:Button ID="btnSave" runat="server" Text="Save" ValidationGroup="vsErrorGroup" CausesValidation="true" OnClick="btnSave_Click" />
                     <asp:Button ID="btnCancel" runat="server" Text="Cancel" OnClick="btnCancel_Click" />
+                    <asp:Button ID="btnAssignTraining" runat="server" OnClick="btnAssignTraining_Click" style="display:none" />
                 </td>
             </tr>
             <tr>
