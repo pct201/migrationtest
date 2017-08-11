@@ -1109,8 +1109,13 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         BindAssignedToDropDowns();
         if (StrOperation != "view")
         {
-            for (int intYear = DateTime.Now.Year; intYear >= 2007; intYear--)
-                drpTrainingYear.Items.Add(new ListItem(intYear.ToString(), intYear.ToString()));
+            for (int intYear = DateTime.Now.Year; intYear >= 2017; intYear--)
+            {
+                drpTrainingYear.Items.Add(new ListItem(DateTime.Now.Year.ToString(), DateTime.Now.Year.ToString()));
+            }
+
+            //for (int intYear = DateTime.Now.Year; intYear >= 2007; intYear--)
+            //    drpTrainingYear.Items.Add(new ListItem(intYear.ToString(), intYear.ToString()));
 
             //ComboHelper.FillRegion(new DropDownList[] { drpLocationStatus }, true);
         }
@@ -1153,7 +1158,6 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
 
         for (int intYear = DateTime.Now.Year; intYear >= 2007; intYear--)
         {
-            drpTrainingYearView.Items.Add(new ListItem(intYear.ToString(), intYear.ToString()));
             drpMemberYearView.Items.Add(new ListItem(intYear.ToString(), intYear.ToString()));
             drpProcedureYearView.Items.Add(new ListItem(intYear.ToString(), intYear.ToString()));
             drpYearInspectionView.Items.Add(new ListItem(intYear.ToString(), intYear.ToString()));
@@ -1162,6 +1166,11 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             //ddlYear_Claim_ManagementView.Items.Add(new ListItem(intYear.ToString(), intYear.ToString()));
         }
 
+       for (int intYear = DateTime.Now.Year; intYear >= 2017; intYear--)
+        {
+                drpTrainingYearView.Items.Add(new ListItem(DateTime.Now.Year.ToString(), DateTime.Now.Year.ToString()));
+        }
+       
         ddlYearIncident_View.SelectedValue = DateTime.Now.Year.ToString();
         FillMonth(ddlMonth_View);
         FillMonth(drpMeeting_AgendaMonthView);
