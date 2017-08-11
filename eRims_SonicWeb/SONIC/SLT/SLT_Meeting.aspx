@@ -3090,12 +3090,12 @@ function DisableButton() {
                                                             <i>Click to view details</i>
                                                         </td>
                                                     </tr>
-                                                    <tr>
+                                                 <%--   <tr>
                                                         <td colspan="6">
                                                             <asp:LinkButton ID="lnkAsso_Training_Data" Text="View Associate Training Data" OnClientClick="OpenPopup_Associat_Data(); return false;" runat="server"></asp:LinkButton><br />
                                                             <i>Click to view details</i>
                                                         </td>
-                                                    </tr>
+                                                    </tr>--%>
                                                     <tr>
                                                         <td colspan="6" align="left">
                                                             <b>SABA Weekly Training Report Attachments</b><br />

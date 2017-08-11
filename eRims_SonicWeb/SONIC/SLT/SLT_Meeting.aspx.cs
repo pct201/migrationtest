@@ -2416,7 +2416,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         {
             if (drpTrainingYear.SelectedIndex >= 0)
                 intYear = Convert.ToInt32(drpTrainingYear.SelectedValue);
-            DataSet dsDetail = Charts.GetSabaTrainingDetail2(Convert.ToInt32(intYear), DBA, Sonic_Location_Code, 0, null,true);
+            DataSet dsDetail = Charts.GetSabaTrainingDetail_New(Convert.ToInt32(intYear), DBA);
             DataTable dtResult = dsDetail.Tables[1];
 
             ViewState["jYear"] = intYear;
@@ -2444,39 +2444,39 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                 if (result2.Length > 0)
                 {
                     if (string.IsNullOrEmpty(result2[0]["Percentage"].ToString()))
-                        lblTrainingQ2.Text = "0";
+                        lblTrainingQ2.Text = "100%";
                     else
                         lblTrainingQ2.Text = string.Format("{0:0.0#}", result2[0]["Percentage"]) + "%";
                 }
                 else
                 {
-                    lblTrainingQ2.Text = "0";
+                    lblTrainingQ2.Text = "100%";
                 }
 
                 DataRow[] result3 = dsDetail.Tables[0].Select("AssociateQuarter = '3'");
                 if (result3.Length > 0)
                 {
                     if (string.IsNullOrEmpty(result3[0]["Percentage"].ToString()))
-                        lblTrainingQ3.Text = "0";
+                        lblTrainingQ3.Text = "100%";
                     else
                         lblTrainingQ3.Text = string.Format("{0:0.0#}", result3[0]["Percentage"]) + "%";
                 }
                 else
                 {
-                    lblTrainingQ3.Text = "0";
+                    lblTrainingQ3.Text = "100%";
                 }
 
                 DataRow[] result4 = dsDetail.Tables[0].Select("AssociateQuarter = '4'");
                 if (result4.Length > 0)
                 {
                     if (string.IsNullOrEmpty(result4[0]["Percentage"].ToString()))
-                        lblTrainingQ4.Text = "0";
+                        lblTrainingQ4.Text = "100%";
                     else
                         lblTrainingQ4.Text = string.Format("{0:0.0#}", result4[0]["Percentage"]) + "%";
                 }
                 else
                 {
-                    lblTrainingQ4.Text = "0";
+                    lblTrainingQ4.Text = "100%";
                 }
 
                 DataRow[] result5 = dsDetail.Tables[1].Select("PerformanceLevel In ('"+ Charts.Platinum_Label +"','"+ Charts.Gold_Label +"', '"+ Charts.Silver_Label +"', '"+ Charts.Bronze_Label +"', '"+ Charts.Tin_Label +"')");
@@ -2513,9 +2513,13 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                 if (result1.Length > 0)
                 {
                     if (string.IsNullOrEmpty(result1[0]["Percentage"].ToString()))
-                        lblTrainingQ1View.Text = "0";
+                        lblTrainingQ1View.Text = "100%";
                     else
                         lblTrainingQ1View.Text = string.Format("{0:0.0#}", result1[0]["Percentage"]) + "%";
+                }
+                else
+                {
+                    lblTrainingQ1View.Text = "100%";
                 }
 
                 DataRow[] result2 = dsDetail.Tables[0].Select("AssociateQuarter = '2'");
@@ -2523,9 +2527,13 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                 if (result2.Length > 0)
                 {
                     if (string.IsNullOrEmpty(result2[0]["Percentage"].ToString()))
-                        lblTrainingQ2View.Text = "0";
+                        lblTrainingQ2View.Text = "100%";
                     else
                         lblTrainingQ2View.Text = string.Format("{0:0.0#}", result2[0]["Percentage"]) + "%";
+                }
+                else
+                {
+                    lblTrainingQ2View.Text = "100%";
                 }
 
                 DataRow[] result3 = dsDetail.Tables[0].Select("AssociateQuarter = '3'");
@@ -2533,9 +2541,13 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                 if (result3.Length > 0)
                 {
                     if (string.IsNullOrEmpty(result3[0]["Percentage"].ToString()))
-                        lblTrainingQ3View.Text = "0";
+                        lblTrainingQ3View.Text = "100%";
                     else
                         lblTrainingQ3View.Text = string.Format("{0:0.0#}", result3[0]["Percentage"]) + "%";
+                }
+                else
+                {
+                    lblTrainingQ3View.Text = "100%";
                 }
 
                 DataRow[] result4 = dsDetail.Tables[0].Select("AssociateQuarter = '4'");
@@ -2543,9 +2555,13 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                 if (result4.Length > 0)
                 {
                     if (string.IsNullOrEmpty(result4[0]["Percentage"].ToString()))
-                        lblTrainingQ4View.Text = "0";
+                        lblTrainingQ4View.Text = "100%";
                     else
                         lblTrainingQ4View.Text = string.Format("{0:0.0#}", result4[0]["Percentage"]) + "%";
+                }
+                else
+                {
+                    lblTrainingQ4View.Text = "100%";
                 }
 
                 DataRow[] result5 = dsDetail.Tables[1].Select("PerformanceLevel In ('" + Charts.Platinum_Label + "','" + Charts.Gold_Label + "', '" + Charts.Silver_Label + "', '" + Charts.Bronze_Label + "', '" + Charts.Tin_Label + "')");

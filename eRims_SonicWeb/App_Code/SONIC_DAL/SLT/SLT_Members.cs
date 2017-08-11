@@ -573,7 +573,7 @@ namespace ERIMS.DAL
         public static DataSet SelectSignedupEmployeeByLocation(int Year, string DBA, string Sonic_Location_Code)
         {
             Database db = DatabaseFactory.CreateDatabase();
-            DbCommand dbCommand = db.GetStoredProcCommand("EmployeesSignedByLocation_New");
+            DbCommand dbCommand = db.GetStoredProcCommand("GetEmployeesSignedByLocation");
             db.AddInParameter(dbCommand, "@Year", DbType.Int32, Year);
             db.AddInParameter(dbCommand, "@DBA", DbType.String, DBA);
             db.AddInParameter(dbCommand, "@Sonic_Location_Code", DbType.String, Sonic_Location_Code);

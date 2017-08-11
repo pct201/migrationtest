@@ -190,6 +190,18 @@ public class Charts
         return db.ExecuteDataSet(dbCommand);
     }
 
+    public static DataSet GetSabaTrainingDetail_New(int Year, string DBA)
+    {
+        Database db = DatabaseFactory.CreateDatabase();
+        DbCommand dbCommand = db.GetStoredProcCommand("Chart_SafetyTrainingDetail");
+
+        db.AddInParameter(dbCommand, "@DealerShipYear", DbType.Int32, Year);
+        db.AddInParameter(dbCommand, "DBA", DbType.String, DBA);
+
+        dbCommand.CommandTimeout = 10000;
+        return db.ExecuteDataSet(dbCommand);
+    }
+
     public static DataSet GetIncidentReductionByRegion(int Year)
     {
         Database db = DatabaseFactory.CreateDatabase();
