@@ -137,7 +137,7 @@ public partial class DealershipDetail : System.Web.UI.Page
         MergeColumn(ref dtAggreage, dsResult.Tables[0], 1);
         dtAverage.Rows.Add(dtAverage.NewRow()[0] = (dsResult.Tables[1].Rows[0][0] != DBNull.Value ? dsResult.Tables[1].Rows[0][0] : 0));
 
-        dsResult = Charts.GetSabaTrainingDetail2(Year, DBA, Sonic_Location_Code, Quarter, AssociateStatus,false);
+        dsResult = Charts.GetSafetyTrainingDetail(Year, DBA);
         if (dsResult.Tables[1] != null && dsResult.Tables[1].Rows.Count > 0)
             dtAggreage.Rows[1][1] = dsResult.Tables[1].Rows[0][2] != DBNull.Value ? dsResult.Tables[1].Rows[0][2] : 14;
         else
