@@ -93,7 +93,7 @@ public partial class DashBoard_rptSafetyTrainingByRegionLocation : clsBasePage
     {
         drpYear.Items.Clear();
         int intMinYear, intMaxYear;
-        intMinYear = 2000;
+        intMinYear = 2017;
         intMaxYear = DateTime.Now.Year;
         for (int i = intMaxYear; i >= intMinYear; i--)
         {

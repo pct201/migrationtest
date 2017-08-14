@@ -104,7 +104,7 @@ public partial class DashBoard_rptSafetyTrainingReport : clsBasePage
     {
         drpYear.Items.Clear();
         int intMinYear, intMaxYear;
-        intMinYear = 2000;
+        intMinYear = 2017;
         intMaxYear = DateTime.Now.Year;
         for (int i = intMaxYear; i >= intMinYear; i--)
         {
@@ -315,7 +315,9 @@ public partial class DashBoard_rptSafetyTrainingReport : clsBasePage
         strReportInterval = null;
         string strRegion = "";
         // get selected regions
-        strRegion = Convert.ToString(drpRegions.SelectedValue);
+        if (drpRegions.SelectedIndex > 0) strRegion = Convert.ToString(drpRegions.SelectedValue);
+        else
+         strRegion = null;
 
         string strMarket = "";
         // get selected Market
@@ -352,7 +354,7 @@ public partial class DashBoard_rptSafetyTrainingReport : clsBasePage
             sbRecorords.Append("<td class='cols_' width='120px'>Region</td>");
             sbRecorords.Append("<td class='cols_' width='120px'>Last Hire Date</td>");
             sbRecorords.Append("<td class='cols_' width='120px'>Quarter</td>");
-            sbRecorords.Append("<td class='cols_' width='250px'>Learning Programming Title</td>");
+            sbRecorords.Append("<td class='cols_' width='250px'>Class Name</td>");
             sbRecorords.Append("<td class='cols_' width='140px'>Status</td>");
             sbRecorords.Append("</tr>");
             for (int intI3 = 0; intI3 < dtRegions.Rows.Count; intI3++)
@@ -384,7 +386,7 @@ public partial class DashBoard_rptSafetyTrainingReport : clsBasePage
         else
         {
             // if record not found then hide Header and set width and height so scroll bar not visible.            
-            trGrid.Visible = false;
+            trGrid.Visible = true;
             sbRecorords.Append("<table style='font-family:Tahoma' cellpadding='4' cellspacing='0' Width='100%'>");
             sbRecorords.Append("<tr style='background-color:#F2F2F2;color:Black;'>");
             sbRecorords.Append("<td align='center' style='font-size:9pt;'>No Records found.</td></tr></table>");
