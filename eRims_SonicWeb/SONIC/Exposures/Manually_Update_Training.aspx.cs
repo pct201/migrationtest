@@ -286,7 +286,14 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
         }
         Session["Year"] = Convert.ToInt32(ddlYear.SelectedValue);
         Session["Quater"] = Convert.ToInt32(ddlQuarter.SelectedValue);
-        ScriptManager.RegisterStartupScript(this, typeof(string), DateTime.Now.ToString(), "openPopUp('" + 0 + "');", true);
+        if (!ValidQuarter())
+        {
+            ScriptManager.RegisterStartupScript(this, typeof(string), DateTime.Now.ToString(), "alert('You can not add trainings for future quarter!');", true);
+        }
+        else
+        {
+            ScriptManager.RegisterStartupScript(this, typeof(string), DateTime.Now.ToString(), "openPopUp('" + 0 + "');", true);
+        }
     }
     #endregion
 
@@ -414,6 +421,33 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
     {
         public int PK_LU_Sonic_Training_Status;
         public string Fld_Desc;
+    }
+
+    public bool ValidQuarter()
+    {
+        DateTime date = DateTime.Now; bool result = false;
+        int currentQuarter = 0; int selectedQuarter = Convert.ToInt32(ddlQuarter.SelectedValue);
+        if (date.Month >= 4 && date.Month <= 6)
+            currentQuarter = 1;
+        else if (date.Month >= 7 && date.Month <= 9)
+            currentQuarter = 2;
+        else if (date.Month >= 10 && date.Month <= 12)
+            currentQuarter = 3;
+        else
+            currentQuarter = 4;
+
+
+        if (currentQuarter == 1 && selectedQuarter == 4)
+            result = true;
+        else if (currentQuarter == 4 && selectedQuarter == 1)
+            result = false;
+        else if (currentQuarter < selectedQuarter)
+            result = false;
+        else
+            result = true;
+
+        return result;
+
     }
 }
 
