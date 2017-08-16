@@ -225,9 +225,9 @@ public partial class DashboardGraphCal : clsBasePage
 
         string strHeader = "";
         if (dtRegion.Rows.Count > 1)
-            strHeader = "Aggregate Performance By Region";
+            strHeader = "Aggregate Performance (YTD) By Region";
         else
-            strHeader = "Aggregate Performance";
+            strHeader = "Aggregate Performance (YTD)";
 
         // Set Chart property 
         strChartXML.Append("<chart caption='" + strHeader + "' showalternatevgridcolor='0' bgColor='#FFFFFF' plotGradientColor='' xAxisName='Region' yAxisName='Level' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='45' yAxisMaxValue='102' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='0' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10' trendValueFontBold ='1'>");
@@ -267,7 +267,7 @@ public partial class DashboardGraphCal : clsBasePage
         strChartXML.Append("</styles>");
 
         strChartXML.Append("</chart>");
-        return InfoSoftGlobal.FusionCharts.RenderChart(AppConfig.SiteURL + "FusionCharts/Bar2D.swf?ChartNoDataText=No data to display for: Aggregate Performance By Region", "", strChartXML.ToString(), "AggregatePerformanceByRegion", "490", "400", false, true);
+        return InfoSoftGlobal.FusionCharts.RenderChart(AppConfig.SiteURL + "FusionCharts/Bar2D.swf?ChartNoDataText=No data to display for: Aggregate Performance (YTD) By Region", "", strChartXML.ToString(), "AggregatePerformanceByRegion", "490", "400", false, true);
     }
 
     /// <summary>

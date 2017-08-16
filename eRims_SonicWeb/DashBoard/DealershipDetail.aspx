@@ -290,7 +290,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Aggregate Performance
+                    <td>Aggregate Performance (YTD)
                     </td>
                     <td align="center" style="width: 5%">:
                     </td>

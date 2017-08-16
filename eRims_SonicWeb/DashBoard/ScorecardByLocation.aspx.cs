@@ -237,7 +237,7 @@ public partial class ScorecardByLocation : System.Web.UI.Page
 
         // for new version
         string strWidth = dtRegion.Rows.Count > 25 ? "950" : "800";
-        strChartXML.Append("<chart caption='Aggregate Performance for Region " + Region + "' showalternatevgridcolor='0' bgColor='#FFFFFF' plotGradientColor='' xAxisName='Location' yAxisName='Level' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='45' yAxisMaxValue='102' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10' trendValueFontBold ='1'>");
+        strChartXML.Append("<chart caption='Aggregate Performance (YTD) for Region " + Region + "' showalternatevgridcolor='0' bgColor='#FFFFFF' plotGradientColor='' xAxisName='Location' yAxisName='Level' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='45' yAxisMaxValue='102' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10' trendValueFontBold ='1'>");
 
         // Set Label
         for (int i = 0; i < dtRegion.Rows.Count; i++)
@@ -255,7 +255,7 @@ public partial class ScorecardByLocation : System.Web.UI.Page
         GetTreadLineStyle_Aggregate(strChartXML, Average);
 
         strChartXML.Append("</chart>");
-        return InfoSoftGlobal.FusionCharts.RenderChart(AppConfig.SiteURL + "FusionCharts/Bar2D.swf?ChartNoDataText=No data to display for: Aggregate Performance for " + Region, "", strChartXML.ToString(), "AggregatePerformanceByRegion", strWidth, "550", false, true);
+        return InfoSoftGlobal.FusionCharts.RenderChart(AppConfig.SiteURL + "FusionCharts/Bar2D.swf?ChartNoDataText=No data to display for: Aggregate Performance (YTD) for " + Region, "", strChartXML.ToString(), "AggregatePerformanceByRegion", strWidth, "550", false, true);
     }
 
     public string GetFacilityInspection()
@@ -300,7 +300,7 @@ public partial class ScorecardByLocation : System.Web.UI.Page
 
         strChartXML.Append("</chart>");
 
-        return InfoSoftGlobal.FusionCharts.RenderChart(AppConfig.SiteURL + "FusionCharts/Bar2D.swf?ChartNoDataText=No data to display for: Aggregate Performance By Location", "", strChartXML.ToString(), "FacilityInspectionByLocation", strWidth, "550", false, true);
+        return InfoSoftGlobal.FusionCharts.RenderChart(AppConfig.SiteURL + "FusionCharts/Bar2D.swf?ChartNoDataText=No data to display for: Aggregate Performance (YTD) By Location", "", strChartXML.ToString(), "FacilityInspectionByLocation", strWidth, "550", false, true);
     }
 
     public string GetSLT()
@@ -342,7 +342,7 @@ public partial class ScorecardByLocation : System.Web.UI.Page
 
         strChartXML.Append("</chart>");
 
-        return InfoSoftGlobal.FusionCharts.RenderChart(AppConfig.SiteURL + "FusionCharts/Bar2D.swf?ChartNoDataText=No data to display for: Aggregate Performance By Location", "", strChartXML.ToString(), "SafetyLeadershipTeamByLocation", strWidth, "550", false, true);
+        return InfoSoftGlobal.FusionCharts.RenderChart(AppConfig.SiteURL + "FusionCharts/Bar2D.swf?ChartNoDataText=No data to display for: Aggregate Performance (YTD) By Location", "", strChartXML.ToString(), "SafetyLeadershipTeamByLocation", strWidth, "550", false, true);
     }
 
     public string GetIncidentInvestigation()

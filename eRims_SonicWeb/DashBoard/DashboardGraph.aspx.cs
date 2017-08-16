@@ -240,9 +240,9 @@ public partial class DashboardGraph : clsBasePage
 
         string strHeader = "";
         if (dtRegion.Rows.Count > 1)
-            strHeader = "Aggregate Performance By Region";
+            strHeader = "Aggregate Performance (YTD) By Region";
         else
-            strHeader = "Aggregate Performance";
+            strHeader = "Aggregate Performance (YTD)";
 
         // Set Chart property 
         strChartXML.Append("<chart caption='" + strHeader + "' plotGradientColor='' bgColor='#FFFFFF' showalternatevgridcolor='0' xAxisName='Region' yAxisName='Level' useRoundEdges='0' showValues='0' showYAxisValues='0' yAxisMinValue='65' yAxisMaxValue='106' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='0' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10' trendValueFontBold ='1' showBorder='0'>");

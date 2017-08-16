@@ -268,9 +268,9 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
         pnlReport.Visible = true;
 
         if (rdoSortBy.SelectedValue == "RLCM")
-            Label1.Text = "AGGREGATE PERFORMANCE BY RLCM";
+            Label1.Text = "AGGREGATE PERFORMANCE (YTD) BY RLCM";
         else
-            Label1.Text = "AGGREGATE PERFORMANCE BY Region";
+            Label1.Text = "AGGREGATE PERFORMANCE (YTD) BY Region";
 
         cpeSLTScoring.Collapsed = true;
         cpeSLTScoring.ClientState = "true";
@@ -509,9 +509,9 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
     {
         ResetGrid();
         if (rdoSortBy.SelectedValue == "RLCM")
-            Label1.Text = "AGGREGATE PERFORMANCE BY RLCM";
+            Label1.Text = "AGGREGATE PERFORMANCE (YTD) BY RLCM";
         else
-            Label1.Text = "AGGREGATE PERFORMANCE BY Region";
+            Label1.Text = "AGGREGATE PERFORMANCE (YTD) BY Region";
 
         cpeSLTScoring.Collapsed = true;
         cpeSLTScoring.ClientState = "true";

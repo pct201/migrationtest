@@ -133,7 +133,7 @@ public partial class SONIC_Exposures_ManualUpdateTrainingPopup : clsBasePage
             }
             else
             {
-                ScriptManager.RegisterStartupScript(this, Page.GetType(), DateTime.Now.ToString(), "javascript:alert('Record already exists');", true);
+                ScriptManager.RegisterStartupScript(this, Page.GetType(), DateTime.Now.ToString(), "javascript:alert('This class is already added for the Associate " + Convert.ToString(ddlAssociate.SelectedItem.Text) + " for Year " + Convert.ToInt16(Session["Year"]) + " and Quarter " + Convert.ToInt16(Session["Quater"]) + "');", true);
                 return;
             }
         }
@@ -148,7 +148,7 @@ public partial class SONIC_Exposures_ManualUpdateTrainingPopup : clsBasePage
                     ScriptManager.RegisterStartupScript(this, typeof(string), DateTime.Now.ToString(), "closepopup();", true);
                     break;
                 case 1:
-                    ScriptManager.RegisterStartupScript(this, Page.GetType(), DateTime.Now.ToString(), "javascript:alert('Record already exists');", true);
+                   ScriptManager.RegisterStartupScript(this, Page.GetType(), DateTime.Now.ToString(), "javascript:alert('This class is already added for the Associate "+ Convert.ToString(ddlAssociate.SelectedItem.Text) +" for Year " + Convert.ToInt16(Session["Year"]) + " and Quarter " + Convert.ToInt16(Session["Quater"])+"');", true);
                     return; 
                 case 2:
                     ScriptManager.RegisterStartupScript(this, Page.GetType(), DateTime.Now.ToString(), "ConfirmAssign();", true);
