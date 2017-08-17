@@ -2845,7 +2845,7 @@ function DisableButton() {
                                             </asp:Panel>
                                             <asp:Panel ID="pnl10" runat="server" Style="display: none;">
                                                 <div class="bandHeaderRow">
-                                                    Safety Training
+                                                    Safety Training ( YTD )
                                                 </div>
                                                 <table cellpadding="3" cellspacing="1" width="100%">
                                                     <tr>
