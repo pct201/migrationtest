@@ -427,11 +427,11 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
     {
         DateTime date = DateTime.Now; bool result = false;
         int currentQuarter = 0; int selectedQuarter = Convert.ToInt32(ddlQuarter.SelectedValue);
-        if (date.Month >= 4 && date.Month <= 6)
+        if (date.Month >= 1 && date.Month <= 3)
             currentQuarter = 1;
-        else if (date.Month >= 7 && date.Month <= 9)
+        else if (date.Month >= 4 && date.Month <= 6)
             currentQuarter = 2;
-        else if (date.Month >= 10 && date.Month <= 12)
+        else if (date.Month >= 7 && date.Month <= 9)
             currentQuarter = 3;
         else
             currentQuarter = 4;
