@@ -165,7 +165,7 @@ public partial class SONIC_Exposures_RCRA_Training_Certificate : clsBasePage
                     File.Delete(file_Name);
                 }
             }
-            Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:alert('No data available to generate RCRA Certificate for Year and Quarter.');", true);
+            Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:alert('No data available to generate Safety Certificate for Year and Quarter.');", true);
         }
     }
 
@@ -237,7 +237,7 @@ public partial class SONIC_Exposures_RCRA_Training_Certificate : clsBasePage
         year = Convert.ToInt16(txtYear.Text);
         quarter = Convert.ToInt16(txtQuarter.Text);
 
-        string strDir = string.Format(System.AppDomain.CurrentDomain.BaseDirectory.ToString() + @"temp\RCRACertificate");
+        string strDir = string.Format(System.AppDomain.CurrentDomain.BaseDirectory.ToString() + @"temp\SafetyCertificate");
 
         if (!Directory.Exists(strDir))
             Directory.CreateDirectory(strDir);
@@ -263,7 +263,7 @@ public partial class SONIC_Exposures_RCRA_Training_Certificate : clsBasePage
                 strBody = strBody.Replace("[RCRA_Certificate_Footer]", AppConfig.ImageURL + "/imgRCRAFooter.PNG");
                 strBody = strBody.Replace("[Date]", (Convert.ToDateTime(drCertificate["Date of Completion"])).ToString("MMM dd, yyyy"));
                 count++;
-                GenerateRCRACertificatePDF(strBody, strDir + "\\RCRACertificate_" + count + ".pdf");
+                GenerateRCRACertificatePDF(strBody, strDir + "\\SafetyCertificate_" + count + ".pdf");
             }
 
             OpenFile(strDir);

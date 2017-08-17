@@ -1453,7 +1453,7 @@ namespace ERIMS_Sonic_ReportScheduler
         public static DataSet GetSafetyTrainingReport(string strRegion, string strMarket, int intYear, string strInterval, decimal FK_Security_Id)
         {
             Database db = DatabaseFactory.CreateDatabase();
-            DbCommand dbCommand = db.GetStoredProcCommand("DealershipDashBoardReport");
+            DbCommand dbCommand = db.GetStoredProcCommand("GetDealershipDashBoardReportData");
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
             db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
             db.AddInParameter(dbCommand, "Year", DbType.Int32, intYear);

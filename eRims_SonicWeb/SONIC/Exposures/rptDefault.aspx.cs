@@ -89,7 +89,7 @@ public partial class SONIC_Exposures_rptDefault : clsBasePage
                     rptLink.HRef = "rptEarlyWarningRecipientsTerminations.aspx";
                     btnSchedule.Visible = false;
                     break;
-                case "RCRA Certificate Report":
+                case "Safety Training Certificate Report":
                     rptLink.HRef = "RCRA_Training_Certificate.aspx";
                     btnSchedule.Visible = false;
                     break;

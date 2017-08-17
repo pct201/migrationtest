@@ -14,7 +14,7 @@
             <td width="100%" class="Spacer" style="height: 10px;"></td>
         </tr>
         <tr class="PropertyInfoBG">
-            <td align="left" style="padding-left: 20px;">RCRA Training Certificate
+            <td align="left" style="padding-left: 20px;">Safety Training Certificate
             </td>
         </tr>
         <tr>

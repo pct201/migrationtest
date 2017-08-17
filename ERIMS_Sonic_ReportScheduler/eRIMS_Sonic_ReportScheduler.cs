@@ -13175,7 +13175,7 @@ namespace ERIMS_Sonic_ReportScheduler
                     }
 
                     string strYear = Convert.ToString(dtFilter.Rows[0]["Year"]).Trim();
-                    string strRegion = string.Empty;
+                    string strRegion = null;
                     if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Region"])))
                         strRegion = Convert.ToString(dtFilter.Rows[0]["Region"]);
 
@@ -13266,7 +13266,7 @@ namespace ERIMS_Sonic_ReportScheduler
                     strHTML.Append("<td class='cols_' width='120px'>Region</td>");
                     strHTML.Append("<td class='cols_' width='120px'>Last Hire Date</td>");
                     strHTML.Append("<td class='cols_' width='120px'>Quarter</td>");
-                    strHTML.Append("<td class='cols_' width='250px'>Learning Programming Title</td>");
+                    strHTML.Append("<td class='cols_' width='250px'>Class Name</td>");
                     strHTML.Append("<td class='cols_' width='110px'>Status</td>");
                     strHTML.Append("</tr>");
                     strHTML.Append("</table>");
