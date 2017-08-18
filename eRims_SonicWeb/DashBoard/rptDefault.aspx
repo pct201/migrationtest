@@ -1,5 +1,5 @@
 <%@ Page Language="C#" MasterPageFile="~/Default.master" AutoEventWireup="true" CodeFile="rptDefault.aspx.cs"
-    Inherits="SONIC_ClaimInfo_rptDefault" Title="eRIMS Sonic :: Claim Reports" %>
+    Inherits="SONIC_ClaimInfo_rptDefault" Title="eRIMS Sonic :: Dashboard Reports" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
 
