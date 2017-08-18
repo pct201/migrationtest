@@ -433,7 +433,7 @@ public class Charts
     {
         Database db = DatabaseFactory.CreateDatabase();
         ////change Reverted for sonic u training. ticket #3503/////
-        DbCommand dbCommand = db.GetStoredProcCommand("rptQuarterlyPerformanceSabaTraining_New");
+        DbCommand dbCommand = db.GetStoredProcCommand("rptQuarterlyPerformanceSafetyTraining_ByRegion");
 
         dbCommand.CommandTimeout = 1000;
         db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Decimal, pk_Security_ID);
@@ -454,7 +454,7 @@ public class Charts
     {
         Database db = DatabaseFactory.CreateDatabase();
         ////change Reverted for sonic u training. ticket #3503/////
-        DbCommand dbCommand = db.GetStoredProcCommand("rptQuarterlyPerformanceSabaTraining_ByRLCM_New");
+        DbCommand dbCommand = db.GetStoredProcCommand("rptQuarterlyPerformanceSafetyTraining_ByRLCM");
 
         dbCommand.CommandTimeout = 1000;
         db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Decimal, pk_Security_ID);
