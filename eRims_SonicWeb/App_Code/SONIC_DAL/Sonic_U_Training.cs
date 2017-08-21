@@ -252,7 +252,7 @@ namespace ERIMS.DAL
             DbCommand dbCommand = db.GetStoredProcCommand("Import_Sonic_U_Training_Associate_Base_New");
             db.AddInParameter(dbCommand, "FK_Employee_ID", DbType.Int32, FK_Employee);
 
-            dbCommand.CommandTimeout = 10000;
+            dbCommand.CommandTimeout = 1000000;
             db.ExecuteScalar(dbCommand);
         }
 
@@ -264,7 +264,7 @@ namespace ERIMS.DAL
 
 
 
-            dbCommand.CommandTimeout = 10000;
+            dbCommand.CommandTimeout = 1000000;
             int test = Convert.ToInt16(db.ExecuteScalar(dbCommand));
         }
 
@@ -278,7 +278,7 @@ namespace ERIMS.DAL
 
 
 
-            dbCommand.CommandTimeout = 10000;
+            dbCommand.CommandTimeout = 1000000;
             int test = Convert.ToInt16(db.ExecuteScalar(dbCommand));
         }
 

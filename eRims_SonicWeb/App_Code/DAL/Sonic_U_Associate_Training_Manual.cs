@@ -225,7 +225,7 @@ namespace ERIMS.DAL
 			db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);
 
             db.AddInParameter(dbCommand, "FK_Location", DbType.Decimal, this._FK_Location);
-
+            dbCommand.CommandTimeout = 1000000;
 			// Execute the query and return the new identity value
 			int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
 
