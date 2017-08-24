@@ -25,6 +25,10 @@ public partial class Administrator_Employee : clsBasePage
     /// </summary>
     public string PK_Employee_Codes;
 
+    /// <summary>
+    /// Used to check duplicate social security number
+    /// </summary>
+    public int IsDublicate;
 
     #endregion
 
@@ -175,6 +179,8 @@ public partial class Administrator_Employee : clsBasePage
         objEmployee.Updated_By = clsSession.UserID;
         objEmployee.Update_Date = System.DateTime.Now;
 
+        IsDublicate = Employee.CheckForDuplicateSSNNumber(txtSocial_Security_Number.Text.Trim());
+
         Employee objOldEmployee = new Employee(PK_Employee_ID);
         bool loginDetailchanged = false;
 
@@ -189,16 +195,26 @@ public partial class Administrator_Employee : clsBasePage
             objEmployee.FK_LU_Job_Code = Convert.ToDecimal(ddlJobCode.SelectedValue);
         }
 
-        if (PK_Employee_ID > 0)
+        //check whether SSN Number already exists or not
+        if (IsDublicate > 0)
         {
-            objEmployee.PK_Employee_ID = PK_Employee_ID;
-            objEmployee.Update();
+            if (PK_Employee_ID > 0)
+            {
+                objEmployee.PK_Employee_ID = PK_Employee_ID;
+                objEmployee.Update();
+            }
+            else
+            {
+                PK_Employee_ID = objEmployee.Insert();
+                Sonic_U_Training.Import_Sonic_U_Training_Associate_Base_New(PK_Employee_ID);
+            }
         }
         else
         {
-            PK_Employee_ID = objEmployee.Insert();
-            Sonic_U_Training.Import_Sonic_U_Training_Associate_Base_New(PK_Employee_ID);
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:alert('Associate already exists in the database with the same Social Security Number that was entered.');", true);
+            return;
         }
+        
         //if (txtEmployeeID.Text.Length > 0) commented as per ticket 3698 comment 38348  point 4
         //{
 
