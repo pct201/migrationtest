@@ -91,6 +91,13 @@ public partial class Administrator_Employee : clsBasePage
             return;
         }
 
+        IsDublicate = Employee.CheckForDuplicateSSNNumber(txtSocial_Security_Number.Text.Trim());
+
+        if (IsDublicate > 0)
+        {
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:alert('Associate already exists in the database with the same Social Security Number that was entered.');", true);
+            return;
+        }
         bool jobcodeChanged = false;
 
         DataSet ds = Employee_Codes.SelectDataByEmployeeCodes(PK_Employee_ID);
@@ -179,10 +186,21 @@ public partial class Administrator_Employee : clsBasePage
         objEmployee.Updated_By = clsSession.UserID;
         objEmployee.Update_Date = System.DateTime.Now;
 
-        IsDublicate = Employee.CheckForDuplicateSSNNumber(txtSocial_Security_Number.Text.Trim());
+
 
         Employee objOldEmployee = new Employee(PK_Employee_ID);
         bool loginDetailchanged = false;
+
+        if (objOldEmployee.Social_Security_Number != objEmployee.Social_Security_Number)
+        {
+            IsDublicate = Employee.CheckForDuplicateSSNNumber(txtSocial_Security_Number.Text.Trim());
+
+            if (IsDublicate > 0)
+            {
+                Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:alert('Associate already exists in the database with the same Social Security Number that was entered.');", true);
+                return;
+            }
+        }
 
         if (objOldEmployee.Social_Security_Number != objEmployee.Social_Security_Number || objOldEmployee.FK_Cost_Center != objEmployee.FK_Cost_Center || objOldEmployee.Last_Name != objEmployee.Last_Name)
         {
@@ -190,31 +208,25 @@ public partial class Administrator_Employee : clsBasePage
         }
 
 
-        if(ddlJobCode.SelectedValue != "0")
+        if (ddlJobCode.SelectedValue != "0")
         {
             objEmployee.FK_LU_Job_Code = Convert.ToDecimal(ddlJobCode.SelectedValue);
         }
 
-        //check whether SSN Number already exists or not
-        if (IsDublicate > 0)
+        if (PK_Employee_ID > 0)
         {
-            if (PK_Employee_ID > 0)
-            {
-                objEmployee.PK_Employee_ID = PK_Employee_ID;
-                objEmployee.Update();
-            }
-            else
-            {
-                PK_Employee_ID = objEmployee.Insert();
-                Sonic_U_Training.Import_Sonic_U_Training_Associate_Base_New(PK_Employee_ID);
-            }
+            objEmployee.PK_Employee_ID = PK_Employee_ID;
+            objEmployee.Update();
         }
         else
         {
-            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:alert('Associate already exists in the database with the same Social Security Number that was entered.');", true);
-            return;
+            PK_Employee_ID = objEmployee.Insert();
+            Sonic_U_Training.Import_Sonic_U_Training_Associate_Base_New(PK_Employee_ID);
         }
-        
+
+
+
+
         //if (txtEmployeeID.Text.Length > 0) commented as per ticket 3698 comment 38348  point 4
         //{
 
@@ -344,7 +356,7 @@ public partial class Administrator_Employee : clsBasePage
         lblDate_of_Death.Text = clsGeneral.FormatDBNullDateToDisplay(objEmployee.Date_Of_Death);
         if (objEmployee.FK_Job_Classification != null)
             lblJobClassification.Text = new Job_Classification(Convert.ToDecimal(objEmployee.FK_Job_Classification)).Fld_Desc;
-       // lblSecondary_Cost_Center.Text = Convert.ToString(objEmployee.Secondary_Cost_Center);
+        // lblSecondary_Cost_Center.Text = Convert.ToString(objEmployee.Secondary_Cost_Center);
 
         //if (objEmployee.FK_Bank_Number != null)
         //    lblBankNumber.Text = new Bank_Details(Convert.ToDecimal(objEmployee.FK_Bank_Number)).Fld_AccountNo;
@@ -362,7 +374,7 @@ public partial class Administrator_Employee : clsBasePage
         #endregion
 
         #region new Logic for Job Code LU_Job_Code
-        if(objEmployee.FK_LU_Job_Code.HasValue)
+        if (objEmployee.FK_LU_Job_Code.HasValue)
         {
             clsLU_Job_Code objLU_Job_Code = new clsLU_Job_Code(objEmployee.FK_LU_Job_Code.Value);
             lblJobCode.Text = objLU_Job_Code.Code;
