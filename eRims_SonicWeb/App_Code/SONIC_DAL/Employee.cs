@@ -1157,6 +1157,8 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "FK_LU_Job_Code", DbType.Decimal, this._FK_LU_Job_Code);
 
+            dbCommand.CommandTimeout = 10000;
+
             // Execute the query and return the new identity value
             decimal returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
 
@@ -1405,6 +1407,8 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Last_Date_Of_Hire", DbType.DateTime, this._Last_Hire_Date);
 
             db.AddInParameter(dbCommand, "FK_LU_Job_Code", DbType.Decimal, this._FK_LU_Job_Code);
+
+            dbCommand.CommandTimeout = 10000;
 
             db.ExecuteNonQuery(dbCommand);
         }
