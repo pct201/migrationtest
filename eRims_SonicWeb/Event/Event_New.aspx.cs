@@ -4388,13 +4388,14 @@ public partial class Event_Event_New : clsBasePage
     }
 
     private void ShowHideVideoRequestRadiobutton()
-    {
-        DataTable dtRLCM = Security.SelectGroupByUserID(Convert.ToDecimal(clsSession.UserID)).Tables[0];
+     {
+         DataTable dtRLCM = Security.SelectGroupByUserID(Convert.ToDecimal(clsSession.UserID)).Tables[0];
 
-        if (dtRLCM.Rows.Count <= 0 || !Is_Sonic_Event)
-        {
-            rblVideoRequestedBySonic.Enabled = false;
-            rblVideoRequestedBySonic.SelectedValue = "N";
-        }
+         //if (dtRLCM.Rows.Count <= 0 || !Is_Sonic_Event)
+         if (dtRLCM.Rows.Count <= 0)
+         {
+             rblVideoRequestedBySonic.Enabled = false;
+             rblVideoRequestedBySonic.SelectedValue = "N";
+         }
     }
 }
