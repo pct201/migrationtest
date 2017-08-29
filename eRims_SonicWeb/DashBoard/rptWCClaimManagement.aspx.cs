@@ -345,7 +345,7 @@ public partial class rptWCClaimManagement : clsBasePage
             sbRecorords.Append("<table style='padding-left:4px;font-size:8.5pt;font-family:Tahoma' cellpadding='4' cellspacing='0' Width='996px'>");//Sub Table
             sbRecorords.Append("<tr style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:11pt;height:25;border:thin'>"); //Title
             sbRecorords.Append("<td align='left' style='font-size:9pt;' colspan='1'><b>Sonic Automotive</b></td>");
-            sbRecorords.Append("<td align='center' style='font-size:9pt;' colspan='4' ><b> Worker's Compensation Claims Management - ANNAUL REPORT FOR " + drpYear.SelectedValue + " </b></td>");
+            sbRecorords.Append("<td align='center' style='font-size:9pt;' colspan='4' ><b> Worker's Compensation Claims Management - ANNUAL REPORT FOR " + drpYear.SelectedValue + " </b></td>");
             sbRecorords.Append("<td style='font-size:9pt' align='right' colspan='3'>Valuation Date: " + DateTime.Now.ToString("MM/dd/yyy HH:mm tt") + "</td></tr>");
 
             sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:8.5pt;border:thin'>");

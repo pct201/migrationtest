@@ -155,7 +155,7 @@ public partial class DashBoard_rptSafetyTrainingByRegionLocation : clsBasePage
             sbRecorords.Append("<table style='padding-left:4px;font-size:8.5pt;font-family:Tahoma' cellpadding='4' cellspacing='0' Width='996px'>");//Sub Table
             sbRecorords.Append("<tr style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:11pt;height:25'>"); //Title
             sbRecorords.Append("<td width='140px' align='left' style='font-size:9pt;' colspan='1'><b>Sonic Automotive</b></td>");
-            sbRecorords.Append("<td width='500px' align='center' style='font-size:9pt;' colspan='1' ><b> Safety Training - ANNAUL REPORT by Region and Location FOR " + drpYear.SelectedValue + " </b></td>");
+            sbRecorords.Append("<td width='500px' align='center' style='font-size:9pt;' colspan='1' ><b> Safety Training - ANNUAL REPORT by Region and Location FOR " + drpYear.SelectedValue + " </b></td>");
             sbRecorords.Append("<td width='300px' style='font-size:9pt'  colspan='1'>Valuation Date: " + DateTime.Now.ToString("MM/dd/yyy HH:mm tt") + "</td></tr>");
             sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:#FFFFFF;color:White;font-size:8.5pt'>");
             sbRecorords.Append("<td ></td>");

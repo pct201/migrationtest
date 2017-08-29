@@ -822,7 +822,7 @@ namespace ERIMS_Sonic_ReportScheduler
                     strHTML.Append("<table border='1' style='padding-left:4px;font-size:8.5pt;font-family:Tahoma' cellpadding='4' cellspacing='0' Width='996px'>");//Sub Table
                     strHTML.Append("<tr style='font-weight: bold;font-size:11pt;height:25'>"); //Title
                     strHTML.Append("<td align='left' style='font-size:9pt;' colspan='1'><b>Sonic Automotive</b></td>");
-                    strHTML.Append("<td align='center' style='font-size:9pt;' colspan='4' ><b> " + strGridHeader + " - ANNAUL REPORT FOR " + strYear + " </b></td>");
+                    strHTML.Append("<td align='center' style='font-size:9pt;' colspan='4' ><b> " + strGridHeader + " - ANNUAL REPORT FOR " + strYear + " </b></td>");
                     strHTML.Append("<td style='font-size:9pt' align='right' colspan='3'>Valuation Date: " + DateTime.Now.ToString("MM/dd/yyy HH:mm tt") + "</td></tr>");
 
                     strHTML.Append("<tr align='left' border='1' style='border: black 0.5px solid;'>");
@@ -10194,7 +10194,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<table border='1' style='padding-left:4px;font-size:8.5pt;font-family:Tahoma' cellpadding='4' cellspacing='0' Width='996px'>");//Sub Table
                         strHTML.Append("<tr style='font-weight: bold;font-size:11pt;height:25'>"); //Title
                         strHTML.Append("<td align='left' style='font-size:9pt;' colspan='1'><b>Sonic Automotive</b></td>");
-                        strHTML.Append("<td align='center' style='font-size:9pt;' colspan='4' ><b> EHS INSPECTION - ANNAUL REPORT FOR " + strYear + " </b></td>");
+                        strHTML.Append("<td align='center' style='font-size:9pt;' colspan='4' ><b> EHS INSPECTION - ANNUAL REPORT FOR " + strYear + " </b></td>");
                         strHTML.Append("<td style='font-size:9pt' align='right' colspan='3'>Valuation Date: " + DateTime.Now.ToString("MM/dd/yyy HH:mm tt") + "</td></tr>");
 
                         strHTML.Append("<tr align='left' border='1' style='border: black 0.5px solid;'>");
