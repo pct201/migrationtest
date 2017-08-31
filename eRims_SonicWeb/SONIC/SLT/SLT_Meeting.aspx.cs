@@ -2962,10 +2962,12 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
     }
     #endregion
 
-    #region Send To RLCM
-    protected void SendTO_RLCM(string RLCMmsg)
+    /// <summary>
+    /// Save Attchment and Return path
+    /// </summary>
+    /// <returns></returns>
+    public string SaveAttachment_Meeting_Agenda()
     {
-        string strRLCMMsg = string.Empty;
         SLT_Reports objSLT_Report = new SLT_Reports();
         objSLT_Report.PK_SLT_Meeting = PK_SLT_Meeting;
         objSLT_Report.PK_SLT_Meeting_Schedule = PK_SLT_Meeting_Schedule;
@@ -2973,13 +2975,10 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         string DocPath = clsGeneral.GetAttachmentDocPath("SLT_Safety_Walk");
         SLT_Meeting_Schedule objSLT_Meeting_Schedule = new SLT_Meeting_Schedule(PK_SLT_Meeting_Schedule);
 
-        //string Attachment_name = clsGeneral.SaveFile(objSLT_Report.GeneratePrintReport("Email"), DocPath, "Sonic_SLT_Meeting_Agenda.doc");
-        string Attachment_name;
+        string Attachment_name, strAttchment;
         if ((!string.IsNullOrEmpty(Convert.ToString(objSLT_Meeting_Schedule.Scheduled_Meeting_Date))) && string.IsNullOrEmpty(Convert.ToString(objSLT_Meeting_Schedule.Actual_Meeting_Date)))
             Attachment_name = clsGeneral.SaveFile(objSLT_Report.GeneratePrintScheduleMeetingReport("Email"), DocPath, "Sonic_SLT_Meeting_Agenda.doc");
-        //Attachment_name = clsGeneral.GenerateWordFromFileAndReplaceText(strFilePath,,"Sonic_SLT_Meeting_Agenda.doc",objSLT_Report.)
-
-        //clsGeneral.GenerateWordDoc("SLT Meeting Information.doc", objSLT_Report.GeneratePrintScheduleMeetingReport("Print"), Response);
+        
         else
         {
             DateTime startOfMonth = new DateTime(AppConfig.New_SLT_Safety_Walk_Date.Year, AppConfig.New_SLT_Safety_Walk_Date.Month, 1);
@@ -2997,8 +2996,48 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             }
         }
 
+        strAttchment = DocPath + Attachment_name;
+        return strAttchment;
+    }
+
+    #region Send To RLCM
+    protected void SendTO_RLCM(string RLCMmsg)
+    {
+        string strRLCMMsg = string.Empty;
+        //SLT_Reports objSLT_Report = new SLT_Reports();
+        //objSLT_Report.PK_SLT_Meeting = PK_SLT_Meeting;
+        //objSLT_Report.PK_SLT_Meeting_Schedule = PK_SLT_Meeting_Schedule;
+        //objSLT_Report.FK_LU_Location_ID = FK_LU_Location_ID;
+        //string DocPath = clsGeneral.GetAttachmentDocPath("SLT_Safety_Walk");
+        //SLT_Meeting_Schedule objSLT_Meeting_Schedule = new SLT_Meeting_Schedule(PK_SLT_Meeting_Schedule);
+
+        ////string Attachment_name = clsGeneral.SaveFile(objSLT_Report.GeneratePrintReport("Email"), DocPath, "Sonic_SLT_Meeting_Agenda.doc");
+        //string Attachment_name;
+        //if ((!string.IsNullOrEmpty(Convert.ToString(objSLT_Meeting_Schedule.Scheduled_Meeting_Date))) && string.IsNullOrEmpty(Convert.ToString(objSLT_Meeting_Schedule.Actual_Meeting_Date)))
+        //    Attachment_name = clsGeneral.SaveFile(objSLT_Report.GeneratePrintScheduleMeetingReport("Email"), DocPath, "Sonic_SLT_Meeting_Agenda.doc");
+        ////Attachment_name = clsGeneral.GenerateWordFromFileAndReplaceText(strFilePath,,"Sonic_SLT_Meeting_Agenda.doc",objSLT_Report.)
+
+        ////clsGeneral.GenerateWordDoc("SLT Meeting Information.doc", objSLT_Report.GeneratePrintScheduleMeetingReport("Print"), Response);
+        //else
+        //{
+        //    DateTime startOfMonth = new DateTime(AppConfig.New_SLT_Safety_Walk_Date.Year, AppConfig.New_SLT_Safety_Walk_Date.Month, 1);
+        //    TimeSpan tsTmp;
+        //    if (objSLT_Meeting_Schedule.Actual_Meeting_Date != null)
+        //        tsTmp = objSLT_Meeting_Schedule.Actual_Meeting_Date.Value.Subtract(startOfMonth); //AppConfig.New_SLT_Safety_Walk_Date);
+        //    else tsTmp = Actual_Meeting_Date.Subtract(startOfMonth);
+        //    if (tsTmp.Days < 0)
+        //    {
+        //        Attachment_name = clsGeneral.SaveFile(objSLT_Report.GeneratePrintReport("Email"), DocPath, "Sonic_SLT_Meeting_Agenda.doc");
+        //    }
+        //    else
+        //    {
+        //        Attachment_name = clsGeneral.SaveFile(objSLT_Report.GeneratePrintReport_New("Email"), DocPath, "Sonic_SLT_Meeting_Agenda.doc");
+        //    }
+        //}
+
+        
         string[] Attachment = new string[1];
-        Attachment[0] = DocPath + Attachment_name;
+        Attachment[0] = SaveAttachment_Meeting_Agenda();
         string Email = "";
         LU_Location objLU_Location = new LU_Location(FK_LU_Location_ID);
         if (objLU_Location.FK_Employee_Id != null)
@@ -3033,8 +3072,8 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         else
             Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(" + hdnPanel2.Value + ");alert('" + RLCMmsg.ToString() + "');alert('No RLCM exist for the Location " + objLU_Location.dba + " to send Meeting Minutes.');", true);
 
-        if (File.Exists(DocPath + Attachment_name))
-            File.Delete(DocPath + Attachment_name);
+        if (File.Exists(Attachment[0]))
+            File.Delete(Attachment[0]);
 
     }
     #endregion
@@ -4107,10 +4146,25 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                         message.From = new System.Net.Mail.MailAddress(AppConfig.MailFrom);
                         message.AlternateViews.Add(ICSview);
 
+                        string[] Attachment = new string[1];
+                        Attachment[0] = SaveAttachment_Meeting_Agenda();
+
+                        if (File.Exists(Attachment[0]))
+                        {
+                            System.Net.Mail.Attachment MailAttachment = new System.Net.Mail.Attachment(Attachment[0]);
+                            if (MailAttachment != null)
+                            {
+                                message.Attachments.Add(MailAttachment);
+                            }
+                        }
+
                         System.Net.Mail.SmtpClient client = new System.Net.Mail.SmtpClient();
                         client.Host = AppConfig.SMTPServer;
                         client.Credentials = new System.Net.NetworkCredential(AppConfig.MailFrom, AppConfig.SMTPpwd);
                         client.Send(message);
+
+                        if (File.Exists(Attachment[0]))
+                            File.Delete(Attachment[0]);
                     }
                     catch (Exception ex)
                     {

@@ -2190,6 +2190,7 @@ public class clsGeneral : System.Web.UI.Page
         }
         finally
         {
+            mMailMessage.Attachments.Dispose();
             mMailMessage.Dispose();
             mMailMessage = null;
             mSmtpClient = null;
@@ -3052,7 +3053,7 @@ public class clsGeneral : System.Web.UI.Page
 
         doc.MailMerge.DeleteFields();
         doc.Save(strFulleName, Aspose.Words.SaveFormat.Doc);
-
+        
         // set return value = only filename.
         strRetVal = GetFileName(strFulleName);
 
