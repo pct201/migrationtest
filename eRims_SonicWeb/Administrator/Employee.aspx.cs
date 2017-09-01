@@ -91,13 +91,6 @@ public partial class Administrator_Employee : clsBasePage
             return;
         }
 
-        IsDublicate = Employee.CheckForDuplicateSSNNumber(txtSocial_Security_Number.Text.Trim());
-
-        if (IsDublicate > 0)
-        {
-            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:alert('Associate already exists in the database with the same Social Security Number that was entered.');", true);
-            return;
-        }
         bool jobcodeChanged = false;
 
         DataSet ds = Employee_Codes.SelectDataByEmployeeCodes(PK_Employee_ID);
