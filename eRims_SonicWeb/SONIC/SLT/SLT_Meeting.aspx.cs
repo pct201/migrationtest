@@ -4161,8 +4161,22 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                         System.Net.Mail.SmtpClient client = new System.Net.Mail.SmtpClient();
                         client.Host = AppConfig.SMTPServer;
                         client.Credentials = new System.Net.NetworkCredential(AppConfig.MailFrom, AppConfig.SMTPpwd);
-                        client.Send(message);
 
+                        try
+                        {
+                            client.Send(message);
+                        }
+                        catch (Exception ex)
+                        { 
+                        }
+                        finally
+                        {
+                            message.Attachments.Dispose();
+                            message.Dispose();
+                            message = null;
+                            client = null;
+                        }
+                       
                         if (File.Exists(Attachment[0]))
                             File.Delete(Attachment[0]);
                     }
