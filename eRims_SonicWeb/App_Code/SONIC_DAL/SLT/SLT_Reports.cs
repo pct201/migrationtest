@@ -319,15 +319,39 @@ public class SLT_Reports : System.Web.UI.Page
 
         #region "Sonic University training"
         int intYearTraining = Convert.ToInt32(Incident_Year);
-        DataTable dtResult = SLT_Training.SelectQuarterResults(FK_LU_Location_ID, intYearTraining).Tables[0];
-        DataRow[] drQ1 = dtResult.Select("Quarter = 'Q1'");
-        DataRow[] drQ2 = dtResult.Select("Quarter = 'Q2'");
-        DataRow[] drQ3 = dtResult.Select("Quarter = 'Q3'");
-        DataRow[] drQ4 = dtResult.Select("Quarter = 'Q4'");
-        strBody = strBody.Replace("[Q1_Score]", Convert.ToString(drQ1[0][1]) + "%");
-        strBody = strBody.Replace("[Q2_Score]", Convert.ToString(drQ2[0][1]) + "%");
-        strBody = strBody.Replace("[Q3_Score]", Convert.ToString(drQ3[0][1]) + "%");
-        strBody = strBody.Replace("[Q4_Score]", Convert.ToString(drQ4[0][1]) + "%");
+        
+        DataTable dtResult = Charts.GetSabaTrainingDetail_New(Convert.ToInt32(intYearTraining), DBA).Tables[0]; ;
+
+        if (dtResult != null && dtResult.Rows.Count > 0)
+        {
+            DataRow[] drQ1 = dtResult.Select("AssociateQuarter = '1'");
+            if (drQ1.Length > 0)
+            {
+                if (!string.IsNullOrEmpty(drQ1[0]["Percentage"].ToString()))
+                    strBody = strBody.Replace("[Q1_Score]", Convert.ToString(drQ1[0]["Percentage"]) + "%");
+            }
+
+            DataRow[] drQ2 = dtResult.Select("AssociateQuarter = '2'");
+            if (drQ2.Length > 0)
+            {
+                if (!string.IsNullOrEmpty(drQ2[0]["Percentage"].ToString()))
+                    strBody = strBody.Replace("[Q2_Score]", Convert.ToString(drQ2[0]["Percentage"]) + "%");
+            }
+
+            DataRow[] drQ3 = dtResult.Select("AssociateQuarter = '3'");
+            if (drQ3.Length > 0)
+            {
+                if (!string.IsNullOrEmpty(drQ3[0]["Percentage"].ToString()))
+                    strBody = strBody.Replace("[Q3_Score]", Convert.ToString(drQ3[0]["Percentage"]) + "%");
+            }
+
+            DataRow[] drQ4 = dtResult.Select("AssociateQuarter = '4'");
+            if (drQ4.Length > 0)
+            {
+                if (!string.IsNullOrEmpty(drQ4[0]["Percentage"].ToString()))
+                    strBody = strBody.Replace("[Q4_Score]", Convert.ToString(drQ4[0]["Percentage"]) + "%");
+            }
+        }
         strBody = strBody.Replace("[Sonic_training_info]", GetSonicTrainigDetails());
 
         #endregion
@@ -620,15 +644,39 @@ public class SLT_Reports : System.Web.UI.Page
 
         #region "Sonic University training"
         int intYearTraining = Convert.ToInt32(Incident_Year);
-        DataTable dtResult = SLT_Training.SelectQuarterResults(FK_LU_Location_ID, intYearTraining).Tables[0];
-        DataRow[] drQ1 = dtResult.Select("Quarter = 'Q1'");
-        DataRow[] drQ2 = dtResult.Select("Quarter = 'Q2'");
-        DataRow[] drQ3 = dtResult.Select("Quarter = 'Q3'");
-        DataRow[] drQ4 = dtResult.Select("Quarter = 'Q4'");
-        strBody = strBody.Replace("[Q1_Score]", Convert.ToString(drQ1[0][1]) + "%");
-        strBody = strBody.Replace("[Q2_Score]", Convert.ToString(drQ2[0][1]) + "%");
-        strBody = strBody.Replace("[Q3_Score]", Convert.ToString(drQ3[0][1]) + "%");
-        strBody = strBody.Replace("[Q4_Score]", Convert.ToString(drQ4[0][1]) + "%");
+
+        DataTable dtResult = Charts.GetSabaTrainingDetail_New(Convert.ToInt32(intYearTraining), DBA).Tables[0]; ;
+
+        if (dtResult != null && dtResult.Rows.Count > 0)
+        {
+            DataRow[] drQ1 = dtResult.Select("AssociateQuarter = '1'");
+            if (drQ1.Length > 0)
+            {
+                if (!string.IsNullOrEmpty(drQ1[0]["Percentage"].ToString()))
+                    strBody = strBody.Replace("[Q1_Score]", Convert.ToString(drQ1[0]["Percentage"]) + "%");
+            }
+
+            DataRow[] drQ2 = dtResult.Select("AssociateQuarter = '2'");
+            if (drQ2.Length > 0)
+            {
+                if (!string.IsNullOrEmpty(drQ2[0]["Percentage"].ToString()))
+                    strBody = strBody.Replace("[Q2_Score]", Convert.ToString(drQ2[0]["Percentage"]) + "%");
+            }
+
+            DataRow[] drQ3 = dtResult.Select("AssociateQuarter = '3'");
+            if (drQ3.Length > 0)
+            {
+                if (!string.IsNullOrEmpty(drQ3[0]["Percentage"].ToString()))
+                    strBody = strBody.Replace("[Q3_Score]", Convert.ToString(drQ3[0]["Percentage"]) + "%");
+            }
+
+            DataRow[] drQ4 = dtResult.Select("AssociateQuarter = '4'");
+            if (drQ4.Length > 0)
+            {
+                if (!string.IsNullOrEmpty(drQ4[0]["Percentage"].ToString()))
+                    strBody = strBody.Replace("[Q4_Score]", Convert.ToString(drQ4[0]["Percentage"]) + "%");
+            }
+        }
         strBody = strBody.Replace("[Sonic_training_info]", GetSonicTrainigDetails());
 
         #endregion
