@@ -560,5 +560,20 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "FK_SLT_Meeting", DbType.Decimal, FK_SLT_Meeting);
             return db.ExecuteDataSet(dbCommand);
         }
+
+        /// <summary>
+        /// get the SLT Questions From Year and Month
+        /// </summary>
+        /// <param name="strMonth"></param>
+        /// <param name="year"></param>
+        /// <returns></returns>
+        public static DataSet GetSLTQuestionsFromMonthAndYear(string strMonth, int year)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("GetSLTQuestionsByYearAndMonth");
+            db.AddInParameter(dbCommand, "Month", DbType.String, strMonth);
+            db.AddInParameter(dbCommand, "Year", DbType.Decimal, year);
+            return db.ExecuteDataSet(dbCommand);
+        }
 	}
 }

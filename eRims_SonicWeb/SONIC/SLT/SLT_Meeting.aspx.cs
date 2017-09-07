@@ -226,6 +226,16 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         get { return Convert.ToBoolean(ViewState["UserIsRegional"]); }
         set { ViewState["UserIsRegional"] = value; }
     }
+
+    /// <summary>
+    /// check whether Outlook attachment or not
+    /// </summary>
+    public bool IsOutlookAttachment
+    {
+        get { return Convert.ToBoolean(ViewState["IsOutlookAttachment"]); }
+        set { ViewState["IsOutlookAttachment"] = value; }
+    }
+
     public bool meetingIsEditable
     {
         get { return Convert.ToBoolean(ViewState["meetingIsEditable"]); }
@@ -318,7 +328,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
     #region "Page Events"
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (!IsPostBack)
+if (!IsPostBack)
         {
             DataTable dt_Y = new DataTable();
             dt_Y.Columns.Add("S1", typeof(string));
@@ -2966,7 +2976,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
     /// Save Attchment and Return path
     /// </summary>
     /// <returns></returns>
-    public string SaveAttachment_Meeting_Agenda()
+    public string SaveAttachment_Meeting_Agenda(bool IsOutlookAttachment)
     {
         SLT_Reports objSLT_Report = new SLT_Reports();
         objSLT_Report.PK_SLT_Meeting = PK_SLT_Meeting;
@@ -2992,7 +3002,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             }
             else
             {
-                Attachment_name = clsGeneral.SaveFile(objSLT_Report.GeneratePrintReport_New("Email"), DocPath, "Sonic_SLT_Meeting_Agenda.doc");
+                Attachment_name = clsGeneral.SaveFile(objSLT_Report.GeneratePrintReport_New("Email", IsOutlookAttachment), DocPath, "Sonic_SLT_Meeting_Agenda.doc");
             }
         }
 
@@ -3035,9 +3045,9 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         //    }
         //}
 
-        
+        IsOutlookAttachment = false;
         string[] Attachment = new string[1];
-        Attachment[0] = SaveAttachment_Meeting_Agenda();
+        Attachment[0] = SaveAttachment_Meeting_Agenda(IsOutlookAttachment);
         string Email = "";
         LU_Location objLU_Location = new LU_Location(FK_LU_Location_ID);
         if (objLU_Location.FK_Employee_Id != null)
@@ -4034,6 +4044,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                 {
                     try
                     {
+                        IsOutlookAttachment = true;
                         // clsGeneral.SendMailMessage(AppConfig.MailFrom, Email, string.Empty, string.Empty, subject, Mail_Text.Trim().Replace("\r\n", "<br/>"), true);
                         string attendees = Email;
                         string organizerName = ""; //Organizer Name
@@ -4147,7 +4158,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                         message.AlternateViews.Add(ICSview);
 
                         string[] Attachment = new string[1];
-                        Attachment[0] = SaveAttachment_Meeting_Agenda();
+                        Attachment[0] = SaveAttachment_Meeting_Agenda(IsOutlookAttachment);
 
                         if (File.Exists(Attachment[0]))
                         {
@@ -4175,6 +4186,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                             message.Dispose();
                             message = null;
                             client = null;
+                            IsOutlookAttachment = false;
                         }
                        
                         if (File.Exists(Attachment[0]))
@@ -4498,7 +4510,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             if (tsTmp.Days < 0)
                 Attachment_name = clsGeneral.SaveFile(objSLT_Report.GeneratePrintReport("Email"), DocPath, "Sonic_SLT_Meeting_Agenda.doc");
             else
-                Attachment_name = clsGeneral.SaveFile(objSLT_Report.GeneratePrintReport_New("Email"), DocPath, "Sonic_SLT_Meeting_Agenda.doc");
+                Attachment_name = clsGeneral.SaveFile(objSLT_Report.GeneratePrintReport_New("Email", IsOutlookAttachment), DocPath, "Sonic_SLT_Meeting_Agenda.doc");
 
         }
         string[] Attachment = new string[1];
@@ -4975,7 +4987,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                     }
                     else
                     {
-                        clsGeneral.GenerateWordDoc("SLT Meeting Information.doc", objSLT_Report.GeneratePrintReport_New("Print"), Response);
+                        clsGeneral.GenerateWordDoc("SLT Meeting Information.doc", objSLT_Report.GeneratePrintReport_New("Print", IsOutlookAttachment), Response);
                     }
                 }
             }
