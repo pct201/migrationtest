@@ -159,7 +159,7 @@ public partial class UserAccessRequest_SafetyTraining_NewUserAccessRequest : Sys
         objEmployee.Active_Inactive_Leave = "Active";
         objEmployee.Update_Date = DateTime.Now;
         if (hdnFK_Cost_Center.Value != "0")
-            objEmployee.FK_Cost_Center = Convert.ToInt32(hdnFK_Cost_Center.Value);
+            objEmployee.FK_LU_Job_Code = Convert.ToInt32(hdnFK_Cost_Center.Value);
         IsDublicate = Employee.CheckForDuplicateSSNNumber(lblSocialSecurityNumber.Text);
 
         //check whether SSN Number alredy exists or not
