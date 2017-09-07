@@ -82,10 +82,11 @@ public partial class UserAccessRequest_SafetyTraining_NewUserAccessRequest : Sys
         dt.Columns.Add("Location");
         dt.Columns.Add("Department");
         dt.Columns.Add("JobTitle");
+        dt.Columns.Add("FK_Cost_Center");
         dt.Columns.Add("DateofHire");
         dt.Columns.Add("LocationID");
 
-        dt.Rows.Add(txtFirstName.Text, txtLastName.Text, txtEmail.Text, txtSocialSecurityNumber.Text, ddlLocation.SelectedItem.Text, ddlDepartment.SelectedItem.Value, ddlJobTitle.SelectedItem.Value, txtDateOfHire.Text, ddlLocation.SelectedItem.Value);
+        dt.Rows.Add(txtFirstName.Text, txtLastName.Text, txtEmail.Text, txtSocialSecurityNumber.Text, ddlLocation.SelectedItem.Text, ddlDepartment.SelectedItem.Value, ddlJobTitle.SelectedItem.Text, ddlJobTitle.SelectedItem.Value, txtDateOfHire.Text, ddlLocation.SelectedItem.Value);
         //store data into session
         Session["dtEmployeeData"] = dt;
 
@@ -97,10 +98,11 @@ public partial class UserAccessRequest_SafetyTraining_NewUserAccessRequest : Sys
         lblFirstName.Text = Convert.ToString(dtEmployeeData.Rows[0]["FirstName"]);
         lblLastName.Text = Convert.ToString(dtEmployeeData.Rows[0]["LastName"]);
         lblLocation.Text = Convert.ToString(dtEmployeeData.Rows[0]["Location"]);
-        lblSocialSecurityNumber.Text = Convert.ToString(dtEmployeeData.Rows[0]["SocialSecurityNumber"]).Replace("-","");
+        lblSocialSecurityNumber.Text = Convert.ToString(dtEmployeeData.Rows[0]["SocialSecurityNumber"]).Replace("-", "");
         lblDepartment.Text = Convert.ToString(dtEmployeeData.Rows[0]["Department"]);
         lblEmail.Text = Convert.ToString(dtEmployeeData.Rows[0]["EMail"]);
         lblJobTitle.Text = Convert.ToString(dtEmployeeData.Rows[0]["JobTitle"]);
+        hdnFK_Cost_Center.Value = Convert.ToString(dtEmployeeData.Rows[0]["FK_Cost_Center"]);
         lblDateOfHire.Text = Convert.ToString(dtEmployeeData.Rows[0]["DateofHire"]);
         PK_LU_Location_ID = hdnLocationID.Value = Convert.ToString(dtEmployeeData.Rows[0]["LocationID"]);
     }
@@ -124,7 +126,7 @@ public partial class UserAccessRequest_SafetyTraining_NewUserAccessRequest : Sys
         txtDateOfHire.Text = Convert.ToString(dtEmployeeData.Rows[0]["DateofHire"]);
         clsGeneral.SetDropdownValue(ddlLocation, Convert.ToString(dtEmployeeData.Rows[0]["Location"]), false);
         clsGeneral.SetDropdownValue(ddlDepartment, Convert.ToString(dtEmployeeData.Rows[0]["Department"]), true);
-        clsGeneral.SetDropdownValue(ddlJobTitle, Convert.ToString(dtEmployeeData.Rows[0]["JobTitle"]), true);
+        clsGeneral.SetDropdownValue(ddlJobTitle, Convert.ToString(dtEmployeeData.Rows[0]["FK_Cost_Center"]), true);
         PK_LU_Location_ID = hdnLocationID.Value = Convert.ToString(dtEmployeeData.Rows[0]["LocationID"]);
     }
 
@@ -145,7 +147,7 @@ public partial class UserAccessRequest_SafetyTraining_NewUserAccessRequest : Sys
         objEmployee.Last_Name = lblLastName.Text;
         objEmployee.Email = lblEmail.Text;
         objEmployee.Job_Title = lblJobTitle.Text;
-        objEmployee.Social_Security_Number = (lblSocialSecurityNumber.Text).Replace("-","");
+        objEmployee.Social_Security_Number = (lblSocialSecurityNumber.Text).Replace("-", "");
 
         if (!string.IsNullOrEmpty(Convert.ToString(LU_Location.SelectFKCostCenterByLocation(Convert.ToDecimal(PK_LU_Location_ID)))))
         {
@@ -156,29 +158,31 @@ public partial class UserAccessRequest_SafetyTraining_NewUserAccessRequest : Sys
         objEmployee.Last_Hire_Date = Convert.ToDateTime(lblDateOfHire.Text);
         objEmployee.Active_Inactive_Leave = "Active";
         objEmployee.Update_Date = DateTime.Now;
+        if (hdnFK_Cost_Center.Value != "0")
+            objEmployee.FK_Cost_Center = Convert.ToInt32(hdnFK_Cost_Center.Value);
         IsDublicate = Employee.CheckForDuplicateSSNNumber(lblSocialSecurityNumber.Text);
-    
+
         //check whether SSN Number alredy exists or not
-        if (IsDublicate > 0)
+        if (IsDublicate < 0)
         {
             PK_Employee_ID = objEmployee.Insert();
 
             if (PK_Employee_ID > 0)
             {
                 //insert record in Employee_Codes
-                Employee_Codes objEmployee_Codes = new Employee_Codes();
-                if (!string.IsNullOrEmpty(Convert.ToString(Sonic_U_Training_Required_Classes.SelectCodeByPosition(lblJobTitle.Text).Tables[0].Rows[0]["Code"])))
-                {
-                    objEmployee_Codes.Code = Convert.ToString(Sonic_U_Training_Required_Classes.SelectCodeByPosition(lblJobTitle.Text).Tables[0].Rows[0]["Code"]);
-                }
-                objEmployee_Codes.FK_Employee_Id = PK_Employee_ID;
-                objEmployee_Codes.Insert();
+                //Employee_Codes objEmployee_Codes = new Employee_Codes();
+                //if (!string.IsNullOrEmpty(Convert.ToString(Sonic_U_Training_Required_Classes.SelectCodeByPosition(lblJobTitle.Text).Tables[0].Rows[0]["Code"])))
+                //{
+                //    objEmployee_Codes.Code = Convert.ToString(Sonic_U_Training_Required_Classes.SelectCodeByPosition(lblJobTitle.Text).Tables[0].Rows[0]["Code"]);
+                //}
+                //objEmployee_Codes.FK_Employee_Id = PK_Employee_ID;
+                //objEmployee_Codes.Insert();
                 IsSave = true;
             }
 
             try
             {
-                Sonic_U_Training.Import_Sonic_U_Training_Associate_Base();
+                Sonic_U_Training.Import_Sonic_U_Training_Associate_Base_New(PK_Employee_ID);
             }
             catch (Exception)
             {
@@ -224,12 +228,7 @@ public partial class UserAccessRequest_SafetyTraining_NewUserAccessRequest : Sys
         ComboHelper.FillLocationByRLCM(new DropDownList[] { ddlLocation }, null, true, true);
 
         //Bind Drop Down for Job Title
-        ddlJobTitle.DataSource = Employee.SelectAllJobTitles();
-        ddlJobTitle.DataTextField = "Job_Title";
-        ddlJobTitle.DataValueField = "Job_Title";
-        ddlJobTitle.DataBind();
-
-        ddlJobTitle.Items.Insert(0, new ListItem("-- Select --", "0"));
+        ComboHelper.FillJobCode_New(new DropDownList[] { ddlJobTitle }, true);
 
         //Bind Drop Down for Department
         ddlDepartment.DataSource = Employee.SelectAllDepartments();
@@ -259,12 +258,12 @@ public partial class UserAccessRequest_SafetyTraining_NewUserAccessRequest : Sys
         {
             strEbdy = strEbdy.Replace("[FirstName]", lblFirstName.Text);
             strEbdy = strEbdy.Replace("[LastName]", lblLastName.Text);
-            strEbdy = strEbdy.Replace("[SocialSecurityNumber]",lblSocialSecurityNumber.Text.Substring(lblSocialSecurityNumber.Text.Length - Math.Min(4, lblSocialSecurityNumber.Text.Length)));
+            strEbdy = strEbdy.Replace("[SocialSecurityNumber]", lblSocialSecurityNumber.Text.Substring(lblSocialSecurityNumber.Text.Length - Math.Min(4, lblSocialSecurityNumber.Text.Length)));
             strEbdy = strEbdy.Replace("[E-Mail Address]", lblEmail.Text);
             strEbdy = strEbdy.Replace("[Location]", lblLocation.Text);
             strEbdy = strEbdy.Replace("[Department]", lblDepartment.Text);
             strEbdy = strEbdy.Replace("[JobTitle]", lblJobTitle.Text);
-            strEbdy = strEbdy.Replace("[DateofHire]",lblDateOfHire.Text);
+            strEbdy = strEbdy.Replace("[DateofHire]", lblDateOfHire.Text);
 
             ArrayList strFileName = new ArrayList();
             strFileName.Add("SafetyTrainingNewUserAccessRequest.doc");
@@ -331,7 +330,7 @@ public partial class UserAccessRequest_SafetyTraining_NewUserAccessRequest : Sys
     /// <param name="strAttachment"></param>
     /// <param name="strNewFileName"></param>
     /// <returns></returns>
-    public static bool SendMailWithNewFileName(string strFrom, string strTo, string strBCC, string strCC, string strFirstName, string strLastName,bool boolIsHTML, ArrayList strAttachment, ArrayList strNewFileName)
+    public static bool SendMailWithNewFileName(string strFrom, string strTo, string strBCC, string strCC, string strFirstName, string strLastName, bool boolIsHTML, ArrayList strAttachment, ArrayList strNewFileName)
     {
         if (!AppConfig.AllowMailSending)
             return false;
@@ -423,4 +422,4 @@ public partial class UserAccessRequest_SafetyTraining_NewUserAccessRequest : Sys
 
     #endregion
 
-} 
+}

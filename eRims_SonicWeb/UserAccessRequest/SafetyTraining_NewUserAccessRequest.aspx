@@ -113,14 +113,14 @@
                     </td>
                 </tr>
                 <tr>
-                    <td align="left" style="padding-left: 10px; font-size: 12px;">Job Title&nbsp;<span style="color: Red;">*</span>
+                    <td align="left" style="padding-left: 10px; font-size: 12px;">Job Code&nbsp;<span style="color: Red;">*</span>
                     </td>
                     <td align="center">:
                     </td>
                     <td align="left">
                         <asp:DropDownList runat="server" ID="ddlJobTitle" AutoPostBack="false" Style="width: 175px;"></asp:DropDownList>
                         <asp:RequiredFieldValidator ID="rfvJobTitle" runat="server" InitialValue="0" ValidationGroup="vsErrorGroup"
-                            ErrorMessage="Please Select Job Title" Display="None" ControlToValidate="ddlJobTitle"
+                            ErrorMessage="Please Select Job Code" Display="None" ControlToValidate="ddlJobTitle"
                             SetFocusOnError="true" />
                     </td>
                     <td align="left" style="font-size: 12px;">Date of Hire &nbsp;<span style="color: Red;">*</span></td>
@@ -228,12 +228,13 @@
                     </td>
                 </tr>
                 <tr>
-                    <td align="left" style="padding-left: 10px; font-size: 12px;">Job Title 
+                    <td align="left" style="padding-left: 10px; font-size: 12px;">Job Code 
                     </td>
                     <td align="center">:
                     </td>
                     <td align="left">
                         <asp:Label runat="server" ID="lblJobTitle"></asp:Label>
+                        <asp:HiddenField runat="server" ID="hdnFK_Cost_Center" Value="0" />
                     </td>
                     <td align="left" style="font-size: 12px;">Date of Hire 
                     </td>
