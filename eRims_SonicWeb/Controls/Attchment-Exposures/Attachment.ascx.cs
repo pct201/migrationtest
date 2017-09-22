@@ -178,7 +178,7 @@ public partial class Controls_Attchment_Exposures_Attachment : System.Web.UI.Use
                 // upload the document
                 string strUploadPath = clsGeneral.GetAttachmentDocPath(clsGeneral.ExposureTableNames[(int)AttachmentTbl]);
                 string DocPath = string.Concat(strUploadPath, "\\");
-                objAttachment.Path = clsGeneral.UploadFile(fpFile, DocPath, false, false);
+                objAttachment.Path = clsGeneral.UploadFileImage(fpFile, DocPath, false, false);
                 objAttachment.Filename = objAttachment.Path.Substring(objAttachment.Path.LastIndexOf("\\") + 1);
                 //Insert the attachment record
                 objAttachment.Insert();

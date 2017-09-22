@@ -22,6 +22,7 @@ using System.Collections;
 using System.Text.RegularExpressions;
 using ICSharpCode.SharpZipLib.Zip;
 using ICSharpCode.SharpZipLib.Core;
+using System.Drawing;
 
 /// <summary>
 /// Summary description for clsGeneral
@@ -1321,6 +1322,124 @@ public class clsGeneral : System.Web.UI.Page
                 // set return value = only filename.
                 strRetVal = GetFileName(strFulleName);
             }
+            return strRetVal;
+        }
+        else
+        {
+            HttpContext.Current.Response.Redirect(AppConfig.SiteURL + "Message.aspx?msg=The file you are attempting to upload is too large, please try again with a smaller file.");
+            return "";
+        }
+
+    }
+    
+    /// <summary>
+    /// Uploads file with Image.Solve the issue occurred in ipad and iphone
+    /// </summary>
+    /// <param name="fp">FileUploadControl which contains the file</param>
+    /// <param name="strPath">Path to which file needed to be uploaded</param>
+    /// <param name="RemoveAllFiles">if true,all other files at strPath will be deleted.</param>
+    /// <param name="OverWrite">OverWrite file if exists or not. if no then it will rename file to be uploaded.</param>
+    /// <returns>filename with extension</returns>
+    public static string UploadFileImage(FileUpload fp, string strPath, bool RemoveAllFiles, bool OverWrite)
+    {
+        string strRetVal = "";
+        if (fp.FileContent.Length > 0 && fp.FileContent.Length <= AppConfig.MaxRequestLength)
+        {
+            // set path.
+            if (!strPath.EndsWith("\\"))
+            {
+                strPath = string.Concat(strPath, "\\");
+            }
+            if (strPath.Contains("/"))
+                strPath = strPath.Replace('/', '\\');
+
+            // create dir if doesnt' exists
+            CreateDirectory(strPath);
+
+            // clear direct. if needed
+            if (RemoveAllFiles)
+            {
+                ClearDirectory(strPath);
+            }
+
+            // now check for file name exists or not. and option for overwrite
+            string strFulleName = string.Concat(strPath, fp.FileName);
+
+            if (fp.FileName.ToLower().EndsWith(".jpg") || fp.FileName.ToLower().EndsWith(".jpeg") || fp.FileName.ToLower().EndsWith(".gif") ||
+                            fp.FileName.ToLower().EndsWith(".png") || fp.FileName.ToLower().EndsWith(".tif") || fp.FileName.ToLower().EndsWith(".tiff"))
+            {
+                HttpPostedFile fileUpload = fp.PostedFile;
+                byte[] imageData = new byte[fileUpload.ContentLength];
+                fileUpload.InputStream.Read(imageData, 0, fileUpload.ContentLength);
+                MemoryStream ms = new MemoryStream(imageData);
+                System.Drawing.Image originalImage = System.Drawing.Image.FromStream(ms);
+                int[] intArray = originalImage.PropertyIdList;
+                int pos = Array.IndexOf(intArray, 0x0112);
+
+                if (pos > -1)
+                {
+                    int rotationValue = originalImage.GetPropertyItem(0x0112).Value[0];
+                    switch (rotationValue)
+                    {
+                        case 1: // landscape, do nothing
+                            break;
+
+                        case 8: // rotated 90 right
+                            // de-rotate:
+                            originalImage.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                            break;
+
+                        case 3: // bottoms up
+                            originalImage.RotateFlip(RotateFlipType.Rotate180FlipNone);
+                            break;
+
+                        case 6: // rotated 90 left
+                            originalImage.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                            break;
+                    }
+                }
+
+                if (OverWrite)
+                {
+                    // if overwrite is allowed then remove if already exists.
+                    if (File.Exists(strFulleName))
+                    {
+                        File.Delete(strFulleName);
+                    }
+                    originalImage.Save(strFulleName);
+                }
+                else
+                {
+                    // if overwrite is not allowed then get filename to save.
+                    strFulleName = GetFileNameToSave(strFulleName);
+                    originalImage.Save(strFulleName);
+
+                    // set return value = only filename.
+                    strRetVal = GetFileName(strFulleName);
+                }
+            }
+            else
+            {
+                if (OverWrite)
+                {
+                    // if overwrite is allowed then remove if already exists.
+                    if (File.Exists(strFulleName))
+                    {
+                        File.Delete(strFulleName);
+                    }
+                    fp.PostedFile.SaveAs(strFulleName);
+                }
+                else
+                {
+                    // if overwrite is not allowed then get filename to save.
+                    strFulleName = GetFileNameToSave(strFulleName);
+                    fp.PostedFile.SaveAs(strFulleName);
+
+                    // set return value = only filename.
+                    strRetVal = GetFileName(strFulleName);
+                }
+            }
+
             return strRetVal;
         }
         else
