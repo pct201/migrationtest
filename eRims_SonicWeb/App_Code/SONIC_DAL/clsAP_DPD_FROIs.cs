@@ -1242,7 +1242,7 @@ namespace ERIMS.DAL
             db.ExecuteNonQuery(dbCommand);
         }
 
-        public static DataSet GetDataToBindFROIsGrid(string FROIsToInclude, decimal Location_ID, int intPageNo, int intPageSize, string strOrder, string strOrderBy)
+        public static DataSet GetDataToBindFROIsGrid(string FROIsToInclude, decimal Location_ID, int intPageNo, int intPageSize, string strOrder, string strOrderBy,int year, int month)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("AP_DPD_FROIs_GetDataToBindFROIsGrid");
@@ -1253,6 +1253,8 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "intPageSize", DbType.String, intPageSize);
             db.AddInParameter(dbCommand, "strOrder", DbType.String, strOrder);
             db.AddInParameter(dbCommand, "strOrderBy", DbType.String, strOrderBy);
+            db.AddInParameter(dbCommand, "year", DbType.String, year);
+            db.AddInParameter(dbCommand, "month", DbType.String, month);
 
             return db.ExecuteDataSet(dbCommand);
         }

@@ -200,6 +200,11 @@ function SetFROIAllowedTab(Hyperlink, PK_RLCM_QA_QC, gridRow) {
                 Jsondata.Type = "FirstReport";
                 Jsondata.ClaimType = "";
             }
+            else if (Hyperlink.indexOf("Asset_Protection") > -1) {
+                Jsondata.WizardID = $("#" + '<%= lblYear.ClientID %>').text();
+                Jsondata.Type = "Asset_Protection";
+                Jsondata.ClaimType = $("#" + '<%= hdnMonth.ClientID %>').val();
+            }
             else {
                 Jsondata.WizardID = number[0].substring(number[0].indexOf("=") + 1);
                 Jsondata.Type = "Claim";
@@ -375,6 +380,7 @@ $(document).ready(function () {
                                 </td>
                                 <td align="left">
                                     <asp:Label ID="lblMonth" runat="server"></asp:Label>
+                                    <asp:HiddenField ID="hdnMonth" runat="server" Value="0" />
                                 </td>
                                 <td align="left">
                                     <asp:Label ID="lblYear" runat="server"></asp:Label>

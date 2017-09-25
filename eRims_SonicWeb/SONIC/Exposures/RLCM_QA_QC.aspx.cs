@@ -92,6 +92,7 @@ public partial class SONIC_Exposures_RLCM_QA_QC : clsBasePage
         strOrderBy = "PK_RLCM";
         strOrder = "asc";
         lblMonth.Text = ddlMonth.SelectedItem.Text;
+        hdnMonth.Value = ddlMonth.SelectedItem.Value;
         lblYear.Text = Convert.ToString(year);
         lblRLCM.Text = ddlRLCM.SelectedItem.Text;
 
@@ -845,6 +846,12 @@ public partial class SONIC_Exposures_RLCM_QA_QC : clsBasePage
             }
             clsSession.AllowedTab = AllowTab;
             #endregion
+        }
+        else if (Type.Contains("Asset_Protection"))
+        {
+            HttpContext.Current.Session["RLCMYear"] = Convert.ToInt32(strWizardID);
+            HttpContext.Current.Session["RLCMMonth"] = Convert.ToInt32(ClaimType);
+
         }
     }
 
