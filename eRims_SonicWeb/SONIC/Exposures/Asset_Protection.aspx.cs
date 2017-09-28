@@ -486,11 +486,11 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
                     BindDropDownList();
                 }
                 BindPropertySecurityMonitoringGrid();
-                BindAP_DPD_FROIs_Grid(CtrlPagingDPD_FROIs.CurrentPage, CtrlPagingDPD_FROIs.PageSize, 0, 0);
+                BindAP_DPD_FROIs_Grid(CtrlPagingDPD_FROIs.CurrentPage, CtrlPagingDPD_FROIs.PageSize);
                 gvDPD_Witnesses.DataBind();
                 gvDPD_WitnessesView.DataBind();
                 txtLoss_Description.Enabled = false;
-                BindAP_AL_FROIs_Grid(CtrlPagingAL_FROIs.CurrentPage, CtrlPagingAL_FROIs.PageSize, 0, 0);
+                BindAP_AL_FROIs_Grid(CtrlPagingAL_FROIs.CurrentPage, CtrlPagingAL_FROIs.PageSize);
                 //AttachDetails.Bind();
                 //AttachDetails.FindControl("gvAttachment").DataBind();
                 BindCalAtlanticEventGrid();
@@ -498,12 +498,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
                 SetValidation();
 
 
-                if (!string.IsNullOrEmpty(Request.QueryString["DEST"]))
-                {
-                    int Year = Convert.ToInt32(HttpContext.Current.Session["RLCMYear"]), Month = Convert.ToInt32(HttpContext.Current.Session["RLCMMonth"]);
-
-                    BindOpenDPDFROIs(Convert.ToString(Request.QueryString["DEST"]), Year, Month);
-                }
+                if (!string.IsNullOrEmpty(Request.QueryString["DEST"])) { BindOpenDPDFROIs(Convert.ToString(Request.QueryString["DEST"])); }
             }
         }
         else
@@ -583,7 +578,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     private void BindDetailsForEditForProperty_Security()
     {
         clsAP_Property_Security objAP_Property_Security = new clsAP_Property_Security(PK_AP_Property_Security);
-        clsGeneral.SetDropdownValue(drp_IsActive, objAP_Property_Security.IsActive, true);
+        clsGeneral.SetDropdownValue(drp_IsActive, objAP_Property_Security.IsActive,true);
         txtCCTV_Company_Name.Text = objAP_Property_Security.CCTV_Company_Name;
         txtCCTV_Company_Address_1.Text = objAP_Property_Security.CCTV_Company_Address_1;
         txtCCTV_Company_Address_2.Text = objAP_Property_Security.CCTV_Company_Address_2;
@@ -771,7 +766,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     {
         dvProperty_SecuritySave.Visible = false;
         clsAP_Property_Security objAP_Property_Security = new clsAP_Property_Security(PK_AP_Property_Security);
-        lblIsActive.Text = !string.IsNullOrEmpty(Convert.ToString(objAP_Property_Security.IsActive)) && objAP_Property_Security.IsActive != 0 ? (objAP_Property_Security.IsActive == 1 ? "Yes" : "No") : "";
+        lblIsActive.Text = !string.IsNullOrEmpty(Convert.ToString(objAP_Property_Security.IsActive)) && objAP_Property_Security.IsActive !=0? (objAP_Property_Security.IsActive == 1 ? "Yes" : "No") : "";
         lblCCTV_Company_Name.Text = objAP_Property_Security.CCTV_Company_Name;
         lblCCTV_Company_Address_1.Text = objAP_Property_Security.CCTV_Company_Address_1;
         lblCCTV_Company_Address_2.Text = objAP_Property_Security.CCTV_Company_Address_2;
@@ -800,7 +795,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             lblGroupIDview.Text = Convert.ToString(objAP_Property_Security.Group_ID);
         else
             lblGroupIDview.Text = string.Empty;
-
+        
         if (LocationID != null && hdnBuildingNumberByLocation.Value != string.Empty)
         {
             DataSet ds = clsACI_Link_LU_Location.ACI_Link_LU_LocationSelectByFK_LU_Location(LocationID, hdnBuildingNumberByLocation.Value);
@@ -1593,11 +1588,11 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     /// </summary>
     /// <param name="PageNumber"></param>
     /// <param name="PageSize"></param>
-    private void BindAP_DPD_FROIs_Grid(int PageNumber, int PageSize, int Year, int Month)
+    private void BindAP_DPD_FROIs_Grid(int PageNumber, int PageSize)
     {
         if (StrOperation.ToLower() == "view")
         {
-            DataSet dsFROIs = clsAP_DPD_FROIs.GetDataToBindFROIsGrid(rdoDPD_FROIsView.SelectedValue, LocationID, PageNumber, PageSize, SortOrder_DPDFROIs, SortBy_DPDFROIs, Year, Month);
+            DataSet dsFROIs = clsAP_DPD_FROIs.GetDataToBindFROIsGrid(rdoDPD_FROIsView.SelectedValue, LocationID, PageNumber, PageSize, SortOrder_DPDFROIs, SortBy_DPDFROIs);
             DataTable dtFROIs = dsFROIs.Tables[0];
             CtrlPagingDPD_FROIsView.TotalRecords = (dsFROIs.Tables.Count >= 2) ? Convert.ToInt32(dsFROIs.Tables[1].Rows[0][0]) : 0;
             CtrlPagingDPD_FROIsView.CurrentPage = (dsFROIs.Tables.Count >= 2) ? Convert.ToInt32(dsFROIs.Tables[1].Rows[0][2]) : 0;
@@ -1608,7 +1603,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         }
         else
         {
-            DataSet dsFROIs = clsAP_DPD_FROIs.GetDataToBindFROIsGrid(rdoFROIs.SelectedValue, LocationID, PageNumber, PageSize, SortOrder_DPDFROIs, SortBy_DPDFROIs, Year, Month);
+            DataSet dsFROIs = clsAP_DPD_FROIs.GetDataToBindFROIsGrid(rdoFROIs.SelectedValue, LocationID, PageNumber, PageSize, SortOrder_DPDFROIs, SortBy_DPDFROIs);
             DataTable dtFROIs = dsFROIs.Tables[0];
             CtrlPagingDPD_FROIs.TotalRecords = (dsFROIs.Tables.Count >= 2) ? Convert.ToInt32(dsFROIs.Tables[1].Rows[0][0]) : 0;
             CtrlPagingDPD_FROIs.CurrentPage = (dsFROIs.Tables.Count >= 2) ? Convert.ToInt32(dsFROIs.Tables[1].Rows[0][2]) : 0;
@@ -1714,11 +1709,11 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     /// <summary>
     /// Bind AP_AL_FROIs Grid
     /// </summary>
-    private void BindAP_AL_FROIs_Grid(int PageNumber, int PageSize, int Year, int Month)
+    private void BindAP_AL_FROIs_Grid(int PageNumber, int PageSize)
     {
         if (StrOperation.ToLower() == "view")
         {
-            DataSet dsFROIs = clsAP_AL_FROIs.GetDataToBindFROIsGrid(rdoAL_FROIsView.SelectedValue, LocationID, SortBy_AL, SortOrder_AL, PageNumber, PageSize, Year, Month);
+            DataSet dsFROIs = clsAP_AL_FROIs.GetDataToBindFROIsGrid(rdoAL_FROIsView.SelectedValue, LocationID, SortBy_AL, SortOrder_AL, PageNumber, PageSize);
             DataTable dtFROIs = dsFROIs.Tables[0];
             CtrlPagingAL_FROIsView.TotalRecords = (dsFROIs.Tables.Count >= 2) ? Convert.ToInt32(dsFROIs.Tables[1].Rows[0][0]) : 0;
             CtrlPagingAL_FROIsView.CurrentPage = (dsFROIs.Tables.Count >= 2) ? Convert.ToInt32(dsFROIs.Tables[1].Rows[0][2]) : 0;
@@ -1729,7 +1724,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         }
         else
         {
-            DataSet dsFROIs = clsAP_AL_FROIs.GetDataToBindFROIsGrid(rdoAL_FROIs.SelectedValue, LocationID, SortBy_AL, SortOrder_AL, PageNumber, PageSize, Year, Month);
+            DataSet dsFROIs = clsAP_AL_FROIs.GetDataToBindFROIsGrid(rdoAL_FROIs.SelectedValue, LocationID, SortBy_AL, SortOrder_AL, PageNumber, PageSize);
             DataTable dtFROIs = dsFROIs.Tables[0];
             CtrlPagingAL_FROIs.TotalRecords = (dsFROIs.Tables.Count >= 2) ? Convert.ToInt32(dsFROIs.Tables[1].Rows[0][0]) : 0;
             CtrlPagingAL_FROIs.CurrentPage = (dsFROIs.Tables.Count >= 2) ? Convert.ToInt32(dsFROIs.Tables[1].Rows[0][2]) : 0;
@@ -4360,7 +4355,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             }
         }
 
-        BindAP_DPD_FROIs_Grid(CtrlPagingDPD_FROIs.CurrentPage, CtrlPagingDPD_FROIs.PageSize, 0, 0);
+        BindAP_DPD_FROIs_Grid(CtrlPagingDPD_FROIs.CurrentPage, CtrlPagingDPD_FROIs.PageSize);
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
     }
 
@@ -4371,7 +4366,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     /// <param name="e"></param>
     protected void rdoDPD_FROIs_OnSelectedIndexChanged(object sender, EventArgs e)
     {
-        BindAP_DPD_FROIs_Grid(CtrlPagingDPD_FROIs.CurrentPage, CtrlPagingDPD_FROIs.PageSize, 0, 0);
+        BindAP_DPD_FROIs_Grid(CtrlPagingDPD_FROIs.CurrentPage, CtrlPagingDPD_FROIs.PageSize);
 
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
     }
@@ -4383,10 +4378,10 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     {
         if (StrOperation.ToLower() == "view")
         {
-            BindAP_DPD_FROIs_Grid(CtrlPagingDPD_FROIsView.CurrentPage, CtrlPagingDPD_FROIsView.PageSize, 0, 0);
+            BindAP_DPD_FROIs_Grid(CtrlPagingDPD_FROIsView.CurrentPage, CtrlPagingDPD_FROIsView.PageSize);
         }
         else
-            BindAP_DPD_FROIs_Grid(CtrlPagingDPD_FROIs.CurrentPage, CtrlPagingDPD_FROIs.PageSize, 0, 0);
+            BindAP_DPD_FROIs_Grid(CtrlPagingDPD_FROIs.CurrentPage, CtrlPagingDPD_FROIs.PageSize);
 
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
     }
@@ -4496,7 +4491,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             }
         }
 
-        BindAP_AL_FROIs_Grid(CtrlPagingAL_FROIs.CurrentPage, CtrlPagingAL_FROIs.PageSize, 0, 0);
+        BindAP_AL_FROIs_Grid(CtrlPagingAL_FROIs.CurrentPage, CtrlPagingAL_FROIs.PageSize);
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(3);", true);
     }
 
@@ -4509,11 +4504,11 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     {
         if (StrOperation.ToLower() == "view")
         {
-            BindAP_AL_FROIs_Grid(CtrlPagingAL_FROIsView.CurrentPage, CtrlPagingAL_FROIsView.PageSize, 0, 0);
+            BindAP_AL_FROIs_Grid(CtrlPagingAL_FROIsView.CurrentPage, CtrlPagingAL_FROIsView.PageSize);
         }
         else
         {
-            BindAP_AL_FROIs_Grid(CtrlPagingAL_FROIs.CurrentPage, CtrlPagingAL_FROIs.PageSize, 0, 0);
+            BindAP_AL_FROIs_Grid(CtrlPagingAL_FROIs.CurrentPage, CtrlPagingAL_FROIs.PageSize);
         }
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(3);", true);
     }
@@ -4525,11 +4520,11 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     {
         if (StrOperation.ToLower() != "view")
         {
-            BindAP_AL_FROIs_Grid(CtrlPagingAL_FROIs.CurrentPage, CtrlPagingAL_FROIs.PageSize, 0, 0);
+            BindAP_AL_FROIs_Grid(CtrlPagingAL_FROIs.CurrentPage, CtrlPagingAL_FROIs.PageSize);
         }
         else
         {
-            BindAP_AL_FROIs_Grid(CtrlPagingAL_FROIsView.CurrentPage, CtrlPagingAL_FROIsView.PageSize, 0, 0);
+            BindAP_AL_FROIs_Grid(CtrlPagingAL_FROIsView.CurrentPage, CtrlPagingAL_FROIsView.PageSize);
         }
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(3);", true);
     }
@@ -5119,7 +5114,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         // update sort field and sort order and bind the grid
         SortOrder_DPDFROIs = (SortBy_DPDFROIs == e.SortExpression) ? (SortOrder_DPDFROIs == "asc" ? "desc" : "asc") : "asc";
         SortBy_DPDFROIs = e.SortExpression;
-        BindAP_DPD_FROIs_Grid(CtrlPagingDPD_FROIs.CurrentPage, CtrlPagingDPD_FROIs.PageSize, 0, 0);
+        BindAP_DPD_FROIs_Grid(CtrlPagingDPD_FROIs.CurrentPage, CtrlPagingDPD_FROIs.PageSize);
     }
 
     /// <summary>
@@ -5292,7 +5287,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         // update sort field and sort order and bind the grid
         SortOrder_AL = (SortBy_AL == e.SortExpression) ? (SortOrder_AL == "asc" ? "desc" : "asc") : "asc";
         SortBy_AL = e.SortExpression;
-        BindAP_AL_FROIs_Grid(CtrlPagingAL_FROIs.CurrentPage, CtrlPagingAL_FROIs.PageSize, 0, 0);
+        BindAP_AL_FROIs_Grid(CtrlPagingAL_FROIs.CurrentPage, CtrlPagingAL_FROIs.PageSize);
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(3);", true);
     }
 
@@ -5962,14 +5957,14 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     #endregion
 
     #region For RLCM QA QC Module
-    private void BindOpenDPDFROIs(string Dest, int Year, int Month)
+    private void BindOpenDPDFROIs(string Dest)
     {
         if (Dest == "DPD")
         {
             rdoFROIs.SelectedIndex = 0;
             rdoDPD_FROIsView.SelectedIndex = 0;
             AP_DPD_FROIs_CommandArgs = null;
-            BindAP_DPD_FROIs_Grid(CtrlPagingDPD_FROIs.CurrentPage, CtrlPagingDPD_FROIs.PageSize, Year, Month);
+            BindAP_DPD_FROIs_Grid(CtrlPagingDPD_FROIs.CurrentPage, CtrlPagingDPD_FROIs.PageSize);
             ClearDPDFROIS();
             Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
         }
@@ -5977,7 +5972,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         {
             rdoAL_FROIs.SelectedIndex = 0;
             rdoAL_FROIsView.SelectedIndex = 0;
-            BindAP_AL_FROIs_Grid(CtrlPagingAL_FROIsView.CurrentPage, CtrlPagingAL_FROIsView.PageSize, Year, Month);
+            BindAP_AL_FROIs_Grid(CtrlPagingAL_FROIsView.CurrentPage, CtrlPagingAL_FROIsView.PageSize);
             Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(3);", true);
         }
     }

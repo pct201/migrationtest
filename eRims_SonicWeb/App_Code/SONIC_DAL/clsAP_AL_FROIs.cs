@@ -1109,7 +1109,7 @@ namespace ERIMS.DAL
         /// </summary>
         /// <param name="FROIsToInclude"></param>
         /// <returns></returns>
-        public static DataSet GetDataToBindFROIsGrid(string FROIsToInclude, decimal FK_LU_Location_ID, string strOrderBy, string strOrder, int intPageNo, int intPageSize, int Year, int Month)
+        public static DataSet GetDataToBindFROIsGrid(string FROIsToInclude, decimal FK_LU_Location_ID,string strOrderBy,string strOrder, int intPageNo, int intPageSize)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("AP_AL_FROIs_GetDataToBindFROIsGrid");
@@ -1120,8 +1120,6 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "strOrder", DbType.String, strOrder);
             db.AddInParameter(dbCommand, "intPageNo", DbType.Int32, intPageNo);
             db.AddInParameter(dbCommand, "intPageSize", DbType.Int32, intPageSize);
-            db.AddInParameter(dbCommand, "year", DbType.String, Year);
-            db.AddInParameter(dbCommand, "month", DbType.String, Month);
 
             return db.ExecuteDataSet(dbCommand);
         }
