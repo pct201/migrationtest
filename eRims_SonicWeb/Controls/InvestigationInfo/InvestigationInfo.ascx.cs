@@ -66,7 +66,17 @@ public partial class Controls_InvestigationInfo_InvestigationInfo : System.Web.U
             }
             else
                 lnkWCFrNumber.Text = "WC-" + new WC_FR(FK_WC_ID).WC_FR_Number.ToString();
-            clsSession.AllowedTab =
+
+
+            DataSet dsWCFirstReport = WC_FR.SelectByWC_FR_Number(new WC_FR(FK_WC_ID).WC_FR_Number);
+
+            //Check First report found or not
+            if (dsWCFirstReport != null && dsWCFirstReport.Tables.Count > 0 && dsWCFirstReport.Tables[0].Rows.Count > 0)
+            {
+                //set the wizard id in session
+                clsSession.First_Report_Wizard_ID = Convert.ToInt32(dsWCFirstReport.Tables[0].Rows[0]["FK_First_Report_Wizard_ID"]);
+            }
+            //clsSession.AllowedTab =
             lnkWCFrNumber.PostBackUrl = AppConfig.SiteURL + "SONIC/FirstReport/WCFirstReport.aspx?id=" + Encryption.Encrypt(FK_WC_ID.ToString());
             lblRMLocationNumber.Text = objLocation.RM_Location_Number;
             lblLocationdba.Text = objLocation.dba;
