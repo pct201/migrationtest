@@ -221,6 +221,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "@intPageNo", DbType.String, intPageNo);
             db.AddInParameter(dbCommand, "@intPageSize", DbType.String, intPageSize);
 
+            dbCommand.CommandTimeout = 100000;
             return db.ExecuteDataSet(dbCommand);
         }
     }
