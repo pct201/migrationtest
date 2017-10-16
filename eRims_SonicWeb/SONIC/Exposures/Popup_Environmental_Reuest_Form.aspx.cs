@@ -538,7 +538,20 @@ public partial class SONIC_Exposures_Popup_Environmental_Reuest_Form : clsBasePa
             string strFilepath = clsGeneral.SaveJobRequestForm(strEbdy.ToString(), AppConfig.strEPM_AttachmentDocPath, strFileName);
             string[] strAttachments = new string[1];
             strAttachments[0] = AppConfig.strEPM_AttachmentDocPath + strFilepath;
-            clsGeneral.SendMailMessage(AppConfig.MailFrom, txtToEmail.Text.Trim(), string.Empty, ObjSecurity.Email, "Environmental Request Form", txtBody.Text.Trim().Replace("\r\n", "<br/>"), true, strAttachments);
+
+            string strEmail  = System.Configuration.ConfigurationManager.AppSettings["SendMailToTimHallice"];
+            string strCC = string.Empty;
+
+            if(!string.IsNullOrEmpty(strEmail))
+            {
+               strCC = ObjSecurity.Email + "," + strEmail;
+            }
+            else
+            {
+                strCC = ObjSecurity.Email;
+            }
+
+            clsGeneral.SendMailMessage(AppConfig.MailFrom, txtToEmail.Text.Trim(), string.Empty, strCC, "Environmental Request Form", txtBody.Text.Trim().Replace("\r\n", "<br/>"), true, strAttachments);
             ClientScript.RegisterClientScriptBlock(Page.GetType(), DateTime.Now.ToString(), "javascript:alert('Mail sent successfully');window.opener.AskfForLogoff=false;self.close();", true);
         }
     }
