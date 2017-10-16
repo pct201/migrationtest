@@ -369,7 +369,7 @@ public partial class Event_ACI_Video_Request : clsBasePage
         txtDate_Of_Request_Video.Text = clsGeneral.FormatDBNullDateToDisplay(objVideo.Date_Of_Request);
         txtFull_Name_Video.Text = objVideo.Full_Name;
         txtWork_Phone_Video.Text = objVideo.Work_Phone;
-        txtLocation_Video.Text = objVideo.Location;
+        //txtLocation_Video.Text = objVideo.Location;
         txtAlternate_Phone_Video.Text = objVideo.Alternate_Phone;
 
         ComboHelper.FillVideoRequestStatus(new DropDownList[] { drpStatus }, true);
@@ -450,7 +450,7 @@ public partial class Event_ACI_Video_Request : clsBasePage
         objVideo.Date_Of_Request = clsGeneral.FormatNullDateToStore(txtDate_Of_Request_Video.Text);
         objVideo.Full_Name = Convert.ToString(txtFull_Name_Video.Text);
         objVideo.Work_Phone = Convert.ToString(txtWork_Phone_Video.Text);
-        objVideo.Location = Convert.ToString(txtLocation_Video.Text);
+        //objVideo.Location = Convert.ToString(txtLocation_Video.Text);
         objVideo.Alternate_Phone = Convert.ToString(txtAlternate_Phone_Video.Text);
         objVideo.Reason_Request = txtReason_Request_Video.Text;
         objVideo.Camera_Name = txtCamera_Name_Video.Text;
@@ -561,7 +561,7 @@ public partial class Event_ACI_Video_Request : clsBasePage
 
             txtFull_Name_Video.Text = Convert.ToString(dt.Rows[0]["Full_Name"]);
             txtWork_Phone_Video.Text = Convert.ToString(dt.Rows[0]["Work_Phone"]);
-            txtLocation_Video.Text = Convert.ToString(dt.Rows[0]["Location"]);
+            //txtLocation_Video.Text = Convert.ToString(dt.Rows[0]["Location"]);
             txtAlternate_Phone_Video.Text = Convert.ToString(dt.Rows[0]["Employee_Home_Phone"]);
         }
     }

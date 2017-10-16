@@ -508,15 +508,15 @@
                                                     </tr>
                                                     <tr>
                                                         <td align="left" valign="top">
-                                                            Location&nbsp;<span id="Span7" runat="server" style="color: Red;">*</span>
+                                                            <%--Location&nbsp;<span id="Span7" runat="server" style="color: Red;">*</span>--%>
                                                         </td>
-                                                        <td align="center" valign="top">:
+                                                        <td align="center" valign="top"><%--:--%>&nbsp;
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            <asp:TextBox ID="txtLocation_Video" runat="server" MaxLength="500"  Width="170px" />
+                                                           <%-- <asp:TextBox ID="txtLocation_Video" runat="server" MaxLength="500"  Width="170px" />
                                                             <asp:RequiredFieldValidator ID="revtxtLocation_Video" runat="server" ControlToValidate="txtFull_Name_Video"
                                                                     InitialValue="" ErrorMessage="Please Enter Location" Display="None" SetFocusOnError="true"
-                                                                    ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                                                                    ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>--%>
                                                         </td>
                                                         <td align="left" valign="top">
                                                             Alternate Phone<%--&nbsp;<span id="Span9" runat="server" style="color: Red;">*</span>--%>

@@ -1400,7 +1400,7 @@ public partial class Event_Event_New : clsBasePage
                 txtDate_Of_Request_Video.Text = clsGeneral.FormatDBNullDateToDisplay(objVideo.Date_Of_Request);
                 txtFull_Name_Video.Text = objVideo.Full_Name;
                 txtWork_Phone_Video.Text = objVideo.Work_Phone;
-                txtLocation_Video.Text = objVideo.Location;
+                //txtLocation_Video.Text = objVideo.Location;
                 txtAlternate_Phone_Video.Text = objVideo.Alternate_Phone;
 
                 ComboHelper.FillVideoRequestStatus(new DropDownList[] { drpStatus }, true);
@@ -1668,7 +1668,7 @@ public partial class Event_Event_New : clsBasePage
             objVideo.Date_Of_Request = clsGeneral.FormatNullDateToStore(txtDate_Of_Request_Video.Text);
             objVideo.Full_Name = Convert.ToString(txtFull_Name_Video.Text);
             objVideo.Work_Phone = Convert.ToString(txtWork_Phone_Video.Text);
-            objVideo.Location = Convert.ToString(txtLocation_Video.Text);
+            //objVideo.Location = Convert.ToString(txtLocation_Video.Text);
             objVideo.Alternate_Phone = Convert.ToString(txtAlternate_Phone_Video.Text);
             objVideo.Reason_Request = txtReason_Request_Video.Text;
             objVideo.Camera_Name = txtCamera_Name_Video.Text;
@@ -2146,7 +2146,7 @@ public partial class Event_Event_New : clsBasePage
             txtDate_Of_Request_Video.Enabled = Is_Enable;
             txtFull_Name_Video.Enabled = Is_Enable;
             txtWork_Phone_Video.Enabled = Is_Enable;
-            txtLocation_Video.Enabled = Is_Enable;
+            //txtLocation_Video.Enabled = Is_Enable;
             txtAlternate_Phone_Video.Enabled = Is_Enable;
             drpStatus.Enabled = Is_Enable;
             //txtReason_Request_Video.Enable = Is_Enable;
@@ -4353,7 +4353,7 @@ public partial class Event_Event_New : clsBasePage
 
             txtFull_Name_Video.Text = Convert.ToString(dt.Rows[0]["Full_Name"]);
             txtWork_Phone_Video.Text = Convert.ToString(dt.Rows[0]["Work_Phone"]);
-            txtLocation_Video.Text = Convert.ToString(dt.Rows[0]["Location"]);
+            //txtLocation_Video.Text = Convert.ToString(dt.Rows[0]["Location"]);
             txtAlternate_Phone_Video.Text = Convert.ToString(dt.Rows[0]["Employee_Home_Phone"]);
         }
     }
@@ -4368,7 +4368,7 @@ public partial class Event_Event_New : clsBasePage
             rfvtxtDate_Of_Request_Video.Enabled = true;
             revtxtFull_Name_Video.Enabled = true;
             //revtxtWork_Phone_Video.Enabled = true;
-            revtxtLocation_Video.Enabled = true;
+            //revtxtLocation_Video.Enabled = true;
             //revtxtAlternate_Phone_Video.Enabled = true;
             txtReason_Request_Video.IsRequired = true;
         }
@@ -4380,7 +4380,7 @@ public partial class Event_Event_New : clsBasePage
             rfvtxtDate_Of_Request_Video.Enabled = false;
             revtxtFull_Name_Video.Enabled = false;
             //revtxtWork_Phone_Video.Enabled = false;
-            revtxtLocation_Video.Enabled = false;
+            //revtxtLocation_Video.Enabled = false;
             //revtxtAlternate_Phone_Video.Enabled = false;
             txtReason_Request_Video.IsRequired = false;
             ShowHideUrgentneed(false);

@@ -646,7 +646,7 @@
             var rfvtxtDate_Of_Request_Video = document.getElementById("<%=rfvtxtDate_Of_Request_Video.ClientID%>");
             var revtxtFull_Name_Video = document.getElementById("<%=revtxtFull_Name_Video.ClientID%>");
             <%--var revtxtWork_Phone_Video = document.getElementById("<%=revtxtWork_Phone_Video.ClientID%>");--%>
-            var revtxtLocation_Video = document.getElementById("<%=revtxtLocation_Video.ClientID%>");
+            <%--var revtxtLocation_Video = document.getElementById("<%=revtxtLocation_Video.ClientID%>");--%>
             <%--var revtxtAlternate_Phone_Video = document.getElementById("<%=revtxtAlternate_Phone_Video.ClientID%>");--%>
             var rfvReason_Request_Video_rfvNotes =  document.getElementById("ctl00_ContentPlaceHolder1_txtReason_Request_Video_rfvNotes");
 
@@ -659,7 +659,7 @@
                 rfvtxtDate_Of_Request_Video.enabled = true;
                 revtxtFull_Name_Video.enabled = true; 
                 //revtxtWork_Phone_Video.enabled = true; 
-                revtxtLocation_Video.enabled = true; 
+                //revtxtLocation_Video.enabled = true; 
                 //revtxtAlternate_Phone_Video.enabled = true; 
                 rfvReason_Request_Video_rfvNotes.enabled = true;
                
@@ -674,7 +674,7 @@
                 rfvtxtDate_Of_Request_Video.enabled = false;
                 revtxtFull_Name_Video.enabled = false; 
                 //revtxtWork_Phone_Video.enabled = false; 
-                revtxtLocation_Video.enabled = false; 
+                //revtxtLocation_Video.enabled = false; 
                 //revtxtAlternate_Phone_Video.enabled = false; 
                 rfvReason_Request_Video_rfvNotes.enabled = false;
             }
@@ -767,7 +767,7 @@
             var rfvtxtDate_Of_Request_Video = document.getElementById("<%=rfvtxtDate_Of_Request_Video.ClientID%>");
             var revtxtFull_Name_Video = document.getElementById("<%=revtxtFull_Name_Video.ClientID%>");
             <%--var revtxtWork_Phone_Video = document.getElementById("<%=revtxtWork_Phone_Video.ClientID%>");--%>
-            var revtxtLocation_Video = document.getElementById("<%=revtxtLocation_Video.ClientID%>");
+            <%--var revtxtLocation_Video = document.getElementById("<%=revtxtLocation_Video.ClientID%>");--%>
             <%--var revtxtAlternate_Phone_Video = document.getElementById("<%=revtxtAlternate_Phone_Video.ClientID%>");--%>
             var rfvReason_Request_Video_rfvNotes =  document.getElementById("ctl00_ContentPlaceHolder1_txtReason_Request_Video_rfvNotes");
 
@@ -781,7 +781,7 @@
             rfvtxtDate_Of_Request_Video.enabled = false;
             revtxtFull_Name_Video.enabled = false; 
             //revtxtWork_Phone_Video.enabled = false; 
-            revtxtLocation_Video.enabled = false; 
+            //revtxtLocation_Video.enabled = false; 
             //revtxtAlternate_Phone_Video.enabled = false; 
             rfvReason_Request_Video_rfvNotes.enabled = false;
 
@@ -2635,15 +2635,15 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">Location&nbsp;<span id="Span7" runat="server" style="color: Red;">*</span>
+                                                        <td align="left" valign="top"><%--Location&nbsp;<span id="Span7" runat="server" style="color: Red;">*</span>--%>
                                                         </td>
-                                                        <td align="center" valign="top">:
+                                                        <td align="center" valign="top"><%--:--%>
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            <asp:TextBox ID="txtLocation_Video" runat="server" MaxLength="500" Width="170px" />
+                                                            <%--<asp:TextBox ID="txtLocation_Video" runat="server" MaxLength="500" Width="170px" />
                                                             <asp:RequiredFieldValidator ID="revtxtLocation_Video" runat="server" ControlToValidate="txtLocation_Video"
                                                                 InitialValue="" ErrorMessage="[Video Request] /  Please Enter Location" Display="None" SetFocusOnError="true"
-                                                                ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                                                                ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>--%>
                                                         </td>
                                                         <td align="left" valign="top">Alternate Phone<%--&nbsp;<span id="Span9" runat="server" style="color: Red;">*</span>--%>
                                                         </td>
