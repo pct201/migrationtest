@@ -1387,7 +1387,7 @@ public partial class SONIC_WCFirstReport : clsBasePage
 
             lblFK_Nature_Of_Injury.Text = new LU_Nature_of_Injury((objWC_FR.FK_Nature_Of_Injury != null) ? Convert.ToDecimal(objWC_FR.FK_Nature_Of_Injury) : 0).Description;
             lblFK_Department_Where_Occurred.Text = new LU_Department((objWC_FR.FK_Department_Where_Occurred != null) ? Convert.ToDecimal(objWC_FR.FK_Department_Where_Occurred) : 0).Description;
-            lblFK_Body_Parts_Affected.Text = new LU_Part_Of_Body(string.IsNullOrEmpty(objWC_FR.FK_Body_Parts_Affected) ? 0 : Convert.ToDecimal(objWC_FR.FK_Body_Parts_Affected)).Description;
+            lblFK_Body_Parts_Affected.Text = new LU_Part_of_Body_Code(string.IsNullOrEmpty(objWC_FR.FK_Body_Parts_Affected) ? 0 : Convert.ToInt64(objWC_FR.FK_Body_Parts_Affected)).Description;
             lblTelephone_Nurse_Consultation.Text = objWC_FR.Telephone_Nurse_Consultation == "Y" ? "Yes" : "No";
             lblSupervisor_Involved_In_Consultation.Text = objWC_FR.Supervisor_Involved_In_Consultation == "Y" ? "Yes" : "No";
             //check object value if it null than display "unknown"
