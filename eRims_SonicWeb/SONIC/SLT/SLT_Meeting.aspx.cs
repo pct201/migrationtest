@@ -3916,6 +3916,11 @@ if (!IsPostBack)
             }
             else if (_ret_Val > 0)
             {
+
+                decimal temp_PK_SLT_Meeting_Schedule = PK_SLT_Meeting_Schedule;
+                PK_SLT_Meeting_Schedule = _ret_Val;
+                GetSLT_Score();
+                PK_SLT_Meeting_Schedule = temp_PK_SLT_Meeting_Schedule;
                 BindMeetingScheduleGrid();
                 //Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(13);OpenPopupEmailSchedule('Next_Schedule');", true);
                 //btnSendTO_RLCM.Enabled = true;
@@ -5016,7 +5021,7 @@ if (!IsPostBack)
             ClearInspectionControls();
             BindClaimManagementGrid();
             //ClearClaimManagementControls();
-
+            BindMeetingScheduleGrid();
             //Hide/Show New/Old SLT Safety Screens
             DateTime startOfMonthDate = new DateTime(AppConfig.New_SLT_Safety_Walk_Date.Year, AppConfig.New_SLT_Safety_Walk_Date.Month, 1);
             TimeSpan ts = Actual_Meeting_Date.Subtract(startOfMonthDate);
