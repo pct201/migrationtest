@@ -729,7 +729,7 @@ public class SLT_Reports : System.Web.UI.Page
         #endregion
 
         #region "Safety Walk Questions for Next Month"
-
+        IsOutlookAttachment = true;
         if (IsOutlookAttachment)
         {
             StringBuilder sbSafetyWalkForNextMonth = new StringBuilder();
