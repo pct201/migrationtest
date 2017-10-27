@@ -17,6 +17,7 @@ public partial class EPM_AdHocReportWriter : clsBasePage
         ExportToExcel = 0,
         ExportToPDF = 1,
         ExportAsMail = 2,
+        ExportAsHTML = 3
     }
 
     #region "Property"
@@ -79,42 +80,12 @@ public partial class EPM_AdHocReportWriter : clsBasePage
     /// <param name="e"></param>
     protected void btnExportExcel_Click(object sender, EventArgs e)
     {
-        //Bind Report
-        StringBuilder sbRecord = new StringBuilder();
-        string strFilePath = BindReport(ref sbRecord, ReportOutputType.ExportToExcel);
-        bool blnHTML2Excel = false;
-         string outputFiles =string.Empty;
-        if(File.Exists(strFilePath))
-        {
-        string data = File.ReadAllText(strFilePath);
-        data = data.Trim();
-        AdhocHTML2Excel objHtml2Excel = new AdhocHTML2Excel(data);
-        outputFiles = Path.GetFullPath(strFilePath) + ".xlsx";
-        blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
-        }
+        GenerateReport(ReportOutputType.ExportToExcel);
+    }
 
-        //If records found
-        //if (File.Exists(strFilePath))
-        if(blnHTML2Excel)
-        {
-            try
-            {
-                HttpContext.Current.Response.Clear();
-                HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename=\"" + "EPM Ad-Hoc Report.xlsx" + "\""));
-                HttpContext.Current.Response.ContentType = "application/ms-excel";
-                HttpContext.Current.Response.TransmitFile(outputFiles);
-                HttpContext.Current.Response.Flush();
-            }
-            finally
-            {
-                if (File.Exists(outputFiles))
-                    File.Delete(outputFiles);
-                if (File.Exists(strFilePath))
-                    File.Delete(strFilePath);
-
-                HttpContext.Current.Response.End();
-            }
-        }
+    protected void btnExportHTML_Click(object sender, EventArgs e)
+    {
+        GenerateReport(ReportOutputType.ExportAsHTML);
     }
 
     /// <summary>
@@ -829,6 +800,72 @@ public partial class EPM_AdHocReportWriter : clsBasePage
     #endregion
 
     #region "Methods"
+
+
+    private void GenerateReport(ReportOutputType type)
+    {
+        //Bind Report
+        StringBuilder sbRecord = new StringBuilder();
+        string strFilePath = BindReport(ref sbRecord, type);
+        bool blnHTML2Excel = false;
+        string outputFiles = string.Empty;
+        string fileType = string.Empty;
+        if (File.Exists(strFilePath))
+        {
+
+            switch (type)
+            {
+                case ReportOutputType.ExportToExcel:
+                    string data = File.ReadAllText(strFilePath);
+                    outputFiles = Path.GetFullPath(strFilePath) + fileType;
+                    data = data.Trim();
+                    AdhocHTML2Excel objHtml2Excel = new AdhocHTML2Excel(data);
+                    blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
+                    fileType = ".xlsx";
+                    break;
+                case ReportOutputType.ExportAsHTML:
+                    outputFiles = strFilePath;
+                    blnHTML2Excel = true;
+                    fileType = ".html";
+                    break;
+            }
+
+        }
+
+        //If records found
+        //if (File.Exists(strFilePath))
+        if (blnHTML2Excel)
+        {
+            try
+            {
+                HttpContext.Current.Response.Clear();
+                HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename=\"" + "EPM Ad-Hoc Report" + fileType + "\""));
+                if (type == ReportOutputType.ExportToExcel)
+                    HttpContext.Current.Response.ContentType = "application/ms-excel";
+                //else if (type == ReportOutputType.ExportAsHTML)
+                //    HttpContext.Current.Response.ContentType = "text/HTML";
+
+                HttpContext.Current.Response.TransmitFile(outputFiles);
+                HttpContext.Current.Response.Flush();
+                
+                if (File.Exists(outputFiles))
+                    File.Delete(outputFiles);
+
+                if (File.Exists(strFilePath))
+                    File.Delete(strFilePath);
+
+                HttpContext.Current.Response.End();
+            }
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+
+            }
+        }
+    }
 
     /// <summary>
     /// Search List ITem from list object
@@ -2125,7 +2162,12 @@ public partial class EPM_AdHocReportWriter : clsBasePage
                     sbRecord.Append("<br /><br />");
                 }
 
-                sbRecord.Append("<table border='1' cellpadding='0' cellspacing='0' width='" + (150 * lstSelectedFields.Items.Count).ToString() + "' style='font-size:10pt'>");
+                sbRecord.Append("<table border='1' cellpadding='0' cellspacing='0' width='" + (150 * lstSelectedFields.Items.Count).ToString() + "' style='font-size:10pt;font-family:Calibri''>");
+
+                if(ReportType == ReportOutputType.ExportAsHTML)
+                {
+                    sbRecord.Replace("width='" + (150 * lstSelectedFields.Items.Count).ToString(), "");
+                }
 
                 #region "Header"
                 // If reader found a records 
@@ -2175,7 +2217,12 @@ public partial class EPM_AdHocReportWriter : clsBasePage
                 sbRecord.Append("</tr>");
                 #endregion
 
-                strPath = AppConfig.SitePath + @"temp\" + Session.SessionID.ToString();
+                if (ReportType == ReportOutputType.ExportAsHTML)
+                {
+                    sbRecord.Replace("width='705'", "");
+                }
+
+                strPath = AppConfig.SitePath + @"temp\" + Session.SessionID.ToString() + ".html";
                 if (!File.Exists(strPath))
                 {
                     if (!Directory.Exists(AppConfig.SitePath + @"temp\"))
@@ -2184,7 +2231,7 @@ public partial class EPM_AdHocReportWriter : clsBasePage
                     using (StreamWriter sw = File.CreateText(strPath))
                     {
                         sw.Write(sbRecord.ToString());
-                        sbRecord = new StringBuilder(string.Empty);
+                        sbRecord = new StringBuilder(string.Empty);                        
                     }
                 }
 
@@ -3024,4 +3071,5 @@ public partial class EPM_AdHocReportWriter : clsBasePage
     }
 
     #endregion
+
 }

@@ -1563,6 +1563,9 @@
                     <asp:Button ID="btnExportExcel" runat="Server" CssClass="btn" Text="Output to Excel"
                         ValidationGroup="vsErrorGroup" OnClientClick="javascript:return FireAllValidation();"
                         OnClick="btnExportExcel_Click" ToolTip="Output to Excel" />
+                    <asp:Button ID="btnExportHTML" runat="Server" CssClass="btn" Text="Output to HTML"
+                        ValidationGroup="vsErrorGroup" OnClientClick="javascript:return FireAllValidation();"
+                        OnClick="btnExportHTML_Click" ToolTip="Output to HTML" />
                     <asp:Button ID="btnSubmit" runat="Server" Text="Save Report" ValidationGroup="vsErrorGroup"
                         OnClientClick="javascript:return FireAllValidation2();SaveScrollPositions();"
                         OnClick="btnSubmit_Click" ToolTip="Save Report" />
