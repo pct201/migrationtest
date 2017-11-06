@@ -328,7 +328,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
     #region "Page Events"
     protected void Page_Load(object sender, EventArgs e)
     {
-if (!IsPostBack)
+        if (!IsPostBack)
         {
             DataTable dt_Y = new DataTable();
             dt_Y.Columns.Add("S1", typeof(string));
@@ -1176,11 +1176,11 @@ if (!IsPostBack)
             //ddlYear_Claim_ManagementView.Items.Add(new ListItem(intYear.ToString(), intYear.ToString()));
         }
 
-       for (int intYear = DateTime.Now.Year; intYear >= 2017; intYear--)
+        for (int intYear = DateTime.Now.Year; intYear >= 2017; intYear--)
         {
-                drpTrainingYearView.Items.Add(new ListItem(DateTime.Now.Year.ToString(), DateTime.Now.Year.ToString()));
+            drpTrainingYearView.Items.Add(new ListItem(DateTime.Now.Year.ToString(), DateTime.Now.Year.ToString()));
         }
-       
+
         ddlYearIncident_View.SelectedValue = DateTime.Now.Year.ToString();
         FillMonth(ddlMonth_View);
         FillMonth(drpMeeting_AgendaMonthView);
@@ -1394,7 +1394,7 @@ if (!IsPostBack)
         DataSet dsSlt_members = SLT_Members.SLT_MembersSelectByFk(PK_SLT_Meeting, 0, PK_SLT_Meeting_Schedule);
         DataTable dtSlt_members = null;
         if(dsSlt_members.Tables.Count>0)
-          dtSlt_members =  dsSlt_members.Tables[0];
+            dtSlt_members =  dsSlt_members.Tables[0];
 
         if (StrOperation != "view" && meetingIsEditable == true)
         {
@@ -1977,7 +1977,7 @@ if (!IsPostBack)
     #region "Suggestions"
     private void BindGridSuggestions()
     {
-       //DataTable dtSuggestion = SLT_Suggestion.SelectByFK(PK_SLT_Meeting_Schedule).Tables[0];
+        //DataTable dtSuggestion = SLT_Suggestion.SelectByFK(PK_SLT_Meeting_Schedule).Tables[0];
         DataTable dtSuggestion = SLT_Suggestion.SelectByFKLocationAndFKSchedule(FK_LU_Location_ID, PK_SLT_Meeting_Schedule).Tables[0];
         if (StrOperation != "view" && meetingIsEditable == true)
         {
@@ -2498,7 +2498,7 @@ if (!IsPostBack)
                     lblTrainingQ4.Text = "100%";
                 }
 
-                DataRow[] result5 = dsDetail.Tables[1].Select("PerformanceLevel In ('"+ Charts.Platinum_Label +"','"+ Charts.Gold_Label +"', '"+ Charts.Silver_Label +"', '"+ Charts.Bronze_Label +"', '"+ Charts.Tin_Label +"')");
+                DataRow[] result5 = dsDetail.Tables[1].Select("PerformanceLevel In ('" + Charts.Platinum_Label + "','" + Charts.Gold_Label + "', '" + Charts.Silver_Label + "', '" + Charts.Bronze_Label + "', '" + Charts.Tin_Label + "')");
                 if (result5.Length > 0)
                 {
                     if (string.IsNullOrEmpty(result5[0]["PerformanceLevel"].ToString()))
@@ -2988,7 +2988,7 @@ if (!IsPostBack)
         string Attachment_name, strAttchment;
         if ((!string.IsNullOrEmpty(Convert.ToString(objSLT_Meeting_Schedule.Scheduled_Meeting_Date))) && string.IsNullOrEmpty(Convert.ToString(objSLT_Meeting_Schedule.Actual_Meeting_Date)))
             Attachment_name = clsGeneral.SaveFile(objSLT_Report.GeneratePrintScheduleMeetingReport("Email"), DocPath, "Sonic_SLT_Meeting_Agenda.doc");
-        
+
         else
         {
             DateTime startOfMonth = new DateTime(AppConfig.New_SLT_Safety_Walk_Date.Year, AppConfig.New_SLT_Safety_Walk_Date.Month, 1);
@@ -3304,7 +3304,7 @@ if (!IsPostBack)
             BindSLTMemberGrid();
             btnShowMemberHistory.Text = "Show Member History";
         }
-        
+
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel('1');", true);
     }
     #endregion
@@ -3978,34 +3978,18 @@ if (!IsPostBack)
     //    if (File.Exists(DocPath + Attachment_name))
     //        File.Delete(DocPath + Attachment_name);
     //}
+
     /// <summary>
-    /// Send Mail for next meeting schedule to all Active slt_members and Additional recipients
+    /// Send Outlook Calender
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    protected void btnSendMeeting_Members_Click(object sender, EventArgs e)
+    /// <returns></returns>
+    private bool SendCalender(bool blIsRLCM)
     {
         string DBA = new LU_Location((decimal)FK_LU_Location_ID).dba;
         string[] Email_Address = hdnEmail_Address.Value.Split(',');
         string Meeting_Date = "", Meeting_Time = "", Meeting_Place = "";
         string strTimeZone = "";
-        //if (meetingIsEditable == false)
-        //{
-        //    DataTable dtNextMeeting = SLT_Meeting_Schedule.SelectNextMeeting(PK_SLT_Meeting_Schedule, PK_SLT_Meeting).Tables[0];
-        //    if (dtNextMeeting.Rows.Count > 0)
-        //    {
-        //        Meeting_Date = clsGeneral.FormatDBNullDateToDisplay(dtNextMeeting.Rows[0]["Scheduled_Meeting_Date"]);
-        //        Meeting_Time = dtNextMeeting.Rows[0]["Scheduled_Meeting_Time"].ToString();
-        //        Meeting_Place = dtNextMeeting.Rows[0]["Meeting_Place"].ToString();
-        //    }
-        //}
-        //else
-        //{
-        //    Meeting_Date = txtScheduled_Meeting_Date.Text;
-        //    Meeting_Time = txtScheduled_Meeting_Time.Text.Trim() == "" ? DateTime.Now.AddMonths(1).ToString() : (txtScheduled_Meeting_Time.Text.Trim() + " " + ddlScheduled_Meeting_Time_AM.SelectedValue.ToString());
-        //    Meeting_Place = txtMeeting_Place.Text.Trim();
-        //}
-        string RLCMmsg = string.Empty;
+        bool blISMailSent = false;
         DataTable dtNextMeeting = SLT_Meeting_Schedule.SelectNextMeeting(PK_SLT_Meeting_Schedule, PK_SLT_Meeting).Tables[0];
         if (dtNextMeeting.Rows.Count > 0)
         {
@@ -4021,20 +4005,23 @@ if (!IsPostBack)
                 lstEmails.Add(Email_Address[i]);
             }
 
-            LU_Location objLU_Location = new LU_Location(FK_LU_Location_ID);
-            if (objLU_Location.FK_Employee_Id != null)
+            if (blIsRLCM)
             {
-                DataTable dtEmail = Security.GetSecurityByEmployee_ID(Convert.ToDecimal(objLU_Location.FK_Employee_Id)).Tables[0];
-                if (dtEmail.Rows.Count > 0)
+                LU_Location objLU_Location = new LU_Location(FK_LU_Location_ID);
+                if (objLU_Location.FK_Employee_Id != null)
                 {
-                    Email_Address = new string[Email_Address.Length + 1];
-
-                    if (dtEmail.Rows[0]["Email"] != DBNull.Value)
+                    DataTable dtEmail = Security.GetSecurityByEmployee_ID(Convert.ToDecimal(objLU_Location.FK_Employee_Id)).Tables[0];
+                    if (dtEmail.Rows.Count > 0)
                     {
-                        // check if e-mail address is already added in the recipient list or not
-                        if (!lstEmails.Exists(delegate(string strMailID) { return strMailID.Equals(dtEmail.Rows[0]["Email"].ToString()); }))
+                        Email_Address = new string[Email_Address.Length + 1];
+
+                        if (dtEmail.Rows[0]["Email"] != DBNull.Value)
                         {
-                            lstEmails.Add(dtEmail.Rows[0]["Email"].ToString());
+                            // check if e-mail address is already added in the recipient list or not
+                            if (!lstEmails.Exists(delegate(string strMailID) { return strMailID.Equals(dtEmail.Rows[0]["Email"].ToString()); }))
+                            {
+                                lstEmails.Add(dtEmail.Rows[0]["Email"].ToString());
+                            }
                         }
                     }
                 }
@@ -4181,9 +4168,10 @@ if (!IsPostBack)
                         try
                         {
                             client.Send(message);
+                            blISMailSent = true;
                         }
                         catch (Exception ex)
-                        { 
+                        {
                         }
                         finally
                         {
@@ -4193,7 +4181,7 @@ if (!IsPostBack)
                             client = null;
                             IsOutlookAttachment = false;
                         }
-                       
+
                         if (File.Exists(Attachment[0]))
                             File.Delete(Attachment[0]);
                     }
@@ -4203,7 +4191,25 @@ if (!IsPostBack)
                 }
             }
             ClearMeetingSchedule();
-            //Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(13);alert('Mail sent successfully');", true);
+        }
+
+        return blISMailSent;
+        //Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(13);alert('Mail sent successfully');", true);
+    }
+
+    /// <summary>
+    /// Send Mail for next meeting schedule to all Active slt_members and Additional recipients
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnSendMeeting_Members_Click(object sender, EventArgs e)
+    {
+        bool blISMailSent = false;
+        string RLCMmsg = string.Empty;
+        blISMailSent = SendCalender(true);
+
+        if (blISMailSent)
+        {
             RLCMmsg = "Next Meeting Schedule sent successfully.";
         }
         else
@@ -4492,6 +4498,7 @@ if (!IsPostBack)
     #region "SLT Meeting Agenda"
     protected void btnSendMailAgenda_Click(object sender, EventArgs e)
     {
+        SendCalender(false);
         SLT_Reports objSLT_Report = new SLT_Reports();
         objSLT_Report.PK_SLT_Meeting = PK_SLT_Meeting;
         objSLT_Report.PK_SLT_Meeting_Schedule = PK_SLT_Meeting_Schedule;
@@ -4728,7 +4735,7 @@ if (!IsPostBack)
             BindSLTMemberHistoryGrid();
         else
             BindSLTMemberGrid();
-        
+
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
     }
     /// <summary>
