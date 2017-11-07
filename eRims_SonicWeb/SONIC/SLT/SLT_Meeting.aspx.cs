@@ -3990,7 +3990,8 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         string Meeting_Date = "", Meeting_Time = "", Meeting_Place = "";
         string strTimeZone = "";
         bool blISMailSent = false;
-        DataTable dtNextMeeting = SLT_Meeting_Schedule.SelectNextMeeting(PK_SLT_Meeting_Schedule, PK_SLT_Meeting).Tables[0];
+        //DataTable dtNextMeeting = SLT_Meeting_Schedule.SelectNextMeeting(PK_SLT_Meeting_Schedule, PK_SLT_Meeting).Tables[0];
+        DataTable dtNextMeeting = SLT_Meeting_Schedule.SelectMeeting(PK_SLT_Meeting_Schedule, PK_SLT_Meeting).Tables[0];
         if (dtNextMeeting.Rows.Count > 0)
         {
             Meeting_Date = clsGeneral.FormatDBNullDateToDisplay(dtNextMeeting.Rows[0]["Scheduled_Meeting_Date"]);
@@ -4215,7 +4216,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         else
             RLCMmsg = "No data available for Next Meeting Schedule.";
         //Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(13);alert('No data available for Next Meeting Schedule');", true);
-        SendTO_RLCM(RLCMmsg);
+            SendTO_RLCM(RLCMmsg);
     }
     #endregion
     #region "Inspection"
@@ -4498,46 +4499,53 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
     #region "SLT Meeting Agenda"
     protected void btnSendMailAgenda_Click(object sender, EventArgs e)
     {
-        SendCalender(false);
-        SLT_Reports objSLT_Report = new SLT_Reports();
-        objSLT_Report.PK_SLT_Meeting = PK_SLT_Meeting;
-        objSLT_Report.PK_SLT_Meeting_Schedule = PK_SLT_Meeting_Schedule;
-        objSLT_Report.FK_LU_Location_ID = FK_LU_Location_ID;
+        bool blIsSent = false;
+        blIsSent = SendCalender(false);
 
-        SLT_Meeting_Schedule objSLT_Meeting_Schedule = new SLT_Meeting_Schedule(PK_SLT_Meeting_Schedule);
-
-        string DocPath = clsGeneral.GetAttachmentDocPath("SLT_Safety_Walk");
-        //string Attachment_name = clsGeneral.SaveFile(objSLT_Report.GeneratePrintReport("Email"), DocPath, "Sonic_SLT_Meeting_Agenda.doc");
-        string Attachment_name;
-        if ((!string.IsNullOrEmpty(Convert.ToString(objSLT_Meeting_Schedule.Scheduled_Meeting_Date))) && string.IsNullOrEmpty(Convert.ToString(objSLT_Meeting_Schedule.Actual_Meeting_Date)))
-            Attachment_name = clsGeneral.SaveFile(objSLT_Report.GeneratePrintScheduleMeetingReport("Email"), DocPath, "Sonic_SLT_Meeting_Agenda.doc");
-        //clsGeneral.GenerateWordDoc("SLT Meeting Information.doc", objSLT_Report.GeneratePrintScheduleMeetingReport("Print"), Response);
-        else
+        if(!blIsSent)
         {
-            DateTime startOfMonth = new DateTime(AppConfig.New_SLT_Safety_Walk_Date.Year, AppConfig.New_SLT_Safety_Walk_Date.Month, 1);
-            TimeSpan tsTmp;
-            if (objSLT_Meeting_Schedule.Actual_Meeting_Date != null)
-                tsTmp = objSLT_Meeting_Schedule.Actual_Meeting_Date.Value.Subtract(startOfMonth); //AppConfig.New_SLT_Safety_Walk_Date);
-            else tsTmp = Actual_Meeting_Date.Subtract(startOfMonth);
-            if (tsTmp.Days < 0)
-                Attachment_name = clsGeneral.SaveFile(objSLT_Report.GeneratePrintReport("Email"), DocPath, "Sonic_SLT_Meeting_Agenda.doc");
+            SLT_Reports objSLT_Report = new SLT_Reports();
+            objSLT_Report.PK_SLT_Meeting = PK_SLT_Meeting;
+            objSLT_Report.PK_SLT_Meeting_Schedule = PK_SLT_Meeting_Schedule;
+            objSLT_Report.FK_LU_Location_ID = FK_LU_Location_ID;
+
+            SLT_Meeting_Schedule objSLT_Meeting_Schedule = new SLT_Meeting_Schedule(PK_SLT_Meeting_Schedule);
+
+            string DocPath = clsGeneral.GetAttachmentDocPath("SLT_Safety_Walk");
+            //string Attachment_name = clsGeneral.SaveFile(objSLT_Report.GeneratePrintReport("Email"), DocPath, "Sonic_SLT_Meeting_Agenda.doc");
+            string Attachment_name;
+            if ((!string.IsNullOrEmpty(Convert.ToString(objSLT_Meeting_Schedule.Scheduled_Meeting_Date))) && string.IsNullOrEmpty(Convert.ToString(objSLT_Meeting_Schedule.Actual_Meeting_Date)))
+                Attachment_name = clsGeneral.SaveFile(objSLT_Report.GeneratePrintScheduleMeetingReport("Email"), DocPath, "Sonic_SLT_Meeting_Agenda.doc");
+            //clsGeneral.GenerateWordDoc("SLT Meeting Information.doc", objSLT_Report.GeneratePrintScheduleMeetingReport("Print"), Response);
             else
-                Attachment_name = clsGeneral.SaveFile(objSLT_Report.GeneratePrintReport_New("Email", IsOutlookAttachment), DocPath, "Sonic_SLT_Meeting_Agenda.doc");
+            {
+                DateTime startOfMonth = new DateTime(AppConfig.New_SLT_Safety_Walk_Date.Year, AppConfig.New_SLT_Safety_Walk_Date.Month, 1);
+                TimeSpan tsTmp;
+                if (objSLT_Meeting_Schedule.Actual_Meeting_Date != null)
+                    tsTmp = objSLT_Meeting_Schedule.Actual_Meeting_Date.Value.Subtract(startOfMonth); //AppConfig.New_SLT_Safety_Walk_Date);
+                else tsTmp = Actual_Meeting_Date.Subtract(startOfMonth);
+                if (tsTmp.Days < 0)
+                    Attachment_name = clsGeneral.SaveFile(objSLT_Report.GeneratePrintReport("Email"), DocPath, "Sonic_SLT_Meeting_Agenda.doc");
+                else
+                    Attachment_name = clsGeneral.SaveFile(objSLT_Report.GeneratePrintReport_New("Email", IsOutlookAttachment), DocPath, "Sonic_SLT_Meeting_Agenda.doc");
 
-        }
-        string[] Attachment = new string[1];
-        string[] Email_Address = hdnEmail_Address.Value.Split(',');
-        Attachment[0] = DocPath + Attachment_name;
-        for (int I2 = 0; I2 < Email_Address.Length; I2++)
-        {
-            string Email = Email_Address[I2];
-            if (!string.IsNullOrEmpty(Email))
-                clsGeneral.SendMailMessage(AppConfig.MailFrom, Email, string.Empty, string.Empty, "Sonic SLT Meeting Agenda", string.Empty, true, Attachment);
-        }
+            }
+            string[] Attachment = new string[1];
+            string[] Email_Address = hdnEmail_Address.Value.Split(',');
+            Attachment[0] = DocPath + Attachment_name;
+            for (int I2 = 0; I2 < Email_Address.Length; I2++)
+            {
+                string Email = Email_Address[I2];
+                if (!string.IsNullOrEmpty(Email))
+                    clsGeneral.SendMailMessage(AppConfig.MailFrom, Email, string.Empty, string.Empty, "Sonic SLT Meeting Agenda", string.Empty, true, Attachment);
+            }
 
-        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);alert('Mail sent successfully');", true);
-        if (File.Exists(DocPath + Attachment_name))
-            File.Delete(DocPath + Attachment_name);
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);alert('Mail sent successfully');", true);
+            if (File.Exists(DocPath + Attachment_name))
+                File.Delete(DocPath + Attachment_name);
+        }
+        else
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
     }
     #endregion
 

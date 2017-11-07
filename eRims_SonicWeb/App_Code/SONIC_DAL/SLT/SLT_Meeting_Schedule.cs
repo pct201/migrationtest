@@ -773,5 +773,19 @@ namespace ERIMS.DAL
 
             return db.ExecuteDataSet(dbCommand);
         }
+
+        /// <summary>
+        /// Deletes a record from the SLT_Meeting_Schedule table by a composite primary key.
+        /// </summary>
+        public static DataSet SelectMeeting(decimal pK_SLT_Meeting_Schedule, decimal FK_SLT_Meeting)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("SLT_Meeting_ScheduleSelectMeeting");
+
+            db.AddInParameter(dbCommand, "PK_SLT_Meeting_Schedule", DbType.Decimal, pK_SLT_Meeting_Schedule);
+            db.AddInParameter(dbCommand, "FK_SLT_Meeting", DbType.Decimal, FK_SLT_Meeting);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
     }
 }
