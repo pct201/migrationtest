@@ -84,6 +84,18 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         set { ViewState["PK_SLT_Meeting_Schedule"] = value; }
     }
 
+    /// <summary>
+    /// Denotes the Foreign Key
+    /// </summary>
+    public decimal PK_Next_SLT_Meeting_Schedule
+    {
+        get
+        {
+            return clsGeneral.GetInt(ViewState["PK_Next_SLT_Meeting_Schedule"]);
+        }
+        set { ViewState["PK_Next_SLT_Meeting_Schedule"] = value; }
+    }
+
     public decimal PK_SLT_New_Procedure
     {
         get
@@ -2976,14 +2988,32 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
     /// Save Attchment and Return path
     /// </summary>
     /// <returns></returns>
-    public string SaveAttachment_Meeting_Agenda(bool IsOutlookAttachment)
+    public string SaveAttachment_Meeting_Agenda(bool IsOutlookAttachment, bool IsNextMeeting)
     {
         SLT_Reports objSLT_Report = new SLT_Reports();
+
+        // if Next Meeting Exists
+        if (IsNextMeeting)
+        {
+            if(PK_Next_SLT_Meeting_Schedule >0)
+            {
+                objSLT_Report.PK_SLT_Meeting_Schedule = PK_Next_SLT_Meeting_Schedule;
+            }
+            else
+            {
+                objSLT_Report.PK_SLT_Meeting_Schedule = PK_SLT_Meeting_Schedule;
+            }
+        }
+        else
+        {
+            objSLT_Report.PK_SLT_Meeting_Schedule = PK_SLT_Meeting_Schedule;
+        }
+
         objSLT_Report.PK_SLT_Meeting = PK_SLT_Meeting;
-        objSLT_Report.PK_SLT_Meeting_Schedule = PK_SLT_Meeting_Schedule;
+        //objSLT_Report.PK_SLT_Meeting_Schedule = PK_SLT_Meeting_Schedule;
         objSLT_Report.FK_LU_Location_ID = FK_LU_Location_ID;
         string DocPath = clsGeneral.GetAttachmentDocPath("SLT_Safety_Walk");
-        SLT_Meeting_Schedule objSLT_Meeting_Schedule = new SLT_Meeting_Schedule(PK_SLT_Meeting_Schedule);
+        SLT_Meeting_Schedule objSLT_Meeting_Schedule = new SLT_Meeting_Schedule(Convert.ToDecimal(objSLT_Report.PK_SLT_Meeting_Schedule));
 
         string Attachment_name, strAttchment;
         if ((!string.IsNullOrEmpty(Convert.ToString(objSLT_Meeting_Schedule.Scheduled_Meeting_Date))) && string.IsNullOrEmpty(Convert.ToString(objSLT_Meeting_Schedule.Actual_Meeting_Date)))
@@ -3047,9 +3077,18 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
 
         IsOutlookAttachment = false;
         string[] Attachment = new string[1];
-        Attachment[0] = SaveAttachment_Meeting_Agenda(IsOutlookAttachment);
+        Attachment[0] = SaveAttachment_Meeting_Agenda(IsOutlookAttachment, false);   
+        string[] Email_Address = hdnEmail_Address.Value.Split(',');
         string Email = "";
         LU_Location objLU_Location = new LU_Location(FK_LU_Location_ID);
+
+        for (int I2 = 0; I2 < Email_Address.Length; I2++)
+        {
+            string strEmail = Email_Address[I2];
+            if (!string.IsNullOrEmpty(strEmail))
+                clsGeneral.SendMailMessage(AppConfig.MailFrom, Email, string.Empty, string.Empty, "Sonic SLT Meeting Agenda", string.Empty, true, Attachment);
+        }
+
         if (objLU_Location.FK_Employee_Id != null)
         {
             DataTable dtEmail = Security.GetSecurityByEmployee_ID(Convert.ToDecimal(objLU_Location.FK_Employee_Id)).Tables[0];
@@ -3059,22 +3098,22 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             }
             if (!String.IsNullOrEmpty(Email))
             {
-                clsGeneral.SendMailMessage(AppConfig.MailFrom, Email, string.Empty, string.Empty, "Sonic SLT Meeting Agenda", string.Empty, true, Attachment);
-                SLT_Meeting_Schedule ObjSLT_Meeting_Schedule = new SLT_Meeting_Schedule(PK_SLT_Meeting_Schedule);
-                ObjSLT_Meeting_Schedule.Date_Meeting_Minutes_Sent = clsGeneral.FormatDateToStore(DateTime.Today.ToString());
-                ObjSLT_Meeting_Schedule.SLT_Meeting_CutOff_Day = AppConfig.SLT_Meeting_CutOff_Day;
+                    clsGeneral.SendMailMessage(AppConfig.MailFrom, Email, string.Empty, string.Empty, "Sonic SLT Meeting Agenda", string.Empty, true, Attachment);
+                    SLT_Meeting_Schedule ObjSLT_Meeting_Schedule = new SLT_Meeting_Schedule(PK_SLT_Meeting_Schedule);
+                    ObjSLT_Meeting_Schedule.Date_Meeting_Minutes_Sent = clsGeneral.FormatDateToStore(DateTime.Today.ToString());
+                    ObjSLT_Meeting_Schedule.SLT_Meeting_CutOff_Day = AppConfig.SLT_Meeting_CutOff_Day;
 
-                if (PK_SLT_Meeting_Schedule > 0)
-                    ObjSLT_Meeting_Schedule.Update();
-                else
-                    PK_SLT_Meeting_Schedule = ObjSLT_Meeting_Schedule.Insert();
-                BindMeetingScheduleGrid();
-                if (RLCMmsg.ToString().ToLower() == "Next Meeting Schedule sent successfully.".ToLower())
-                {
-                    Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(" + hdnPanel2.Value + ");alert('Mail for Next Meeting Schedule and Meeting Minutes sent successfully.');", true);
-                }
-                else
-                    Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(" + hdnPanel2.Value + ");alert('" + RLCMmsg.ToString() + "'); alert('Meeting Minutes to the RLCM sent successfully.');", true);
+                    if (PK_SLT_Meeting_Schedule > 0)
+                        ObjSLT_Meeting_Schedule.Update();
+                    else
+                        PK_SLT_Meeting_Schedule = ObjSLT_Meeting_Schedule.Insert();
+                    BindMeetingScheduleGrid();
+                    if (RLCMmsg.ToString().ToLower() == "Next Meeting Schedule sent successfully.".ToLower())
+                    {
+                        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(" + hdnPanel2.Value + ");alert('Mail for Next Meeting Schedule and Meeting Minutes sent successfully.');", true);
+                    }
+                    else
+                        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(" + hdnPanel2.Value + ");alert('" + RLCMmsg.ToString() + "'); alert('Meeting Minutes to the RLCM sent successfully.');", true);
             }
             else
                 Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(" + hdnPanel2.Value + ");alert('" + RLCMmsg.ToString() + "');alert('No email id for RLCM is available to send Meeting Minutes.');", true);
@@ -3884,6 +3923,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
     {
         #region "Save and send"
         decimal _ret_Val = 0;
+        PK_Next_SLT_Meeting_Schedule = 0;
         if (txtScheduled_Meeting_Date.Text != "" && txtScheduled_Meeting_Time.Text.Trim() != "" && txtMeeting_Place.Text.Trim() != "")
         {
             SLT_Meeting_Schedule objSLT_Meeting_Schedule = new SLT_Meeting_Schedule();
@@ -3905,7 +3945,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             if (drpTime_Zone.SelectedIndex > 0)
                 objSLT_Meeting_Schedule.Time_Zone = drpTime_Zone.SelectedValue.ToString();
 
-            _ret_Val = objSLT_Meeting_Schedule.Insert();
+            PK_Next_SLT_Meeting_Schedule = _ret_Val = objSLT_Meeting_Schedule.Insert();
             if (_ret_Val == -1)
             {
                 Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:alert('You are not allowed to enter data for previous month after 5th of current month.');ShowPanel(13);", true);
@@ -3926,6 +3966,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                 //btnSendTO_RLCM.Enabled = true;
             }
         }
+        
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(13);", true);
         #endregion
     }
@@ -3990,8 +4031,23 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         string Meeting_Date = "", Meeting_Time = "", Meeting_Place = "";
         string strTimeZone = "";
         bool blISMailSent = false;
+        DataTable dtNextMeeting;
+
+        if (blIsRLCM)
+        {
+            SLT_Meeting_Schedule objSLT = new SLT_Meeting_Schedule(PK_SLT_Meeting_Schedule);
+            dtNextMeeting = SLT_Meeting_Schedule.SelectNextMeeting(PK_SLT_Meeting_Schedule, PK_SLT_Meeting).Tables[0];
+
+            if (string.IsNullOrEmpty(Convert.ToString(objSLT.Actual_Meeting_Date)) && !(dtNextMeeting.Rows.Count > 0 && dtNextMeeting != null))
+            {
+                dtNextMeeting = SLT_Meeting_Schedule.SelectMeeting(PK_SLT_Meeting_Schedule, PK_SLT_Meeting).Tables[0];
+            }
+        }
+        else
+        {
+            dtNextMeeting = SLT_Meeting_Schedule.SelectMeeting(PK_SLT_Meeting_Schedule, PK_SLT_Meeting).Tables[0];
+        }
         //DataTable dtNextMeeting = SLT_Meeting_Schedule.SelectNextMeeting(PK_SLT_Meeting_Schedule, PK_SLT_Meeting).Tables[0];
-        DataTable dtNextMeeting = SLT_Meeting_Schedule.SelectMeeting(PK_SLT_Meeting_Schedule, PK_SLT_Meeting).Tables[0];
         if (dtNextMeeting.Rows.Count > 0)
         {
             Meeting_Date = clsGeneral.FormatDBNullDateToDisplay(dtNextMeeting.Rows[0]["Scheduled_Meeting_Date"]);
@@ -4151,7 +4207,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                         message.AlternateViews.Add(ICSview);
 
                         string[] Attachment = new string[1];
-                        Attachment[0] = SaveAttachment_Meeting_Agenda(IsOutlookAttachment);
+                        Attachment[0] = SaveAttachment_Meeting_Agenda(IsOutlookAttachment, true);
 
                         if (File.Exists(Attachment[0]))
                         {
@@ -4212,11 +4268,16 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         if (blISMailSent)
         {
             RLCMmsg = "Next Meeting Schedule sent successfully.";
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(" + hdnPanel2.Value + ");alert('" + RLCMmsg.ToString() + "');", true);
         }
         else
+        {
             RLCMmsg = "No data available for Next Meeting Schedule.";
-        //Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(13);alert('No data available for Next Meeting Schedule');", true);
             SendTO_RLCM(RLCMmsg);
+        }
+
+        PK_Next_SLT_Meeting_Schedule = 0;
+        //Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(13);alert('No data available for Next Meeting Schedule');", true);
     }
     #endregion
     #region "Inspection"
