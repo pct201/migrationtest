@@ -78,7 +78,7 @@ public partial class SONIC_SLT_Popup_SLT_ReviewMail : clsBasePage
     {
         SLT_Meeting_Schedule objSLT = new SLT_Meeting_Schedule(PK_SLT_Meeting_Schedule);
 
-        if (Doctype == "Next_Schedule" || (Doctype == "Agenda" && (string.IsNullOrEmpty(Convert.ToString(objSLT.Actual_Meeting_Date)))))
+        if (Doctype == "Next_Schedule" || (Doctype == "Agenda" ))
         {
             DataTable dtMembers = SLT_Members.SLT_MembersSelectByFk(FK_SLT_Meeting, 0, PK_SLT_Meeting_Schedule).Tables[0];
             gvEmail.DataSource = dtMembers;

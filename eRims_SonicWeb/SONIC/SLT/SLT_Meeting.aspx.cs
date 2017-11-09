@@ -3086,7 +3086,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         {
             string strEmail = Email_Address[I2];
             if (!string.IsNullOrEmpty(strEmail))
-                clsGeneral.SendMailMessage(AppConfig.MailFrom, Email, string.Empty, string.Empty, "Sonic SLT Meeting Agenda", string.Empty, true, Attachment);
+                clsGeneral.SendMailMessage(AppConfig.MailFrom, strEmail, string.Empty, string.Empty, "Sonic SLT Meeting Agenda", string.Empty, true, Attachment);
         }
 
         if (objLU_Location.FK_Employee_Id != null)
