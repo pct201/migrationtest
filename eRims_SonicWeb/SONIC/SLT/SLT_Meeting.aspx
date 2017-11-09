@@ -150,6 +150,7 @@ function OpenRLCM_Training(Quater, Year, RLCM_ID, PK_SLT_Meeting, Location_ID, S
 
 function OpenPopupEmailSchedule(Doctype) {
     var ID = '<%=PK_SLT_Meeting%>';
+    var SID = '<%=PK_SLT_Meeting_Schedule%>';
     var w = 480, h = 340;
     if (document.all || document.layers) {
         w = screen.availWidth;
@@ -162,7 +163,7 @@ function OpenPopupEmailSchedule(Doctype) {
     { leftPos = (w - popW) / 2; topPos = (h - popH) / 2; }
     else
     { leftPos = w / 2; topPos = h / 2; }
-    window.open('Popup_SLT_ReviewMail.aspx?id=' + ID + '&Doctype=' + Doctype, "popup", "toolbar=no,menubar=no,scrollbars=yes,resizable=yes,width=" + popW + ",height=" + popH + ",top=" + topPos + ",left=" + leftPos);
+    window.open('Popup_SLT_ReviewMail.aspx?id=' + ID + '&Sid=' + SID + '&Doctype=' + Doctype, "popup", "toolbar=no,menubar=no,scrollbars=yes,resizable=yes,width=" + popW + ",height=" + popH + ",top=" + topPos + ",left=" + leftPos);
 
 }
 function OpenPopupEmail(Doctype) {
