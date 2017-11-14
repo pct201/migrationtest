@@ -249,7 +249,14 @@ public partial class SONIC_Exposures_RCRA_Training_Certificate : clsBasePage
         {
             foreach (DataRow drCertificate in dtCertificateData.Rows)
             {
-                FileStream fsMail = new FileStream(AppConfig.SitePath + @"\SONIC\RCRA\RCRA_Certificate.html", FileMode.Open, FileAccess.Read);
+                FileStream fsMail;
+                if(drCertificate.ItemArray[12].ToString() == "Hazardous Materials Transportation"){
+                    fsMail = new FileStream(AppConfig.SitePath + @"\SONIC\RCRA\RCRA_Certificate_Hazmat.html", FileMode.Open, FileAccess.Read);
+                }
+                else
+                {
+                    fsMail = new FileStream(AppConfig.SitePath + @"\SONIC\RCRA\RCRA_Certificate.html", FileMode.Open, FileAccess.Read);
+                }
 
                 StreamReader rd = new StreamReader(fsMail);
                 StringBuilder strBody = new StringBuilder();
@@ -262,6 +269,7 @@ public partial class SONIC_Exposures_RCRA_Training_Certificate : clsBasePage
                 strBody = strBody.Replace("[RCRA_Certificate]", AppConfig.ImageURL + "/Certificate.jpg");
                 strBody = strBody.Replace("[RCRA_Certificate_Footer]", AppConfig.ImageURL + "/imgRCRAFooter.PNG");
                 strBody = strBody.Replace("[Date]", (Convert.ToDateTime(drCertificate["Date of Completion"])).ToString("MMM dd, yyyy"));
+                strBody = strBody.Replace("[Hazmat_Certificate_Sign]", AppConfig.ImageURL + "/Hazmat_certificate_sign.jpg");
                 count++;
                 GenerateRCRACertificatePDF(strBody, strDir + "\\SafetyCertificate_" + count + ".pdf");
             }
