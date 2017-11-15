@@ -250,7 +250,7 @@ public partial class SONIC_Exposures_RCRA_Training_Certificate : clsBasePage
             foreach (DataRow drCertificate in dtCertificateData.Rows)
             {
                 FileStream fsMail;
-                if (drCertificate.ItemArray[12].ToString() == "Hazardous Materials Transportation" && drCertificate.ItemArray[9].ToString() == "6")
+                if (dtCertificateData.Rows[count]["Class_Name"].ToString() == "Hazardous Materials Transportation" && dtCertificateData.Rows[count]["FK_Sonic_U_Training_Classes"].ToString() == "6")
                 {
                     fsMail = new FileStream(AppConfig.SitePath + @"\SONIC\RCRA\RCRA_Certificate_Hazmat.html", FileMode.Open, FileAccess.Read);
                 }
