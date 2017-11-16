@@ -269,7 +269,14 @@ public partial class SONIC_Exposures_RCRA_Training_Certificate : clsBasePage
                 strBody = strBody.Replace("[Course_Name]", Convert.ToString(drCertificate["Class_Name"]));
                 strBody = strBody.Replace("[RCRA_Certificate]", AppConfig.ImageURL + "/Certificate.jpg");
                 strBody = strBody.Replace("[RCRA_Certificate_Footer]", AppConfig.ImageURL + "/imgRCRAFooter.PNG");
-                strBody = strBody.Replace("[Date]", (Convert.ToDateTime(drCertificate["Date of Completion"])).ToString("MMM dd, yyyy"));
+                if (drCertificate["Date of Completion"] != DBNull.Value)
+                {
+                    strBody = strBody.Replace("[Date]", (Convert.ToDateTime(drCertificate["Date of Completion"])).ToString("MMM dd, yyyy"));
+                }
+                else
+                {
+                    strBody = strBody.Replace("[Date]", DBNull.Value.ToString());
+                }
                 strBody = strBody.Replace("[Hazmat_Certificate_Sign]", AppConfig.ImageURL + "/Hazmat_certificate_sign.jpg");
                 count++;
                 GenerateRCRACertificatePDF(strBody, strDir + "\\SafetyCertificate_" + count + ".pdf");
