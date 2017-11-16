@@ -1755,9 +1755,18 @@ namespace ERIMS_SonicUTraining_EmailScheduler
 
                 if (dtCertificateData != null && dtCertificateData.Rows.Count > 0)
                 {
+                    int count = 0;
                     foreach (DataRow drCertificateData in dtCertificateData.Rows)
                     {
-                        FileStream fsMail = new FileStream(dllPath + @"RCRA_Certificate.html", FileMode.Open, FileAccess.Read);
+                        FileStream fsMail;
+                        if (dtCertificateData.Rows[count]["Class_Name"].ToString() == "Hazardous Materials Transportation")
+                        {
+                            fsMail = new FileStream(dllPath + @"RCRA_Certificate_Hazmat.html", FileMode.Open, FileAccess.Read);
+                        }
+                        else
+                        {
+                            fsMail = new FileStream(dllPath + @"RCRA_Certificate.html", FileMode.Open, FileAccess.Read);
+                        }
                         StreamReader rd = new StreamReader(fsMail);
                         StringBuilder strBody = new StringBuilder();
                         strBody = new StringBuilder(rd.ReadToEnd().ToString());
@@ -1769,7 +1778,8 @@ namespace ERIMS_SonicUTraining_EmailScheduler
                         strBody = strBody.Replace("[RCRA_Certificate]", dllPath + "Certificate.jpg");
                         strBody = strBody.Replace("[RCRA_Certificate_Footer]", dllPath + "imgRCRAFooter.PNG");
                         strBody = strBody.Replace("[Date]", (Convert.ToDateTime(drCertificateData["Date of Completion"])).ToString("MMM dd, yyyy"));
-
+                        strBody = strBody.Replace("[Hazmat_Certificate_Sign]", dllPath + "Hazmat_certificate_sign.jpg");
+                        count++;
                         //Generate RCRA Certificate PDF and Send in Mail
                         GenerateRCRACertificatePDF(strBody.ToString(), Convert.ToString(drCertificateData["Class_Name"]), Convert.ToString(drCertificateData["Class_Name"]).Replace(" ", "_") + "Certificate.pdf", drCertificateData);
                         WriteLog("Certificate has been sent to " + Convert.ToString(drCertificateData["Associate_Name"]) + " for " + Convert.ToString(drCertificateData["Class_Name"]) + " Course on " + drCertificateData["Email"].ToString(), _strCsvPath, false);
