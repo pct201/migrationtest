@@ -288,7 +288,7 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
         Session["Quater"] = Convert.ToInt32(ddlQuarter.SelectedValue);
         if (!ValidQuarter())
         {
-            ScriptManager.RegisterStartupScript(this, typeof(string), DateTime.Now.ToString(), "alert('You can not add trainings for future quarter!');", true);
+            ScriptManager.RegisterStartupScript(this, typeof(string), DateTime.Now.ToString(), "alert('You can add training only for current quarter!');", true);
         }
         else
         {
@@ -436,15 +436,16 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
         else
             currentQuarter = 4;
 
-
-        if (currentQuarter == 1 && selectedQuarter == 4)
+        if (currentQuarter == selectedQuarter)
             result = true;
-        else if (currentQuarter == 4 && selectedQuarter == 1)
-            result = false;
-        else if (currentQuarter < selectedQuarter)
-            result = false;
-        else
-            result = true;
+        //if (currentQuarter == 1 && selectedQuarter == 4)
+        //    result = true;
+        //else if (currentQuarter == 4 && selectedQuarter == 1)
+        //    result = false;
+        //else if (currentQuarter < selectedQuarter)
+        //    result = false;
+        //else
+        //    result = true;
 
         return result;
 
