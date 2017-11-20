@@ -427,6 +427,7 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
     {
         DateTime date = DateTime.Now; bool result = false;
         int currentQuarter = 0; int selectedQuarter = Convert.ToInt32(ddlQuarter.SelectedValue);
+        int selectedYear = Convert.ToInt32(ddlYear.SelectedValue);
         if (date.Month >= 1 && date.Month <= 3)
             currentQuarter = 1;
         else if (date.Month >= 4 && date.Month <= 6)
@@ -436,7 +437,7 @@ public partial class SONIC_Exposures_Manually_Update_Training : clsBasePage
         else
             currentQuarter = 4;
 
-        if (currentQuarter == selectedQuarter)
+        if (currentQuarter == selectedQuarter && (date.Year == selectedYear))
             result = true;
         //if (currentQuarter == 1 && selectedQuarter == 4)
         //    result = true;
