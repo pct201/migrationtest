@@ -271,6 +271,7 @@ public partial class Administrator_Sonic_U_Training_Required_By_Job_Code : clsBa
         else
         {
             rdoActive.Enabled = false;
+            rdoActive.SelectedValue = "N";
         }
     }
 
