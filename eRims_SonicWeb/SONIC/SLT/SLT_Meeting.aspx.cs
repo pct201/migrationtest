@@ -4606,7 +4606,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                 File.Delete(DocPath + Attachment_name);
         }
         else
-            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);alert('Mail sent successfully');", true);
     }
     #endregion
 
