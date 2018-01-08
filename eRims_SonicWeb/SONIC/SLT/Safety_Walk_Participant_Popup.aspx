@@ -26,7 +26,7 @@
             <tr>
                 <td>
                     <asp:GridView ID="gv_MeetingAttendees" runat="server" PageSize="10" Width="100%"
-                        EnableViewState="true" AllowPaging="true" OnRowDataBound="gv_MeetingAttendees_RowDataBound">
+                        EnableViewState="true"  OnRowDataBound="gv_MeetingAttendees_RowDataBound">
                         <Columns>
                             <asp:TemplateField HeaderText="First Name" HeaderStyle-HorizontalAlign="Left">
                                 <ItemStyle Width="15%" VerticalAlign="Middle" HorizontalAlign="Left" />
@@ -89,7 +89,7 @@
             <tr>
                 <td>
                     <asp:GridView ID="gv_MeetingAttendeesView" runat="server" PageSize="10" Width="100%"
-                        EnableViewState="true" AllowPaging="true">
+                        EnableViewState="true" >
                         <Columns>
                             <asp:TemplateField HeaderText="First Name">
                                 <ItemStyle Width="15%" VerticalAlign="Middle" HorizontalAlign="Left" />
