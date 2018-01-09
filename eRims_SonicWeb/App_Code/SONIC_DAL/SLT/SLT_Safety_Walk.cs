@@ -697,9 +697,10 @@ namespace ERIMS.DAL
                     db.AddInParameter(dbCommand, "UniqueVal", DbType.String, this._UniqueVal);
 
                 db.AddInParameter(dbCommand, "FK_SLT_Meeting_Schedule", DbType.Decimal, this._FK_SLT_Meeting_Schedule);
+                dbCommand.CommandTimeout = 10000;
                 // Execute the query and return the new identity value
                 int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
-
+                
                 return returnValue;            
             }
             catch(Exception ex)
