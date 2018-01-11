@@ -6557,6 +6557,11 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                     Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);alert('Please add or select meeting agenda record');", true);
                 }
             }
+            else
+            {
+                if (!string.IsNullOrEmpty(Convert.ToString(hdnPK_SLT_Safety_Walk.Value)))
+                    FK_SLTID = Convert.ToDecimal(hdnPK_SLT_Safety_Walk.Value);
+            }
             //}
             //else
             //    FK_SLTID = Convert.ToInt32(strArgs[1].ToString());
@@ -6573,7 +6578,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             HiddenField hdnActualMeetingDate = (HiddenField)gvRow.FindControl("hdnActualMeetingDate");
             decimal tmp_PK_SLT_Meeting_Schedule = 0;
             if (Convert.ToDecimal(hdnTmpPK_SLT_Meeting_Schedule.Value) > 0)
-                tmp_PK_SLT_Meeting_Schedule = Convert.ToDecimal(hdnTmpPK_SLT_Meeting_Schedule.Value);
+                 tmp_PK_SLT_Meeting_Schedule = Convert.ToDecimal(hdnTmpPK_SLT_Meeting_Schedule.Value);
             else
                 tmp_PK_SLT_Meeting_Schedule = PK_SLT_Meeting_Schedule;
             if (e.CommandName == "ObservationOpen")
