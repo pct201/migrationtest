@@ -1091,7 +1091,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
     private void BindDropDowns()
     {
         ddlYear.Items.Clear();
-        drpProcedureYear.Items.Clear();
+        //drpProcedureYear.Items.Clear();
         ddlYearIncident.Items.Clear();
         drpYearInspection.Items.Clear();
         drpMeeting_AgendaYear.Items.Clear();
@@ -1958,7 +1958,8 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             objSLT_New_Procedure.Date_Completed = clsGeneral.FormatNullDateToStore(txtDate_Completed.Text);
             if (drpFK_LU_Item_Status.SelectedIndex > 0) objSLT_New_Procedure.FK_LU_Item_Status = Convert.ToDecimal(drpFK_LU_Item_Status.SelectedValue);
             else objSLT_New_Procedure.FK_LU_Item_Status = null;
-            if (PK_SLT_New_Procedure == 0) objSLT_New_Procedure.Year = Convert.ToInt32(DateTime.Now.Year);
+            //if (PK_SLT_New_Procedure == 0) objSLT_New_Procedure.Year = Convert.ToInt32(DateTime.Now.Year);
+            if (PK_SLT_New_Procedure == 0) objSLT_New_Procedure.Year = Convert.ToInt32(drpProcedureYear.SelectedValue);
             objSLT_New_Procedure.Update_Date = System.DateTime.Now;
             objSLT_New_Procedure.Updated_By = clsSession.UserID;
             if (PK_SLT_New_Procedure > 0)
