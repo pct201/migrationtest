@@ -143,6 +143,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "strOrderBy", DbType.String, strOrderBy);
             db.AddInParameter(dbCommand, "strOrder", DbType.String, strOrder);
             db.AddInParameter(dbCommand, "intPageSize", DbType.Decimal, intPageSize);
+            db.AddInParameter(dbCommand, "Report_Source", DbType.String, "Sonic");
 
             return db.ExecuteDataSet(dbCommand);
         }
