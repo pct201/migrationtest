@@ -1,20 +1,16 @@
 ﻿
-$CsvProtocol = "https://"
 $ImageProtocol = "http://"
-$DomainName = "amsvideo.com"
 $ImageFileDomainName = "device.amsvideo.com"
 $UrlPortNo = "4531"
 $ReqUserName = "sonicauto"
 $ReqPassword = "sonic2014"
 $CSVPath = "D:\eRIMS2 Applications\dev\sonic\Documents\Downloads"
-$Event_Start_Time_Offset = 0
-$Event_Run_Time_Interval = 24
 $SqlConnection = New-Object System.Data.SqlClient.SqlConnection
-$SqlConnection.ConnectionString = "Data Source=PCI120;DataBase=erims_Sonic;User ID=sa;Password=tatva123;Connect Timeout=10000;"
-$EventFileURL = $CsvProtocol + $DomainName + "/ReportService/ReportExport.ashx?username=$ReqUserName&password=$ReqPassword&ReportName="
+$SqlConnection.ConnectionString = "Data Source=pci120;DataBase=erims_Sonic;User ID=sa;Password=tatva123;Connect Timeout=10000;"
 $ImageURL = $ImageProtocol + $ImageFileDomainName + ":" + $UrlPortNo + "/GetThumbnail?user=$ReqUserName&password=$ReqPassword"
 $ImagePath = "D:\eRIMS2 Applications\dev\sonic\Documents\EventImage"
 
+$SFTPDestiFileName = "export.xls"
 
 ##Functions Start
 function Write-Log 
@@ -115,74 +111,42 @@ if (!(Test-Path $ImagePath)) {
 }
 ##Function End
 
-$startDate = (Get-Date).AddHours( -($Event_Run_Time_Interval) + $Event_Start_Time_Offset).ToString("yyyy-MM-dd HH:00:00")
-$EndDate = (Get-Date).AddHours( -1 + $Event_Start_Time_Offset).ToString("yyyy-MM-dd HH:59:59")
-
 $startlog = "//////////////////////////////////Event Import Service Started On :" + (get-date).ToString() + "  ///////////////////////////"
 Write-Log $startlog
-$startlog1 = "Fetching Events between ""$startDate"" to ""$EndDate"""
-Write-Log $startlog1
 
 try
 {
- 
+    $fileEvent = "$CSVPath" +"\" +"$SFTPDestiFileName"
+
+    $tempfile = "$CSVPath" +"\temp.txt"
+
+    [int]$ISexist = 0
+    [int]$timer = 0
+
+    Do
+    {
+        if(Test-Path $tempfile)
+        {
+            $ISexist = $ISexist + 1
+            ##Write-Log $ISexist
+        }
+        else
+        {
+            sleep -Seconds 5
+            $timer = $timer + 5
+            ##Write-Log $timer
+        }
+        
+        
+    }while ($ISexist -le 1 -and ($timer -le 1800))
+    
+    
     $webclient = New-Object System.Net.WebClient
-    $urlGroup = $EventFileURL+ "Groups&StartDate=$startDate&EndDate=$EndDate"
-    $fileGroup = "$CSVPath\GroupFile.csv"
-    #$webclient.UseDefaultCredentials = $true
-    #$webclient.Headers.Add("X-FORMS_BASED_AUTH_ACCEPTED", "f")
-
-    $grouplog = "Groups File URL is :- " + $urlGroup
-    Write-Log $grouplog
-    Write-Log "Downloading Groups File."
-    try
-    {
-        $webclient.DownloadFile($urlGroup,$fileGroup)
-        Write-Log "Groups File Downloaded Successfully."
-    }
-    catch
-    {
-        Write-Log "Error While downloading Groups File."
-        $Errlog = $_.Exception.GetType().FullName +" "+ $_.Exception.Message
-        Write-Log $Errlog
-    }
-
-    Write-Log "Inserting Groups Records Started."
-    try
-    {
-        $ds = Exec-Sproc -Conn $SqlConnection -Sproc "Import_Groups" -Parameters @{FilePath=$fileGroup}
-        Write-Log "Groups Record Inserted Successfully."
-
-    }
-    catch
-    {
-        Write-Log "Error While Inserting Groups."
-        $Errlog = $_.Exception.GetType().FullName +" "+ $_.Exception.Message
-        Write-Log $Errlog
-    }
-
-    $urlEvent = $EventFileURL+ "Events&StartDate=$startDate&EndDate=$EndDate"
-    $fileEvent = "$CSVPath\EventFile.csv"
-    $eventlog = "Event File URL is :- " + $urlEvent
-    Write-Log $eventlog
-    Write-Log "Downloading Event File."
-    try
-    {
-        $webclient.DownloadFile($urlEvent,$fileEvent)
-        Write-Log "Event File Downloaded Successfully."
-    }
-    catch
-    {
-        Write-Log "Error While downloading Event File."
-        $Errlog = $_.Exception.GetType().FullName +" "+ $_.Exception.Message
-        Write-Log $Errlog
-    }
-
-
+    
     Write-Log "Inserting Event."
     try
     {
-         $ds = Exec-Sproc -Conn $SqlConnection -Sproc "Import_Event" -Parameters @{FilePath=$fileEvent; IsMaster=1}
+         $ds = Exec-Sproc -Conn $SqlConnection -Sproc "Import_Event_FTP" -Parameters @{FilePath=$fileEvent; IsMaster=1}
 
          if ($ds -ne $null -and ($ds.Tables.Count -gt 0) -and ($ds.Tables[0].Rows.Count -gt 0))
          {
@@ -223,6 +187,8 @@ try
             Write-Log "No Event Available for Insert."
          }
          Write-Log "Inserting Event Completed."
+
+
     }
     catch
     {
@@ -230,72 +196,11 @@ try
         $Errlog = $_.Exception.GetType().FullName +" "+ $_.Exception.Message
         Write-Log $Errlog
     }
+          if(Test-Path $tempfile)
+          {
+                Remove-Item -Path $tempfile -Force
+          }
 
-
-    $urlEventRecords = $EventFileURL+ "EventRecords&StartDate=$startDate&EndDate=$EndDate"
-    $fileEventRecords = "$CSVPath\EventRecordFile.csv"
-    $eventrecordlog = "Event Record File URL is :- " + $urlEventRecords
-    Write-Log $eventrecordlog
-    Write-Log "Downloading Event Record File."
-    try
-    {
-        $webclient.DownloadFile($urlEventRecords,$fileEventRecords)
-        Write-Log "Event Record File Downloaded Successfully."
-    }
-    catch
-    {
-        Write-Log "Error While downloading Event Record File."
-        $Errlog = $_.Exception.GetType().FullName +" "+ $_.Exception.Message
-        Write-Log $Errlog
-    }
-
-    Write-Log "Inserting Event Records."
-    try
-    {
-         $ds = Exec-Sproc -Conn $SqlConnection -Sproc "Import_Event" -Parameters @{FilePath=$fileEventRecords; IsMaster=0}
-
-         if ($ds -ne $null -and ($ds.Tables.Count -gt 0) -and ($ds.Tables[0].Rows.Count -gt 0))
-         {
-            $Templog = "Event Records Inserted: " + $ds.Tables[0].Rows[0][0]
-            Write-Log $Templog
-         }
-         Write-Log "Events Records Inserted Successfully."
-    }
-    catch
-    {
-        Write-Log "Error while Inserting Event Records."
-        $Errlog = $_.Exception.GetType().FullName +" "+ $_.Exception.Message
-        Write-Log $Errlog
-    }
-
-
-    $urlUser = $EventFileURL+ "Users&StartDate=$startDate&EndDate=$EndDate"
-    $fileUser = "$CSVPath\UsersFile.csv"
-    $userlog = "Users File URL is :- " + $urlUser
-    Write-Log $userlog
-    Write-Log "Downloading Users File."
-    try
-    {
-        $webclient.DownloadFile($urlUser,$fileUser)
-        Write-Log "Users File Downloaded Successfully."
-    }
-    catch
-    {
-        Write-Log "Error While downloading Users File."
-    }
-
-    Write-Log "Inserting User Records."
-    try
-    {
-         $ds = Exec-Sproc -Conn $SqlConnection -Sproc "Import_Users" -Parameters @{FilePath=$fileUser}
-         Write-Log "Users Inserted Successfully."
-    }
-    catch
-    {
-        Write-Log "Error while Inserting Users."
-        $Errlog = $_.Exception.GetType().FullName +" "+ $_.Exception.Message
-        Write-Log $Errlog
-    }
 }
 catch
 {
