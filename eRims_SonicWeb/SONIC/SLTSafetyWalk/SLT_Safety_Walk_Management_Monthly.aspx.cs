@@ -17,7 +17,7 @@ public partial class SONIC_SLT_Safety_Walk_SLT_Safety_Walk_Management_Monthly : 
             if (PK_LU_SLT_Safety_Walk_Focus_Area > 0)
             {
                 BindControls();
-                txtFocusArea.Enabled = false;   
+                //txtFocusArea.Enabled = false;   
             }
             else
             {
@@ -26,7 +26,7 @@ public partial class SONIC_SLT_Safety_Walk_SLT_Safety_Walk_Management_Monthly : 
                 if (dtMonthlyQuestions.Rows.Count > 0)
                 {
                     txtFocusArea.Text = dtMonthlyQuestions.Rows[0]["Focus_Area"].ToString();
-                    txtFocusArea.Enabled = false;   
+                    //txtFocusArea.Enabled = false;   
                 }
                 
             }
