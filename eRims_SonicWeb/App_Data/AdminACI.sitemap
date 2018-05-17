@@ -17,6 +17,7 @@
         <siteMapNode url="" title="ACI Event" description="">
           <siteMapNode url="Event/ACI_Event_Report.aspx" title="ACI Event Report" description="ACI Event Report"/>
         </siteMapNode>
+        <siteMapNode url="SONIC/Exposures/rptDefault.aspx" title="Exposures" description="Exposures" />
       </siteMapNode>
       <siteMapNode url="" title="Ad-Hoc Report Writer" description="">
         <siteMapNode url="Event/ACIEvents_AdHocReportWriter.aspx" title="ACI Events" description="ACI Events"/>

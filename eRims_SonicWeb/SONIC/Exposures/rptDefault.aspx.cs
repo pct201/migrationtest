@@ -28,7 +28,16 @@ public partial class SONIC_Exposures_rptDefault : clsBasePage
             //ds.ReadXml(strReportsXml);
             //gvReports.DataSource = ds;
             //gvReports.DataBind();
-            DataTable dt = Tatva_Report.SelectByReportType("EXP").Tables[0];
+            DataTable dt ;
+            bool IsACIUser = clsSession.IsACIUser;
+            if (IsACIUser == true)
+            {
+                dt = Tatva_Report.SelectByReportType("EXP",IsACIUser).Tables[0];
+            }
+            else
+            {
+                dt = Tatva_Report.SelectByReportType("EXP",IsACIUser).Tables[0];
+            }
             gvReports.DataSource = dt;
             gvReports.DataBind();
         }

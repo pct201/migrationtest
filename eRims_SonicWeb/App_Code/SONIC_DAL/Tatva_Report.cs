@@ -127,11 +127,12 @@ namespace ERIMS.DAL
         /// Selects records by report type from the Tatva_Report table.
         /// </summary>
         /// <returns>DataSet</returns>
-        public static DataSet SelectByReportType(string ReportType)
+        public static DataSet SelectByReportType(string ReportType,bool IsACI_User)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("Tatva_ReportSelectByReportType");
             db.AddInParameter(dbCommand, "ReportType", DbType.String, ReportType);
+            db.AddInParameter(dbCommand, "IsACI_User", DbType.Boolean, IsACI_User);
             return db.ExecuteDataSet(dbCommand);
         }
         #endregion

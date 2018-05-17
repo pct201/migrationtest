@@ -598,7 +598,8 @@ public class clsBasePage : System.Web.UI.Page
                     // if user donot have admin access and try to access than redirect to error page.
                     else if (strUrl.IndexOf("/Administrator/") == -1 && App_Access == AccessType.NotAssigned && !(strUrl.Contains("ExposureSearch") || strUrl.Contains("DealershipDBA_Pupup")))
                     {
-                        Response.Redirect(AppConfig.SiteURL + "Error.aspx?msg=errAcc");
+                        if ( (clsSession.IsACIUser == true && !(strUrl.Contains("rptDefault") || strUrl.Contains("rptACI_Key_Contact_Report"))) || (clsSession.IsACIUser == false && (strUrl.Contains("rptDefault"))))
+                            Response.Redirect(AppConfig.SiteURL + "Error.aspx?msg=errAcc");
                     }
                 }
             }
