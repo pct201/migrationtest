@@ -267,12 +267,17 @@ public partial class Event_Event_New : clsBasePage
                 {
                     csvSonicNoteGrid.Enabled = false;
                     spanmenu2.Style.Add("display", "none");
-
+                    trsonicVideoRequest.Visible = false;
+                    trVideoRequestByACI.Visible = true;
+                    trHeadersonicNotes.Visible = true;
                 }
                 else
                 {
                     csvSonicNoteGrid.Enabled = true;
                     spanmenu2.Style.Add("display", "");
+                    trsonicVideoRequest.Visible = true;
+                    trVideoRequestByACI.Visible = false;
+                    trHeadersonicNotes.Visible = false;
                 }
 
                 if (Is_Sonic_Event)
@@ -285,11 +290,17 @@ public partial class Event_Event_New : clsBasePage
                     revtxtDate_Closed.ErrorMessage = "[Notes] /Date Closed is not a valid date";
                     cmptxtDate_Closed.ErrorMessage = "[Notes] /Date Closed should not be greater than current date";
                     csvSonicNoteGrid.ErrorMessage = "[Notes] /Please add at least one Note";
+                    trsonicVideoRequest.Visible = true;
+                    trVideoRequestByACI.Visible = false;
+                    trHeadersonicNotes.Visible = false;
                 }
                 else
                 {
                     lblMenu2.Text = lblMenu2Header.Text = "Acadian Investigations";
                     csvSonicNoteGrid.ErrorMessage = "[Acadian Investigations] /Please add at least one Note";
+                    trsonicVideoRequest.Visible = false;
+                    trVideoRequestByACI.Visible = true;
+                    trHeadersonicNotes.Visible = true;
                 }
 
                 ucAbstractLetter.FK_Event = PK_Event;
@@ -313,13 +324,19 @@ public partial class Event_Event_New : clsBasePage
                     Is_Sonic_Event = false;
                     csvSonicNoteGrid.Enabled = false;
                     spanmenu2.Style.Add("display", "none");
-                    
+                    trsonicVideoRequest.Visible = false;
+                    trVideoRequestByACI.Visible = true;
+                    trHeadersonicNotes.Visible = true;
                 }
                 else
                 {
                     Is_Sonic_Event = true;
                     csvSonicNoteGrid.Enabled = true;
                     spanmenu2.Style.Add("display", "");
+                    trVideoRequest.Style.Add("display", "");
+                    trsonicVideoRequest.Visible = true;
+                    trVideoRequestByACI.Visible = false;
+                    trHeadersonicNotes.Visible = false;
                 }
                     
 
@@ -340,6 +357,9 @@ public partial class Event_Event_New : clsBasePage
                     revtxtDate_Closed.ErrorMessage = "[Notes] /Date Closed is not a valid date";
                     cmptxtDate_Closed.ErrorMessage = "[Notes] /Date Closed should not be greater than current date";
                     csvSonicNoteGrid.ErrorMessage = "[Notes] /Please add at least one Note";
+                    trsonicVideoRequest.Visible = true;
+                    trVideoRequestByACI.Visible = false;
+                    trHeadersonicNotes.Visible = false;
                 }
                 else
                 {
@@ -347,6 +367,9 @@ public partial class Event_Event_New : clsBasePage
                     //ImgEvent_Image.Height = 10;
                     chkNonActionable.Enabled = false;
                     trImgEvent_Image.Style.Add("display", "none");
+                    trsonicVideoRequest.Visible = false;
+                    trVideoRequestByACI.Visible = true;
+                    trHeadersonicNotes.Visible = true;
                     csvSonicNoteGrid.ErrorMessage = "[Acadian Investigations] /Please add at least one Note";
 
                     DataSet dsACIID = clsEvent.GetLatestACIEventID();
@@ -444,7 +467,7 @@ public partial class Event_Event_New : clsBasePage
 
         SaveVideoRequest(true);
 
-        if (rblVideoRequestedBySonic.SelectedValue == "Y" && drpStatus.SelectedItem.Text.ToLower() != clsGeneral.VideoRequestStatus[(int)clsGeneral.VideoRequest_Status.Closed].ToLower())
+        if (((rblVideoRequestedBySonic.SelectedValue == "Y" ) || (rblVideoRequestedByACI.SelectedValue == "Y")) && drpStatus.SelectedItem.Text.ToLower() != clsGeneral.VideoRequestStatus[(int)clsGeneral.VideoRequest_Status.Closed].ToLower())
         {
             SendVideoRequest();
         }
@@ -1229,7 +1252,10 @@ public partial class Event_Event_New : clsBasePage
         if (objEvent.Police_Called != null)
             rdoPolice_Called.SelectedValue = Convert.ToString(objEvent.Police_Called);
         if (objEvent.Video_Requested_By_Sonic != null)
+        {
             rblVideoRequestedBySonic.SelectedValue = Convert.ToString(objEvent.Video_Requested_By_Sonic);
+            rblVideoRequestedByACI.SelectedValue = Convert.ToString(objEvent.Video_Requested_By_Sonic);
+        }
         txtAgency_name.Text = objEvent.Agency_name;
         txtOfficer_Name.Text = objEvent.Officer_Name;
         txtOfficer_Phone.Text = objEvent.Officer_Phone;
@@ -1440,7 +1466,7 @@ public partial class Event_Event_New : clsBasePage
             {
                 bool Is_Show = Convert.ToBoolean(dsStatus.Tables[0].Rows[0]["IS_Show"]);
 
-                if (rblVideoRequestedBySonic.SelectedValue == "Y")
+                if ((rblVideoRequestedBySonic.SelectedValue == "Y") || (rblVideoRequestedByACI.SelectedValue == "Y"))
                 {
                     if (Is_Show)
                     {
@@ -1552,7 +1578,15 @@ public partial class Event_Event_New : clsBasePage
             objEvent.Event_Desc = txtEventDesciptionSonic.Text.Trim();
         }
 
-        objEvent.Video_Requested_By_Sonic = rblVideoRequestedBySonic.SelectedValue;
+        if (Is_Sonic_Event)
+        {
+            objEvent.Video_Requested_By_Sonic = rblVideoRequestedBySonic.SelectedValue;
+        }
+        else
+        {
+            objEvent.Video_Requested_By_Sonic = rblVideoRequestedByACI.SelectedValue;
+        }
+       
         objEvent.Monitoring_Hours = rdoMonitoring_Hours_Sonic.SelectedValue;
         objEvent.Source_Of_Information = txtSource_Of_Information.Text.Trim();
         objEvent.Sonic_Contact_Name = txtSonic_Contact_Name.Text;
@@ -1655,7 +1689,7 @@ public partial class Event_Event_New : clsBasePage
     {
         #region "ACI Video Request"
 
-        if (PK_Event > 0 && rblVideoRequestedBySonic.SelectedValue == "Y")
+        if (PK_Event > 0 && ((rblVideoRequestedBySonic.SelectedValue == "Y" ) || (rblVideoRequestedByACI.SelectedValue == "Y")))
         {
             clsEvent_Video_Tracking_Request objVideo = new clsEvent_Video_Tracking_Request();
             objVideo.PK_Event_Video_Tracking_Request = _PK_Event_Video_Tracking_Request;
@@ -2210,6 +2244,7 @@ public partial class Event_Event_New : clsBasePage
         {
             rdoPolice_Called.Enabled = false;
             rblVideoRequestedBySonic.Enabled = false;
+            rblVideoRequestedByACI.Enabled = false;
             txtAgency_name.Enabled = false;
             txtOfficer_Name.Enabled = false;
             txtOfficer_Phone.Enabled = false;
@@ -4290,7 +4325,7 @@ public partial class Event_Event_New : clsBasePage
 
     protected void rblVideoRequestedBySonic_SelectedIndexChanged(object sender, EventArgs e)
     {
-        if (rblVideoRequestedBySonic.SelectedValue == "Y")
+        if (rblVideoRequestedByACI.SelectedValue == "Y")
         {
             trVideoRequest.Style.Add("display", "");
             ShowHideVideoRequest(true);
@@ -4395,6 +4430,8 @@ public partial class Event_Event_New : clsBasePage
          if (dtRLCM.Rows.Count <= 0)
          {
              rblVideoRequestedBySonic.Enabled = false;
+             rblVideoRequestedBySonic.SelectedValue = "N";
+             rblVideoRequestedByACI.Enabled = false;
              rblVideoRequestedBySonic.SelectedValue = "N";
          }
     }

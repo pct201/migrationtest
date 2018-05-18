@@ -636,49 +636,54 @@
         }
 
         function ShowHideVideoRequest() {
-            var rdorequest = document.getElementById("ctl00_ContentPlaceHolder1_rblVideoRequestedBySonic");
-            var rdoSonicYes = document.getElementById(rdorequest.id + "_0");
-            var trVideoRequest = document.getElementById("ctl00_ContentPlaceHolder1_trVideoRequest");
-
-            var rfvddllocation = document.getElementById("<%=rfvddlLocation_Video.ClientID%>");
-            var rfvddlFK_LU_Type_of_Activity_Video = document.getElementById("<%=rfvddlFK_LU_Type_of_Activity_Video.ClientID%>");
-            var rfvtxtDate_Of_Event_Video = document.getElementById("<%=rfvtxtDate_Of_Event_Video.ClientID%>");
-            var rfvtxtDate_Of_Request_Video = document.getElementById("<%=rfvtxtDate_Of_Request_Video.ClientID%>");
-            var revtxtFull_Name_Video = document.getElementById("<%=revtxtFull_Name_Video.ClientID%>");
-            <%--var revtxtWork_Phone_Video = document.getElementById("<%=revtxtWork_Phone_Video.ClientID%>");--%>
-            <%--var revtxtLocation_Video = document.getElementById("<%=revtxtLocation_Video.ClientID%>");--%>
-            <%--var revtxtAlternate_Phone_Video = document.getElementById("<%=revtxtAlternate_Phone_Video.ClientID%>");--%>
-            var rfvReason_Request_Video_rfvNotes =  document.getElementById("ctl00_ContentPlaceHolder1_txtReason_Request_Video_rfvNotes");
-
-            if (rdoSonicYes.checked)
+           
+            var Is_Sonic_Event = '<%=ViewState["Is_Sonic_Event"]%>';
+            if (Is_Sonic_Event == 'False')
             {
-                trVideoRequest.style["display"] = "";
-                rfvddllocation.enabled = true;
-                rfvddlFK_LU_Type_of_Activity_Video.enabled = true;
-                rfvtxtDate_Of_Event_Video.enabled = true;
-                rfvtxtDate_Of_Request_Video.enabled = true;
-                revtxtFull_Name_Video.enabled = true; 
-                //revtxtWork_Phone_Video.enabled = true; 
-                //revtxtLocation_Video.enabled = true; 
-                //revtxtAlternate_Phone_Video.enabled = true; 
-                rfvReason_Request_Video_rfvNotes.enabled = true;
+                var rdorequest = document.getElementById("ctl00_ContentPlaceHolder1_rblVideoRequestedByACI");
+                var rdoSonicYes = document.getElementById(rdorequest.id + "_0");
+                var trVideoRequest = document.getElementById("ctl00_ContentPlaceHolder1_trVideoRequest");
+
+                var rfvddllocation = document.getElementById("<%=rfvddlLocation_Video.ClientID%>");
+                var rfvddlFK_LU_Type_of_Activity_Video = document.getElementById("<%=rfvddlFK_LU_Type_of_Activity_Video.ClientID%>");
+                var rfvtxtDate_Of_Event_Video = document.getElementById("<%=rfvtxtDate_Of_Event_Video.ClientID%>");
+                var rfvtxtDate_Of_Request_Video = document.getElementById("<%=rfvtxtDate_Of_Request_Video.ClientID%>");
+                var revtxtFull_Name_Video = document.getElementById("<%=revtxtFull_Name_Video.ClientID%>");
+                <%--var revtxtWork_Phone_Video = document.getElementById("<%=revtxtWork_Phone_Video.ClientID%>");--%>
+                <%--var revtxtLocation_Video = document.getElementById("<%=revtxtLocation_Video.ClientID%>");--%>
+                <%--var revtxtAlternate_Phone_Video = document.getElementById("<%=revtxtAlternate_Phone_Video.ClientID%>");--%>
+                var rfvReason_Request_Video_rfvNotes =  document.getElementById("ctl00_ContentPlaceHolder1_txtReason_Request_Video_rfvNotes");
+
+                if (rdoSonicYes.checked)
+                {
+                    trVideoRequest.style["display"] = "";
+                    rfvddllocation.enabled = true;
+                    rfvddlFK_LU_Type_of_Activity_Video.enabled = true;
+                    rfvtxtDate_Of_Event_Video.enabled = true;
+                    rfvtxtDate_Of_Request_Video.enabled = true;
+                    revtxtFull_Name_Video.enabled = true; 
+                    //revtxtWork_Phone_Video.enabled = true; 
+                    //revtxtLocation_Video.enabled = true; 
+                    //revtxtAlternate_Phone_Video.enabled = true; 
+                    rfvReason_Request_Video_rfvNotes.enabled = true;
                
-                setVideoRequestData();
+                    setVideoRequestData();
+                }
+                else
+                {
+                    trVideoRequest.style["display"] = "none";
+                    rfvddllocation.enabled = false;
+                    rfvddlFK_LU_Type_of_Activity_Video.enabled = false;
+                    rfvtxtDate_Of_Event_Video.enabled = false;
+                    rfvtxtDate_Of_Request_Video.enabled = false;
+                    revtxtFull_Name_Video.enabled = false; 
+                    //revtxtWork_Phone_Video.enabled = false; 
+                    //revtxtLocation_Video.enabled = false; 
+                    //revtxtAlternate_Phone_Video.enabled = false; 
+                    rfvReason_Request_Video_rfvNotes.enabled = false;
+                }
+                setUrgentNeed();
             }
-            else
-            {
-                trVideoRequest.style["display"] = "none";
-                rfvddllocation.enabled = false;
-                rfvddlFK_LU_Type_of_Activity_Video.enabled = false;
-                rfvtxtDate_Of_Event_Video.enabled = false;
-                rfvtxtDate_Of_Request_Video.enabled = false;
-                revtxtFull_Name_Video.enabled = false; 
-                //revtxtWork_Phone_Video.enabled = false; 
-                //revtxtLocation_Video.enabled = false; 
-                //revtxtAlternate_Phone_Video.enabled = false; 
-                rfvReason_Request_Video_rfvNotes.enabled = false;
-            }
-            setUrgentNeed();
             
         }
 
@@ -686,8 +691,14 @@
         {
             var rdoUrgent = document.getElementById("ctl00_ContentPlaceHolder1_rdoUrgent_Need_Video");
             var rdoUrgentYes = document.getElementById(rdoUrgent.id + "_0");
+            var Is_Sonic_Event = '<%=ViewState["Is_Sonic_Event"]%>';
+            var rdorequest;
 
-            var rdorequest = document.getElementById("ctl00_ContentPlaceHolder1_rblVideoRequestedBySonic");
+            if(Is_Sonic_Event == 'True')
+                rdorequest = document.getElementById("ctl00_ContentPlaceHolder1_rblVideoRequestedBySonic");
+            else 
+                rdorequest = document.getElementById("ctl00_ContentPlaceHolder1_rblVideoRequestedByACI");
+
             var rdoSonicYes = document.getElementById(rdorequest.id + "_0");
 
             var revtxtCamera_Name_Video = document.getElementById("<%=revtxtCamera_Name_Video.ClientID%>");
@@ -1617,13 +1628,13 @@
                                                     <tr>
                                                         <td style="height: 5px" colspan="6"></td>
                                                     </tr>
-                                                    <tr>
+                                                   <tr runat="server" id="trVideoRequestByACI">
                                                         <td align="left" width="18%" valign="top">Do you want to Request Video?
                                                         </td>
                                                         <td align="center" width="4%" valign="top">:
                                                         </td>
                                                         <td align="left" width="28%" valign="top">
-                                                            <asp:RadioButtonList ID="rblVideoRequestedBySonic" runat="server" onClick="return ShowHideVideoRequest();">
+                                                            <asp:RadioButtonList ID="rblVideoRequestedByACI" runat="server" onClick="return ShowHideVideoRequest();">
                                                                 <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
                                                                 <asp:ListItem Text="No" Value="N" Selected="True"></asp:ListItem>
                                                             </asp:RadioButtonList>
@@ -1668,7 +1679,7 @@
                                                     <tr>
                                                         <td colspan="6" class="spacer" style="height: 5px"></td>
                                                     </tr>
-                                                    <tr>
+                                                    <tr id="trHeadersonicNotes" runat ="server">
                                                         <td colspan="6" class="spacer" style="height: 5px">
                                                             <div class="bandHeaderRow">
                                                                 Notes
@@ -2543,6 +2554,24 @@
                                                 <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                     <tr>
                                                         <td style="height: 5px" colspan="6"></td>
+                                                    </tr>
+                                                    <tr id="trsonicVideoRequest" runat="server">
+                                                        <td align="left" width="18%" valign="top">Do you want to Request Video?
+                                                        </td>
+                                                        <td align="center" width="4%" valign="top">:
+                                                        </td>
+                                                        <td align="left" width="28%" valign="top">
+                                                            <asp:RadioButtonList ID="rblVideoRequestedBySonic" runat="server" >
+                                                                <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+                                                                <asp:ListItem Text="No" Value="N" Selected="True"></asp:ListItem>
+                                                            </asp:RadioButtonList>
+                                                        </td>
+                                                        <td align="left" width="18%" valign="top">&nbsp;
+                                                        </td>
+                                                        <td align="center" width="4%" valign="top">&nbsp;
+                                                        </td>
+                                                        <td align="left" width="28%" valign="top">&nbsp;
+                                                        </td>
                                                     </tr>
                                                     <tr>
                                                         <td align="left" width="18%" valign="top">Location&nbsp;<span id="Span2" runat="server" style="color: Red;">*</span>
