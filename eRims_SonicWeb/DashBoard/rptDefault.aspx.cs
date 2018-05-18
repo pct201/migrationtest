@@ -28,7 +28,7 @@ public partial class SONIC_ClaimInfo_rptDefault : clsBasePage
             //ds.ReadXml(strReportsXml);
             //gvReports.DataSource = ds;
             //gvReports.DataBind();
-            DataTable dt = Tatva_Report.SelectByReportType("Dashboard").Tables[0];
+            DataTable dt = Tatva_Report.SelectByReportType("Dashboard",clsSession.IsACIUser).Tables[0];
             gvReports.DataSource = dt;
             gvReports.DataBind();
         }

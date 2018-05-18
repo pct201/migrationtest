@@ -22,7 +22,7 @@ public partial class SONIC_FirstReport_RptDefault_WCAllocation : clsBasePage
         // when page is loaded first time
         if (!IsPostBack)
         {
-            DataTable dt = Tatva_Report.SelectByReportType("WC").Tables[0];
+            DataTable dt = Tatva_Report.SelectByReportType("WC", clsSession.IsACIUser).Tables[0];
             gvReports.DataSource = dt;
             gvReports.DataBind();
         }

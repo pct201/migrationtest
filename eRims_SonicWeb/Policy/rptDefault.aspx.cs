@@ -28,7 +28,7 @@ public partial class SONIC_Exposures_rptDefault : System.Web.UI.Page
             //ds.ReadXml(strReportsXml);
             //gvReports.DataSource = ds;
             //gvReports.DataBind();
-            DataTable dt = Tatva_Report.SelectByReportType("Policy").Tables[0];
+            DataTable dt = Tatva_Report.SelectByReportType("Policy", clsSession.IsACIUser).Tables[0];
             gvReports.DataSource = dt;
             gvReports.DataBind();
         }

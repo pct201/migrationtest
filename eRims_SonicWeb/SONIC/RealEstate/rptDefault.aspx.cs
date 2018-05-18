@@ -22,7 +22,7 @@ public partial class SONIC_RealEstate_rptDefault : clsBasePage
         // when page is loaded first time
         if (!IsPostBack)
         {
-            DataTable dt = Tatva_Report.SelectByReportType("RE").Tables[0];
+            DataTable dt = Tatva_Report.SelectByReportType("RE", clsSession.IsACIUser).Tables[0];
 
             DataTable dtTemp = new DataTable();
             dtTemp.Columns.Add(new DataColumn("PK_ReportID", typeof(int)));

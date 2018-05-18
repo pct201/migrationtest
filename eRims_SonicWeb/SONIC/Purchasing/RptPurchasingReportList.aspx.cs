@@ -22,7 +22,7 @@ public partial class SONIC_Purchasing_RptPurchasingReportList : clsBasePage
         // when page is loaded first time
         if (!IsPostBack)
         {
-            DataTable dt = Tatva_Report.SelectByReportType("PR").Tables[0];
+            DataTable dt = Tatva_Report.SelectByReportType("PR", clsSession.IsACIUser).Tables[0];
             gvReports.DataSource = dt;
             gvReports.DataBind();
         }

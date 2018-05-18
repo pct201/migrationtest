@@ -28,8 +28,8 @@ public partial class SONIC_Exposures_rptDefault : clsBasePage
             //ds.ReadXml(strReportsXml);
             //gvReports.DataSource = ds;
             //gvReports.DataBind();
-            
-            DataTable dt = Tatva_Report.SelectByReportType("CRM").Tables[0];
+
+            DataTable dt = Tatva_Report.SelectByReportType("CRM", clsSession.IsACIUser).Tables[0];
             
             //Insert Ad-Hoc Report Record
             DataRow dr = dt.NewRow();

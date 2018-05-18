@@ -22,7 +22,7 @@ public partial class ERReports_Default : clsBasePage
         // when page is loaded first time
         if (!IsPostBack)
         {
-            DataTable dt = Tatva_Report.SelectByReportType("ER").Tables[0];
+            DataTable dt = Tatva_Report.SelectByReportType("ER", clsSession.IsACIUser).Tables[0];
             gvReports.DataSource = dt;
             gvReports.DataBind();
         }

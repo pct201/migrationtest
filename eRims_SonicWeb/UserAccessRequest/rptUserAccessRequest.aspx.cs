@@ -23,7 +23,7 @@ public partial class rptUserAccessRequest : System.Web.UI.Page
         // when page is loaded first time
         if (!IsPostBack)
         {
-            DataTable dt = Tatva_Report.SelectByReportType("User Access Request").Tables[0];
+            DataTable dt = Tatva_Report.SelectByReportType("User Access Request", clsSession.IsACIUser).Tables[0];
             gvReports.DataSource = dt;
             gvReports.DataBind();
         }
