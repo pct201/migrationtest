@@ -20,10 +20,10 @@
         </td>
         <td id="tab8" class="tab" onclick="RedirectTo(8);">Construction
         </td>        
-        <td id="tab9" class="tab" onclick="RedirectTo(9);">EHS Inspection
+        <%--<td id="tab9" class="tab" onclick="RedirectTo(9);">EHS Inspection
         </td>
         <td id="tab10" class="tab" onclick="RedirectTo(10);">Maintenance
-        </td>
+        </td>--%>
         <td>&nbsp;
         </td>
         <td>&nbsp;
@@ -35,7 +35,7 @@
 <script type="text/javascript">
     //set the tab style if tab is active than apply class name is "tabselected" else "tab".
     function SetTabStyle(index) {        
-        for (var i = 1; i <= 10; i++) {
+        for (var i = 1; i <= 8; i++) {
             var tb = document.getElementById("tab" + i);
             if (i == index)
                 tb.className = "tabSelected";
