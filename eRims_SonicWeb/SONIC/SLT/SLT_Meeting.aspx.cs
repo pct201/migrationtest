@@ -3742,7 +3742,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         txtScheduled_Meeting_Time.Text = "";
         txtMeeting_Place.Text = "";
         drpTime_Zone.SelectedIndex = 0;
-        rdoRLCM_Attendance.SelectedValue = "N";
+        rdoRLCM_Attendance.ClearSelection();
         //rdoEmail_Members.SelectedValue = "N";
         if (gvSLT_Members.Rows.Count > 0)
             //PK_SLT_Member = Convert.ToDecimal(DataBinder.Eval(gvSLT_Members.Rows[0].DataItem, "PK_SLT_Member"));
@@ -4869,6 +4869,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                     {
                         Present = Convert.ToDecimal(dtSLTMeeting_Attendees.Rows[0]["Present"]);
                     }
+                    ((RadioButtonList)(e.Row.FindControl("rdbPresent"))).SelectedValue = Convert.ToBoolean(Present) == true ? "Y" : "N";
                     //if (dtSLTMeeting_Attendees.Rows[0]["FK_LU_Explain"] != DBNull.Value)
                     //{
                     //    FK_LU_Explain = Convert.ToDecimal(dtSLTMeeting_Attendees.Rows[0]["FK_LU_Explain"]);
@@ -4877,7 +4878,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                 }
             }
 
-            ((RadioButtonList)(e.Row.FindControl("rdbPresent"))).SelectedValue = Convert.ToBoolean(Present) == true ? "Y" : "N";
+            
 
             //((DropDownList)(e.Row.FindControl("drpExplain"))).SelectedValue = FK_LU_Explain.ToString();
             //((TextBox)(e.Row.FindControl("txtExplain"))).Text = Explain;

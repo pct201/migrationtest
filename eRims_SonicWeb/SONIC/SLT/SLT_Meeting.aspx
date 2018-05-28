@@ -523,7 +523,8 @@ function CheckSLT_Member() {
     }
 }
 
-function SetValidationGroup() {
+        function SetValidationGroup() {
+       
     var Index = document.getElementById("ctl00_ContentPlaceHolder1_hdnPanel2").value;
     var Schedule_id = '<%=ViewState["PK_SLT_Meeting_Schedule"] %>';
     var temp_ID = '<%=PK_Temp_Schedule_ID %>';
@@ -572,7 +573,8 @@ else {
     return false;
 }
 }
-else if (Index == 14) {
+    else if (Index == 14) {
+       
     if (temp_ID > 0 || Schedule_id > 0) {
         ValidationGroups = "vsErrorMeetingReview";
     }
@@ -1474,7 +1476,7 @@ function DisableButton() {
                                                                     <asp:TemplateField HeaderText="Present">
                                                                         <ItemStyle Width="15%" VerticalAlign="Middle" />
                                                                         <ItemTemplate>
-                                                                            <asp:RadioButtonList ID="rdbPresent" runat="server" SkinID="YesNoType">
+                                                                            <asp:RadioButtonList ID="rdbPresent" runat="server" SkinID="YNTypeNullSelection">
                                                                             </asp:RadioButtonList>
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
@@ -1493,12 +1495,14 @@ function DisableButton() {
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top" width="18%">RLCM In Attendance?
+                                                        <td align="left" valign="top" width="18%">RLCM In Attendance? <span id="Span46" runat="server" style="color: Red;">*</span>
                                                         </td>
                                                         <td align="center" valign="top" width="4%">:
                                                         </td>
                                                         <td align="left" valign="top" width="24%">
-                                                            <asp:RadioButtonList ID="rdoRLCM_Attendance" runat="server" SkinID="YesNoType" TabIndex="7" />
+                                                            <asp:RadioButtonList ID="rdoRLCM_Attendance" runat="server" SkinID="YNTypeNullSelection" />
+                                                                 <asp:RequiredFieldValidator ID="rfvrdoRLCM_Attendance" runat="server" ControlToValidate="rdoRLCM_Attendance"
+                                                                Display="None" ErrorMessage="[Meeting Attendees]/Please Check RLCM In Attendance " SetFocusOnError="true"  ValidationGroup="vsErrorAttendees" />
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -3691,7 +3695,7 @@ function DisableButton() {
                                                         <td colspan="6" style="height: 10px;"></td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" width="18%" valign="top">Meeting Held and 100% Participation
+                                                        <td align="left" width="18%" valign="top">Meeting Held and 100% Participation&nbsp;&nbsp;<span id="Span45" runat="server" style="color: Red;">*</span>
                                                         </td>
                                                         <td align="center" width="4%" valign="top">:
                                                         </td>
@@ -3704,6 +3708,8 @@ function DisableButton() {
                                                         <td align="left" width="28%" valign="top">
                                                             <asp:TextBox ID="txtMeetingPoints" runat="server" Width="50px" MaxLength="3" onkeypress="return FormatNumber(event,this.id,3,false);"
                                                                 onblur="CheckPoints(1, this);" />
+                                                          <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtMeetingPoints"
+                                                                Display="None" ErrorMessage="[Meeting Review]/Please fill Meeting Held and 100% Participation" SetFocusOnError="true"  ValidationGroup="vsErrorMeetingReview" />
                                                         </td>
                                                     </tr>
                                                     <tr>
