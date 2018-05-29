@@ -391,7 +391,7 @@ public partial class DealershipDetail : System.Web.UI.Page
                 lblQuality_Review_Points.Text = "0";
             else
                 lblQuality_Review_Points.Text = Convert.ToString(dsDetail.Tables[0].Rows[0]["Quality_Review"]);
-            lblSlt_Total_Points.Text = Convert.ToString(dsDetail.Tables[0].Rows[0]["Total_Points"]);
+            lblSlt_Total_Points.Text = Convert.ToString(dsDetail.Tables[0].Rows[0]["Total_Points"]) + "/" + Convert.ToString(dsDetail.Tables[0].Rows[0]["Total_Out_Of_Points"]);
 
             if (dsDetail.Tables[0].Rows[0]["Score"] != DBNull.Value)
             {
