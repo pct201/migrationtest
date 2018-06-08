@@ -628,31 +628,55 @@ public class Charts
 
     public static string GetColorCodeFromScore_SLT(decimal _intScore)
     {
+        //string color = string.Empty;
+        //if (_intScore >= 30)
+        //{
+        //    color = Platinum;
+        //}
+        //else if (_intScore > 23.5m && _intScore < 30)
+        //{
+        //    color = Gold;
+        //}
+        //else if (_intScore > 17.5m && _intScore <= 23.5m)
+        //{
+        //    color = Silver;
+        //}
+        //else if (_intScore > 11.5m && _intScore <= 17.5m)
+        //{
+        //    color = Bronze;
+        //}
+        //else if (_intScore >= 0 && _intScore <= 11.5m)
+        //{
+        //    color = Tin;
+        //}
+        ////else if (_intScore >= 0 && _intScore < 13)
+        ////{
+        ////    color = White;
+        ////}
+        //return color;
+
         string color = string.Empty;
-        if (_intScore >= 30)
+        if (_intScore >= 100)
         {
             color = Platinum;
         }
-        else if (_intScore > 23.5m && _intScore < 30)
+        else if (_intScore > 78.33m && _intScore < 100)
         {
             color = Gold;
         }
-        else if (_intScore > 17.5m && _intScore <= 23.5m)
+        else if (_intScore > 58.33m && _intScore <= 78.33m)
         {
             color = Silver;
         }
-        else if (_intScore > 11.5m && _intScore <= 17.5m)
+        else if (_intScore > 38.33m && _intScore <= 58.33m)
         {
             color = Bronze;
         }
-        else if (_intScore >= 0 && _intScore <= 11.5m)
+        else if (_intScore >= 0 && _intScore <= 38.33m)
         {
             color = Tin;
         }
-        //else if (_intScore >= 0 && _intScore < 13)
-        //{
-        //    color = White;
-        //}
+       
         return color;
     }
 

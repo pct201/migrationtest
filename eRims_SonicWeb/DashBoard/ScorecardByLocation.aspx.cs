@@ -310,17 +310,17 @@ public partial class ScorecardByLocation : System.Web.UI.Page
         DataTable dtReport = dsReport.Tables[0];
 
         if (dsReport.Tables.Count > 1)
-            Average = decimal.Parse(Convert.ToString(dsReport.Tables[1].Rows[0][0]));
+            Average = decimal.Parse(Convert.ToString(dsReport.Tables[1].Rows[0][1]));
 
         if (Region == "Western Region")
         {
             DataSet dsSCA = Charts.GETSLTBYLocation(Year, "SCA");
             dtReport.Merge(dsSCA.Tables[0]);
-            dtReport.DefaultView.Sort = " Score DESC, dba ASC";
+            dtReport.DefaultView.Sort = " Perfomance_Percentage DESC, dba ASC";
             dtReport = dtReport.DefaultView.ToTable();
             decimal decAvg = 0;
-            if (dsSCA.Tables[1].Rows.Count > 0 && !string.IsNullOrEmpty(dsSCA.Tables[1].Rows[0][0].ToString()))
-                decAvg = decimal.Parse(Convert.ToString(dsSCA.Tables[1].Rows[0][0]));
+            if (dsSCA.Tables[1].Rows.Count > 0 && !string.IsNullOrEmpty(dsSCA.Tables[1].Rows[0][1].ToString()))
+                decAvg = decimal.Parse(Convert.ToString(dsSCA.Tables[1].Rows[0][1]));
             Average = (Average + decAvg) / 2.0M;
         }
 
@@ -334,7 +334,7 @@ public partial class ScorecardByLocation : System.Web.UI.Page
 
             // for new version
             strlink = Server.UrlEncode("JavaScript:OpenPopup(\"" + dtReport.Rows[i]["DBA"].ToString() + "\",\"" + dtReport.Rows[i]["Sonic_Location_Code"].ToString() + "\",\"" + Year.ToString() + "\",\"7\");").Replace("'", "%26apos;");
-            strChartXML.AppendFormat("<set label='{0}' value='{1}' link='{2}' color='{3}'/>", dtReport.Rows[i][0].ToString().Replace("'", "&apos;"), dtReport.Rows[i][1].ToString(), strlink, Charts.GetColorCodeFromScore_SLT(Convert.ToDecimal(dtReport.Rows[i]["Score"])));
+            strChartXML.AppendFormat("<set label='{0}' value='{1}' link='{2}' color='{3}'/>", dtReport.Rows[i][0].ToString().Replace("'", "&apos;"), dtReport.Rows[i][3].ToString(), strlink, Charts.GetColorCodeFromScore_SLT(Convert.ToDecimal(dtReport.Rows[i]["Perfomance_Percentage"])));
         }
 
         // Get Style 
@@ -616,13 +616,13 @@ public partial class ScorecardByLocation : System.Web.UI.Page
 
         // set Tread Lines
         strChartXML.Append("<trendLines>");
-        strChartXML.Append("<line startValue='11.5' color='666666' displayvalue='" + Charts.Tin_Label_Graph + "' /> ");
-        strChartXML.Append("<line startValue='17.5' color='666666' displayvalue='" + Charts.Bronze_Label_Graph + "' /> ");
-        strChartXML.Append("<line startValue='23.5' color='666666' displayvalue='" + Charts.Silver_Label_Graph + "' /> ");
-        strChartXML.Append("<line startValue='29' color='666666' displayvalue='" + Charts.Gold_Label_Graph + "' /> ");
-        strChartXML.Append("<line startValue='30' color='666666' displayvalue='" + Charts.Platinum_Label_Graph + "' /> ");
+        strChartXML.Append("<line startValue='38.33' color='666666' displayvalue='" + Charts.Tin_Label_Graph + "' /> ");
+        strChartXML.Append("<line startValue='58.33' color='666666' displayvalue='" + Charts.Bronze_Label_Graph + "' /> ");
+        strChartXML.Append("<line startValue='78.33' color='666666' displayvalue='" + Charts.Silver_Label_Graph + "' /> ");
+        strChartXML.Append("<line startValue='96.66' color='666666' displayvalue='" + Charts.Gold_Label_Graph + "' /> ");
+        strChartXML.Append("<line startValue='100' color='666666' displayvalue='" + Charts.Platinum_Label_Graph + "' /> ");
 
-        strChartXML.Append("<line startValue='28.5' color='FF0000' displayvalue='{br}Cross The Line' valueOnRight='1' thickness='2' /> ");
+        strChartXML.Append("<line startValue='95' color='FF0000' displayvalue='{br}Cross The Line' valueOnRight='1' thickness='2' /> ");
 
         //if (Average != 0 && decCompAverage > 0 && (Math.Abs(Average - decCompAverage) <= 0.20M))
         //{

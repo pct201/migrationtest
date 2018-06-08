@@ -381,7 +381,7 @@ public partial class DashboardGraph : clsBasePage
         if (dsResult.Tables.Count > 1)
         {
             if (dsResult.Tables[1].Rows.Count > 0)
-                decimal.TryParse(Convert.ToString(dsResult.Tables[1].Rows[0]["Score"]), out _decAvg);
+                decimal.TryParse(Convert.ToString(dsResult.Tables[1].Rows[0]["Perfomance_Percentage"]), out _decAvg);
         }
 
         string strHeader = "";
@@ -391,12 +391,12 @@ public partial class DashboardGraph : clsBasePage
             strHeader = "Safety Leadership Team";
 
         // Set Chart property 
-        strChartXML.Append("<chart caption='" + strHeader + "' showalternatevgridcolor='0' bgColor='#FFFFFF' xAxisName='Region' plotGradientColor='' yAxisName='Level' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='8' yAxisMaxValue='32' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='0' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10' trendValueFontBold ='1'>");
+        strChartXML.Append("<chart caption='" + strHeader + "' showalternatevgridcolor='0' bgColor='#FFFFFF' xAxisName='Region' plotGradientColor='' yAxisName='Level' useRoundEdges='0' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='20' yAxisMaxValue='100' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='0' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10' trendValueFontBold ='1'>");
 
         // Set Label
         for (int i = 0; i < dtResult.Rows.Count; i++)
         {
-            strChartXML.AppendFormat("<set label='{0}' value='{1}' link='{2}' color='{3}'/>", dtResult.Rows[i][0].ToString(), dtResult.Rows[i][1].ToString(), Server.UrlEncode("JavaScript:OpenPopup(\"" + dtResult.Rows[i][0].ToString() + "\",\"" + Year.ToString() + "\",\"7\"," + Convert.ToString(_decAvg) + ");"), Charts.GetColorCodeFromScore_SLT(Convert.ToDecimal(dtResult.Rows[i]["Score"])));
+            strChartXML.AppendFormat("<set label='{0}' value='{1}' link='{2}' color='{3}'/>", dtResult.Rows[i][0].ToString(), dtResult.Rows[i]["Perfomance_Percentage"].ToString(), Server.UrlEncode("JavaScript:OpenPopup(\"" + dtResult.Rows[i][0].ToString() + "\",\"" + Year.ToString() + "\",\"7\"," + Convert.ToString(_decAvg) + ");"), Charts.GetColorCodeFromScore_SLT(Convert.ToDecimal(dtResult.Rows[i]["Perfomance_Percentage"])));
         }
 
         GetTreadLineStyle_SLT(strChartXML, _decAvg);
@@ -528,13 +528,13 @@ public partial class DashboardGraph : clsBasePage
     {
         // set Tread Lines
         strChartXML.Append("<trendLines>");
-        strChartXML.Append("<line startValue='11.5' valueOnRight='1' color='49563A' displayvalue='" + Charts.Tin_Label_Graph + "' /> ");
-        strChartXML.Append("<line startValue='17.5' color='49563A' displayvalue='" + Charts.Bronze_Label_Graph + "' /> ");
-        strChartXML.Append("<line startValue='23.5' color='49563A' displayvalue='" + Charts.Silver_Label_Graph + "' /> ");
-        strChartXML.Append("<line startValue='29' color='49563A' displayvalue='" + Charts.Gold_Label_Graph + "' /> ");
-        strChartXML.Append("<line startValue='30' color='49563A' displayvalue='" + Charts.Platinum_Label_Graph + "' /> ");
+        strChartXML.Append("<line startValue='38.33' valueOnRight='1' color='49563A' displayvalue='" + Charts.Tin_Label_Graph + "' /> ");
+        strChartXML.Append("<line startValue='58.33' color='49563A' displayvalue='" + Charts.Bronze_Label_Graph + "' /> ");
+        strChartXML.Append("<line startValue='78.33' color='49563A' displayvalue='" + Charts.Silver_Label_Graph + "' /> ");
+        strChartXML.Append("<line startValue='96.66' color='49563A' displayvalue='" + Charts.Gold_Label_Graph + "' /> ");
+        strChartXML.Append("<line startValue='100' color='49563A' displayvalue='" + Charts.Platinum_Label_Graph + "' /> ");
         //strChartXML.Append("<line startValue='" + string.Format("{0:N2}", Average) + "' color='FF0000' displayvalue='Company Average' valueOnRight='1' thickness='2' /> ");
-        strChartXML.Append("<line startValue='28.5' color='FF0000' displayvalue='{br}Cross The Line' valueOnRight='1' thickness='2' /> ");
+        strChartXML.Append("<line startValue='95.00' color='FF0000' displayvalue='{br}Cross The Line' valueOnRight='1' thickness='2' /> ");
         strChartXML.Append("</trendLines>");
 
         // set Style for Chart objects

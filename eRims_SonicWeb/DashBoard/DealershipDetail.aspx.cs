@@ -300,15 +300,26 @@ public partial class DealershipDetail : System.Web.UI.Page
         //if (intScore > 49 && intScore <= 60)
         //    strLevel = "Platinum";
        
-        if (intScore >= 0 && intScore <= 11.5m)
+        //if (intScore >= 0 && intScore <= 11.5m)
+        //    strLevel = "Tin";
+        //if (intScore > 11.5m && intScore <= 17.5m)
+        //    strLevel = "Bronze";
+        //if (intScore > 17.5m && intScore <= 23.5m)
+        //    strLevel = "Silver";
+        //if (intScore > 23.5m && intScore < 30)
+        //    strLevel = "Gold";
+        //if (intScore >= 30) 
+        //    strLevel = "Platinum";
+
+        if (intScore >= 0 && intScore <= 38.33m)
             strLevel = "Tin";
-        if (intScore > 11.5m && intScore <= 17.5m)
+        if (intScore > 38.33m && intScore <= 58.33m)
             strLevel = "Bronze";
-        if (intScore > 17.5m && intScore <= 23.5m)
+        if (intScore > 58.33m && intScore <= 78.33m)
             strLevel = "Silver";
-        if (intScore > 23.5m && intScore < 30)
+        if (intScore > 78.33m && intScore < 100)
             strLevel = "Gold";
-        if (intScore >= 30) 
+        if (intScore >= 100)
             strLevel = "Platinum";
         return strLevel;
     }
@@ -393,10 +404,10 @@ public partial class DealershipDetail : System.Web.UI.Page
                 lblQuality_Review_Points.Text = Convert.ToString(dsDetail.Tables[0].Rows[0]["Quality_Review"]);
             lblSlt_Total_Points.Text = Convert.ToString(dsDetail.Tables[0].Rows[0]["Total_Points"]) + "/" + Convert.ToString(dsDetail.Tables[0].Rows[0]["Total_Out_Of_Points"]);
 
-            if (dsDetail.Tables[0].Rows[0]["Score"] != DBNull.Value)
+            if (dsDetail.Tables[0].Rows[0]["Perfomance_Percentage"] != DBNull.Value)
             {
-                Score = Convert.ToDecimal(dsDetail.Tables[0].Rows[0]["Score"]);
-                lblSLT_Performance.Text =  dsDetail.Tables[0].Rows[0]["Score"].ToString() + " (" + GetPerformanceLevel_SLT(Score) + ")";
+                Score = Convert.ToDecimal(dsDetail.Tables[0].Rows[0]["Perfomance_Percentage"]);
+                lblSLT_Performance.Text = dsDetail.Tables[0].Rows[0]["Perfomance_Percentage"].ToString() + " (" + GetPerformanceLevel_SLT(Score) + ")";
             }
         }
     }
