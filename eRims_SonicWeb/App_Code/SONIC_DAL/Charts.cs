@@ -656,23 +656,23 @@ public class Charts
         //return color;
 
         string color = string.Empty;
-        if (_intScore >= 100)
+        if (_intScore > 28.5m && _intScore <= 30m)
         {
             color = Platinum;
         }
-        else if (_intScore > 78.33m && _intScore < 100)
+        else if (_intScore > 27m && _intScore <= 28.5m)
         {
             color = Gold;
         }
-        else if (_intScore > 58.33m && _intScore <= 78.33m)
+        else if (_intScore > 24m && _intScore <= 27m)
         {
             color = Silver;
         }
-        else if (_intScore > 38.33m && _intScore <= 58.33m)
+        else if (_intScore > 22.5m && _intScore <= 24m)
         {
             color = Bronze;
         }
-        else if (_intScore >= 0 && _intScore <= 38.33m)
+        else if (_intScore >= 0 && _intScore <= 22.5m)
         {
             color = Tin;
         }

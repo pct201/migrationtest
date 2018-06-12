@@ -177,7 +177,7 @@ public partial class SONIC_SLT_rptSLTScoring : clsBasePage
                 sbRecorords.Append("<td class='cols_' align='left'>" + Convert.ToString(drRecords["OCTOBER"]) + "</td>");
                 sbRecorords.Append("<td class='cols_' align='left'>" + Convert.ToString(drRecords["NOVEMBER"]) + "</td>");
                 sbRecorords.Append("<td class='cols_' align='left'>" + Convert.ToString(drRecords["DECEMBER"]) + "</td>");
-                sbRecorords.Append("<td class='cols_' align='left'>" + (drRecords["Average"] != DBNull.Value ? Convert.ToString(drRecords["Average"]) :"N/A") + "</td>");
+                sbRecorords.Append("<td class='cols_' align='left'>" + (drRecords["Perfomance_Percentage_Score"] != DBNull.Value ? Convert.ToString(drRecords["Perfomance_Percentage_Score"]) : "N/A") + "</td>");
                 sbRecorords.Append("</tr>");
             }
 

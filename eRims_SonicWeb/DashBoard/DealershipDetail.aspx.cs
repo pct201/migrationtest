@@ -311,15 +311,15 @@ public partial class DealershipDetail : System.Web.UI.Page
         //if (intScore >= 30) 
         //    strLevel = "Platinum";
 
-        if (intScore >= 0 && intScore <= 38.33m)
+        if (intScore >= 0 && intScore <= 22.5m)
             strLevel = "Tin";
-        if (intScore > 38.33m && intScore <= 58.33m)
+        if (intScore > 22.5m && intScore <= 24m)
             strLevel = "Bronze";
-        if (intScore > 58.33m && intScore <= 78.33m)
+        if (intScore > 24m && intScore <= 27m)
             strLevel = "Silver";
-        if (intScore > 78.33m && intScore < 100)
+        if (intScore > 27m && intScore <= 28.5m)
             strLevel = "Gold";
-        if (intScore >= 100)
+        if (intScore > 28.5m && intScore <= 30m)
             strLevel = "Platinum";
         return strLevel;
     }
@@ -404,10 +404,10 @@ public partial class DealershipDetail : System.Web.UI.Page
                 lblQuality_Review_Points.Text = Convert.ToString(dsDetail.Tables[0].Rows[0]["Quality_Review"]);
             lblSlt_Total_Points.Text = Convert.ToString(dsDetail.Tables[0].Rows[0]["Total_Points"]) + "/" + Convert.ToString(dsDetail.Tables[0].Rows[0]["Total_Out_Of_Points"]);
 
-            if (dsDetail.Tables[0].Rows[0]["Perfomance_Percentage"] != DBNull.Value)
+            if (dsDetail.Tables[0].Rows[0]["Perfomance_Percentage_Score"] != DBNull.Value)
             {
-                Score = Convert.ToDecimal(dsDetail.Tables[0].Rows[0]["Perfomance_Percentage"]);
-                lblSLT_Performance.Text = dsDetail.Tables[0].Rows[0]["Perfomance_Percentage"].ToString() + " (" + GetPerformanceLevel_SLT(Score) + ")";
+                Score = Convert.ToDecimal(dsDetail.Tables[0].Rows[0]["Perfomance_Percentage_Score"]);
+                lblSLT_Performance.Text = dsDetail.Tables[0].Rows[0]["Perfomance_Percentage_Score"].ToString() + " (" + GetPerformanceLevel_SLT(Score) + ")";
             }
         }
     }
