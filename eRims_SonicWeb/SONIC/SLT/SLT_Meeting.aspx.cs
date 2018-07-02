@@ -6812,14 +6812,40 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
 
                             objSLT_Safety_Walk.Update_Date = System.DateTime.Now;
                             objSLT_Safety_Walk.Updated_By = clsSession.UserID;
-                            if ((rdoParticipated.SelectedValue == "Y" && txtCompletedDate.Text != "") || rdoParticipated.SelectedValue == "N")
+                            if ((rdoParticipated.SelectedValue == "Y" && txtCompletedDate.Text != "") || rdoParticipated.SelectedValue == "N" || rdoParticipated.SelectedValue == "")
                             {
-                                if (!string.IsNullOrEmpty(objSLT_Safety_Walk.PK_SLT_Safety_Walk.ToString()))
+                                if (rdoParticipated.SelectedValue == "")
                                 {
-                                    if (objSLT_Safety_Walk.PK_SLT_Safety_Walk > 0)
+                                    Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);alert('Please Check Monthly Safety Walk Completed');", true);
+                                }
+                                else
+                                {
+                                    if (!string.IsNullOrEmpty(objSLT_Safety_Walk.PK_SLT_Safety_Walk.ToString()))
                                     {
-                                        objSLT_Safety_Walk.Update();
-                                        GetSLT_Score();
+                                        if (objSLT_Safety_Walk.PK_SLT_Safety_Walk > 0)
+                                        {
+                                            objSLT_Safety_Walk.Update();
+                                            GetSLT_Score();
+                                        }
+                                        else
+                                        {
+                                            try
+                                            {
+                                                PK_SLT_Safety_Walk = objSLT_Safety_Walk.Insert();
+                                                GetSLT_Score();
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                if (ex.Message.Contains("Duplicate Safety Walk"))
+                                                {
+                                                    Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);alert('There is already safety walk available for this month.Please try again.');", true);
+                                                }
+                                                else
+                                                {
+                                                    Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);alert('Error occured while saving your data.');", true);
+                                                }
+                                            }
+                                        }
                                     }
                                     else
                                     {
@@ -6832,31 +6858,12 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                                         {
                                             if (ex.Message.Contains("Duplicate Safety Walk"))
                                             {
-                                                Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);alert('There is already safety walk available for this month.Please try again.');", true);
+                                                Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);alert('There is already safety walk available for this month.');", true);
                                             }
                                             else
                                             {
                                                 Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);alert('Error occured while saving your data.');", true);
                                             }
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    try
-                                    {
-                                        PK_SLT_Safety_Walk = objSLT_Safety_Walk.Insert();
-                                        GetSLT_Score();
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        if (ex.Message.Contains("Duplicate Safety Walk"))
-                                        {
-                                            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);alert('There is already safety walk available for this month.');", true);
-                                        }
-                                        else
-                                        {
-                                            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);alert('Error occured while saving your data.');", true);
                                         }
                                     }
                                 }
@@ -6889,7 +6896,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
             HiddenField hdnSafety_Walk_Comp = (HiddenField)e.Row.FindControl("hdnSafety_Walk_Comp");
-            ((RadioButtonList)(e.Row.FindControl("rdoParticipated"))).SelectedValue = hdnSafety_Walk_Comp.Value == "True" ? "Y" : "N";
+            ((RadioButtonList)(e.Row.FindControl("rdoParticipated"))).SelectedValue = hdnSafety_Walk_Comp.Value == "True" ? "Y" : hdnSafety_Walk_Comp.Value == "False" ? "N" : (string)null ;          
         }
     }
 

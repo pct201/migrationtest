@@ -1961,7 +1961,7 @@ function DisableButton() {
                                                                                 <ItemTemplate>
                                                                                     <asp:HiddenField ID="hdnMonthNumber" runat="server" Value='<%# Eval("MonthNum") %>' />
                                                                                     <asp:HiddenField ID="hdnActualMeetingDate" runat="server" Value='<%# Eval("Actual_Meeting_Date") %>' />
-                                                                                    <asp:HiddenField ID="hdnSafety_Walk_Comp" runat="server" Value='<%# Convert.ToBoolean(Eval("Safety_Walk_Comp")) %>' />
+                                                                                    <asp:HiddenField ID="hdnSafety_Walk_Comp" runat="server" Value='<%# Eval("Safety_Walk_Comp") %>' />
                                                                                     <asp:HiddenField ID="hdnPK_SLT_Safety_Walk" runat="server" Value='<%# Eval("PK_SLT_Safety_Walk") %>' />
                                                                                     <asp:HiddenField ID="hdnPK_SLT_Meeting_Schedule" runat="server" Value='<%# Eval("PK_SLT_Meeting_Schedule") %>' />
                                                                                     <%# Eval("Month") %>
@@ -1974,7 +1974,9 @@ function DisableButton() {
                                                                             </asp:TemplateField>
                                                                             <asp:TemplateField HeaderText="Monthly Safety Walk Completed?" ItemStyle-Width="20%">
                                                                                 <ItemTemplate>
-                                                                                    <asp:RadioButtonList ID="rdoParticipated" runat="server" SkinID="YesNoType" Enabled='<%# Convert.ToBoolean(Eval("IsEnable")) %>' />
+                                                                                    <asp:RadioButtonList ID="rdoParticipated" runat="server" SkinID="YNTypeNullSelection" Enabled='<%# Convert.ToBoolean(Eval("IsEnable")) %>' />
+                                                                                    <asp:RequiredFieldValidator ID="rfvParticipated" runat="server" ControlToValidate="rdoParticipated"
+                                                                                    Display="None" ErrorMessage="Please Check Monthly Safety Walk Completed" SetFocusOnError="true"  ValidationGroup="vsErrorInspectionGroup" />
                                                                                 </ItemTemplate>
                                                                                 <HeaderTemplate>
                                                                                     Monthly Safety Walk Completed? <span style="color: Red;">*</span>
@@ -5107,7 +5109,7 @@ function DisableButton() {
                                                                                 <ItemTemplate>
                                                                                     <asp:HiddenField ID="hdnMonthNumber" runat="server" Value='<%# Eval("MonthNum") %>' />
                                                                                     <asp:HiddenField ID="hdnActualMeetingDate" runat="server" Value='<%# Eval("Actual_Meeting_Date") %>' />
-                                                                                    <asp:HiddenField ID="hdnSafety_Walk_Comp" runat="server" Value='<%# Convert.ToBoolean(Eval("Safety_Walk_Comp")) %>' />
+                                                                                    <asp:HiddenField ID="hdnSafety_Walk_Comp" runat="server" Value='<%# Eval("Safety_Walk_Comp") %>' />
                                                                                     <asp:HiddenField ID="hdnPK_SLT_Safety_Walk" runat="server" Value='<%# Eval("PK_SLT_Safety_Walk") %>' />
                                                                                     <asp:HiddenField ID="hdnPK_SLT_Meeting_Schedule" runat="server" Value='<%# Eval("PK_SLT_Meeting_Schedule") %>' />
                                                                                     <%# Eval("Month") %>
