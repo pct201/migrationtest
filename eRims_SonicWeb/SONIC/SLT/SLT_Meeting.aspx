@@ -1479,6 +1479,9 @@ function DisableButton() {
                                                                             <asp:RadioButtonList ID="rdbPresent" runat="server" SkinID="YNTypeNullSelection">
                                                                             </asp:RadioButtonList>
                                                                         </ItemTemplate>
+                                                                        <HeaderTemplate>
+                                                                            Present <span style="color: Red;">*</span>
+                                                                        </HeaderTemplate>
                                                                     </asp:TemplateField>
                                                                 </Columns>
                                                                 <EmptyDataTemplate>
@@ -1973,6 +1976,9 @@ function DisableButton() {
                                                                                 <ItemTemplate>
                                                                                     <asp:RadioButtonList ID="rdoParticipated" runat="server" SkinID="YesNoType" Enabled='<%# Convert.ToBoolean(Eval("IsEnable")) %>' />
                                                                                 </ItemTemplate>
+                                                                                <HeaderTemplate>
+                                                                                    Monthly Safety Walk Completed? <span style="color: Red;">*</span>
+                                                                                </HeaderTemplate>
                                                                             </asp:TemplateField>
                                                                             <asp:TemplateField HeaderText="Date Completed" ItemStyle-Width="20%">
                                                                                 <ItemTemplate>

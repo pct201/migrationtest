@@ -1002,7 +1002,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                 objMeeting_Attendees.FK_SLT_Members = PK_SLT_Member;
                 objMeeting_Attendees.FK_SLT_Meeting = PK_SLT_Meeting;
                 objMeeting_Attendees.FK_SLT_Meeting_Schedule = PK_SLT_Meeting_Schedule;
-                objMeeting_Attendees.Present = ((RadioButtonList)(gRow1.FindControl("rdbPresent"))).SelectedValue == "Y";
+                objMeeting_Attendees.Present = ((RadioButtonList)(gRow1.FindControl("rdbPresent"))).SelectedValue == "Y" ? true : ((RadioButtonList)(gRow1.FindControl("rdbPresent"))).SelectedValue == "N" ? false : (bool?)null;
 
                 //if (!(bool)objMeeting_Attendees.Present)
                 //{
@@ -3127,6 +3127,19 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
 
     }
     #endregion
+
+    public bool Validate_MeetingAttendees_Present()
+    {
+        bool bPresent = true;
+        foreach (GridViewRow gRow in gv_MeetingAttendees.Rows)
+        {
+            if (((RadioButtonList)(gRow.FindControl("rdbPresent"))).SelectedIndex == -1)
+            {
+                bPresent = false;
+            }
+        }
+        return bPresent;
+    }
     #endregion
 
     #region "Control Events"
@@ -3540,10 +3553,20 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         {
             if (meetingIsEditable == true)
             {
-                Save_meetingAttendees("4");
+                bool bPresent = Validate_MeetingAttendees_Present();
+                if (bPresent)
+                {
+                    Save_meetingAttendees("4");
+                }
+                else
+                {
+                    Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:ShowPanel(3);alert('Please select Present for Meeting Attendees');", true);
+                }
             }
-            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(4);", true);
-
+            else
+            {
+                Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(4);", true);
+            }
         }
         else if (hdnPanel2.Value == "4")
         {
@@ -3688,30 +3711,36 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         {
             bool bValid = true;
             bool btxtValid = true;
-            foreach (GridViewRow gRow in gv_MeetingAttendees.Rows)
-            {
-                bool bPresent = ((RadioButtonList)(gRow.FindControl("rdbPresent"))).SelectedValue == "Y";
-                //if (!bPresent)
-                //{
-                //    if (((DropDownList)(gRow.FindControl("drpExplain"))).SelectedIndex <= 0)
-                //        bValid = false;
-                //    else if (((DropDownList)(gRow.FindControl("drpExplain"))).SelectedIndex > 0)
-                //    {
-                //        if (((DropDownList)(gRow.FindControl("drpExplain"))).SelectedItem.Text == "Other")
-                //        {
-                //            if (string.IsNullOrEmpty(((TextBox)(gRow.FindControl("txtExplain"))).Text))
-                //            {
-                //                btxtValid = false; bValid = false;
-                //            }
-                //        }
-                //    }
-                //}
-            }
+            bool bPresent = Validate_MeetingAttendees_Present();
+            //foreach (GridViewRow gRow in gv_MeetingAttendees.Rows)
+            //{
+            //    bool bPresent = ((RadioButtonList)(gRow.FindControl("rdbPresent"))).SelectedValue == "Y";
+            //    //if (!bPresent)
+            //    //{
+            //    //    if (((DropDownList)(gRow.FindControl("drpExplain"))).SelectedIndex <= 0)
+            //    //        bValid = false;
+            //    //    else if (((DropDownList)(gRow.FindControl("drpExplain"))).SelectedIndex > 0)
+            //    //    {
+            //    //        if (((DropDownList)(gRow.FindControl("drpExplain"))).SelectedItem.Text == "Other")
+            //    //        {
+            //    //            if (string.IsNullOrEmpty(((TextBox)(gRow.FindControl("txtExplain"))).Text))
+            //    //            {
+            //    //                btxtValid = false; bValid = false;
+            //    //            }
+            //    //        }
+            //    //    }
+            //    //}
+            //}
 
-            if (bValid)
+            if (bValid && bPresent)
             {
                 Save_meetingAttendees("3");
                 //GetSLT_Score();
+            }
+            else if (!bPresent)
+            {
+                Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:ShowPanel(3);alert('Please select Present for Meeting Attendees');", true);
+                //Save_Next_MeetingAttendees = false;
             }
             else
             {
@@ -4856,7 +4885,8 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         {
 
             //ComboHelper.FillExplain(new DropDownList[] { ((DropDownList)(e.Row.FindControl("drpExplain"))) }, true);
-            decimal FK_LU_Explain = 0, Present = 1;
+            decimal FK_LU_Explain = 0;
+            decimal? Present = null;
             string Explain = "";
 
             if ((DataBinder.Eval(e.Row.DataItem, "PK_SLT_Members") != DBNull.Value))
@@ -4869,7 +4899,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                     {
                         Present = Convert.ToDecimal(dtSLTMeeting_Attendees.Rows[0]["Present"]);
                     }
-                    ((RadioButtonList)(e.Row.FindControl("rdbPresent"))).SelectedValue = Convert.ToBoolean(Present) == true ? "Y" : "N";
+                    ((RadioButtonList)(e.Row.FindControl("rdbPresent"))).SelectedValue = Convert.ToBoolean(Present) == true ? "Y" : !string.IsNullOrEmpty(Present.ToString()) ? "N" : string.Empty;
                     //if (dtSLTMeeting_Attendees.Rows[0]["FK_LU_Explain"] != DBNull.Value)
                     //{
                     //    FK_LU_Explain = Convert.ToDecimal(dtSLTMeeting_Attendees.Rows[0]["FK_LU_Explain"]);
@@ -4900,7 +4930,8 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
     {
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
-            decimal FK_LU_Explain = 0, Present = 0;
+            decimal FK_LU_Explain = 0;
+            decimal? Present = null;
             string Explain = "";
             if ((DataBinder.Eval(e.Row.DataItem, "PK_SLT_Members") != DBNull.Value))
             {
@@ -4919,7 +4950,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                     //Explain = Convert.ToString(dtSLTMeeting_Attendees.Rows[0]["Explain"]);
                 }
             }
-            ((Label)(e.Row.FindControl("lblPresent"))).Text = Convert.ToBoolean(Present) == true ? "Yes" : "No";
+            ((Label)(e.Row.FindControl("lblPresent"))).Text = Convert.ToBoolean(Present) == true ? "Yes" : !string.IsNullOrEmpty(Present.ToString()) ? "No" : string.Empty;
             //if (FK_LU_Explain > 0)
             //    ((Label)(e.Row.FindControl("lblLU_Explain"))).Text = new LU_Explain((decimal)FK_LU_Explain).Fld_Desc;
             //((Label)(e.Row.FindControl("lblExplainView"))).Text = Explain;
