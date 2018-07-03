@@ -166,20 +166,28 @@ public partial class SONIC_SLT_Safety_Walk_Participant_Popup : clsBasePage
     {
         if (Actual_Meeting_Date != null)
         {
-            foreach (GridViewRow gRow1 in gv_MeetingAttendees.Rows)
+            bool bParticipated = Validate_SafetyWalkMembers_Participated();
+            if (bParticipated)
             {
-                if (((HiddenField)(gRow1.FindControl("hdnPK_SLT_Members"))).Value != "")
-                    PK_SLT_Member = Convert.ToDecimal(((HiddenField)(gRow1.FindControl("hdnPK_SLT_Members"))).Value);
-                SLT_Safety_Walk_Members objSLT_Safety_Walk_Members = new SLT_Safety_Walk_Members(PK_SLT_Member, true, FK_SLT_Safety_Walk);
-                objSLT_Safety_Walk_Members.FK_SLT_Safety_Walk = FK_SLT_Safety_Walk;
-                objSLT_Safety_Walk_Members.FK_SLT_Members = PK_SLT_Member;
-                objSLT_Safety_Walk_Members.Participated = ((RadioButtonList)(gRow1.FindControl("rdoParticipated"))).SelectedValue == "Y";
-                if (objSLT_Safety_Walk_Members.PK_SLT_Safety_Walk_Members > 0)
-                    objSLT_Safety_Walk_Members.Update();
-                else
-                    objSLT_Safety_Walk_Members.Insert();
+                foreach (GridViewRow gRow1 in gv_MeetingAttendees.Rows)
+                {
+                    if (((HiddenField)(gRow1.FindControl("hdnPK_SLT_Members"))).Value != "")
+                        PK_SLT_Member = Convert.ToDecimal(((HiddenField)(gRow1.FindControl("hdnPK_SLT_Members"))).Value);
+                    SLT_Safety_Walk_Members objSLT_Safety_Walk_Members = new SLT_Safety_Walk_Members(PK_SLT_Member, true, FK_SLT_Safety_Walk);
+                    objSLT_Safety_Walk_Members.FK_SLT_Safety_Walk = FK_SLT_Safety_Walk;
+                    objSLT_Safety_Walk_Members.FK_SLT_Members = PK_SLT_Member;
+                    objSLT_Safety_Walk_Members.Participated = ((RadioButtonList)(gRow1.FindControl("rdoParticipated"))).SelectedValue == "Y" ? true : ((RadioButtonList)(gRow1.FindControl("rdoParticipated"))).SelectedValue == "N" ? false : (bool?)null;
+                    if (objSLT_Safety_Walk_Members.PK_SLT_Safety_Walk_Members > 0)
+                        objSLT_Safety_Walk_Members.Update();
+                    else
+                        objSLT_Safety_Walk_Members.Insert();
+                }
+                Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:Save_Record();", true);
             }
-            Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:Save_Record();", true);
+            else
+            {
+                Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "alert('Please Check Participated');", true);
+            }
             //foreach (GridViewRow gRow1 in gv_MeetingAttendees.Rows)
             //{
             //    DataTable Dtmeeting_ScheduleEdit = SLT_Meeting_Schedule.SelectBYFK(PK_SLT_Meeting, null, null, Year, Month).Tables[0];
@@ -215,7 +223,20 @@ public partial class SONIC_SLT_Safety_Walk_Participant_Popup : clsBasePage
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
             HiddenField hdnParticipated = (HiddenField)e.Row.FindControl("hdnParticipated");
-            ((RadioButtonList)(e.Row.FindControl("rdoParticipated"))).SelectedValue = hdnParticipated.Value == "True" ? "Y" : "N";
+            ((RadioButtonList)(e.Row.FindControl("rdoParticipated"))).SelectedValue = hdnParticipated.Value == "True" ? "Y" : hdnParticipated.Value == "False" ? "N" : (string)null;
         }
+    }
+
+    public bool Validate_SafetyWalkMembers_Participated()
+    {
+        bool bParticipated = true;
+        foreach (GridViewRow gRow in gv_MeetingAttendees.Rows)
+        {
+            if (((RadioButtonList)(gRow.FindControl("rdoParticipated"))).SelectedIndex == -1)
+            {
+                bParticipated = false;
+            }
+        }
+        return bParticipated;
     }
 }

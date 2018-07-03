@@ -51,10 +51,13 @@
                             <asp:TemplateField HeaderText="Participated" HeaderStyle-HorizontalAlign="Left">
                                 <ItemStyle Width="15%" VerticalAlign="Middle" />
                                 <ItemTemplate>
-                                    <asp:HiddenField ID="hdnParticipated" runat="server" Value='<%# Convert.ToBoolean(Eval("Participated")) %>' />
-                                    <asp:RadioButtonList ID="rdoParticipated" runat="server" SkinID="YesNoType">
+                                    <asp:HiddenField ID="hdnParticipated" runat="server" Value='<%# Eval("Participated") %>' />
+                                    <asp:RadioButtonList ID="rdoParticipated" runat="server" SkinID="YNTypeNullSelection">
                                     </asp:RadioButtonList>
                                 </ItemTemplate>
+                                <HeaderTemplate>
+                                    Participated <span style="color: Red;">*</span>
+                                </HeaderTemplate>
                             </asp:TemplateField>
                         </Columns>
                         <EmptyDataTemplate>
