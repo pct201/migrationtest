@@ -55,9 +55,6 @@
                                     <asp:RadioButtonList ID="rdoParticipated" runat="server" SkinID="YNTypeNullSelection">
                                     </asp:RadioButtonList>
                                 </ItemTemplate>
-                                <HeaderTemplate>
-                                    Participated <span style="color: Red;">*</span>
-                                </HeaderTemplate>
                             </asp:TemplateField>
                         </Columns>
                         <EmptyDataTemplate>

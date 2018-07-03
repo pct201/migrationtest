@@ -1998,6 +1998,9 @@ function DisableButton() {
                                                                                         CommandArgument='<%#Eval("MonthNum") + ":" + Eval("PK_SLT_Safety_Walk") %>' Enabled='<%# Convert.ToBoolean(Eval("IsEnable")) %>'></asp:LinkButton>
                                                                                     <%--<asp:HyperLink ID="SafetyWalkParticipation" runat="server" Text="Participants"></asp:HyperLink>--%>
                                                                                 </ItemTemplate>
+                                                                                <HeaderTemplate>
+                                                                                    Safety Walk Participation <span style="color: Red;">*</span>
+                                                                                </HeaderTemplate>
                                                                             </asp:TemplateField>
                                                                             <asp:TemplateField HeaderText="Observations Open" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="15%">
                                                                                 <ItemTemplate>
