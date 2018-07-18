@@ -9,6 +9,7 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using ERIMS.DAL;
+using ERIMS.SONIC_DAL;
 
 /// <summary>
 /// Date : 06 JUNE 2009
@@ -37,6 +38,15 @@ public partial class SONIC_Exposures_Lease : clsBasePage
             return clsGeneral.GetInt(ViewState["PK_RE_Information"]);
         }
         set { ViewState["PK_RE_Information"] = value; hdnREInfoID.Value = value.ToString(); }
+    }
+
+    public int _PK_Mortgage_Information_ID
+    {
+        get
+        {
+            return clsGeneral.GetInt(ViewState["PK_Mortgage_Information_ID"]);
+        }
+        set { ViewState["PK_Mortgage_Information_ID"] = value; hdnMortgageInfoID.Value = value.ToString(); }
     }
 
     /// <summary>
@@ -170,6 +180,10 @@ public partial class SONIC_Exposures_Lease : clsBasePage
     /// <param name="e"></param>
     protected void Page_Load(object sender, EventArgs e)
     {
+        ScriptManager scriptManager = ScriptManager.GetCurrent(this.Page);
+        scriptManager.RegisterPostBackControl(this.btnLoanAbstract);
+        //scriptManager.RegisterPostBackControl(this.btnLoanSubmit);
+        //scriptManager.RegisterPostBackControl(this.btnLoanCancel);
         // set Lease tab selected
         Tab.SetSelectedTab(Controls_ExposuresTab_ExposuresTab.Tab.Lease);
         Attachment.btnHandler += new Controls_Attachments_Attachment.OnButtonClick(Upload_File);
@@ -324,6 +338,7 @@ public partial class SONIC_Exposures_Lease : clsBasePage
             // get Event arguments sent from javascript
             string eventTarget = (this.Request["__EVENTTARGET"] == null) ? string.Empty : this.Request["__EVENTTARGET"];
             string eventArgument = (this.Request["__EVENTARGUMENT"] == null) ? string.Empty : this.Request["__EVENTARGUMENT"];
+            //tblLoanSummary.Style["display"] = "";
 
             // if Lease date is changed
             if (eventTarget == "LeaseDateChanged")
@@ -393,7 +408,9 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         dvSave.Style["display"] = "block";
         dvView.Style["display"] = "none";
         dvBack.Style["display"] = "none";
+        tblLoanSummary.Style["display"] = "none";
         lnkAddNew.Visible = true;
+        lnkAddLoanSummary.Visible = true;
 
         ((Button)Attachment.FindControl("btnAddAttachment")).Visible = false;
 
@@ -490,8 +507,8 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         txtLandlordLegalEntity.Text = objRE_Information.Landlord_Legal_Entity;
         txtAmendmentInfo.Text = objRE_Information.Amendment_Info;
         txtAssignementInfo.Text = objRE_Information.Assignment_Info;
-        txtMortgage_Commencement_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objRE_Information.Mortgage_Commencement_Date);
-        txtMortgage_Expiration_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objRE_Information.Mortgage_Expiration_Date);
+        // txtMortgage_Commencement_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objRE_Information.Mortgage_Commencement_Date);
+        //txtMortgage_Expiration_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objRE_Information.Mortgage_Expiration_Date);
 
         #endregion
 
@@ -863,14 +880,14 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         lblLandlordLegalEntity.Text = objRE_Information.Landlord_Legal_Entity;
         lblAmendmentInfo.Text = objRE_Information.Amendment_Info;
         lblAssignementInfo.Text = objRE_Information.Assignment_Info;
-        lblMorgage_Commencement_Date.Text = txtMortgage_Commencement_Date.Text;
-        lblMorgage_Expiration_Date.Text = txtMortgage_Expiration_Date.Text;
+        //lblMorgage_Commencement_Date.Text = txtMortgage_Commencement_Date.Text;
+        //lblMorgage_Expiration_Date.Text = txtMortgage_Expiration_Date.Text;
         #endregion
 
         #region " Bind Lease Maint Obligation Information "
 
         if (objRE_Information.FK_HVAC_Capital != null)
-        { 
+        {
             lblHVACCapital.Text = new LU_HVAC_Capital((decimal)objRE_Information.FK_HVAC_Capital).Description;
         }
         else lblHVACCapital.Text = "";
@@ -1264,7 +1281,24 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         BindNotesGrid();
         BindSubtenantGrid();
         BindSubtenanatViewGrid();
+        BindMortgageLoanGrid();
+        BindMortgageLoanViewGrid();
     }
+
+    private void BindMortgageLoanGrid()
+    {
+        DataTable dtMortgageLoan = Mortage_informaiton.SelectByMortgageLoanInformationID((Int32)_PK_RE_Information).Tables[0];
+        gvMortgageLoan.DataSource = dtMortgageLoan;
+        gvMortgageLoan.DataBind();
+    }
+
+    private void BindMortgageLoanViewGrid()
+    {
+        DataTable dtMortgageLoan = Mortage_informaiton.SelectByMortgageLoanInformationID((Int32)_PK_RE_Information).Tables[0];
+        gvMortgageLoanView.DataSource = dtMortgageLoan;
+        gvMortgageLoanView.DataBind();
+    }
+
 
     private void BindSubtenanatViewGrid()
     {
@@ -1652,8 +1686,8 @@ public partial class SONIC_Exposures_Lease : clsBasePage
             objRE_Information.Other_Repairs = txtOtherRepairs.Text.Trim();
             objRE_Information.Maintenance_Notes = txtMaintenanceNotes.Text.Trim();
 
-            objRE_Information.Mortgage_Commencement_Date = clsGeneral.FormatNullDateToStore(txtMortgage_Commencement_Date.Text);
-            objRE_Information.Mortgage_Expiration_Date = clsGeneral.FormatNullDateToStore(txtMortgage_Expiration_Date.Text);
+            // objRE_Information.Mortgage_Commencement_Date = clsGeneral.FormatNullDateToStore(txtMortgage_Commencement_Date.Text);
+            // objRE_Information.Mortgage_Expiration_Date = clsGeneral.FormatNullDateToStore(txtMortgage_Expiration_Date.Text);
 
             // save the information as per the PK availability
             if (_PK_RE_Information > 0)
@@ -2783,6 +2817,42 @@ public partial class SONIC_Exposures_Lease : clsBasePage
 
     #endregion
 
+    private void SaveLoanSummaryInformation()
+    {
+        Mortage_informaiton objMortgage_LoanInformation = new Mortage_informaiton(_PK_Mortgage_Information_ID);
+
+        objMortgage_LoanInformation.FK_RE_Information = (Int32)_PK_RE_Information;
+        objMortgage_LoanInformation.FK_LU_Location = FK_LU_Location_ID;
+        //set values in page controls
+        if (txtSRE_ID.Text != "") objMortgage_LoanInformation.SRE_ID = Convert.ToInt32(txtSRE_ID.Text);
+        objMortgage_LoanInformation.Mortgage_Commencement_Date = clsGeneral.FormatNullDateToStore(txtMortgage_Commencement_Date.Text);
+        objMortgage_LoanInformation.Letter_Name = txtLetter_Name.Text.Trim();
+        objMortgage_LoanInformation.Mortgage_Expiration_Date = clsGeneral.FormatNullDateToStore(txtMortgage_Expiration_Date.Text);
+        objMortgage_LoanInformation.Loan_Term = txtLoan_Term.Text.Trim();
+        objMortgage_LoanInformation.Loan_Origination_Date = clsGeneral.FormatNullDateToStore(txtLoan_Origination_Date.Text);
+        objMortgage_LoanInformation.Loan_Type = txtLoan_Type.Text.Trim();
+        objMortgage_LoanInformation.Loan_Maturity_Date = clsGeneral.FormatNullDateToStore(txtLoan_Maturity_Date.Text);
+        if (txtOrginationLoanAmount.Text != "") objMortgage_LoanInformation.Orgination_Loan_Amount = clsGeneral.GetDecimalValue(txtOrginationLoanAmount);
+        if (drpLoanStatus.SelectedIndex > 0) objMortgage_LoanInformation.Loan_Status = Convert.ToString(drpLoanStatus.SelectedValue);
+        if (txtPaymentAmount.Text != "") objMortgage_LoanInformation.Payment_Amount = clsGeneral.GetDecimalValue(txtPaymentAmount);
+        objMortgage_LoanInformation.Spread = txtSpread.Text.Trim();
+        if (txtEstimatedPI.Text != "") objMortgage_LoanInformation.Estimated_P_And_I = clsGeneral.GetDecimalValue(txtEstimatedPI);
+        objMortgage_LoanInformation.Other = txtOther.Text.Trim();
+        objMortgage_LoanInformation.Comments = txtComments.Text.Trim();
+        dvAttachment.Style["display"] = "none";
+
+        if (_PK_Mortgage_Information_ID > 0)
+            objMortgage_LoanInformation.Update();
+        else
+            _PK_Mortgage_Information_ID = objMortgage_LoanInformation.Insert();
+        //  bool bRentSubtenantSuccess = UpdateRentScheduleInfo_Subtenant();
+        dvAttachment.Style["display"] = "none";
+        tblSubtenant.Style["display"] = "none";
+        tblLoanSummary.Style["display"] = "none";
+        BindMortgageLoanGrid();
+        ShowPanel(12);
+    }
+
     #region Control Events
 
     /// <summary>
@@ -2989,6 +3059,63 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         ShowPanel(3);
     }
 
+    protected void drpLoanStatus_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        ValidationOnLoanStatus();
+    }
+
+
+    /// <summary>
+    /// Handles event on Loan Status dropdown selection change in Mortgage information panel
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void ValidationOnLoanStatus()
+    {
+
+        if (drpLoanStatus.SelectedItem.Text == "Other")
+        {
+            Span163.Style["display"] = "";
+            Span164.Style["display"] = "";
+            Span165.Style["display"] = "";
+            Span166.Style["display"] = "";
+            Span167.Style["display"] = "";
+            Span168.Style["display"] = "";
+            Span171.Style["display"] = "";
+            Span172.Style["display"] = "";
+            Span173.Style["display"] = "";
+            Span174.Style["display"] = "";
+            Span175.Style["display"] = "";
+            Span176.Style["display"] = "";
+            Span177.Style["display"] = "";
+            Span178.Style["display"] = "";
+            Span179.Style["display"] = "";
+        }
+        else
+        {
+
+            Span163.Style["display"] = "none";
+            Span164.Style["display"] = "none";
+            Span165.Style["display"] = "none";
+            Span166.Style["display"] = "none";
+            Span167.Style["display"] = "none";
+            Span168.Style["display"] = "none";
+            Span171.Style["display"] = "none";
+            Span172.Style["display"] = "none";
+            Span173.Style["display"] = "none";
+            Span174.Style["display"] = "none";
+            Span175.Style["display"] = "none";
+            Span176.Style["display"] = "none";
+            Span177.Style["display"] = "none";
+            Span178.Style["display"] = "none";
+            Span179.Style["display"] = "none";
+        }
+
+        // SetLeaseInformation();
+        ShowPanel(12);
+    }
+
+
     /// <summary>
     /// Handles event on Escalation dropdown selection change in Rent Projections panel
     /// </summary>
@@ -3148,6 +3275,7 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         _PK_RE_Information = 0;
         _PK_RE_Rent = 0;
         _PK_RE_Subtenant = 0;
+        _PK_Mortgage_Information_ID = 0;
         _PK_RE_Rent_Projections = 0;
         _PK_RE_Security_Deposit = 0;
         _PK_RE_Surrender_Obligations = 0;
@@ -3210,8 +3338,8 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         txtNumber_of_Buildings.Text = "";
         txtTotal_Gross_Leaseable_Area.Text = "";
         txtLand_Value.Text = "";
-        txtMortgage_Expiration_Date.Text = "";
-        txtMortgage_Commencement_Date.Text = "";
+        //txtMortgage_Expiration_Date.Text = "";
+        //txtMortgage_Commencement_Date.Text = "";
 
         #endregion
 
@@ -3398,9 +3526,191 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         ScriptManager.RegisterStartupScript(Page, typeof(string), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
     }
 
+    protected void lnkAddLoanSummary_Click(object sender, EventArgs e)
+    {
+        _PK_Mortgage_Information_ID = 0;
+
+        txtSRE_ID.Text = "";
+        txtMortgage_Commencement_Date.Text = "";
+        txtLetter_Name.Text = "";
+        txtMortgage_Expiration_Date.Text = "";
+        txtLoan_Term.Text = "";
+        txtLoan_Origination_Date.Text = "";
+        txtLoan_Type.Text = "";
+        txtLoan_Maturity_Date.Text = "";
+        txtOrginationLoanAmount.Text = "";
+        drpLoanStatus.SelectedIndex = 0;
+        txtPaymentAmount.Text = "";
+        txtSpread.Text = "";
+        txtEstimatedPI.Text = "";
+        txtOther.Text = "";
+        txtComments.Text = "";
+
+        ValidationOnLoanStatus();
+        lnkAddLoanSummary.Visible = false;
+        btnLoanAbstract.Visible = false;
+        dvAttachment.Style["display"] = "none";
+        tblSubtenant.Style["display"] = "none";
+        tblLoanSummary.Style["display"] = "";
+        ShowPanel(12);
+    }
+
+    protected void btnLoanSubmit_Click(object sender, EventArgs e)
+    {
+        lnkAddLoanSummary.Visible = true;
+        dvAttachment.Style["display"] = "none";
+        tblSubtenant.Style["display"] = "none";
+        ValidationOnLoanStatus();
+        SaveLoanSummaryInformation();
+    }
+
+    protected void btnLoanAbstract_Click(object sender, EventArgs e)
+    {
+        lblReport.Text = GenerageAbstarctLoan().ToString();
+        ValidationOnLoanStatus();
+        GridViewExportUtil.ExportGrid("Abstract.xlsx", lblReport);
+    }
+
+
+    /// <summary>
+    /// Generate HTML for Mortgage Information
+    /// </summary>
+    /// <returns>return string builder objects contains report in HTML format</returns>
+    private System.Text.StringBuilder GenerageAbstarctLoan()
+    {
+        Mortage_informaiton objMortgage_LoanInformation = new Mortage_informaiton(_PK_Mortgage_Information_ID);
+
+        DataSet dsAbstarct = objMortgage_LoanInformation.GetLoanSummarySelectByPK(_PK_Mortgage_Information_ID);
+
+        // get data tables from dataset
+        DataTable dtAbstarct = dsAbstarct.Tables[0];
+        System.Text.StringBuilder sbRecorords = new System.Text.StringBuilder("");
+        // Check if record found or not.
+        if (dtAbstarct.Rows.Count > 0)
+        {
+            sbRecorords.Append("<style type='text/css'></style><table border='0' style='border: black 0.5px solid;border-collapse: collapse;' cellpadding='0' cellspacing='0'  Width='100%px'><tr><td class='cols_' >");
+
+            sbRecorords.Append("<table style='border: black 0.5px;padding-left:4px;font-size:8.5pt;font-family:Tahoma' cellpadding='4' cellspacing='0' Width='100%px'>");//Sub Table
+            sbRecorords.Append("<tr style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:11pt;height:25'>"); //Title
+            sbRecorords.Append("<td align='center' class='cols_' style='font-size:9pt;' colspan='31'><b>Mortgage Information</b></td></tr>");
+
+            sbRecorords.Append("<tr style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:8.5pt'>");
+            sbRecorords.Append("<td class='cols_' width='220px' align='right'>SRE Id</td>");
+            sbRecorords.Append("<td class='cols_' width='120px' align='right'>Letter Name</td>");
+            sbRecorords.Append("<td class='cols_' width='120px' align='right'>Loan Origination Date</td>");
+            sbRecorords.Append("<td class='cols_' width='220px' align='right'>Loan Maturity Date</td>");
+            sbRecorords.Append("<td class='cols_' width='220px' align='right'>Loan Status</td>");
+            sbRecorords.Append("<td class='cols_' width='120px' align='right'>Mortgage Commencement Date</td>");
+            sbRecorords.Append("<td class='cols_' width='120px' align='right'>Mortgage Expiration Date</td>");
+            sbRecorords.Append("<td class='cols_' width='120px' align='right'>Loan Type</td>");
+            sbRecorords.Append("<td class='cols_' width='120px' align='right'>Loan Term</td>");
+            sbRecorords.Append("<td class='cols_' width='120px' align='right'>Orgination Loan Amount</td>");
+            sbRecorords.Append("<td class='cols_' width='120px' align='right'>Spread</td>");
+            sbRecorords.Append("<td class='cols_' width='120px' align='right'>Payment Amount</td>");
+            sbRecorords.Append("<td class='cols_' width='120px' align='right'>Estimated P And I</td>");
+            sbRecorords.Append("<td class='cols_' width='120px' align='right'>Other</td>");
+            sbRecorords.Append("<td class='cols_' width='120px' align='right'>Comments</td>");
+            sbRecorords.Append("<td class='cols_' width='120px' align='right'>DBA</td>");
+            sbRecorords.Append("<td class='cols_' width='120px' align='right'>Region</td>");
+            sbRecorords.Append("<td class='cols_' width='120px' align='right'>County</td>");
+            sbRecorords.Append("<td class='cols_' width='120px' align='right'>Parent Company LE</td>");
+            sbRecorords.Append("<td class='cols_' width='120px' align='right'>Parent Company LE FEIN</td>");
+            sbRecorords.Append("<td class='cols_' width='120px' align='right'>LE Operations</td>");
+            sbRecorords.Append("<td class='cols_' width='120px' align='right'>LE Operations_FEIN</td>");
+            sbRecorords.Append("<td class='cols_' width='120px' align='right'>LE Properties</td>");
+            sbRecorords.Append("<td class='cols_' width='120px' align='right'>LE Properties_FEIN</td>");
+            sbRecorords.Append("<td class='cols_' width='120px' align='right'>Address 1</td>");
+            sbRecorords.Append("<td class='cols_' width='120px' align='right'>Address 2</td>");
+            sbRecorords.Append("<td class='cols_' width='120px' align='right'>City</td>");
+            sbRecorords.Append("<td class='cols_' width='120px' align='right'>State</td>");
+            sbRecorords.Append("<td class='cols_' width='120px' align='right'>Zip</td>");
+            sbRecorords.Append("<td class='cols_' width='120px' align='right'>Telephone</td>");
+            sbRecorords.Append("<td class='cols_' width='120px' align='right'>Status</td>");
+
+            sbRecorords.Append("</tr>");
+            for (int intI3 = 0; intI3 < dtAbstarct.Rows.Count; intI3++)
+            {
+                DataRow drRecords = dtAbstarct.Rows[intI3];
+                int intRes;
+                int intDiv = System.Math.DivRem(intI3, 2, out intRes);
+                if (intRes == 0)
+                    sbRecorords.Append("<tr style='font-size:8pt;background-color:#EAEAEA;font-family:Tahoma;'>");
+                else
+                    sbRecorords.Append("<tr style='font-size:8pt;background-color:#FFFFFF;font-family:Tahoma;'>");
+
+                sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["SRE_id"]) + "</td>");
+                sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["Letter_Name"]) + "</td>");
+
+                sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["Loan_Origination_Date"]) + "</td>");
+
+                sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["Loan_Maturity_Date"]) + "</td>");
+
+                sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["Loan_Status"]) + "</td>");
+
+                sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["Mortgage_Commencement_Date"]) + "</td>");
+                sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["Mortgage_Expiration_Date"]) + "</td>");
+                sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["Loan_Type"]) + "</td>");
+                sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["Loan_Term"]) + "</td>");
+
+                sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["Orgination_Loan_Amount"]) + "</td>");
+                sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["Spread"]) + "</td>");
+                sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["Payment_Amount"]) + "</td>");
+                sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["Estimated_P_And_I"]) + "</td>");
+                sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["Other"]) + "</td>");
+                sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["Comments"]) + "</td>");
+                sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["dba"]) + "</td>");
+                sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["Region"]) + "</td>");
+                sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["County"]) + "</td>");
+                sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["Parent_Company_LE"]) + "</td>");
+                sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["Parent_Company_LE_FEIN"]) + "</td>");
+                sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["LE_Operations"]) + "</td>");
+                sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["LE_Operations_FEIN"]) + "</td>");
+                sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["LE_Properties"]) + "</td>");
+                sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["LE_Properties_FEIN"]) + "</td>");
+                sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["Address_1"]) + "</td>");
+                sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["Address_2"]) + "</td>");
+                sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["City"]) + "</td>");
+                sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["State"]) + "</td>");
+                sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["Zip"]) + "</td>");
+                sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["Telephone"]) + "</td>");
+                sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["Status"]) + "</td>");
+                sbRecorords.Append("</tr>");
+            }
+
+            //  sbRecorords.Append("<tr><td colspan='7' class='cols_'>&nbsp;</td></tr>");
+            sbRecorords.Append("</table></td></tr>");
+            //  sbRecorords.Append("</div>");
+            sbRecorords.Append("</table>");
+            trGrid.Visible = true;
+        }
+        else
+        {
+            // if record not found then hide Header and set width and height so scroll bar not visible.            
+            trGrid.Visible = false;
+            sbRecorords.Append("<table style='font-family:Tahoma' cellpadding='4' cellspacing='0' Width='100%'>");
+            sbRecorords.Append("<tr style='background-color:#F2F2F2;color:Black;'>");
+            sbRecorords.Append("<td align='center' style='font-size:9pt;'>No Records found.</td></tr></table>");
+        }
+        return sbRecorords;
+
+
+
+    }
+
     protected void btnSaveSubtenantInformation_OnClick(object sender, EventArgs e)
     {
         SaveSubtenanatInformation();
+    }
+
+    protected void btnLoanCancel_Click(object sender, EventArgs e)
+    {
+        dvAttachment.Style["display"] = "none";
+        tblSubtenant.Style["display"] = "none";
+        tblLoanSummary.Style["display"] = "none";
+        BindMortgageLoanGrid();
+        lnkAddLoanSummary.Visible = true;
+        ValidationOnLoanStatus();
+        ShowPanel(12);
     }
 
     protected void btnCancelSubtenantInformation_OnClick(object sender, EventArgs e)
@@ -3704,6 +4014,57 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         }
     }
 
+    protected void gvMortgageLoan_OnRowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        if (e.CommandName == "EditLoanSummaryDetails")
+        {
+            _PK_Mortgage_Information_ID = Convert.ToInt32(e.CommandArgument);
+            if (_PK_Mortgage_Information_ID > 0)
+            BindLoanSummaryForEdit();          
+            BindMortgageLoanGrid();
+            ValidationOnLoanStatus();
+            ShowPanel(12);
+            tblLoanSummary.Style["display"] = "block";
+            dvAttachment.Style["display"] = "none";
+            tblSubtenant.Style["display"] = "none";
+            lnkAddLoanSummary.Visible = false;
+        }
+
+        //if (e.CommandName == "RemoveSubtenant")
+        //{
+        //    RE_Subtenant.DeleteByPK(Convert.ToDecimal(e.CommandArgument));
+        //    BindSubtenantGrid();
+          //  dvAttachment.Style["display"] = "none";
+        //    tblSubtenant.Style["display"] = "none";
+        //    ShowPanel(3);
+        //}
+    }
+
+    private void BindLoanSummaryForEdit()
+    {
+        Mortage_informaiton objMortgage_LoanInformation = new Mortage_informaiton(_PK_Mortgage_Information_ID);
+        //set values in page controls
+        txtSRE_ID.Text = Convert.ToString(objMortgage_LoanInformation.SRE_ID);
+        txtMortgage_Commencement_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objMortgage_LoanInformation.Mortgage_Commencement_Date);
+        txtLetter_Name.Text = objMortgage_LoanInformation.Letter_Name;
+        txtMortgage_Expiration_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objMortgage_LoanInformation.Mortgage_Expiration_Date);
+        txtLoan_Term.Text = objMortgage_LoanInformation.Loan_Term;
+        txtLoan_Origination_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objMortgage_LoanInformation.Loan_Origination_Date);
+        txtLoan_Type.Text = objMortgage_LoanInformation.Loan_Type;
+        txtLoan_Maturity_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objMortgage_LoanInformation.Loan_Maturity_Date);
+        txtOrginationLoanAmount.Text = clsGeneral.GetStringValue(objMortgage_LoanInformation.Orgination_Loan_Amount);
+        if (objMortgage_LoanInformation.Loan_Status != null) { drpLoanStatus.SelectedValue = objMortgage_LoanInformation.Loan_Status; }
+        else { drpLoanStatus.SelectedIndex = 0; }
+        txtPaymentAmount.Text = clsGeneral.GetStringValue(objMortgage_LoanInformation.Payment_Amount);
+        txtSpread.Text = objMortgage_LoanInformation.Spread;
+        txtEstimatedPI.Text = clsGeneral.GetStringValue(objMortgage_LoanInformation.Estimated_P_And_I);
+        txtOther.Text = objMortgage_LoanInformation.Other;
+        txtComments.Text = objMortgage_LoanInformation.Comments;
+        dvAttachment.Style["display"] = "none";
+       // pnlLoan.Style["display"] = "block";
+
+    }
+
     private void BindSubtenantForEdit()
     {
         RE_Subtenant objRE_Subtenant = new RE_Subtenant(_PK_RE_Subtenant);
@@ -3713,8 +4074,8 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         txtSubtenant_Mailing_Address2.Text = objRE_Subtenant.Subtenant_Mailing_Address2;
         txtSubtenant_Mailing_City.Text = objRE_Subtenant.Subtenant_Mailing_City;
         txtSubtenant_Mailing_Zip_Code.Text = objRE_Subtenant.Subtenant_Mailing_Zip_Code;
-        if (objRE_Subtenant.PK_Subtenant_Mailing_State != null){drpSubtenantMailingState.SelectedValue = objRE_Subtenant.PK_Subtenant_Mailing_State.ToString();}
-        else{drpSubtenantMailingState.SelectedIndex = 0;}
+        if (objRE_Subtenant.PK_Subtenant_Mailing_State != null){drpSubtenantMailingState.SelectedValue = objRE_Subtenant.PK_Subtenant_Mailing_State.ToString(); }
+        else { drpSubtenantMailingState.SelectedIndex = 0;}
         txtSubtenantTelephone.Text = objRE_Subtenant.Subtenant_Telephone;
         lblSubTenantLeaseCommencementDate.Text = txtLease_Commencement_Date.Text;
         lblSubTenantLeaseTerm.Text = txtLease_Term_Months.Text;
@@ -3756,6 +4117,42 @@ public partial class SONIC_Exposures_Lease : clsBasePage
             BindSubtenanatViewGrid();
             ShowPanel(3);
         }
+    }
+
+    protected void gvMortgageLoanView_OnRowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        if (e.CommandName == "ViewLoanSummaryDetails")
+        {
+            _PK_Mortgage_Information_ID = Convert.ToInt32(e.CommandArgument);
+            if (_PK_Mortgage_Information_ID > 0)
+                BindMortgageLoanForView();
+            BindMortgageLoanViewGrid();
+            ShowPanel(12);
+        }
+    }
+
+    private void BindMortgageLoanForView()
+    {
+        Mortage_informaiton objMortgage_LoanInformation = new Mortage_informaiton(_PK_Mortgage_Information_ID);
+        //set values in page controls
+        lblSRE_ID.Text = clsGeneral.GetStringValue(objMortgage_LoanInformation.SRE_ID);
+        lblMortgage_Commencement_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objMortgage_LoanInformation.Mortgage_Commencement_Date);
+        lblLetter_Name.Text = objMortgage_LoanInformation.Letter_Name;
+        lblMortgage_Expiration_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objMortgage_LoanInformation.Mortgage_Expiration_Date);
+        lblLoan_Term.Text = objMortgage_LoanInformation.Loan_Term;
+        lblLoan_Origination_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objMortgage_LoanInformation.Loan_Origination_Date);
+        lblLoan_Type.Text = objMortgage_LoanInformation.Loan_Type;
+        lblLoan_Maturity_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objMortgage_LoanInformation.Loan_Maturity_Date);
+        lblOrginationLoanAmount.Text = clsGeneral.GetStringValue(objMortgage_LoanInformation.Orgination_Loan_Amount);
+        lblLoanStatus.Text = objMortgage_LoanInformation.Loan_Status;
+        lblPaymentAmount.Text = clsGeneral.GetStringValue(objMortgage_LoanInformation.Payment_Amount);
+        lblSpread.Text = objMortgage_LoanInformation.Spread;
+        lblEstimatedPI.Text = clsGeneral.GetStringValue(objMortgage_LoanInformation.Estimated_P_And_I);
+        lblOther.Text = objMortgage_LoanInformation.Other;
+        lblComments.Text = objMortgage_LoanInformation.Comments;
+        pnl12View.Style["display"] = "";
+        tblLoanSummaryView.Style["display"] = "";
+        BindMortgageLoanViewGrid();
     }
 
     private void BindSubtenantForView()

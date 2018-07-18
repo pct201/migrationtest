@@ -34,13 +34,13 @@
                 var tb = document.getElementById("Menu" + i);
                 if (i == index) {
                     tb.className = "LeftMenuSelected";
-                    tb.onmouseover = function() { this.className = 'LeftMenuSelected'; }
-                    tb.onmouseout = function() { this.className = 'LeftMenuSelected'; }
+                    tb.onmouseover = function () { this.className = 'LeftMenuSelected'; }
+                    tb.onmouseout = function () { this.className = 'LeftMenuSelected'; }
                 }
                 else {
                     tb.className = "LeftMenuStatic";
-                    tb.onmouseover = function() { this.className = 'LeftMenuHover'; }
-                    tb.onmouseout = function() { this.className = 'LeftMenuStatic'; }
+                    tb.onmouseover = function () { this.className = 'LeftMenuHover'; }
+                    tb.onmouseout = function () { this.className = 'LeftMenuStatic'; }
                 }
             }
         }
@@ -72,24 +72,34 @@
                     else if (index == 8)
                         document.getElementById('<%=txtLandlord_Company.ClientID%>').focus();
 
-        document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";
+                    document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";
+                   <%-- document.getElementById("<%=pnlLoan.ClientID%>").style.display = "none";--%>
                     document.getElementById("<%=pnlAttachmentDetails.ClientID%>").style.display = "none";
                     document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 11).style.display = "none";
-
+                    document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 12).style.display = "none";
                 }
                 else {
                     for (i = 1; i <= 9; i++) {
                         document.getElementById("ctl00_ContentPlaceHolder1_pnl" + i).style.display = "none";
                         document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 11).style.display = "none";
+                        document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 12).style.display = "none";
                     }
+                 
                     document.getElementById("<%=dvAttachment.ClientID%>").style.display = "block";
                     document.getElementById("<%=pnlAttachmentDetails.ClientID%>").style.display = "block";
 
                     if (index == 11) {
-
+                       <%-- document.getElementById("<%=pnlLoan.ClientID%>").style.display = "none";--%>
                         document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 11).style.display = "block";
                         document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";
                         document.getElementById("<%=pnlAttachmentDetails.ClientID%>").style.display = "none";
+                        document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 12).style.display = "none";
+                    }
+                    if (index == 12) {
+                        document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 12).style.display = "block";
+                        document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";
+                       <%--document.getElementById("<%=pnlLoan.ClientID%>").style.display = "none";
+                       --%> document.getElementById("<%=pnlAttachmentDetails.ClientID%>").style.display = "none";
                     }
                 }
             }
@@ -106,17 +116,25 @@
                 document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlAttachmentDetails.ClientID%>").style.display = "none";
                 document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 11 + "View").style.display = "none";
+                document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 12 + "View").style.display = "none";
             }
             else {
                 for (i = 1; i <= 9; i++) {
                     document.getElementById("ctl00_ContentPlaceHolder1_pnl" + i + "View").style.display = "none";
                     document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 11 + "View").style.display = "none";
+                    document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 12 + "View").style.display = "none";
                 }
                 document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlAttachmentDetails.ClientID%>").style.display = "block";
 
                 if (index == 11) {
                     document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 11 + "View").style.display = "block";
+                    document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlAttachmentDetails.ClientID%>").style.display = "none";
+                    document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 12 + "View").style.display = "none";
+                }
+                if (index == 12) {
+                    document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 12 + "View").style.display = "block";
                     document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlAttachmentDetails.ClientID%>").style.display = "none";
                 }
@@ -138,7 +156,7 @@
                     var txt3 = document.getElementById('<%= txtLoss_Control_Manager.ClientID %>').value;
                     if (hdn1 != txt1 || hdn2 != txt2 || hdn3 != txt3) {
                         retVal = confirm("Would you like to apply the change(s) to the Regional Vice President, Regional Controller and Loss Control Manager to all leases at dealerships in the same Region?");
-                        if(retVal == true)
+                        if (retVal == true)
                             __doPostBack(document.getElementById('<%=btnSave.ClientID%>').name, "UpdateRLCMDetails");
                     }
                 }
@@ -292,122 +310,136 @@
 
         if (Number(txtPercent.value) <= 100 || txtPercent.value == '') {
             if (document.getElementById('<%=txtLease_Commencement_Date.ClientID%>').value != '') {
-                    if (type == 'Rent')
-                        document.getElementById('<%=btnUpdateRent_Rent.ClientID%>').click();
-                    else if (type == 'Subtenant')
-                        document.getElementById('<%=btnUpdateRentSubtenant.ClientID%>').click();
-                    else
-                        document.getElementById('<%=btnUpdateRent_RentProj.ClientID%>').click();
-            }
-            else {
-                alert('Please enter the [Lease Information]/Lease Commensement Date to calculate the rents');
-                txtPercent.value = '';
-                txtPercent.focus();
-            }
+                if (type == 'Rent')
+                    document.getElementById('<%=btnUpdateRent_Rent.ClientID%>').click();
+                else if (type == 'Subtenant')
+                    document.getElementById('<%=btnUpdateRentSubtenant.ClientID%>').click();
+                else
+                    document.getElementById('<%=btnUpdateRent_RentProj.ClientID%>').click();
         }
         else {
-            alert('Percentage Rate should be less than 100');
+            alert('Please enter the [Lease Information]/Lease Commensement Date to calculate the rents');
             txtPercent.value = '';
             txtPercent.focus();
         }
     }
+    else {
+        alert('Percentage Rate should be less than 100');
+        txtPercent.value = '';
+        txtPercent.focus();
+    }
+}
 
-    function AddRentScheduleRent(bAdd) {
-        var bValid = Page_ClientValidate('vsErrorGroup');
-        if (bValid) {
-            if (AvailableLeaseDateAndEscalation('Rent'))
-                return true;
-            else
-                return false;
+function AddRentScheduleRent(bAdd) {
+    var bValid = Page_ClientValidate('vsErrorGroup');
+    if (bValid) {
+        if (AvailableLeaseDateAndEscalation('Rent'))
+            return true;
+        else
+            return false;
+    }
+    else
+        return false;
+}
+
+function ValidateLoanSummary(mAdd) {
+    debugger;
+    var loanstatus = document.getElementById('ctl00_ContentPlaceHolder1_drpLoanStatus').value;
+    if (loanstatus == "Other") {
+        var mValid = Page_ClientValidate('vsMortgage');
+        if (mValid) {
+            return true;
         }
         else
             return false;
     }
+}
 
-    function AddSubTenantRentSchedule(bAdd) {
-        //var bValid = (bAdd == 'Add') ? Page_ClientValidate('vsErrorGroup') : true;
-        var bValid = Page_ClientValidate('vgSubtenant');
-        if (bValid) {
-            if (AvailableLeaseDateAndEscalation('SubTenant'))
-                return true;
-            else
-                return false;
-        }
+
+function AddSubTenantRentSchedule(bAdd) {
+    //var bValid = (bAdd == 'Add') ? Page_ClientValidate('vsErrorGroup') : true;
+    var bValid = Page_ClientValidate('vgSubtenant');
+    if (bValid) {
+        if (AvailableLeaseDateAndEscalation('SubTenant'))
+            return true;
         else
             return false;
     }
+    else
+        return false;
+}
 
-    function AddRentProjectionRentSchedule(bAdd) {
-        //var bValid = (bAdd == 'Add') ? Page_ClientValidate('vsErrorGroup') : true;
-        var bValid = Page_ClientValidate('vsErrorGroup');
-        if (bValid) {
-            if (AvailableLeaseDateAndEscalation('RentProjection'))
-                return true;
-            else
-                return false;
-        }
+function AddRentProjectionRentSchedule(bAdd) {
+    //var bValid = (bAdd == 'Add') ? Page_ClientValidate('vsErrorGroup') : true;
+    var bValid = Page_ClientValidate('vsErrorGroup');
+    if (bValid) {
+        if (AvailableLeaseDateAndEscalation('RentProjection'))
+            return true;
         else
             return false;
     }
+    else
+        return false;
+}
 
-    function AvailableLeaseDateAndEscalation(type) {
-        var LeaseDate = document.getElementById('<%=txtLease_Commencement_Date.ClientID %>').value;
-            var Escalation;
-            if (type == 'Rent')
-                Escalation = document.getElementById('<%=drpFK_LU_EscalationRent.ClientID %>').value;
-            else if (type == 'SubTenant')
-                Escalation = document.getElementById('<%=drpFK_LU_EscalationSubtenant.ClientID %>').value;
-            else
-                Escalation = document.getElementById('<%=drpFK_LU_Escalation.ClientID %>').value;
+function AvailableLeaseDateAndEscalation(type) {
+    var LeaseDate = document.getElementById('<%=txtLease_Commencement_Date.ClientID %>').value;
+    var Escalation;
+    if (type == 'Rent')
+        Escalation = document.getElementById('<%=drpFK_LU_EscalationRent.ClientID %>').value;
+    else if (type == 'SubTenant')
+        Escalation = document.getElementById('<%=drpFK_LU_EscalationSubtenant.ClientID %>').value;
+    else
+        Escalation = document.getElementById('<%=drpFK_LU_Escalation.ClientID %>').value;
 
-        if (LeaseDate == '') {
-            alert("An entry in [Lease Information]/Lease Commencement Date is required in order to add a Rent Grid Record");
+    if (LeaseDate == '') {
+        alert("An entry in [Lease Information]/Lease Commencement Date is required in order to add a Rent Grid Record");
+        return false;
+    }
+    else {
+        if (Escalation == 0) {
+            alert("An entry in " + ((type == 'Rent') ? "[Rent]" : ((type == 'SubTenant') ? "[Subtenant Information]" : "[Rent Projections]"))
+                    + "/Escalation is required in order to add a Rent Grid Record");
             return false;
         }
-        else {
-            if (Escalation == 0) {
-                alert("An entry in " + ((type == 'Rent') ? "[Rent]" : ((type == 'SubTenant') ? "[Subtenant Information]" : "[Rent Projections]"))
-                        + "/Escalation is required in order to add a Rent Grid Record");
-                return false;
-            }
-            else
-                return true;
+        else
+            return true;
+    }
+}
+
+function ConfirmDelete() {
+    return confirm('Are you sure you want to remove the selected data from eRIMS2? Once the data are removed, eRIMS2 does not have functionality to retrieve the data.');
+}
+
+function ConfirmSubLeaseRemove() {
+    return confirm('You have selected to remove a Subtenant from the Lease module data for the above location. Continue?');
+}
+function UpdateRents() {
+    var LeaseDate = document.getElementById('<%=txtLease_Commencement_Date.ClientID %>').value;
+    if (LeaseDate != '') {
+        var bValid = CheckValidDate('<%=txtLease_Commencement_Date.ClientID %>');
+        if (bValid) {
+            __doPostBack('LeaseDateChanged', '');
         }
     }
-
-    function ConfirmDelete() {
-        return confirm('Are you sure you want to remove the selected data from eRIMS2? Once the data are removed, eRIMS2 does not have functionality to retrieve the data.');
+    else {
+        document.getElementById('<%=lblRentLeaseCommencementDate.ClientID%>').innerHTML = '';
+        document.getElementById('<%=lblSubTenantLeaseCommencementDate.ClientID%>').innerHTML = '';
+        document.getElementById('<%=lblRentProjectionsLeaseCommencementDate.ClientID%>').innerHTML = '';
     }
+}
+function ShowMessageLeaseDateError(type) {
+    ShowPanel(1);
+    if (type == 'Rent')
+        alert('One or more From Date in [Rent]/Renewal Rent Schedule grid is less than Lease Commencement Date. Please enter proper Lease Commencement Date.');
+    else if (type == 'Subtenant')
+        alert('One or more From Date in [Subtenant Information]/Option Rent Scheule grid is less than Lease Commencement Date. Please enter proper Lease Commencement Date.');
+    else
+        alert('One or more From Date in [Rent Projection]/Option Rent Scheule grid is less than Lease Commencement Date. Please enter proper Lease Commencement Date.');
 
-    function ConfirmSubLeaseRemove() {
-        return confirm('You have selected to remove a Subtenant from the Lease module data for the above location. Continue?');
-    }
-    function UpdateRents() {
-        var LeaseDate = document.getElementById('<%=txtLease_Commencement_Date.ClientID %>').value;
-            if (LeaseDate != '') {
-                var bValid = CheckValidDate('<%=txtLease_Commencement_Date.ClientID %>');
-                if (bValid) {
-                    __doPostBack('LeaseDateChanged', '');
-                }
-            }
-            else {
-                document.getElementById('<%=lblRentLeaseCommencementDate.ClientID%>').innerHTML = '';
-                document.getElementById('<%=lblSubTenantLeaseCommencementDate.ClientID%>').innerHTML = '';
-                document.getElementById('<%=lblRentProjectionsLeaseCommencementDate.ClientID%>').innerHTML = '';
-            }
-        }
-        function ShowMessageLeaseDateError(type) {
-            ShowPanel(1);
-            if (type == 'Rent')
-                alert('One or more From Date in [Rent]/Renewal Rent Schedule grid is less than Lease Commencement Date. Please enter proper Lease Commencement Date.');
-            else if (type == 'Subtenant')
-                alert('One or more From Date in [Subtenant Information]/Option Rent Scheule grid is less than Lease Commencement Date. Please enter proper Lease Commencement Date.');
-            else
-                alert('One or more From Date in [Rent Projection]/Option Rent Scheule grid is less than Lease Commencement Date. Please enter proper Lease Commencement Date.');
-
-            //document.getElementById('<%=txtLease_Commencement_Date.ClientID %>').value = '';    
-            //document.getElementById('<%=txtLease_Commencement_Date.ClientID %>').focus();
-        }
+    //document.getElementById('<%=txtLease_Commencement_Date.ClientID %>').value = '';    
+    //document.getElementById('<%=txtLease_Commencement_Date.ClientID %>').focus();
+}
 
         function UpdateRentMonthlyRent() {
             var LeaseDate = document.getElementById('<%=txtLease_Commencement_Date.ClientID %>').value;
@@ -451,6 +483,15 @@
             return false;
         }
 
+       <%-- function ReportPopUpLoanSummary() {
+            var winHeight = window.screen.availHeight - 500;
+            var winWidth = window.screen.availWidth - 800;
+
+            window.open("../RealEstate/LeaseLoanAbstract.aspx?id=" + '<%=_PK_Mortgage_Information_ID%>', '', 'width=' + 200 + ',height=' + 200 + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
+
+            return false;
+        }--%>
+
         function AuditPopUp(intIndex) {
             var winHeight = window.screen.availHeight - 300;
             var winWidth = window.screen.availWidth - 200;
@@ -481,47 +522,87 @@ function ValidateFields(sender, args) {
     var Messages = document.getElementById('<%=hdnErrorMsgs.ClientID%>').value.split(',');
     var focusCtrlID = "";
     var lease_Commencement_Date = document.getElementById('<%=txtLease_Commencement_Date.ClientID%>').value;
-    var mortgage_Commencement_Date = document.getElementById('<%=txtMortgage_Commencement_Date.ClientID%>').value;
+  <%--  var mortgage_Commencement_Date = document.getElementById('<%=txtMortgage_Commencement_Date.ClientID%>').value;--%>
+
     var lease_Expiration_Date = document.getElementById('<%=txtLease_Expiration_Date.ClientID%>').value;
-    var mortgage_Expiration_Date = document.getElementById('<%=txtMortgage_Expiration_Date.ClientID%>').value;
+  <%--  var mortgage_expiration_date = document.getelementbyid('<%=txtMortgage_Expiration_Date.ClientID%>').value;--%>
 
-            if (document.getElementById('<%=hdnControlIDs.ClientID%>').value != "") {
-                var i = 0;
-                for (i = 0; i < ctrlIDs.length; i++) {
-                    var bEmpty = false;
-                    var ctrl = document.getElementById(ctrlIDs[i]);
-                    switch (ctrl.type) {
-                        case "textarea":
-                        case "text":
-                            if (ctrl.value == '') {
-                                if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtPercentage_RateSubtenant') {
-                                    if (document.getElementById('<%=drpFK_LU_EscalationSubtenant.ClientID %>').options[document.getElementById('<%=drpFK_LU_EscalationSubtenant.ClientID %>').selectedIndex].text == 'LIBOR Rate Schedule')
-                                        bEmpty = true;
-                                }
-                                else if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtPercentage_RateRent') {
-                                    if (document.getElementById('<%=drpFK_LU_EscalationRent.ClientID %>').options[document.getElementById('<%=drpFK_LU_EscalationRent.ClientID %>').selectedIndex].text == 'LIBOR Rate Schedule')
-                                        bEmpty = true;
-                                }
-                                else if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtPercentage_Rate') {
-                                    if (document.getElementById('<%=drpFK_LU_Escalation.ClientID %>').options[document.getElementById('<%=drpFK_LU_Escalation.ClientID %>').selectedIndex].text == 'LIBOR Rate Schedule')
-                                        bEmpty = true;
-                                }
-                                else
-                                    bEmpty = true;
-                    } break;
+    if (document.getElementById('<%=hdnControlIDs.ClientID%>').value != "") {
+        var i = 0;
+        for (i = 0; i < ctrlIDs.length; i++) {
+            var bEmpty = false;
+            var ctrl = document.getElementById(ctrlIDs[i]);
+            switch (ctrl.type) {
+                case "textarea":
+                case "text":
+                    if (ctrl.value == '') {
+                        if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtPercentage_RateSubtenant') {
+                            if (document.getElementById('<%=drpFK_LU_EscalationSubtenant.ClientID %>').options[document.getElementById('<%=drpFK_LU_EscalationSubtenant.ClientID %>').selectedIndex].text == 'LIBOR Rate Schedule')
+                                bEmpty = true;
+                        }
+                        else if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtPercentage_RateRent') {
+                            if (document.getElementById('<%=drpFK_LU_EscalationRent.ClientID %>').options[document.getElementById('<%=drpFK_LU_EscalationRent.ClientID %>').selectedIndex].text == 'LIBOR Rate Schedule')
+                                bEmpty = true;
+                        }
+                        else if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtPercentage_Rate') {
+                            if (document.getElementById('<%=drpFK_LU_Escalation.ClientID %>').options[document.getElementById('<%=drpFK_LU_Escalation.ClientID %>').selectedIndex].text == 'LIBOR Rate Schedule')
+                                bEmpty = true;
+                        }
+                        else
+                            bEmpty = true;
+            } break;
 
+        case "select-one": if (ctrl.selectedIndex == 0) bEmpty = true; break;
+    }
+    if (bEmpty && focusCtrlID == "") focusCtrlID = ctrlIDs[i];
+    if (bEmpty) msg += (msg.length > 0 ? "- " : "") + Messages[i] + "\n";
+}
+
+    if (lease_Commencement_Date == '') {
+        msg = msg + (msg.length > 0 ? "- " : "") + 'Please enter [Lease Information]/Lease Commencement Date' + "\n";
+    }
+    if (lease_Expiration_Date == '') {
+        msg = msg + (msg.length > 0 ? "- " : "") + 'Please enter [Lease Information]/Lease Expiration Date' + "\n";
+    }
+
+        //if (lease_Commencement_Date == '' && mortgage_Commencement_Date == '') {
+        //    msg = msg + (msg.length > 0 ? "- " : "") + 'Please enter [Lease Information]/Lease Commencement Date or Mortgage Commencement Date' + "\n";
+        //}
+        //if (lease_Expiration_Date == '' && mortgage_Expiration_Date == '') {
+        //    msg = msg + (msg.length > 0 ? "- " : "") + 'Please enter [Lease Information]/Lease Expiration Date or Mortgage Expiration Date' + "\n";
+        //}
+
+    if (msg.length > 0) {
+        sender.errormessage = msg;
+        args.IsValid = false;
+    }
+    else
+        args.IsValid = true;
+}
+else {
+    args.IsValid = true;
+}
+}
+function ValidateSubtenantFileds(sender, args) {
+    var msg = '';
+    var ctrlIDs = document.getElementById('<%=hdnSubtenanatIDs.ClientID%>').value.split(',');
+    var Messages = document.getElementById('<%=hdnSubtenantErroeMassage.ClientID%>').value.split(',');
+    var focusCtrlID = "";
+    if (document.getElementById('<%=hdnSubtenanatIDs.ClientID%>').value != "") {
+        var i = 0;
+        for (i = 0; i < ctrlIDs.length; i++) {
+            var bEmpty = false;
+            var ctrl = document.getElementById(ctrlIDs[i]);
+            switch (ctrl.type) {
+                case "textarea":
+                case "text":
+                    if (ctrl.value == '') bEmpty = true; break;
                 case "select-one": if (ctrl.selectedIndex == 0) bEmpty = true; break;
-                    }
+                case "select-multiple": if (ctrl.selectedIndex == -1) bEmpty = true; break;
+            }
             if (bEmpty && focusCtrlID == "") focusCtrlID = ctrlIDs[i];
             if (bEmpty) msg += (msg.length > 0 ? "- " : "") + Messages[i] + "\n";
-                }
-                
-         if (lease_Commencement_Date == '' && mortgage_Commencement_Date == '') {
-             msg = msg + (msg.length > 0 ? "- " : "") + 'Please enter [Lease Information]/Lease Commencement Date or Mortgage Commencement Date' + "\n";
-         }
-         if (lease_Expiration_Date == '' && mortgage_Expiration_Date == '') {
-             msg = msg + (msg.length > 0 ? "- " : "") + 'Please enter [Lease Information]/Lease Expiration Date or Mortgage Expiration Date' + "\n";
-         }
+        }
         if (msg.length > 0) {
             sender.errormessage = msg;
             args.IsValid = false;
@@ -533,45 +614,17 @@ function ValidateFields(sender, args) {
         args.IsValid = true;
     }
 }
-function ValidateSubtenantFileds(sender, args) {
-    var msg = '';
-    var ctrlIDs = document.getElementById('<%=hdnSubtenanatIDs.ClientID%>').value.split(',');
-            var Messages = document.getElementById('<%=hdnSubtenantErroeMassage.ClientID%>').value.split(',');
-            var focusCtrlID = "";
-            if (document.getElementById('<%=hdnSubtenanatIDs.ClientID%>').value != "") {
-                var i = 0;
-                for (i = 0; i < ctrlIDs.length; i++) {
-                    var bEmpty = false;
-                    var ctrl = document.getElementById(ctrlIDs[i]);
-                    switch (ctrl.type) {
-                        case "textarea":
-                        case "text":
-                            if (ctrl.value == '') bEmpty = true; break;
-                        case "select-one": if (ctrl.selectedIndex == 0) bEmpty = true; break;
-                        case "select-multiple": if (ctrl.selectedIndex == -1) bEmpty = true; break;
-                    }
-                    if (bEmpty && focusCtrlID == "") focusCtrlID = ctrlIDs[i];
-                    if (bEmpty) msg += (msg.length > 0 ? "- " : "") + Messages[i] + "\n";
-                }
-                if (msg.length > 0) {
-                    sender.errormessage = msg;
-                    args.IsValid = false;
-                }
-                else
-                    args.IsValid = true;
-            }
-            else {
-                args.IsValid = true;
-            }
-        }
     </script>
 
     <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
         HeaderText="Verify the following fields:" BorderWidth="1" BorderColor="DimGray"
-        ValidationGroup="vsErrorGroup" CssClass="errormessage"></asp:ValidationSummary>
+        ValidationGroup="vgSubtenant" CssClass="errormessage"></asp:ValidationSummary>
     <asp:ValidationSummary ID="vsSubtenant" runat="server" ShowSummary="false" ShowMessageBox="true"
         HeaderText="Verify the following fields:" BorderWidth="1" BorderColor="DimGray"
         ValidationGroup="vgSubtenant" CssClass="errormessage"></asp:ValidationSummary>
+    <asp:ValidationSummary ID="vsMortgage" runat="server" ShowSummary="false" ShowMessageBox="true"
+        HeaderText="Verify the following fields:" BorderWidth="1" BorderColor="DimGray"
+        ValidationGroup="vsMortgage" CssClass="errormessage"></asp:ValidationSummary>
     <asp:ValidationSummary ID="ValidationSummary1" runat="server" ShowSummary="false"
         ShowMessageBox="true" HeaderText="Verify the following fields:" BorderWidth="1"
         BorderColor="DimGray" ValidationGroup="AddAttachment" CssClass="errormessage"></asp:ValidationSummary>
@@ -581,6 +634,7 @@ function ValidateSubtenantFileds(sender, args) {
         <ContentTemplate>
             <input type="hidden" id="hdnOperation" runat="server" />
             <input type="hidden" id="hdnREInfoID" runat="server" />
+            <input type="hidden" id="hdnMortgageInfoID" runat="server" />
             <input type="hidden" id="hdnSubtenantID" runat="server" />
             <input type="hidden" id="hdnRentProjID" runat="server" />
             <input type="hidden" id="hdnSecurityDepositID" runat="server" />
@@ -758,6 +812,11 @@ function ValidateSubtenantFileds(sender, args) {
                                             </tr>
                                             <tr>
                                                 <td align="left" width="100%">
+                                                    <span id="Menu12" onclick="javascript:ShowPanel(12);" class="LeftMenuStatic">Mortgage</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="left" width="100%">
                                                     <span id="Menu10" onclick="javascript:ShowPanel(10);" class="LeftMenuStatic">Attachments</span>
                                                 </td>
                                             </tr>
@@ -786,164 +845,6 @@ function ValidateSubtenantFileds(sender, args) {
                                                                 </tr>
                                                                 <tr>
                                                                     <td>&nbsp;
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left" width="19%" valign="top" class="BlueItalicText">Dealership DBA
-                                                                    </td>
-                                                                    <td align="center" width="4%" valign="top">:
-                                                                    </td>
-                                                                    <td align="left" valign="top" colspan="4">
-                                                                        <asp:TextBox ID="txtLU_Location" runat="server" Enabled="false" Width="300px" />
-                                                                    </td>
-                                                                </tr>
-                                                                <%-- <tr>
-                                                                    <td align="left" width="19%" valign="top" class="BlueItalicText">
-                                                                        Legal Entity
-                                                                    </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left" width="27%" valign="top">
-                                                                        <asp:TextBox ID="txtLegalEntity" runat="server" Width="170px" Enabled="false" />
-                                                                    </td>
-                                                                    <td align="left" width="20%" valign="top">
-                                                                        Federal Id&nbsp;<span id="Span1" style="color: Red; display: none;" runat="server">*</span>
-                                                                    </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left" width="26%" valign="top">
-                                                                        <asp:TextBox ID="txtFederal_Id" runat="server" Width="170px" MaxLength="11" />
-                                                                    </td>
-                                                                </tr>--%>
-                                                                <tr>
-                                                                    <td align="left" width="19%" valign="top" class="BlueItalicText">Parent Company Legal Entity
-                                                                    </td>
-                                                                    <td align="center" width="4%" valign="top">:
-                                                                    </td>
-                                                                    <td align="left" width="27%" valign="top">
-                                                                        <asp:TextBox ID="txtParentCompanyLegalEntity" runat="server" Width="170px" Enabled="false" />
-                                                                    </td>
-                                                                    <td align="left" width="20%" valign="top" class="BlueItalicText">Parent Company Legal Entity FEIN
-                                                                    </td>
-                                                                    <td align="center" width="4%" valign="top">:
-                                                                    </td>
-                                                                    <td align="left" width="26%" valign="top">
-                                                                        <asp:TextBox ID="txtParentCompanyLegalEntityFEIN" runat="server" Width="170px" Enabled="false" />
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left" width="19%" valign="top" class="BlueItalicText">Legal Entity (Operations)
-                                                                    </td>
-                                                                    <td align="center" width="4%" valign="top">:
-                                                                    </td>
-                                                                    <td align="left" width="27%" valign="top">
-                                                                        <asp:TextBox ID="txtLegalEntityOperations" runat="server" Width="170px" Enabled="false" />
-                                                                    </td>
-                                                                    <td align="left" width="20%" valign="top" class="BlueItalicText">Legal Entity (Operations) FEIN
-                                                                    </td>
-                                                                    <td align="center" width="4%" valign="top">:
-                                                                    </td>
-                                                                    <td align="left" width="26%" valign="top">
-                                                                        <asp:TextBox ID="txtLegalEntityOperationsFEIN" runat="server" Width="170px" Enabled="false" />
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left" width="19%" valign="top" class="BlueItalicText">Legal Entity (Properties)
-                                                                    </td>
-                                                                    <td align="center" width="4%" valign="top">:
-                                                                    </td>
-                                                                    <td align="left" width="27%" valign="top">
-                                                                        <asp:TextBox ID="txtLegalEntityProperties" runat="server" Width="170px" Enabled="false" />
-                                                                    </td>
-                                                                    <td align="left" width="20%" valign="top" class="BlueItalicText">Legal Entity (Properties) FEIN
-                                                                    </td>
-                                                                    <td align="center" width="4%" valign="top">:
-                                                                    </td>
-                                                                    <td align="left" width="26%" valign="top">
-                                                                        <asp:TextBox ID="txtLegalEntityPropertiesFEIN" runat="server" Width="170px" Enabled="false" />
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left" valign="top" class="BlueItalicText">Status
-                                                                    </td>
-                                                                    <td align="center" valign="top">:
-                                                                    </td>
-                                                                    <td align="left" valign="top">
-                                                                        <asp:DropDownList ID="drpFK_LU_Status" Width="175px" SkinID="dropGen" runat="server"
-                                                                            Enabled="false">
-                                                                        </asp:DropDownList>
-                                                                    </td>
-                                                                    <td align="left" valign="top">&nbsp;
-                                                                    </td>
-                                                                    <td align="center" valign="top">&nbsp;
-                                                                    </td>
-                                                                    <td align="center" valign="top">&nbsp;
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left" valign="top" class="BlueItalicText">Address 1
-                                                                    </td>
-                                                                    <td align="center" valign="top">:
-                                                                    </td>
-                                                                    <td align="left" valign="top">
-                                                                        <asp:TextBox ID="txtAddress1" runat="server" Width="170px" Enabled="false" />
-                                                                    </td>
-                                                                    <td align="left" valign="top" class="BlueItalicText">Address 2
-                                                                    </td>
-                                                                    <td align="center" valign="top">:
-                                                                    </td>
-                                                                    <td align="left" valign="top">
-                                                                        <asp:TextBox ID="txtAddress2" runat="server" Width="170px" Enabled="false" />
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left" valign="top" class="BlueItalicText">City
-                                                                    </td>
-                                                                    <td align="center" valign="top">:
-                                                                    </td>
-                                                                    <td align="left" valign="top">
-                                                                        <asp:TextBox ID="txtCity" runat="server" Width="170px" Enabled="false" />
-                                                                    </td>
-                                                                    <td align="left" valign="top" class="BlueItalicText">State
-                                                                    </td>
-                                                                    <td align="center" valign="top">:
-                                                                    </td>
-                                                                    <td align="left" valign="top">
-                                                                        <asp:TextBox ID="txtState" runat="server" Width="170px" Enabled="false" />
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left" valign="top" class="BlueItalicText">Zip Code (XXXXX-XXXX)
-                                                                    </td>
-                                                                    <td align="center" valign="top">:
-                                                                    </td>
-                                                                    <td align="left" valign="top">
-                                                                        <asp:TextBox ID="txtZipCode" runat="server" Width="170px" Enabled="false" />
-                                                                    </td>
-                                                                    <td align="left" valign="top" class="BlueItalicText">Telephone (XXX-XXX-XXXX)
-                                                                    </td>
-                                                                    <td align="center" valign="top">:
-                                                                    </td>
-                                                                    <td align="left" valign="top">
-                                                                        <asp:TextBox ID="txtTelephone" runat="server" Width="170px" Enabled="false" />
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left" valign="top" class="BlueItalicText">County
-                                                                    </td>
-                                                                    <td align="center" valign="top">:
-                                                                    </td>
-                                                                    <td align="left" valign="top">
-                                                                        <asp:TextBox ID="txtCounty" runat="server" Width="170px" Enabled="false" />
-                                                                    </td>
-                                                                    <td align="left" valign="top" class="BlueItalicText">Region
-                                                                    </td>
-                                                                    <td align="center" valign="top">:
-                                                                    </td>
-                                                                    <td align="left" valign="top">
-                                                                        <asp:TextBox ID="txtRegion" runat="server" Width="170px" Enabled="false" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
@@ -1336,12 +1237,12 @@ function ValidateSubtenantFileds(sender, args) {
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" class="BlueItalicText">Mortgage Commencement Date &nbsp;
+                                                                    <%-- <td align="left" valign="top" class="BlueItalicText">Mortgage Commencement Date &nbsp;
                                                                     </td>
                                                                     <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
-                                                                        <asp:TextBox ID="txtMortgage_Commencement_Date" runat="server" Width="170px" onpaste="return false"/>
+                                                                        <asp:TextBox ID="txtMortgage_Commencement_Date" runat="server" Width="170px" onpaste="return false" />
                                                                         <cc1:MaskedEditExtender ID="mskMortgage_Commencement_Date" runat="server" AcceptNegative="Left"
                                                                             DisplayMoney="Left" Mask="99/99/9999" MaskType="Date" MessageValidatorTip="true"
                                                                             OnFocusCssClass="MaskedEditFocus" OnInvalidCssClass="MaskedEditError" TargetControlID="txtMortgage_Commencement_Date"
@@ -1356,7 +1257,14 @@ function ValidateSubtenantFileds(sender, args) {
                                                                             ErrorMessage="Please Enter [Lease Information]/ Mortgage Commencement Date in valid format"
                                                                             Display="none" ValidationGroup="vsErrorGroup" SetFocusOnError="true"></asp:RegularExpressionValidator>
 
+                                                                    </td>--%>
+                                                                    <td align="left" valign="top">&nbsp;
                                                                     </td>
+                                                                    <td align="center" valign="top">&nbsp;
+                                                                    </td>
+                                                                    <td align="center" valign="top">&nbsp;
+                                                                    </td>
+
                                                                     <td align="left" valign="top">Date Sold&nbsp;<span id="Span13" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
                                                                     <td align="center" valign="top">:
@@ -1382,7 +1290,7 @@ function ValidateSubtenantFileds(sender, args) {
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" class="BlueItalicText">Mortgage Expiration Date &nbsp;<span id="Span163" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <%-- <td align="left" valign="top" class="BlueItalicText">Mortgage Expiration Date &nbsp;<span id="Span163" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
                                                                     <td align="center" valign="top">:
                                                                     </td>
@@ -1402,7 +1310,7 @@ function ValidateSubtenantFileds(sender, args) {
                                                                             ErrorMessage="Please Enter [Lease Information]/ Mortgage Expiration Date in valid format"
                                                                             Display="none" ValidationGroup="vsErrorGroup" SetFocusOnError="true"></asp:RegularExpressionValidator>
 
-                                                                    </td>
+                                                                    </td>--%>
                                                                     <td align="left" valign="top">&nbsp;
                                                                     </td>
                                                                     <td align="center" valign="top">&nbsp;
@@ -3929,6 +3837,477 @@ function ValidateSubtenantFileds(sender, args) {
                                                                 </tr>
                                                             </table>
                                                         </asp:Panel>
+                                                        <asp:Panel ID="pnl12" runat="server" Style="display: none;">
+                                                            <div class="bandHeaderRow">
+                                                                Mortgage Information
+                                                            </div>
+                                                            <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                                                  <tr>
+                                                                    <td colspan="6" align="left" class="BlueItalicText">The data for the blue italicized fields on this screen are derived from the Property
+                                                                        module for the same location.
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>&nbsp;
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" width="19%" valign="top" class="BlueItalicText">Dealership DBA
+                                                                    </td>
+                                                                    <td align="center" width="4%" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" valign="top" colspan="4">
+                                                                        <asp:TextBox ID="txtLU_Location" runat="server" Enabled="false" Width="300px" />
+                                                                    </td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td align="left" width="19%" valign="top" class="BlueItalicText">Parent Company Legal Entity
+                                                                    </td>
+                                                                    <td align="center" width="4%" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" width="27%" valign="top">
+                                                                        <asp:TextBox ID="txtParentCompanyLegalEntity" runat="server" Width="170px" Enabled="false" />
+                                                                    </td>
+                                                                    <td align="left" width="20%" valign="top" class="BlueItalicText">Parent Company Legal Entity FEIN
+                                                                    </td>
+                                                                    <td align="center" width="4%" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" width="26%" valign="top">
+                                                                        <asp:TextBox ID="txtParentCompanyLegalEntityFEIN" runat="server" Width="170px" Enabled="false" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" width="19%" valign="top" class="BlueItalicText">Legal Entity (Operations)
+                                                                    </td>
+                                                                    <td align="center" width="4%" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" width="27%" valign="top">
+                                                                        <asp:TextBox ID="txtLegalEntityOperations" runat="server" Width="170px" Enabled="false" />
+                                                                    </td>
+                                                                    <td align="left" width="20%" valign="top" class="BlueItalicText">Legal Entity (Operations) FEIN
+                                                                    </td>
+                                                                    <td align="center" width="4%" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" width="26%" valign="top">
+                                                                        <asp:TextBox ID="txtLegalEntityOperationsFEIN" runat="server" Width="170px" Enabled="false" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" width="19%" valign="top" class="BlueItalicText">Legal Entity (Properties)
+                                                                    </td>
+                                                                    <td align="center" width="4%" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" width="27%" valign="top">
+                                                                        <asp:TextBox ID="txtLegalEntityProperties" runat="server" Width="170px" Enabled="false" />
+                                                                    </td>
+                                                                    <td align="left" width="20%" valign="top" class="BlueItalicText">Legal Entity (Properties) FEIN
+                                                                    </td>
+                                                                    <td align="center" width="4%" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" width="26%" valign="top">
+                                                                        <asp:TextBox ID="txtLegalEntityPropertiesFEIN" runat="server" Width="170px" Enabled="false" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" valign="top" class="BlueItalicText">Status
+                                                                    </td>
+                                                                    <td align="center" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:DropDownList ID="drpFK_LU_Status" Width="175px" SkinID="dropGen" runat="server"
+                                                                            Enabled="false">
+                                                                        </asp:DropDownList>
+                                                                    </td>
+                                                                    <td align="left" valign="top">&nbsp;
+                                                                    </td>
+                                                                    <td align="center" valign="top">&nbsp;
+                                                                    </td>
+                                                                    <td align="center" valign="top">&nbsp;
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" valign="top" class="BlueItalicText">Address 1
+                                                                    </td>
+                                                                    <td align="center" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:TextBox ID="txtAddress1" runat="server" Width="170px" Enabled="false" />
+                                                                    </td>
+                                                                    <td align="left" valign="top" class="BlueItalicText">Address 2
+                                                                    </td>
+                                                                    <td align="center" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:TextBox ID="txtAddress2" runat="server" Width="170px" Enabled="false" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" valign="top" class="BlueItalicText">City
+                                                                    </td>
+                                                                    <td align="center" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:TextBox ID="txtCity" runat="server" Width="170px" Enabled="false" />
+                                                                    </td>
+                                                                    <td align="left" valign="top" class="BlueItalicText">State
+                                                                    </td>
+                                                                    <td align="center" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:TextBox ID="txtState" runat="server" Width="170px" Enabled="false" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" valign="top" class="BlueItalicText">Zip Code (XXXXX-XXXX)
+                                                                    </td>
+                                                                    <td align="center" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:TextBox ID="txtZipCode" runat="server" Width="170px" Enabled="false" />
+                                                                    </td>
+                                                                    <td align="left" valign="top" class="BlueItalicText">Telephone (XXX-XXX-XXXX)
+                                                                    </td>
+                                                                    <td align="center" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:TextBox ID="txtTelephone" runat="server" Width="170px" Enabled="false" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" valign="top" class="BlueItalicText">County
+                                                                    </td>
+                                                                    <td align="center" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:TextBox ID="txtCounty" runat="server" Width="170px" Enabled="false" />
+                                                                    </td>
+                                                                    <td align="left" valign="top" class="BlueItalicText">Region
+                                                                    </td>
+                                                                    <td align="center" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:TextBox ID="txtRegion" runat="server" Width="170px" Enabled="false" />
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                            <div class="bandHeaderRow">
+                                                                Mortgage/ Loan Summary Grid
+                                                            </div>
+                                                            <br/>
+                                                            <asp:GridView ID="gvMortgageLoan" runat="server" EmptyDataText="No Loan Record Exists"
+                                                                OnRowCommand="gvMortgageLoan_OnRowCommand" Width="100%">
+                                                                <Columns>
+                                                                    <%-- <asp:TemplateField HeaderText="">
+                                                                                    <ItemStyle Width="5%" />
+                                                                                    <ItemTemplate>
+                                                                                        <asp:LinkButton ID="lnkViewLoanSummaryDetails" CausesValidation="false" runat="server"
+                                                                                            Text='<%# Container.DataItemIndex + 1 %>' CommandName="ViewLoanSummaryDetails" CommandArgument='<%#Eval("PK_Mortgage_Information_ID")%>'></asp:LinkButton>
+                                                                                    </ItemTemplate>
+                                                                                </asp:TemplateField>--%>
+                                                                    <asp:TemplateField HeaderText="Date of Note">
+                                                                        <ItemStyle Width="15%" />
+                                                                        <ItemTemplate>
+                                                                            <%#clsGeneral.FormatDBNullDateToDisplay(Eval("Date_of_Note"))%>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="SRE ID">
+                                                                        <ItemStyle Width="15%" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkViewLoanSummaryDetails" CausesValidation="false" runat="server"
+                                                                                Text=' <%# Eval("SRE_ID")%>' CommandName="EditLoanSummaryDetails" CommandArgument='<%#Eval("PK_Mortgage_Information_ID")%>'></asp:LinkButton>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+
+                                                                    <asp:TemplateField HeaderText="Letter Name">
+                                                                        <ItemStyle Width="15%" />
+                                                                        <ItemTemplate>
+                                                                            <%# Eval("Letter_Name")%>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Loan Origination Date">
+                                                                        <ItemStyle Width="20%" />
+                                                                        <ItemTemplate>
+                                                                            <%# clsGeneral.FormatDBNullDateToDisplay(Eval("Loan_Origination_Date"))%>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Loan Maturity Date">
+                                                                        <ItemStyle Width="20%" />
+                                                                        <ItemTemplate>
+                                                                            <%# clsGeneral.FormatDBNullDateToDisplay(Eval("Loan_Maturity_Date"))%>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Loan Status">
+                                                                        <ItemStyle Width="15%" />
+                                                                        <ItemTemplate>
+                                                                            <%# Eval("Loan_Status")%>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <%--<asp:TemplateField HeaderText="Remove">
+                                                                                    <ItemStyle Width="10%" />
+                                                                                    <ItemTemplate>
+                                                                                        <asp:LinkButton ID="lnkRemoveLease" TeID="lnkRemove" OnClientClick="return ConfirmSubLeaseRemove();"
+                                                                                            CausesValidation="false" runat="server" Text="Remove" CommandName="RemoveSubtenant"
+                                                                                            CommandArgument='<%#Eval("PK_RE_Subtenant")%>' />
+                                                                                    </ItemTemplate>
+                                                                                </asp:TemplateField>--%>
+                                                                </Columns>
+                                                            </asp:GridView>
+
+                                                            <asp:LinkButton ID="lnkAddLoanSummary" runat="server" Text="--Add--" CausesValidation="false" OnClick="lnkAddLoanSummary_Click" />
+                                                     <%--<asp:Panel ID="pnlLoan" runat="server" Style="display: none;">--%>
+                                                        <br/>
+                                                        <br/>
+                                                        <table id="tblLoanSummary" runat="server" cellpadding="3" cellspacing="1" border="0" width="100%">
+                                                            <caption>
+
+                                                                <tr>
+                                                                    <td align="left" class="BlueItalicText" valign="top" width="19%">SRE#
+                                                                        <span id="Span163" style="color: Red; display: none;" runat="server">*</span>
+                                                                    </td>
+                                                                    <td align="center" valign="top" width="4%">: </td>
+                                                                    <td align="left" valign="top" width="27%">
+                                                                        <asp:TextBox ID="txtSRE_ID" runat="server" MaxLength="75" Width="170px" />
+                                                                        <asp:RequiredFieldValidator ID="rfvtxtSRE_ID" runat="server" ValidationGroup="vsMortgage"
+                                                                            SetFocusOnError="true" ErrorMessage="Please Enter SRE ID" Display="none"
+                                                                            ControlToValidate="txtSRE_ID"></asp:RequiredFieldValidator>
+                                                                    </td>
+
+                                                                    <td align="left" valign="top">Mortgage Commencement Date
+                                                                            &nbsp;<span id="Span164" style="color: Red; display: none;" runat="server">*</span>
+                                                                    </td>
+                                                                    <td align="center" valign="top">: </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:TextBox ID="txtMortgage_Commencement_Date" runat="server" Width="145px" />
+                                                                        <img alt="Notification Due Date" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtMortgage_Commencement_Date', 'mm/dd/y');"
+                                                                            onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
+                                                                            align="middle" />
+                                                                        <br />
+                                                                        <cc1:MaskedEditExtender ID="mskMortgage_Commencement_Date" runat="server" AcceptNegative="Left" AutoComplete="true" AutoCompleteValue="05/23/1964" CultureName="en-US" DisplayMoney="Left" Mask="99/99/9999" MaskType="Date" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus" OnInvalidCssClass="MaskedEditError" TargetControlID="txtMortgage_Commencement_Date">
+                                                                        </cc1:MaskedEditExtender>
+                                                                        <cc1:MaskedEditValidator ID="mskvMortgage_Commencement_Date" runat="server" ControlExtender="mskMortgage_Commencement_Date" ControlToValidate="txtMortgage_Commencement_Date" Display="none" Enabled="false" InvalidValueMessage="Date is invalid." IsValidEmpty="true" MaximumValue="" MaximumValueMessage="" MinimumValue="" MinimumValueMessage="" TooltipMessage=""></cc1:MaskedEditValidator>
+                                                                        <asp:RequiredFieldValidator ID="rfvtxtMortgage_Commencement_Date" runat="server" ValidationGroup="vsMortgage"
+                                                                            SetFocusOnError="true" ErrorMessage="Please Enter Mortgage Commencement Date" Display="none"
+                                                                            ControlToValidate="txtMortgage_Commencement_Date"></asp:RequiredFieldValidator>
+                                                                        <asp:RegularExpressionValidator ID="revMortgage_Commencement_Date" runat="server" ControlToValidate="txtMortgage_Commencement_Date" Display="none" ErrorMessage="Please Enter Mortgage Commencement Date in valid format" SetFocusOnError="true" ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$" ValidationGroup="vgSubtenant"></asp:RegularExpressionValidator>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" valign="top" width="19%">
+                                                                        Letter Name <span id="Span165" style="color: Red; display: none;" runat="server">*</span>
+                                                                    </td>
+                                                                    <td align="center" valign="top" width="4%">: </td>
+                                                                    <td align="left" valign="top" width="27%">
+                                                                        <asp:TextBox ID="txtLetter_Name" runat="server" MaxLength="50" Width="170px" />
+                                                                        <asp:RequiredFieldValidator ID="rvftxtLetter_Name" runat="server" ValidationGroup="vsMortgage"
+                                                                            SetFocusOnError="true" ErrorMessage="Please Enter Letter Name" Display="none"
+                                                                            ControlToValidate="txtLetter_Name"></asp:RequiredFieldValidator>
+                                                                    </td>
+                                                                    <td align="left" valign="top">Mortgage Expiration Date 
+                                                                            &nbsp;<span id="Span166" style="color: Red; display: none;" runat="server">*</span>
+                                                                    </td>
+                                                                    <td align="center" valign="top">: </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:TextBox ID="txtMortgage_Expiration_Date" runat="server" Width="145px" />
+                                                                        <img alt="Notification Due Date" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtMortgage_Expiration_Date', 'mm/dd/y');"
+                                                                            onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
+                                                                            align="middle" />
+                                                                        <br />
+                                                                        <cc1:MaskedEditExtender ID="mskMortgage_Expiration_Date" runat="server" AcceptNegative="Left" AutoComplete="true" AutoCompleteValue="05/23/1964" CultureName="en-US" DisplayMoney="Left" Mask="99/99/9999" MaskType="Date" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus" OnInvalidCssClass="MaskedEditError" TargetControlID="txtMortgage_Expiration_Date">
+                                                                        </cc1:MaskedEditExtender>
+                                                                        <cc1:MaskedEditValidator ID="mskvMortgage_Expiration_Date" runat="server" ControlExtender="mskMortgage_Expiration_Date" ControlToValidate="txtMortgage_Expiration_Date" Display="none" Enabled="false" InvalidValueMessage="Date is invalid." IsValidEmpty="true" MaximumValue="" MaximumValueMessage="" MinimumValue="" MinimumValueMessage="" TooltipMessage=""></cc1:MaskedEditValidator>
+                                                                        <asp:RequiredFieldValidator ID="rvftxtMortgage_Expiration_Date" runat="server" ValidationGroup="vsMortgage"
+                                                                            SetFocusOnError="true" ErrorMessage="Please Enter Mortgage Expiration Date" Display="none"
+                                                                            ControlToValidate="txtMortgage_Expiration_Date"></asp:RequiredFieldValidator>
+                                                                        <asp:RegularExpressionValidator ID="revMortgage_Expiration_Date" runat="server" ControlToValidate="txtMortgage_Expiration_Date" Display="none" ErrorMessage="Please Enter Mortgage Expiration Date in valid format" SetFocusOnError="true" ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$" ValidationGroup="vgSubtenant"></asp:RegularExpressionValidator>
+                                                                    </td>
+
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" valign="top">Loan Term
+                                                                            &nbsp;<span id="Span167" style="color: Red; display: none;" runat="server">*</span>
+                                                                    </td>
+                                                                    <td align="center" valign="top">: </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:TextBox ID="txtLoan_Term" runat="server" MaxLength="50" Width="170px" />
+                                                                        <asp:RequiredFieldValidator ID="rvftxtLoan_Term" runat="server" ValidationGroup="vsMortgage"
+                                                                            SetFocusOnError="true" ErrorMessage="Please Enter Loan Term" Display="none"
+                                                                            ControlToValidate="txtLoan_Term"></asp:RequiredFieldValidator>
+                                                                    </td>
+                                                                    <td align="left" valign="top">Loan Origination Date
+                                                                            &nbsp;<span id="Span168" style="color: Red; display: none;" runat="server">*</span>
+                                                                    </td>
+                                                                    <td align="center" valign="top">: </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:TextBox ID="txtLoan_Origination_Date" runat="server" Width="145px" />
+                                                                        <img alt="Notification Due Date" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtLoan_Origination_Date', 'mm/dd/y');"
+                                                                            onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
+                                                                            align="middle" />
+                                                                        <br />
+                                                                        <cc1:MaskedEditExtender ID="msktxtLoan_Origination_Date" runat="server" AcceptNegative="Left" AutoComplete="true" AutoCompleteValue="05/23/1964" CultureName="en-US" DisplayMoney="Left" Mask="99/99/9999" MaskType="Date" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus" OnInvalidCssClass="MaskedEditError" TargetControlID="txtLoan_Origination_Date">
+                                                                        </cc1:MaskedEditExtender>
+                                                                        <cc1:MaskedEditValidator ID="mskvtxtLoan_Origination_Date" runat="server" ControlExtender="msktxtLoan_Origination_Date" ControlToValidate="txtMortgage_Expiration_Date" Display="none" Enabled="false" InvalidValueMessage="Date is invalid." IsValidEmpty="true" MaximumValue="" MaximumValueMessage="" MinimumValue="" MinimumValueMessage="" TooltipMessage=""></cc1:MaskedEditValidator>
+                                                                        <asp:RequiredFieldValidator ID="rvftxtLoan_Origination_Date" runat="server" ValidationGroup="vsMortgage"
+                                                                            SetFocusOnError="true" ErrorMessage="Please Enter Loan Origination Date" Display="none"
+                                                                            ControlToValidate="txtLoan_Origination_Date"></asp:RequiredFieldValidator>
+
+                                                                        <asp:RegularExpressionValidator ID="revtxtLoan_Origination_Date" runat="server" ControlToValidate="txtLoan_Origination_Date" Display="none" ErrorMessage="Please Enter Mortgage Expiration Date in valid format" SetFocusOnError="true" ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$" ValidationGroup="vgSubtenant"></asp:RegularExpressionValidator>
+                                                                    </td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td align="left" valign="top">Loan Type
+                                                                            &nbsp;<span id="Span178" style="color: Red; display: none;" runat="server">*</span>
+                                                                    </td>
+                                                                    <td align="center" valign="top">: </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:TextBox ID="txtLoan_Type" runat="server" MaxLength="50" Width="170px" />
+                                                                        <asp:RequiredFieldValidator ID="rvftxtLoan_Type" runat="server" ValidationGroup="vsMortgage"
+                                                                            SetFocusOnError="true" ErrorMessage="Please Enter Loan Type" Display="none"
+                                                                            ControlToValidate="txtLoan_Type"></asp:RequiredFieldValidator>
+                                                                    </td>
+                                                                    <td align="left" valign="top">Loan Maturity Date
+                                                                            &nbsp;<span id="Span179" style="color: Red; display: none;" runat="server">*</span>
+                                                                    </td>
+                                                                    <td align="center" valign="top">: </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:TextBox ID="txtLoan_Maturity_Date" runat="server" Width="145px" />
+                                                                        <img alt="Notification Due Date" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtLoan_Maturity_Date', 'mm/dd/y');"
+                                                                            onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
+                                                                            align="middle" />
+                                                                        <br />
+                                                                        <cc1:MaskedEditExtender ID="mskLoan_Maturity_Date" runat="server" AcceptNegative="Left" AutoComplete="true" AutoCompleteValue="05/23/1964" CultureName="en-US" DisplayMoney="Left" Mask="99/99/9999" MaskType="Date" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus" OnInvalidCssClass="MaskedEditError" TargetControlID="txtLoan_Maturity_Date">
+                                                                        </cc1:MaskedEditExtender>
+                                                                        <cc1:MaskedEditValidator ID="mskvLoan_Maturity_Date" runat="server" ControlExtender="mskLoan_Maturity_Date" ControlToValidate="txtLoan_Maturity_Date" Display="none" Enabled="false" InvalidValueMessage="Date is invalid." IsValidEmpty="true" MaximumValue="" MaximumValueMessage="" MinimumValue="" MinimumValueMessage="" TooltipMessage=""></cc1:MaskedEditValidator>
+                                                                        <asp:RequiredFieldValidator ID="rvftxtLoan_Maturity_Date" runat="server" ValidationGroup="vsMortgage"
+                                                                            SetFocusOnError="true" ErrorMessage="Please Enter Loan Maturity Date" Display="none"
+                                                                            ControlToValidate="txtLoan_Maturity_Date"></asp:RequiredFieldValidator>
+                                                                        <asp:RegularExpressionValidator ID="revLoan_Maturity_Date" runat="server" ControlToValidate="txtLoan_Maturity_Date" Display="none" ErrorMessage="Please Enter Loan Maturity Date in valid format" SetFocusOnError="true" ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$" ValidationGroup="vgSubtenant"></asp:RegularExpressionValidator>
+                                                                    </td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td align="left" valign="top">Orgination Loan Amount
+                                                                            &nbsp;<span id="Span171" style="color: Red; display: none;" runat="server">*</span>
+                                                                    </td>
+                                                                    <td align="center" valign="top">: </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:TextBox ID="txtOrginationLoanAmount" runat="server" MaxLength="50" Width="170px" />
+                                                                        <asp:RequiredFieldValidator ID="rvftxtOrginationLoanAmount" runat="server" ValidationGroup="vsMortgage"
+                                                                            SetFocusOnError="true" ErrorMessage="Please Enter Orgination Amount" Display="none"
+                                                                            ControlToValidate="txtOrginationLoanAmount"></asp:RequiredFieldValidator>
+
+                                                                    </td>
+                                                                    <td align="left" valign="top">Loan Status
+                                                                            &nbsp;<span id="Span172" style="color: Red; display: none;" runat="server">*</span>
+                                                                    </td>
+                                                                    <td align="center" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:DropDownList runat="server" ID="drpLoanStatus" Width="175px" AutoPostBack="true" OnSelectedIndexChanged="drpLoanStatus_SelectedIndexChanged">
+                                                                            <asp:ListItem Selected="True" Text="--Select--" Value=""></asp:ListItem>
+                                                                            <asp:ListItem Text="Pay Off" Value="Pay Off"></asp:ListItem>
+                                                                            <asp:ListItem Text="Active" Value="Active"></asp:ListItem>
+                                                                            <asp:ListItem Text="Other" Value="Other"></asp:ListItem>
+                                                                        </asp:DropDownList>
+                                                                        <asp:RequiredFieldValidator ID="rfvdrpLoanStatus" runat="server" ControlToValidate="drpLoanStatus" ValidationGroup="vsMortgage" Display="none"
+                                                                            ErrorMessage="Loan Status required"></asp:RequiredFieldValidator>
+
+                                                                    </td>
+
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td align="left" valign="top">Payment Amount
+                                                                            &nbsp;<span id="Span173" style="color: Red; display: none;" runat="server">*</span>
+                                                                    </td>
+                                                                    <td align="center" valign="top">: </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:TextBox ID="txtPaymentAmount" runat="server" MaxLength="50" Width="170px" />
+                                                                        <asp:RequiredFieldValidator ID="rvftxtPaymentAmount" runat="server" ValidationGroup="vsMortgage"
+                                                                            SetFocusOnError="true" ErrorMessage="Please Enter Payment Amount" Display="none"
+                                                                            ControlToValidate="txtPaymentAmount"></asp:RequiredFieldValidator>
+
+                                                                    </td>
+                                                                    <td align="left" valign="top">Spread
+                                                                            &nbsp;<span id="Span174" style="color: Red; display: none;" runat="server">*</span>
+                                                                    </td>
+                                                                    <td align="center" valign="top">: </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:TextBox ID="txtSpread" runat="server" MaxLength="50" Width="170px" />
+                                                                        <asp:RequiredFieldValidator ID="rvftxtSpread" runat="server" ValidationGroup="vsMortgage"
+                                                                            SetFocusOnError="true" ErrorMessage="Please Enter Spread" Display="none"
+                                                                            ControlToValidate="txtSpread"></asp:RequiredFieldValidator>
+                                                                    </td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td align="left" valign="top">Estimated P&I 
+                                                                            &nbsp;<span id="Span175" style="color: Red; display: none;" runat="server">*</span>
+                                                                    </td>
+                                                                    <td align="center" valign="top">: </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:TextBox ID="txtEstimatedPI" runat="server" MaxLength="50" Width="170px" />
+                                                                        <asp:RequiredFieldValidator ID="rvftxtEstimatedPI" runat="server" ValidationGroup="vsMortgage"
+                                                                            SetFocusOnError="true" ErrorMessage="Please Enter Estimate P & I" Display="none"
+                                                                            ControlToValidate="txtEstimatedPI"></asp:RequiredFieldValidator>
+                                                                    </td>
+                                                                    <td align="left" valign="top">Other 
+                                                                            &nbsp;<span id="Span176" style="color: Red; display: none;" runat="server">*</span>
+                                                                    </td>
+                                                                    <td align="center" valign="top">: </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:TextBox ID="txtOther" runat="server" MaxLength="50" Width="170px" />
+                                                                        <asp:RequiredFieldValidator ID="rvftxtOther" runat="server" ValidationGroup="vsMortgage"
+                                                                            SetFocusOnError="true" ErrorMessage="Please Enter Other" Display="none"
+                                                                            ControlToValidate="txtOther"></asp:RequiredFieldValidator>
+                                                                    </td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td align="left" valign="top">Comments
+                                                                            &nbsp;<span id="Span177" style="color: Red; display: none;" runat="server">*</span>
+                                                                    </td>
+                                                                    <td align="center" valign="top">: </td>
+                                                                    <td align="left" valign="top" colspan="4">
+                                                                        <asp:TextBox ID="txtComments" runat="server" MaxLength="50" Width="570px" />
+                                                                        <asp:RequiredFieldValidator ID="rvftxtComments" runat="server" ValidationGroup="vsMortgage"
+                                                                            SetFocusOnError="true" ErrorMessage="Please Enter Comments" Display="none"
+                                                                            ControlToValidate="txtComments"></asp:RequiredFieldValidator>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="center" colspan="6">
+                                                                        <%--<asp:Label ID="lblReport" runat="server"></asp:Label>--%>
+                                                                        <asp:Button ID="btnLoanSubmit" runat="server" Text="Save" OnClick="btnLoanSubmit_Click" OnClientClick="javascript:return ValidateLoanSummary('Edit');"
+                                                                            CausesValidation="true" ValidationGroup="vsMortgage" />
+                                                                        &nbsp;
+                                                                             <asp:Button ID="btnLoanCancel" runat="server" Text="Cancel" OnClick="btnLoanCancel_Click"
+                                                                                 CausesValidation="true" />
+                                                                        &nbsp;
+                                                                        <asp:Button ID="btnLoanAbstract" runat="server" Text="Generate Abstract" OnClick="btnLoanAbstract_Click" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr id="trGrid" runat="server">
+                                                                    <td align="left">
+                                                                        <table width="100%">
+                                                                            <tr>
+                                                                                <td style="width: 100%">
+                                                                                    <asp:Label ID="lblReport" runat="server"></asp:Label>
+                                                                                </td>
+                                                                            </tr>
+
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+
+                                                            </caption>
+                                                        </table>
+
+
+                                             <%--       </asp:Panel>--%>
+
+                                                        </asp:Panel>
                                                         <div id="dvAttachment" runat="server" style="display: none;">
                                                             <table cellpadding="0" cellspacing="0" width="100%">
                                                                 <tr>
@@ -3980,7 +4359,7 @@ function ValidateSubtenantFileds(sender, args) {
                                                                     <td>&nbsp;
                                                                     </td>
                                                                 </tr>
-                                                                <tr>
+                                                                <%--<tr>
                                                                     <td align="left" width="19%" valign="top" class="BlueItalicText">Dealership DBA
                                                                     </td>
                                                                     <td align="center" width="4%" valign="top">:
@@ -3995,26 +4374,7 @@ function ValidateSubtenantFileds(sender, args) {
                                                                     <td align="center" width="26%" valign="top">&nbsp;
                                                                     </td>
                                                                 </tr>
-                                                                <%--  <tr>
-                                                                    <td align="left" width="19%" valign="top" class="BlueItalicText">
-                                                                        Legal Entity
-                                                                    </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left" width="27%" valign="top">
-                                                                        <asp:Label ID="lblLegalEntity" runat="server" Width="170px" />
-                                                                    </td>
-                                                                    <td align="left" width="20%" valign="top">
-                                                                        Federal Id
-                                                                    </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left" width="26%" valign="top">
-                                                                        <asp:Label ID="lblFederal_Id" runat="server"></asp:Label>
-                                                                    </td>
-                                                                </tr>--%>
+                                                               
                                                                 <tr>
                                                                     <td align="left" width="19%" valign="top" class="BlueItalicText">Parent Company Legal Entity 
                                                                     </td>
@@ -4141,7 +4501,7 @@ function ValidateSubtenantFileds(sender, args) {
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblRegion" runat="server" />
                                                                     </td>
-                                                                </tr>
+                                                                </tr>--%>
                                                                 <tr>
                                                                     <td align="left" valign="top">Tax Parcel Number
                                                                     </td>
@@ -4450,12 +4810,18 @@ function ValidateSubtenantFileds(sender, args) {
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" class="BlueItalicText" >Mortgage Commencement Date
+                                                                    <%--  <td align="left" valign="top" class="BlueItalicText" >Mortgage Commencement Date
                                                                     </td>
                                                                     <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblMorgage_Commencement_Date" runat="server"></asp:Label>
+                                                                    </td>--%>
+                                                                    <td align="left" valign="top">&nbsp;
+                                                                    </td>
+                                                                    <td align="center" valign="top">&nbsp;
+                                                                    </td>
+                                                                    <td align="center" valign="top">&nbsp;
                                                                     </td>
                                                                     <td align="left" valign="top">Date Sold
                                                                     </td>
@@ -4465,14 +4831,14 @@ function ValidateSubtenantFileds(sender, args) {
                                                                         <asp:Label ID="lblDate_Sold" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
-                                                                 <tr>
-                                                                    <td align="left" valign="top" class="BlueItalicText">Mortgage Expiration Date
+                                                                <tr>
+                                                                    <%--<td align="left" valign="top" class="BlueItalicText">Mortgage Expiration Date
                                                                     </td>
                                                                     <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblMorgage_Expiration_Date" runat="server"></asp:Label>
-                                                                    </td>
+                                                                    </td>--%>
                                                                     <td align="left" valign="top">&nbsp;
                                                                     </td>
                                                                     <td align="center" valign="top">&nbsp;
@@ -6649,6 +7015,328 @@ function ValidateSubtenantFileds(sender, args) {
                                                                 </tr>
                                                             </table>
                                                         </asp:Panel>
+                                                        <asp:Panel ID="pnl12View" runat="server" Style="display: none;">
+                                                            <div class="bandHeaderRow">
+                                                                Mortgage Information
+                                                            </div>
+                                                            <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                                                  <tr>
+                                                                    <td colspan="6" align="left" class="BlueItalicText">The data for the blue italicized fields on this screen are derived from the Property
+                                                                        module for the same location.
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>&nbsp;
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" width="19%" valign="top" class="BlueItalicText">Dealership DBA
+                                                                    </td>
+                                                                    <td align="center" width="4%" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" colspan="4" valign="top">
+                                                                        <asp:Label ID="lblFK_LU_Location" runat="server"></asp:Label>
+                                                                    </td>
+                                                                    <td align="left" width="20%" valign="top">&nbsp;
+                                                                    </td>
+                                                                    <td align="center" width="4%" valign="top">&nbsp;
+                                                                    </td>
+                                                                    <td align="center" width="26%" valign="top">&nbsp;
+                                                                    </td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td align="left" width="19%" valign="top" class="BlueItalicText">Parent Company Legal Entity 
+                                                                    </td>
+                                                                    <td align="center" width="4%" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" width="27%" valign="top">
+                                                                        <asp:Label ID="lblParentCompanyLegalEntity" runat="server" Width="170px" Style="word-wrap: normal; word-break: break-all" />
+                                                                    </td>
+                                                                    <td align="left" width="20%" valign="top" class="BlueItalicText">Parent Company Legal Entity FEIN 
+                                                                    </td>
+                                                                    <td align="center" width="4%" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" width="26%" valign="top">
+                                                                        <asp:Label ID="lblParentCompanyLegalEntityFEIN" runat="server" Width="170px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" width="19%" valign="top" class="BlueItalicText">Legal Entity (Operations)  
+                                                                    </td>
+                                                                    <td align="center" width="4%" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" width="27%" valign="top">
+                                                                        <asp:Label ID="lblLegalEntityOperations" runat="server" Width="170px" Style="word-wrap: normal; word-break: break-all" />
+                                                                    </td>
+                                                                    <td align="left" width="20%" valign="top" class="BlueItalicText">Legal Entity (Operations) FEIN
+                                                                    </td>
+                                                                    <td align="center" width="4%" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" width="26%" valign="top">
+                                                                        <asp:Label ID="lblLegalEntityOperationsFEIN" runat="server" Width="170px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" width="19%" valign="top" class="BlueItalicText">Legal Entity (Properties)
+                                                                    </td>
+                                                                    <td align="center" width="4%" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" width="27%" valign="top">
+                                                                        <asp:Label ID="lblLegalEntityProperties" runat="server" Width="170px" Style="word-wrap: normal; word-break: break-all" />
+                                                                    </td>
+                                                                    <td align="left" width="20%" valign="top" class="BlueItalicText">Legal Entity (Properties) FEIN
+                                                                    </td>
+                                                                    <td align="center" width="4%" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" width="26%" valign="top">
+                                                                        <asp:Label ID="lblLegalEntityPropertiesFEIN" runat="server" Width="170px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" valign="top" class="BlueItalicText">Status
+                                                                    </td>
+                                                                    <td align="center" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:Label ID="lblFK_LU_Status" runat="server"></asp:Label>
+                                                                    </td>
+                                                                    <td align="left" valign="top">&nbsp;
+                                                                    </td>
+                                                                    <td align="center" valign="top">&nbsp;
+                                                                    </td>
+                                                                    <td align="center" valign="top">&nbsp;
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" valign="top" class="BlueItalicText">Address 1
+                                                                    </td>
+                                                                    <td align="center" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:Label ID="lblAddress1" runat="server" />
+                                                                    </td>
+                                                                    <td align="left" valign="top" class="BlueItalicText">Address 2
+                                                                    </td>
+                                                                    <td align="center" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:Label ID="lblAddress2" runat="server" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" valign="top" class="BlueItalicText">City
+                                                                    </td>
+                                                                    <td align="center" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:Label ID="lblCity" runat="server" />
+                                                                    </td>
+                                                                    <td align="left" valign="top" class="BlueItalicText">State
+                                                                    </td>
+                                                                    <td align="center" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:Label ID="lblState" runat="server" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" valign="top" class="BlueItalicText">Zip Code (XXXXX-XXXX)
+                                                                    </td>
+                                                                    <td align="center" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:Label ID="lblZipCode" runat="server" />
+                                                                    </td>
+                                                                    <td align="left" valign="top" class="BlueItalicText">Telephone (XXX-XXX-XXXX)
+                                                                    </td>
+                                                                    <td align="center" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:Label ID="lblTelephone" runat="server" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" valign="top" class="BlueItalicText">County
+                                                                    </td>
+                                                                    <td align="center" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:Label ID="lblCounty" runat="server"></asp:Label>
+                                                                    </td>
+                                                                    <td align="left" valign="top" class="BlueItalicText">Region
+                                                                    </td>
+                                                                    <td align="center" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:Label ID="lblRegion" runat="server" />
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                            <div class="bandHeaderRow">
+                                                                Mortgage/ Loan Summary Grid
+                                                            </div>
+                                                            <br/>
+                                                            <asp:GridView ID="gvMortgageLoanView" runat="server" EmptyDataText="No Loan Record Exists"
+                                                                OnRowCommand="gvMortgageLoanView_OnRowCommand" Width="100%">
+                                                                <Columns>
+                                                                    <asp:TemplateField HeaderText="Date of Note">
+                                                                        <ItemStyle Width="15%" />
+                                                                        <ItemTemplate>
+                                                                            <%#clsGeneral.FormatDBNullDateToDisplay(Eval("Date_of_Note"))%>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="SRE ID">
+                                                                        <ItemStyle Width="15%" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkViewLoanSummaryDetails" CausesValidation="false" runat="server"
+                                                                                Text='<%# Eval("SRE_ID")%>' CommandName="ViewLoanSummaryDetails" CommandArgument='<%#Eval("PK_Mortgage_Information_ID")%>'></asp:LinkButton>
+
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+
+                                                                    <asp:TemplateField HeaderText="Letter Name">
+                                                                        <ItemStyle Width="15%" />
+                                                                        <ItemTemplate>
+                                                                            <%# Eval("Letter_Name")%>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Loan Origination Date">
+                                                                        <ItemStyle Width="20%" />
+                                                                        <ItemTemplate>
+                                                                            <%# clsGeneral.FormatDBNullDateToDisplay(Eval("Loan_Origination_Date"))%>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Loan Maturity Date">
+                                                                        <ItemStyle Width="20%" />
+                                                                        <ItemTemplate>
+                                                                            <%# clsGeneral.FormatDBNullDateToDisplay(Eval("Loan_Maturity_Date"))%>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Loan Status">
+                                                                        <ItemStyle Width="15%" />
+                                                                        <ItemTemplate>
+                                                                            <%# Eval("Loan_Status")%>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                </Columns>
+                                                            </asp:GridView>
+                                                            <br/>
+                                                            <table id="tblLoanSummaryView" runat="server" cellpadding="3" cellspacing="1" border="0" width="100%" style="display: none;">
+                                                                <tr>
+                                                                    <td align="left" class="BlueItalicText" valign="top" width="19%">SRE#: </td>
+                                                                    <td align="center" valign="top" width="4%">: </td>
+                                                                    <td align="left" valign="top" width="27%">
+                                                                        <asp:Label ID="lblSRE_ID" runat="server" />
+                                                                    </td>
+
+                                                                    <td align="left" valign="top">Mortgage Commencement Date </td>
+                                                                    <td align="center" valign="top">: </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:Label ID="lblMortgage_Commencement_Date" runat="server" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" valign="top" width="19%">Letter Name </td>
+                                                                    <td align="center" valign="top" width="4%">: </td>
+                                                                    <td align="left" valign="top" width="27%">
+                                                                        <asp:Label ID="lblLetter_Name" runat="server" />
+                                                                    </td>
+                                                                    <td align="left" valign="top">Mortgage Expiration Date </td>
+                                                                    <td align="center" valign="top">: </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:Label ID="lblMortgage_Expiration_Date" runat="server" />
+                                                                    </td>
+
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" valign="top">Loan Term</td>
+                                                                    <td align="center" valign="top">: </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:Label ID="lblLoan_Term" runat="server" />
+                                                                    </td>
+                                                                    <td align="left" valign="top">Loan Origination Date </td>
+                                                                    <td align="center" valign="top">: </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:Label ID="lblLoan_Origination_Date" runat="server" />
+                                                                    </td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td align="left" valign="top">Loan Type</td>
+                                                                    <td align="center" valign="top">: </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:Label ID="lblLoan_Type" runat="server" />
+                                                                    </td>
+                                                                    <td align="left" valign="top">Loan Maturity Date</td>
+                                                                    <td align="center" valign="top">: </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:Label ID="lblLoan_Maturity_Date" runat="server" />
+                                                                    </td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td align="left" valign="top">Orgination Loan Amount</td>
+                                                                    <td align="center" valign="top">: </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:Label ID="lblOrginationLoanAmount" runat="server" />
+                                                                    </td>
+                                                                    <td align="left" valign="top">Loan Status </td>
+                                                                    <td align="center" valign="top">: </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:Label ID="lblLoanStatus" runat="server" />
+                                                                    </td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td align="left" valign="top">Payment Amount</td>
+                                                                    <td align="center" valign="top">: </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:Label ID="lblPaymentAmount" runat="server" />
+                                                                    </td>
+                                                                    <td align="left" valign="top">Spread </td>
+                                                                    <td align="center" valign="top">: </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:Label ID="lblSpread" runat="server" />
+                                                                    </td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td align="left" valign="top">Estimated P&I </td>
+                                                                    <td align="center" valign="top">: </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:Label ID="lblEstimatedPI" runat="server" />
+                                                                    </td>
+                                                                    <td align="left" valign="top">Other </td>
+                                                                    <td align="center" valign="top">: </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:Label ID="lblOther" runat="server" />
+                                                                    </td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td align="left" valign="top">Comments </td>
+                                                                    <td align="center" valign="top">: </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:Label ID="lblComments" runat="server" />
+                                                                    </td>
+                                                                </tr>
+                                                                <%--<tr>
+                                                                    <td>
+                                                                 <asp:Button ID="btnLoanViewCancel" runat="server" Text="Cancel" OnClick="btnLoanViewCancel_Click"
+                                                            CausesValidation="true" ValidationGroup="vsErrorGroup" />
+                                                                        </td>
+                                                                    </tr>--%>
+                                                            </table>
+
+                                                            <%--   <asp:LinkButton Style="display: inline" ID="lnkAddLoan" OnClick="lnkAddLoan_Click"
+                                                                runat="server" Text="Add New">
+
+                                                            </asp:LinkButton>&nbsp;&nbsp;&nbsp;<asp:LinkButton
+                                                                    Style="display: none" ID="lnkCancelLoan" OnClick="lnkCancelLoan_Click" runat="server"
+                                                                    Text="Cancel"></asp:LinkButton>--%>
+                                                        </asp:Panel>
+
                                                     </div>
                                                     <asp:Panel ID="pnlAttachmentDetails" runat="server" Style="display: none;">
                                                         <table cellpadding="0" cellspacing="0" width="100%">
@@ -6662,6 +7350,7 @@ function ValidateSubtenantFileds(sender, args) {
                                                             </tr>
                                                         </table>
                                                     </asp:Panel>
+                                                   
                                                 </td>
                                             </tr>
                                         </table>

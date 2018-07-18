@@ -16,7 +16,7 @@
         </td>
         <td id="tab7" class="tab" onclick="RedirectTo(7);">Asset Protection
         </td>
-        <td id="tab5" class="tab" onclick="RedirectTo(5);">Leases
+        <td id="tab5" class="tab" onclick="RedirectTo(5);">Real	Estate
         </td>
         <td id="tab8" class="tab" onclick="RedirectTo(8);">Construction
         </td>        
