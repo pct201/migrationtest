@@ -100,6 +100,12 @@ public partial class Controls_AttachmentDetails_AttachmentDetails : System.Web.U
         }
         set { ViewState["ShowReplaceColumn"] = value; }
     }
+
+    private string Attachment_For
+    {
+        get { return Convert.ToString(ViewState["Attachment_For"]); }
+        set { ViewState["Attachment_For"] = value; }
+    }
     # endregion
 
     # region " Page Events "
@@ -145,10 +151,17 @@ public partial class Controls_AttachmentDetails_AttachmentDetails : System.Web.U
 
         //// delete record from database
         ERIMSAttachment.DeleteByID(strIDs);
-        Bind();
+
+        if (!string.IsNullOrEmpty(Attachment_For.ToString()))
+            Bind(Attachment_For.ToString());
+        else
+            Bind();
 
         if (IntAttachmentPanel > 0)
-        { Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(" + IntAttachmentPanel + ");", true); }
+        {
+            //Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(" + IntAttachmentPanel + ");", true);
+            ScriptManager.RegisterClientScriptBlock(this, Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(" + IntAttachmentPanel + ");", true);
+        }
     }
 
     # endregion
@@ -203,6 +216,7 @@ public partial class Controls_AttachmentDetails_AttachmentDetails : System.Web.U
         this.AttachmentFK = FK;
         this.AllowRemove = AllowRemove;
         this.IntAttachmentPanel = intAttachmentPanelNumber;
+        this.Attachment_For = string.Empty;
         if (!AppConfig.AllowMailSending)
             btnMail.OnClientClick = "javascript:alert('Attachment cannot be sent as mailing option is disabled');return false;";
         else
@@ -217,6 +231,43 @@ public partial class Controls_AttachmentDetails_AttachmentDetails : System.Web.U
         if (AttachmentFK != 0)
         {
             DataTable dtAttachment = ERIMSAttachment.SelectByTableName(clsGeneral.TableNames[(int)AttachmentTable], AttachmentFK).Tables[0];
+            gvAttachment.DataSource = dtAttachment;
+            gvAttachment.DataBind();
+
+            btnRemoveAttachment.Visible = (AllowRemove && dtAttachment.Rows.Count > 0) ? true : false;
+            btnMail.Visible = (AllowRemove && dtAttachment.Rows.Count > 0) ? true : false;
+            gvAttachment.Columns[0].Visible = AllowRemove;
+            gvAttachment.Columns[gvAttachment.Columns.Count - 1].Visible = AllowRemove;
+
+            //Hide "Replace Column"
+            if (ShowReplaceColumn == false)
+                gvAttachment.Columns[gvAttachment.Columns.Count - 1].Visible = false;
+        }
+    }
+
+    public void InitializeAttachmentDetails(clsGeneral.Tables tbl, int FK, bool AllowRemove, int intAttachmentPanelNumber,string attch_for)
+    {
+        this.AttachmentTable = tbl;
+        this.AttachmentFK = FK;
+        this.AllowRemove = AllowRemove;
+        this.IntAttachmentPanel = intAttachmentPanelNumber;
+        this.Attachment_For = attch_for;
+        if (!AppConfig.AllowMailSending)
+            btnMail.OnClientClick = "javascript:alert('Attachment cannot be sent as mailing option is disabled');return false;";
+        else
+            btnMail.OnClientClick = "javascript:ShowMailPage('" + tbl.ToString() + "','" + attch_for.ToString() + "');return false;";
+    }
+
+    /// <summary>
+    /// Bind the Grid with the Attachment details.
+    /// </summary>
+    public void Bind(string AttachmentFor)
+    {
+        if (AttachmentFK != 0)
+        {
+            DataTable dtAttachment = ERIMSAttachment.SelectByTableName(clsGeneral.TableNames[(int)AttachmentTable], AttachmentFK).Tables[0];
+            dtAttachment.DefaultView.RowFilter = " Attachment_For = '"+AttachmentFor+"' ";
+            dtAttachment = dtAttachment.DefaultView.ToTable();
             gvAttachment.DataSource = dtAttachment;
             gvAttachment.DataBind();
 
@@ -262,15 +313,59 @@ public partial class Controls_AttachmentDetails_AttachmentDetails : System.Web.U
             string strFileName = strArgs[2];
             string strDocPath = clsGeneral.GetAttachmentDocPath(clsGeneral.TableNames[(int)AttachmentTable]) + strFileName;
             strDocPath = Encryption.Encrypt(strDocPath);
-            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:OpenPopupReplacement(" + strArgs[0] + ",'" + strArgs[1] + "','" + strDocPath + "'," + (int)AttachmentTable + ");", true);
+            if (!string.IsNullOrEmpty(Attachment_For.ToString()))
+            {
+                ScriptManager.RegisterClientScriptBlock(this, Page.GetType(), DateTime.Now.ToString(), "javascript:OpenPopupReplacement(" + strArgs[0] + ",'" + strArgs[1] + "','" + strDocPath + "'," + (int)AttachmentTable + ",'" + Attachment_For.ToString() + "');", true);
+            }
+            else
+            {
+                Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:OpenPopupReplacement(" + strArgs[0] + ",'" + strArgs[1] + "','" + strDocPath + "'," + (int)AttachmentTable + ");", true);
+                //ScriptManager.RegisterClientScriptBlock(this, Page.GetType(), DateTime.Now.ToString(), "javascript:OpenPopupReplacement(" + strArgs[0] + ",'" + strArgs[1] + "','" + strDocPath + "'," + (int)AttachmentTable + ");", true);
+            }
         }
     }
 
     protected void btnUpdateGrid_Click(object sender, EventArgs e)
     {
-        Bind();
-        if (IntAttachmentPanel > 0)
-        { Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(" + IntAttachmentPanel + ");", true); }
+        if (!string.IsNullOrEmpty(Session["Attachment_For"].ToString()))
+        {
+            string attch_for = Session["Attachment_For"].ToString();
+            Bind(attch_for);
+            if (attch_for == clsGeneral.RE_Information_Attachment_Type.Lease.ToString())
+            {
+                IntAttachmentPanel = 13;
+            }
+            else if (attch_for == clsGeneral.RE_Information_Attachment_Type.Mortgage.ToString())
+            {
+                IntAttachmentPanel = 14;
+            }
+            else if (attch_for == clsGeneral.RE_Information_Attachment_Type.Appraisal.ToString())
+            {
+                IntAttachmentPanel = 15;
+            }
+
+            if (IntAttachmentPanel > 0)
+            {
+                //Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(" + IntAttachmentPanel + ");", true);
+                ScriptManager.RegisterClientScriptBlock(this,Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(" + IntAttachmentPanel + ");", true); 
+            }
+        }
+        else
+        {
+            Bind();
+            if (IntAttachmentPanel > 0)
+            {
+                Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(" + IntAttachmentPanel + ");", true);
+            }
+        }
+
+        Session.Remove("Attachment_For");
+
+        //if (IntAttachmentPanel > 0)
+        //{ 
+        //    Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(" + IntAttachmentPanel + ");", true);
+        //    //ScriptManager.RegisterClientScriptBlock(this,Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(" + IntAttachmentPanel + ");", true); 
+        //}
     }
     protected string Encode_Url(string StrFilename)
     {

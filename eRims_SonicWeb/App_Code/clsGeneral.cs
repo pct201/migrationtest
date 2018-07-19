@@ -271,6 +271,13 @@ public class clsGeneral : System.Web.UI.Page
         Pending = 6
     }
 
+    public enum RE_Information_Attachment_Type : int
+    {
+        Lease = 1,
+        Mortgage = 2,
+        Appraisal = 3
+    }
+
     //public enum TextBoxCssClass
     //{
     //    txtAddEdit = 0,

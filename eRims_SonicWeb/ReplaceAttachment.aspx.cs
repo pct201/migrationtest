@@ -47,6 +47,16 @@ public partial class ReplaceAttachment : System.Web.UI.Page
         objAttachment.Update();
         if (File.Exists(strFilePath))
             File.Delete(strFilePath);
+
+        if (!string.IsNullOrEmpty(objAttachment.Attachment_For))
+        {
+            Session["Attachment_For"] = objAttachment.Attachment_For;
+        }
+        else
+        {
+            Session["Attachment_For"] = string.Empty;
+        }
+
         Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "window.opener.document.getElementById('" + Request.QueryString["btnID"] + "').click();window.close();", true);
     }
 }

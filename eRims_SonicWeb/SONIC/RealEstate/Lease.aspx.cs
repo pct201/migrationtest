@@ -186,7 +186,7 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         //scriptManager.RegisterPostBackControl(this.btnLoanCancel);
         // set Lease tab selected
         Tab.SetSelectedTab(Controls_ExposuresTab_ExposuresTab.Tab.Lease);
-        Attachment.btnHandler += new Controls_Attachments_Attachment.OnButtonClick(Upload_File);
+        Attachment_Lease.btnHandler += new Controls_Attachments_Attachment.OnButtonClick(Upload_File);
         if (!Page.IsPostBack)
         {
             // Check if page in edit mode and User has only View rights
@@ -309,7 +309,7 @@ public partial class SONIC_Exposures_Lease : clsBasePage
                     BindPropertyInfo();
 
                     // disable Add Attachment button
-                    Attachment.ShowAttachmentButton = false;
+                    Attachment_Lease.ShowAttachmentButton = false;
                     BindAttachmentDetails();
 
                     // don't show div for view mode
@@ -391,6 +391,7 @@ public partial class SONIC_Exposures_Lease : clsBasePage
                 else
                     ScriptManager.RegisterStartupScript(this, typeof(string), DateTime.Now.ToString(), "javascript:ShowPanel(4);", true);
             }
+            pnlHiddentIDs.Update();
         }
     }
 
@@ -412,7 +413,7 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         lnkAddNew.Visible = true;
         lnkAddLoanSummary.Visible = true;
 
-        ((Button)Attachment.FindControl("btnAddAttachment")).Visible = false;
+        ((Button)Attachment_Lease.FindControl("btnAddAttachment")).Visible = false;
 
         btnAbstractReport.Visible = true;
         btnAbstractReportView.Visible = false;
@@ -760,16 +761,38 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         }
         #endregion
 
+        BindAllAttachmentDetails(true);
+
+        Attachment_Lease.changeNavHeader("Lease Attachment Page");
+        Attachment_Mortgage.changeNavHeader("Mortgage Attachment Page");
+        Attachment_Appraisal.changeNavHeader("Appraisal Attachment Page");
 
         // set attachment details control in read/write mode. so user can add or remove attachment as well.
-        AttachDetails.InitializeAttachmentDetails(clsGeneral.Tables.RE_Information, (int)_PK_RE_Information, true, 10);
+        //AttachDetails.InitializeAttachmentDetails(clsGeneral.Tables.RE_Information, (int)_PK_RE_Information, true, 10);
         // bind attachment details to show attachment for current risk profile.
-        BindAttachmentDetails();
+        //BindAttachmentDetails();
         //((Button)AttachDetails.FindControl("btnRemoveAttachment")).Visible = App_Access == AccessType.Administrative_Access;
 
         BindGrids();
         //btnAddAttachment.Enabled = true;
         //Attachment.ShowAttachmentButton = true;
+    }
+
+    private void BindAllAttachmentDetails(bool AllowRemove)
+    {
+        if (AllowRemove == false)
+        {
+            AttachDetails_Lease_View.InitializeAttachmentDetails(clsGeneral.Tables.RE_Information, (int)_PK_RE_Information, AllowRemove, 13, clsGeneral.RE_Information_Attachment_Type.Lease.ToString());
+            AttachDetails_Mortgage_View.InitializeAttachmentDetails(clsGeneral.Tables.RE_Information, (int)_PK_RE_Information, AllowRemove, 14, clsGeneral.RE_Information_Attachment_Type.Mortgage.ToString());
+            AttachDetails_Appraisal_View.InitializeAttachmentDetails(clsGeneral.Tables.RE_Information, (int)_PK_RE_Information, AllowRemove, 15, clsGeneral.RE_Information_Attachment_Type.Appraisal.ToString());
+        }
+        else
+        {
+            AttachDetails_Lease.InitializeAttachmentDetails(clsGeneral.Tables.RE_Information, (int)_PK_RE_Information, AllowRemove, 13, clsGeneral.RE_Information_Attachment_Type.Lease.ToString());
+            AttachDetails_Mortgage.InitializeAttachmentDetails(clsGeneral.Tables.RE_Information, (int)_PK_RE_Information, AllowRemove, 14, clsGeneral.RE_Information_Attachment_Type.Mortgage.ToString());
+            AttachDetails_Appraisal.InitializeAttachmentDetails(clsGeneral.Tables.RE_Information, (int)_PK_RE_Information, AllowRemove, 15, clsGeneral.RE_Information_Attachment_Type.Appraisal.ToString());
+        }
+        BindAttachmentDetails();
     }
 
     /// <summary>
@@ -1125,11 +1148,13 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         }
         #endregion
 
+        BindAllAttachmentDetails(false);
+
         // set attachment details control in readonly mode.
-        AttachDetails.InitializeAttachmentDetails(clsGeneral.Tables.RE_Information, (int)_PK_RE_Information, false, 9);
+        //AttachDetails.InitializeAttachmentDetails(clsGeneral.Tables.RE_Information, (int)_PK_RE_Information, false, 9);
 
         // bind attachment details to show attachment for current risk profile.
-        BindAttachmentDetails();
+        //BindAttachmentDetails();
 
         if (App_Access == AccessType.View_Only)
             btnBack.Visible = false;
@@ -1965,7 +1990,7 @@ public partial class SONIC_Exposures_Lease : clsBasePage
             try
             {
                 // add attachment if any.
-                Attachment.Add(clsGeneral.Tables.RE_Information, (int)_PK_RE_Information);
+                Attachment_Lease.Add(clsGeneral.Tables.RE_Information, (int)_PK_RE_Information);
             }
             catch { }
 
@@ -2809,7 +2834,7 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         else
             _PK_RE_Subtenant = objRE_Subtenant.Insert();
         bool bRentSubtenantSuccess = UpdateRentScheduleInfo_Subtenant();
-        dvAttachment.Style["display"] = "none";
+        //dvAttachment.Style["display"] = "none";
         tblSubtenant.Style["display"] = "none";
         BindSubtenantGrid();
         ShowPanel(3);
@@ -2839,14 +2864,14 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         if (txtEstimatedPI.Text != "") objMortgage_LoanInformation.Estimated_P_And_I = clsGeneral.GetDecimalValue(txtEstimatedPI);
         objMortgage_LoanInformation.Other = txtOther.Text.Trim();
         objMortgage_LoanInformation.Comments = txtComments.Text.Trim();
-        dvAttachment.Style["display"] = "none";
+        //dvAttachment.Style["display"] = "none";
 
         if (_PK_Mortgage_Information_ID > 0)
             objMortgage_LoanInformation.Update();
         else
             _PK_Mortgage_Information_ID = objMortgage_LoanInformation.Insert();
         //  bool bRentSubtenantSuccess = UpdateRentScheduleInfo_Subtenant();
-        dvAttachment.Style["display"] = "none";
+        //dvAttachment.Style["display"] = "none";
         tblSubtenant.Style["display"] = "none";
         tblLoanSummary.Style["display"] = "none";
         BindMortgageLoanGrid();
@@ -2935,7 +2960,7 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         if (_PK_RE_Information == 0)
             SaveData(-1, "");
         ScriptManager.RegisterStartupScript(Page, typeof(string), DateTime.Now.ToString(), "javascript:OpenSubLeasePopup('" + Encryption.Encrypt(_PK_RE_Information.ToString()) + "');", true);
-        dvAttachment.Style["display"] = "none";
+        //dvAttachment.Style["display"] = "none";
         gvSubtenanat.Visible = true;
         tblSubtenant.Style["display"] = "none";
         ShowPanel(3);
@@ -3516,13 +3541,16 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         #endregion
 
         BindGrids();
+
+        BindAllAttachmentDetails(false);
+
         // set attachment details control in editable mode.
-        AttachDetails.InitializeAttachmentDetails(clsGeneral.Tables.RE_Information, (int)_PK_RE_Information, false, 9);
+        //AttachDetails.InitializeAttachmentDetails(clsGeneral.Tables.RE_Information, (int)_PK_RE_Information, false, 9);
 
         // bind attachment details to show attachment for current risk profile.
-        BindAttachmentDetails();
+        //BindAttachmentDetails();
         //btnAddAttachment.Enabled = false;
-        Attachment.ShowAttachmentButton = false;
+        Attachment_Lease.ShowAttachmentButton = false;
         ScriptManager.RegisterStartupScript(Page, typeof(string), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
     }
 
@@ -3549,7 +3577,7 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         ValidationOnLoanStatus();
         lnkAddLoanSummary.Visible = false;
         btnLoanAbstract.Visible = false;
-        dvAttachment.Style["display"] = "none";
+        //dvAttachment.Style["display"] = "none";
         tblSubtenant.Style["display"] = "none";
         tblLoanSummary.Style["display"] = "";
         ShowPanel(12);
@@ -3558,7 +3586,7 @@ public partial class SONIC_Exposures_Lease : clsBasePage
     protected void btnLoanSubmit_Click(object sender, EventArgs e)
     {
         lnkAddLoanSummary.Visible = true;
-        dvAttachment.Style["display"] = "none";
+        //dvAttachment.Style["display"] = "none";
         tblSubtenant.Style["display"] = "none";
         ValidationOnLoanStatus();
         SaveLoanSummaryInformation();
@@ -3704,7 +3732,7 @@ public partial class SONIC_Exposures_Lease : clsBasePage
 
     protected void btnLoanCancel_Click(object sender, EventArgs e)
     {
-        dvAttachment.Style["display"] = "none";
+        //dvAttachment.Style["display"] = "none";
         tblSubtenant.Style["display"] = "none";
         tblLoanSummary.Style["display"] = "none";
         BindMortgageLoanGrid();
@@ -3715,7 +3743,7 @@ public partial class SONIC_Exposures_Lease : clsBasePage
 
     protected void btnCancelSubtenantInformation_OnClick(object sender, EventArgs e)
     {
-        dvAttachment.Style["display"] = "none";
+        //dvAttachment.Style["display"] = "none";
         tblSubtenant.Style["display"] = "none";
         BindSubtenantGrid();
         ShowPanel(3);
@@ -3730,9 +3758,21 @@ public partial class SONIC_Exposures_Lease : clsBasePage
     private void BindAttachmentDetails()
     {
         // show attachment div
-        dvAttachment.Style["display"] = "block";
+        //dvAttachment.Style["display"] = "block";
         // bind attachment records
-        AttachDetails.Bind();
+        //AttachDetails.Bind();
+        if (_StrOperation == "view")
+        {
+            AttachDetails_Lease_View.Bind(clsGeneral.RE_Information_Attachment_Type.Lease.ToString());
+            AttachDetails_Mortgage_View.Bind(clsGeneral.RE_Information_Attachment_Type.Mortgage.ToString());
+            AttachDetails_Appraisal_View.Bind(clsGeneral.RE_Information_Attachment_Type.Appraisal.ToString());
+        }
+        else
+        {
+            AttachDetails_Lease.Bind(clsGeneral.RE_Information_Attachment_Type.Lease.ToString());
+            AttachDetails_Mortgage.Bind(clsGeneral.RE_Information_Attachment_Type.Mortgage.ToString());
+            AttachDetails_Appraisal.Bind(clsGeneral.RE_Information_Attachment_Type.Appraisal.ToString());
+        }
     }
 
     protected void btnAddAttachment_Click(object sender, EventArgs e)
@@ -3740,12 +3780,33 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         if (_PK_RE_Information > 0)
         {
             SetLeaseInformation();
-            // add attachment if any.
-            Attachment.Add(clsGeneral.Tables.RE_Information, (int)_PK_RE_Information);
+            string AttachmentFor = string.Empty;
+            if (hdnPanel.Value == "13")
+            {
+                AttachmentFor = clsGeneral.RE_Information_Attachment_Type.Lease.ToString();
+                // add attachment if any.
+                Attachment_Lease.Add(clsGeneral.Tables.RE_Information, (int)_PK_RE_Information, AttachmentFor);
+            }
+            else if (hdnPanel.Value == "14")
+            {
+                AttachmentFor = clsGeneral.RE_Information_Attachment_Type.Mortgage.ToString();
+                // add attachment if any.
+                Attachment_Mortgage.Add(clsGeneral.Tables.RE_Information, (int)_PK_RE_Information, AttachmentFor);
+            }
+            else if (hdnPanel.Value == "15")
+            {
+                AttachmentFor = clsGeneral.RE_Information_Attachment_Type.Appraisal.ToString();
+                // add attachment if any.
+                Attachment_Appraisal.Add(clsGeneral.Tables.RE_Information, (int)_PK_RE_Information, AttachmentFor);
+            }
+
+            //// add attachment if any.
+            //Attachment.Add(clsGeneral.Tables.RE_Information, (int)_PK_RE_Information, AttachmentFor);
+
             // Bind the attachment detail to view the added attachment
             BindAttachmentDetails();
             // show attachment panel as the page is loaded again
-            ScriptManager.RegisterStartupScript(Page, typeof(string), DateTime.Now.ToString(), "javascript:ShowPanel(10);", true);
+            ScriptManager.RegisterStartupScript(Page, typeof(string), DateTime.Now.ToString(), "javascript:ShowPanel('" + hdnPanel.Value + "');", true);
         }
     }
 
@@ -3760,7 +3821,7 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         {
             SetLeaseInformation();
             // add attachment if any.
-            Attachment.Add(clsGeneral.Tables.RE_Information, (int)_PK_RE_Information);
+            Attachment_Lease.Add(clsGeneral.Tables.RE_Information, (int)_PK_RE_Information);
             // Bind the attachment detail to view the added attachment
             BindAttachmentDetails();
             // show attachment panel as the page is loaded again
@@ -4008,7 +4069,7 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         {
             RE_Subtenant.DeleteByPK(Convert.ToDecimal(e.CommandArgument));
             BindSubtenantGrid();
-            dvAttachment.Style["display"] = "none";
+            //dvAttachment.Style["display"] = "none";
             tblSubtenant.Style["display"] = "none";
             ShowPanel(3);
         }
@@ -4025,7 +4086,7 @@ public partial class SONIC_Exposures_Lease : clsBasePage
             ValidationOnLoanStatus();
             ShowPanel(12);
             tblLoanSummary.Style["display"] = "block";
-            dvAttachment.Style["display"] = "none";
+            //dvAttachment.Style["display"] = "none";
             tblSubtenant.Style["display"] = "none";
             lnkAddLoanSummary.Visible = false;
         }
@@ -4060,7 +4121,7 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         txtEstimatedPI.Text = clsGeneral.GetStringValue(objMortgage_LoanInformation.Estimated_P_And_I);
         txtOther.Text = objMortgage_LoanInformation.Other;
         txtComments.Text = objMortgage_LoanInformation.Comments;
-        dvAttachment.Style["display"] = "none";
+        //dvAttachment.Style["display"] = "none";
        // pnlLoan.Style["display"] = "block";
 
     }
@@ -4103,7 +4164,7 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         BindTRSSubtenantGrid();
         pnl3.Style["display"] = "";
         tblSubtenant.Style["display"] = "";
-        dvAttachment.Style["display"] = "none";
+        //dvAttachment.Style["display"] = "none";
 
     }
 

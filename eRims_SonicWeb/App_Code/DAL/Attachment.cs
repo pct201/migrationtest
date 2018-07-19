@@ -21,6 +21,7 @@ namespace ERIMS.DAL
         private string _Attachment_Name;
         private string _Updated_By;
         private DateTime _Update_Date;
+        private string _Attachment_For;
 
         #endregion
 
@@ -106,7 +107,14 @@ namespace ERIMS.DAL
             set { _Update_Date = value; }
         }
 
-
+        /// <summary>
+        /// Gets or sets the Attachment_For value.
+        /// </summary>
+        public string Attachment_For
+        {
+            get { return _Attachment_For; }
+            set { _Attachment_For = value; }
+        }
 
         #endregion
 
@@ -128,6 +136,7 @@ namespace ERIMS.DAL
             this._Attachment_Name = "";
             this._Updated_By = "";
             this._Update_Date = (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue;
+            this._Attachment_For = string.Empty;
 
         }
 
@@ -157,6 +166,7 @@ namespace ERIMS.DAL
                 this._Attachment_Name = Convert.ToString(drAttachment["Attachment_Name"]);
                 this._Updated_By = Convert.ToString(drAttachment["Updated_By"]);
                 this._Update_Date = drAttachment["Update_Date"] != DBNull.Value ? Convert.ToDateTime(drAttachment["Update_Date"]) : (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue;
+                this._Attachment_For = Convert.ToString(drAttachment["Attachment_For"]);
 
             }
 
@@ -171,6 +181,7 @@ namespace ERIMS.DAL
                 this._Attachment_Name = "";
                 this._Updated_By = "";
                 this._Update_Date = (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue;
+                this._Attachment_For = string.Empty;
 
             }
 
@@ -198,6 +209,10 @@ namespace ERIMS.DAL
 			db.AddInParameter(dbCommand, "Attachment_Name", DbType.String, this._Attachment_Name);
 			db.AddInParameter(dbCommand, "Updated_By", DbType.String, this._Updated_By);
 			db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);
+            if (string.IsNullOrEmpty(this._Attachment_For))
+                db.AddInParameter(dbCommand, "Attachment_For", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Attachment_For", DbType.String, this._Attachment_For);
 
 			// Execute the query and return the new identity value
 			int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -262,6 +277,10 @@ namespace ERIMS.DAL
 			db.AddInParameter(dbCommand, "Attachment_Name", DbType.String, this._Attachment_Name);
 			db.AddInParameter(dbCommand, "Updated_By", DbType.String, this._Updated_By);
 			db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);
+            if (string.IsNullOrEmpty(this._Attachment_For))
+                db.AddInParameter(dbCommand, "Attachment_For", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Attachment_For", DbType.String, this._Attachment_For);
 
 			db.ExecuteNonQuery(dbCommand);
 		}

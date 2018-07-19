@@ -11,7 +11,6 @@
 <%@ Register Src="~/Controls/ExposureInfo/ExposureInfo.ascx" TagName="ctrlExposureInfo"
     TagPrefix="uc" %>
 <asp:Content ContentPlaceHolderID="ContentPlaceHolder1" ID="Content1" runat="server">
-
     <script type="text/javascript" src="../../JavaScript/JFunctions.js"></script>
     <script type="text/javascript" language="javascript" src="../../JavaScript/Validator.js"></script>
     <script type="text/javascript" language="javascript" src="../../JavaScript/Calendar_new.js"></script>
@@ -30,25 +29,28 @@
 
         function SetMenuStyle(index) {
             var i;
-            for (i = 1; i <= 11; i++) {
+            for (i = 1; i <= 15; i++) {
                 var tb = document.getElementById("Menu" + i);
                 if (i == index) {
                     tb.className = "LeftMenuSelected";
-                    tb.onmouseover = function () { this.className = 'LeftMenuSelected'; }
-                    tb.onmouseout = function () { this.className = 'LeftMenuSelected'; }
+                    tb.onmouseover = function() { this.className = 'LeftMenuSelected'; }
+                    tb.onmouseout = function() { this.className = 'LeftMenuSelected'; }
                 }
                 else {
                     tb.className = "LeftMenuStatic";
-                    tb.onmouseover = function () { this.className = 'LeftMenuHover'; }
-                    tb.onmouseout = function () { this.className = 'LeftMenuStatic'; }
+                    tb.onmouseover = function() { this.className = 'LeftMenuHover'; }
+                    tb.onmouseout = function() { this.className = 'LeftMenuStatic'; }
                 }
             }
         }
 
         function ShowPanel(index) {
+            if (index == 10) {
+                index = 13;
+            }
             SetMenuStyle(index);
             ActiveTabIndex = index;
-
+            document.getElementById("ctl00_ContentPlaceHolder1_hdnPanel").value = ActiveTabIndex;
             var op = document.getElementById('<%=hdnOperation.ClientID%>').value;
 
             if (op == "view") {
@@ -56,9 +58,10 @@
             }
             else {
                 var i;
-                if (index < 10) {
-                    for (i = 1; i <= 9; i++) {
-                        document.getElementById("ctl00_ContentPlaceHolder1_pnl" + i).style.display = (i == index) ? "block" : "none";
+                //if (index < 10) {
+                    for (i = 1; i <= 15; i++) {
+                        if (i != 10)
+                            document.getElementById("ctl00_ContentPlaceHolder1_pnl" + i).style.display = (i == index) ? "block" : "none";
                     }
 
                     //                    if (index == 3)
@@ -72,36 +75,36 @@
                     else if (index == 8)
                         document.getElementById('<%=txtLandlord_Company.ClientID%>').focus();
 
-                    document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";
-                   <%-- document.getElementById("<%=pnlLoan.ClientID%>").style.display = "none";--%>
-                    document.getElementById("<%=pnlAttachmentDetails.ClientID%>").style.display = "none";
-                    document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 11).style.display = "none";
-                    document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 12).style.display = "none";
-                }
-                else {
-                    for (i = 1; i <= 9; i++) {
-                        document.getElementById("ctl00_ContentPlaceHolder1_pnl" + i).style.display = "none";
-                        document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 11).style.display = "none";
-                        document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 12).style.display = "none";
-                    }
+                    <%-- document.getElementById("<%=pnlLoan.ClientID%>").style.display = "none";--%>
+                    <%--document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlAttachmentDetails.ClientID%>").style.display = "none";--%>
+                    //document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 11).style.display = "none";
+                    //document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 12).style.display = "none";
+                //}
+                //else {
+                //    for (i = 1; i <= 9; i++) {
+                //        document.getElementById("ctl00_ContentPlaceHolder1_pnl" + i).style.display = "none";
+                //        document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 11).style.display = "none";
+                //        document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 12).style.display = "none";
+                //    }
                  
-                    document.getElementById("<%=dvAttachment.ClientID%>").style.display = "block";
+                   <%-- document.getElementById("<%=dvAttachment.ClientID%>").style.display = "block";
                     document.getElementById("<%=pnlAttachmentDetails.ClientID%>").style.display = "block";
 
-                    if (index == 11) {
+                    if (index == 11) {--%>
                        <%-- document.getElementById("<%=pnlLoan.ClientID%>").style.display = "none";--%>
-                        document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 11).style.display = "block";
+                        <%--document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 11).style.display = "block";
                         document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";
                         document.getElementById("<%=pnlAttachmentDetails.ClientID%>").style.display = "none";
                         document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 12).style.display = "none";
                     }
                     if (index == 12) {
                         document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 12).style.display = "block";
-                        document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";
-                       <%--document.getElementById("<%=pnlLoan.ClientID%>").style.display = "none";
-                       --%> document.getElementById("<%=pnlAttachmentDetails.ClientID%>").style.display = "none";
+                        document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";--%>
+                       <%--document.getElementById("<%=pnlLoan.ClientID%>").style.display = "none";--%>
+                       <%-- document.getElementById("<%=pnlAttachmentDetails.ClientID%>").style.display = "none";
                     }
-                }
+                }--%>
             }
         }
 
@@ -109,25 +112,26 @@
             SetMenuStyle(index);
             document.getElementById('<%=dvView.ClientID%>').style.display = "block";
             var i;
-            if (index < 10) {
-                for (i = 1; i <= 9; i++) {
-                    document.getElementById("ctl00_ContentPlaceHolder1_pnl" + i + "View").style.display = (i == index) ? "block" : "none";
+            //if (index < 10) {
+                for (i = 1; i <= 15; i++) {
+                    if(i != 10)
+                        document.getElementById("ctl00_ContentPlaceHolder1_pnl" + i + "View").style.display = (i == index) ? "block" : "none";
                 }
-                document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";
-                document.getElementById("<%=pnlAttachmentDetails.ClientID%>").style.display = "none";
-                document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 11 + "View").style.display = "none";
-                document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 12 + "View").style.display = "none";
-            }
-            else {
-                for (i = 1; i <= 9; i++) {
-                    document.getElementById("ctl00_ContentPlaceHolder1_pnl" + i + "View").style.display = "none";
-                    document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 11 + "View").style.display = "none";
-                    document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 12 + "View").style.display = "none";
-                }
-                document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";
-                document.getElementById("<%=pnlAttachmentDetails.ClientID%>").style.display = "block";
+                <%--document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlAttachmentDetails.ClientID%>").style.display = "none";--%>
+                //document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 11 + "View").style.display = "none";
+                //document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 12 + "View").style.display = "none";
+            //}
+            //else {
+            //    for (i = 1; i <= 9; i++) {
+            //        document.getElementById("ctl00_ContentPlaceHolder1_pnl" + i + "View").style.display = "none";
+            //        document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 11 + "View").style.display = "none";
+            //        document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 12 + "View").style.display = "none";
+            //    }
+                <%--document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlAttachmentDetails.ClientID%>").style.display = "block";--%>
 
-                if (index == 11) {
+                <%--if (index == 11) {
                     document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 11 + "View").style.display = "block";
                     document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlAttachmentDetails.ClientID%>").style.display = "none";
@@ -138,7 +142,7 @@
                     document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlAttachmentDetails.ClientID%>").style.display = "none";
                 }
-            }
+            }--%>
         }
 
         function ValSave() {
@@ -614,6 +618,51 @@ function ValidateSubtenantFileds(sender, args) {
         args.IsValid = true;
     }
 }
+
+        function CheckFilesFromUserControl(obj, args) {
+            var fpFile1 = '';
+            var fpFile2 = '';
+            var fpFile3 = '';
+            var fpFile4 = '';
+            var fpFile5 = '';
+
+
+            if (obj.validationGroup == 'AddAttachment_Lease') {
+                fpFile1 = 'ctl00_ContentPlaceHolder1_Attachment_Lease_fpFile1';
+                fpFile2 = 'ctl00_ContentPlaceHolder1_Attachment_Lease_fpFile2';
+                fpFile3 = 'ctl00_ContentPlaceHolder1_Attachment_Lease_fpFile3';
+                fpFile4 = 'ctl00_ContentPlaceHolder1_Attachment_Lease_fpFile4';
+                fpFile5 = 'ctl00_ContentPlaceHolder1_Attachment_Lease_fpFile5';
+            }
+            else if (obj.validationGroup == 'AddAttachment_Mortgage') {
+                fpFile1 = 'ctl00_ContentPlaceHolder1_Attachment_Mortgage_fpFile1';
+                fpFile2 = 'ctl00_ContentPlaceHolder1_Attachment_Mortgage_fpFile2';
+                fpFile3 = 'ctl00_ContentPlaceHolder1_Attachment_Mortgage_fpFile3';
+                fpFile4 = 'ctl00_ContentPlaceHolder1_Attachment_Mortgage_fpFile4';
+                fpFile5 = 'ctl00_ContentPlaceHolder1_Attachment_Mortgage_fpFile5';
+            }
+            else if (obj.validationGroup == 'AddAttachment_Appraisal') {
+                fpFile1 = 'ctl00_ContentPlaceHolder1_Attachment_Appraisal_fpFile1';
+                fpFile2 = 'ctl00_ContentPlaceHolder1_Attachment_Appraisal_fpFile2';
+                fpFile3 = 'ctl00_ContentPlaceHolder1_Attachment_Appraisal_fpFile3';
+                fpFile4 = 'ctl00_ContentPlaceHolder1_Attachment_Appraisal_fpFile4';
+                fpFile5 = 'ctl00_ContentPlaceHolder1_Attachment_Appraisal_fpFile5';
+            }
+
+            var file1 = document.getElementById(fpFile1).value;
+            var file2 = document.getElementById(fpFile2).value;
+            var file3 = document.getElementById(fpFile3).value;
+            var file4 = document.getElementById(fpFile4).value;
+            var file5 = document.getElementById(fpFile5).value;
+
+            if (file1 == '' && file2 == '' && file3 == '' && file4 == '' && file5 == '') {
+                args.IsValid = false;
+            }
+            else {
+                args.IsValid = true;
+            }
+            return args.IsValid;
+        }
     </script>
 
     <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
@@ -627,7 +676,14 @@ function ValidateSubtenantFileds(sender, args) {
         ValidationGroup="vsMortgage" CssClass="errormessage"></asp:ValidationSummary>
     <asp:ValidationSummary ID="ValidationSummary1" runat="server" ShowSummary="false"
         ShowMessageBox="true" HeaderText="Verify the following fields:" BorderWidth="1"
-        BorderColor="DimGray" ValidationGroup="AddAttachment" CssClass="errormessage"></asp:ValidationSummary>
+        BorderColor="DimGray" ValidationGroup="AddAttachment_Lease" CssClass="errormessage"></asp:ValidationSummary>
+    <asp:ValidationSummary ID="ValidationSummary2" runat="server" ShowSummary="false"
+        ShowMessageBox="true" HeaderText="Verify the following fields:" BorderWidth="1"
+        BorderColor="DimGray" ValidationGroup="AddAttachment_Mortgage" CssClass="errormessage"></asp:ValidationSummary>
+    <asp:ValidationSummary ID="ValidationSummary3" runat="server" ShowSummary="false"
+        ShowMessageBox="true" HeaderText="Verify the following fields:" BorderWidth="1"
+        BorderColor="DimGray" ValidationGroup="AddAttachment_Appraisal" CssClass="errormessage"></asp:ValidationSummary>
+
     <br />
     <uc:CtlTab runat="server" ID="Tab"></uc:CtlTab>
     <asp:UpdatePanel ID="pnlHiddentIDs" runat="server" UpdateMode="Always">
@@ -818,6 +874,29 @@ function ValidateSubtenantFileds(sender, args) {
                                             <tr>
                                                 <td align="left" width="100%">
                                                     <span id="Menu10" onclick="javascript:ShowPanel(10);" class="LeftMenuStatic">Attachments</span>
+                                                    <table style="margin-left:50px">
+                                                        <tr id="SubMenuAttachments" runat="server">
+                                                            <td align="left" valign="top">
+                                                                <table cellpadding="2" cellspacing="1" width="100%" border="0">
+                                                                    <tr>
+                                                                        <td align="left" valign="top" width="97%">
+                                                                            <span id="Menu13" onclick="javascript:ShowPanel(13);" class="LeftMenuStatic">&bull; Lease</span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td align="left" valign="top" width="97%">
+                                                                            <span id="Menu14" onclick="javascript:ShowPanel(14);" class="LeftMenuStatic">&bull; Mortgage</span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td align="left" valign="top" width="97%">
+                                                                            <span id="Menu15" onclick="javascript:ShowPanel(15);" class="LeftMenuStatic">&bull; Appraisal</span>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
                                                 </td>
                                             </tr>
                                         </table>
@@ -4308,7 +4387,119 @@ function ValidateSubtenantFileds(sender, args) {
                                              <%--       </asp:Panel>--%>
 
                                                         </asp:Panel>
-                                                        <div id="dvAttachment" runat="server" style="display: none;">
+                                                        <asp:Panel ID="pnl13" runat="server" Style="display: none;">
+                                                            <div id="dvAttachment_Lease" runat="server">
+                                                                <table cellpadding="0" cellspacing="0" width="100%">
+                                                                    <tr>
+                                                                        <td width="100%">
+                                                                            <uc:ctrlAttachment ID="Attachment_Lease" EnableValidationSummary="false" runat="Server"
+                                                                                ShowAttachmentButton="false" />
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td width="100%" align="center">
+                                                                            <asp:Button ID="btnAddAttachment_Lease" runat="server" Text="Add Attachment" OnClick="btnAddAttachment_Click"
+                                                                                ValidationGroup="AddAttachment_Lease" OnClientClick="javascript:return Page_ClientValidate('AddAttachment_Lease');" />
+                                                                            <asp:CustomValidator ID="cstFile1" runat="Server" ErrorMessage="Please select file(s) for attachment"
+                                                                                EnableClientScript="true" Display="None" ClientValidationFunction="CheckFilesFromUserControl"
+                                                                                ValidationGroup="AddAttachment_Lease"></asp:CustomValidator>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="Spacer" style="height: 20px;"></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="Spacer" style="height: 20px;"></td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+
+                                                            <table cellpadding="0" cellspacing="0" width="100%">
+                                                                <tr>
+                                                                    <td width="100%">
+                                                                        <uc:ctrlAttachmentDetails ID="AttachDetails_Lease" runat="Server" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="Spacer" style="height: 150px;"></td>
+                                                                </tr>
+                                                            </table>
+                                                        </asp:Panel>
+                                                        <asp:Panel ID="pnl14" runat="server" Style="display: none;">
+                                                            <div id="dvAttachment_Mortgage" runat="server" >
+                                                                <table cellpadding="0" cellspacing="0" width="100%">
+                                                                    <tr>
+                                                                        <td width="100%">
+                                                                            <uc:ctrlAttachment ID="Attachment_Mortgage" EnableValidationSummary="false" runat="Server"
+                                                                                ShowAttachmentButton="false" />
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td width="100%" align="center">
+                                                                            <asp:Button ID="btnAddAttachment_Mortgage" runat="server" Text="Add Attachment" OnClick="btnAddAttachment_Click"
+                                                                                 ValidationGroup="AddAttachment_Mortgage" OnClientClick="javascript:return Page_ClientValidate('AddAttachment_Mortgage');" />
+                                                                            <asp:CustomValidator ID="cstFile2" runat="Server" ErrorMessage="Please select file(s) for attachment"
+                                                                                EnableClientScript="true" Display="None" ClientValidationFunction="CheckFilesFromUserControl"
+                                                                                ValidationGroup="AddAttachment_Mortgage"></asp:CustomValidator>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="Spacer" style="height: 20px;"></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="Spacer" style="height: 20px;"></td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                            <table cellpadding="0" cellspacing="0" width="100%">
+                                                                <tr>
+                                                                    <td width="100%">
+                                                                        <uc:ctrlAttachmentDetails ID="AttachDetails_Mortgage" runat="Server" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="Spacer" style="height: 150px;"></td>
+                                                                </tr>
+                                                            </table>
+                                                        </asp:Panel>
+                                                        <asp:Panel ID="pnl15" runat="server" Style="display: none;">
+                                                            <div id="dvAttachment_Appraisal" runat="server" >
+                                                                <table cellpadding="0" cellspacing="0" width="100%">
+                                                                    <tr>
+                                                                        <td width="100%">
+                                                                            <uc:ctrlAttachment ID="Attachment_Appraisal" EnableValidationSummary="false" runat="Server"
+                                                                                ShowAttachmentButton="false" />
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td width="100%" align="center">
+                                                                            <asp:Button ID="btnAddAttachment_Appraisal" runat="server" Text="Add Attachment" OnClick="btnAddAttachment_Click"
+                                                                                 ValidationGroup="AddAttachment_Appraisal" OnClientClick="javascript:return Page_ClientValidate('AddAttachment_Appraisal');" />
+                                                                            <asp:CustomValidator ID="cstFile3" runat="Server" ErrorMessage="Please select file(s) for attachment"
+                                                                                EnableClientScript="true" Display="None" ClientValidationFunction="CheckFilesFromUserControl"
+                                                                                ValidationGroup="AddAttachment_Appraisal"></asp:CustomValidator>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="Spacer" style="height: 20px;"></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="Spacer" style="height: 20px;"></td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                            <table cellpadding="0" cellspacing="0" width="100%">
+                                                                <tr>
+                                                                    <td width="100%">
+                                                                        <uc:ctrlAttachmentDetails ID="AttachDetails_Appraisal" runat="Server" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="Spacer" style="height: 150px;"></td>
+                                                                </tr>
+                                                            </table>
+                                                        </asp:Panel>
+                                                        <%--<div id="dvAttachment" runat="server" style="display: none;">
                                                             <table cellpadding="0" cellspacing="0" width="100%">
                                                                 <tr>
                                                                     <td width="100%">
@@ -4329,7 +4520,7 @@ function ValidateSubtenantFileds(sender, args) {
                                                                     <td class="Spacer" style="height: 20px;"></td>
                                                                 </tr>
                                                             </table>
-                                                        </div>
+                                                        </div>--%>
                                                     </div>
                                                     <asp:UpdateProgress runat="server" ID="upProgress" DisplayAfter="100">
                                                         <ProgressTemplate>
@@ -7336,9 +7527,44 @@ function ValidateSubtenantFileds(sender, args) {
                                                                     Style="display: none" ID="lnkCancelLoan" OnClick="lnkCancelLoan_Click" runat="server"
                                                                     Text="Cancel"></asp:LinkButton>--%>
                                                         </asp:Panel>
-
+                                                        <asp:Panel ID="pnl13View" runat="server" Style="display: none;">
+                                                            <table cellpadding="0" cellspacing="0" width="100%">
+                                                                <tr>
+                                                                    <td width="100%">
+                                                                        <uc:ctrlAttachmentDetails ID="AttachDetails_Lease_View" runat="Server" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="Spacer" style="height: 150px;"></td>
+                                                                </tr>
+                                                            </table>
+                                                        </asp:Panel>
+                                                        <asp:Panel ID="pnl14View" runat="server" Style="display: none;">
+                                                            <table cellpadding="0" cellspacing="0" width="100%">
+                                                                <tr>
+                                                                    <td width="100%">
+                                                                        <uc:ctrlAttachmentDetails ID="AttachDetails_Mortgage_View" runat="Server" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="Spacer" style="height: 150px;"></td>
+                                                                </tr>
+                                                            </table>
+                                                        </asp:Panel>
+                                                        <asp:Panel ID="pnl15View" runat="server" Style="display: none;">
+                                                            <table cellpadding="0" cellspacing="0" width="100%">
+                                                                <tr>
+                                                                    <td width="100%">
+                                                                        <uc:ctrlAttachmentDetails ID="AttachDetails_Appraisal_View" runat="Server" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="Spacer" style="height: 150px;"></td>
+                                                                </tr>
+                                                            </table>
+                                                        </asp:Panel>
                                                     </div>
-                                                    <asp:Panel ID="pnlAttachmentDetails" runat="server" Style="display: none;">
+                                                    <%--<asp:Panel ID="pnlAttachmentDetails" runat="server" Style="display: none;">
                                                         <table cellpadding="0" cellspacing="0" width="100%">
                                                             <tr>
                                                                 <td width="100%">
@@ -7349,7 +7575,7 @@ function ValidateSubtenantFileds(sender, args) {
                                                                 <td class="Spacer" style="height: 150px;"></td>
                                                             </tr>
                                                         </table>
-                                                    </asp:Panel>
+                                                    </asp:Panel>--%>
                                                    
                                                 </td>
                                             </tr>
@@ -7415,8 +7641,10 @@ function ValidateSubtenantFileds(sender, args) {
         <Triggers>
             <asp:PostBackTrigger ControlID="btnSave" />
             <asp:PostBackTrigger ControlID="lnkAddNew" />
-            <asp:PostBackTrigger ControlID="btnAddAttachment" />
+            <asp:PostBackTrigger ControlID="btnAddAttachment_Lease" />
+            <asp:PostBackTrigger ControlID="btnAddAttachment_Mortgage" />
+            <asp:PostBackTrigger ControlID="btnAddAttachment_Appraisal" />
         </Triggers>
     </asp:UpdatePanel>
-
+    <asp:HiddenField ID="hdnPanel" runat="server" Value="1" />
 </asp:Content>

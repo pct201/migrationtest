@@ -154,7 +154,48 @@ public partial class Controls_Attachments_Attachment : System.Web.UI.UserControl
             drpAttachType.SelectedIndex = 0;
         }
     }
-   
+
+    public void Add(clsGeneral.Tables AttachemtnTable, int AttachmentPK, string AttachmentFor)
+    {
+        SaveAttachmentDetails(AttachemtnTable, AttachmentPK, fpFile1, AttachmentFor);
+        SaveAttachmentDetails(AttachemtnTable, AttachmentPK, fpFile2, AttachmentFor);
+        SaveAttachmentDetails(AttachemtnTable, AttachmentPK, fpFile3, AttachmentFor);
+        SaveAttachmentDetails(AttachemtnTable, AttachmentPK, fpFile4, AttachmentFor);
+        SaveAttachmentDetails(AttachemtnTable, AttachmentPK, fpFile5, AttachmentFor);
+
+        txtAttachDesc.Text = "";
+        drpAttachType.SelectedIndex = 0;
+    }
+
+    private void SaveAttachmentDetails(clsGeneral.Tables AttachemtnTable, int AttachmentPK, FileUpload fpFile, string AttachmentFor)
+    {
+        // PK and table must be specified, also attachment type must be selected and file must be uploaded.        
+        if (IsValidAttachmentType(fpFile) && AttachmentPK != 0 && !clsGeneral.IsNull(AttachemtnTable) && !clsGeneral.IsNull(fpFile.PostedFile.FileName) && !clsGeneral.IsNull(AttachmentFor))
+        {
+            //set values to store in database
+            ERIMSAttachment objAttachment = new ERIMSAttachment();
+            objAttachment.Attachment_Table = clsGeneral.TableNames[(int)AttachemtnTable];
+
+            objAttachment.Foreign_Key = AttachmentPK;
+            objAttachment.FK_Attachment_Type = 1;
+            objAttachment.Attachment_Description = txtAttachDesc.Text.Trim();
+            objAttachment.Updated_By = "";
+            objAttachment.Update_Date = DateTime.Today;
+            objAttachment.Attachment_For = AttachmentFor;
+
+            // upload the document
+            string strUploadPath = clsGeneral.GetAttachmentDocPath(clsGeneral.TableNames[(int)AttachemtnTable]);
+            string DocPath = string.Concat(strUploadPath, "\\");
+
+            // upload and set the filename.
+            objAttachment.Attachment_Name = clsGeneral.UploadFile(fpFile, DocPath, false, false);
+            //objAttachment.Attachment_Name = GetCustomFileName() + objAttachment.Attachment_Name;
+            //Insert the attachment record
+            objAttachment.Insert();
+
+            drpAttachType.SelectedIndex = 0;
+        }
+    }
 
     /// <summary>
     /// check if attachment type is valid or not. 
@@ -210,5 +251,10 @@ public partial class Controls_Attachments_Attachment : System.Web.UI.UserControl
     protected void btnAddAttachment_Click(object sender, EventArgs e)
     {
         btnHdn_Click(null, null);
+    }
+
+    public void changeNavHeader(string txt)
+    {
+        tdAttachment.InnerText = txt;
     }
 }
