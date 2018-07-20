@@ -73,7 +73,7 @@ public partial class SONIC_RealEstate_LeaseAbstract : System.Web.UI.Page
         builder.Font.Name = "Calibri";
         builder.InsertParagraph();
         GenerateHTML(sbHtml);
-        System.IO.File.WriteAllText(@"D:\Temp\Lease.html", sbHtml.ToString());
+        //System.IO.File.WriteAllText(@"D:\Temp\Lease.html", sbHtml.ToString());
         builder.InsertHtml(sbHtml.ToString());
         //builder.Write(litLetter.Text);
         //doc.MailMerge.Execute(dt);

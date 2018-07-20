@@ -116,6 +116,9 @@
                 for (i = 1; i <= 15; i++) {
                     if(i != 10)
                         document.getElementById("ctl00_ContentPlaceHolder1_pnl" + i + "View").style.display = (i == index) ? "block" : "none";
+                    if (index == 12) {
+                        document.getElementById("<%=tblLoanSummaryView.ClientID%>").style.display = "none";
+                    }
                 }
                 <%--document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlAttachmentDetails.ClientID%>").style.display = "none";--%>
@@ -346,17 +349,36 @@ function AddRentScheduleRent(bAdd) {
         return false;
 }
 
+//function ValidateLoanSummary(mAdd) {
+//    debugger;
+//    var loanstatus = document.getElementById('ctl00_ContentPlaceHolder1_drpLoanStatus').value;
+//    if (loanstatus == "Other") {
+//        var mValid = Page_ClientValidate('vsMortgage');
+//        if (mValid) {
+//            return true;
+//        }
+//        else
+//            return false;
+//    }
+//}
 function ValidateLoanSummary(mAdd) {
     debugger;
-    var loanstatus = document.getElementById('ctl00_ContentPlaceHolder1_drpLoanStatus').value;
-    if (loanstatus == "Other") {
-        var mValid = Page_ClientValidate('vsMortgage');
-        if (mValid) {
-            return true;
+    var eValid = Page_ClientValidate('vsErrorGroup1');
+    if (eValid) {
+        var loanstatus = document.getElementById('ctl00_ContentPlaceHolder1_drpLoanStatus').value;
+        if (loanstatus == "Other") {
+            var mValid = Page_ClientValidate('vsMortgage');
+            if (mValid) {
+                return true;
+            }
+            else
+                return false;
         }
-        else
-            return false;
+        return true;
     }
+    else
+        return false;
+
 }
 
 
@@ -674,6 +696,9 @@ function ValidateSubtenantFileds(sender, args) {
     <asp:ValidationSummary ID="vsMortgage" runat="server" ShowSummary="false" ShowMessageBox="true"
         HeaderText="Verify the following fields:" BorderWidth="1" BorderColor="DimGray"
         ValidationGroup="vsMortgage" CssClass="errormessage"></asp:ValidationSummary>
+     <asp:ValidationSummary ID="vsErrorGroup1" runat="server" ShowSummary="false" ShowMessageBox="true"
+        HeaderText="Verify the following fields:" BorderWidth="1" BorderColor="DimGray"
+        ValidationGroup="vsErrorGroup1" CssClass="errormessage"></asp:ValidationSummary>
     <asp:ValidationSummary ID="ValidationSummary1" runat="server" ShowSummary="false"
         ShowMessageBox="true" HeaderText="Verify the following fields:" BorderWidth="1"
         BorderColor="DimGray" ValidationGroup="AddAttachment_Lease" CssClass="errormessage"></asp:ValidationSummary>
@@ -4093,7 +4118,7 @@ function ValidateSubtenantFileds(sender, args) {
                                                                     <asp:TemplateField HeaderText="SRE ID">
                                                                         <ItemStyle Width="15%" />
                                                                         <ItemTemplate>
-                                                                            <asp:LinkButton ID="lnkViewLoanSummaryDetails" CausesValidation="false" runat="server"
+                                                                            <asp:LinkButton ID="lnkEditLoanSummaryDetails" CausesValidation="false" runat="server"
                                                                                 Text=' <%# Eval("SRE_ID")%>' CommandName="EditLoanSummaryDetails" CommandArgument='<%#Eval("PK_Mortgage_Information_ID")%>'></asp:LinkButton>
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
@@ -4133,23 +4158,24 @@ function ValidateSubtenantFileds(sender, args) {
                                                                 </Columns>
                                                             </asp:GridView>
 
-                                                            <asp:LinkButton ID="lnkAddLoanSummary" runat="server" Text="--Add--" CausesValidation="false" OnClick="lnkAddLoanSummary_Click" />
-                                                     <%--<asp:Panel ID="pnlLoan" runat="server" Style="display: none;">--%>
+                                                            <asp:LinkButton ID="lnkAddLoanSummary" runat="server" Text="Add New" CausesValidation="false" OnClick="lnkAddLoanSummary_Click" />
+                                                
                                                         <br/>
                                                         <br/>
-                                                        <table id="tblLoanSummary" runat="server" cellpadding="3" cellspacing="1" border="0" width="100%">
+                                                       <table id="tblLoanSummary" runat="server" cellpadding="3" cellspacing="1" border="0" width="100%">
                                                             <caption>
 
                                                                 <tr>
-                                                                    <td align="left" class="BlueItalicText" valign="top" width="19%">SRE#
+                                                                    <td align="left" valign="top" width="19%">SRE#
                                                                         <span id="Span163" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
                                                                     <td align="center" valign="top" width="4%">: </td>
                                                                     <td align="left" valign="top" width="27%">
-                                                                        <asp:TextBox ID="txtSRE_ID" runat="server" MaxLength="75" Width="170px" />
+                                                                        <asp:TextBox ID="txtSRE_ID" runat="server" MaxLength="75" Width="170px" onKeyPress="return FormatInteger(event);" />
                                                                         <asp:RequiredFieldValidator ID="rfvtxtSRE_ID" runat="server" ValidationGroup="vsMortgage"
-                                                                            SetFocusOnError="true" ErrorMessage="Please Enter SRE ID" Display="none"
+                                                                            SetFocusOnError="true" ErrorMessage="Please Enter SRE#" Display="none"
                                                                             ControlToValidate="txtSRE_ID"></asp:RequiredFieldValidator>
+
                                                                     </td>
 
                                                                     <td align="left" valign="top">Mortgage Commencement Date
@@ -4165,10 +4191,10 @@ function ValidateSubtenantFileds(sender, args) {
                                                                         <cc1:MaskedEditExtender ID="mskMortgage_Commencement_Date" runat="server" AcceptNegative="Left" AutoComplete="true" AutoCompleteValue="05/23/1964" CultureName="en-US" DisplayMoney="Left" Mask="99/99/9999" MaskType="Date" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus" OnInvalidCssClass="MaskedEditError" TargetControlID="txtMortgage_Commencement_Date">
                                                                         </cc1:MaskedEditExtender>
                                                                         <cc1:MaskedEditValidator ID="mskvMortgage_Commencement_Date" runat="server" ControlExtender="mskMortgage_Commencement_Date" ControlToValidate="txtMortgage_Commencement_Date" Display="none" Enabled="false" InvalidValueMessage="Date is invalid." IsValidEmpty="true" MaximumValue="" MaximumValueMessage="" MinimumValue="" MinimumValueMessage="" TooltipMessage=""></cc1:MaskedEditValidator>
-                                                                        <asp:RequiredFieldValidator ID="rfvtxtMortgage_Commencement_Date" runat="server" ValidationGroup="vsMortgage"
+                                                                        <asp:RequiredFieldValidator ID="rfvtxtMortgage_Commencement_Date" runat="server" ValidationGroup="vsErrorGroup"
                                                                             SetFocusOnError="true" ErrorMessage="Please Enter Mortgage Commencement Date" Display="none"
                                                                             ControlToValidate="txtMortgage_Commencement_Date"></asp:RequiredFieldValidator>
-                                                                        <asp:RegularExpressionValidator ID="revMortgage_Commencement_Date" runat="server" ControlToValidate="txtMortgage_Commencement_Date" Display="none" ErrorMessage="Please Enter Mortgage Commencement Date in valid format" SetFocusOnError="true" ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$" ValidationGroup="vgSubtenant"></asp:RegularExpressionValidator>
+                                                                        <asp:RegularExpressionValidator ID="revMortgage_Commencement_Date" runat="server" ControlToValidate="txtMortgage_Commencement_Date" Display="none" ErrorMessage="Please Enter Mortgage Commencement Date in valid format" SetFocusOnError="true" ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$" ValidationGroup="vsErrorGroup1"></asp:RegularExpressionValidator>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
@@ -4198,7 +4224,7 @@ function ValidateSubtenantFileds(sender, args) {
                                                                         <asp:RequiredFieldValidator ID="rvftxtMortgage_Expiration_Date" runat="server" ValidationGroup="vsMortgage"
                                                                             SetFocusOnError="true" ErrorMessage="Please Enter Mortgage Expiration Date" Display="none"
                                                                             ControlToValidate="txtMortgage_Expiration_Date"></asp:RequiredFieldValidator>
-                                                                        <asp:RegularExpressionValidator ID="revMortgage_Expiration_Date" runat="server" ControlToValidate="txtMortgage_Expiration_Date" Display="none" ErrorMessage="Please Enter Mortgage Expiration Date in valid format" SetFocusOnError="true" ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$" ValidationGroup="vgSubtenant"></asp:RegularExpressionValidator>
+                                                                        <asp:RegularExpressionValidator ID="revMortgage_Expiration_Date" runat="server" ControlToValidate="txtMortgage_Expiration_Date" Display="none" ErrorMessage="Please Enter Mortgage Expiration Date in valid format" SetFocusOnError="true" ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$" ValidationGroup="vsErrorGroup1"></asp:RegularExpressionValidator>
                                                                     </td>
 
                                                                 </tr>
@@ -4225,12 +4251,12 @@ function ValidateSubtenantFileds(sender, args) {
                                                                         <br />
                                                                         <cc1:MaskedEditExtender ID="msktxtLoan_Origination_Date" runat="server" AcceptNegative="Left" AutoComplete="true" AutoCompleteValue="05/23/1964" CultureName="en-US" DisplayMoney="Left" Mask="99/99/9999" MaskType="Date" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus" OnInvalidCssClass="MaskedEditError" TargetControlID="txtLoan_Origination_Date">
                                                                         </cc1:MaskedEditExtender>
-                                                                        <cc1:MaskedEditValidator ID="mskvtxtLoan_Origination_Date" runat="server" ControlExtender="msktxtLoan_Origination_Date" ControlToValidate="txtMortgage_Expiration_Date" Display="none" Enabled="false" InvalidValueMessage="Date is invalid." IsValidEmpty="true" MaximumValue="" MaximumValueMessage="" MinimumValue="" MinimumValueMessage="" TooltipMessage=""></cc1:MaskedEditValidator>
+                                                                        <cc1:MaskedEditValidator ID="mskvtxtLoan_Origination_Date" runat="server" ControlExtender="msktxtLoan_Origination_Date" ControlToValidate="txtLoan_Origination_Date" Display="none" Enabled="false" InvalidValueMessage="Date is invalid." IsValidEmpty="true" MaximumValue="" MaximumValueMessage="" MinimumValue="" MinimumValueMessage="" TooltipMessage=""></cc1:MaskedEditValidator>
                                                                         <asp:RequiredFieldValidator ID="rvftxtLoan_Origination_Date" runat="server" ValidationGroup="vsMortgage"
                                                                             SetFocusOnError="true" ErrorMessage="Please Enter Loan Origination Date" Display="none"
                                                                             ControlToValidate="txtLoan_Origination_Date"></asp:RequiredFieldValidator>
 
-                                                                        <asp:RegularExpressionValidator ID="revtxtLoan_Origination_Date" runat="server" ControlToValidate="txtLoan_Origination_Date" Display="none" ErrorMessage="Please Enter Mortgage Expiration Date in valid format" SetFocusOnError="true" ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$" ValidationGroup="vgSubtenant"></asp:RegularExpressionValidator>
+                                                                        <asp:RegularExpressionValidator ID="revtxtLoan_Origination_Date" runat="server" ControlToValidate="txtLoan_Origination_Date" Display="none" ErrorMessage="Please Enter Loan Origination Date in valid format" SetFocusOnError="true" ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$" ValidationGroup="vsErrorGroup1"></asp:RegularExpressionValidator>
                                                                     </td>
                                                                 </tr>
 
@@ -4261,7 +4287,7 @@ function ValidateSubtenantFileds(sender, args) {
                                                                         <asp:RequiredFieldValidator ID="rvftxtLoan_Maturity_Date" runat="server" ValidationGroup="vsMortgage"
                                                                             SetFocusOnError="true" ErrorMessage="Please Enter Loan Maturity Date" Display="none"
                                                                             ControlToValidate="txtLoan_Maturity_Date"></asp:RequiredFieldValidator>
-                                                                        <asp:RegularExpressionValidator ID="revLoan_Maturity_Date" runat="server" ControlToValidate="txtLoan_Maturity_Date" Display="none" ErrorMessage="Please Enter Loan Maturity Date in valid format" SetFocusOnError="true" ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$" ValidationGroup="vgSubtenant"></asp:RegularExpressionValidator>
+                                                                        <asp:RegularExpressionValidator ID="revLoan_Maturity_Date" runat="server" ControlToValidate="txtLoan_Maturity_Date" Display="none" ErrorMessage="Please Enter Loan Maturity Date in valid format" SetFocusOnError="true" ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$" ValidationGroup="vsErrorGroup1"></asp:RegularExpressionValidator>
                                                                     </td>
                                                                 </tr>
 
@@ -4271,11 +4297,10 @@ function ValidateSubtenantFileds(sender, args) {
                                                                     </td>
                                                                     <td align="center" valign="top">: </td>
                                                                     <td align="left" valign="top">
-                                                                        <asp:TextBox ID="txtOrginationLoanAmount" runat="server" MaxLength="50" Width="170px" />
+                                                                        <asp:TextBox ID="txtOrginationLoanAmount" runat="server" MaxLength="50" Width="170px" onkeypress="return FormatNumber(event,this.id,9,false);" />
                                                                         <asp:RequiredFieldValidator ID="rvftxtOrginationLoanAmount" runat="server" ValidationGroup="vsMortgage"
                                                                             SetFocusOnError="true" ErrorMessage="Please Enter Orgination Amount" Display="none"
                                                                             ControlToValidate="txtOrginationLoanAmount"></asp:RequiredFieldValidator>
-
                                                                     </td>
                                                                     <td align="left" valign="top">Loan Status
                                                                             &nbsp;<span id="Span172" style="color: Red; display: none;" runat="server">*</span>
@@ -4302,7 +4327,7 @@ function ValidateSubtenantFileds(sender, args) {
                                                                     </td>
                                                                     <td align="center" valign="top">: </td>
                                                                     <td align="left" valign="top">
-                                                                        <asp:TextBox ID="txtPaymentAmount" runat="server" MaxLength="50" Width="170px" />
+                                                                        <asp:TextBox ID="txtPaymentAmount" runat="server" MaxLength="50" Width="170px" onkeypress="return FormatNumber(event,this.id,9,false);" />
                                                                         <asp:RequiredFieldValidator ID="rvftxtPaymentAmount" runat="server" ValidationGroup="vsMortgage"
                                                                             SetFocusOnError="true" ErrorMessage="Please Enter Payment Amount" Display="none"
                                                                             ControlToValidate="txtPaymentAmount"></asp:RequiredFieldValidator>
@@ -4326,7 +4351,7 @@ function ValidateSubtenantFileds(sender, args) {
                                                                     </td>
                                                                     <td align="center" valign="top">: </td>
                                                                     <td align="left" valign="top">
-                                                                        <asp:TextBox ID="txtEstimatedPI" runat="server" MaxLength="50" Width="170px" />
+                                                                        <asp:TextBox ID="txtEstimatedPI" runat="server" MaxLength="50" Width="170px" onkeypress="return FormatNumber(event,this.id,9,false);" />
                                                                         <asp:RequiredFieldValidator ID="rvftxtEstimatedPI" runat="server" ValidationGroup="vsMortgage"
                                                                             SetFocusOnError="true" ErrorMessage="Please Enter Estimate P & I" Display="none"
                                                                             ControlToValidate="txtEstimatedPI"></asp:RequiredFieldValidator>
@@ -4358,8 +4383,8 @@ function ValidateSubtenantFileds(sender, args) {
                                                                 <tr>
                                                                     <td align="center" colspan="6">
                                                                         <%--<asp:Label ID="lblReport" runat="server"></asp:Label>--%>
-                                                                        <asp:Button ID="btnLoanSubmit" runat="server" Text="Save" OnClick="btnLoanSubmit_Click" OnClientClick="javascript:return ValidateLoanSummary('Edit');"
-                                                                            CausesValidation="true" ValidationGroup="vsMortgage" />
+                                                                        <asp:Button ID="btnLoanSubmit" runat="server" Text="Save" OnClick="btnLoanSubmit_Click" OnClientClick="javascript:return ValidateLoanSummary('Save')"
+                                                                           />
                                                                         &nbsp;
                                                                              <asp:Button ID="btnLoanCancel" runat="server" Text="Cancel" OnClick="btnLoanCancel_Click"
                                                                                  CausesValidation="true" />
@@ -7415,7 +7440,7 @@ function ValidateSubtenantFileds(sender, args) {
                                                             <br/>
                                                             <table id="tblLoanSummaryView" runat="server" cellpadding="3" cellspacing="1" border="0" width="100%" style="display: none;">
                                                                 <tr>
-                                                                    <td align="left" class="BlueItalicText" valign="top" width="19%">SRE#: </td>
+                                                                    <td align="left" valign="top" width="19%">SRE#: </td>
                                                                     <td align="center" valign="top" width="4%">: </td>
                                                                     <td align="left" valign="top" width="27%">
                                                                         <asp:Label ID="lblSRE_ID" runat="server" />
