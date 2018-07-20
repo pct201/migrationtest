@@ -153,14 +153,21 @@ public partial class Controls_AttachmentDetails_AttachmentDetails : System.Web.U
         ERIMSAttachment.DeleteByID(strIDs);
 
         if (!string.IsNullOrEmpty(Attachment_For.ToString()))
-            Bind(Attachment_For.ToString());
-        else
-            Bind();
-
-        if (IntAttachmentPanel > 0)
         {
-            //Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(" + IntAttachmentPanel + ");", true);
-            ScriptManager.RegisterClientScriptBlock(this, Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(" + IntAttachmentPanel + ");", true);
+            Bind(Attachment_For.ToString());
+            if (IntAttachmentPanel > 0)
+            {
+                //Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(" + IntAttachmentPanel + ");", true);
+                ScriptManager.RegisterClientScriptBlock(this, Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(" + IntAttachmentPanel + ");", true);
+            }
+        }
+        else
+        {
+            Bind();
+            if (IntAttachmentPanel > 0)
+            {
+                Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(" + IntAttachmentPanel + ");", true);
+            }
         }
     }
 
@@ -255,7 +262,7 @@ public partial class Controls_AttachmentDetails_AttachmentDetails : System.Web.U
         if (!AppConfig.AllowMailSending)
             btnMail.OnClientClick = "javascript:alert('Attachment cannot be sent as mailing option is disabled');return false;";
         else
-            btnMail.OnClientClick = "javascript:ShowMailPage('" + tbl.ToString() + "','" + attch_for.ToString() + "');return false;";
+            btnMail.OnClientClick = "javascript:ShowMailPage_ForLease('" + tbl.ToString() + "','" + attch_for.ToString() + "');return false;";
     }
 
     /// <summary>

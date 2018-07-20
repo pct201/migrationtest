@@ -39,8 +39,6 @@
  
   function ShowMailPage(attTbl)
   {
-
-
         var gv = document.getElementById('<%=gvAttachment.ClientID%>');
         var ctrls = gv.getElementsByTagName('input');
         var i;
@@ -82,7 +80,7 @@
         }
   }
 
-    function ShowMailPage(attTbl,attFor)
+    function ShowMailPage_ForLease(attTbl, attFor)
     {
         //debugger;
         var client_id = '';
@@ -167,7 +165,6 @@
    }
 
     function OpenPopupReplacement(pk, attachmentType, strFilePath, TableName, attFor) {
-        debugger;
         var attPanel = '';
         if (attFor == 'Lease') {
             attPanel = '13';
