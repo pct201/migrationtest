@@ -40,6 +40,9 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         set { ViewState["PK_RE_Information"] = value; hdnREInfoID.Value = value.ToString(); }
     }
 
+    /// <summary>
+    /// Denotes the Primary Key for Mortgage_Information
+    /// </summary>
     public int _PK_Mortgage_Information_ID
     {
         get
@@ -183,8 +186,7 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         ScriptManager scriptManager = ScriptManager.GetCurrent(this.Page);
         scriptManager.RegisterPostBackControl(this.btnLoanAbstract);
         scriptManager.RegisterPostBackControl(this.btnLoanAbstractView);
-        //scriptManager.RegisterPostBackControl(this.btnLoanSubmit);
-        //scriptManager.RegisterPostBackControl(this.btnLoanCancel);
+
         // set Lease tab selected
         Tab.SetSelectedTab(Controls_ExposuresTab_ExposuresTab.Tab.Lease);
         Attachment_Lease.btnHandler += new Controls_Attachments_Attachment.OnButtonClick(Upload_File);
@@ -1313,6 +1315,9 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         BindMortgageLoanViewGrid();
     }
 
+    /// <summary>
+    /// Bind Mortgage Loan Grid on page
+    /// </summary>
     private void BindMortgageLoanGrid()
     {
         DataTable dtMortgageLoan = Mortage_informaiton.SelectByMortgageLoanInformationID((Int32)_PK_RE_Information).Tables[0];
@@ -1320,6 +1325,9 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         gvMortgageLoan.DataBind();
     }
 
+    /// <summary>
+    /// Bind Mortgage Loan Grid on Page for view mode
+    /// </summary>
     private void BindMortgageLoanViewGrid()
     {
         DataTable dtMortgageLoan = Mortage_informaiton.SelectByMortgageLoanInformationID((Int32)_PK_RE_Information).Tables[0];
@@ -2849,9 +2857,11 @@ public partial class SONIC_Exposures_Lease : clsBasePage
     {
         Mortage_informaiton objMortgage_LoanInformation = new Mortage_informaiton(_PK_Mortgage_Information_ID);
 
+        // set FK and PK
         objMortgage_LoanInformation.FK_RE_Information = (Int32)_PK_RE_Information;
         objMortgage_LoanInformation.FK_LU_Location = FK_LU_Location_ID;
-        //set values in page controls
+
+        // get values from page controls
         if (txtSRE_ID.Text != "") objMortgage_LoanInformation.SRE_ID = Convert.ToInt32(txtSRE_ID.Text);
         objMortgage_LoanInformation.Mortgage_Commencement_Date = clsGeneral.FormatNullDateToStore(txtMortgage_Commencement_Date.Text);
         objMortgage_LoanInformation.Letter_Name = txtLetter_Name.Text.Trim();
@@ -2873,7 +2883,7 @@ public partial class SONIC_Exposures_Lease : clsBasePage
             objMortgage_LoanInformation.Update();
         else
             _PK_Mortgage_Information_ID = objMortgage_LoanInformation.Insert();
-        //  bool bRentSubtenantSuccess = UpdateRentScheduleInfo_Subtenant();
+       
         //dvAttachment.Style["display"] = "none";
         tblSubtenant.Style["display"] = "none";
         tblLoanSummary.Style["display"] = "none";
@@ -3761,10 +3771,7 @@ public partial class SONIC_Exposures_Lease : clsBasePage
                 sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["Fld_Desc"]) + "</td>");
                 sbRecorords.Append("</tr>");
             }
-
-            //  sbRecorords.Append("<tr><td colspan='7' class='cols_'>&nbsp;</td></tr>");
             sbRecorords.Append("</table></td></tr>");
-            //  sbRecorords.Append("</div>");
             sbRecorords.Append("</table>");
             trGrid.Visible = true;
         }
@@ -3777,9 +3784,6 @@ public partial class SONIC_Exposures_Lease : clsBasePage
             sbRecorords.Append("<td align='center' style='font-size:9pt;'>No Records found.</td></tr></table>");
         }
         return sbRecorords;
-
-
-
     }
 
     protected void btnSaveSubtenantInformation_OnClick(object sender, EventArgs e)
@@ -4148,9 +4152,7 @@ public partial class SONIC_Exposures_Lease : clsBasePage
                 btnLoanAbstract.Visible = true;
             }     
             ShowPanel(12);
-           
         }
-
     }
 
     private void BindLoanSummaryForEdit()
@@ -4173,9 +4175,9 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         txtEstimatedPI.Text = clsGeneral.GetStringValue(objMortgage_LoanInformation.Estimated_P_And_I);
         txtOther.Text = objMortgage_LoanInformation.Other;
         txtComments.Text = objMortgage_LoanInformation.Comments;
+        //pnl12.Style["display"] = "";
+        //tblLoanSummary.Style["display"] = "";
         //dvAttachment.Style["display"] = "none";
-       // pnlLoan.Style["display"] = "block";
-
     }
 
     private void BindSubtenantForEdit()
@@ -4217,7 +4219,6 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         pnl3.Style["display"] = "";
         tblSubtenant.Style["display"] = "";
         //dvAttachment.Style["display"] = "none";
-
     }
 
     protected void gvSubtenantView_OnRowCommand(object sender, GridViewCommandEventArgs e)
