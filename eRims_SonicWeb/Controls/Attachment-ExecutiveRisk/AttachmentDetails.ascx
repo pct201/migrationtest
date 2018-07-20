@@ -4,9 +4,25 @@
 <script type="text/javascript" src="<%=AppConfig.SiteURL%>JavaScript/Validator.js">
     </script>
 <script type="text/javascript">
-    function CheckSelected()
+    function CheckSelected(btnRemove)
     {
-        var ctrls = document.getElementsByTagName('input');
+        var ctrls='';
+        if (btnRemove.id.indexOf("AttachDetails_Lease") != -1)
+        {
+            ctrls = document.getElementById("ctl00_ContentPlaceHolder1_AttachDetails_Lease_gvAttachment").getElementsByTagName('input');
+        }
+        else if (btnRemove.id.indexOf("AttachDetails_Mortgage") != -1)
+        {
+            ctrls = document.getElementById("ctl00_ContentPlaceHolder1_AttachDetails_Mortgage_gvAttachment").getElementsByTagName('input');
+        }
+        else if (btnRemove.id.indexOf("AttachDetails_Appraisal") != -1)
+        {
+            ctrls = document.getElementById("ctl00_ContentPlaceHolder1_AttachDetails_Appraisal_gvAttachment").getElementsByTagName('input');
+        }
+        else
+        {
+            ctrls = document.getElementsByTagName('input');
+        }
         var i;
         var cnt=0;
         for(i=0;i<ctrls.length;i++)
@@ -82,7 +98,6 @@
 
     function ShowMailPage_ForLease(attTbl, attFor)
     {
-        //debugger;
         var client_id = '';
         if (attFor == 'Lease'){
             client_id = "ctl00_ContentPlaceHolder1_AttachDetails_Lease_gvAttachment";
@@ -274,7 +289,7 @@
     <tr>
         <td align="left">
             <asp:Button ID="btnRemoveAttachment" runat="server" Text="Remove" Visible="false"
-                OnClick="btnRemoveAttachment_Click" OnClientClick="return CheckSelected();" />            
+                OnClick="btnRemoveAttachment_Click" OnClientClick="return CheckSelected(this);" />            
             <asp:Button ID="btnMail" runat="server" Text="Mail" Visible="false" />
             <asp:Button ID="btnUpdateGrid" runat="server" style="display:none" OnClick="btnUpdateGrid_Click" />
         </td>
