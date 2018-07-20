@@ -182,6 +182,7 @@ public partial class SONIC_Exposures_Lease : clsBasePage
     {
         ScriptManager scriptManager = ScriptManager.GetCurrent(this.Page);
         scriptManager.RegisterPostBackControl(this.btnLoanAbstract);
+        scriptManager.RegisterPostBackControl(this.btnLoanAbstractView);
         //scriptManager.RegisterPostBackControl(this.btnLoanSubmit);
         //scriptManager.RegisterPostBackControl(this.btnLoanCancel);
         // set Lease tab selected
@@ -3088,6 +3089,7 @@ public partial class SONIC_Exposures_Lease : clsBasePage
 
     protected void drpLoanStatus_SelectedIndexChanged(object sender, EventArgs e)
     {
+        drpLoanStatus.Attributes.Add("onchange", "ValidateLoanSummarydrp('Save');");
         ValidationOnLoanStatus();
     }
 
@@ -3099,7 +3101,6 @@ public partial class SONIC_Exposures_Lease : clsBasePage
     /// <param name="e"></param>
     protected void ValidationOnLoanStatus()
     {
-
         if (drpLoanStatus.SelectedItem.Text == "Other")
         {
             Span163.Style["display"] = "";
@@ -3120,7 +3121,6 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         }
         else
         {
-
             Span163.Style["display"] = "none";
             Span164.Style["display"] = "none";
             Span165.Style["display"] = "none";
@@ -3137,8 +3137,6 @@ public partial class SONIC_Exposures_Lease : clsBasePage
             Span178.Style["display"] = "none";
             Span179.Style["display"] = "none";
         }
-
-        // SetLeaseInformation();
         ShowPanel(12);
     }
 
@@ -3311,9 +3309,19 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         lnkAddLoanSummary.Visible = false;
        // tblLoanSummary.Visible = false;
 
-        if (_PK_Mortgage_Information_ID == 0)
+        if (_PK_Mortgage_Information_ID > 0)
         {
-            tblLoanSummary.Visible = false;
+            BindLoanSummaryForEdit();
+            BindMortgageLoanGrid();
+            ValidationOnLoanStatus();
+            tblLoanSummary.Style["display"] = "block";
+            tblSubtenant.Style["display"] = "none";
+            lnkAddLoanSummary.Visible = false;
+            btnLoanAbstract.Visible = true;
+        }
+        else
+        {
+            tblLoanSummary.Style["display"] = "none";
         }
 
         ShowHideAuditButtons(false);
@@ -3608,6 +3616,13 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         lblReport.Text = GenerateAbstarctLoan().ToString();
         ValidationOnLoanStatus();
         GridViewExportUtil.ExportGrid("Abstract.xlsx", lblReport);
+    }
+
+    protected void btnLoanAbstractView_Click(object sender, EventArgs e)
+    {
+        lblReportView.Text = GenerateAbstarctLoan().ToString();
+        ValidationOnLoanStatus();
+        GridViewExportUtil.ExportGrid("Abstract.xlsx", lblReportView);
     }
 
 

@@ -349,20 +349,7 @@ function AddRentScheduleRent(bAdd) {
         return false;
 }
 
-//function ValidateLoanSummary(mAdd) {
-//    debugger;
-//    var loanstatus = document.getElementById('ctl00_ContentPlaceHolder1_drpLoanStatus').value;
-//    if (loanstatus == "Other") {
-//        var mValid = Page_ClientValidate('vsMortgage');
-//        if (mValid) {
-//            return true;
-//        }
-//        else
-//            return false;
-//    }
-//}
 function ValidateLoanSummary(mAdd) {
-    debugger;
     var eValid = Page_ClientValidate('vsErrorGroup1');
     if (eValid) {
         var loanstatus = document.getElementById('ctl00_ContentPlaceHolder1_drpLoanStatus').value;
@@ -377,10 +364,29 @@ function ValidateLoanSummary(mAdd) {
         return true;
     }
     else
-        return false;
-
+    {
+        ValidateLoanSummarydrp();
+    }
+        
 }
 
+function ValidateLoanSummarydrp(mAdd) {
+    var eValid = Page_ClientValidate('vsErrorGroup1');
+    if (eValid) {
+        var loanstatus = document.getElementById('ctl00_ContentPlaceHolder1_drpLoanStatus').value;
+        if (loanstatus == "Active" || loanstatus == "Pay Off") {
+            var mValid = Page_ClientValidate('vsErrorGroup1');
+            if (mValid) {
+                return true;
+            }
+            else
+                return false;
+        }
+        return true;
+    }
+    else
+        return false;
+}
 
 function AddSubTenantRentSchedule(bAdd) {
     //var bValid = (bAdd == 'Add') ? Page_ClientValidate('vsErrorGroup') : true;
@@ -4100,7 +4106,7 @@ function ValidateSubtenantFileds(sender, args) {
                                                             </div>
                                                             <br/>
                                                             <asp:GridView ID="gvMortgageLoan" runat="server" EmptyDataText="No Loan Record Exists"
-                                                                OnRowCommand="gvMortgageLoan_OnRowCommand" Width="100%">
+                                                                OnRowCommand="gvMortgageLoan_OnRowCommand" Width="100%" HorizontalAlign="Left">
                                                                 <Columns>
                                                                     <%-- <asp:TemplateField HeaderText="">
                                                                                     <ItemStyle Width="5%" />
@@ -4314,8 +4320,6 @@ function ValidateSubtenantFileds(sender, args) {
                                                                             <asp:ListItem Text="Active" Value="Active"></asp:ListItem>
                                                                             <asp:ListItem Text="Other" Value="Other"></asp:ListItem>
                                                                         </asp:DropDownList>
-                                                                        <asp:RequiredFieldValidator ID="rfvdrpLoanStatus" runat="server" ControlToValidate="drpLoanStatus" ValidationGroup="vsMortgage" Display="none"
-                                                                            ErrorMessage="Loan Status required"></asp:RequiredFieldValidator>
 
                                                                     </td>
 
@@ -7394,7 +7398,7 @@ function ValidateSubtenantFileds(sender, args) {
                                                             </div>
                                                             <br/>
                                                             <asp:GridView ID="gvMortgageLoanView" runat="server" EmptyDataText="No Loan Record Exists"
-                                                                OnRowCommand="gvMortgageLoanView_OnRowCommand" Width="100%">
+                                                                OnRowCommand="gvMortgageLoanView_OnRowCommand" Width="100%" HorizontalAlign="Left">
                                                                 <Columns>
                                                                     <asp:TemplateField HeaderText="Date of Note">
                                                                         <ItemStyle Width="15%" />
@@ -7537,20 +7541,25 @@ function ValidateSubtenantFileds(sender, args) {
                                                                         <asp:Label ID="lblComments" runat="server" />
                                                                     </td>
                                                                 </tr>
-                                                                <%--<tr>
-                                                                    <td>
-                                                                 <asp:Button ID="btnLoanViewCancel" runat="server" Text="Cancel" OnClick="btnLoanViewCancel_Click"
-                                                            CausesValidation="true" ValidationGroup="vsErrorGroup" />
-                                                                        </td>
-                                                                    </tr>--%>
+                                                                 <tr>
+                                                                    <td align="center" colspan="6">
+                                                                        <asp:Button ID="btnLoanAbstractView" runat="server" Text="Generate Abstract" OnClick="btnLoanAbstractView_Click" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr id="trGrid1" runat="server">
+                                                                    <td align="left">
+                                                                        <table width="100%">
+                                                                            <tr>
+                                                                                <td style="width: 100%">
+                                                                                    <asp:Label ID="lblReportView" runat="server"></asp:Label>
+                                                                                </td>
+                                                                            </tr>
+
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
                                                             </table>
 
-                                                            <%--   <asp:LinkButton Style="display: inline" ID="lnkAddLoan" OnClick="lnkAddLoan_Click"
-                                                                runat="server" Text="Add New">
-
-                                                            </asp:LinkButton>&nbsp;&nbsp;&nbsp;<asp:LinkButton
-                                                                    Style="display: none" ID="lnkCancelLoan" OnClick="lnkCancelLoan_Click" runat="server"
-                                                                    Text="Cancel"></asp:LinkButton>--%>
                                                         </asp:Panel>
                                                         <asp:Panel ID="pnl13View" runat="server" Style="display: none;">
                                                             <table cellpadding="0" cellspacing="0" width="100%">
