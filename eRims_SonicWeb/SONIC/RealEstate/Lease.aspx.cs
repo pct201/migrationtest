@@ -3694,18 +3694,49 @@ public partial class SONIC_Exposures_Lease : clsBasePage
 
                 sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["SRE_id"]) + "</td>");
                 sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["Letter_Name"]) + "</td>");
+                if (Convert.ToString(drRecords["Loan_Origination_Date"]) != "")
+                {
+                    sbRecorords.Append("<td  class='cols_' align='right' >" + clsGeneral.FormatDBNullDateToDisplay(Convert.ToDateTime(drRecords["Loan_Origination_Date"])) + "</td>");
+                    
+                }
+                else
+                {
+                    sbRecorords.Append("<td  class='cols_' align='right' >" + String.Empty + "</td>");
 
-                sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["Loan_Origination_Date"]) + "</td>");
+                }
+                if (Convert.ToString(drRecords["Loan_Maturity_Date"]) != "")
+                {
+                    sbRecorords.Append("<td  class='cols_' align='right' >" + clsGeneral.FormatDBNullDateToDisplay(Convert.ToDateTime(drRecords["Loan_Maturity_Date"])) + "</td>");
 
-                sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["Loan_Maturity_Date"]) + "</td>");
+                }
+                else
+                {
+                    sbRecorords.Append("<td  class='cols_' align='right' >" + String.Empty + "</td>");
 
+                }
                 sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["Loan_Status"]) + "</td>");
+                if (Convert.ToString(drRecords["Mortgage_Commencement_Date"]) != "")
+                {
+                    sbRecorords.Append("<td  class='cols_' align='right' >" + clsGeneral.FormatDBNullDateToDisplay(Convert.ToDateTime(drRecords["Mortgage_Commencement_Date"])) + "</td>");
 
-                sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["Mortgage_Commencement_Date"]) + "</td>");
-                sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["Mortgage_Expiration_Date"]) + "</td>");
+                }
+                else
+                {
+                    sbRecorords.Append("<td  class='cols_' align='right' >" + String.Empty + "</td>");
+
+                }
+                if (Convert.ToString(drRecords["Mortgage_Expiration_Date"]) != "")
+                {
+                    sbRecorords.Append("<td  class='cols_' align='right' >" + clsGeneral.FormatDBNullDateToDisplay(Convert.ToDateTime(drRecords["Mortgage_Expiration_Date"])) + "</td>");
+
+                }
+                else
+                {
+                    sbRecorords.Append("<td  class='cols_' align='right' >" + String.Empty + "</td>");
+
+                }
                 sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["Loan_Type"]) + "</td>");
                 sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["Loan_Term"]) + "</td>");
-
                 sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["Orgination_Loan_Amount"]) + "</td>");
                 sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["Spread"]) + "</td>");
                 sbRecorords.Append("<td  class='cols_' align='right' >" + Convert.ToString(drRecords["Payment_Amount"]) + "</td>");
