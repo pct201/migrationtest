@@ -4113,7 +4113,7 @@ public partial class SONIC_Exposures_Lease : clsBasePage
                 ValidationOnLoanStatus();
                 tblLoanSummary.Style["display"] = "block";
                 tblSubtenant.Style["display"] = "none";
-                lnkAddLoanSummary.Visible = false;
+                lnkAddLoanSummary.Visible = true;
                 btnLoanAbstract.Visible = true;
             }     
             ShowPanel(12);

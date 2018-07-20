@@ -4106,7 +4106,7 @@ function ValidateSubtenantFileds(sender, args) {
                                                             </div>
                                                             <br/>
                                                             <asp:GridView ID="gvMortgageLoan" runat="server" EmptyDataText="No Loan Record Exists"
-                                                                OnRowCommand="gvMortgageLoan_OnRowCommand" Width="100%" HorizontalAlign="Left">
+                                                                OnRowCommand="gvMortgageLoan_OnRowCommand" Width="100%">
                                                                 <Columns>
                                                                     <%-- <asp:TemplateField HeaderText="">
                                                                                     <ItemStyle Width="5%" />
@@ -7398,7 +7398,7 @@ function ValidateSubtenantFileds(sender, args) {
                                                             </div>
                                                             <br/>
                                                             <asp:GridView ID="gvMortgageLoanView" runat="server" EmptyDataText="No Loan Record Exists"
-                                                                OnRowCommand="gvMortgageLoanView_OnRowCommand" Width="100%" HorizontalAlign="Left">
+                                                                OnRowCommand="gvMortgageLoanView_OnRowCommand" Width="100%">
                                                                 <Columns>
                                                                     <asp:TemplateField HeaderText="Date of Note">
                                                                         <ItemStyle Width="15%" />
