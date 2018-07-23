@@ -296,10 +296,10 @@ function ShowPanel(index) {
             document.getElementById("ctl00_ContentPlaceHolder1_pnl17").style.display = "none";
         }
 
-
+    
         document.getElementById("ctl00_ContentPlaceHolder1_btnPrevious").style.display = (index == 1) ? "none" : "inline";
-        document.getElementById("ctl00_ContentPlaceHolder1_btnSaveNnextCall").style.display = (index != 14 && index != 13) ? "inline" : "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_btnSaveNSend").style.display = (index == 13) ? "inline" : "none";
+        document.getElementById("ctl00_ContentPlaceHolder1_btnSaveNnextCall").style.display = (index != 14 ) ? "inline" : "none";
+        //document.getElementById("ctl00_ContentPlaceHolder1_btnSaveNSend").style.display = (index == 13) ? "inline" : "none";
         document.getElementById("ctl00_ContentPlaceHolder1_btnSendMail").style.display = (index == 13) ? "inline" : "none";
         //document.getElementById("ctl00_ContentPlaceHolder1_btnSendTO_RLCM").style.display = (index == 13) ? "inline" : "none";
         document.getElementById("ctl00_ContentPlaceHolder1_btnSend").style.display = (index == 14) ? "inline" : "none";
@@ -524,7 +524,7 @@ function CheckSLT_Member() {
 }
 
         function SetValidationGroup() {
-       
+
     var Index = document.getElementById("ctl00_ContentPlaceHolder1_hdnPanel2").value;
     var Schedule_id = '<%=ViewState["PK_SLT_Meeting_Schedule"] %>';
     var temp_ID = '<%=PK_Temp_Schedule_ID %>';
@@ -1535,10 +1535,10 @@ function DisableButton() {
                                                         </td>
                                                         <td align="left" width="28%" valign="top">
                                                             <asp:TextBox ID="txtMeeting_Start_Time" runat="server" Width="70px" MaxLength="5" />
-                                                            <asp:RegularExpressionValidator ID="revtxtMeeting_Start_Time" runat="server" ControlToValidate="txtMeeting_Start_Time"
+                                                           <%-- <asp:RegularExpressionValidator ID="revtxtMeeting_Start_Time" runat="server" ControlToValidate="txtMeeting_Start_Time"
                                                                 ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
                                                                 ErrorMessage="[Call to Order]/Meeting Start Time is not valid." Display="none"
-                                                                ValidationGroup="vsErrorcallToOrder" SetFocusOnError="true"></asp:RegularExpressionValidator>
+                                                                ValidationGroup="vsErrorcallToOrder" SetFocusOnError="true"></asp:RegularExpressionValidator>--%>
                                                             &nbsp;&nbsp;<asp:DropDownList ID="ddlMeeting_Start_Time_AM" SkinID="dropGen" runat="server"
                                                                 Width="30%">
                                                                 <asp:ListItem Text="AM" Value="AM"></asp:ListItem>
@@ -1997,6 +1997,8 @@ function DisableButton() {
                                                                                     <asp:LinkButton ID="lnkParticipation" runat="server" Text="Participants" CommandName="Participation"
                                                                                         CommandArgument='<%#Eval("MonthNum") + ":" + Eval("PK_SLT_Safety_Walk") %>' Enabled='<%# Convert.ToBoolean(Eval("IsEnable")) %>'></asp:LinkButton>
                                                                                     <%--<asp:HyperLink ID="SafetyWalkParticipation" runat="server" Text="Participants"></asp:HyperLink>--%>
+                                                                                    <asp:HiddenField ID="hdnIsAllParticipated" runat="server" Value='<%# Eval("IsAllParticipated") %>' />
+                                                                                    <asp:HiddenField ID="hdnMonth" runat="server" Value='<%# Eval("Month") %>' />
                                                                                 </ItemTemplate>
                                                                                 <HeaderTemplate>
                                                                                     Safety Walk Participation <span style="color: Red;">*</span>
@@ -3706,7 +3708,7 @@ function DisableButton() {
                                                         <td colspan="6" style="height: 10px;"></td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" width="18%" valign="top">Meeting Held and 100% Participation&nbsp;&nbsp;<span id="Span45" runat="server" style="color: Red;">*</span>
+                                                        <td align="left" width="18%" valign="top">Meeting Held and 100% Participation
                                                         </td>
                                                         <td align="center" width="4%" valign="top">:
                                                         </td>
@@ -3719,8 +3721,8 @@ function DisableButton() {
                                                         <td align="left" width="28%" valign="top">
                                                             <asp:TextBox ID="txtMeetingPoints" runat="server" Width="50px" MaxLength="3" onkeypress="return FormatNumber(event,this.id,3,false);"
                                                                 onblur="CheckPoints(1, this);" />
-                                                          <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtMeetingPoints"
-                                                                Display="None" ErrorMessage="[Meeting Review]/Please fill Meeting Held and 100% Participation" SetFocusOnError="true"  ValidationGroup="vsErrorMeetingReview" />
+                                                          <%--<asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtMeetingPoints"
+                                                                Display="None" ErrorMessage="[Meeting Review]/Please fill Meeting Held and 100% Participation" SetFocusOnError="true"  ValidationGroup="vsErrorMeetingReview" />--%>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -7162,8 +7164,8 @@ function DisableButton() {
                                             &nbsp;
                                             <asp:Button ID="btnSaveNnextCall" runat="server" Text="Save & Next" CausesValidation="true"
                                                 OnClientClick="javascript:return SetValidationGroup();" OnClick="btnSaveNnextCall_Click" />
-                                            <asp:Button ID="btnSaveNSend" runat="server" Text="Save" CausesValidation="true"
-                                                ValidationGroup="vsErrorSchedule" Style="display: none" OnClick="btnSaveNSend_Click" />
+                                            <%--<asp:Button ID="btnSaveNSend" runat="server" Text="Save" CausesValidation="true"
+                                                ValidationGroup="vsErrorSchedule" Style="display: none" OnClick="btnSaveNSend_Click" />--%>
                                             &nbsp;
                                             <asp:Button ID="btnSendMail" runat="server" Text="Send" CausesValidation="true" OnClientClick="return CheckScheduleidForRLCM();"
                                                 Style="display: none" />

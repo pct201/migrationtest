@@ -469,8 +469,11 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             txtCurrent_Date.Text = DateTime.Now.ToShortDateString();
         }
         else
+        {
             txtMeeting_Comment.Width = txtSuggestion_Description.Width = txtSuggestion_Notes.Width = 527;
-        //Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
+            //Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
+            BindSaftyWalkGridNew();
+        }
     }
     #endregion
 
@@ -1278,7 +1281,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         dvEdit.Style["display"] = "none";
         btnSaveNnextCall.Visible = false;
         btnSave.Visible = false;
-        btnSaveNSend.Visible = false;
+        //btnSaveNSend.Visible = false;
         //dvSave.Visible = false;
 
         #region "Slt_meeting_Schedule"
@@ -3657,6 +3660,10 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                 SaveSuggestion("13");
             }
         }
+        else if (hdnPanel2.Value == "13")
+        {
+            btnSaveNSend_Click();
+        }
         else if (hdnPanel2.Value == "15")//here save "BT security walk" screen data
         {
             //if (meetingIsEditable == true)
@@ -3944,12 +3951,12 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         }
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
     }
-    /// <summary>
-    /// SAVE Schedule Record And Send Email to Chairman of the meeting
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    protected void btnSaveNSend_Click(object sender, EventArgs e)
+    ///// <summary>
+    ///// SAVE Schedule Record And Send Email to Chairman of the meeting
+    ///// </summary>
+    ///// <param name="sender"></param>
+    ///// <param name="e"></param>
+    private void btnSaveNSend_Click()
     {
         #region "Save and send"
         decimal _ret_Val = 0;
@@ -3994,10 +4001,10 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                 BindMeetingScheduleGrid();
                 //Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(13);OpenPopupEmailSchedule('Next_Schedule');", true);
                 //btnSendTO_RLCM.Enabled = true;
+                Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(14);", true);
             }
         }
         
-        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(13);", true);
         #endregion
     }
     /// <summary>
@@ -6774,6 +6781,8 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
     /// </summary>
     private void SaveNewSafetyWalk(bool isSaveandNext)
     {
+        bool flag = false;
+        string alertMsg = string.Empty;
         foreach (GridViewRow row in gvSLTSafetyWalk.Rows)
         {
             TextBox txtCompletedDate = (TextBox)row.FindControl("txtCompletedDate");
@@ -6782,6 +6791,8 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             HiddenField hdnPK_SLT_Safety_Walk = (HiddenField)row.FindControl("hdnPK_SLT_Safety_Walk");
             HiddenField hdnPK_SLT_Meeting_Schedule = (HiddenField)row.FindControl("hdnPK_SLT_Meeting_Schedule");
             HiddenField hdnActualMeetingDate = (HiddenField)row.FindControl("hdnActualMeetingDate");
+            HiddenField hdnIsAllParticipated = (HiddenField)row.FindControl("hdnIsAllParticipated");
+            HiddenField hdnMonth = (HiddenField)row.FindControl("hdnMonth");
 
             if (txtCompletedDate.Enabled)
             {
@@ -6817,6 +6828,20 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                                 if (rdoParticipated.SelectedValue == "")
                                 {
                                     Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);alert('Please Check Monthly Safety Walk Completed');", true);
+                                }
+                                else if (hdnIsAllParticipated.Value == "0")
+                                {
+                                    flag = true;
+                                    if (string.IsNullOrEmpty(alertMsg))
+                                    {
+                                        alertMsg = " - Please select Safety Walk Participation for Month of " + hdnMonth.Value + ".";
+                                    }
+                                    else
+                                    {
+                                        alertMsg += "\\n - Please select Safety Walk Participation for Month of " + hdnMonth.Value + ".";
+                                    }
+                                    //Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);alert('Please select Safety Walk Participation for Month of " + hdnMonth.Value + ". ');", true);
+                                    //break;
                                 }
                                 else
                                 {
@@ -6885,6 +6910,11 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                 }
 
             }
+        }
+
+        if (flag)
+        {
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);alert('" + alertMsg + "');", true);
         }
 
         if (!isSaveandNext)
