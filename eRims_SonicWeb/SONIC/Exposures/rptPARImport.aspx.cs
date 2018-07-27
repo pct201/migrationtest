@@ -21,6 +21,7 @@ public partial class SONIC_Exposures_rptPARImport : clsBasePage
         try
         {
             DataTable dt = null; // denotes datatable to get the data in to import
+            bool IsBreak = false;
 
             // pass exported file name and get datatable to import values
             dt = clsPA_Values_Imported.GetDataToImport(AppConfig.PremiumAllocationPath + strUploadedFile);
@@ -33,8 +34,27 @@ public partial class SONIC_Exposures_rptPARImport : clsBasePage
                     for (int i = 0; i < dt.Rows.Count; i++)
                     {
                         clsPA_Values_Imported objclsPA_Values_Imported = new clsPA_Values_Imported();
-                        objclsPA_Values_Imported.Sonic_Location_Code = Convert.ToInt32(dt.Rows[i]["Sonic_Location_Code"]);
-                        objclsPA_Values_Imported.Year = Convert.ToInt32(dt.Rows[i]["Year"]);
+
+                        if (!string.IsNullOrEmpty(Convert.ToString(dt.Rows[i]["Sonic_Location_Code"])))
+                        {
+                            objclsPA_Values_Imported.Sonic_Location_Code = Convert.ToInt32(dt.Rows[i]["Sonic_Location_Code"]);
+                        }
+                        else
+                        {
+                            IsBreak = true;
+                            break;
+                        }
+
+                        if (!string.IsNullOrEmpty(Convert.ToString(dt.Rows[i]["Year"])))
+                        {
+                            objclsPA_Values_Imported.Year = Convert.ToInt32(dt.Rows[i]["Year"]);
+                        }
+                        else
+                        {
+                            IsBreak = true;
+                            break;
+                        }
+                    
                         objclsPA_Values_Imported.Non_Texas_Payroll = String.IsNullOrEmpty(Convert.ToString(dt.Rows[i]["Non_Texas_Payroll"])) ? 0 : Convert.ToDecimal(dt.Rows[i]["Non_Texas_Payroll"]);
                         objclsPA_Values_Imported.Texas_Payroll = string.IsNullOrEmpty(Convert.ToString(dt.Rows[i]["Texas_Payroll"])) ? 0 : Convert.ToDecimal(dt.Rows[i]["Texas_Payroll"]);
                         objclsPA_Values_Imported.Number_Of_Employees = string.IsNullOrEmpty(Convert.ToString(dt.Rows[i]["Number_Of_Employees"])) ? 0 : Convert.ToInt32(dt.Rows[i]["Number_Of_Employees"]);
@@ -42,13 +62,17 @@ public partial class SONIC_Exposures_rptPARImport : clsBasePage
                         objclsPA_Values_Imported.Insert();
 
                     }
+
+                    if(IsBreak)
+                        Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "alert('The imported file contains empty value(s).');", true);
+                    else
                     // show message for data imported
                     Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "alert('Data has been imported successfully.');", true);
                 }
                 else
                 {
                     // show message for no data available
-                    Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "alert('No data available to imort');", true);
+                    Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "alert('No data available to import');", true);
                 }
             }
             else

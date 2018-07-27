@@ -278,8 +278,8 @@ namespace ERIMS_DAL
             //ImportMixedTypes: should be set to value 'Text' i.e. import mixed-type columns as text: 
 
 
-            string strConn = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + strFileName + @";Extended Properties=""Excel 8.0;HDR=YES;IMEX=1;""";
-            //string strConn = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + strFileName + @";Extended Properties=""Excel 12.0;HDR=YES;IMEX=1;""";
+            //string strConn = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + strFileName + @";Extended Properties=""Excel 8.0;HDR=YES;IMEX=1;""";
+            string strConn = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + strFileName + @";Extended Properties=""Excel 12.0;HDR=YES;IMEX=1;""";
             OleDbConnection objConn = new OleDbConnection(strConn);
             try
             {
