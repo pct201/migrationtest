@@ -821,7 +821,7 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
                             else if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectList || lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
                                 LoadFilterControlDropDown(lstFilter[i].Field_Header, lstFilter[i].ConditionValue, lst_F2);
                             else if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.AmountControl)
-                                LoadFilterControlAmount(lstFilter[i], pnlAmount_F2, drpAmount_F2, txtAmount1_F1, txtAmount2_F2, lblAmountText1_F2, lblAmountText2_F2, cvAmount2);
+                                LoadFilterControlAmount(lstFilter[i], pnlAmount_F2, drpAmount_F2, txtAmount1_F2, txtAmount2_F2, lblAmountText1_F2, lblAmountText2_F2, cvAmount2);
                             else if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.DateControl)
                                 LoadFilterControlDate(lstFilter[i], pnlDate_F2, lstDate2, lblDateFrom2, lblDateTo2, txtDate_From2, txtDateTo2, imgDate_To2, revtxtDate_From2, ucRelativeDatesFrom_2, ucRelativeDatesTo_2, imgDate_Opened_From2);
                             break;
