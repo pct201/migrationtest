@@ -472,7 +472,18 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         {
             txtMeeting_Comment.Width = txtSuggestion_Description.Width = txtSuggestion_Notes.Width = 527;
             //Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
-            BindSaftyWalkGridNew();
+            string CtrlID = string.Empty;
+            if (Request.Form[hdnSourceID.UniqueID] != null &&
+                Request.Form[hdnSourceID.UniqueID] != string.Empty)
+            {
+                CtrlID = Request.Form[hdnSourceID.UniqueID];
+            }
+
+            if (!CtrlID.Contains("btnSaveNnextCall"))
+            {
+                BindSaftyWalkGridNew();
+            }
+            hdnSourceID.Value = string.Empty;
         }
     }
     #endregion

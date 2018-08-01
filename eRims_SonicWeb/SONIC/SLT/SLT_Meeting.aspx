@@ -706,6 +706,10 @@ function OpenWindow(navUrl) {
     window.open(navUrl, "popup2", "toolbar=no,menubar=no,scrollbars=yes,resizable=yes,width=" + popW + ",height=" + popH + ",top=" + topPos + ",left=" + leftPos);
 }
 
+function SetSource(SourceID) {
+    var hdnSourceID = document.getElementById("<%=hdnSourceID.ClientID%>");
+    hdnSourceID.value = SourceID;
+}
 
 jQuery(function ($) {
     $("#<%=txtMembersStart_Date.ClientID%>").mask("99/99/9999");
@@ -7163,7 +7167,7 @@ function DisableButton() {
                                             <asp:Button ID="btnPrevious" runat="server" Text="Previous" OnClientClick="javascript:return onPreviousStep();" />
                                             &nbsp;
                                             <asp:Button ID="btnSaveNnextCall" runat="server" Text="Save & Next" CausesValidation="true"
-                                                OnClientClick="javascript:return SetValidationGroup();" OnClick="btnSaveNnextCall_Click" />
+                                                OnClientClick="SetSource(this.id);javascript:return SetValidationGroup();" OnClick="btnSaveNnextCall_Click" />
                                             <%--<asp:Button ID="btnSaveNSend" runat="server" Text="Save" CausesValidation="true"
                                                 ValidationGroup="vsErrorSchedule" Style="display: none" OnClick="btnSaveNSend_Click" />--%>
                                             &nbsp;
@@ -7199,6 +7203,8 @@ function DisableButton() {
             </td>
         </tr>
     </table>
+    <asp:HiddenField ID="hdnSourceID" runat="server" />
+
     <asp:HiddenField ID="hdnPanel" runat="server" />
     <asp:HiddenField ID="hdnPanel2" runat="server" />
     <asp:HiddenField ID="hdnEmail_Address" runat="server" />
