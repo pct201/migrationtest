@@ -1461,6 +1461,10 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
                     {
                         ComboHelper.FillEventType(new ListBox[] { lst_F }, false);
                     }
+                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim().Contains("item status"))
+                    {
+                        ComboHelper.FillItem_status(new ListBox[] { lst_F }, false);
+                    }
                     else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "cap index risk category")
                     {
                         ComboHelper.FillCap_Index_Risk_Category(new ListBox[] { lst_F }, false);
@@ -1601,7 +1605,7 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
                     strValues = strValues + "'" + lstBoxItem.Value.Replace("'", "''").Replace(",", "^") + "',";
                 else
                     strValues = strValues + lstBoxItem.Value.Replace("'", "''").Replace(",", "^") + ",";
-            }
+                }
 
         }
         return strValues.TrimEnd(',');
@@ -3599,6 +3603,10 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
         else if (Convert.ToString(Field_Header).ToLower().Trim() == "type of event")
         {
             ComboHelper.FillEventType(new ListBox[] { lst_F }, false);
+        }
+        else if (Convert.ToString(Field_Header).ToLower().Trim().Contains("item status"))
+        {
+            ComboHelper.FillItem_status(new ListBox[] { lst_F }, false);
         }
         else
         {
