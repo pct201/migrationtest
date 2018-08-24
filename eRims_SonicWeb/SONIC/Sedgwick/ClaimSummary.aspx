@@ -2048,7 +2048,7 @@
                                                     <table width="100%">
                                                         <tr>
                                                             <td width="20%">
-                                                                <asp:Label ID="lblMgtSectiondrp_Disability" runat="server" Text="RLCM Disability Score"></asp:Label>&nbsp;<span id="Span6" style="color: Red; display: none" runat="server">*</span>
+                                                                <asp:Label ID="lblMgtSectiondrp_Disability" runat="server" Text="RLCM Legal Score"></asp:Label>&nbsp;<span id="Span6" style="color: Red; display: none" runat="server">*</span>
                                                             </td>
                                                             <td style="text-align: left;">
                                                                 <asp:DropDownList ID="ddlRLCM_Disability_Score_Disability" runat="server" Style="width: 100px;">
