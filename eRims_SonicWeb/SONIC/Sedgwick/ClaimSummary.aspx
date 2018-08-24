@@ -311,7 +311,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td><span id="WCMenu6" href="#" onclick="javascript:CheckValueChange(6,null);">Disability</span>&nbsp; 
+                                        <td><span id="WCMenu6" href="#" onclick="javascript:CheckValueChange(6,null);">Legal</span>&nbsp; 
                                             <span id="Span74" runat="server" style="color: Red; display: none">*</span>
                                         </td>
                                     </tr>
@@ -1850,7 +1850,7 @@
                                     <asp:Panel ID="pnlDisability" runat="server" Width="100%">
                                         <table cellpadding="0" cellspacing="0" border="0" width="100%">
                                             <tr style="background-color: #06537c; font-family: Tahoma; color: white; font-size: 10pt; font-weight: bold; padding: 2px;">
-                                                <td colspan="100%">Claim Review Worksheet – Management Section: <i>Disability </i>
+                                                <td colspan="100%">Claim Review Worksheet – Management Section: <i>Legal </i>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -1898,8 +1898,8 @@
                                         <table width="100%">
                                             <tr style="background-color: #06537c; font-family: Tahoma; color: white; font-size: 10pt; font-weight: bold; padding: 2px;">
                                                 <th colspan="100%">
-                                                    <asp:HiddenField ID="hdnMgtSection_Disability" runat="server" Value="Disability" />
-                                                    <asp:Label ID="lblMgtSection_Disability" runat="server" Text="Disability"></asp:Label>
+                                                    <asp:HiddenField ID="hdnMgtSection_Disability" runat="server" Value="Legal" />
+                                                    <asp:Label ID="lblMgtSection_Disability" runat="server" Text="Legal"></asp:Label>
                                                 </th>
                                             </tr>
                                             <tr style="background-color: #7f7f7f; font-family: Tahoma; color: white; font-size: 8pt; font-weight: bold;">
@@ -1948,7 +1948,7 @@
                                                 <td>
                                                 <table>
                                                     <tr>
-                                                         <td style="width: 7%" align="left" valign="top">Claim Adjuster Note</td>
+                                                         <td style="width: 7%" align="left" valign="top">LG Note</td>
                                                          <td style="width: 2%" align="center" valign="top">: </td>
                                                          <td style="width: 35%" align="left" valign="top">
                                                          <uc:ctrlMultiLineTextBox runat="server" ID="lblDisAdjusterNotes" ControlType="Label" />
