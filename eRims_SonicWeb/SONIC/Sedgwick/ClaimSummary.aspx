@@ -2022,7 +2022,7 @@
                                             <tr style="background-color: #7f7f7f; font-family: Tahoma; color: white; font-size: 8pt; font-weight: bold;">
                                                 <td width="5%" style="background-color: White;"></td>
                                                 <td colspan="95%">
-                                                    <asp:Label ID="lblMgtSectionasd_Disability" runat="server" Text="Disability Scoring"></asp:Label>
+                                                    <asp:Label ID="lblMgtSectionasd_Disability" runat="server" Text="Legal Scoring"></asp:Label>
                                                 </td>
                                             </tr>
                                             <tr>
