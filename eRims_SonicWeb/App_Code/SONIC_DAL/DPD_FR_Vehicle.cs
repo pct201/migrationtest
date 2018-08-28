@@ -1141,7 +1141,7 @@ namespace ERIMS.DAL
         /// <summary>
         /// Updates a record in the DPD_FR_Vehicle table.
         /// </summary>
-        public void Update()
+        public int Update()
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("DPD_FR_VehicleUpdate");
@@ -1324,7 +1324,10 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Updated_By", DbType.Decimal, clsSession.UserID);
             db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, DateTime.Now);
 
-            db.ExecuteNonQuery(dbCommand);
+            // Execute the query and return the new identity value
+            int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
+
+            return returnValue;
         }
 
         /// <summary>

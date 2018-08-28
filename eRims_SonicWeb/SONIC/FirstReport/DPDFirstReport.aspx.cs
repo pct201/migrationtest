@@ -7563,18 +7563,24 @@ public partial class SONIC_DPDFirstReport : clsBasePage
             //    PK_DPD_FR_Vehicle_ID = objDFV.Insert();
             //    PK_DPD_FR_Vehicle_ID = 0;
             //}
+            decimal _retVal;
             if (ht_PK_Vehicle_IncidentType.ContainsKey(objDFV.Incident_Type))
             {
                 //objDPD_FR.Update();
 
                 objDFV.PK_DPD_FR_Vehicle_ID = Convert.ToDecimal(ht_PK_Vehicle_IncidentType[objDFV.Incident_Type]);
-                objDFV.Update();
+                _retVal = objDFV.Update();
                 ht_PK_Vehicle_IncidentType.Remove(objDFV.Incident_Type);
             }
             else
             {
                 objDPD_FR.Update();
-                objDFV.Insert();
+                _retVal = objDFV.Insert();
+            }
+            if (_retVal == -2)
+            {
+                ScriptManager.RegisterClientScriptBlock(Page, typeof(string), "", "javascript:alert('Please enter unique VIN# for this first report.');", true);
+                return;
             }
         }
 
@@ -7756,17 +7762,75 @@ public partial class SONIC_DPDFirstReport : clsBasePage
         else if (e.CommandName == "Edit")
         {
             ClearVehicle_Controls();
-            btnAddVehicle.Text = "Update";
-            btnViewAuditVehicle.Visible = true;
+            //btnAddVehicle.Text = "Update";
+            //btnViewAuditVehicle.Visible = true;
 
-            int Index = Convert.ToInt32(e.CommandArgument);
-            PK_DPD_FR_Vehicle_ID = (gvVehicleDetails.DataKeys[Index].Values["PK_DPD_FR_Vehicle_ID"] != null) ? Convert.ToInt32(gvVehicleDetails.DataKeys[Index].Values["PK_DPD_FR_Vehicle_ID"]) : 0;
-            //used to check PK id. if greater than 0 than display below fields else hide.
-            if (PK_DPD_FR_Vehicle_ID > 0)
+            //int Index = Convert.ToInt32(e.CommandArgument);
+            //PK_DPD_FR_Vehicle_ID = (gvVehicleDetails.DataKeys[Index].Values["PK_DPD_FR_Vehicle_ID"] != null) ? Convert.ToInt32(gvVehicleDetails.DataKeys[Index].Values["PK_DPD_FR_Vehicle_ID"]) : 0;
+            ////used to check PK id. if greater than 0 than display below fields else hide.
+            //if (PK_DPD_FR_Vehicle_ID > 0)
+            //{
+            //    EditVehicleDetails(PK_DPD_FR_Vehicle_ID);
+            //    lstCauseOfLoss_SelectedIndexChanged(null, null);
+            //}
+            string VIN_No = string.Empty;
+            Label lbl_VIN = (gvVehicleDetails.Rows[Convert.ToInt32(e.CommandArgument)].FindControl("lbl_VIN") as Label);
+            if (lbl_VIN != null)
             {
-                EditVehicleDetails(PK_DPD_FR_Vehicle_ID);
-                lstCauseOfLoss_SelectedIndexChanged(null, null);
+                VIN_No = lbl_VIN.Text;
             }
+
+            DataTable dtVehicle = DPD_FR_Vehicle.SelectByIncidentType(PK_DPD_FR_ID, "");
+            dtVehicle.DefaultView.RowFilter = " VIN = '" + VIN_No + "' ";
+            dtVehicle = dtVehicle.DefaultView.ToTable();
+            gvVehicleDetails.DataSource = dtVehicle;
+            gvVehicleDetails.DataBind();
+
+            lstCauseOfLoss.Style["display"] = "";
+            gvVehicleDetails.Style["display"] = "none";
+            tdVehicleDetails.Style["display"] = "";
+            btnAddVehicle.Text = "Update";
+            lstCauseOfLoss_SelectedIndexChanged(null, null);
+            Hashtable temp_ht_PK_Vehicle_IncidentType = new Hashtable();
+
+            //(gvVehicleDetails.DataSource as DataTable).DefaultView.RowFilter = string.Format("", );
+            for (int index = 0; index < gvVehicleDetails.Rows.Count; index++)
+            {
+                PK_DPD_FR_Vehicle_ID = (gvVehicleDetails.DataKeys[index].Values["PK_DPD_FR_Vehicle_ID"] != null) ? Convert.ToInt32(gvVehicleDetails.DataKeys[index].Values["PK_DPD_FR_Vehicle_ID"]) : 0;
+                Label lbl = (Label)gvVehicleDetails.Rows[index].FindControl("lblIncident_Type");
+                if (lbl != null)
+                {
+                    string Incident_Type = lbl.Text;
+                    if (!ht_PK_Vehicle_IncidentType.ContainsKey(Incident_Type))
+                        temp_ht_PK_Vehicle_IncidentType.Add(Incident_Type, PK_DPD_FR_Vehicle_ID);
+
+                    EditVehicleDetails(PK_DPD_FR_Vehicle_ID);
+                }
+
+            }
+            ht_PK_Vehicle_IncidentType = temp_ht_PK_Vehicle_IncidentType;
+
+            //int Index = Convert.ToInt32(e.CommandArgument);
+            //PK_DPD_FR_Vehicle_ID = (gvVehicleDetails.DataKeys[Index].Values["PK_DPD_FR_Vehicle_ID"] != null) ? Convert.ToInt32(gvVehicleDetails.DataKeys[Index].Values["PK_DPD_FR_Vehicle_ID"]) : 0;
+            //Label lbl = (Label)gvVehicleDetails.Rows[Index].FindControl("lblIncident_Type");
+            //if (lbl != null)
+            //{
+            //    string Incident_Type = lbl.Text;
+            //    if (!ht_PK_Vehicle_IncidentType.ContainsKey(Incident_Type))
+            //        temp_ht_PK_Vehicle_IncidentType.Add(Incident_Type, PK_DPD_FR_Vehicle_ID);
+
+            //    //EditVehicleDetails(PK_DPD_FR_Vehicle_ID);
+            //}
+            ////used to check PK id. if greater than 0 than display below fields else hide.
+            //if (PK_DPD_FR_Vehicle_ID > 0)
+            //{
+            //    EditVehicleDetails(PK_DPD_FR_Vehicle_ID);
+            //    lstCauseOfLoss_SelectedIndexChanged(null, null);
+            //}
+            //ht_PK_Vehicle_IncidentType = temp_ht_PK_Vehicle_IncidentType;
+
+            btnEditVehicles.Visible = false;
+            ScriptManager.RegisterClientScriptBlock(this, Page.GetType(), DateTime.Now.ToString(), "bAddedVehicle = false;EnableDisableLossSavebutton(true);", true);
         }
     }
     #endregion
@@ -7774,6 +7838,7 @@ public partial class SONIC_DPDFirstReport : clsBasePage
     public void ClearVehicle_Controls()
     {
         lstCauseOfLoss.Enabled = true;
+        lstCauseOfLoss.ClearSelection();
         PK_DPD_FR_Vehicle_ID = 0;
         txt_Make.Text = "";
         txt_Model.Text = "";
@@ -8355,26 +8420,27 @@ public partial class SONIC_DPDFirstReport : clsBasePage
         lstCauseOfLoss.Style["display"] = "";
         gvVehicleDetails.Style["display"] = "none";
         tdVehicleDetails.Style["display"] = "";
-        btnAddVehicle.Text = "Update";
+        //btnAddVehicle.Text = "Update";
         lstCauseOfLoss_SelectedIndexChanged(null, null);
-        Hashtable temp_ht_PK_Vehicle_IncidentType = new Hashtable();
-        for (int index = 0; index < gvVehicleDetails.Rows.Count; index++)
-        {
-            PK_DPD_FR_Vehicle_ID = (gvVehicleDetails.DataKeys[index].Values["PK_DPD_FR_Vehicle_ID"] != null) ? Convert.ToInt32(gvVehicleDetails.DataKeys[index].Values["PK_DPD_FR_Vehicle_ID"]) : 0;
-            Label lbl = (Label)gvVehicleDetails.Rows[index].FindControl("lblIncident_Type");
-            if (lbl != null)
-            {
-                string Incident_Type = lbl.Text;
-                if (!ht_PK_Vehicle_IncidentType.ContainsKey(Incident_Type))
-                    temp_ht_PK_Vehicle_IncidentType.Add(Incident_Type, PK_DPD_FR_Vehicle_ID);
+        //Hashtable temp_ht_PK_Vehicle_IncidentType = new Hashtable();
+        //for (int index = 0; index < gvVehicleDetails.Rows.Count; index++)
+        //{
+        //    PK_DPD_FR_Vehicle_ID = (gvVehicleDetails.DataKeys[index].Values["PK_DPD_FR_Vehicle_ID"] != null) ? Convert.ToInt32(gvVehicleDetails.DataKeys[index].Values["PK_DPD_FR_Vehicle_ID"]) : 0;
+        //    Label lbl = (Label)gvVehicleDetails.Rows[index].FindControl("lblIncident_Type");
+        //    if (lbl != null)
+        //    {
+        //        string Incident_Type = lbl.Text;
+        //        if (!ht_PK_Vehicle_IncidentType.ContainsKey(Incident_Type))
+        //            temp_ht_PK_Vehicle_IncidentType.Add(Incident_Type, PK_DPD_FR_Vehicle_ID);
 
-                EditVehicleDetails(PK_DPD_FR_Vehicle_ID);
-            }
+        //        EditVehicleDetails(PK_DPD_FR_Vehicle_ID);
+        //    }
 
-        }
-        ht_PK_Vehicle_IncidentType = temp_ht_PK_Vehicle_IncidentType;
+        //}
+        //ht_PK_Vehicle_IncidentType = temp_ht_PK_Vehicle_IncidentType;
         btnEditVehicles.Visible = false;
-        ScriptManager.RegisterClientScriptBlock(this, Page.GetType(), DateTime.Now.ToString(), "bAddedVehicle = false;EnableDisableLossSavebutton(true);", true);
+        //ScriptManager.RegisterClientScriptBlock(this, Page.GetType(), DateTime.Now.ToString(), "bAddedVehicle = false;EnableDisableLossSavebutton(true);", true);
+        ClearVehicle_Controls();
     }
 
     private void EditVehicleDetails(int PK_ID)

@@ -1061,7 +1061,7 @@
                                                                                 <ItemStyle HorizontalAlign="Left" Width="15%" />
                                                                                 <ItemTemplate>
                                                                                     <%--<asp:LinkButton runat="server" ID="lnkEdit" CommandName="Edit" Text='<%#Eval("VIN")%>'></asp:LinkButton>--%>
-                                                                                    <%#Eval("VIN")%>
+                                                                                    <asp:Label ID="lbl_VIN" Text='<%#Eval("VIN")%>' runat="server"></asp:Label>
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
                                                                             <asp:TemplateField HeaderText="Vehicle Make">
@@ -1089,9 +1089,10 @@
                                                                                                 <%# clsGeneral.GetStringValue(Eval("Invoice_Value"))%>
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
-                                                                            <asp:TemplateField HeaderText="Remove">
+                                                                            <asp:TemplateField HeaderText="Edit Remove">
                                                                                 <ItemStyle HorizontalAlign="Left" Width="15%" />
                                                                                 <ItemTemplate>
+                                                                                    <asp:LinkButton runat="server" ID="lnkEdit" CommandName="Edit" Text="Edit"></asp:LinkButton>
                                                                                     <asp:LinkButton runat="server" ID="lnkRemove" CommandName="Remove" Text="Remove"
                                                                                         OnClientClick="return confirm('Sure to delete?');"></asp:LinkButton>
                                                                                 </ItemTemplate>
@@ -1111,7 +1112,7 @@
                                                             </tr>
                                                             <tr>
                                                                 <td colspan="6">
-                                                                    <asp:Button ID="btnEditVehicles" runat="server" Text="Add/Edit Cause Of Loss" OnClick="btnEditVehicles_Click" Visible="false" />
+                                                                    <asp:Button ID="btnEditVehicles" runat="server" Text="Add" OnClick="btnEditVehicles_Click" Visible="false" />
                                                                 </td>
                                                             </tr>
                                                             <tr>
