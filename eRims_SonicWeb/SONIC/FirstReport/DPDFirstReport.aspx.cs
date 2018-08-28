@@ -7579,7 +7579,7 @@ public partial class SONIC_DPDFirstReport : clsBasePage
             }
             if (_retVal == -2)
             {
-                ScriptManager.RegisterClientScriptBlock(Page, typeof(string), "", "javascript:alert('Please enter unique VIN# for this first report.');", true);
+                ScriptManager.RegisterClientScriptBlock(Page, typeof(string), "", "javascript:alert('Please enter unique combination of VIN# and Cause Of Loss for this first report.');", true);
                 return;
             }
         }
