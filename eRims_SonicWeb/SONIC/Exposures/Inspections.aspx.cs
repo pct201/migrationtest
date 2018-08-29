@@ -1002,6 +1002,7 @@ public partial class Exposures_Inspections : clsBasePage
                     ListItem lstSearch = (drpInspectionArea.Items.FindByValue(dtInspection.Rows[0]["FK_LU_Inspection_Area"].ToString()));
                     if (lstSearch != null)
                     {
+                        drpInspectionArea.ClearSelection();
                         lstSearch.Selected = true;
                         //drpInspectionArea.SelectedValue = Convert.ToString(dtInspection.Rows[0]["FK_LU_Inspection_Area"]);
                     }
@@ -1076,6 +1077,7 @@ public partial class Exposures_Inspections : clsBasePage
                     ListItem lstSearch = (drpInspectionArea.Items.FindByValue(dtInspection.Rows[0]["FK_LU_Inspection_Area"].ToString()));
                     if (lstSearch != null)
                     {
+                        drpInspectionArea.ClearSelection();
                         lstSearch.Selected = true;
                         //drpInspectionArea.SelectedValue = Convert.ToString(dtInspection.Rows[0]["FK_LU_Inspection_Area"]);
                     }
