@@ -3948,7 +3948,8 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             gvMeeting.DataBind();
             txtMeeting_Agenda_DateFrom.Text = "";
             txtMeeting_Agenda_DateTo.Text = "";
-            drpMeeting_AgendaMonth.SelectedValue = DateTime.Now.Month.ToString();
+            //drpMeeting_AgendaMonth.SelectedValue = DateTime.Now.Month.ToString();
+            drpMeeting_AgendaMonth.SelectedValue = "0";
             drpMeeting_AgendaYear.SelectedValue = DateTime.Now.Year.ToString();
             rdbagendaFrom.Checked = true;
             btnAgenda_Cancel.Visible = false;
@@ -3962,7 +3963,8 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             gvMeetingView.DataBind();
             txtFromView.Text = "";
             txtToView.Text = "";
-            drpMeeting_AgendaMonthView.SelectedValue = DateTime.Now.Month.ToString();
+            //drpMeeting_AgendaMonthView.SelectedValue = DateTime.Now.Month.ToString();
+            drpMeeting_AgendaMonth.SelectedValue = "0";
             drpMeeting_AgendaYearView.SelectedValue = DateTime.Now.Year.ToString();
             rdoFromView.Checked = true;
             btnAgendaCancelview.Visible = false;
