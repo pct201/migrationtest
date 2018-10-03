@@ -493,7 +493,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
     /// <summary>
     /// Fill Month Name In ddl
     /// </summary>
-    public void FillMonth(DropDownList ddl)
+    public void FillMonth(DropDownList ddl, bool booladdSelectAsFirstElement)
     {
         ddl.Items.Add(new ListItem("January", "1"));
         ddl.Items.Add(new ListItem("February", "2"));
@@ -508,7 +508,15 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         ddl.Items.Add(new ListItem("November", "11"));
         ddl.Items.Add(new ListItem("December", "12"));
 
-        ddl.SelectedValue = DateTime.Now.Month.ToString();
+        if (booladdSelectAsFirstElement)
+        {
+            ddl.Items.Insert(0, new ListItem("-- Select --", "0"));
+        }
+        else
+        {
+            ddl.SelectedValue = DateTime.Now.Month.ToString();
+        }
+
     }
     private void FillDashBoardScore()
     {
@@ -1123,8 +1131,8 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         }
         ddlYearIncident.SelectedValue = DateTime.Now.Year.ToString();
         //ddlYear_Claim_Management.SelectedValue = DateTime.Now.Year.ToString();
-        FillMonth(ddlMonth);
-        FillMonth(drpMeeting_AgendaMonth);
+        FillMonth(ddlMonth,false);
+        FillMonth(drpMeeting_AgendaMonth,true);
 
 
         DataTable dtDepartment = LU_Department.SelectAll().Tables[0];
@@ -1208,8 +1216,8 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         }
 
         ddlYearIncident_View.SelectedValue = DateTime.Now.Year.ToString();
-        FillMonth(ddlMonth_View);
-        FillMonth(drpMeeting_AgendaMonthView);
+        FillMonth(ddlMonth_View,false);
+        FillMonth(drpMeeting_AgendaMonthView,true);
     }
     /// <summary>
     /// Bind Page Controls for edit mode
