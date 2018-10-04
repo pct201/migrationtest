@@ -129,9 +129,6 @@ public partial class Property_AdHocReportWriter : clsBasePage
                 HttpContext.Current.Response.Clear();
                 HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename=\"" + "Property Ad-Hoc Report.xlsx" + "\""));
                 HttpContext.Current.Response.ContentType = "application/ms-excel";
-                //HttpContext.Current.Response.ContentEncoding = System.Text.Encoding.UTF8;
-                //HttpContext.Current.Response.Charset = "UTF-8";
-                //HttpContext.Current.Response.BinaryWrite(System.Text.Encoding.UTF8.GetPreamble());
                 HttpContext.Current.Response.TransmitFile(outputFiles);
                 HttpContext.Current.Response.Flush();
             }
@@ -2231,7 +2228,7 @@ public partial class Property_AdHocReportWriter : clsBasePage
                     dtHeader.Rows.Add(drHerder);
                     dtHeader.AcceptChanges();
                 }
-                sbRecord.Append("</tr>");
+                sbRecord.Append("</tr>");                
                 #endregion
 
                 strPath = AppConfig.SitePath + @"temp\" + Session.SessionID.ToString();
@@ -2634,7 +2631,7 @@ public partial class Property_AdHocReportWriter : clsBasePage
             }
             else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList || lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
             {
-                strWhere = "<b>" + strFilterIds + " (In) :</b>  " + GetSelectedItemTextString(lst_F);
+                strWhere = "<b>" + strFilterIds + " (In) :</b>  " + GetSelectedItemTextString(lst_F).Replace(">", "&gt;").Replace("<", "&lt;");
             }
             else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
             {
@@ -2674,7 +2671,8 @@ public partial class Property_AdHocReportWriter : clsBasePage
         {
             if (lstBoxItem.Selected)
             {
-                strValues = strValues + lstBoxItem.Text.Replace("'", "''") + ", ";
+                if (lstBoxItem.Text != "")
+                    strValues = strValues + lstBoxItem.Text.Replace("'", "''") + ", ";
             }
         }
         return strValues.Trim().TrimEnd(',');

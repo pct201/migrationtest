@@ -20050,17 +20050,20 @@ namespace ERIMS_Sonic_ReportScheduler
                         string[] arrConditionValue = strConValue.Split(',');
                         for (int intj = 0; intj < arrConditionValue.Length; intj++)
                         {
-                            if (arrConditionValue[intj] == "'1'" || arrConditionValue[intj] == "'Y'")
+                            if (arrConditionValue[intj] != "'--SELECT--'")
                             {
-                                    strRecord += "Yes,";                             
-                            }
-                            else if (arrConditionValue[intj] == "'0'" || arrConditionValue[intj] == "'N'")
-                            {
-                               
-                                    strRecord += "No,";                              
-                            }                       
-                            else
-                                strRecord += arrConditionValue[intj]+",";
+                                if (arrConditionValue[intj] == "'1'" || arrConditionValue[intj] == "'Y'")
+                                {
+                                    strRecord += "Yes,";
+                                }
+                                else if (arrConditionValue[intj] == "'0'" || arrConditionValue[intj] == "'N'")
+                                {
+
+                                    strRecord += "No,";
+                                }
+                                else
+                                    strRecord += arrConditionValue[intj] + ",";
+                            }                           
                         }
                         strRecord = strRecord.TrimEnd(',');
                     }
@@ -20314,8 +20317,7 @@ namespace ERIMS_Sonic_ReportScheduler
                     if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectList || lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
                     {
                         lstAdhoc = obj.GetAdHocReportFieldByPk(Convert.ToDecimal(lstFilter[i].FK_AdHocReportFields));
-                        string filterValue = FillFilterDropDownForProperty(lstAdhoc[0].Field_Header, lstFilter[i].ConditionValue).Replace("\"", " ").Replace(">", "&gt;").Replace("<", "&lt;");
-                        //string filterValue = FillFilterDropDownForProperty(lstAdhoc[0].Field_Header, lstFilter[i].ConditionValue);
+                        string filterValue = FillFilterDropDownForProperty(lstAdhoc[0].Field_Header, lstFilter[i].ConditionValue).Replace(">", "&gt;").Replace("<", "&lt;");
                         if (Convert.ToBoolean(lstFilter[i].IsNotSelected) == true)
                             sbRecord.Append("<tr><td colspan='3'><b>" + lstAdhoc[0].Field_Header + " (Not In)</b>" + " : " + filterValue + "</td></tr>");
                         else

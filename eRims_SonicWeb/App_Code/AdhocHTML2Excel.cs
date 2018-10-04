@@ -264,7 +264,7 @@ public class AdhocHTML2Excel
     private void HandleTDNode(HtmlNode hNode)
     {
         string colVal = hNode.InnerText;
-        colVal = colVal.Replace("&nbsp;", " ");
+        colVal = colVal.Replace("&nbsp;", " ").Replace("&lt;", "<").Replace("&gt;", ">");
         Color color = Color.Black;
 
         bool isBold = false;
@@ -359,7 +359,7 @@ public class AdhocHTML2Excel
                             currColumnNumber = currColumnNumber + Convert.ToInt32(htGridCells[currColumnNumber]);
                         }
                         ExcelRichTextCollection rtfCollection = excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].RichText;
-                        ExcelRichText tempText = rtfCollection.Add(childNode.InnerText.Replace("&nbsp;", " "));
+                        ExcelRichText tempText = rtfCollection.Add(childNode.InnerText.Replace("&nbsp;", " ").Replace("&lt;", "<").Replace("&gt;", ">"));
                         tempText.Bold = true;
                         tempText.PreserveSpace = true;
                         if (color != Color.Black)
@@ -539,7 +539,7 @@ public class AdhocHTML2Excel
                             currColumnNumber = currColumnNumber + Convert.ToInt32(htGridCells[currColumnNumber]) - 1;
                         }
                         ExcelRichTextCollection rtfCollection1 = excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].RichText;
-                        string innerText = childNode.InnerText.Replace("&nbsp;", " ");
+                        string innerText = childNode.InnerText.Replace("&nbsp;", " ").Replace("&lt;", "<").Replace("&gt;", ">");
                         ExcelRichText tempText1;
                         if (innerText.Contains("$"))
                         {
@@ -604,7 +604,7 @@ public class AdhocHTML2Excel
                             currColumnNumber = currColumnNumber + Convert.ToInt32(htGridCells[currColumnNumber]) - 1;
                         }
                         ExcelRichTextCollection rtfCollection2 = excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].RichText;
-                        ExcelRichText tempText2 = rtfCollection2.Add(childNode.InnerText.Replace("&nbsp;", " "));
+                        ExcelRichText tempText2 = rtfCollection2.Add(childNode.InnerText.Replace("&nbsp;", " ").Replace("&lt;", "<").Replace("&gt;", ">"));
 
                         if (!isBold && isTH)
                             isBold = true;
@@ -739,7 +739,7 @@ public class AdhocHTML2Excel
     private void HandleOtherNode(HtmlNode hNode)
     {
         string colVal = hNode.InnerText;
-        colVal = colVal.Replace("&nbsp;", " ");
+        colVal = colVal.Replace("&nbsp;", " ").Replace("&lt;", "<").Replace("&gt;", ">");
         Color color = Color.Black;
         bool isBold = false;
 
@@ -760,7 +760,7 @@ public class AdhocHTML2Excel
                                 currColumnNumber = currColumnNumber + Convert.ToInt32(htGridCells[currColumnNumber]);
                             }
                             ExcelRichTextCollection rtfCollection1 = excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].RichText;
-                            ExcelRichText tempText1 = rtfCollection1.Add(childNode.InnerText.Replace("&nbsp;", " "));
+                            ExcelRichText tempText1 = rtfCollection1.Add(childNode.InnerText.Replace("&nbsp;", " ").Replace("&lt;", "<").Replace("&gt;", ">"));
 
                             isBold = true;
                             tempText1.Bold = isBold;
@@ -781,7 +781,7 @@ public class AdhocHTML2Excel
                     currColumnNumber = currColumnNumber + Convert.ToInt32(htGridCells[currColumnNumber]);
                 }
                 ExcelRichTextCollection rtfCollection2 = excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].RichText;
-                ExcelRichText tempText2 = rtfCollection2.Add(hNode.InnerText.Replace("&nbsp;", " "));
+                ExcelRichText tempText2 = rtfCollection2.Add(hNode.InnerText.Replace("&nbsp;", " ").Replace("&lt;", "<").Replace("&gt;", ">"));
 
                 if (!isBold && isTH)
                     isBold = true;

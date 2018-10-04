@@ -451,7 +451,7 @@ public class HTML2Excel
     private void HandleTDNode(HtmlNode hNode)
     {
         string colVal = hNode.InnerText;
-        colVal = colVal.Replace("&nbsp;", " ");
+        colVal = colVal.Replace("&nbsp;", " ").Replace("&lt;", "<").Replace("&gt;", ">");
         Color color = Color.Black;
         bool isUnderline = false;
         bool isBold = false;
@@ -616,7 +616,7 @@ public class HTML2Excel
                             currColumnNumber = currColumnNumber + Convert.ToInt32(htGridCells[currColumnNumber]);
                         }
                         ExcelRichTextCollection rtfCollection = excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].RichText;
-                        ExcelRichText tempText = rtfCollection.Add(childNode.InnerText.Trim().Replace("\r\n", "").Replace("&nbsp;", " ").Replace("<br>", "\r\n"));
+                        ExcelRichText tempText = rtfCollection.Add(childNode.InnerText.Trim().Replace("\r\n", "").Replace("&nbsp;", " ").Replace("&lt;", "<").Replace("&gt;", ">").Replace("<br>", "\r\n"));
                         tempText.Bold = true;
                         tempText.PreserveSpace = true;
                         if (color != Color.Black)
@@ -627,7 +627,7 @@ public class HTML2Excel
 
                     case "#text":
                         //excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].Value = colVal;
-                        string innerText = childNode.InnerText.Trim().Replace("&nbsp;", " ").Replace("<br>", "\r\n");
+                        string innerText = childNode.InnerText.Trim().Replace("&nbsp;", " ").Replace("&lt;", "<").Replace("&gt;", ">").Replace("<br>", "\r\n");
                         if (!string.IsNullOrEmpty(innerText))
                         {
                             if (htGridCells.Contains(currColumnNumber) && !isNestedTable)
@@ -715,7 +715,7 @@ public class HTML2Excel
                         {
                             currColumnNumber = currColumnNumber + Convert.ToInt32(htGridCells[currColumnNumber]) - 1;
                         }
-                        string tempText111 = childNode.InnerText.Trim().Replace("&nbsp;", " ").Replace("<br>", "\r\n");
+                        string tempText111 = childNode.InnerText.Trim().Replace("&nbsp;", " ").Replace("&lt;", "<").Replace("&gt;", ">").Replace("<br>", "\r\n");
                         if (!string.IsNullOrEmpty(tempText111))
                         {
                             ExcelRichTextCollection rtfCollection2 = excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].RichText;
@@ -783,7 +783,7 @@ public class HTML2Excel
                             currColumnNumber = currColumnNumber + Convert.ToInt32(htGridCells[currColumnNumber]) - 1;
                         }
                         ExcelRichTextCollection rtfCollection2_2 = excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].RichText;
-                        ExcelRichText tempText2_2 = rtfCollection2_2.Add(childNode.InnerText.Trim().Replace("&nbsp;", " ").Replace("<br>", "\r\n"));
+                        ExcelRichText tempText2_2 = rtfCollection2_2.Add(childNode.InnerText.Trim().Replace("&nbsp;", " ").Replace("&lt;", "<").Replace("&gt;", ">").Replace("<br>", "\r\n"));
 
                         if (!isBold && isTH)
                             isBold = true;
@@ -816,7 +816,7 @@ public class HTML2Excel
                                 switch (brchildNode.Name)
                                 {
                                     case "#text":
-                                        string innerText1 = brchildNode.InnerText.Trim().Replace("&nbsp;", " ").Replace("<br>", "\r\n");
+                                        string innerText1 = brchildNode.InnerText.Trim().Replace("&nbsp;", " ").Replace("&lt;", "<").Replace("&gt;", ">").Replace("<br>", "\r\n");
                                         if (!string.IsNullOrEmpty(innerText1))
                                         {
                                             ExcelRichText tempText3_1 = rtfCollection3.Add(Environment.NewLine + innerText1);
@@ -986,7 +986,7 @@ public class HTML2Excel
     private void HandleOtherNode(HtmlNode hNode)
     {
         string colVal = hNode.InnerText;
-        colVal = colVal.Replace("&nbsp;", " ");
+        colVal = colVal.Replace("&nbsp;", " ").Replace("&lt;", "<").Replace("&gt;", ">");
         Color color = Color.Black;
         bool isBold = false;
 
@@ -1002,7 +1002,7 @@ public class HTML2Excel
                     {
                         case "#text":
                             //excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].Value = colVal;
-                            string innerText = childNode.InnerText.Trim().Replace("&nbsp;", " ").Replace("<br>", "\r\n");
+                            string innerText = childNode.InnerText.Trim().Replace("&nbsp;", " ").Replace("&lt;", "<").Replace("&gt;", ">").Replace("<br>", "\r\n");
                             if (!string.IsNullOrEmpty(innerText))
                             {
                                 if (htGridCells.Contains(currColumnNumber) && !isNestedTable)
@@ -1027,7 +1027,7 @@ public class HTML2Excel
                 break;
             case "#TEXT":
                 //excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].Value = colVal;
-                string innerText1 = hNode.InnerText.Trim().Replace("&nbsp;", " ").Replace("<br>", "\r\n");
+                string innerText1 = hNode.InnerText.Trim().Replace("&nbsp;", " ").Replace("&lt;", "<").Replace("&gt;", ">").Replace("<br>", "\r\n");
                 if (!string.IsNullOrEmpty(innerText1))
                 {
                     if (htGridCells.Contains(currColumnNumber) && !isNestedTable)
@@ -1035,7 +1035,7 @@ public class HTML2Excel
                         currColumnNumber = currColumnNumber + Convert.ToInt32(htGridCells[currColumnNumber]);
                     }
                     ExcelRichTextCollection rtfCollection2 = excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].RichText;
-                    ExcelRichText tempText2 = rtfCollection2.Add(hNode.InnerText.Replace("&nbsp;", " "));
+                    ExcelRichText tempText2 = rtfCollection2.Add(hNode.InnerText.Replace("&nbsp;", " ").Replace("&lt;", "<").Replace("&gt;", ">"));
 
                     if (!isBold && isTH)
                         isBold = true;
