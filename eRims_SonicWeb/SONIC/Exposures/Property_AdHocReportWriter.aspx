@@ -15,9 +15,13 @@
         function OPenSchedulePopup() {
 
             document.getElementById('<%=rfvEmpID.ClientID %>').enabled = false;
+            var PK_Schedule = '<%=ViewState["PK_SID"]%>';
+            var hdnPK_Adhoc = document.getElementById('ctl00_ContentPlaceHolder1_hdnReportId').value;
+            if (hdnPK_Adhoc == "")
+                hdnPK_Adhoc = 0;
 
             if (Page_ClientValidate('vsErrorGroup'))
-                GB_showCenter('Schedule Ad Hoc Report Writer', '<%=AppConfig.SiteURL%>SchedulerptAdHocWriter.aspx', 300, 500, '');
+                GB_showCenter('Schedule Ad Hoc Report Writer', '<%=AppConfig.SiteURL%>SONIC/Exposures/SchedulerptPropertyAdHocWriter.aspx?PKID=' + PK_Schedule + "&RID=" + hdnPK_Adhoc, 300, 500, '');
             else {
                 Page_ClientValidate('dummy'); return false;
             }
@@ -1570,8 +1574,7 @@
                     <asp:Button ID="btnDeleteReport" runat="server" Text="Delete Report" OnClick="btnDeleteReport_Click"
                         ToolTip="Delete Report" OnClientClick="return ConfirmDelete();" Enabled="false" />
                     <asp:Button ID="btnSchedule" runat="Server" CssClass="btn" Text="Schedule" ValidationGroup="vsErrorGroup"
-                        OnClientClick="javascript:OPenSchedulePopup();return false;" ToolTip="Schedule Report"
-                        Visible="false" />
+                        OnClientClick="javascript:OPenSchedulePopup();return false;" ToolTip="Schedule Report" />
                     <asp:HiddenField ID="hdnScheduleID" runat="server" Value="0" />
                     <asp:Button ID="btnHdnScheduling" runat="server" OnClick="btnHdnScheduling_Click" />
                 </td>

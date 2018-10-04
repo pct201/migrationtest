@@ -26,6 +26,32 @@ public partial class Property_AdHocReportWriter : clsBasePage
         get { return ViewState["strAccessibleClaimTypes"] == null ? "None" : Convert.ToString(ViewState["strAccessibleClaimTypes"]); }
         set { ViewState["strAccessibleClaimTypes"] = value; }
     }
+    public int ReportId
+    {
+        get { return (!clsGeneral.IsNull(Request.QueryString["RID"]) ? Convert.ToInt32(Request.QueryString["RID"]) : -1); }
+    }
+
+    public decimal PK_Schedule
+    {
+        get { return (!clsGeneral.IsNull(Request.QueryString["PKID"]) ? Convert.ToInt32(Request.QueryString["PKID"]) : -1); }
+    }
+
+    public string strMode
+    {
+        get { return (!clsGeneral.IsNull(Request.QueryString["mode"]) ? Convert.ToString(Request.QueryString["mode"]) : ""); }
+    }
+
+    /// <summary>
+    /// Denotes the Primary Key
+    /// </summary>
+    public decimal PK_SID
+    {
+        get
+        {
+            return clsGeneral.GetInt(ViewState["PK_SID"]);
+        }
+        set { ViewState["PK_SID"] = value; }
+    }
     #endregion
 
     #region "Page Event"
@@ -103,6 +129,9 @@ public partial class Property_AdHocReportWriter : clsBasePage
                 HttpContext.Current.Response.Clear();
                 HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename=\"" + "Property Ad-Hoc Report.xlsx" + "\""));
                 HttpContext.Current.Response.ContentType = "application/ms-excel";
+                //HttpContext.Current.Response.ContentEncoding = System.Text.Encoding.UTF8;
+                //HttpContext.Current.Response.Charset = "UTF-8";
+                //HttpContext.Current.Response.BinaryWrite(System.Text.Encoding.UTF8.GetPreamble());
                 HttpContext.Current.Response.TransmitFile(outputFiles);
                 HttpContext.Current.Response.Flush();
             }
@@ -174,8 +203,10 @@ public partial class Property_AdHocReportWriter : clsBasePage
     protected void btnHdnScheduling_Click(object sender, EventArgs e)
     {
         //Set Report id To null so , New Report is created with new Schedule.
-        hdnReportId.Value = string.Empty;
+        //hdnReportId.Value = string.Empty;
         SaveReport();
+        if (hdnScheduleID.Value != "0")
+            PK_SID = Convert.ToDecimal(hdnScheduleID.Value);
     }
 
     /// <summary>
@@ -211,6 +242,9 @@ public partial class Property_AdHocReportWriter : clsBasePage
         // maintain Scroll Bar Possition on Post Back
         ResetScrollPosition();
         txtReportName.Text = "";
+
+        PK_SID = -1;
+        hdnReportId.Value = string.Empty;
     }
 
     /// <summary>
@@ -822,6 +856,7 @@ public partial class Property_AdHocReportWriter : clsBasePage
         btnSelectAllFields.Enabled = btnSelectFields.Enabled = lstOutputFields.Items.Count > 0;
 
         hdnReportId.Value = (_dcSelectedReport == null) ? "0" : _dcSelectedReport.Value.ToString();
+        PK_SID = PK_Schedule;
         // Reset Scroll Position
         ResetScrollPosition();
     }
