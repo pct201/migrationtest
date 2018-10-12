@@ -971,7 +971,7 @@ public partial class Exposures_Inspections : clsBasePage
 
         // get all questions records and bind the grid
         string strFocusArea = dt_Focus_Area.Rows[Current_Focus_Area_ID - 1][1].ToString();
-        DataTable dtInspection = Inspection_Questions.SelectByFocusArea(FK_LU_Location_ID, true, dt_Focus_Area.Rows[Current_Focus_Area_ID - 1][1].ToString()).Tables[0];
+        DataTable dtInspection = Inspection_Questions.SelectByFocusArea(FK_LU_Location_ID, true, dt_Focus_Area.Rows[Current_Focus_Area_ID - 1][1].ToString(), Convert.ToDecimal(drpInspectionArea.SelectedItem.Value)).Tables[0];
         dtInspection.DefaultView.Sort = "Question_Number asc";
         dtInspection = dtInspection.DefaultView.ToTable();
         if (dtInspection.Rows.Count > 0)
@@ -1159,7 +1159,7 @@ public partial class Exposures_Inspections : clsBasePage
         }
         else
         {
-            DataTable dtQuestions = Inspection_Questions.SelectByFocusArea(FK_LU_Location_ID, false, dt_Focus_Area.Rows[Current_Focus_Area_ID - 1][1].ToString()).Tables[0];
+            DataTable dtQuestions = Inspection_Questions.SelectByFocusArea(FK_LU_Location_ID, false, dt_Focus_Area.Rows[Current_Focus_Area_ID - 1][1].ToString(), Convert.ToDecimal(drpInspectionArea.SelectedItem.Value)).Tables[0];
             dtQuestions.DefaultView.Sort = "Question_Number asc";
             dtQuestions = dtQuestions.DefaultView.ToTable();
             gvInspectionView.DataSource = dtQuestions;
@@ -1595,6 +1595,11 @@ public partial class Exposures_Inspections : clsBasePage
         SaveData();
         Page.ClientScript.RegisterStartupScript(typeof(string), "ABC", "javascript:ShowAttachment();", true);
     }
+    protected void drpInspectionArea_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        BindDetailsForAdd();
+    }
+
     #endregion
 
     #region Dynamic Validations
@@ -1630,4 +1635,5 @@ public partial class Exposures_Inspections : clsBasePage
         hdnErrorMsgs.Value = strMessages;
     }
     #endregion
+    
 }

@@ -311,7 +311,7 @@
                                                             :
                                                         </td>
                                                         <td align="left" width="31%">
-                                                            <asp:DropDownList runat="server" ID="drpInspectionArea" Width="170px" SkinID="drpInspectionArea">
+                                                            <asp:DropDownList runat="server" ID="drpInspectionArea" Width="170px" SkinID="drpInspectionArea" OnSelectedIndexChanged="drpInspectionArea_SelectedIndexChanged" AutoPostBack="true">
                                                             </asp:DropDownList>
                                                             <asp:RequiredFieldValidator ID="reqdrp" runat="server" ValidationGroup="vsInspection"
                                                                 ControlToValidate="drpInspectionArea" ErrorMessage="Please Select Inspection Area"

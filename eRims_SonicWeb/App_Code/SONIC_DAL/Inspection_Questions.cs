@@ -256,13 +256,14 @@ namespace ERIMS.DAL
         }
 
 
-        public static DataSet SelectByFocusArea(decimal PK_LU_Location_ID, bool bSelectForAdd, string Focus_Area)
+        public static DataSet SelectByFocusArea(decimal PK_LU_Location_ID, bool bSelectForAdd, string Focus_Area, decimal FK_LU_Inspection_Area)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("Inspection_QuestionsSelectByFocusArea");
             db.AddInParameter(dbCommand, "FK_LU_Location_ID", DbType.Decimal, PK_LU_Location_ID);
             db.AddInParameter(dbCommand, "Focus_Area", DbType.String, Focus_Area);
             db.AddInParameter(dbCommand, "bSelectForAdd", DbType.Boolean, bSelectForAdd);
+            db.AddInParameter(dbCommand, "FK_LU_Inspection_Area", DbType.Decimal, FK_LU_Inspection_Area);
             return db.ExecuteDataSet(dbCommand);
         }
         #endregion
