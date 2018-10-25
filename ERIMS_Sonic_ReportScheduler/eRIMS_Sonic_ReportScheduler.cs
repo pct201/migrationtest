@@ -419,9 +419,9 @@ namespace ERIMS_Sonic_ReportScheduler
                         case 75:
                             BindSafetyTraining_AdHocReportWriter(dtScheduleReports.Rows[i]);
                             break;
-                        case 77:
-                            BindProperty_AdHocReportWriter(dtScheduleReports.Rows[i]);
-                            break;
+                        //case 77:
+                        //    BindProperty_AdHocReportWriter(dtScheduleReports.Rows[i]);
+                        //    break;
                         default:
                             break;
 
@@ -14079,98 +14079,98 @@ namespace ERIMS_Sonic_ReportScheduler
         }
 
         //Report 77
-        private void BindProperty_AdHocReportWriter(DataRow drReportSchedule)
-        {
-            IDataReader Reader = null;
-            try
-            {
-                decimal pK_Schedule_ID = Convert.ToDecimal(drReportSchedule["PK_Schedule"]);
-                decimal Fk_RecipientList = Convert.ToDecimal(drReportSchedule["Fk_RecipientList"]);
-                decimal FK_Security_Id = Convert.ToDecimal(drReportSchedule["FK_Security_Id"]);
-                string strReportSchedulerName = Convert.ToString(drReportSchedule["ReportSchedulerName"]);
+        //private void BindProperty_AdHocReportWriter(DataRow drReportSchedule)
+        //{
+        //    IDataReader Reader = null;
+        //    try
+        //    {
+        //        decimal pK_Schedule_ID = Convert.ToDecimal(drReportSchedule["PK_Schedule"]);
+        //        decimal Fk_RecipientList = Convert.ToDecimal(drReportSchedule["Fk_RecipientList"]);
+        //        decimal FK_Security_Id = Convert.ToDecimal(drReportSchedule["FK_Security_Id"]);
+        //        string strReportSchedulerName = Convert.ToString(drReportSchedule["ReportSchedulerName"]);
                 
-                //Get Report criteria for the scheduled report
-                DataSet ds = new DataSet();
-                ds = Report.SelectFilterCriteria(77, pK_Schedule_ID);
-                if (ds != null && ds.Tables[0].Rows.Count > 0)
-                {
-                    DataTable dtFilter = ds.Tables[0];
-                    if (dtFilter.Rows.Count > 0)
-                    {
-                        string strCoverageType = string.Empty, strOutPutFields = string.Empty, strFirstGroupBy = string.Empty, strSecGroupBy = string.Empty;
+        //        //Get Report criteria for the scheduled report
+        //        DataSet ds = new DataSet();
+        //        ds = Report.SelectFilterCriteria(77, pK_Schedule_ID);
+        //        if (ds != null && ds.Tables[0].Rows.Count > 0)
+        //        {
+        //            DataTable dtFilter = ds.Tables[0];
+        //            if (dtFilter.Rows.Count > 0)
+        //            {
+        //                string strCoverageType = string.Empty, strOutPutFields = string.Empty, strFirstGroupBy = string.Empty, strSecGroupBy = string.Empty;
 
-                        decimal _dcSelectedReport = 0;
+        //                decimal _dcSelectedReport = 0;
 
-                        List<ERIMS_DAL.Property_AdHocFilter> lstFilter = new List<Property_AdHocFilter>();
+        //                List<ERIMS_DAL.Property_AdHocFilter> lstFilter = new List<Property_AdHocFilter>();
 
-                        _dcSelectedReport = Convert.ToDecimal(dtFilter.Rows[0]["Pk_AdHocReport"]);
-                        lstFilter = new ERIMS_DAL.Property_AdHocFilter().GetAdHocReportFieldByPk(_dcSelectedReport);
+        //                _dcSelectedReport = Convert.ToDecimal(dtFilter.Rows[0]["Pk_AdHocReport"]);
+        //                lstFilter = new ERIMS_DAL.Property_AdHocFilter().GetAdHocReportFieldByPk(_dcSelectedReport);
 
-                        ERIMS_DAL.Property_AdHocReport ObjAdHocReport = new ERIMS_DAL.Property_AdHocReport(_dcSelectedReport);
+        //                ERIMS_DAL.Property_AdHocReport ObjAdHocReport = new ERIMS_DAL.Property_AdHocReport(_dcSelectedReport);
 
-                        strOutPutFields = ObjAdHocReport.OutputFields;
-                        string strFilterIDs = string.Empty;
-                        for (int i = 0; i < lstFilter.Count; i++)
-                        {
-                            Property_AdhocReportFields obj = new Property_AdhocReportFields();
-                            List<Property_AdhocReportFields> lstAdhoc = obj.GetAdHocReportFieldByPk(Convert.ToDecimal(lstFilter[i].FK_AdHocReportFields));
-                            strFilterIDs += lstFilter[i].FK_AdHocReportFields + ",";
-                        }
-                        strFilterIDs = strFilterIDs.TrimEnd(',');
+        //                strOutPutFields = ObjAdHocReport.OutputFields;
+        //                string strFilterIDs = string.Empty;
+        //                for (int i = 0; i < lstFilter.Count; i++)
+        //                {
+        //                    Property_AdhocReportFields obj = new Property_AdhocReportFields();
+        //                    List<Property_AdhocReportFields> lstAdhoc = obj.GetAdHocReportFieldByPk(Convert.ToDecimal(lstFilter[i].FK_AdHocReportFields));
+        //                    strFilterIDs += lstFilter[i].FK_AdHocReportFields + ",";
+        //                }
+        //                strFilterIDs = strFilterIDs.TrimEnd(',');
 
-                        StringBuilder sbRecord = new StringBuilder();
-                        if (dtFilter.Rows.Count > 0)
-                        {
-                            //Get the recipient from the recipient list 
-                            DataTable dtRecipients = Report.SelectOneRecordWithRecipientList(Fk_RecipientList).Tables[0];
-                            DataRow drFilterCriteria = dtFilter.Rows[0];
-                            //Get the user who has scheduled the report
-                            DataTable dtUser = Report.SelectSecurityByPK(FK_Security_Id).Tables[0];
+        //                StringBuilder sbRecord = new StringBuilder();
+        //                if (dtFilter.Rows.Count > 0)
+        //                {
+        //                    //Get the recipient from the recipient list 
+        //                    DataTable dtRecipients = Report.SelectOneRecordWithRecipientList(Fk_RecipientList).Tables[0];
+        //                    DataRow drFilterCriteria = dtFilter.Rows[0];
+        //                    //Get the user who has scheduled the report
+        //                    DataTable dtUser = Report.SelectSecurityByPK(FK_Security_Id).Tables[0];
 
-                            String strFirstName, strLastName, strMailFrom;
-                            strFirstName = strLastName = strMailFrom = "";
-                            if (dtUser.Rows.Count > 0)
-                            {
-                                strFirstName = Convert.ToString(dtUser.Rows[0]["FIRST_NAME"]).Trim();
-                                strLastName = Convert.ToString(dtUser.Rows[0]["LAST_NAME"]).Trim();
-                                strMailFrom = Convert.ToString(dtUser.Rows[0]["Email"]).Trim();
-                            }
-                            //Get Records in Reader
-                            Reader = AdHocReportHelper.GetAdHocReportProperty(strOutPutFields, BindGroupBy(ObjAdHocReport), GetWhereConditionForProperty(lstFilter), BindOrderBy(ObjAdHocReport), strFilterIDs, FK_Security_Id);
-                            //Get File path where Records Save.
-                            string strFilePath = BindReportForProperty(ref sbRecord, Reader, ObjAdHocReport, lstFilter, strReportSchedulerName);
+        //                    String strFirstName, strLastName, strMailFrom;
+        //                    strFirstName = strLastName = strMailFrom = "";
+        //                    if (dtUser.Rows.Count > 0)
+        //                    {
+        //                        strFirstName = Convert.ToString(dtUser.Rows[0]["FIRST_NAME"]).Trim();
+        //                        strLastName = Convert.ToString(dtUser.Rows[0]["LAST_NAME"]).Trim();
+        //                        strMailFrom = Convert.ToString(dtUser.Rows[0]["Email"]).Trim();
+        //                    }
+        //                    //Get Records in Reader
+        //                    Reader = AdHocReportHelper.GetAdHocReportProperty(strOutPutFields, BindGroupBy(ObjAdHocReport), GetWhereConditionForProperty(lstFilter), BindOrderBy(ObjAdHocReport), strFilterIDs, FK_Security_Id);
+        //                    //Get File path where Records Save.
+        //                    string strFilePath = BindReportForProperty(ref sbRecord, Reader, ObjAdHocReport, lstFilter, strReportSchedulerName);
 
-                            //If records found
-                            if (File.Exists(strFilePath))
-                            {
-                                try
-                                {
-                                    isGrid = false;
-                                    SendMail(strReportSchedulerName, strReportSchedulerName + ".xls", strFirstName, strLastName, strMailFrom, strFilePath, dtRecipients, FK_Security_Id);
-                                    //isGrid = false;
-                                    EventLog.WriteEntry("eRIMS_Sonic Scheduled Reports Sent successfully scheduled on " + dtSchduleDate.ToString());
-                                }
-                                catch (Exception ex)
-                                {
-                                    EventLog.WriteEntry("Error Occurred while sending eRIMS_Sonic Scheduled Reports on " + dtSchduleDate.ToString() + ", " + ex.Message + ",Stack Trace:" + ex.StackTrace);
-                                }
-                                finally
-                                {
-                                    dtRecipients.Dispose();
-                                    dtUser.Dispose();
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+        //                    //If records found
+        //                    if (File.Exists(strFilePath))
+        //                    {
+        //                        try
+        //                        {
+        //                            isGrid = false;
+        //                            SendMail(strReportSchedulerName, strReportSchedulerName + ".xls", strFirstName, strLastName, strMailFrom, strFilePath, dtRecipients, FK_Security_Id);
+        //                            //isGrid = false;
+        //                            EventLog.WriteEntry("eRIMS_Sonic Scheduled Reports Sent successfully scheduled on " + dtSchduleDate.ToString());
+        //                        }
+        //                        catch (Exception ex)
+        //                        {
+        //                            EventLog.WriteEntry("Error Occurred while sending eRIMS_Sonic Scheduled Reports on " + dtSchduleDate.ToString() + ", " + ex.Message + ",Stack Trace:" + ex.StackTrace);
+        //                        }
+        //                        finally
+        //                        {
+        //                            dtRecipients.Dispose();
+        //                            dtUser.Dispose();
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
 
-            catch (Exception ex)
-            {
-                //EventLog.WriteEntry("Error Occurred while sending eRIMS_Sonic Scheduled Reports on " + dtSchduleDate.ToString() + ", " + ex.Message);
-                EventLog.WriteEntry("Error Occurred in Safety Training Adhoc Report on " + dtSchduleDate.ToString() + ", " + ex.Message + ",Stack Trace:" + ex.StackTrace);
-            }
-        }        
+        //    catch (Exception ex)
+        //    {
+        //        //EventLog.WriteEntry("Error Occurred while sending eRIMS_Sonic Scheduled Reports on " + dtSchduleDate.ToString() + ", " + ex.Message);
+        //        EventLog.WriteEntry("Error Occurred in Safety Training Adhoc Report on " + dtSchduleDate.ToString() + ", " + ex.Message + ",Stack Trace:" + ex.StackTrace);
+        //    }
+        //}        
 
         #endregion
 

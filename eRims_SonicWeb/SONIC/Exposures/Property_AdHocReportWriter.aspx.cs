@@ -72,7 +72,7 @@ public partial class Property_AdHocReportWriter : clsBasePage
             //Receoipient List
             ComboHelper.GetRecipientList(ddlRecipientList);
             //Hide Hidden Button
-            btnHdnScheduling.Style["display"] = "none";
+            //btnHdnScheduling.Style["display"] = "none";
         }
         else
         {
@@ -197,14 +197,14 @@ public partial class Property_AdHocReportWriter : clsBasePage
     }
 
     //Call from Schedule Page
-    protected void btnHdnScheduling_Click(object sender, EventArgs e)
-    {
-        //Set Report id To null so , New Report is created with new Schedule.
-        //hdnReportId.Value = string.Empty;
-        SaveReport();
-        if (hdnScheduleID.Value != "0")
-            PK_SID = Convert.ToDecimal(hdnScheduleID.Value);
-    }
+    //protected void btnHdnScheduling_Click(object sender, EventArgs e)
+    //{
+    //    //Set Report id To null so , New Report is created with new Schedule.
+    //    //hdnReportId.Value = string.Empty;
+    //    SaveReport();
+    //    if (hdnScheduleID.Value != "0")
+    //        PK_SID = Convert.ToDecimal(hdnScheduleID.Value);
+    //}
 
     /// <summary>
     /// Handle Delete report Button click events
@@ -2752,8 +2752,8 @@ public partial class Property_AdHocReportWriter : clsBasePage
         objAdHocReport.Pk_AdHocReport = hdnReportId.Value == string.Empty ? 0 : Convert.ToInt32(hdnReportId.Value);
         Pk_AdHocReport = objAdHocReport.Pk_AdHocReport.Value;
 
-        if (hdnScheduleID.Value != "0")
-            objAdHocReport.FK_Schedule = Convert.ToDecimal(hdnScheduleID.Value);
+        //if (hdnScheduleID.Value != "0")
+        //    objAdHocReport.FK_Schedule = Convert.ToDecimal(hdnScheduleID.Value);
 
         if (objAdHocReport.Pk_AdHocReport.Value <= 0)
         {
