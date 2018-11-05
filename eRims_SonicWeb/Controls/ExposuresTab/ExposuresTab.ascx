@@ -16,7 +16,7 @@
         </td>
         <td id="tab7" class="tab" onclick="RedirectTo(7);">Asset Protection
         </td>
-        <td id="tab5" class="tab" onclick="RedirectTo(5);">Real	Estate
+        <td id="tab5" class="tab" onclick="RedirectTo(5);">Leases
         </td>
         <td id="tab8" class="tab" onclick="RedirectTo(8);">Construction
         </td>        
@@ -34,7 +34,7 @@
 </table>
 <script type="text/javascript">
     //set the tab style if tab is active than apply class name is "tabselected" else "tab".
-    function SetTabStyle(index) {        
+    function SetTabStyle(index) {
         for (var i = 1; i <= 8; i++) {
             var tb = document.getElementById("tab" + i);
             if (i == index)
@@ -50,8 +50,8 @@
             loc = '<%=Encryption.Encrypt(Session["ExposureLocation"].ToString()) %>';
 
             switch (index) {
-                case 1:                    
-                    if (panel != undefined && panel != null && panel.toString() != '') {                        
+                case 1:
+                    if (panel != undefined && panel != null && panel.toString() != '') {
                         window.location.href = '<%=AppConfig.SiteURL%>SONIC/Exposures/PropertyView.aspx?loc=' + loc + panel;
                     }
                     else {
@@ -84,7 +84,7 @@
                     break;
                 case 10:
                     window.location.href = '<%=AppConfig.SiteURL%>SONIC/Exposures/FacilityMaintenance_ItemList.aspx?loc=' + loc;
-                        break;
+                    break;
             }
         }
     }

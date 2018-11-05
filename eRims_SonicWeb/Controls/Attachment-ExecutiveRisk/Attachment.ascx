@@ -37,8 +37,8 @@
 <table cellpadding="0" cellspacing="0" border="0" width="100%">
     <asp:ValidationSummary ID="valSummayAttachment" runat="server" ShowMessageBox="true"
         ValidationGroup="AddAttachment" ShowSummary="false" HeaderText="Verify the following field(s):" />
-     <tr class="bandHeaderRow" >
-        <td id="tdAttachment" runat="server">
+     <tr class="bandHeaderRow">
+        <td>
             Attachment</td>
     </tr>
     <tr>

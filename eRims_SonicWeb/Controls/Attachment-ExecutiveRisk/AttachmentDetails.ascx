@@ -4,195 +4,76 @@
 <script type="text/javascript" src="<%=AppConfig.SiteURL%>JavaScript/Validator.js">
     </script>
 <script type="text/javascript">
-    function CheckSelected(btnRemove)
-    {
-        var ctrls='';
-        if (btnRemove.id.indexOf("AttachDetails_Lease") != -1)
-        {
-            ctrls = document.getElementById("ctl00_ContentPlaceHolder1_AttachDetails_Lease_gvAttachment").getElementsByTagName('input');
-        }
-        else if (btnRemove.id.indexOf("AttachDetails_Mortgage") != -1)
-        {
-            ctrls = document.getElementById("ctl00_ContentPlaceHolder1_AttachDetails_Mortgage_gvAttachment").getElementsByTagName('input');
-        }
-        else if (btnRemove.id.indexOf("AttachDetails_Appraisal") != -1)
-        {
-            ctrls = document.getElementById("ctl00_ContentPlaceHolder1_AttachDetails_Appraisal_gvAttachment").getElementsByTagName('input');
-        }
-        else
-        {
-            ctrls = document.getElementsByTagName('input');
-        }
+    function CheckSelected() {
+        var ctrls = document.getElementsByTagName('input');
         var i;
-        var cnt=0;
-        for(i=0;i<ctrls.length;i++)
-        {
-            if(ctrls[i].type=="checkbox" && ctrls[i].id.indexOf("chkSelect") > 0)
-            {
-                if(ctrls[i].checked)
+        var cnt = 0;
+        for (i = 0; i < ctrls.length; i++) {
+            if (ctrls[i].type == "checkbox" && ctrls[i].id.indexOf("chkSelect") > 0) {
+                if (ctrls[i].checked)
                     cnt++;
             }
-        }   
-        
-        if (cnt==0)
-        {
+        }
+
+        if (cnt == 0) {
             alert("Please select an attachment to remove");
             return false;
         }
-        else
-        {
+        else {
             return confirm("Are you sure to remove attachment(s)?");
         }
-  }
-  
-  function openWindow(strURL)
-  {
-        oWnd=window.open(strURL,"Erims","location=0,status=0,scrollbars=1,menubar=0,resizable=1,toolbar=0,width=500,height=300");
+    }
+
+    function openWindow(strURL) {
+        oWnd = window.open(strURL, "Erims", "location=0,status=0,scrollbars=1,menubar=0,resizable=1,toolbar=0,width=500,height=300");
         //oWnd.moveTo(260,180);
         return false;
-  }
- 
- 
-  function ShowMailPage(attTbl)
-  {
+    }
+
+
+    function ShowMailPage(attTbl) {
+
+
         var gv = document.getElementById('<%=gvAttachment.ClientID%>');
-        var ctrls = gv.getElementsByTagName('input');
-        var i;
-        var cnt=0;
-        var m_strAttIds = '';
-        for(i=0;i<ctrls.length;i++)
-        {
-            if(ctrls[i].type=="checkbox" && ctrls[i].id.indexOf("chkSelect") > 0)
-            {
-                if(ctrls[i].checked)
-                {
-                    var ctrlId = ctrls[i].id;
-                    ctrlId =ctrlId.substring(ctrlId.lastIndexOf("_")- 2);                    
-                    var index = ctrlId.replace("_chkSelect",""); 
-                    index = Number(index)-2;
-                    var id = document.getElementById("hdnID" + index).value;
-                    if(m_strAttIds == "")
-                        m_strAttIds = id;
-                    else
-                    {
-                        m_strAttIds = m_strAttIds + "," + id;
-                    }   
-                    cnt++;
-                }
-            }
-        }   
-        
-        if (cnt==0)
-        {
-            alert("Please select any attachment to mail.");
-            return false;
-        }
-        else
-        {
-            ShowDialog("<%=AppConfig.SiteURL%>ErimsMail.aspx?AttMod="+attTbl+"&AttIds=" + m_strAttIds);
-            //var oWnd=window.open("<%=AppConfig.SiteURL%>ErimsMail.aspx?AttMod="+attTbl+"&AttIds=" + m_strAttIds ,"Erims","location=0,status=0,scrollbars=1,menubar=0,resizable=1,toolbar=0,width=600,height=300");
-            //oWnd.moveTo(260,180);
-            return false;
-        }
-  }
+      var ctrls = gv.getElementsByTagName('input');
+      var i;
+      var cnt = 0;
+      var m_strAttIds = '';
+      for (i = 0; i < ctrls.length; i++) {
+          if (ctrls[i].type == "checkbox" && ctrls[i].id.indexOf("chkSelect") > 0) {
+              if (ctrls[i].checked) {
+                  var ctrlId = ctrls[i].id;
+                  ctrlId = ctrlId.substring(ctrlId.lastIndexOf("_") - 2);
+                  var index = ctrlId.replace("_chkSelect", "");
+                  index = Number(index) - 2;
+                  var id = document.getElementById("hdnID" + index).value;
+                  if (m_strAttIds == "")
+                      m_strAttIds = id;
+                  else {
+                      m_strAttIds = m_strAttIds + "," + id;
+                  }
+                  cnt++;
+              }
+          }
+      }
 
-    function ShowMailPage_ForLease(attTbl, attFor)
-    {
-        var client_id = '';
-        if (attFor == 'Lease'){
-            client_id = "ctl00_ContentPlaceHolder1_AttachDetails_Lease_gvAttachment";
-        }
-        else if (attFor == 'Mortgage'){
-            client_id = "ctl00_ContentPlaceHolder1_AttachDetails_Mortgage_gvAttachment";
-        }
-        else if (attFor == 'Appraisal'){
-            client_id = "ctl00_ContentPlaceHolder1_AttachDetails_Appraisal_gvAttachment";
-        }
-
-        var gv = document.getElementById(client_id);
-        var ctrls = gv.getElementsByTagName('input');
-        var i;
-        var cnt=0;
-        var m_strAttIds = '';
-        for(i=0;i<ctrls.length;i++)
-        {
-            if(ctrls[i].type=="checkbox" && ctrls[i].id.indexOf("chkSelect") > 0)
-            {
-                if(ctrls[i].checked)
-                {
-                    var ctrlId = ctrls[i].id;
-                    ctrlId =ctrlId.substring(ctrlId.lastIndexOf("_")- 2);                    
-                    var index = ctrlId.replace("_chkSelect",""); 
-                    index = Number(index)-2;
-                    //var id = gv.getElementById("hdnID" + index).value;
-
-                    var id = $("#" + client_id).find("input[type=hidden][id*='hdnID"+index+"' ]").val();
-
-                    if(m_strAttIds == "")
-                        m_strAttIds = id;
-                    else
-                    {
-                        m_strAttIds = m_strAttIds + "," + id;
-                    }   
-                    cnt++;
-                }
-            }
-        }   
-        
-        if (cnt==0)
-        {
-            alert("Please select any attachment to mail.");
-            return false;
-        }
-        else
-        {
-            ShowDialog("<%=AppConfig.SiteURL%>ErimsMail.aspx?AttMod="+attTbl+"&AttIds=" + m_strAttIds);
+      if (cnt == 0) {
+          alert("Please select any attachment to mail.");
+          return false;
+      }
+      else {
+          ShowDialog("<%=AppConfig.SiteURL%>ErimsMail.aspx?AttMod=" + attTbl + "&AttIds=" + m_strAttIds);
             //var oWnd=window.open("<%=AppConfig.SiteURL%>ErimsMail.aspx?AttMod="+attTbl+"&AttIds=" + m_strAttIds ,"Erims","location=0,status=0,scrollbars=1,menubar=0,resizable=1,toolbar=0,width=600,height=300");
             //oWnd.moveTo(260,180);
             return false;
         }
     }
-   
-   function OpenPopupReplacement(pk,attachmentType,strFilePath, TableName)
-   {
+
+    function OpenPopupReplacement(pk, attachmentType, strFilePath, TableName) {
         var attPanel = '<%=IntAttachmentPanel%>';
-        if(attPanel != '' || attPanel != null)
-        {ShowPanel(attPanel);}
-        var navigateurl = "<%=AppConfig.SiteURL%>ReplaceAttachment.aspx?pk=" + pk + "&type=" + attachmentType + "&filename=" + strFilePath + "&tbl=" + TableName + "&btnID=<%=btnUpdateGrid.ClientID%>";
-        var w = 400, h = 250;
-        
-        
-       if (document.all || document.layers)
-       {
-        w = screen.availWidth;
-        h = screen.availHeight;
-       }
-       
-        var leftPos,topPos;
-        var popW = 400, popH = 200;
-        if(document.all)    
-        {leftPos = (w-popW)/2; topPos = (h-popH)/2;}
-        else
-        {leftPos = w/2; topPos = h/2;}
-        
-        window.open(navigateurl ,"popup","toolbar=no,menubar=no,scrollbars=yes,resizable=yes,width=" + popW + ",height=" + popH + ",top=" + topPos +",left=" + leftPos);         
-
-   }
-
-    function OpenPopupReplacement(pk, attachmentType, strFilePath, TableName, attFor) {
-        var attPanel = '';
-        if (attFor == 'Lease') {
-            attPanel = '13';
-        }
-        else if (attFor == 'Mortgage') {
-            attPanel = '14';
-        }
-        else if (attFor == 'Appraisal') {
-            attPanel = '15';
-        }
-        if (attPanel != '' || attPanel != null)
-        { ShowPanel(attPanel); }
-        var navigateurl = "<%=AppConfig.SiteURL%>ReplaceAttachment.aspx?pk=" + pk + "&type=" + attachmentType + "&filename=" + strFilePath + "&tbl=" + TableName + "&btnID=<%=btnUpdateGrid.ClientID%>";
+       if (attPanel != '' || attPanel != null)
+       { ShowPanel(attPanel); }
+       var navigateurl = "<%=AppConfig.SiteURL%>ReplaceAttachment.aspx?pk=" + pk + "&type=" + attachmentType + "&filename=" + strFilePath + "&tbl=" + TableName + "&btnID=<%=btnUpdateGrid.ClientID%>";
         var w = 400, h = 250;
 
 
@@ -289,7 +170,7 @@
     <tr>
         <td align="left">
             <asp:Button ID="btnRemoveAttachment" runat="server" Text="Remove" Visible="false"
-                OnClick="btnRemoveAttachment_Click" OnClientClick="return CheckSelected(this);" />            
+                OnClick="btnRemoveAttachment_Click" OnClientClick="return CheckSelected();" />            
             <asp:Button ID="btnMail" runat="server" Text="Mail" Visible="false" />
             <asp:Button ID="btnUpdateGrid" runat="server" style="display:none" OnClick="btnUpdateGrid_Click" />
         </td>

@@ -30,7 +30,7 @@ public partial class ReplaceAttachment : System.Web.UI.Page
         //clsGeneral.UploadFile(fpFile,strDocPath,strFileName, false, true);
         //Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "window.close();", true);
 
-        
+
         //set values to store in database
         ERIMSAttachment objAttachment = new ERIMSAttachment(Convert.ToDecimal(Request.QueryString["pk"]));
         objAttachment.Updated_By = clsSession.UserID;
@@ -47,16 +47,6 @@ public partial class ReplaceAttachment : System.Web.UI.Page
         objAttachment.Update();
         if (File.Exists(strFilePath))
             File.Delete(strFilePath);
-
-        if (!string.IsNullOrEmpty(objAttachment.Attachment_For))
-        {
-            Session["Attachment_For"] = objAttachment.Attachment_For;
-        }
-        else
-        {
-            Session["Attachment_For"] = string.Empty;
-        }
-
         Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "window.opener.document.getElementById('" + Request.QueryString["btnID"] + "').click();window.close();", true);
     }
 }

@@ -5,10 +5,10 @@ using System.Data.Common;
 
 namespace ERIMS.DAL
 {
-	/// <summary>
-	/// Data access class for Attachment table.
-	/// </summary>
-	public sealed class ERIMSAttachment
+    /// <summary>
+    /// Data access class for Attachment table.
+    /// </summary>
+    public sealed class ERIMSAttachment
     {
         #region Fields
 
@@ -21,7 +21,6 @@ namespace ERIMS.DAL
         private string _Attachment_Name;
         private string _Updated_By;
         private DateTime _Update_Date;
-        private string _Attachment_For;
 
         #endregion
 
@@ -107,14 +106,7 @@ namespace ERIMS.DAL
             set { _Update_Date = value; }
         }
 
-        /// <summary>
-        /// Gets or sets the Attachment_For value.
-        /// </summary>
-        public string Attachment_For
-        {
-            get { return _Attachment_For; }
-            set { _Attachment_For = value; }
-        }
+
 
         #endregion
 
@@ -136,7 +128,6 @@ namespace ERIMS.DAL
             this._Attachment_Name = "";
             this._Updated_By = "";
             this._Update_Date = (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue;
-            this._Attachment_For = string.Empty;
 
         }
 
@@ -166,7 +157,6 @@ namespace ERIMS.DAL
                 this._Attachment_Name = Convert.ToString(drAttachment["Attachment_Name"]);
                 this._Updated_By = Convert.ToString(drAttachment["Updated_By"]);
                 this._Update_Date = drAttachment["Update_Date"] != DBNull.Value ? Convert.ToDateTime(drAttachment["Update_Date"]) : (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue;
-                this._Attachment_For = Convert.ToString(drAttachment["Attachment_For"]);
 
             }
 
@@ -181,7 +171,6 @@ namespace ERIMS.DAL
                 this._Attachment_Name = "";
                 this._Updated_By = "";
                 this._Update_Date = (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue;
-                this._Attachment_For = string.Empty;
 
             }
 
@@ -194,109 +183,101 @@ namespace ERIMS.DAL
         #region "Methods"
 
         /// <summary>
-		/// Inserts a record into the Attachment table.
-		/// </summary>
-		/// <returns></returns>
-		public int Insert()
-		{
-			Database db = DatabaseFactory.CreateDatabase();
-			DbCommand dbCommand = db.GetStoredProcCommand("AttachmentInsert");
+        /// Inserts a record into the Attachment table.
+        /// </summary>
+        /// <returns></returns>
+        public int Insert()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("AttachmentInsert");
 
-			db.AddInParameter(dbCommand, "Attachment_Table", DbType.String, this._Attachment_Table);
-			db.AddInParameter(dbCommand, "Foreign_Key", DbType.Decimal, this._Foreign_Key);
-			db.AddInParameter(dbCommand, "FK_Attachment_Type", DbType.Decimal, this._FK_Attachment_Type);
-			db.AddInParameter(dbCommand, "Attachment_Description", DbType.String, this._Attachment_Description);
-			db.AddInParameter(dbCommand, "Attachment_Name", DbType.String, this._Attachment_Name);
-			db.AddInParameter(dbCommand, "Updated_By", DbType.String, this._Updated_By);
-			db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);
-            if (string.IsNullOrEmpty(this._Attachment_For))
-                db.AddInParameter(dbCommand, "Attachment_For", DbType.String, DBNull.Value);
-            else
-                db.AddInParameter(dbCommand, "Attachment_For", DbType.String, this._Attachment_For);
+            db.AddInParameter(dbCommand, "Attachment_Table", DbType.String, this._Attachment_Table);
+            db.AddInParameter(dbCommand, "Foreign_Key", DbType.Decimal, this._Foreign_Key);
+            db.AddInParameter(dbCommand, "FK_Attachment_Type", DbType.Decimal, this._FK_Attachment_Type);
+            db.AddInParameter(dbCommand, "Attachment_Description", DbType.String, this._Attachment_Description);
+            db.AddInParameter(dbCommand, "Attachment_Name", DbType.String, this._Attachment_Name);
+            db.AddInParameter(dbCommand, "Updated_By", DbType.String, this._Updated_By);
+            db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);
 
-			// Execute the query and return the new identity value
-			int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
+            // Execute the query and return the new identity value
+            int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
 
-			return returnValue;
-		}
+            return returnValue;
+        }
 
-		/// <summary>
-		/// Selects a single record from the Attachment table by a primary key.
-		/// </summary>
-		/// <returns>DataSet</returns>
-		public static DataSet SelectByPK(decimal pK_Attachment_Id)
-		{
-			Database db = DatabaseFactory.CreateDatabase();
-			DbCommand dbCommand = db.GetStoredProcCommand("AttachmentSelectByPK");
+        /// <summary>
+        /// Selects a single record from the Attachment table by a primary key.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static DataSet SelectByPK(decimal pK_Attachment_Id)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("AttachmentSelectByPK");
 
-			db.AddInParameter(dbCommand, "PK_Attachment_Id", DbType.Decimal, pK_Attachment_Id);
+            db.AddInParameter(dbCommand, "PK_Attachment_Id", DbType.Decimal, pK_Attachment_Id);
 
-			return db.ExecuteDataSet(dbCommand);
-		}
+            return db.ExecuteDataSet(dbCommand);
+        }
 
-		/// <summary>
-		/// Selects records from the Attachment table by a foreign key.
-		/// </summary>
-		/// <param name="fK_Attachment_Type"></param>
-		/// <returns>DataSet</returns>
-		public static DataSet SelectByFK_Attachment_Type(decimal fK_Attachment_Type)
-		{
-			Database db = DatabaseFactory.CreateDatabase();
-			DbCommand dbCommand = db.GetStoredProcCommand("AttachmentSelectByFK_Attachment_Type");
+        /// <summary>
+        /// Selects records from the Attachment table by a foreign key.
+        /// </summary>
+        /// <param name="fK_Attachment_Type"></param>
+        /// <returns>DataSet</returns>
+        public static DataSet SelectByFK_Attachment_Type(decimal fK_Attachment_Type)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("AttachmentSelectByFK_Attachment_Type");
 
-			db.AddInParameter(dbCommand, "FK_Attachment_Type", DbType.Decimal, fK_Attachment_Type);
+            db.AddInParameter(dbCommand, "FK_Attachment_Type", DbType.Decimal, fK_Attachment_Type);
 
-			return db.ExecuteDataSet(dbCommand);
-		}
+            return db.ExecuteDataSet(dbCommand);
+        }
 
-		/// <summary>
-		/// Selects all records from the Attachment table.
-		/// </summary>
-		/// <returns>DataSet</returns>
-		public static DataSet SelectAll()
-		{
-			Database db = DatabaseFactory.CreateDatabase();
-			DbCommand dbCommand = db.GetStoredProcCommand("AttachmentSelectAll");
+        /// <summary>
+        /// Selects all records from the Attachment table.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static DataSet SelectAll()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("AttachmentSelectAll");
 
-			return db.ExecuteDataSet(dbCommand);
-		}
+            return db.ExecuteDataSet(dbCommand);
+        }
 
-		/// <summary>
-		/// Updates a record in the Attachment table.
-		/// </summary>
-		public void Update()
-		{
-			Database db = DatabaseFactory.CreateDatabase();
-			DbCommand dbCommand = db.GetStoredProcCommand("AttachmentUpdate");
+        /// <summary>
+        /// Updates a record in the Attachment table.
+        /// </summary>
+        public void Update()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("AttachmentUpdate");
 
-			db.AddInParameter(dbCommand, "PK_Attachment_Id", DbType.Decimal, this._PK_Attachment_Id);
-			db.AddInParameter(dbCommand, "Attachment_Table", DbType.String, this._Attachment_Table);
-			db.AddInParameter(dbCommand, "Foreign_Key", DbType.Decimal, this._Foreign_Key);
-			db.AddInParameter(dbCommand, "FK_Attachment_Type", DbType.Decimal, this._FK_Attachment_Type);
-			db.AddInParameter(dbCommand, "Attachment_Description", DbType.String, this._Attachment_Description);
-			db.AddInParameter(dbCommand, "Attachment_Name", DbType.String, this._Attachment_Name);
-			db.AddInParameter(dbCommand, "Updated_By", DbType.String, this._Updated_By);
-			db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);
-            if (string.IsNullOrEmpty(this._Attachment_For))
-                db.AddInParameter(dbCommand, "Attachment_For", DbType.String, DBNull.Value);
-            else
-                db.AddInParameter(dbCommand, "Attachment_For", DbType.String, this._Attachment_For);
+            db.AddInParameter(dbCommand, "PK_Attachment_Id", DbType.Decimal, this._PK_Attachment_Id);
+            db.AddInParameter(dbCommand, "Attachment_Table", DbType.String, this._Attachment_Table);
+            db.AddInParameter(dbCommand, "Foreign_Key", DbType.Decimal, this._Foreign_Key);
+            db.AddInParameter(dbCommand, "FK_Attachment_Type", DbType.Decimal, this._FK_Attachment_Type);
+            db.AddInParameter(dbCommand, "Attachment_Description", DbType.String, this._Attachment_Description);
+            db.AddInParameter(dbCommand, "Attachment_Name", DbType.String, this._Attachment_Name);
+            db.AddInParameter(dbCommand, "Updated_By", DbType.String, this._Updated_By);
+            db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);
 
-			db.ExecuteNonQuery(dbCommand);
-		}
+            db.ExecuteNonQuery(dbCommand);
+        }
 
-		/// <summary>
-		/// Deletes a record from the Attachment table by a composite primary key.
-		/// </summary>
-		public static void DeleteByPK(decimal pK_Attachment_Id)
-		{
-			Database db = DatabaseFactory.CreateDatabase();
-			DbCommand dbCommand = db.GetStoredProcCommand("AttachmentDeleteByPK");
+        /// <summary>
+        /// Deletes a record from the Attachment table by a composite primary key.
+        /// </summary>
+        public static void DeleteByPK(decimal pK_Attachment_Id)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("AttachmentDeleteByPK");
 
-			db.AddInParameter(dbCommand, "PK_Attachment_Id", DbType.Decimal, pK_Attachment_Id);
+            db.AddInParameter(dbCommand, "PK_Attachment_Id", DbType.Decimal, pK_Attachment_Id);
 
-			db.ExecuteNonQuery(dbCommand);
-		}
+            db.ExecuteNonQuery(dbCommand);
+        }
 
         /// <summary>
         /// Deletes a record from the Attachment table by a composite primary key.
@@ -324,17 +305,17 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
-		/// <summary>
-		/// Deletes a record from the Attachment table by a foreign key.
-		/// </summary>
-		public static void DeleteByFK_Attachment_Type(decimal fK_Attachment_Type)
-		{
-			Database db = DatabaseFactory.CreateDatabase();
-			DbCommand dbCommand = db.GetStoredProcCommand("AttachmentDeleteByFK_Attachment_Type");
+        /// <summary>
+        /// Deletes a record from the Attachment table by a foreign key.
+        /// </summary>
+        public static void DeleteByFK_Attachment_Type(decimal fK_Attachment_Type)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("AttachmentDeleteByFK_Attachment_Type");
 
-			db.AddInParameter(dbCommand, "FK_Attachment_Type", DbType.Decimal, fK_Attachment_Type);
+            db.AddInParameter(dbCommand, "FK_Attachment_Type", DbType.Decimal, fK_Attachment_Type);
 
-			db.ExecuteNonQuery(dbCommand);
+            db.ExecuteNonQuery(dbCommand);
         }
 
         /// <summary>
