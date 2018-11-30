@@ -79,7 +79,7 @@
                                         <span style="display: inline-block; width: 160px">Filing_State</span>
                                     </th>
                                     <th class="cols">
-                                        <span style="display: inline-block; width: 160px">InjuryOccurredOffsite</span>
+                                        <span style="display: inline-block; width: 160px">IncidentOccurredOffsite</span>
                                     </th>
                                     <th class="cols">
                                         <span style="display: inline-block; width: 160px">Offsite_Address1</span>
