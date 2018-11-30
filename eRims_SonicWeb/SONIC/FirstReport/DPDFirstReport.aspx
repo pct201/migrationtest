@@ -342,19 +342,23 @@
             }
 
             ///This Function used to display/Hide Question in Thift Section according to Radio button value
-            function checkTheftVehicleRecorved() {
-                var ValidTakePossession = document.getElementById('<%=rfv_Dealership_Wish_To_Take_Possession.ClientID %>');
+        function checkTheftVehicleRecorved() {
+                var ValidDamageAmount = document.getElementById('<%=rfvtxt_Damage_estimate.ClientID %>');               
+                var ValidTakePossession = document.getElementById('<%=rfv_Dealership_Wish_To_Take_Possession.ClientID %>');               
             var ctl = document.getElementById('<%=rdo_Vehicle_Recovered.ClientID %>');
             rdo = document.getElementById(ctl.id + "_0");
             if (rdo.checked == true) {
                 document.getElementById('<%=td_VehicleRecovred.ClientID %>').style.display = "";
                 ValidTakePossession.enabled = true;
+                ValidDamageAmount.enabled = true;
             }
             else {
                 document.getElementById('<%=td_VehicleRecovred.ClientID %>').style.display = "none";
                 ValidTakePossession.enabled = false;
+                ValidDamageAmount.enabled = false;
             }
-        }
+        }        
+
         function TheftCheck(bChecked) {
             var ValidYear = document.getElementById('<%=revTheft_Year.ClientID %>');
             if (bChecked == true) {
@@ -372,41 +376,79 @@
 
         ///This Function used to display/Hide Question in Thift Section according to Radio button value
         function checkTheftVehicleInStorage() {
+
+            var ValidStorage_Address_1 = document.getElementById('<%=rfvtxt_Storage_Address_1.ClientID %>');
+            var ValidStorage_Contact = document.getElementById('<%=rfvtxt_Storage_Contact.ClientID %>');
+            var ValidStorage_Address_2 = document.getElementById('<%=rfvtxt_Storage_Address_2.ClientID %>');
+            var ValidStorage_phone = document.getElementById('<%=rfvtxt_Storage_phone.ClientID %>');
+            var ValidStorage_City = document.getElementById('<%=rfvtxt_Storage_City.ClientID %>');
+            var ValidStorage_cost = document.getElementById('<%=rfvtxt_Storage_cost.ClientID %>');
+            var ValidStorage_State = document.getElementById('<%=rfvddl_Storage_State.ClientID %>');
+            var Validstorage_Zip_Code = document.getElementById('<%=rfvtxt_storage_Zip_Code.ClientID %>');                                                                
+
             var ctl = document.getElementById('<%=rdoVehicle_In_Storage.ClientID %>');
             rdo = document.getElementById(ctl.id + "_0");
-
+          
             if (rdo.checked == true) {
-                document.getElementById('<%=tdVehicle_In_Storage.ClientID %>').style.display = "";
+                document.getElementById('<%=tdVehicle_In_Storage.ClientID %>').style.display = "";  
+                ValidStorage_Address_1.enabled = true;
+                ValidStorage_Contact.enabled = true;
+                ValidStorage_Address_2.enabled = true;
+                ValidStorage_phone.enabled = true;
+                ValidStorage_City.enabled = true;
+                ValidStorage_cost.enabled = true;
+                ValidStorage_State.enabled = true;
+                Validstorage_Zip_Code.enabled = true;
             }
             else {
-                document.getElementById('<%=tdVehicle_In_Storage.ClientID %>').style.display = "none";
+                document.getElementById('<%=tdVehicle_In_Storage.ClientID %>').style.display = "none";  
+                ValidStorage_Address_1.enabled = false;
+                ValidStorage_Contact.enabled = false;
+                ValidStorage_Address_2.enabled = false;
+                ValidStorage_phone.enabled = false;
+                ValidStorage_City.enabled = false;
+                ValidStorage_cost.enabled = false;
+                ValidStorage_State.enabled = false;
+                Validstorage_Zip_Code.enabled = false;
             }
         }
-        function checkPoliceNotified() {
+        function checkPoliceNotified() {            
+            var ValidReportNumber = document.getElementById('<%=rfvFraudReportNumber.ClientID %>');               
             var ctl = document.getElementById('<%=rdoPoliceNotified.ClientID %>');
             rdo = document.getElementById(ctl.id + "_0");
             if (rdo.checked == true) {
-                document.getElementById('<%=trPoliceNotified.ClientID %>').style.display = "";
+                document.getElementById('<%=trPoliceNotified.ClientID %>').style.display = ""; 
+                ValidReportNumber.enabled = true;
             }
             else {
-                document.getElementById('<%=trPoliceNotified.ClientID %>').style.display = "none";
+                document.getElementById('<%=trPoliceNotified.ClientID %>').style.display = "none";    
+                ValidReportNumber.enabled = false;
             }
         }
         // used to display/Hide Question in MVA-Multi section according radiobutton value
         function CheckMVAMultiDrivenByCA() {
+
+            var ValidYesName = document.getElementById('<%=rfvMVA_MultiName_Yes.ClientID %>');
+            var ValidYesAddress = document.getElementById('<%=rfvMVA_MultiAddress_Yes.ClientID %>');
+            var ValidYesPhone = document.getElementById('<%=rfvMVA_MultiPhone_Yes.ClientID %>');
+
             var ValidVehicle_Driven_By_Customer = document.getElementById('<%=rfvMVA_MultiVehicle_Driven_By_Customer.ClientID %>');
             var ValidAssociate_Cited = document.getElementById('<%=rfvMVA_MultiAssociate_Cited.ClientID %>');
             var ValidAssociate_injured = document.getElementById('<%=rfvMVA_MultiAssociate_injured.ClientID %>');
             var ValidDrug_test_performed = document.getElementById('<%=rfvMVA_MultiDrug_test_performed.ClientID %>');
             var ctl = document.getElementById('<%=rdoMVA_MultiDriven_By_Associate.ClientID %>');
+
             rdo = document.getElementById(ctl.id + "_0");
-            if (rdo.checked == false) {
+            if (rdo.checked == false) {                
                 document.getElementById('<%=trMVAMulti_DrivenByCA_No.ClientID %>').style.display = "";
                 document.getElementById('<%=trMVAMulti_DrivenByCA_Yes.ClientID %>').style.display = "none";
                 ValidAssociate_Cited.enabled = false;
                 ValidAssociate_injured.enabled = false;
                 ValidDrug_test_performed.enabled = false;
                 ValidVehicle_Driven_By_Customer.enabled = true;
+                ValidYesName.enabled = false;
+                ValidYesAddress.enabled = false;
+                ValidYesPhone.enabled = false;
             }
             else {
                 document.getElementById('<%=trMVAMulti_DrivenByCA_No.ClientID %>').style.display = "none";
@@ -415,11 +457,25 @@
                 ValidAssociate_injured.enabled = true;
                 ValidDrug_test_performed.enabled = true;
                 ValidVehicle_Driven_By_Customer.enabled = false;
+                ValidYesName.enabled = true;
+                ValidYesAddress.enabled = true;
+                ValidYesPhone.enabled = true;
             }
         }
 
         // used to display/Hide Question in MVA-Multi section according radiobutton value
         function CheckMultiSeeking_subrogation() {
+
+            var ValidCarrierName = document.getElementById('<%=rfvMVA_MultiTPI_Carrier_name.ClientID %>');
+            var ValidContactName = document.getElementById('<%=rfvMVA_Multitpi_contact.ClientID %>');
+            var ValidPolicyNumber = document.getElementById('<%=rfvMVA_MultiTPI_Policy_number.ClientID %>');
+            var ValidPhone = document.getElementById('<%=rfvMVA_Multitpi_phone.ClientID %>');
+            var ValidAddress1 = document.getElementById('<%=rfvMVA_Multitpi_address_1.ClientID %>');
+            var ValidAddress2 = document.getElementById('<%=rfvMVA_Multitpi_address_2.ClientID %>');            
+            var ValidCity = document.getElementById('<%=rfvMVA_Multitpi_City.ClientID %>');            
+            var ValidState  = document.getElementById('<%=rfvMVA_Multitpi_State.ClientID %>');
+            var ValidZip = document.getElementById('<%=rfvMVA_Multitpi_Zip_Code.ClientID %>');
+
             var ValidNotice_only_claim = document.getElementById('<%=rfvMVA_MultiNotice_only_claim.ClientID %>');
             var ctl = document.getElementById('<%=rdoMVA_MultiSeeking_subrogation.ClientID %>');
             rdo = document.getElementById(ctl.id + "_0");
@@ -427,15 +483,43 @@
                 ValidNotice_only_claim.enabled = false;
                 document.getElementById('<%=trMVA_MultiSeeking_subrogation_Yes.ClientID %>').style.display = "";
                 document.getElementById('<%=trMVA_MultiSeeking_subrogation_No.ClientID %>').style.display = "none";
+                ValidCarrierName.enabled = true;
+                ValidContactName.enabled = true;
+                ValidPolicyNumber.enabled = true;
+                ValidPhone.enabled = true;
+                ValidAddress1.enabled = true;
+                ValidAddress2.enabled = true;
+                ValidCity.enabled = true;
+                ValidState.enabled = true;
+                ValidZip.enabled = true;
             }
             else {
                 ValidNotice_only_claim.enabled = true;
                 document.getElementById('<%=trMVA_MultiSeeking_subrogation_Yes.ClientID %>').style.display = "none";
                 document.getElementById('<%=trMVA_MultiSeeking_subrogation_No.ClientID %>').style.display = "";
+                ValidCarrierName.enabled = false;
+                ValidContactName.enabled = false;
+                ValidPolicyNumber.enabled = false;
+                ValidPhone.enabled = false;
+                ValidAddress1.enabled = false;
+                ValidAddress2.enabled = false;
+                ValidCity.enabled = false;
+                ValidState.enabled = false;
+                ValidZip.enabled = false;
             }
         }
         // used to display/Hide Question in MVA-Multi section according radiobutton value
         function CheckMultiAdditional_passengers() {
+
+          <%--  var ValidContactName = document.getElementById('<%=rfvMVA_MultiNotice_only_claim.ClientID %>');
+            var ValidAddress1 = document.getElementById('<%=rfvMVA_MultiNotice_only_claim.ClientID %>');
+            var ValidAddress2 = document.getElementById('<%=rfvMVA_MultiNotice_only_claim.ClientID %>');
+            var ValidPhone = document.getElementById('<%=rfvMVA_MultiNotice_only_claim.ClientID %>');
+            var ValidCity = document.getElementById('<%=rfvMVA_MultiNotice_only_claim.ClientID %>');
+            var ValidInjured= document.getElementById('<%=rfvMVA_MultiNotice_only_claim.ClientID %>');
+            var ValidState  = document.getElementById('<%=rfvMVA_MultiNotice_only_claim.ClientID %>');
+            var ValidZip = document.getElementById('<%=rfvMVA_MultiNotice_only_claim.ClientID %>');--%>
+
             var ctl = document.getElementById('<%=rdoMVA_MultiAdditional_passengers.ClientID %>');
             rdo = document.getElementById(ctl.id + "_0");
             if (rdo.checked == true) {
@@ -1181,7 +1265,7 @@
                                                                             </td>
                                                                         </tr>
                                                                         <tr>
-                                                                            <td align="left">Location of Vehicle&nbsp;<span id="Span17" style="color: Red; display: none;" runat="server">*</span>
+                                                                            <td align="left">Location of Vehicle&nbsp;<span id="Span17" style="color: Red;" runat="server">*</span>
                                                                             </td>
                                                                             <td align="center">:
                                                                             </td>
@@ -1190,7 +1274,7 @@
                                                                             </td>
                                                                         </tr>
                                                                         <tr>
-                                                                            <td align="left">Location Address&nbsp;<span id="Span18" style="color: Red; display: none;" runat="server">*</span>
+                                                                            <td align="left">Location Address&nbsp;<span id="Span18" style="color: Red;" runat="server">*</span>
                                                                             </td>
                                                                             <td align="center">:
                                                                             </td>
@@ -1209,7 +1293,7 @@
                                                                             </td>
                                                                         </tr>
                                                                         <tr>
-                                                                            <td align="left">Location Zip&nbsp;<span id="Span20" style="color: Red; display: none;" runat="server">*</span>
+                                                                            <td align="left">Location Zip&nbsp;<span id="Span20" style="color: Red;" runat="server">*</span>
                                                                             </td>
                                                                             <td align="center">:
                                                                             </td>
@@ -1253,7 +1337,7 @@
                                                                             </td>
                                                                             <td align="left" colspan="4">
                                                                                 <asp:RadioButtonList runat="server" ID="rdoTheft_Security_Video_Surveillance" SkinID="YesNoTypeNullSelection"
-                                                                                    onClick="checkTheftVehicleRecorved();TheftCheck(true);">
+                                                                                    onClick="TheftCheck(true);">
                                                                                 </asp:RadioButtonList>
                                                                                 <asp:RequiredFieldValidator ID="rfvTheft_Security_Video_Surveillance" InitialValue="" ControlToValidate="rdoTheft_Security_Video_Surveillance"
                                                                                     runat="server" ValidationGroup="vsVehicleGroup" ErrorMessage="Please answer Is There a Security Video Surveillance System?"
@@ -1269,7 +1353,7 @@
                                                                             </td>
                                                                         </tr>
                                                                         <tr id="trVehicleRecovered" style="display: none" runat="server">
-                                                                            <td align="left">Was the Vehicle Recovered?
+                                                                            <td align="left">Was the Vehicle Recovered?&nbsp;<span id="Span23" style="color: Red;" runat="server">*</span>
                                                                             </td>
                                                                             <td align="center">:
                                                                             </td>
@@ -1287,20 +1371,20 @@
                                                                             <td colspan="6" align="left" runat="server" id="td_VehicleRecovred" style="display: none">
                                                                                 <table cellpadding="3" cellspacing="1" border="0">
                                                                                     <tr>
-                                                                                        <td align="left">If Yes, damage amount&nbsp;<span id="Span122" style="color: Red; display: none;" runat="server">*</span>
+                                                                                        <td align="left">If Yes, damage amount&nbsp;<span id="Span122" style="color: Red;" runat="server">*</span>
                                                                                         </td>
                                                                                         <td align="center">:
                                                                                         </td>
                                                                                         <td align="left">$<asp:TextBox runat="server" ID="txt_Damage_estimate" Width="170px" MaxLength="10" onchange="TheftCheck(true);"
                                                                                             onpaste="return false" onkeypress="return currencyFormat(this,',','.',event);" onblur="CheckNumericVal(this);"></asp:TextBox>
-                                                                                            <%--<asp:RequiredFieldValidator ID="rfvTheft_Damage_estimate" InitialValue="" ControlToValidate="txtTheft_Damage_estimate"
-                                                                                                runat="server" ValidationGroup="vsTheftGroup" ErrorMessage="Please Enter Damage Amount."
+                                                                                            <asp:RequiredFieldValidator ID="rfvtxt_Damage_estimate" InitialValue="" ControlToValidate="txt_Damage_estimate"
+                                                                                                runat="server" ValidationGroup="vsVehicleGroup" ErrorMessage="Please Enter Damage Amount."
                                                                                                 SetFocusOnError="true" Display="None" Enabled="false">
-                                                                                            </asp:RequiredFieldValidator>--%>
+                                                                                            </asp:RequiredFieldValidator>
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr>
-                                                                                        <td align="left">If Yes, does the dealership wish to take possession?
+                                                                                        <td align="left">If Yes, does the dealership wish to take possession?&nbsp;<span id="Span24" style="color: Red;" runat="server">*</span>
                                                                                         </td>
                                                                                         <td align="center">:
                                                                                         </td>
@@ -1320,7 +1404,7 @@
                                                                         </tr>
                                                                         <tr id="trVehicleInStorage" style="display: none" runat="server">
 
-                                                                            <td align="left" style="width: 18%">Is the Vehicle in storage?
+                                                                            <td align="left" style="width: 18%">Is the Vehicle in storage?&nbsp;<span id="Span25" style="color: Red;" runat="server">*</span>
                                                                             </td>
                                                                             <td align="center" style="width: 4%">:
                                                                             </td>
@@ -1339,103 +1423,103 @@
                                                                             <td colspan="6" align="left">
                                                                                 <table cellpadding="7" cellspacing="1" border="0" width="100%" runat="server" id="tdVehicle_In_Storage" style="display: none">
                                                                                     <tr>
-                                                                                        <td align="left" style="width: 22%">Address 1&nbsp;<span id="Span123" style="color: Red; display: none;" runat="server">*</span>
+                                                                                        <td align="left" style="width: 22%">Address 1&nbsp;<span id="Span123" style="color: Red;" runat="server">*</span>
                                                                                         </td>
                                                                                         <td align="center" style="width: 4%">:
                                                                                         </td>
                                                                                         <td align="left" style="width: 24%">
                                                                                             <asp:TextBox runat="server" ID="txt_Storage_Address_1" Width="170px" MaxLength="50" onchange="TheftCheck(true);"></asp:TextBox>
-                                                                                            <%--<asp:RequiredFieldValidator ID="rfvTheft_Storage_Address_1" InitialValue="" ControlToValidate="txtTheft_Storage_Address_1"
-                                                                                                runat="server" ValidationGroup="vsTheftGroup" ErrorMessage="Please Enter Address 1 in storage section."
+                                                                                            <asp:RequiredFieldValidator ID="rfvtxt_Storage_Address_1" InitialValue="" ControlToValidate="txt_Storage_Address_1"
+                                                                                                runat="server" ValidationGroup="vsVehicleGroup" ErrorMessage="Please Enter Address 1 in storage section."
                                                                                                 SetFocusOnError="true" Display="None" Enabled="false">
-                                                                                            </asp:RequiredFieldValidator>--%>
+                                                                                            </asp:RequiredFieldValidator>
                                                                                         </td>
-                                                                                        <td align="left" style="width: 22%">Contact Name&nbsp;<span id="Span124" style="color: Red; display: none;" runat="server">*</span>
+                                                                                        <td align="left" style="width: 22%">Contact Name&nbsp;<span id="Span124" style="color: Red;" runat="server">*</span>
                                                                                         </td>
                                                                                         <td align="center" style="width: 4%">:
                                                                                         </td>
                                                                                         <td align="left" style="width: 24%">
                                                                                             <asp:TextBox runat="server" ID="txt_Storage_Contact" Width="170px" MaxLength="50" onchange="TheftCheck(true);"></asp:TextBox>
-                                                                                            <%--<asp:RequiredFieldValidator ID="rfvTheft_Storage_Contact" InitialValue="" ControlToValidate="txtTheft_Storage_Contact"
-                                                                                                runat="server" ValidationGroup="vsTheftGroup" ErrorMessage="Please Enter Contact Name in storage section."
+                                                                                            <asp:RequiredFieldValidator ID="rfvtxt_Storage_Contact" InitialValue="" ControlToValidate="txt_Storage_Contact"
+                                                                                                runat="server" ValidationGroup="vsVehicleGroup" ErrorMessage="Please Enter Contact Name in storage section."
                                                                                                 SetFocusOnError="true" Display="None" Enabled="false">
-                                                                                            </asp:RequiredFieldValidator>--%>
+                                                                                            </asp:RequiredFieldValidator>
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr>
-                                                                                        <td align="left">Address 2&nbsp;<span id="Span125" style="color: Red; display: none;" runat="server">*</span>
+                                                                                        <td align="left">Address 2&nbsp;<span id="Span125" style="color: Red;" runat="server">*</span>
                                                                                         </td>
                                                                                         <td align="center">:
                                                                                         </td>
                                                                                         <td align="left">
                                                                                             <asp:TextBox runat="server" ID="txt_Storage_Address_2" Width="170px" MaxLength="50" onchange="TheftCheck(true);"></asp:TextBox>
-                                                                                            <%--<asp:RequiredFieldValidator ID="rfvTheft_Storage_Address_2" InitialValue="" ControlToValidate="txtTheft_Storage_Address_2"
-                                                                                                runat="server" ValidationGroup="vsTheftGroup" ErrorMessage="Please Enter Address 2 in storage section."
+                                                                                            <asp:RequiredFieldValidator ID="rfvtxt_Storage_Address_2" InitialValue="" ControlToValidate="txt_Storage_Address_2"
+                                                                                                runat="server" ValidationGroup="vsVehicleGroup" ErrorMessage="Please Enter Address 2 in storage section."
                                                                                                 SetFocusOnError="true" Display="None" Enabled="false">
-                                                                                            </asp:RequiredFieldValidator>--%>
+                                                                                            </asp:RequiredFieldValidator>
                                                                                         </td>
-                                                                                        <td align="left">Storage Phone&nbsp;<span id="Span126" style="color: Red; display: none;" runat="server">*</span>
+                                                                                        <td align="left">Storage Phone&nbsp;<span id="Span126" style="color: Red;" runat="server">*</span>
                                                                                         </td>
                                                                                         <td align="center">:
                                                                                         </td>
                                                                                         <td align="left">
                                                                                             <asp:TextBox runat="server" ID="txt_Storage_phone" Width="170px" MaxLength="20" onchange="TheftCheck(true);"></asp:TextBox>
-                                                                                            <%--<asp:RequiredFieldValidator ID="rfvTheft_Storage_phone" InitialValue="" ControlToValidate="txtTheft_Storage_phone"
-                                                                                                runat="server" ValidationGroup="vsTheftGroup" ErrorMessage="Please Enter Phone in storage section."
+                                                                                            <asp:RequiredFieldValidator ID="rfvtxt_Storage_phone" InitialValue="" ControlToValidate="txt_Storage_phone"
+                                                                                                runat="server" ValidationGroup="vsVehicleGroup" ErrorMessage="Please Enter Phone in storage section."
                                                                                                 SetFocusOnError="true" Display="None" Enabled="false">
-                                                                                            </asp:RequiredFieldValidator>--%>
+                                                                                            </asp:RequiredFieldValidator>
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr>
-                                                                                        <td align="left">City&nbsp;<span id="Span127" style="color: Red; display: none;" runat="server">*</span>
+                                                                                        <td align="left">City&nbsp;<span id="Span127" style="color: Red;" runat="server">*</span>
                                                                                         </td>
                                                                                         <td align="center">:
                                                                                         </td>
                                                                                         <td align="left">
                                                                                             <asp:TextBox runat="server" ID="txt_Storage_City" Width="170px" MaxLength="50" onchange="TheftCheck(true);"></asp:TextBox>
-                                                                                            <%--<asp:RequiredFieldValidator ID="rfvTheft_Storage_City" InitialValue="" ControlToValidate="txtTheft_Storage_City"
-                                                                                                runat="server" ValidationGroup="vsTheftGroup" ErrorMessage="Please Enter City in storage section."
+                                                                                            <asp:RequiredFieldValidator ID="rfvtxt_Storage_City" InitialValue="" ControlToValidate="txt_Storage_City"
+                                                                                                runat="server" ValidationGroup="vsVehicleGroup" ErrorMessage="Please Enter City in storage section."
                                                                                                 SetFocusOnError="true" Display="None" Enabled="false">
-                                                                                            </asp:RequiredFieldValidator>--%>
+                                                                                            </asp:RequiredFieldValidator>
                                                                                         </td>
-                                                                                        <td align="left">Cost of Storage&nbsp;<span id="Span128" style="color: Red; display: none;" runat="server">*</span>
+                                                                                        <td align="left">Cost of Storage&nbsp;<span id="Span128" style="color: Red;" runat="server">*</span>
                                                                                         </td>
                                                                                         <td align="center">:
                                                                                         </td>
                                                                                         <td align="left">
                                                                                             <asp:TextBox runat="server" ID="txt_Storage_cost" Width="170px" onpaste="return false" onkeypress="return currencyFormat(this,',','.',event);"
                                                                                                 onblur="CheckNumericVal(this);" onchange="TheftCheck(true);"></asp:TextBox>
-                                                                                            <%--<asp:RequiredFieldValidator ID="rfvTheft_Storage_cost" InitialValue="" ControlToValidate="txtTheft_Storage_cost"
-                                                                                                runat="server" ValidationGroup="vsTheftGroup" ErrorMessage="Please Enter Cost of Strorate in storage section."
+                                                                                            <asp:RequiredFieldValidator ID="rfvtxt_Storage_cost" InitialValue="" ControlToValidate="txt_Storage_cost"
+                                                                                                runat="server" ValidationGroup="vsVehicleGroup" ErrorMessage="Please Enter Cost of Strorate in storage section."
                                                                                                 SetFocusOnError="true" Display="None" Enabled="false">
-                                                                                            </asp:RequiredFieldValidator>--%>
+                                                                                            </asp:RequiredFieldValidator>
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr>
-                                                                                        <td align="left">Storage State&nbsp;<span id="Span129" style="color: Red; display: none;" runat="server">*</span>
+                                                                                        <td align="left">Storage State&nbsp;<span id="Span129" style="color: Red;" runat="server">*</span>
                                                                                         </td>
                                                                                         <td align="center">:
                                                                                         </td>
                                                                                         <td align="left" colspan="4">
                                                                                             <asp:DropDownList runat="server" ID="ddl_Storage_State" SkinID="ddlSONIC" onchange="TheftCheck(true);">
                                                                                             </asp:DropDownList>
-                                                                                            <%--<asp:RequiredFieldValidator ID="rfvTheft_Storage_State" InitialValue="0" ControlToValidate="ddlTheft_Storage_State"
-                                                                                                runat="server" ValidationGroup="vsTheftGroup" ErrorMessage="Please select state in storage section."
+                                                                                            <asp:RequiredFieldValidator ID="rfvddl_Storage_State" InitialValue="0" ControlToValidate="ddl_Storage_State"
+                                                                                                runat="server" ValidationGroup="vsVehicleGroup" ErrorMessage="Please select state in storage section."
                                                                                                 SetFocusOnError="true" Display="None" Enabled="false">
-                                                                                            </asp:RequiredFieldValidator>--%>
+                                                                                            </asp:RequiredFieldValidator>
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr>
-                                                                                        <td align="left">Storage Zip&nbsp;<span id="Span130" style="color: Red; display: none;" runat="server">*</span>
+                                                                                        <td align="left">Storage Zip&nbsp;<span id="Span130" style="color: Red;" runat="server">*</span>
                                                                                         </td>
                                                                                         <td align="center">:
                                                                                         </td>
                                                                                         <td align="left" colspan="4">
                                                                                             <asp:TextBox runat="server" ID="txt_storage_Zip_Code" Width="170px" MaxLength="10" onchange="TheftCheck(true);"></asp:TextBox>
-                                                                                            <%--<asp:RequiredFieldValidator ID="rfvTheft_storage_Zip_Code" InitialValue="" ControlToValidate="txtTheft_storage_Zip_Code"
-                                                                                                runat="server" ValidationGroup="vsTheftGroup" ErrorMessage="Please Enter zip code in storage section."
+                                                                                            <asp:RequiredFieldValidator ID="rfvtxt_storage_Zip_Code" InitialValue="" ControlToValidate="txt_storage_Zip_Code"
+                                                                                                runat="server" ValidationGroup="vsVehicleGroup" ErrorMessage="Please Enter zip code in storage section."
                                                                                                 SetFocusOnError="true" Display="None" Enabled="false">
-                                                                                            </asp:RequiredFieldValidator>--%>
+                                                                                            </asp:RequiredFieldValidator>
                                                                                         </td>
                                                                                     </tr>
                                                                                 </table>
@@ -1449,7 +1533,7 @@
                                                                             </td>
                                                                         </tr>
                                                                         <tr id="trWerePolicyNotified" style="display: none" runat="server">
-                                                                            <td align="left">Were Police Notified?
+                                                                            <td align="left">Were Police Notified?&nbsp;<span id="Span26" style="color: Red;" runat="server">*</span>
                                                                             </td>
                                                                             <td align="center">:
                                                                             </td>
@@ -1467,16 +1551,16 @@
                                                                             <td colspan="6">
                                                                                 <table id="trPoliceNotified" style="display: none;" runat="server" width="100%">
                                                                                     <tr>
-                                                                                        <td align="left" width="18%">Police Report Number&nbsp;<span id="Span140" style="color: Red; display: none;" runat="server">*</span>
+                                                                                        <td align="left" width="18%">Police Report Number&nbsp;<span id="Span140" style="color: Red;" runat="server">*</span>
                                                                                         </td>
                                                                                         <td align="center" width="2%">:
                                                                                         </td>
                                                                                         <td align="left" colspan="4">
                                                                                             <asp:TextBox runat="Server" ID="txtFraudReportNumber" Width="170px" MaxLength="50"></asp:TextBox>
-                                                                                            <%--<asp:RequiredFieldValidator ID="rfvFraudReportNumber" InitialValue="" ControlToValidate="txtFraudReportNumber"
-                                                                                    runat="server" ValidationGroup="vsFraudGroup" ErrorMessage="Please Enter Report Number."
+                                                                                            <asp:RequiredFieldValidator ID="rfvFraudReportNumber" InitialValue="" ControlToValidate="txtFraudReportNumber"
+                                                                                    runat="server" ValidationGroup="vsVehicleGroup" ErrorMessage="Please Enter Policy Report Number."
                                                                                     SetFocusOnError="true" Display="None" Enabled="false">
-                                                                                </asp:RequiredFieldValidator>--%>
+                                                                                </asp:RequiredFieldValidator>
                                                                                         </td>
                                                                                     </tr>
                                                                                 </table>
@@ -1490,46 +1574,46 @@
                                                                             </td>
                                                                         </tr>
                                                                         <tr id="trVehicleOwner1" style="display: none" runat="server">
-                                                                            <td align="left">Vehicle Owner if not SONIC&nbsp;<span id="Span169" style="color: Red; display: none;" runat="server">*</span>
+                                                                            <td align="left">Vehicle Owner if not SONIC&nbsp;<span id="Span169" style="color: Red;" runat="server">*</span>
                                                                             </td>
                                                                             <td align="center">:
                                                                             </td>
                                                                             <td align="left" colspan="4">
                                                                                 <asp:TextBox runat="server" ID="txtMVA_MultiVehicle_Owner_Sonic" Width="170px" MaxLength="20" onchange="TheftCheck(true);"></asp:TextBox>
-                                                                                <%--<asp:RequiredFieldValidator ID="rfvMVA_MultiVehicle_Owner_Sonic" InitialValue=""
-                                                                                    ControlToValidate="txtMVA_MultiVehicle_Owner_Sonic" runat="server" ValidationGroup="vsMVAMultiGroup"
+                                                                                <asp:RequiredFieldValidator ID="rfvMVA_MultiVehicle_Owner_Sonic" InitialValue=""
+                                                                                    ControlToValidate="txtMVA_MultiVehicle_Owner_Sonic" runat="server" ValidationGroup="vsVehicleGroup"
                                                                                     ErrorMessage="Please Enter Vehicle Owner Name." SetFocusOnError="true" Display="None"
-                                                                                    Enabled="true">
-                                                                                </asp:RequiredFieldValidator>--%>
+                                                                                    Enabled="false">
+                                                                                </asp:RequiredFieldValidator>
                                                                             </td>
                                                                         </tr>
                                                                         <tr id="trVehicleOwner2" style="display: none" runat="server">
-                                                                            <td align="left">Vehicle Owner Address&nbsp;<span id="Span170" style="color: Red; display: none;" runat="server">*</span>
+                                                                            <td align="left">Vehicle Owner Address&nbsp;<span id="Span170" style="color: Red;" runat="server">*</span>
                                                                             </td>
                                                                             <td align="center">:
                                                                             </td>
                                                                             <td align="left" colspan="4">
                                                                                 <asp:TextBox runat="server" ID="txtMVA_MultiVehicle_Owner_Address" Width="170px" onchange="TheftCheck(true);"
                                                                                     MaxLength="50"></asp:TextBox>
-                                                                                <%--<asp:RequiredFieldValidator ID="rfvMVA_MultiVehicle_Owner_Address" InitialValue=""
-                                                                                    ControlToValidate="txtMVA_MultiVehicle_Owner_Address" runat="server" ValidationGroup="vsMVAMultiGroup"
+                                                                                <asp:RequiredFieldValidator ID="rfvMVA_MultiVehicle_Owner_Address" InitialValue=""
+                                                                                    ControlToValidate="txtMVA_MultiVehicle_Owner_Address" runat="server" ValidationGroup="vsVehicleGroup"
                                                                                     ErrorMessage="Please Enter Vehicle Owner Address." SetFocusOnError="true" Display="None"
-                                                                                    Enabled="true">
-                                                                                </asp:RequiredFieldValidator>--%>
+                                                                                    Enabled="false">
+                                                                                </asp:RequiredFieldValidator>
                                                                             </td>
                                                                         </tr>
                                                                         <tr id="trVehicleOwner3" style="display: none" runat="server">
-                                                                            <td align="left">Vehicle Owner Phone&nbsp;<span id="Span171" style="color: Red; display: none;" runat="server">*</span>
+                                                                            <td align="left">Vehicle Owner Phone&nbsp;<span id="Span171" style="color: Red;" runat="server">*</span>
                                                                             </td>
                                                                             <td align="center">:
                                                                             </td>
                                                                             <td align="left" colspan="4">
                                                                                 <asp:TextBox runat="server" ID="txtMVA_MultiVehicle_Owner_Phone" Width="170px" MaxLength="20" onchange="TheftCheck(true);"></asp:TextBox>
-                                                                                <%--<asp:RequiredFieldValidator ID="rfvMVA_MultiVehicle_Owner_Phone" InitialValue=""
-                                                                                    ControlToValidate="txtMVA_MultiVehicle_Owner_Phone" runat="server" ValidationGroup="vsMVAMultiGroup"
+                                                                                <asp:RequiredFieldValidator ID="rfvMVA_MultiVehicle_Owner_Phone" InitialValue=""
+                                                                                    ControlToValidate="txtMVA_MultiVehicle_Owner_Phone" runat="server" ValidationGroup="vsVehicleGroup"
                                                                                     ErrorMessage="Please Enter Vehicle Owner Phone." SetFocusOnError="true" Display="None"
-                                                                                    Enabled="true">
-                                                                                </asp:RequiredFieldValidator>--%>
+                                                                                    Enabled="false">
+                                                                                </asp:RequiredFieldValidator>
                                                                             </td>
                                                                         </tr>
                                                                         <tr>
@@ -1540,20 +1624,20 @@
                                                                             </td>
                                                                         </tr>
                                                                         <tr id="trDamageEstimate" style="display: none" runat="server">
-                                                                            <td align="left" style="width: 18%">Damage Estimate&nbsp;<span id="Span172" style="color: Red; display: none;" runat="server">*</span>
+                                                                            <td align="left" style="width: 18%">Damage Estimate&nbsp;<span id="Span172" style="color: Red;" runat="server">*</span>
                                                                             </td>
                                                                             <td align="center" style="width: 4%">:
                                                                             </td>
                                                                             <td align="left" colspan="4">$<asp:TextBox runat="server" ID="txtMVA_MultiDamage_Estimate" Width="170px" MaxLength="10" onchange="TheftCheck(true);"
                                                                                 onpaste="return false" onkeypress="return currencyFormat(this,',','.',event);" onblur="CheckNumericVal(this);"></asp:TextBox>
-                                                                                <%--<asp:RequiredFieldValidator ID="rfvMVA_MultiDamage_Estimate" InitialValue="" ControlToValidate="txtMVA_MultiDamage_Estimate"
-                                                                                    runat="server" ValidationGroup="vsMVAMultiGroup" ErrorMessage="Please Enter Damage Amount."
+                                                                                <asp:RequiredFieldValidator ID="rfvMVA_MultiDamage_Estimate" InitialValue="" ControlToValidate="txtMVA_MultiDamage_Estimate"
+                                                                                    runat="server" ValidationGroup="vsVehicleGroup" ErrorMessage="Please Enter Damage Amount."
                                                                                     SetFocusOnError="true" Display="None" Enabled="true">
-                                                                                </asp:RequiredFieldValidator>--%>
+                                                                                </asp:RequiredFieldValidator>
                                                                             </td>
                                                                         </tr>
                                                                         <tr id="trVehicleDrivenByCompanyAssoc" style="display: none" runat="server">
-                                                                            <td align="left" style="width: 18%">Was vehicle being driven by company associate?
+                                                                            <td align="left" style="width: 18%">Was vehicle being driven by company associate?&nbsp;<span id="Span27" style="color: Red;" runat="server">*</span>
                                                                             </td>
                                                                             <td align="center" style="width: 4%">:
                                                                             </td>
@@ -1572,46 +1656,46 @@
                                                                             <td colspan="6" align="left">
                                                                                 <table cellpadding="3" cellspacing="0" border="0" width="100%">
                                                                                     <tr>
-                                                                                        <td align="left" style="width: 18%; padding-left: 30px;">If Yes, Name&nbsp;<span id="Span173" style="color: Red; display: none;" runat="server">*</span>
+                                                                                        <td align="left" style="width: 18%; padding-left: 30px;">If Yes, Name&nbsp;<span id="Span173" style="color: Red;" runat="server">*</span>
                                                                                         </td>
                                                                                         <td align="center" style="width: 4%">:
                                                                                         </td>
                                                                                         <td align="left" colspan="4">
                                                                                             <asp:TextBox runat="server" ID="txtMVA_MultiName_Yes" Width="170px" MaxLength="50"></asp:TextBox>
-                                                                                            <%--<asp:RequiredFieldValidator ID="rfvMVA_MultiName_Yes" InitialValue="" ControlToValidate="txtMVA_MultiName_Yes"
-                                                                                                runat="server" ValidationGroup="vsMVAMultiGroup" ErrorMessage="Please Enter Name."
+                                                                                            <asp:RequiredFieldValidator ID="rfvMVA_MultiName_Yes" InitialValue="" ControlToValidate="txtMVA_MultiName_Yes"
+                                                                                                runat="server" ValidationGroup="vsVehicleGroup" ErrorMessage="Please Enter Name."
                                                                                                 SetFocusOnError="true" Display="None" Enabled="false">
-                                                                                            </asp:RequiredFieldValidator>--%>
+                                                                                            </asp:RequiredFieldValidator>
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr>
-                                                                                        <td align="left" style="width: 18%; padding-left: 30px;">If Yes, Address&nbsp;<span id="Span174" style="color: Red; display: none;" runat="server">*</span>
+                                                                                        <td align="left" style="width: 18%; padding-left: 30px;">If Yes, Address&nbsp;<span id="Span174" style="color: Red;" runat="server">*</span>
                                                                                         </td>
                                                                                         <td align="center" style="width: 4%">:
                                                                                         </td>
                                                                                         <td align="left" colspan="4">
                                                                                             <asp:TextBox runat="server" ID="txtMVA_MultiAddress_Yes" Width="170px" MaxLength="50"></asp:TextBox>
-                                                                                            <%--<asp:RequiredFieldValidator ID="rfvMVA_MultiAddress_Yes" InitialValue="" ControlToValidate="txtMVA_MultiAddress_Yes"
-                                                                                                runat="server" ValidationGroup="vsMVAMultiGroup" ErrorMessage="Please Enter Address"
+                                                                                            <asp:RequiredFieldValidator ID="rfvMVA_MultiAddress_Yes" InitialValue="" ControlToValidate="txtMVA_MultiAddress_Yes"
+                                                                                                runat="server" ValidationGroup="vsVehicleGroup" ErrorMessage="Please Enter Address"
                                                                                                 SetFocusOnError="true" Display="None" Enabled="false">
-                                                                                            </asp:RequiredFieldValidator>--%>
+                                                                                            </asp:RequiredFieldValidator>
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr>
-                                                                                        <td align="left" style="width: 18%; padding-left: 30px;">If Yes, Phone&nbsp;<span id="Span175" style="color: Red; display: none;" runat="server">*</span>
+                                                                                        <td align="left" style="width: 18%; padding-left: 30px;">If Yes, Phone&nbsp;<span id="Span175" style="color: Red;" runat="server">*</span>
                                                                                         </td>
                                                                                         <td align="center" style="width: 4%">:
                                                                                         </td>
                                                                                         <td align="left" colspan="4">
                                                                                             <asp:TextBox runat="server" ID="txtMVA_MultiPhone_Yes" Width="170px" MaxLength="20"></asp:TextBox>
-                                                                                            <%--<asp:RequiredFieldValidator ID="rfvMVA_MultiPhone_Yes" InitialValue="" ControlToValidate="txtMVA_MultiPhone_Yes"
-                                                                                                runat="server" ValidationGroup="vsMVAMultiGroup" ErrorMessage="Please Enter Phone"
+                                                                                            <asp:RequiredFieldValidator ID="rfvMVA_MultiPhone_Yes" InitialValue="" ControlToValidate="txtMVA_MultiPhone_Yes"
+                                                                                                runat="server" ValidationGroup="vsVehicleGroup" ErrorMessage="Please Enter Phone"
                                                                                                 SetFocusOnError="true" Display="None" Enabled="false">
-                                                                                            </asp:RequiredFieldValidator>--%>
+                                                                                            </asp:RequiredFieldValidator>
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr>
-                                                                                        <td align="left" style="width: 18%; padding-left: 30px;">If Yes, was associate cited for a violation?
+                                                                                        <td align="left" style="width: 18%; padding-left: 30px;">If Yes, was associate cited for a violation?&nbsp;<span id="Span28" style="color: Red;" runat="server">*</span>
                                                                                         </td>
                                                                                         <td align="center" style="width: 4%">:
                                                                                         </td>
@@ -1625,7 +1709,7 @@
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr id="trMVA_MultiCitation_Yes" runat="server" style="display: none;">
-                                                                                        <td align="left" valign="top" style="padding-left: 45px;">If Yes, Description of citation&nbsp;<span id="Span176" style="color: Red; display: none;" runat="server">*</span>
+                                                                                        <td align="left" valign="top" style="padding-left: 45px;">If Yes, Description of citation&nbsp;<span id="Span176" style="color: Red;" runat="server">*</span>
                                                                                         </td>
                                                                                         <td align="center" valign="top">:
                                                                                         </td>
@@ -1635,7 +1719,7 @@
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr>
-                                                                                        <td align="left" valign="top" style="padding-left: 30px;">If Yes, was the associate injured?
+                                                                                        <td align="left" valign="top" style="padding-left: 30px;">If Yes, was the associate injured?&nbsp;<span id="Span29" style="color: Red;" runat="server">*</span>
                                                                                         </td>
                                                                                         <td align="center" valign="top">:
                                                                                         </td>
@@ -1649,7 +1733,7 @@
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr>
-                                                                                        <td align="left" valign="top" style="padding-left: 30px;">If Yes, was a post-accident drug test performed?
+                                                                                        <td align="left" valign="top" style="padding-left: 30px;">If Yes, was a post-accident drug test performed?&nbsp;<span id="Span30" style="color: Red;" runat="server">*</span>
                                                                                         </td>
                                                                                         <td align="center" valign="top">:
                                                                                         </td>
@@ -1764,7 +1848,7 @@
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr id="trMVA_MultiCust_Not_Injured" runat="server" style="display: none">
-                                                                                        <td align="left" valign="top" style="padding-left: 45px;">If No, Explain&nbsp;<span id="Span182" style="color: Red; display: none;" runat="server">*</span>
+                                                                                        <td align="left" valign="top" style="padding-left: 45px;">If No, Explain&nbsp;<span id="Span182" style="color: Red;" runat="server">*</span>
                                                                                         </td>
                                                                                         <td align="center" valign="top">:
                                                                                         </td>
@@ -1778,7 +1862,7 @@
                                                                             </td>
                                                                         </tr>
                                                                         <tr id="trOtherPassengers" style="display: none" runat="server">
-                                                                            <td align="left" style="width: 18%">Were other passengers in the vehicle besides the Associate and the Customer?
+                                                                            <td align="left" style="width: 18%">Were other passengers in the vehicle besides the Associate and the Customer?&nbsp;<span id="Span31" style="color: Red;" runat="server">*</span>
                                                                             </td>
                                                                             <td align="center" style="width: 4%">:
                                                                             </td>
@@ -1856,68 +1940,68 @@
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr>
-                                                                                        <td style="width: 18%" align="left">Contact Name&nbsp;<span id="Span183" style="color: Red; display: none;" runat="server">*</span>
+                                                                                        <td style="width: 18%" align="left">Contact Name&nbsp;<span id="Span183" style="color: Red;" runat="server">*</span>
                                                                                         </td>
                                                                                         <td style="width: 4%" align="center">:
                                                                                         </td>
                                                                                         <td align="left" colspan="4">
                                                                                             <asp:TextBox runat="server" ID="txtMVA_MultiPass_Name" Width="170px" MaxLength="50"></asp:TextBox>
-                                                                                            <%--<asp:RequiredFieldValidator ID="rfvMVA_MultiPass_Name" InitialValue="" ControlToValidate="txtMVA_MultiPass_Name"
+                                                                                            <asp:RequiredFieldValidator ID="rfvMVA_MultiPass_Name" InitialValue="" ControlToValidate="txtMVA_MultiPass_Name"
                                                                                                         runat="server" ValidationGroup="vsMultiPassGroup" ErrorMessage="Please Enter Contact Name."
                                                                                                         SetFocusOnError="true" Display="None" Enabled="true">
-                                                                                                    </asp:RequiredFieldValidator>--%>
+                                                                                                    </asp:RequiredFieldValidator>
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr>
-                                                                                        <td align="left">Address 1&nbsp;<span id="Span184" style="color: Red; display: none;" runat="server">*</span>
+                                                                                        <td align="left">Address 1&nbsp;<span id="Span184" style="color: Red;" runat="server">*</span>
                                                                                         </td>
                                                                                         <td align="center">:
                                                                                         </td>
                                                                                         <td align="left" colspan="4">
                                                                                             <asp:TextBox runat="server" ID="txtMVA_MultiPass_Address_1" Width="170px" MaxLength="50"></asp:TextBox>
-                                                                                            <%--<asp:RequiredFieldValidator ID="rfvMVA_MultiPass_Address_1" InitialValue="" ControlToValidate="txtMVA_MultiPass_Address_1"
+                                                                                            <asp:RequiredFieldValidator ID="rfvMVA_MultiPass_Address_1" InitialValue="" ControlToValidate="txtMVA_MultiPass_Address_1"
                                                                                                         runat="server" ValidationGroup="vsMultiPassGroup" ErrorMessage="Please Enter Address 1."
                                                                                                         SetFocusOnError="true" Display="None" Enabled="true">
-                                                                                                    </asp:RequiredFieldValidator>--%>
+                                                                                                    </asp:RequiredFieldValidator>
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr>
-                                                                                        <td align="left">Address 2&nbsp;<span id="Span185" style="color: Red; display: none;" runat="server">*</span>
+                                                                                        <td align="left">Address 2&nbsp;<span id="Span185" style="color: Red;" runat="server">*</span>
                                                                                         </td>
                                                                                         <td align="center">:
                                                                                         </td>
                                                                                         <td align="left">
                                                                                             <asp:TextBox runat="server" ID="txtMVA_MultiPass_Address_2" Width="170px" MaxLength="50"></asp:TextBox>
-                                                                                            <%--<asp:RequiredFieldValidator ID="rfvMVA_MultiPass_Address_2" InitialValue="" ControlToValidate="txtMVA_MultiPass_Address_2"
+                                                                                            <asp:RequiredFieldValidator ID="rfvMVA_MultiPass_Address_2" InitialValue="" ControlToValidate="txtMVA_MultiPass_Address_2"
                                                                                                         runat="server" ValidationGroup="vsMultiPassGroup" ErrorMessage="Please Enter Address 2."
                                                                                                         SetFocusOnError="true" Display="None" Enabled="true">
-                                                                                                    </asp:RequiredFieldValidator>--%>
+                                                                                                    </asp:RequiredFieldValidator>
                                                                                         </td>
-                                                                                        <td align="left">Phone&nbsp;<span id="Span186" style="color: Red; display: none;" runat="server">*</span>
+                                                                                        <td align="left">Phone&nbsp;<span id="Span186" style="color: Red;" runat="server">*</span>
                                                                                         </td>
                                                                                         <td align="center">:
                                                                                         </td>
                                                                                         <td align="left">
                                                                                             <asp:TextBox runat="server" ID="txtMVA_MultiPass_Phone" Width="170px" MaxLength="20"></asp:TextBox>
-                                                                                            <%--<asp:RequiredFieldValidator ID="rfvMVA_MultiPass_Phone" InitialValue="" ControlToValidate="txtMVA_MultiPass_Phone"
+                                                                                            <asp:RequiredFieldValidator ID="rfvMVA_MultiPass_Phone" InitialValue="" ControlToValidate="txtMVA_MultiPass_Phone"
                                                                                                         runat="server" ValidationGroup="vsMultiPassGroup" ErrorMessage="Please Enter Phone."
                                                                                                         SetFocusOnError="true" Display="None" Enabled="true">
-                                                                                                    </asp:RequiredFieldValidator>--%>
+                                                                                                    </asp:RequiredFieldValidator>
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr>
-                                                                                        <td align="left">City&nbsp;<span id="Span187" style="color: Red; display: none;" runat="server">*</span>
+                                                                                        <td align="left">City&nbsp;<span id="Span187" style="color: Red;" runat="server">*</span>
                                                                                         </td>
                                                                                         <td align="center">:
                                                                                         </td>
                                                                                         <td align="left">
                                                                                             <asp:TextBox runat="server" ID="txtMVA_MultiPass_City" Width="170px" MaxLength="50"></asp:TextBox>
-                                                                                            <%--<asp:RequiredFieldValidator ID="rfvMVA_MultiPass_City" InitialValue="" ControlToValidate="txtMVA_MultiPass_City"
+                                                                                            <asp:RequiredFieldValidator ID="rfvMVA_MultiPass_City" InitialValue="" ControlToValidate="txtMVA_MultiPass_City"
                                                                                                         runat="server" ValidationGroup="vsMultiPassGroup" ErrorMessage="Please Enter City."
                                                                                                         SetFocusOnError="true" Display="None" Enabled="true">
-                                                                                                    </asp:RequiredFieldValidator>--%>
+                                                                                                    </asp:RequiredFieldValidator>
                                                                                         </td>
-                                                                                        <td align="left">Injured?
+                                                                                        <td align="left">Injured?&nbsp;<span id="Span33" style="color: Red;" runat="server">*</span>
                                                                                         </td>
                                                                                         <td align="center">:
                                                                                         </td>
@@ -1938,10 +2022,10 @@
                                                                                         <td align="left" colspan="4">
                                                                                             <asp:DropDownList runat="server" ID="ddlMVA_MultiPass_State" SkinID="ddlSONIC">
                                                                                             </asp:DropDownList>
-                                                                                            <%--<asp:RequiredFieldValidator ID="rfvMVA_MultiPass_State" InitialValue="0" ControlToValidate="ddlMVA_MultiPass_State"
+                                                                                            <asp:RequiredFieldValidator ID="rfvMVA_MultiPass_State" InitialValue="0" ControlToValidate="ddlMVA_MultiPass_State"
                                                                                                         runat="server" ValidationGroup="vsMultiPassGroup" ErrorMessage="Please select State."
                                                                                                         SetFocusOnError="true" Display="None" Enabled="true">
-                                                                                                    </asp:RequiredFieldValidator>--%>
+                                                                                                    </asp:RequiredFieldValidator>
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr>
@@ -1951,10 +2035,10 @@
                                                                                         </td>
                                                                                         <td align="left" colspan="4">
                                                                                             <asp:TextBox runat="server" ID="txtMVA_MultiPass_Zip" Width="170px" MaxLength="10"></asp:TextBox>
-                                                                                            <%--<asp:RequiredFieldValidator ID="rfvMVA_MultiPass_Zip" InitialValue="" ControlToValidate="txtMVA_MultiPass_Zip"
+                                                                                            <asp:RequiredFieldValidator ID="rfvMVA_MultiPass_Zip" InitialValue="" ControlToValidate="txtMVA_MultiPass_Zip"
                                                                                                         runat="server" ValidationGroup="vsMultiPassGroup" ErrorMessage="Please Enter Zip Code."
                                                                                                         SetFocusOnError="true" Display="None" Enabled="true">
-                                                                                                    </asp:RequiredFieldValidator>--%>
+                                                                                                    </asp:RequiredFieldValidator>
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr>
@@ -1978,7 +2062,7 @@
                                                                             </td>
                                                                         </tr>
                                                                         <tr id="trDealership" style="display: none" runat="server">
-                                                                            <td align="left">Is the dealership seeking subrogation from a third party?
+                                                                            <td align="left">Is the dealership seeking subrogation from a third party?&nbsp;<span id="Span32" style="color: Red;" runat="server">*</span>
                                                                             </td>
                                                                             <td align="center">:
                                                                             </td>
@@ -2007,10 +2091,10 @@
                                                                                         </td>
                                                                                         <td align="left" style="width: 28%;">
                                                                                             <asp:TextBox runat="server" ID="txtMVA_MultiTPI_Carrier_name" Width="170px" MaxLength="50"></asp:TextBox>
-                                                                                            <%--<asp:RequiredFieldValidator ID="rfvMVA_MultiTPI_Carrier_name" InitialValue="" ControlToValidate="txtMVA_MultiTPI_Carrier_name"
-                                                                                                runat="server" ValidationGroup="vsMVAMultiGroup" ErrorMessage="Please Enter Carrier Name"
+                                                                                            <asp:RequiredFieldValidator ID="rfvMVA_MultiTPI_Carrier_name" InitialValue="" ControlToValidate="txtMVA_MultiTPI_Carrier_name"
+                                                                                                runat="server" ValidationGroup="vsVehicleGroup" ErrorMessage="Please Enter Carrier Name"
                                                                                                 SetFocusOnError="true" Display="None" Enabled="false">
-                                                                                            </asp:RequiredFieldValidator>--%>
+                                                                                            </asp:RequiredFieldValidator>
                                                                                         </td>
                                                                                         <td align="left" style="width: 18%;">Contact Name&nbsp;<span id="Span191" style="color: Red; display: none;" runat="server">*</span>
                                                                                         </td>
@@ -2018,10 +2102,10 @@
                                                                                         </td>
                                                                                         <td align="left" style="width: 28%;">
                                                                                             <asp:TextBox runat="server" ID="txtMVA_Multitpi_contact" Width="170px" MaxLength="50"></asp:TextBox>
-                                                                                            <%--<asp:RequiredFieldValidator ID="rfvMVA_Multitpi_contact" InitialValue="" ControlToValidate="txtMVA_Multitpi_contact"
-                                                                                                runat="server" ValidationGroup="vsMVAMultiGroup" ErrorMessage="Please Enter Contact Name"
+                                                                                            <asp:RequiredFieldValidator ID="rfvMVA_Multitpi_contact" InitialValue="" ControlToValidate="txtMVA_Multitpi_contact"
+                                                                                                runat="server" ValidationGroup="vsVehicleGroup" ErrorMessage="Please Enter Contact Name"
                                                                                                 SetFocusOnError="true" Display="None" Enabled="false">
-                                                                                            </asp:RequiredFieldValidator>--%>
+                                                                                            </asp:RequiredFieldValidator>
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr>
@@ -2031,10 +2115,10 @@
                                                                                         </td>
                                                                                         <td align="left">
                                                                                             <asp:TextBox runat="server" ID="txtMVA_MultiTPI_Policy_number" Width="170px" MaxLength="50"></asp:TextBox>
-                                                                                            <%--<asp:RequiredFieldValidator ID="rfvMVA_MultiTPI_Policy_number" InitialValue="" ControlToValidate="txtMVA_MultiTPI_Policy_number"
-                                                                                                runat="server" ValidationGroup="vsMVAMultiGroup" ErrorMessage="Please Enter Policy Number."
+                                                                                            <asp:RequiredFieldValidator ID="rfvMVA_MultiTPI_Policy_number" InitialValue="" ControlToValidate="txtMVA_MultiTPI_Policy_number"
+                                                                                                runat="server" ValidationGroup="vsVehicleGroup" ErrorMessage="Please Enter Policy Number."
                                                                                                 SetFocusOnError="true" Display="None" Enabled="false">
-                                                                                            </asp:RequiredFieldValidator>--%>
+                                                                                            </asp:RequiredFieldValidator>
                                                                                         </td>
                                                                                         <td align="left">Phone&nbsp;<span id="Span193" style="color: Red; display: none;" runat="server">*</span>
                                                                                         </td>
@@ -2042,10 +2126,10 @@
                                                                                         </td>
                                                                                         <td align="left">
                                                                                             <asp:TextBox runat="server" ID="txtMVA_Multitpi_phone" Width="170px" MaxLength="20"></asp:TextBox>
-                                                                                            <%--<asp:RequiredFieldValidator ID="rfvMVA_Multitpi_phone" InitialValue="" ControlToValidate="txtMVA_Multitpi_phone"
-                                                                                                runat="server" ValidationGroup="vsMVAMultiGroup" ErrorMessage="Please Enter Phone."
+                                                                                            <asp:RequiredFieldValidator ID="rfvMVA_Multitpi_phone" InitialValue="" ControlToValidate="txtMVA_Multitpi_phone"
+                                                                                                runat="server" ValidationGroup="vsVehicleGroup" ErrorMessage="Please Enter Phone."
                                                                                                 SetFocusOnError="true" Display="None" Enabled="false">
-                                                                                            </asp:RequiredFieldValidator>--%>
+                                                                                            </asp:RequiredFieldValidator>
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr>
@@ -2055,10 +2139,10 @@
                                                                                         </td>
                                                                                         <td align="left" colspan="4">
                                                                                             <asp:TextBox runat="server" ID="txtMVA_Multitpi_address_1" Width="170px" MaxLength="50"></asp:TextBox>
-                                                                                            <%--<asp:RequiredFieldValidator ID="rfvMVA_Multitpi_address_1" InitialValue="" ControlToValidate="txtMVA_Multitpi_address_1"
-                                                                                                runat="server" ValidationGroup="vsMVAMultiGroup" ErrorMessage="Please Enter Address 1."
+                                                                                            <asp:RequiredFieldValidator ID="rfvMVA_Multitpi_address_1" InitialValue="" ControlToValidate="txtMVA_Multitpi_address_1"
+                                                                                                runat="server" ValidationGroup="vsVehicleGroup" ErrorMessage="Please Enter Address 1."
                                                                                                 SetFocusOnError="true" Display="None" Enabled="false">
-                                                                                            </asp:RequiredFieldValidator>--%>
+                                                                                            </asp:RequiredFieldValidator>
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr>
@@ -2068,10 +2152,10 @@
                                                                                         </td>
                                                                                         <td align="left" colspan="4">
                                                                                             <asp:TextBox runat="server" ID="txtMVA_Multitpi_address_2" Width="170px" MaxLength="50"></asp:TextBox>
-                                                                                            <%--<asp:RequiredFieldValidator ID="rfvMVA_Multitpi_address_2" InitialValue="" ControlToValidate="txtMVA_Multitpi_address_2"
-                                                                                                runat="server" ValidationGroup="vsMVAMultiGroup" ErrorMessage="Please Enter Address 2."
+                                                                                            <asp:RequiredFieldValidator ID="rfvMVA_Multitpi_address_2" InitialValue="" ControlToValidate="txtMVA_Multitpi_address_2"
+                                                                                                runat="server" ValidationGroup="vsVehicleGroup" ErrorMessage="Please Enter Address 2."
                                                                                                 SetFocusOnError="true" Display="None" Enabled="false">
-                                                                                            </asp:RequiredFieldValidator>--%>
+                                                                                            </asp:RequiredFieldValidator>
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr>
@@ -2081,10 +2165,10 @@
                                                                                         </td>
                                                                                         <td align="left" colspan="4">
                                                                                             <asp:TextBox runat="server" ID="txtMVA_Multitpi_City" Width="170px" MaxLength="50"></asp:TextBox>
-                                                                                            <%--<asp:RequiredFieldValidator ID="rfvMVA_Multitpi_City" InitialValue="" ControlToValidate="txtMVA_Multitpi_City"
-                                                                                                runat="server" ValidationGroup="vsMVAMultiGroup" ErrorMessage="Please Enter City."
+                                                                                            <asp:RequiredFieldValidator ID="rfvMVA_Multitpi_City" InitialValue="" ControlToValidate="txtMVA_Multitpi_City"
+                                                                                                runat="server" ValidationGroup="vsVehicleGroup" ErrorMessage="Please Enter City."
                                                                                                 SetFocusOnError="true" Display="None" Enabled="false">
-                                                                                            </asp:RequiredFieldValidator>--%>
+                                                                                            </asp:RequiredFieldValidator>
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr>
@@ -2095,10 +2179,10 @@
                                                                                         <td align="left" colspan="4">
                                                                                             <asp:DropDownList runat="server" ID="ddlMVA_Multitpi_State" SkinID="ddlSONIC">
                                                                                             </asp:DropDownList>
-                                                                                            <%--<asp:RequiredFieldValidator ID="rfvMVA_Multitpi_State" InitialValue="0" ControlToValidate="ddlMVA_Multitpi_State"
-                                                                                                runat="server" ValidationGroup="vsMVAMultiGroup" ErrorMessage="Please select state."
+                                                                                            <asp:RequiredFieldValidator ID="rfvMVA_Multitpi_State" InitialValue="0" ControlToValidate="ddlMVA_Multitpi_State"
+                                                                                                runat="server" ValidationGroup="vsVehicleGroup" ErrorMessage="Please select state."
                                                                                                 SetFocusOnError="true" Display="None" Enabled="false">
-                                                                                            </asp:RequiredFieldValidator>--%>
+                                                                                            </asp:RequiredFieldValidator>
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr>
@@ -2108,10 +2192,10 @@
                                                                                         </td>
                                                                                         <td align="left" colspan="4">
                                                                                             <asp:TextBox runat="server" ID="txtMVA_Multitpi_Zip_Code" Width="170px" MaxLength="10"></asp:TextBox>
-                                                                                            <%--<asp:RequiredFieldValidator ID="rfvMVA_Multitpi_Zip_Code" InitialValue="" ControlToValidate="txtMVA_Multitpi_Zip_Code"
-                                                                                                runat="server" ValidationGroup="vsMVAMultiGroup" ErrorMessage="Please Enter Zip Code."
+                                                                                            <asp:RequiredFieldValidator ID="rfvMVA_Multitpi_Zip_Code" InitialValue="" ControlToValidate="txtMVA_Multitpi_Zip_Code"
+                                                                                                runat="server" ValidationGroup="vsVehicleGroup" ErrorMessage="Please Enter Zip Code."
                                                                                                 SetFocusOnError="true" Display="None" Enabled="false">
-                                                                                            </asp:RequiredFieldValidator>--%>
+                                                                                            </asp:RequiredFieldValidator>
                                                                                         </td>
                                                                                     </tr>
                                                                                 </table>
@@ -2138,10 +2222,10 @@
                                                                             </td>
                                                                             <td align="left" colspan="4">$<asp:TextBox runat="server" ID="txtMVA_MultiRecovered_Amount" Width="170px" MaxLength="10" onchange="TheftCheck(true);"
                                                                                 onpaste="return false" onkeypress="return currencyFormat(this,',','.',event);" onblur="CheckNumericVal(this);"></asp:TextBox>
-                                                                                <%--<asp:RequiredFieldValidator ID="rfvMVA_MultiRecovered_Amount" InitialValue="" ControlToValidate="txtMVA_MultiRecovered_Amount"
-                                                                                    runat="server" ValidationGroup="vsMVAMultiGroup" ErrorMessage="Please Enter Recovered Amount"
-                                                                                    SetFocusOnError="true" Display="None" Enabled="true">
-                                                                                </asp:RequiredFieldValidator>--%>
+                                                                                <asp:RequiredFieldValidator ID="rfvMVA_MultiRecovered_Amount" InitialValue="" ControlToValidate="txtMVA_MultiRecovered_Amount"
+                                                                                    runat="server" ValidationGroup="vsVehicleGroup" ErrorMessage="Please Enter Recovered Amount"
+                                                                                    SetFocusOnError="true" Display="None" Enabled="false">
+                                                                                </asp:RequiredFieldValidator>
                                                                             </td>
                                                                         </tr>
                                                                         <tr>

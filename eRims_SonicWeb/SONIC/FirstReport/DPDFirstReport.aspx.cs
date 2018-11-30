@@ -4033,9 +4033,14 @@ public partial class SONIC_DPDFirstReport : clsBasePage
             trVehicleOwner3.Style["display"] = trVehicleOwner2.Style["display"] = trVehicleOwner1.Style["display"] = trRecoveredAmount.Style["display"] = trDealership.Style["display"] = trOtherPassengers.Style["display"] = trVehicleDrivenByCompanyAssoc.Style["display"] = trDamageEstimate.Style["display"] = "";
             lblName1.Text = "MVA – Damage (Multiple Vehicle) ";
             lblName3.Text = "MVA – Damage (Multiple Vehicle),MVA – Damage (Single Vehicle) ";
+            rfvMVA_MultiVehicle_Owner_Sonic.Enabled = true;
+            rfvMVA_MultiVehicle_Owner_Address.Enabled = true;
+            rfvMVA_MultiVehicle_Owner_Phone.Enabled = true;
+            rfvMVA_MultiDamage_Estimate.Enabled = true;
             rfvMVA_MultiDriven_By_Associate.Enabled = true;
             rfvMVA_MultiAdditional_passengers.Enabled = true;
             rfvMVA_MultiSeeking_subrogation.Enabled = true;
+            rfvMVA_MultiRecovered_Amount.Enabled = true;
         }
         //MVA_Single_Damage
         else if (lstCauseOfLoss.Items[5].Selected)
@@ -4044,9 +4049,14 @@ public partial class SONIC_DPDFirstReport : clsBasePage
             trVehicleOwner3.Style["display"] = trVehicleOwner2.Style["display"] = trVehicleOwner1.Style["display"] = "none";
             lblName3.Text = "MVA – Damage (Single Vehicle) ";
             lblName1.Text = "";
+            rfvMVA_MultiVehicle_Owner_Sonic.Enabled = true;
+            rfvMVA_MultiVehicle_Owner_Address.Enabled = true;
+            rfvMVA_MultiVehicle_Owner_Phone.Enabled = true;
+            rfvMVA_MultiDamage_Estimate.Enabled = true;
             rfvMVA_MultiDriven_By_Associate.Enabled = true;
             rfvMVA_MultiAdditional_passengers.Enabled = true;
             rfvMVA_MultiSeeking_subrogation.Enabled = true;
+            rfvMVA_MultiRecovered_Amount.Enabled = true;
         }
         //MVA_Multi_Damage
         else if (lstCauseOfLoss.Items[4].Selected)
@@ -4054,18 +4064,28 @@ public partial class SONIC_DPDFirstReport : clsBasePage
             trVehicleOwner3.Style["display"] = trVehicleOwner2.Style["display"] = trVehicleOwner1.Style["display"] = trRecoveredAmount.Style["display"] = trDealership.Style["display"] = trOtherPassengers.Style["display"] = trVehicleDrivenByCompanyAssoc.Style["display"] = trDamageEstimate.Style["display"] = "";
             lblName1.Text = "MVA – Damage (Multiple Vehicle) ";
             lblName3.Text = "";
+            rfvMVA_MultiVehicle_Owner_Sonic.Enabled = true;
+            rfvMVA_MultiVehicle_Owner_Address.Enabled = true;
+            rfvMVA_MultiVehicle_Owner_Phone.Enabled = true;
+            rfvMVA_MultiDamage_Estimate.Enabled = true;
             rfvMVA_MultiDriven_By_Associate.Enabled = true;
             rfvMVA_MultiAdditional_passengers.Enabled = true;
             rfvMVA_MultiSeeking_subrogation.Enabled = true;
+            rfvMVA_MultiRecovered_Amount.Enabled = true;            
         }
         else
         {
             trVehicleOwner3.Style["display"] = trVehicleOwner2.Style["display"] = trVehicleOwner1.Style["display"] = trRecoveredAmount.Style["display"] = trDealership.Style["display"] = trOtherPassengers.Style["display"] = trVehicleDrivenByCompanyAssoc.Style["display"] = trDamageEstimate.Style["display"] = "none";
             lblName3.Text = "";
             lblName1.Text = "";
+            rfvMVA_MultiVehicle_Owner_Sonic.Enabled = false;
+            rfvMVA_MultiVehicle_Owner_Address.Enabled = false;
+            rfvMVA_MultiVehicle_Owner_Phone.Enabled = false;
+            rfvMVA_MultiDamage_Estimate.Enabled = false;
             rfvMVA_MultiDriven_By_Associate.Enabled = false;
             rfvMVA_MultiAdditional_passengers.Enabled = false;
             rfvMVA_MultiSeeking_subrogation.Enabled = false;
+            rfvMVA_MultiRecovered_Amount.Enabled = false;
         }
 
 
@@ -4074,7 +4094,7 @@ public partial class SONIC_DPDFirstReport : clsBasePage
         {
             trWerePolicyNotified.Style["display"] = trVehicleInStorage.Style["display"] = trVehicleRecovered.Style["display"] = "";
             rfv_Vehicle_Recovered.Enabled = true;
-            rfv_Dealership_Wish_To_Take_Possession.Enabled = false;
+            rfv_Dealership_Wish_To_Take_Possession.Enabled = false;           
             rfvVehicle_In_Storage.Enabled = true;
             rfvPoliceNotified.Enabled = true;
             lblName2.Text = "Fruad,Theft";
@@ -4084,7 +4104,7 @@ public partial class SONIC_DPDFirstReport : clsBasePage
         {
             trWerePolicyNotified.Style["display"] = trVehicleInStorage.Style["display"] = trVehicleRecovered.Style["display"] = "";
             rfv_Vehicle_Recovered.Enabled = true;
-            rfv_Dealership_Wish_To_Take_Possession.Enabled = false;
+            rfv_Dealership_Wish_To_Take_Possession.Enabled = false;            
             rfvVehicle_In_Storage.Enabled = true;
             rfvPoliceNotified.Enabled = true;
             lblName2.Text = "Fruad";
@@ -4095,7 +4115,7 @@ public partial class SONIC_DPDFirstReport : clsBasePage
             trVehicleInStorage.Style["display"] = trVehicleRecovered.Style["display"] = "";
             trWerePolicyNotified.Style["display"] = "none";
             rfv_Vehicle_Recovered.Enabled = true;
-            rfv_Dealership_Wish_To_Take_Possession.Enabled = false;
+            rfv_Dealership_Wish_To_Take_Possession.Enabled = false;           
             rfvVehicle_In_Storage.Enabled = true;
             rfvPoliceNotified.Enabled = false;
             lblName5.Text = "Theft";
@@ -4105,7 +4125,7 @@ public partial class SONIC_DPDFirstReport : clsBasePage
         {
             trWerePolicyNotified.Style["display"] = trVehicleInStorage.Style["display"] = trVehicleRecovered.Style["display"] = "none";
             rfv_Vehicle_Recovered.Enabled = false;
-            rfv_Dealership_Wish_To_Take_Possession.Enabled = false;
+            rfv_Dealership_Wish_To_Take_Possession.Enabled = false;            
             rfvVehicle_In_Storage.Enabled = false;
             rfvPoliceNotified.Enabled = false;
             lblName2.Text = "";
@@ -7204,7 +7224,7 @@ public partial class SONIC_DPDFirstReport : clsBasePage
                         objDFV.Name = txtMVA_MultiName_Yes.Text;
                         objDFV.Address = txtMVA_MultiAddress_Yes.Text;
                         objDFV.Phone = txtMVA_MultiPhone_Yes.Text;
-                        if (rdoMVA_MultiAssociate_Cited.SelectedValue == "1")
+                        if (rdoMVA_MultiAssociate_Cited.SelectedValue == "1")                          
                             objDFV.Associate_Cited = true;
                         else if (rdoMVA_MultiAssociate_Cited.SelectedValue == "0")
                             objDFV.Associate_Cited = false;
@@ -8073,7 +8093,7 @@ public partial class SONIC_DPDFirstReport : clsBasePage
                     //strCtrlsIDs3 += ddlPartialTheft_TypeOfVehicle.ClientID + ","; strCtrlsIDs4 += ddlVandalism_TypeOfVehicle.ClientID + ","; strCtrlsIDs5 += ddlTypeOfVehicle.ClientID + ","; strCtrlsIDs6 += ddlMVA_MultiTypeOfVehicle.ClientID + ","; strCtrlsIDs7 += ddlHail_TypeOfVehicle.ClientID + ","; strCtrlsIDs8 += ddlFlood_TypeOfVehicle.ClientID + ","; strCtrlsIDs9 += ddlFire_TypeOfVehicle.ClientID + ","; strCtrlsIDs10 += ddlWind_TypeOfVehicle.ClientID + ","; strCtrlsIDs11 += ddlFraud_TypeOfVehicle.ClientID + ",";
                     strMessages2 += "Please select [Loss Information]/Type of Vehicle" + ",";
                     Span16.Style["display"] = "inline-block";//= Span27.Style["display"] = Span38.Style["display"] = Span49.Style["display"] = Span60.Style["display"] = Span71.Style["display"] = Span82.Style["display"] = Span93.Style["display"] = Span104.Style["display"] = Span115.Style["display"] = "inline-block";
-                    break;
+                    break;                
                 case "Location of Vehicle":
                     //strCtrlsIDs2 += txtTheft_Present_Location.ClientID + ",";
                     strCtrlsIDs2 += txt_Present_Location.ClientID + ",";
@@ -8127,10 +8147,10 @@ public partial class SONIC_DPDFirstReport : clsBasePage
             #region " set validation control IDs and messages "
             switch (Convert.ToString(drField["Field_Name"]))
             {
-                case "If Vehicle Recovered - damage amount":
-                    strCtrlsIDs2 += txt_Damage_estimate.ClientID + ","; strMessages2 += "Please enter [Loss Information]/damage amount" + ",";
-                    Span122.Style["display"] = "inline-block";
-                    break;
+                //case "If Vehicle Recovered - damage amount":
+                //    strCtrlsIDs2 += txt_Damage_estimate.ClientID + ","; strMessages2 += "Please enter [Loss Information]/damage amount" + ",";
+                //    Span122.Style["display"] = "inline-block";
+                //    break;
                 case "Address 1":
                     strCtrlsIDs2 += txt_Storage_Address_1.ClientID + ","; strMessages2 += "Please enter [Loss Information]/Address 1" + ",";
                     //strCtrlsIDs11 += txtFraud_Storage_Address_1.ClientID + ","; strMessages11 += "Please enter [Loss Information]/Address 1" + ",";
@@ -8822,7 +8842,7 @@ public partial class SONIC_DPDFirstReport : clsBasePage
                 {
                     td_VehicleRecovred.Style.Add("display", "");
                     //rfv_Damage_estimate.Enabled = true;
-                    rfv_Dealership_Wish_To_Take_Possession.Enabled = true;
+                    rfv_Dealership_Wish_To_Take_Possession.Enabled = true;                    
                     txt_Damage_estimate.Text = clsGeneral.GetStringValue(objDFV.Damage_Estimate);
                     if (objDFV.Dealership_Wish_To_Take_Possession != null)
                     {
@@ -8901,7 +8921,7 @@ public partial class SONIC_DPDFirstReport : clsBasePage
                 {
                     td_VehicleRecovred.Style.Add("display", "");
                     //rfv_Damage_estimate.Enabled = true;
-                    rfv_Dealership_Wish_To_Take_Possession.Enabled = true;
+                    rfv_Dealership_Wish_To_Take_Possession.Enabled = true;                    
                     txt_Damage_estimate.Text = clsGeneral.GetStringValue(objDFV.Damage_Estimate);
                     if (objDFV.Dealership_Wish_To_Take_Possession != null)
                     {
