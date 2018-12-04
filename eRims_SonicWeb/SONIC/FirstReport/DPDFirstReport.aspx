@@ -427,7 +427,6 @@
         }
         // used to display/Hide Question in MVA-Multi section according radiobutton value
         function CheckMVAMultiDrivenByCA() {
-
             var ValidYesName = document.getElementById('<%=rfvMVA_MultiName_Yes.ClientID %>');
             var ValidYesAddress = document.getElementById('<%=rfvMVA_MultiAddress_Yes.ClientID %>');
             var ValidYesPhone = document.getElementById('<%=rfvMVA_MultiPhone_Yes.ClientID %>');
@@ -1558,7 +1557,7 @@
                                                                                         <td align="left" colspan="4">
                                                                                             <asp:TextBox runat="Server" ID="txtFraudReportNumber" Width="170px" MaxLength="50"></asp:TextBox>
                                                                                             <asp:RequiredFieldValidator ID="rfvFraudReportNumber" InitialValue="" ControlToValidate="txtFraudReportNumber"
-                                                                                    runat="server" ValidationGroup="vsVehicleGroup" ErrorMessage="Please Enter Policy Report Number."
+                                                                                    runat="server" ValidationGroup="vsVehicleGroup" ErrorMessage="Please Enter Police Report Number."
                                                                                     SetFocusOnError="true" Display="None" Enabled="false">
                                                                                 </asp:RequiredFieldValidator>
                                                                                         </td>
@@ -1774,7 +1773,7 @@
                                                                             <td colspan="6" align="left">
                                                                                 <table cellpadding="3" cellspacing="0" border="0" width="100%">
                                                                                     <tr>
-                                                                                        <td align="left" style="width: 18%; padding-left: 30px;">If No, was vehicle being driven by customer?
+                                                                                        <td align="left" style="width: 18%; padding-left: 30px;">If No, was vehicle being driven by customer?&nbsp;<span id="Span35" style="color: Red;" runat="server">*</span>
                                                                                         </td>
                                                                                         <td align="center" style="width: 4%">:
                                                                                         </td>
@@ -1831,7 +1830,7 @@
                                                                                                     </td>
                                                                                                 </tr>
                                                                                                 <tr>
-                                                                                                    <td align="left" valign="top">If Yes, was the customer injured?
+                                                                                                    <td align="left" valign="top">If Yes, was the customer injured?&nbsp;<span id="Span36" style="color: Red; display: none;" runat="server">*</span>
                                                                                                     </td>
                                                                                                     <td align="center" valign="top">:
                                                                                                     </td>
@@ -2202,7 +2201,7 @@
                                                                             </td>
                                                                         </tr>
                                                                         <tr runat="server" id="trMVA_MultiSeeking_subrogation_No" style="display: none;">
-                                                                            <td align="left" style="padding-left: 30px;">If No, is this a notice-only Claim?
+                                                                            <td align="left" style="padding-left: 30px;">If No, is this a notice-only Claim?&nbsp;<span id="Span34" style="color: Red;" runat="server">*</span>
                                                                             </td>
                                                                             <td align="center">:
                                                                             </td>
@@ -2210,7 +2209,7 @@
                                                                                 <asp:RadioButtonList runat="server" ID="rdoMVA_MultiNotice_only_claim" SkinID="YesNoTypeNullSelection">
                                                                                 </asp:RadioButtonList>
                                                                                 <asp:RequiredFieldValidator ID="rfvMVA_MultiNotice_only_claim" InitialValue="" ControlToValidate="rdoMVA_MultiNotice_only_claim"
-                                                                                    runat="server" ValidationGroup="vsMVAMultiGroup" ErrorMessage="Please answer is this a notice-only Claim?"
+                                                                                    runat="server" ValidationGroup="vsVehicleGroup" ErrorMessage="Please answer is this a notice-only Claim?"
                                                                                     SetFocusOnError="true" Display="None" Enabled="false">
                                                                                 </asp:RequiredFieldValidator>
                                                                             </td>

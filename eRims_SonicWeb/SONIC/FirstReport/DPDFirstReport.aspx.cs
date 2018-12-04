@@ -4064,9 +4064,9 @@ public partial class SONIC_DPDFirstReport : clsBasePage
             trVehicleOwner3.Style["display"] = trVehicleOwner2.Style["display"] = trVehicleOwner1.Style["display"] = trRecoveredAmount.Style["display"] = trDealership.Style["display"] = trOtherPassengers.Style["display"] = trVehicleDrivenByCompanyAssoc.Style["display"] = trDamageEstimate.Style["display"] = "";
             lblName1.Text = "MVA – Damage (Multiple Vehicle) ";
             lblName3.Text = "";
-            rfvMVA_MultiVehicle_Owner_Sonic.Enabled = true;
-            rfvMVA_MultiVehicle_Owner_Address.Enabled = true;
-            rfvMVA_MultiVehicle_Owner_Phone.Enabled = true;
+            rfvMVA_MultiVehicle_Owner_Sonic.Enabled = false;
+            rfvMVA_MultiVehicle_Owner_Address.Enabled = false;
+            rfvMVA_MultiVehicle_Owner_Phone.Enabled = false;
             rfvMVA_MultiDamage_Estimate.Enabled = true;
             rfvMVA_MultiDriven_By_Associate.Enabled = true;
             rfvMVA_MultiAdditional_passengers.Enabled = true;
@@ -8151,46 +8151,46 @@ public partial class SONIC_DPDFirstReport : clsBasePage
                 //    strCtrlsIDs2 += txt_Damage_estimate.ClientID + ","; strMessages2 += "Please enter [Loss Information]/damage amount" + ",";
                 //    Span122.Style["display"] = "inline-block";
                 //    break;
-                case "Address 1":
-                    strCtrlsIDs2 += txt_Storage_Address_1.ClientID + ","; strMessages2 += "Please enter [Loss Information]/Address 1" + ",";
-                    //strCtrlsIDs11 += txtFraud_Storage_Address_1.ClientID + ","; strMessages11 += "Please enter [Loss Information]/Address 1" + ",";
-                    Span123.Style["display"] = "inline-block";
-                    break;
-                case "Contact Name":
-                    strCtrlsIDs2 += txt_Storage_Contact.ClientID + ","; strMessages2 += "Please enter [Loss Information]/Contact Name" + ",";
-                    //strCtrlsIDs11 += txtFraud_Storage_Contact.ClientID + ","; strMessages11 += "Please enter [Loss Information]/Contact Name" + ",";
-                    Span124.Style["display"] = "inline-block";
-                    break;
-                case "Address 2":
-                    strCtrlsIDs2 += txt_Storage_Address_2.ClientID + ","; strMessages2 += "Please enter [Loss Information]/Address 2" + ",";
-                    //strCtrlsIDs11 += txtFraud_Storage_Address_2.ClientID + ","; strMessages11 += "Please enter [Loss Information]/Address 2" + ",";
-                    Span125.Style["display"] = "inline-block";
-                    break;
-                case "Storage Phone":
-                    strCtrlsIDs2 += txt_Storage_phone.ClientID + ","; strMessages2 += "Please enter [Loss Information]/Storage Phone" + ",";
-                    //strCtrlsIDs11 += txtFraud_Storage_phone.ClientID + ","; strMessages11 += "Please enter [Loss Information]/Storage Phone" + ",";
-                    Span126.Style["display"] = "inline-block";
-                    break;
-                case "City":
-                    strCtrlsIDs2 += txt_Storage_City.ClientID + ","; strMessages2 += "Please enter [Loss Information]/City" + ",";
-                    //strCtrlsIDs11 += txtFraud_Storage_City.ClientID + ","; strMessages11 += "Please enter [Loss Information]/City" + ",";
-                    Span127.Style["display"] = "inline-block";
-                    break;
-                case "Cost of Storage":
-                    strCtrlsIDs2 += txt_Storage_cost.ClientID + ","; strMessages2 += "Please enter [Loss Information]/Cost of Storage" + ",";
-                    //strCtrlsIDs11 += txtFraud_Storage_cost.ClientID + ","; strMessages11 += "Please enter [Loss Information]/Cost of Storage" + ",";
-                    Span128.Style["display"] = "inline-block";
-                    break;
-                case "Storage State":
-                    strCtrlsIDs2 += ddl_Storage_State.ClientID + ","; strMessages2 += "Please select [Loss Information]/Storage State" + ",";
-                    //strCtrlsIDs11 += ddlFraud_Storage_State.ClientID + ","; strMessages11 += "Please enter [Loss Information]/Storage State" + ",";
-                    Span129.Style["display"] = "inline-block";
-                    break;
-                case "Storage Zip":
-                    strCtrlsIDs2 += txt_storage_Zip_Code.ClientID + ","; strMessages2 += "Please enter [Loss Information]/Storage Zip" + ",";
-                    //strCtrlsIDs11 += txtFraud_storage_Zip_Code.ClientID + ","; strMessages11 += "Please enter [Loss Information]/Storage Zip" + ",";
-                    Span130.Style["display"] = "inline-block";
-                    break;
+                //case "Address 1":
+                //    strCtrlsIDs2 += txt_Storage_Address_1.ClientID + ","; strMessages2 += "Please enter [Loss Information]/Address 1" + ",";
+                //    //strCtrlsIDs11 += txtFraud_Storage_Address_1.ClientID + ","; strMessages11 += "Please enter [Loss Information]/Address 1" + ",";
+                //    Span123.Style["display"] = "inline-block";
+                //    break;
+                //case "Contact Name":
+                //    strCtrlsIDs2 += txt_Storage_Contact.ClientID + ","; strMessages2 += "Please enter [Loss Information]/Contact Name" + ",";
+                //    //strCtrlsIDs11 += txtFraud_Storage_Contact.ClientID + ","; strMessages11 += "Please enter [Loss Information]/Contact Name" + ",";
+                //    Span124.Style["display"] = "inline-block";
+                //    break;
+                //case "Address 2":
+                //    strCtrlsIDs2 += txt_Storage_Address_2.ClientID + ","; strMessages2 += "Please enter [Loss Information]/Address 2" + ",";
+                //    //strCtrlsIDs11 += txtFraud_Storage_Address_2.ClientID + ","; strMessages11 += "Please enter [Loss Information]/Address 2" + ",";
+                //    Span125.Style["display"] = "inline-block";
+                //    break;
+                //case "Storage Phone":
+                //    strCtrlsIDs2 += txt_Storage_phone.ClientID + ","; strMessages2 += "Please enter [Loss Information]/Storage Phone" + ",";
+                //    //strCtrlsIDs11 += txtFraud_Storage_phone.ClientID + ","; strMessages11 += "Please enter [Loss Information]/Storage Phone" + ",";
+                //    Span126.Style["display"] = "inline-block";
+                //    break;
+                //case "City":
+                //    strCtrlsIDs2 += txt_Storage_City.ClientID + ","; strMessages2 += "Please enter [Loss Information]/City" + ",";
+                //    //strCtrlsIDs11 += txtFraud_Storage_City.ClientID + ","; strMessages11 += "Please enter [Loss Information]/City" + ",";
+                //    Span127.Style["display"] = "inline-block";
+                //    break;
+                //case "Cost of Storage":
+                //    strCtrlsIDs2 += txt_Storage_cost.ClientID + ","; strMessages2 += "Please enter [Loss Information]/Cost of Storage" + ",";
+                //    //strCtrlsIDs11 += txtFraud_Storage_cost.ClientID + ","; strMessages11 += "Please enter [Loss Information]/Cost of Storage" + ",";
+                //    Span128.Style["display"] = "inline-block";
+                //    break;
+                //case "Storage State":
+                //    strCtrlsIDs2 += ddl_Storage_State.ClientID + ","; strMessages2 += "Please select [Loss Information]/Storage State" + ",";
+                //    //strCtrlsIDs11 += ddlFraud_Storage_State.ClientID + ","; strMessages11 += "Please enter [Loss Information]/Storage State" + ",";
+                //    Span129.Style["display"] = "inline-block";
+                //    break;
+                //case "Storage Zip":
+                //    strCtrlsIDs2 += txt_storage_Zip_Code.ClientID + ","; strMessages2 += "Please enter [Loss Information]/Storage Zip" + ",";
+                //    //strCtrlsIDs11 += txtFraud_storage_Zip_Code.ClientID + ","; strMessages11 += "Please enter [Loss Information]/Storage Zip" + ",";
+                //    Span130.Style["display"] = "inline-block";
+                //    break;
                 case "Police Report Number": strCtrlsIDs11 += txtFraudReportNumber.ClientID + ","; strMessages11 += "Please enter [Loss Information]/Police Report Number" + ","; Span140.Style["display"] = "inline-block"; break;
                 case "Date of Loss": strCtrlsIDs12 += txtLossDate_Of_Loss.ClientID + ","; strMessages12 += "Please enter [Loss Information]/Date of Loss" + ","; Span11.Style["display"] = "inline-block"; break;
 
