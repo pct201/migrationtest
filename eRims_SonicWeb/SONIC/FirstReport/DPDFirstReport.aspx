@@ -460,7 +460,7 @@
                 ValidYesAddress.enabled = true;
                 ValidYesPhone.enabled = true;
             }
-        }
+        }            
 
         // used to display/Hide Question in MVA-Multi section according radiobutton value
         function CheckMultiSeeking_subrogation() {
@@ -560,18 +560,27 @@
         // used to display/Hide Question in MVA-Multi section according radiobutton value
         function CheckMultiDrivenByCust(ValidNotCustExplain) {
             var Validcustomer_injured = document.getElementById('<%=rfvMVA_Multicustomer_injured.ClientID %>');
+            var Validcustomer_name = document.getElementById('<%=rfvMVA_MultiName_No.ClientID %>');
+            var Validcustomer_add = document.getElementById('<%=rfvMVA_MultiAddress_No.ClientID %>');
+            var Validcustomer_phone = document.getElementById('<%=rfvMVA_MultiPhone_No.ClientID %>');
             var ctl = document.getElementById('<%=rdoMVA_MultiVehicle_Driven_By_Customer.ClientID %>');
             rdo = document.getElementById(ctl.id + "_0");
             if (rdo.checked == true) {
                 document.getElementById('<%=trMVA_MultiCust_Injured.ClientID %>').style.display = "";
                 document.getElementById('<%=trMVA_MultiCust_Not_Injured.ClientID %>').style.display = "none";
                 Validcustomer_injured.enabled = true;
+                Validcustomer_name.enabled = true;
+                Validcustomer_add.enabled = true;
+                Validcustomer_phone.enabled = true;
                 ValidNotCustExplain.enabled = false;
             }
             else {
                 document.getElementById('<%=trMVA_MultiCust_Injured.ClientID %>').style.display = "none";
                 document.getElementById('<%=trMVA_MultiCust_Not_Injured.ClientID %>').style.display = "";
                 Validcustomer_injured.enabled = false;
+                Validcustomer_name.enabled = false;
+                Validcustomer_add.enabled = false;
+                Validcustomer_phone.enabled = false;
                 ValidNotCustExplain.enabled = true;
             }
         }
@@ -1797,10 +1806,10 @@
                                                                                                     </td>
                                                                                                     <td align="left" colspan="4">
                                                                                                         <asp:TextBox runat="server" ID="txtMVA_MultiName_No" Width="170px" MaxLength="50"></asp:TextBox>
-                                                                                                        <%--<asp:RequiredFieldValidator ID="rfvMVA_MultiName_No" InitialValue="" ControlToValidate="txtMVA_MultiName_No"
-                                                                                                            runat="server" ValidationGroup="vsMVAMultiGroup" ErrorMessage="Please Enter Name."
+                                                                                                        <asp:RequiredFieldValidator ID="rfvMVA_MultiName_No" InitialValue="" ControlToValidate="txtMVA_MultiName_No"
+                                                                                                            runat="server" ValidationGroup="vsVehicleGroup" ErrorMessage="Please Enter Name."
                                                                                                             SetFocusOnError="true" Display="None" Enabled="false">
-                                                                                                        </asp:RequiredFieldValidator>--%>
+                                                                                                        </asp:RequiredFieldValidator>
                                                                                                     </td>
                                                                                                 </tr>
                                                                                                 <tr>
@@ -1810,10 +1819,10 @@
                                                                                                     </td>
                                                                                                     <td align="left" colspan="4">
                                                                                                         <asp:TextBox runat="server" ID="txtMVA_MultiAddress_No" Width="170px" MaxLength="50"></asp:TextBox>
-                                                                                                        <%--<asp:RequiredFieldValidator ID="rfvMVA_MultiAddress_No" InitialValue="" ControlToValidate="txtMVA_MultiAddress_No"
-                                                                                                            runat="server" ValidationGroup="vsMVAMultiGroup" ErrorMessage="Please Enter Address"
+                                                                                                        <asp:RequiredFieldValidator ID="rfvMVA_MultiAddress_No" InitialValue="" ControlToValidate="txtMVA_MultiAddress_No"
+                                                                                                            runat="server" ValidationGroup="vsVehicleGroup" ErrorMessage="Please Enter Address"
                                                                                                             SetFocusOnError="true" Display="None" Enabled="false">
-                                                                                                        </asp:RequiredFieldValidator>--%>
+                                                                                                        </asp:RequiredFieldValidator>
                                                                                                     </td>
                                                                                                 </tr>
                                                                                                 <tr>
@@ -1823,14 +1832,14 @@
                                                                                                     </td>
                                                                                                     <td align="left" colspan="4">
                                                                                                         <asp:TextBox runat="server" ID="txtMVA_MultiPhone_No" Width="170px" MaxLength="20"></asp:TextBox>
-                                                                                                        <%--<asp:RequiredFieldValidator ID="rfvMVA_MultiPhone_No" InitialValue="" ControlToValidate="txtMVA_MultiPhone_No"
-                                                                                                            runat="server" ValidationGroup="vsMVAMultiGroup" ErrorMessage="Please Enter Phone"
+                                                                                                        <asp:RequiredFieldValidator ID="rfvMVA_MultiPhone_No" InitialValue="" ControlToValidate="txtMVA_MultiPhone_No"
+                                                                                                            runat="server" ValidationGroup="vsVehicleGroup" ErrorMessage="Please Enter Phone"
                                                                                                             SetFocusOnError="true" Display="None" Enabled="false">
-                                                                                                        </asp:RequiredFieldValidator>--%>
+                                                                                                        </asp:RequiredFieldValidator>
                                                                                                     </td>
                                                                                                 </tr>
                                                                                                 <tr>
-                                                                                                    <td align="left" valign="top">If Yes, was the customer injured?&nbsp;<span id="Span36" style="color: Red; display: none;" runat="server">*</span>
+                                                                                                    <td align="left" valign="top">If Yes, was the customer injured?&nbsp;<span id="Span36" style="color: Red;" runat="server">*</span>
                                                                                                     </td>
                                                                                                     <td align="center" valign="top">:
                                                                                                     </td>
@@ -6605,6 +6614,38 @@ else {
 }
 else
     args.IsValid = true;
+            
+            var ctl = document.getElementById('<%=rdoMVA_MultiDriven_By_Associate.ClientID %>');
+
+            rdo = document.getElementById(ctl.id + "_0");
+            if (rdo.checked == true) {
+                var ctlCited = document.getElementById('<%=rdoMVA_MultiAssociate_Cited.ClientID %>');
+                if (document.getElementById(ctlCited.id + "_0").checked)
+                {
+                    if ($('#ctl00_ContentPlaceHolder1_txtMVA_MultiDescription_Of_Citation_txtNote').val() == '') {
+                        msg = msg + 'Please Enter Description of citation.\n'
+                    }
+                }
+
+                var ctlTestPerformed = document.getElementById('<%=rdoMVA_MultiDrug_test_performed.ClientID %>');
+                if (document.getElementById(ctlTestPerformed.id + "_0").checked || document.getElementById(ctlTestPerformed.id + "_1").checked) {
+                    if ($('#ctl00_ContentPlaceHolder1_txtMVA_MultiDrug_test_results_txtNote').val() == '') {
+                        msg = msg + 'Please answer was a post-accident drug test performed?\n'
+                    }
+                }
+            }
+            else {
+                var ctl1 = document.getElementById('<%=rdoMVA_MultiVehicle_Driven_By_Customer.ClientID %>');
+
+                rdo = document.getElementById(ctl1.id + "_1");
+                if (document.getElementById(ctl1.id + "_1").checked)
+                {
+                    if($('#ctl00_ContentPlaceHolder1_txtMVA_MultiNot_Driven_By_Customer_Explain_txtNote').val() == '')
+                    {
+                        msg = msg + 'Please Enter Explaination.\n'
+                    }
+                }
+            }
 
     if (msg.length > 0) {
         sender.errormessage = msg;

@@ -8567,9 +8567,9 @@ public partial class SONIC_DPDFirstReport : clsBasePage
                         {
                             if (objDFV.Vehicle_Driven_By_Customer == true)
                             {
-                                //rfvMVA_MultiAddress_No.Enabled = true;
-                                //rfvMVA_MultiName_No.Enabled = true;
-                                //rfvMVA_MultiPhone_No.Enabled = true;
+                                rfvMVA_MultiAddress_No.Enabled = true;
+                                rfvMVA_MultiName_No.Enabled = true;
+                                rfvMVA_MultiPhone_No.Enabled = true;
                                 txtMVA_MultiAddress_No.Text = string.IsNullOrEmpty(objDFV.Address) ? "" : objDFV.Address;
                                 txtMVA_MultiName_No.Text = string.IsNullOrEmpty(objDFV.Name) ? "" : objDFV.Name;
                                 txtMVA_MultiPhone_No.Text = string.IsNullOrEmpty(objDFV.Phone) ? "" : objDFV.Phone;
