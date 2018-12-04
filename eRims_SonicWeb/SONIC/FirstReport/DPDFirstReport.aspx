@@ -1310,7 +1310,7 @@
                                                                             </td>
                                                                         </tr>
                                                                         <tr>
-                                                                            <td align="left">Invoice Value&nbsp;<span id="Span21" style="color: Red; display: none;" runat="server">*</span>
+                                                                            <td align="left">Invoice Value&nbsp;<span id="Span21" style="color: Red;" runat="server">*</span>
                                                                             </td>
                                                                             <td align="center">:
                                                                             </td>
@@ -1319,7 +1319,7 @@
                                                                             </td>
                                                                         </tr>
                                                                         <tr>
-                                                                            <td align="left" valign="top">In Detail, Explain What Happened&nbsp;<span id="Span22" style="color: Red; display: none;" runat="server">*</span>
+                                                                            <td align="left" valign="top">In Detail, Explain What Happened&nbsp;<span id="Span22" style="color: Red;" runat="server">*</span>
                                                                             </td>
                                                                             <td align="center" valign="top">:
                                                                             </td>
@@ -2093,7 +2093,7 @@
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr>
-                                                                                        <td align="left" style="width: 18%;">Carrier Name&nbsp;<span id="Span190" style="color: Red; display: none;" runat="server">*</span>
+                                                                                        <td align="left" style="width: 18%;">Carrier Name&nbsp;<span id="Span190" style="color: Red;" runat="server">*</span>
                                                                                         </td>
                                                                                         <td align="center" style="width: 4%;">:
                                                                                         </td>
@@ -2104,7 +2104,7 @@
                                                                                                 SetFocusOnError="true" Display="None" Enabled="false">
                                                                                             </asp:RequiredFieldValidator>
                                                                                         </td>
-                                                                                        <td align="left" style="width: 18%;">Contact Name&nbsp;<span id="Span191" style="color: Red; display: none;" runat="server">*</span>
+                                                                                        <td align="left" style="width: 18%;">Contact Name&nbsp;<span id="Span191" style="color: Red;" runat="server">*</span>
                                                                                         </td>
                                                                                         <td align="center" style="width: 4%;">:
                                                                                         </td>
@@ -2117,7 +2117,7 @@
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr>
-                                                                                        <td align="left">Policy Number&nbsp;<span id="Span192" style="color: Red; display: none;" runat="server">*</span>
+                                                                                        <td align="left">Policy Number&nbsp;<span id="Span192" style="color: Red;" runat="server">*</span>
                                                                                         </td>
                                                                                         <td align="center">:
                                                                                         </td>
@@ -2128,7 +2128,7 @@
                                                                                                 SetFocusOnError="true" Display="None" Enabled="false">
                                                                                             </asp:RequiredFieldValidator>
                                                                                         </td>
-                                                                                        <td align="left">Phone&nbsp;<span id="Span193" style="color: Red; display: none;" runat="server">*</span>
+                                                                                        <td align="left">Phone&nbsp;<span id="Span193" style="color: Red;" runat="server">*</span>
                                                                                         </td>
                                                                                         <td align="center">:
                                                                                         </td>
@@ -2141,7 +2141,7 @@
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr>
-                                                                                        <td align="left">Address 1&nbsp;<span id="Span194" style="color: Red; display: none;" runat="server">*</span>
+                                                                                        <td align="left">Address 1&nbsp;<span id="Span194" style="color: Red;" runat="server">*</span>
                                                                                         </td>
                                                                                         <td align="center">:
                                                                                         </td>
@@ -2154,7 +2154,7 @@
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr>
-                                                                                        <td align="left">Address 2&nbsp;<span id="Span195" style="color: Red; display: none;" runat="server">*</span>
+                                                                                        <td align="left">Address 2&nbsp;<span id="Span195" style="color: Red;" runat="server">*</span>
                                                                                         </td>
                                                                                         <td align="center">:
                                                                                         </td>
@@ -2167,7 +2167,7 @@
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr>
-                                                                                        <td align="left">City&nbsp;<span id="Span196" style="color: Red; display: none;" runat="server">*</span>
+                                                                                        <td align="left">City&nbsp;<span id="Span196" style="color: Red;" runat="server">*</span>
                                                                                         </td>
                                                                                         <td align="center">:
                                                                                         </td>
@@ -2180,7 +2180,7 @@
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr>
-                                                                                        <td align="left">State&nbsp;<span id="Span197" style="color: Red; display: none;" runat="server">*</span>
+                                                                                        <td align="left">State&nbsp;<span id="Span197" style="color: Red;" runat="server">*</span>
                                                                                         </td>
                                                                                         <td align="center">:
                                                                                         </td>
@@ -2194,7 +2194,7 @@
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr>
-                                                                                        <td align="left">Zip&nbsp;<span id="Span198" style="color: Red; display: none;" runat="server">*</span>
+                                                                                        <td align="left">Zip&nbsp;<span id="Span198" style="color: Red;" runat="server">*</span>
                                                                                         </td>
                                                                                         <td align="center">:
                                                                                         </td>
@@ -2224,7 +2224,7 @@
                                                                             </td>
                                                                         </tr>
                                                                         <tr id="trRecoveredAmount" style="display: none" runat="server">
-                                                                            <td align="left">Recovered Amount&nbsp;<span id="Span199" style="color: Red; display: none;" runat="server">*</span>
+                                                                            <td align="left">Recovered Amount&nbsp;<span id="Span199" style="color: Red;" runat="server">*</span>
                                                                             </td>
                                                                             <td align="center">:
                                                                             </td>
