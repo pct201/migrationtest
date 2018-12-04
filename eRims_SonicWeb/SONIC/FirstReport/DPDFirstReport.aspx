@@ -6623,14 +6623,14 @@ else
                 if (document.getElementById(ctlCited.id + "_0").checked)
                 {
                     if ($('#ctl00_ContentPlaceHolder1_txtMVA_MultiDescription_Of_Citation_txtNote').val() == '') {
-                        msg = msg + 'Please Enter Description of citation.\n'
+                        msg += (msg.length > 0 ? "- " : "") + "Please Enter Description of citation.\n";
                     }
                 }
 
                 var ctlTestPerformed = document.getElementById('<%=rdoMVA_MultiDrug_test_performed.ClientID %>');
                 if (document.getElementById(ctlTestPerformed.id + "_0").checked || document.getElementById(ctlTestPerformed.id + "_1").checked) {
                     if ($('#ctl00_ContentPlaceHolder1_txtMVA_MultiDrug_test_results_txtNote').val() == '') {
-                        msg = msg + 'Please answer was a post-accident drug test performed?\n'
+                        msg += (msg.length > 0 ? "- " : "") + "Please answer was a post-accident drug test performed?\n";
                     }
                 }
             }
@@ -6642,7 +6642,7 @@ else
                 {
                     if($('#ctl00_ContentPlaceHolder1_txtMVA_MultiNot_Driven_By_Customer_Explain_txtNote').val() == '')
                     {
-                        msg = msg + 'Please Enter Explaination.\n'
+                        msg += (msg.length > 0 ? "- " : "") + "Please Enter Explaination.\n";
                     }
                 }
             }
