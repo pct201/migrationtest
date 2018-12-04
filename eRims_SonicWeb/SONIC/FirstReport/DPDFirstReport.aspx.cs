@@ -4049,9 +4049,9 @@ public partial class SONIC_DPDFirstReport : clsBasePage
             trVehicleOwner3.Style["display"] = trVehicleOwner2.Style["display"] = trVehicleOwner1.Style["display"] = "none";
             lblName3.Text = "MVA – Damage (Single Vehicle) ";
             lblName1.Text = "";
-            rfvMVA_MultiVehicle_Owner_Sonic.Enabled = true;
-            rfvMVA_MultiVehicle_Owner_Address.Enabled = true;
-            rfvMVA_MultiVehicle_Owner_Phone.Enabled = true;
+            rfvMVA_MultiVehicle_Owner_Sonic.Enabled = false;
+            rfvMVA_MultiVehicle_Owner_Address.Enabled = false;
+            rfvMVA_MultiVehicle_Owner_Phone.Enabled = false;
             rfvMVA_MultiDamage_Estimate.Enabled = true;
             rfvMVA_MultiDriven_By_Associate.Enabled = true;
             rfvMVA_MultiAdditional_passengers.Enabled = true;
@@ -4064,9 +4064,9 @@ public partial class SONIC_DPDFirstReport : clsBasePage
             trVehicleOwner3.Style["display"] = trVehicleOwner2.Style["display"] = trVehicleOwner1.Style["display"] = trRecoveredAmount.Style["display"] = trDealership.Style["display"] = trOtherPassengers.Style["display"] = trVehicleDrivenByCompanyAssoc.Style["display"] = trDamageEstimate.Style["display"] = "";
             lblName1.Text = "MVA – Damage (Multiple Vehicle) ";
             lblName3.Text = "";
-            rfvMVA_MultiVehicle_Owner_Sonic.Enabled = false;
-            rfvMVA_MultiVehicle_Owner_Address.Enabled = false;
-            rfvMVA_MultiVehicle_Owner_Phone.Enabled = false;
+            rfvMVA_MultiVehicle_Owner_Sonic.Enabled = true;
+            rfvMVA_MultiVehicle_Owner_Address.Enabled = true;
+            rfvMVA_MultiVehicle_Owner_Phone.Enabled = true;
             rfvMVA_MultiDamage_Estimate.Enabled = true;
             rfvMVA_MultiDriven_By_Associate.Enabled = true;
             rfvMVA_MultiAdditional_passengers.Enabled = true;
