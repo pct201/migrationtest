@@ -467,7 +467,7 @@ public partial class SONIC_Sedgwick_ClaimSummary : clsBasePage
             else if (MgtSection == "Disability")
             {
                 ddlRLCM_Medical_Score.SelectedValue = objSCR.Diability_Score.ToString();
-                strActivityCode = "DE";
+                strActivityCode = "LG";
             }
             else if (MgtSection == "Leadership")
             {
