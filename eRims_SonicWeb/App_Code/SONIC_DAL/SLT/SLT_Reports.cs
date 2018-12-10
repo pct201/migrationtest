@@ -91,7 +91,7 @@ public class SLT_Reports : System.Web.UI.Page
         if (Score > 0)
         {
             Score = (Score * 100) / Convert.ToDecimal(2.5);
-            if (Score >= 91 && Score <= 100) Score_Desc = Charts.Platinum_Label;
+            if (Score > 90 && Score <= 100) Score_Desc = Charts.Platinum_Label;
             else if (Score > 85 && Score <= 90) Score_Desc = Charts.Gold_Label;
             else if (Score > 80 && Score <= 85) Score_Desc = Charts.Silver_Label;           
             else if (Score <= 80) Score_Desc = Charts.Tin_Label;
