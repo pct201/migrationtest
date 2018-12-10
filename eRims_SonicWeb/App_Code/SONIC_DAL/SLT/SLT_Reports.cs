@@ -74,16 +74,30 @@ public class SLT_Reports : System.Web.UI.Page
         LU_Location objLU_Location = new LU_Location(FK_LU_Location_ID);
         string Meeting_Points = "", Safety_Walk_Points = "", Incidents_Review_Points = "", Quality_Review = "", Total_Points = "", Score_Desc = "";
         decimal Score = 0;
-        if (objSLT_Meeting_Schedule.SLT_Score != null)
+        //if (objSLT_Meeting_Schedule.SLT_Score != null)
+        //{
+        //    Score = (decimal)objSLT_Meeting_Schedule.SLT_Score;
+        //    if (Score >= 0 && Score <= 11.5m) Score_Desc = Charts.Tin_Label;
+        //    else if (Score > 11.5m && Score <= 17.5m) Score_Desc = Charts.Bronze_Label;
+        //    else if (Score > 17.5m && Score <= 23.5m) Score_Desc = Charts.Silver_Label;
+        //    else if (Score > 23.5m && Score < 30) Score_Desc = Charts.Gold_Label;
+        //    else if (Score >= 30) Score_Desc = Charts.Platinum_Label;
+        //    else Score_Desc = "";
+        //}
+        Score = Convert.ToDecimal((objSLT_Meeting_Schedule.Full_Participation == null ? 0 : objSLT_Meeting_Schedule.Full_Participation) + 
+            (objSLT_Meeting_Schedule.Full_SW_Participation==null ? 0 :objSLT_Meeting_Schedule.Full_SW_Participation) + 
+            (objSLT_Meeting_Schedule.Incident_Review == null ? 0 : objSLT_Meeting_Schedule.Incident_Review) + 
+            (objSLT_Meeting_Schedule.RLCM_Score == null ? 0 : objSLT_Meeting_Schedule.RLCM_Score));
+        if (Score > 0)
         {
-            Score = (decimal)objSLT_Meeting_Schedule.SLT_Score;
-            if (Score >= 0 && Score <= 11.5m) Score_Desc = Charts.Tin_Label;
-            else if (Score > 11.5m && Score <= 17.5m) Score_Desc = Charts.Bronze_Label;
-            else if (Score > 17.5m && Score <= 23.5m) Score_Desc = Charts.Silver_Label;
-            else if (Score > 23.5m && Score < 30) Score_Desc = Charts.Gold_Label;
-            else if (Score >= 30) Score_Desc = Charts.Platinum_Label;
+            Score = (Score * 100) / Convert.ToDecimal(2.5);
+            if (Score >= 91 && Score <= 100) Score_Desc = Charts.Platinum_Label;
+            else if (Score > 85 && Score <= 90) Score_Desc = Charts.Gold_Label;
+            else if (Score > 80 && Score <= 85) Score_Desc = Charts.Silver_Label;           
+            else if (Score <= 80) Score_Desc = Charts.Tin_Label;
             else Score_Desc = "";
         }
+
         strBody = strBody.Replace("[Location_Dba]", objLU_Location.dba);
         strBody = strBody.Replace("[Meeting_Date]", clsGeneral.FormatDBNullDateToDisplay(objSLT_Meeting_Schedule.Actual_Meeting_Date));
         strBody = strBody.Replace("[Meeting_Comments]", objSLT_Meeting_Schedule.Meeting_Comments);
