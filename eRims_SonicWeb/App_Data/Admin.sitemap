@@ -359,7 +359,7 @@
         </siteMapNode>
         <!--<3698>-->
         <siteMapNode title="Safety Training" description="">
-          <siteMapNode url="Administrator/Sonic_U_Training.aspx" title ="Required Classes" description="" roles="" />
+          <siteMapNode url="Administrator/Sonic_U_Training_Required_By_Job_Code.aspx" title ="Required Classes" description="" roles="" />
           <siteMapNode url="Administrator/Sonic_U_Training_Classes.aspx" title ="Safety Training Classes" description="" roles="" />
         </siteMapNode>
         <siteMapNode title ="SLT Safety Walk" description="" roles="">
