@@ -544,11 +544,22 @@ public partial class SONIC_Sedgwick_ClaimSummary : clsBasePage
             string strClaimDate = Convert.ToString(clsGeneral.FormatDateToDisplay(Convert.ToDateTime(dtClaim.Rows[0]["Data_Entry_Date"])));
             string strClaimNote = string.Empty;
 
-            foreach (DataRow dr in dtClaim.Rows)
+            if (strActivityCode == "LG")
             {
-                if (clsGeneral.FormatDateToDisplay(Convert.ToDateTime(dr["Data_Entry_Date"])) == strClaimDate)
+                foreach (DataRow dr in dtClaim.Rows)
                 {
-                    strClaimNote = strClaimNote + Convert.ToString(dr["Note_Text"]) + "\n";
+                    strClaimNote = strClaimNote + "Note Date: " + Convert.ToString(clsGeneral.FormatDateToDisplay(Convert.ToDateTime(dr["Data_Entry_Date"]))) + "\n";
+                    strClaimNote = strClaimNote + "Note: " + Convert.ToString(dr["Note_Text"]) + "\n\n";
+                }
+            }
+            else
+            {
+                foreach (DataRow dr in dtClaim.Rows)
+                {
+                    if (clsGeneral.FormatDateToDisplay(Convert.ToDateTime(dr["Data_Entry_Date"])) == strClaimDate)
+                    {
+                        strClaimNote = strClaimNote + Convert.ToString(dr["Note_Text"]) + "\n";
+                    }
                 }
             }
 
