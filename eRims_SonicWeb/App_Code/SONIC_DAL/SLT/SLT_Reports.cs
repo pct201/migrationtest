@@ -88,6 +88,9 @@ public class SLT_Reports : System.Web.UI.Page
             (objSLT_Meeting_Schedule.Full_SW_Participation==null ? 0 :objSLT_Meeting_Schedule.Full_SW_Participation) + 
             (objSLT_Meeting_Schedule.Incident_Review == null ? 0 : objSLT_Meeting_Schedule.Incident_Review) + 
             (objSLT_Meeting_Schedule.RLCM_Score == null ? 0 : objSLT_Meeting_Schedule.RLCM_Score));
+
+        strBody = strBody.Replace("[Total_Points]", Convert.ToString(Score));
+        
         if (Score > 0)
         {
             Score = (Score * 100) / Convert.ToDecimal(2.5);
@@ -101,7 +104,7 @@ public class SLT_Reports : System.Web.UI.Page
         strBody = strBody.Replace("[Location_Dba]", objLU_Location.dba);
         strBody = strBody.Replace("[Meeting_Date]", clsGeneral.FormatDBNullDateToDisplay(objSLT_Meeting_Schedule.Actual_Meeting_Date));
         strBody = strBody.Replace("[Meeting_Comments]", objSLT_Meeting_Schedule.Meeting_Comments);
-        strBody = strBody.Replace("[Total_Points]", objSLT_Meeting_Schedule.SLT_Score != null ? objSLT_Meeting_Schedule.SLT_Score.ToString() : "");
+        //strBody = strBody.Replace("[Total_Points]", objSLT_Meeting_Schedule.SLT_Score != null ? objSLT_Meeting_Schedule.SLT_Score.ToString() : "");
         strBody = strBody.Replace("[Score_1]", objSLT_Meeting_Schedule.Full_Participation != null ? objSLT_Meeting_Schedule.Full_Participation.ToString() : "");
         strBody = strBody.Replace("[Score_2]", objSLT_Meeting_Schedule.Full_SW_Participation != null ? objSLT_Meeting_Schedule.Full_SW_Participation.ToString() : "");
         strBody = strBody.Replace("[Score_3]", objSLT_Meeting_Schedule.Incident_Review != null ? objSLT_Meeting_Schedule.Incident_Review.ToString() : "");

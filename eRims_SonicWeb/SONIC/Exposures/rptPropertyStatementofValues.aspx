@@ -1972,6 +1972,11 @@
                                     <asp:Label Width="240px" runat="server" ID="lblOtherBuildingComments" Text='<%# Eval("Comments")%>' CssClass="TextClip"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Flood Zone">
+                                <ItemTemplate>
+                                    <asp:Label Width="240px" runat="server" ID="lblFloodZone" Text='<%# Eval("Flood_Zone")%>' CssClass="TextClip"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
                             <%--<asp:TemplateField HeaderText="HVAC Repairs">
                                 <ItemTemplate>
                                     <asp:Label Width="120px" runat="server" ID="lblHVAC_Repairs" Text='<%# Eval("HVAC_Repairs")%>' ></asp:Label>
