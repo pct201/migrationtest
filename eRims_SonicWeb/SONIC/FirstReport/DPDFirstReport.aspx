@@ -6411,14 +6411,25 @@
             var Messages = document.getElementById('ctl00_ContentPlaceHolder1_hdnErrorMsgs' + index).value.split(',');
 
             if (index == 12) {
+                var cnt = 0;
                 if (document.getElementById('<%=lblAsteriskCause.ClientID %>').style.display == "inline-block") {
                     var lstCause = document.getElementById('<%=lstCauseOfLoss.ClientID%>');
-                    var cnt = 0;
                     for (var i = 0; i < lstCause.options.length; i++) {
                         if (lstCause.options[i].selected) cnt++;
                     }
                     if (cnt == 0)
                         msg = (msg.length > 0 ? "- " : "") + "Please select [Loss Information]/Cause of Loss to Sonic Inventory" + "\n";
+                }
+                if ((document.getElementById('<%=lblAsteriskCause.ClientID %>').style.display == "inline-block" && cnt > 0) || (document.getElementById('<%=lblAsteriskCause.ClientID %>').style.display == "none"))
+                {
+                    var gv1;
+                    var cnt1 = 0;
+                    gv1 = document.getElementById('<%=gvVehicleDetails.ClientID %>');
+                    if (gv1 != null) cnt1 = gv1.rows.length;
+                    if (cnt1 <= 1)
+                    {
+                        msg += (msg.length > 0 ? "- " : "") + "Please add [Loss Information]/Vehicles information" + "\n";
+                    }
                 }
             }
             //MVA – Damage (Multiple Vehicle) 
