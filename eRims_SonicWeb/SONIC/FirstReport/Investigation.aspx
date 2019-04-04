@@ -1772,7 +1772,7 @@
                                                                 <td align="center">:
                                                                 </td>
                                                                 <td align="left">
-                                                                    <asp:DropDownList ID="drpInvestigative" runat="server" SkinID="dropGen" Width="170px" Enabled="false">
+                                                                    <asp:DropDownList ID="drpInvestigative" runat="server" SkinID="dropGen" Width="170px">
                                                                         <asp:ListItem Text="--Select--" Value="" />
                                                                         <asp:ListItem Text="Platinum" Value="Platinum" />
                                                                         <asp:ListItem Text="Gold" Value="Gold" />
