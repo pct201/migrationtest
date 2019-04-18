@@ -340,7 +340,7 @@
                                     <asp:TemplateField HeaderText="Management Section(s) with Open Action Plan Items" SortExpression="MgtSection">
                                         <ItemStyle HorizontalAlign="Left" Width="10%" />
                                         <ItemTemplate>
-                                            <%#Eval("MgtSection")%>
+                                            <%#Eval("MgtSection").ToString() == "Disability" ? "Legal" : Eval("MgtSection")%>                                           
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                 </Columns>

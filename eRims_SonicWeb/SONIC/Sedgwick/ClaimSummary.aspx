@@ -1898,7 +1898,7 @@
                                         <table width="100%">
                                             <tr style="background-color: #06537c; font-family: Tahoma; color: white; font-size: 10pt; font-weight: bold; padding: 2px;">
                                                 <th colspan="100%">
-                                                    <asp:HiddenField ID="hdnMgtSection_Disability" runat="server" Value="Legal" />
+                                                    <asp:HiddenField ID="hdnMgtSection_Disability" runat="server" Value="Disability" />
                                                     <asp:Label ID="lblMgtSection_Disability" runat="server" Text="Legal"></asp:Label>
                                                 </th>
                                             </tr>
