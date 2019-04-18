@@ -108,7 +108,7 @@ public partial class Admin_COIAddEdit : clsBasePage
     /// <summary>
     /// Return Current COI's Location Id
     /// </summary>
-    private int Fk_Lu_Location_Id
+    public int Fk_Lu_Location_Id
     {
         get
         {
@@ -1946,7 +1946,7 @@ public partial class Admin_COIAddEdit : clsBasePage
         dtCOIInfo.Rows.Add(drCOI);
         Session["dtCOI"] = dtCOIInfo;
 
-        Response.Redirect("COIInsuredBuilding.aspx?coi=" + PK_COIs_Encrypt.ToString());
+        Response.Redirect("COIInsuredBuilding.aspx?coi=" + PK_COIs_Encrypt.ToString() + "&Location=" + Encryption.Encrypt(Convert.ToString(Fk_Lu_Location_Id)));
     }
     #endregion
 

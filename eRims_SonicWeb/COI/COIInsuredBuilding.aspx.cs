@@ -36,6 +36,21 @@ public partial class COI_COIInsuredBuilding : clsBasePage
     }
 
     /// <summary>
+    /// Return Current COI's Location Id
+    /// </summary>
+    private int Fk_Lu_Location_Id
+    {
+        get
+        {
+            return clsGeneral.GetInt(ViewState["Location_Id"]);
+        }
+        set
+        {
+            ViewState["Location_Id"] = value;
+        }
+    }
+
+    /// <summary>
     /// Encrypted primary key for str_Buildings_Number
     /// </summary>
     public string str_Buildings_Number
@@ -74,9 +89,7 @@ public partial class COI_COIInsuredBuilding : clsBasePage
                 if (!clsGeneral.IsNull(Request.QueryString["coi"]))
                 {
                     // set FK Coi.
-                    FK_COI = Convert.ToInt32(clsGeneral.GetQueryStringID(Request.QueryString["coi"]));
-                    //bind dropdowns
-                    BindDropdowns();
+                    FK_COI = Convert.ToInt32(clsGeneral.GetQueryStringID(Request.QueryString["coi"]));           
 
                     if (FK_COI > 0)
                     {
@@ -87,6 +100,14 @@ public partial class COI_COIInsuredBuilding : clsBasePage
                     {
                         ucCtrlCOIInfo.Visible = false;
                     }
+
+                    if (!clsGeneral.IsNull(Request.QueryString["Location"]))
+                    {
+                        Fk_Lu_Location_Id = Convert.ToInt32(clsGeneral.GetQueryStringID(Request.QueryString["Location"]));
+                    }
+
+                    //bind dropdowns
+                    BindDropdowns();
 
                     // if operations(view or edit) is passed in query string.
                     if (!clsGeneral.IsNull(Request.QueryString["op"]))
@@ -128,7 +149,8 @@ public partial class COI_COIInsuredBuilding : clsBasePage
                 if (Request.QueryString["op"] != "view")
                     SetValidations();
             }
-            txtBuildingNumber.Focus();
+            //txtBuildingNumber.Focus();
+            drpBuildingNumber.Focus();
         }
     }
 
@@ -147,6 +169,13 @@ public partial class COI_COIInsuredBuilding : clsBasePage
         drpState.DataValueField = "PK_Id";
         drpState.DataBind();
         drpState.Items.Insert(0, "--Select--");
+
+        DataTable dtBuilding = Building.SelectByFKLocation(Fk_Lu_Location_Id).Tables[0];
+        drpBuildingNumber.DataSource = dtBuilding;
+        drpBuildingNumber.DataTextField = "Building_Number";
+        drpBuildingNumber.DataValueField = "PK_Building_ID";
+        drpBuildingNumber.DataBind();
+        drpBuildingNumber.Items.Insert(0, "--Select--");
     }
 
     #endregion
@@ -169,7 +198,11 @@ public partial class COI_COIInsuredBuilding : clsBasePage
             {
                 foreach (DataRow drDetail in drDetails)
                 {
-                    txtBuildingNumber.Text = Convert.ToString(drDetail["Building_Number"]);
+                    //txtBuildingNumber.Text = Convert.ToString(drDetail["Building_Number"]);
+                    if (drpBuildingNumber.Items.FindByText(Convert.ToString(drDetail["Building_Number"])) != null)
+                    {
+                        drpBuildingNumber.Items.FindByText(Convert.ToString(drDetail["Building_Number"])).Selected = true;
+                    }
                     txtAddress1.Text = Convert.ToString(drDetail["Address_1"]);
                     txtAddress2.Text = Convert.ToString(drDetail["Address_2"]);
                     txtCity.Text = Convert.ToString(drDetail["City"]);
@@ -233,6 +266,36 @@ public partial class COI_COIInsuredBuilding : clsBasePage
             Response.Redirect("COIAddEdit.aspx?op=edit" + "&coi=" + Request.QueryString["coi"] + "&id=" + Encryption.Encrypt(FK_COI.ToString()) + "&pnl=1&sv=1");
     }
 
+    protected void drpBuildingNumber_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (drpBuildingNumber.SelectedIndex > 0)
+        {
+            Building objBuilding = new Building(Convert.ToInt32(drpBuildingNumber.SelectedValue));
+            txtAddress1.Text = objBuilding.Address_1;
+            txtAddress2.Text = objBuilding.Address_2;
+            txtCity.Text = objBuilding.City;
+            txtZipCode.Text = objBuilding.Zip;
+
+            if (drpState.Items.FindByText(objBuilding.State) != null)
+            {
+                drpState.ClearSelection();
+                drpState.Items.FindByText(objBuilding.State).Selected = true;
+            }
+            else
+            {
+                drpState.SelectedIndex = 0;
+            }
+        }
+        else
+        {
+            txtAddress1.Text = "";
+            txtAddress2.Text = "";
+            txtCity.Text = "";
+            txtZipCode.Text = "";
+            drpState.SelectedIndex = 0;
+        }
+    }
+
     #endregion
 
     #region Dynamic Validations
@@ -256,8 +319,9 @@ public partial class COI_COIInsuredBuilding : clsBasePage
             {
 
                 case "Building Number":
-                    strCtrlsIDs += txtBuildingNumber.ClientID + ",";
-                    strMessages += "Please enter Building Number" + ",";
+                    //strCtrlsIDs += txtBuildingNumber.ClientID + ",";
+                    strCtrlsIDs += drpBuildingNumber.ClientID + ",";
+                    strMessages += "Please select Building Number" + ",";
                     Span1.Style["display"] = "inline-block";
                     break;
                 case "Address 1":
@@ -345,7 +409,8 @@ public partial class COI_COIInsuredBuilding : clsBasePage
         DataRow drBuilding = dtBuilding.NewRow();
 
         // store values in each column from the page controls
-        drBuilding["Building_Number"] = txtBuildingNumber.Text.Trim().Replace("'", "");
+        //drBuilding["Building_Number"] = txtBuildingNumber.Text.Trim().Replace("'", "");
+        drBuilding["Building_Number"] = drpBuildingNumber.SelectedItem.Text.Trim().Replace("'", "");
         drBuilding["Address_1"] = txtAddress1.Text.Trim().Replace("'", "");
         drBuilding["Address_2"] = txtAddress2.Text.Trim().Replace("'", "");
         drBuilding["City"] = txtCity.Text.Trim().Replace("'", "");
@@ -361,11 +426,13 @@ public partial class COI_COIInsuredBuilding : clsBasePage
             for (int i = 0; i < dtSeesion.Rows.Count; i++)
             {
 
-                if (Convert.ToString(dtSeesion.Rows[i]["Building_Number"]) == Convert.ToString(txtBuildingNumber.Text.Trim().Replace("'", "")))
+                //if (Convert.ToString(dtSeesion.Rows[i]["Building_Number"]) == Convert.ToString(txtBuildingNumber.Text.Trim().Replace("'", "")))
+                if (Convert.ToString(dtSeesion.Rows[i]["Building_Number"]) == Convert.ToString(drpBuildingNumber.SelectedItem.Text.Trim().Replace("'", "")))
                 {
                     lblError.Text = "The  Building Number that you are trying to add already exists.";
                     dvSave.Style["display"] = "block";
-                    if (str_Buildings_Number != Convert.ToString(txtBuildingNumber.Text.Trim().Replace("'", "")))
+                    //if (str_Buildings_Number != Convert.ToString(txtBuildingNumber.Text.Trim().Replace("'", "")))
+                    if (str_Buildings_Number != Convert.ToString(drpBuildingNumber.SelectedItem.Text.Trim().Replace("'", "")))
                         return;
                 }
             }
@@ -389,7 +456,8 @@ public partial class COI_COIInsuredBuilding : clsBasePage
                 for (int i = 0; i < dtSeesion.Rows.Count; i++)
                 {
                     //Check Dublicate Building Number in Previous Building Grid Data
-                    if (Convert.ToString(dtSeesion.Rows[i]["Building_Number"]) == Convert.ToString(txtBuildingNumber.Text.Trim().Replace("'", "")))
+                    //if (Convert.ToString(dtSeesion.Rows[i]["Building_Number"]) == Convert.ToString(txtBuildingNumber.Text.Trim().Replace("'", "")))
+                    if (Convert.ToString(dtSeesion.Rows[i]["Building_Number"]) == Convert.ToString(drpBuildingNumber.SelectedItem.Text.Trim().Replace("'", "")))
                     {
                         lblError.Text = "The  Building Number that you are trying to add already exists.";
                         dvSave.Style["display"] = "block";

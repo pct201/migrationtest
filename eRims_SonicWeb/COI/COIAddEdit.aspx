@@ -820,7 +820,7 @@ function CheckSelectedSonicNotes(buttonType) {
                                                                         <asp:TemplateField HeaderText="Building Number" HeaderStyle-HorizontalAlign="Left">
                                                                             <ItemStyle HorizontalAlign="left" VerticalAlign="Top" />
                                                                             <ItemTemplate>
-                                                                                <a id="aLinkEdit" href='COIInsuredBuilding.aspx?coi=<%=PK_COIs_Encrypt%>&op=edit&id=<%# Encryption.Encrypt(Eval("Building_Number").ToString())%>'>
+                                                                                <a id="aLinkEdit" href='COIInsuredBuilding.aspx?coi=<%=PK_COIs_Encrypt%>&op=edit&id=<%# Encryption.Encrypt(Eval("Building_Number").ToString())%>&Location=<%=Encryption.Encrypt(Convert.ToString(Fk_Lu_Location_Id)) %>'>
                                                                                     <%#Eval("Building_Number")%></a>
                                                                             </ItemTemplate>
                                                                         </asp:TemplateField>

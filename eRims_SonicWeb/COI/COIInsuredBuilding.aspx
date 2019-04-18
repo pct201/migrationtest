@@ -147,6 +147,8 @@
                         <tr>
                             <td class="dvContainer">
                                 <div id="dvEdit" runat="server">
+                                    <asp:UpdatePanel runat="server" ID="updStatus">
+                                        <ContentTemplate>
                                     <table cellpadding="0" cellspacing="0" width="100%">
                                         <tr>
                                             <td class="tblGrid" align="left">
@@ -162,8 +164,11 @@
                                                                 :
                                                             </td>
                                                             <td width="28%" align="left">
-                                                                <asp:TextBox ID="txtBuildingNumber" Width="200px" runat="server" MaxLength="50"
-                                                                    ></asp:TextBox>                                                               
+                                                                <%--<asp:TextBox ID="txtBuildingNumber" Width="200px" runat="server" MaxLength="50"
+                                                                    ></asp:TextBox>--%>
+                                                                <asp:DropDownList ID="drpBuildingNumber" runat="server" Width="205px" SkinID="Default"
+                                                                    AutoPostBack="true" OnSelectedIndexChanged="drpBuildingNumber_SelectedIndexChanged">
+                                                                </asp:DropDownList>                                                                
                                                             </td>
                                                             <td width="2%">
                                                                 &nbsp;
@@ -262,6 +267,8 @@
                                             </td>
                                         </tr>
                                     </table>
+                                            </ContentTemplate>
+                                        </asp:UpdatePanel>
                                 </div>                               
                                 <div id="dvView" runat="server" style="display: none;">
                                     <table cellpadding="0" cellspacing="0" width="100%">
