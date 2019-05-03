@@ -1191,7 +1191,7 @@ function ValidateFieldsBuildindOwnerSubLease(sender, args) {
                                                             </tr>
                                                             --%>
                                                             <tr>
-                                                                <td align="left" valign="top">Saba Training Grid
+                                                                <td align="left" valign="top">Safety Training Grid
                                                                     <br />
                                                                     <asp:LinkButton ID="lbAddSabaTraining" runat="server" Text="--Add--" OnClick="lbAddSabaTraining_Click"
                                                                         CausesValidation="true" ValidationGroup="vsErrorPropertyCope"></asp:LinkButton>
@@ -1273,7 +1273,7 @@ function ValidateFieldsBuildindOwnerSubLease(sender, args) {
                                                             </tr>
                                                               <tr>
                                                                 <td colspan="6" width="100%">
-                                                                    <b>SureGrip Footwear Penetration</b>
+                                                                    <b>Safety Shoe Penetration</b>
                                                                 </td>
                                                             </tr>
                                                             <tr>

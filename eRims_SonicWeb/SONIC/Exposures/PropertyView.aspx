@@ -592,7 +592,7 @@ function ShowAuditPopUp(url) {
                                                             </tr>--%>
                                                             <!-- Commented above Section for ticket #3132 -->
                                                             <tr>
-                                                                <td valign="top">Saba Training Grid
+                                                                <td valign="top">Safety Training Grid
                                                                 </td>
                                                                 <td align="center" valign="top">:
                                                                 </td>
@@ -663,7 +663,7 @@ function ShowAuditPopUp(url) {
                                                             </tr>
                                                              <tr>
                                                                 <td colspan="6" width="100%">
-                                                                    <b>SureGrip Footwear Penetration</b>
+                                                                    <b>Safety Shoe Penetration</b>
                                                                 </td>
                                                             </tr>
                                                             <tr>
