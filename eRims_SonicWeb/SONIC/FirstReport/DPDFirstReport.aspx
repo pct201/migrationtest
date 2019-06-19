@@ -6639,8 +6639,13 @@ else
                 }
 
                 var ctlTestPerformed = document.getElementById('<%=rdoMVA_MultiDrug_test_performed.ClientID %>');
-                if (document.getElementById(ctlTestPerformed.id + "_0").checked || document.getElementById(ctlTestPerformed.id + "_1").checked) {
+                if (document.getElementById(ctlTestPerformed.id + "_0").checked) {
                     if ($('#ctl00_ContentPlaceHolder1_txtMVA_MultiDrug_test_results_txtNote').val() == '') {
+                        msg += (msg.length > 0 ? "- " : "") + "Please answer was a post-accident drug test performed?\n";
+                    }
+                }
+                else if (document.getElementById(ctlTestPerformed.id + "_1").checked) {
+                    if ($('#ctl00_ContentPlaceHolder1_txtMVA_MultiDrug_test_explanation_txtNote').val() == '') {
                         msg += (msg.length > 0 ? "- " : "") + "Please answer was a post-accident drug test performed?\n";
                     }
                 }
