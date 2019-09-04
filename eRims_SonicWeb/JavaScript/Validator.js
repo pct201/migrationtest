@@ -887,8 +887,9 @@ function ShowDialogCOI(navigateurl) {
 
 function checkYearRange(id) {
     var bDate = new Date(document.getElementById(id).value);
-    if (bDate.getFullYear() > 2018 || bDate.getFullYear() < 1945) {
-        alert('Year range must be between 1945 to 2018.');
+    var d = new Date();
+    if (bDate.getFullYear() > d.getFullYear() || bDate.getFullYear() < 1945) {
+        alert('Year range must be between 1945 to ' + d.getFullYear() + '.');
         document.getElementById(id).focus();
         return false;
     }
