@@ -1738,8 +1738,16 @@ public partial class Exposures_Investigation : clsBasePage
                 string strBody = GenerateInvestigatorReportBody();
 
                 string strTo = Convert.ToString(drOfficer["Email"]);
-                string strSubject = "Location " + objLocation.Sonic_Location_Code + " - " + objLocation.dba + " has completed the Investigation associated with WC-" + objWCFR.WC_FR_Number;
+                string strSubject = null; 
 
+                if (objWCFR.Date_Of_Incident != null && !String.IsNullOrEmpty(objWCFR.Date_Of_Incident))
+                {
+                    if (Convert.ToDateTime(objWCFR.Date_Of_Incident) > Convert.ToDateTime("11/30/2011"))
+                        strSubject = "Location " + objLocation.Sonic_Location_Code + " - " + objLocation.dba + " has completed the Investigation associated with NS-" + objWCFR.WC_FR_Number;
+                    else
+                        strSubject = "Location " + objLocation.Sonic_Location_Code + " - " + objLocation.dba + " has completed the Investigation associated with WC-" + objWCFR.WC_FR_Number;
+                }
+                
                 clsGeneral.SendMailMessage(AppConfig.MailFrom, strTo, "", AppConfig.MailCC, strSubject, strBody.ToString(), true);
                 ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "alert('Mail sent successfully')", true);
             }
