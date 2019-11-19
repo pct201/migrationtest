@@ -3718,6 +3718,46 @@ public class ComboHelper
     /// </summary>
     /// <param name="dropDowns"></param>
     /// <param name="booladdSelectAsFirstElement"></param>
+    public static void FillFindItFixIt_Department(DropDownList[] dropDowns, bool booladdSelectAsFirstElement)
+    {
+        DataTable dtData = ERIMS.DAL.LU_SLT_Safety_Walk_Department.SelectAll().Tables[0];
+        dtData.DefaultView.RowFilter = "Active = 'Y'";
+        dtData.DefaultView.Sort = "Department ASC";
+        foreach (DropDownList ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Department";
+            ddlToFill.DataValueField = "PK_LU_SLT_Safety_Walk_Department";
+            ddlToFill.DataSource = dtData.DefaultView;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+    public static void FillFindItFixIt_Category(DropDownList[] dropDowns, bool booladdSelectAsFirstElement)
+    {
+        DataTable dtData = ERIMS.DAL.clsLU_Find_Fix_Category.SelectAll().Tables[0];
+        dtData.DefaultView.RowFilter = "Active = 'Y'";
+        dtData.DefaultView.Sort = "Description ASC";
+        foreach (DropDownList ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Description";
+            ddlToFill.DataValueField = "PK_LU_Find_Fix_Category";
+            ddlToFill.DataSource = dtData.DefaultView;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
     public static void FillSuggetion_Source(DropDownList[] dropDowns, bool booladdSelectAsFirstElement)
     {
         DataTable dtData = ERIMS.DAL.LU_Suggetion_Source.SelectAll().Tables[0];

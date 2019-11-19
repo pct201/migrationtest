@@ -92,6 +92,7 @@ public partial class Controls_SonicClaimNotes_AdjusterNotes : System.Web.UI.User
         {
             btnView.Visible = false;
             btnPrint.Visible = false;
+            btnPrintAll.Visible = false;
             SortBy = "Data_Entry_Date";
             SortOrder = "DESC";
             gvNotesList.DataBind();
@@ -195,7 +196,7 @@ public partial class Controls_SonicClaimNotes_AdjusterNotes : System.Web.UI.User
         gvNotesList.DataBind();
 
         btnView.Visible = dtNotes.Rows.Count > 0;
-        btnPrint.Visible = dtNotes.Rows.Count > 0;
+        btnPrint.Visible = btnPrintAll.Visible = dtNotes.Rows.Count > 0;
 
         if (!((dtNotes.Rows.Count > 0) || isShowAPEVNotesOnly))
         {
@@ -469,6 +470,40 @@ public partial class Controls_SonicClaimNotes_AdjusterNotes : System.Web.UI.User
         {
             if (((CheckBox)gRow.FindControl("chkAdjSelect")).Checked)
                 strSelected = strSelected + ((HtmlInputHidden)gRow.FindControl("hdnID")).Value + ",";
+        }
+        strSelected = strSelected.TrimEnd(',');
+        PrintSelectedNotes(strSelected);
+    }
+
+    protected void btnPrintAll_Click(object sender, EventArgs e)
+    {
+        string strSelected = "";
+        string strClaimType = string.Empty;
+        bool isShowAPEVNotesOnly = false;
+        if (btnShowAPEVNotes.Text == "Show All" && btnShowAPEVNotes.Visible)
+        {
+            isShowAPEVNotesOnly = true;
+            if (CurrentClaimType == ClaimType.WC)
+            {
+                strClaimType = "WC";
+            }
+            else if (CurrentClaimType == ClaimType.AL || CurrentClaimType == ClaimType.DPD || CurrentClaimType == ClaimType.PL)
+            {
+                strClaimType = "Other";
+            }
+            DataSet dsNotes = Claims_Adjustor_Notes.SelectBySourceUniqueClaimNumber(ClaimNumber, 1, 10000, "", isShowAPEVNotesOnly, strClaimType);
+            foreach (DataRow dr in dsNotes.Tables[0].Rows)
+            {
+                strSelected += Convert.ToString(dr["PK_Adjustor_Notes_RO_ID"]) + ",";
+            }
+        }
+        else
+        {
+            DataSet dsNotes = Claims_Adjustor_Notes.SelectBySourceUniqueClaimNumber(ClaimNumber, 1, 10000, "", isShowAPEVNotesOnly, strClaimType);
+            foreach (DataRow dr in dsNotes.Tables[0].Rows)
+            {
+                strSelected += Convert.ToString(dr["PK_Adjustor_Notes_RO_ID"]) + ",";
+            }
         }
         strSelected = strSelected.TrimEnd(',');
         PrintSelectedNotes(strSelected);

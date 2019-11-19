@@ -362,11 +362,12 @@
           <siteMapNode url="Administrator/Sonic_U_Training_Required_By_Job_Code.aspx" title ="Required Classes" description="" roles="" />
           <siteMapNode url="Administrator/Sonic_U_Training_Classes.aspx" title ="Safety Training Classes" description="" roles="" />
         </siteMapNode>
-        <siteMapNode title ="SLT Safety Walk" description="" roles="">
+        <siteMapNode title ="Find it and Fix it" description="" roles="">
           <siteMapNode title ="SLT Focus Area" description="" roles="">
             <siteMapNode url="SONIC/SLTSafetyWalk/MonthlyQuestions.aspx" title ="Monthly Questions" description="" roles="" />
             <siteMapNode url="SONIC/SLTSafetyWalk/AnnualQuestions.aspx" title ="Annual Questions" description="" roles="" />
           </siteMapNode>
+          <siteMapNode url="Administrator/LU_Find_Fix_Category.aspx" title ="Category" description="" roles="" />
           <siteMapNode url="Administrator/LU_SLT_Safety_Walk_Department.aspx" title ="Department" description="" roles="" />
         </siteMapNode>
         <siteMapNode title ="SLT BT Security Walk" description="" roles="">

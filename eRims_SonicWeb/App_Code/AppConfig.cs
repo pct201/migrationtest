@@ -286,9 +286,11 @@ public class AppConfig
     private static string _strPM_Hearing_Conservation_AttachmentsImageURL;
 
     private static string _strPM_Respiratory_Protection_AttachmentsDocPath;
-    # endregion
 
-    # region " Public Properties "
+    private static string _strFind_it_Fix_it_AttachmentsDocPath;
+    #endregion
+
+    #region " Public Properties "
 
     /// <summary>
     /// indicate the error log mode
@@ -1322,6 +1324,10 @@ public class AppConfig
         get { return _strPM_Hearing_Conservation_AttachmentsImageURL; }
     }
 
+    public static string Find_it_Fix_it_AttachmentsDocPath
+    {
+        get { return _strFind_it_Fix_it_AttachmentsDocPath; }
+    }
     #endregion
 
     # region " Public Functions "
@@ -1675,7 +1681,8 @@ public class AppConfig
         _MaintenanceDocPath = string.Concat(SitePath, AttachmentDocPath, "\\", ConfigurationManager.AppSettings["MaintenanceDocs"] + "\\");
 
         _InspectionReportDocPath = string.Concat(SitePath, AttachmentDocPath, "\\", ConfigurationManager.AppSettings["InspectionReportDocs"] + "\\");
-        _strPM_Respiratory_Protection_AttachmentsDocPath = string.Concat(SitePath, AttachmentDocPath, "\\", ConfigurationManager.AppSettings["RespiratoryDocs"] + "\\"); 
+        _strPM_Respiratory_Protection_AttachmentsDocPath = string.Concat(SitePath, AttachmentDocPath, "\\", ConfigurationManager.AppSettings["RespiratoryDocs"] + "\\");
+        _strFind_it_Fix_it_AttachmentsDocPath = string.Concat(SitePath, AttachmentDocPath, "\\", ConfigurationManager.AppSettings["SLT_FindItFixItDocs"] + "\\");
         _strGeneralDocument = string.Concat(SitePath, AttachmentDocPath);
     }
 

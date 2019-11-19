@@ -9,6 +9,8 @@
     TagPrefix="uc1" %>
 <%@ Register Src="~/Controls/Attchment-Exposures/Attachment.ascx" TagName="ctrlAttachment"
     TagPrefix="uc" %>
+<%@ Register Src="~/Controls/Attachment_Find_It_Fix_It/Attachment.ascx" TagName="ctrlFindItFixItAttachment"
+    TagPrefix="uc" %>
 <%@ Register Src="~/Controls/Attchment-Exposures/Attachment_SLT.ascx" TagName="ctrlAttachment_SLT" TagPrefix="uc" %>
 <%@ Register Src="~/Controls/Attchment-Exposures/Attachment_Detail.ascx" TagName="ctrlAttachmentDetail" TagPrefix="uc" %>
 
@@ -25,7 +27,7 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
-            $("#ctl00_ContentPlaceHolder1_SafetywalkAttachment_txtType").val("");            
+            $("#ctl00_ContentPlaceHolder1_SafetywalkAttachment_txtType").val("");
         });
 
         function AuditPopUpMeeting(Name) {
@@ -62,14 +64,14 @@
             }
             else if (Name == "SLTSafetyWalk") {
                 var ID = '<%=ViewState["PK_SLT_Safety_Walk"]%>';
-                    obj = window.open("../SLT/AuditPopup_SLTSafetyWalk.aspx?id=" + ID, 'AuditPopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
-                    obj.focus();
+                obj = window.open("../SLT/AuditPopup_SLTSafetyWalk.aspx?id=" + ID, 'AuditPopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
+                obj.focus();
             }
             else if (Name == "SLTBTSecurityWalk") {
                 var ID = '<%=ViewState["PK_SLT_BT_Security_Walk"]%>';
-                obj = window.open("../SLT/AuditPopup_SLT_BT_Security_Walk.aspx?id=" + ID, 'AuditPopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
-                obj.focus();
-            }
+                    obj = window.open("../SLT/AuditPopup_SLT_BT_Security_Walk.aspx?id=" + ID, 'AuditPopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
+                    obj.focus();
+                }
     return false;
 }
 
@@ -296,9 +298,9 @@ function ShowPanel(index) {
             document.getElementById("ctl00_ContentPlaceHolder1_pnl17").style.display = "none";
         }
 
-    
+
         document.getElementById("ctl00_ContentPlaceHolder1_btnPrevious").style.display = (index == 1) ? "none" : "inline";
-        document.getElementById("ctl00_ContentPlaceHolder1_btnSaveNnextCall").style.display = (index != 14 ) ? "inline" : "none";
+        document.getElementById("ctl00_ContentPlaceHolder1_btnSaveNnextCall").style.display = (index != 14) ? "inline" : "none";
         //document.getElementById("ctl00_ContentPlaceHolder1_btnSaveNSend").style.display = (index == 13) ? "inline" : "none";
         document.getElementById("ctl00_ContentPlaceHolder1_btnSendMail").style.display = (index == 13) ? "inline" : "none";
         //document.getElementById("ctl00_ContentPlaceHolder1_btnSendTO_RLCM").style.display = (index == 13) ? "inline" : "none";
@@ -362,7 +364,7 @@ function ShowPanelView(index, strStatus) {
     document.getElementById("ctl00_ContentPlaceHolder1_hdnPanel2").value = ActiveTabIndex;
     var i;
     for (i = 1; i <= 14; i++) {
-            document.getElementById("ctl00_ContentPlaceHolder1_pnl" + i + "View").style.display = (i == index) ? "block" : "none";
+        document.getElementById("ctl00_ContentPlaceHolder1_pnl" + i + "View").style.display = (i == index) ? "block" : "none";
     }
 
     if (index == 15)
@@ -474,107 +476,108 @@ function onPreviousStep() {
     return false;
 }
 
-function CheckBeforeAddSaftyWalkAttach() {
+<%--function CheckBeforeAddSaftyWalkAttach() {
     var trAttach = document.getElementById('<%=trSafetyWalkAttachment.ClientID%>');
     trAttach.style.display = "block";
-}
+}--%>
 
-function CheckBeforeAddBTSecurityWalkAttach() {
-    var trAttach = document.getElementById('<%=trBTSecWalkAttachment.ClientID%>');
-    trAttach.style.display = "block";
-}
+        function CheckBeforeAddBTSecurityWalkAttach() {
+            var trAttach = document.getElementById('<%=trBTSecWalkAttachment.ClientID%>');
+            trAttach.style.display = "block";
+        }
 
-function CheckBeforeAddTrainingAttach() {
-    $("#ctl00_ContentPlaceHolder1_SLT_TrainingAttachmentADD_txtType").val("");
-    var PK = '<%=PK_SLT_Training%>';
-    if (PK > 0) {
-        var trAttach = document.getElementById('<%=tr_training_Attachment.ClientID%>');
-        trAttach.style.display = "block";
-    }
-    else {
-        alert('Please Add or Select Training Information First');
-    }
-}
-function openWindowAbstract(strURL) {
-    //oWnd = window.open(strURL, "Erims", "location=0,status=0,scrollbars=1,menubar=0,resizable=1,toolbar=0,width=500,height=300");
-    var w = 480, h = 340;
-    if (document.all || document.layers) {
-        w = screen.availWidth;
-        h = screen.availHeight;
-    }
+        function CheckBeforeAddTrainingAttach() {
+            $("#ctl00_ContentPlaceHolder1_SLT_TrainingAttachmentADD_txtType").val("");
+            var PK = '<%=PK_SLT_Training%>';
+            if (PK > 0) {
+                var trAttach = document.getElementById('<%=tr_training_Attachment.ClientID%>');
+                trAttach.style.display = "block";
+            }
+            else {
+                alert('Please Add or Select Training Information First');
+            }
+        }
+        function openWindowAbstract(strURL) {
+            //oWnd = window.open(strURL, "Erims", "location=0,status=0,scrollbars=1,menubar=0,resizable=1,toolbar=0,width=500,height=300");
+            var w = 480, h = 340;
+            if (document.all || document.layers) {
+                w = screen.availWidth;
+                h = screen.availHeight;
+            }
 
-    var leftPos, topPos;
-    var popW = 200, popH = 200;
-    if (document.all)
-    { leftPos = (w - popW) / 2; topPos = (h - popH) / 2; }
-    else
-    { leftPos = w / 2; topPos = h / 2; }
-    window.open(strURL, "popup", "toolbar=no,menubar=no,scrollbars=yes,resizable=yes,width=" + popW + ",height=" + popH + ",top=" + topPos + ",left=" + leftPos);
-    //oWnd.moveTo(260,180);
-    return false;
-}
-function CheckSLT_Member() {
-    var rowscount = document.getElementById('<%=gvSLT_Members.ClientID%>').rows.length;
-    if (rowscount > 1)
-        return true;
-    else {
-        alert('Please  Add SLT Member record first');
-        return false;
-    }
-}
+            var leftPos, topPos;
+            var popW = 200, popH = 200;
+            if (document.all)
+            { leftPos = (w - popW) / 2; topPos = (h - popH) / 2; }
+            else
+            { leftPos = w / 2; topPos = h / 2; }
+            window.open(strURL, "popup", "toolbar=no,menubar=no,scrollbars=yes,resizable=yes,width=" + popW + ",height=" + popH + ",top=" + topPos + ",left=" + leftPos);
+            //oWnd.moveTo(260,180);
+            return false;
+        }
+        function CheckSLT_Member() {
+            var rowscount = document.getElementById('<%=gvSLT_Members.ClientID%>').rows.length;
+            if (rowscount > 1)
+                return true;
+            else {
+                alert('Please  Add SLT Member record first');
+                return false;
+            }
+        }
 
         function SetValidationGroup() {
 
-    var Index = document.getElementById("ctl00_ContentPlaceHolder1_hdnPanel2").value;
-    var Schedule_id = '<%=ViewState["PK_SLT_Meeting_Schedule"] %>';
-    var temp_ID = '<%=PK_Temp_Schedule_ID %>';
-    var ValidationGroups;
-    if (Index == 1) {
-        if (document.getElementById("ctl00_ContentPlaceHolder1_tr_SltmembersADD").style.display == "block") {
-            ValidationGroups = "vsErrorSLT_Members";
-        }
-        else
-            return true;
+            var Index = document.getElementById("ctl00_ContentPlaceHolder1_hdnPanel2").value;
+            var Schedule_id = '<%=ViewState["PK_SLT_Meeting_Schedule"] %>';
+            var temp_ID = '<%=PK_Temp_Schedule_ID %>';
+            var ValidationGroups;
+            if (Index == 1) {
+                if (document.getElementById("ctl00_ContentPlaceHolder1_tr_SltmembersADD").style.display == "block") {
+                    ValidationGroups = "vsErrorSLT_Members";
+                }
+                else
+                    return true;
+            }
+            if (Index == 3) ValidationGroups = "vsErrorAttendees";
+            else if (Index != 1 && Index != 8 && Index != 13 && Index != 7 && Index != 3 && Index != 2 && Index != 9 && Index != 14) {
+                if (Schedule_id > 0) {
+                    if (Index == 4) ValidationGroups = "vsErrorcallToOrder";
+                        //else if (Index == 5) ValidationGroups = "vsErrorSafetywalkGroup";
+                    else if (Index == 5) ValidationGroups = "vsErrorFindItAndFixIt";
+                    else if (Index == 15) ValidationGroups = "vsErrorBTSecuritywalkGroup";
+                    else if (Index == 6) {
+                        var id_Q_Ins = '<%=ViewState["PK_SLT_Quarterly_Inspections"] %>';
+                        var id_Q_Res = '<%=ViewState["FK_Inspection_Responses_ID"] %>';
+                        if (parseInt(id_Q_Ins) > 0 && parseInt(id_Q_Res) > 0) {
+                            ValidationGroups = "vsErrorInspectionGroup";
+                        }
+                        else {
+                            ValidationGroups = "";
+                        }
+                    }
+                    else if (Index == 10) ValidationGroups = "vsErrorTrainingGroup";
+                    else if (Index == 11) {
+                        if (document.getElementById("ctl00_ContentPlaceHolder1_tr_procedureAdd").style.display == "block") {
+                            ValidationGroups = "vsErrorProcedure";
+                        }
+                        else
+                            return true;
+                    }
+                    else if (Index == 12) {
+                        if (document.getElementById("ctl00_ContentPlaceHolder1_tr_suggestionadd").style.display == "block") {
+                            ValidationGroups = "vsErrorSuggestion";
+                        }
+                        else
+                            return true;
+                    }
     }
-    if (Index == 3) ValidationGroups = "vsErrorAttendees";
-    else if (Index != 1 && Index != 8 && Index != 13 && Index != 7 && Index != 3 && Index != 2 && Index != 9 && Index != 14) {
-        if (Schedule_id > 0) {
-            if (Index == 4) ValidationGroups = "vsErrorcallToOrder";
-            else if (Index == 5) ValidationGroups = "vsErrorSafetywalkGroup";
-            else if (Index == 15) ValidationGroups = "vsErrorBTSecuritywalkGroup";
-            else if (Index == 6) {
-                var id_Q_Ins = '<%=ViewState["PK_SLT_Quarterly_Inspections"] %>';
-                var id_Q_Res = '<%=ViewState["FK_Inspection_Responses_ID"] %>';
-                if (parseInt(id_Q_Ins) > 0 && parseInt(id_Q_Res) > 0) {
-                    ValidationGroups = "vsErrorInspectionGroup";
-                }
-                else {
-                    ValidationGroups = "";
-                }
-            }
-            else if (Index == 10) ValidationGroups = "vsErrorTrainingGroup";
-            else if (Index == 11) {
-                if (document.getElementById("ctl00_ContentPlaceHolder1_tr_procedureAdd").style.display == "block") {
-                    ValidationGroups = "vsErrorProcedure";
-                }
-                else
-                    return true;
-            }
-            else if (Index == 12) {
-                if (document.getElementById("ctl00_ContentPlaceHolder1_tr_suggestionadd").style.display == "block") {
-                    ValidationGroups = "vsErrorSuggestion";
-                }
-                else
-                    return true;
-            }
+    else {
+        alert('Please select meeting agenda record');
+        return false;
+    }
 }
-else {
-    alert('Please select meeting agenda record');
-    return false;
-}
-}
-    else if (Index == 14) {
-       
+else if (Index == 14) {
+
     if (temp_ID > 0 || Schedule_id > 0) {
         ValidationGroups = "vsErrorMeetingReview";
     }
@@ -652,16 +655,16 @@ function CheckScheduleidForRLCM() {
 
 function CheckPoints(type, txt) {
     value = parseFloat(txt.value);
-    
+
     if ((type == 1 || type == 2 || type == 3) && !(value == 0 || value == 0.5 || isNaN(value))) {
         alert('Please enter either 0 or 0.5');
         txt.focus();
-        
+
     }
     else if (type == 4 && !(value == 1 || value == 0.5 || value == 0 || isNaN(value))) {
         alert('Please enter either 0, 0.5 or 1');
         txt.focus();
-        
+
     }
 }
 
@@ -722,8 +725,8 @@ jQuery(function ($) {
 
 function DisableButton() {
     document.getElementById('<%= btnSaveNnextCall.ClientID %>').disabled = true;
-            document.getElementById('<%= btnSaveNnextCall.ClientID %>').value = 'Submitting...';
-        }
+    document.getElementById('<%= btnSaveNnextCall.ClientID %>').value = 'Submitting...';
+}
 
     </script>
     <asp:ValidationSummary ID="ValidationSummary4" runat="server" ValidationGroup="vsErrorSLT_Members"
@@ -734,8 +737,8 @@ function DisableButton() {
         ShowMessageBox="true" ShowSummary="false" HeaderText="Verify the following field(s):" />
     <asp:ValidationSummary ID="ValidationSummary11" runat="server" ValidationGroup="vsErrorcallToOrder"
         ShowMessageBox="true" ShowSummary="false" HeaderText="Verify the following field(s):" />
-    <asp:ValidationSummary ID="ValidationSummary7" runat="server" ValidationGroup="vsErrorSafetywalkGroup"
-        ShowMessageBox="true" ShowSummary="false" HeaderText="Verify the following field(s):" />
+    <%--    <asp:ValidationSummary ID="ValidationSummary7" runat="server" ValidationGroup="vsErrorSafetywalkGroup"
+        ShowMessageBox="true" ShowSummary="false" HeaderText="Verify the following field(s):" />--%>
     <asp:ValidationSummary ID="ValidationSummary6" runat="server" ValidationGroup="vsErrorInspectionGroup"
         ShowMessageBox="true" ShowSummary="false" HeaderText="Verify the following field(s):" />
     <asp:ValidationSummary ID="ValidationSummary9" runat="server" ValidationGroup="vsErrorClaimManagement"
@@ -749,6 +752,8 @@ function DisableButton() {
     <asp:ValidationSummary ID="ValidationSummary1" runat="server" ValidationGroup="vsErrorSchedule"
         ShowMessageBox="true" ShowSummary="false" HeaderText="Verify the following field(s):" />
     <asp:ValidationSummary ID="valSummay" runat="server" ValidationGroup="vsErrorMeetingReview"
+        ShowMessageBox="true" ShowSummary="false" HeaderText="Verify the following field(s):" />
+    <asp:ValidationSummary ID="ValidationSummary12" runat="server" ValidationGroup="vsErrorFindItAndFixIt"
         ShowMessageBox="true" ShowSummary="false" HeaderText="Verify the following field(s):" />
     <table cellpadding="0" cellspacing="0" width="100%">
         <tr>
@@ -817,11 +822,12 @@ function DisableButton() {
                                                     <img id="img3" runat="server" alt="" src="~/Images/SLT_Menu_Icon.JPG" height="12" />
                                                 </td>
                                                 <td align="left" valign="top">
-                                                    <span id="Menu5" onclick="javascript:ShowPanel(5);" class="LeftMenuStatic">Safety Walk</span>
+                                                    <%--<span id="Menu5" onclick="javascript:ShowPanel(5);" class="LeftMenuStatic">Safety Walk</span>--%>
+                                                    <span id="Menu5" onclick="javascript:ShowPanel(5);" class="LeftMenuStatic">Find It Fix It</span>
                                                     <%--<span id="Menu5" class="LeftMenuStatic" runat="server" >Safety Walk</span>--%>
                                                 </td>
                                             </tr>
-                                           <%--       <tr>
+                                            <%--       <tr>
                                           <td align="right" valign="top">
                                                    <!--
                                                      <img id="imgBTSecurityWalk" runat="server" alt="" src="~/Images/SLT_Menu_Icon.JPG" height="12" />
@@ -1147,8 +1153,8 @@ function DisableButton() {
                                                                     </td>
                                                                     <td align="left" valign="top" colspan="4">
                                                                         <asp:DropDownList ID="drpFK_Employee" runat="server" OnSelectedIndexChanged="drpFK_Employee_SelectedIndexChanged" AutoPostBack="true" SkinID="dropGen" Width="225px"></asp:DropDownList>
-                                                                    &nbsp;&nbsp;&nbsp;
-                                                                        <asp:Button ID="btnViewEmployee" runat="server" Text="View All Associates" OnClick="btnViewEmployee_Click" Width="245px"/>
+                                                                        &nbsp;&nbsp;&nbsp;
+                                                                        <asp:Button ID="btnViewEmployee" runat="server" Text="View All Associates" OnClick="btnViewEmployee_Click" Width="245px" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
@@ -1330,7 +1336,8 @@ function DisableButton() {
                                                                                 CommandName="Mail" CommandArgument='<%#Eval("FK_SLT_Meeting") + ";" + Eval("PK_SLT_Meeting_Schedule") %>' />
                                                                             &nbsp;&nbsp;<asp:LinkButton ID="lnkPrint" runat="server" Text="Print" CommandName="Print"
                                                                                 CausesValidation="false" CommandArgument='<%#Eval("FK_SLT_Meeting") + ";" + Eval("PK_SLT_Meeting_Schedule") %>' />
-                                                                            &nbsp;&nbsp; <asp:LinkButton ID="lnkDelete" runat="server" Text="Delete" CommandName="RemoveRecord"
+                                                                            &nbsp;&nbsp;
+                                                                            <asp:LinkButton ID="lnkDelete" runat="server" Text="Delete" CommandName="RemoveRecord"
                                                                                 CommandArgument='<%#Eval("FK_SLT_Meeting") + ";" + Eval("PK_SLT_Meeting_Schedule") %>'
                                                                                 OnClientClick="return confirm('Are you sure to remove the meeting agenda record?');"
                                                                                 CausesValidation="false" />
@@ -1508,8 +1515,8 @@ function DisableButton() {
                                                         </td>
                                                         <td align="left" valign="top" width="24%">
                                                             <asp:RadioButtonList ID="rdoRLCM_Attendance" runat="server" SkinID="YNTypeNullSelection" />
-                                                                 <asp:RequiredFieldValidator ID="rfvrdoRLCM_Attendance" runat="server" ControlToValidate="rdoRLCM_Attendance"
-                                                                Display="None" ErrorMessage="[Meeting Attendees]/Please Check RLCM In Attendance " SetFocusOnError="true"  ValidationGroup="vsErrorAttendees" />
+                                                            <asp:RequiredFieldValidator ID="rfvrdoRLCM_Attendance" runat="server" ControlToValidate="rdoRLCM_Attendance"
+                                                                Display="None" ErrorMessage="[Meeting Attendees]/Please Check RLCM In Attendance " SetFocusOnError="true" ValidationGroup="vsErrorAttendees" />
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -1539,7 +1546,7 @@ function DisableButton() {
                                                         </td>
                                                         <td align="left" width="28%" valign="top">
                                                             <asp:TextBox ID="txtMeeting_Start_Time" runat="server" Width="70px" MaxLength="5" />
-                                                           <%-- <asp:RegularExpressionValidator ID="revtxtMeeting_Start_Time" runat="server" ControlToValidate="txtMeeting_Start_Time"
+                                                            <%-- <asp:RegularExpressionValidator ID="revtxtMeeting_Start_Time" runat="server" ControlToValidate="txtMeeting_Start_Time"
                                                                 ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
                                                                 ErrorMessage="[Call to Order]/Meeting Start Time is not valid." Display="none"
                                                                 ValidationGroup="vsErrorcallToOrder" SetFocusOnError="true"></asp:RegularExpressionValidator>--%>
@@ -1586,7 +1593,9 @@ function DisableButton() {
                                                     </tr>
                                                 </table>
                                             </asp:Panel>
-                                            <asp:Panel ID="pnl5" runat="server" Style="display: none;">
+
+                                            <%-- Safety Walk Panel Commented Due to changes in Story 102 --%>
+                                            <%--<asp:Panel ID="pnl5" runat="server" Style="display: none;">
                                                 <asp:Panel ID="pnl16" runat="server">
                                                     <div class="bandHeaderRow">
                                                         Safety Walk
@@ -1930,7 +1939,7 @@ function DisableButton() {
                                                             <td align="left" colspan="6">
                                                                 <asp:LinkButton ID="lnlADDAttachmentSafetywalk" runat="server" CausesValidation="true"
                                                                     Text="Add New" ValidationGroup="vsErrorSafetywalkGroup" OnClientClick="javascript:CheckBeforeAddSaftyWalkAttach();return false;"></asp:LinkButton>
-                                                                <%--<input type="hidden" id="hdnBuildingID" runat="server" />--%>
+                                                                <!--<input type="hidden" id="hdnBuildingID" runat="server" />-->
                                                             </td>
                                                         </tr>
                                                         <tr id="trSafetyWalkAttachment" runat="server" style="display: none;">
@@ -2000,7 +2009,7 @@ function DisableButton() {
                                                                                 <ItemTemplate>
                                                                                     <asp:LinkButton ID="lnkParticipation" runat="server" Text="Participants" CommandName="Participation"
                                                                                         CommandArgument='<%#Eval("MonthNum") + ":" + Eval("PK_SLT_Safety_Walk") %>' Enabled='<%# Convert.ToBoolean(Eval("IsEnable")) %>'></asp:LinkButton>
-                                                                                    <%--<asp:HyperLink ID="SafetyWalkParticipation" runat="server" Text="Participants"></asp:HyperLink>--%>
+                                                                                    <!--<asp:HyperLink ID="SafetyWalkParticipation" runat="server" Text="Participants"></asp:HyperLink>-->
                                                                                     <asp:HiddenField ID="hdnIsAllParticipated" runat="server" Value='<%# Eval("IsAllParticipated") %>' />
                                                                                     <asp:HiddenField ID="hdnMonth" runat="server" Value='<%# Eval("Month") %>' />
                                                                                 </ItemTemplate>
@@ -2013,7 +2022,7 @@ function DisableButton() {
                                                                                     <asp:LinkButton ID="lnkObservationOpen" runat="server" Text='<%# Eval("Observations_Open") %>' CommandName="ObservationOpen"
                                                                                         CommandArgument='<%#Eval("Month") + ":" + Eval("PK_SLT_Safety_Walk") %>' Enabled='<%# Convert.ToBoolean(Eval("IsEnable")) %>'>
                                                                                     </asp:LinkButton>
-                                                                                    <%--<asp:HyperLink ID="ObservationsOpen" runat="server" Text='<%# Eval("Observations_Open") %>'></asp:HyperLink>--%>
+                                                                                    <!--<asp:HyperLink ID="ObservationsOpen" runat="server" Text='<%# Eval("Observations_Open") %>'></asp:HyperLink>-->
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
                                                                         </Columns>
@@ -2032,6 +2041,153 @@ function DisableButton() {
                                                     <asp:Button ID="btnhdnReload" runat="server" OnClick="btnhdnReload_Click" Style="display: none;" />
                                                     <asp:Button ID="btnReload_Participant" runat="server" OnClick="btnReload_Participant_Click" Style="display: none;" />
                                                 </asp:Panel>
+                                            </asp:Panel>--%>
+                                            <asp:Panel ID="pnl5" runat="server" Style="display: none;">
+                                                <div class="bandHeaderRow">
+                                                    Find It and Fix It
+                                                </div>
+                                                <table width="100%">
+                                                    <tr runat="server" id="tr_FindItFixIt" width="100%">
+                                                        <td align="left" valign="top" width="16%"><b>Find It and Fix It</b>
+                                                            <br />
+                                                            <br />
+                                                            <asp:LinkButton runat="server" ID="lnkFindItFixItAdd" OnClick="lnkFindItFixItAdd_Click">--Add--</asp:LinkButton>
+                                                        </td>
+                                                        <td align="center" valign="top" width="4%">:</td>
+                                                        <td align="" valign="top" width="100%">
+                                                            <table width="100%">
+                                                                <tr>
+                                                                    <td>
+                                                                        <div style="min-height: 302px;">
+                                                                            <asp:GridView ID="gvSLTFindItFixIt" runat="server" Width="100%" AutoGenerateColumns="false"
+                                                                                EmptyDataText="No Record Found" OnRowCommand="gvSLTFindItFixIt_RowCommand" OnRowDataBound="gvSLTFindItFixIt_RowDataBound" EnableViewState="true">
+                                                                                <Columns>
+                                                                                    <asp:TemplateField HeaderText="Number">
+                                                                                        <ItemStyle Width="15%" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton ID="lnk1" runat="server" Text='<%# Container.DataItemIndex + 1 %>'
+                                                                                                CommandName="EditFindFix" CausesValidation="false" CommandArgument='<%#Eval("PK_Find_it_Fix_it")%>' />
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                    <asp:TemplateField HeaderText="Department">
+                                                                                        <ItemStyle Width="18%" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton runat="server" CommandArgument='<%#Eval("PK_Find_it_Fix_it")%>' CommandName="EditFindFix"><%#Eval("Department_Name") %></asp:LinkButton>
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                    <asp:TemplateField HeaderText="Category">
+                                                                                        <ItemStyle Width="18%" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton runat="server" CommandArgument='<%#Eval("PK_Find_it_Fix_it")%>' CommandName="EditFindFix"><%#Eval("Category_Name") %></asp:LinkButton>
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                    <asp:TemplateField HeaderText="Find it Description">
+                                                                                        <ItemStyle Width="15%" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton runat="server" CommandArgument='<%#Eval("PK_Find_it_Fix_it")%>' CommandName="EditFindFix" ToolTip='<%#Eval("Find_It_Description")%>'><%#(Eval("Find_It_Description")).ToString().Length <= 20 ? Eval("Find_It_Description") : (Eval("Find_It_Description")).ToString().Substring(0,20)%></asp:LinkButton>
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                    <asp:TemplateField HeaderText="Fix it Description">
+                                                                                        <ItemStyle Width="15%" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton runat="server" CommandArgument='<%#Eval("PK_Find_it_Fix_it")%>' CommandName="EditFindFix" ToolTip='<%#Eval("Fixt_It_Description")%>'><%#(Eval("Fixt_It_Description")).ToString().Length <= 20 ? Eval("Fixt_It_Description") : (Eval("Fixt_It_Description")).ToString().Substring(0,20)%></asp:LinkButton>
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                    <asp:TemplateField HeaderText="File (Y or N)">
+                                                                                        <ItemStyle Width="15%" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton runat="server" CommandArgument='<%#Eval("PK_Find_it_Fix_it")%>' CommandName="EditFindFix"><%#Eval("PK_Find_it_Fix_it_Attachments").ToString() == "0" ? "N" : "Y"%></asp:LinkButton>
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                </Columns>
+                                                                            </asp:GridView>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <%-- <td colspan="6" align="center">
+                                                                            <asp:Button ID="btnSave_SLTSafety" runat="server" Text="Save" OnClick="btnSave_SLTSafety_Click" Visible="false" />
+                                                                            &nbsp;&nbsp;<asp:Button ID="Button3" runat="server" Text="View Audit Trail"
+                                                                                OnClientClick="javascript:return AuditPopUpMeeting('SLTSafetyWalk');" Visible="false" />
+                                                                        </td>--%>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                    <tr id="tr_FindItFixItAdd" runat="server" style="display: none;">
+                                                        <td align="left" valign="top" width="100%">
+                                                            <table cellpadding="4" cellspacing="2" border="0" width="100%">
+                                                                <tr>
+                                                                    <td align="left" valign="top" width="30%">Department&nbsp;<span runat="server" id="Span48" style="color: Red; display: none;">*</span>
+                                                                    </td>
+                                                                    <td align="center" valign="top" width="4%">:
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="64%">
+                                                                        <asp:DropDownList ID="drpPK_FindItFixIt_Department" runat="server" SkinID="dropGen" Width="225px"></asp:DropDownList>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr runat="server">
+                                                                    <td align="left" valign="top" width="30%">Category&nbsp;<span runat="server" id="Span49" style="color: Red; display: none;">*</span>
+                                                                    </td>
+                                                                    <td align="center" valign="top" width="4%">:
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="64%">
+                                                                        <asp:DropDownList ID="drpPK_FindItFixIt_Category" runat="server" SkinID="dropGen" Width="225px"></asp:DropDownList>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr runat="server">
+                                                                    <td align="left" valign="top" width="30%">Associate&nbsp;<span runat="server" id="Span50" style="color: Red; display: none;">*</span>
+                                                                    </td>
+                                                                    <td align="center" valign="top" width="4%">:
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="64%">
+                                                                        <asp:DropDownList ID="drpFK_SLT_Members_As_Associate" runat="server" SkinID="dropGen" Width="225px"></asp:DropDownList>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" valign="top" width="30%">Find it Description&nbsp;<span id="Span51" runat="server" style="color: Red; display: none;">*</span>
+                                                                    </td>
+                                                                    <td align="center" valign="top" width="4%">:
+                                                                    </td>
+                                                                    <td align="left" colspan="4" valign="top" width="64%">
+                                                                        <uc:ctrlMultiLineTextBox ID="txtFindIt_Description" runat="server" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" valign="top" width="30%">Fix it Description&nbsp;<span id="Span52" runat="server" style="color: Red; display: none;">*</span>
+                                                                    </td>
+                                                                    <td align="center" valign="top" width="4%">:
+                                                                    </td>
+                                                                    <td align="left" colspan="4" valign="top" width="64%">
+                                                                        <uc:ctrlMultiLineTextBox ID="txtFixIt_Description" runat="server" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" valign="top" width="30%">RCLM Comments&nbsp;<span id="Span53" runat="server" style="color: Red; display: none">*</span>
+                                                                    </td>
+                                                                    <td align="center" valign="top" width="4%">:
+                                                                    </td>
+                                                                    <td align="left" colspan="4" valign="top" width="64%">
+                                                                        <uc:ctrlMultiLineTextBox ID="txtRCLM_Comments" runat="server" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="6">
+                                                                        <uc:ctrlFindItFixItAttachment ID="Attachments" runat="server" PanelNumber="5" AttachmentTable="Find_it_Fix_it_Attachments" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="6" align="center">
+                                                                        <asp:Button ID="btnSLTFindItFixItSave" runat="server" Text="Save" OnClick="btnSLTFindItFixItSave_Click" CausesValidation="true" ValidationGroup="vsErrorFindItAndFixIt" />
+                                                                        &nbsp;&nbsp;
+                                                            <asp:Button ID="btnSLTFindItFixIt_Cancel" runat="server" OnClick="btnFindItFixIt_Cancel_Click" Text="Cancel" />
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+
+                                                </table>
                                             </asp:Panel>
                                             <asp:Panel ID="pnl6" runat="server" Style="display: none;">
                                                 <div class="bandHeaderRow">
@@ -3112,7 +3268,7 @@ function DisableButton() {
                                                             <i>Click to view details</i>
                                                         </td>
                                                     </tr>
-                                                 <%--   <tr>
+                                                    <%--   <tr>
                                                         <td colspan="6">
                                                             <asp:LinkButton ID="lnkAsso_Training_Data" Text="View Associate Training Data" OnClientClick="OpenPopup_Associat_Data(); return false;" runat="server"></asp:LinkButton><br />
                                                             <i>Click to view details</i>
@@ -3406,7 +3562,7 @@ function DisableButton() {
                                                                             OnClick="lnkAdd_NewSuggestion_Click" />
                                                                     </td>
                                                                 </tr>
-                                                                
+
                                                             </table>
                                                         </td>
                                                     </tr>
@@ -3466,7 +3622,7 @@ function DisableButton() {
                                                                     <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" colspan="4" valign="top">
-                                                                        <uc:ctrlMultiLineTextBox ID="txtSuggestion_Description" runat="server"/>
+                                                                        <uc:ctrlMultiLineTextBox ID="txtSuggestion_Description" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
@@ -3501,7 +3657,7 @@ function DisableButton() {
                                                                         </asp:DropDownList>
                                                                     </td>
                                                                 </tr>
-                                                                 <tr>
+                                                                <tr>
                                                                     <td align="left" valign="top">Notes
                                                                     </td>
                                                                     <td align="center" valign="top">:
@@ -3685,7 +3841,7 @@ function DisableButton() {
                                                         <td align="center" width="4%" valign="top">:
                                                         </td>
                                                         <td align="left" width="28%" valign="top" colspan="4">
-                                                            <uc:ctrlMultiLineTextBox ID="txtMeeting_Comment" runat="server" Width="500"/>
+                                                            <uc:ctrlMultiLineTextBox ID="txtMeeting_Comment" runat="server" Width="500" />
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -3725,7 +3881,7 @@ function DisableButton() {
                                                         <td align="left" width="28%" valign="top">
                                                             <asp:TextBox ID="txtMeetingPoints" runat="server" Width="50px" MaxLength="3" onkeypress="return FormatNumber(event,this.id,3,false);"
                                                                 onblur="CheckPoints(1, this);" />
-                                                          <%--<asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtMeetingPoints"
+                                                            <%--<asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtMeetingPoints"
                                                                 Display="None" ErrorMessage="[Meeting Review]/Please fill Meeting Held and 100% Participation" SetFocusOnError="true"  ValidationGroup="vsErrorMeetingReview" />--%>
                                                         </td>
                                                     </tr>
@@ -3786,7 +3942,7 @@ function DisableButton() {
                                                                 onkeypress="return FormatNumber(event,this.id,3,false);" onblur="CheckPoints(4, this);" />
                                                         </td>
                                                     </tr>
-                                                    
+
                                                     <tr>
                                                         <td colspan="6">
                                                             <div id="dvAttachment" runat="server">
@@ -4197,7 +4353,7 @@ function DisableButton() {
                                                         <tr>
                                                             <td>
                                                                 <div style="min-height: 302px;">
-                                                                    <asp:GridView ID="gvBTSecurityWalk" runat="server" Width="100%" AutoGenerateColumns="false" 
+                                                                    <asp:GridView ID="gvBTSecurityWalk" runat="server" Width="100%" AutoGenerateColumns="false"
                                                                         EmptyDataText="No Record Found" OnRowCommand="gvBTSecurityWalk_RowCommand" OnRowDataBound="gvBTSecurityWalk_RowDataBound">
                                                                         <Columns>
                                                                             <asp:TemplateField HeaderText="Month" ItemStyle-Width="15%">
@@ -4794,7 +4950,7 @@ function DisableButton() {
                                                     </tr>
                                                 </table>
                                             </asp:Panel>
-                                            <asp:Panel ID="pnl5View" runat="server" Style="display: none;">
+                                            <%--<asp:Panel ID="pnl5View" runat="server" Style="display: none;">
                                                 <asp:Panel ID="pnl16View" runat="server">
                                                     <div class="bandHeaderRow">
                                                         Safety Walk
@@ -5159,6 +5315,155 @@ function DisableButton() {
                                                         </tr>
                                                     </table>
                                                 </asp:Panel>
+                                            </asp:Panel>--%>
+                                            <asp:Panel ID="pnl5View" runat="server" Style="display: none;">
+                                                <div class="bandHeaderRow">
+                                                    Find It and Fix It
+                                                </div>
+                                                <table width="100%">
+                                                    <tr runat="server" id="tr_FindItFixItViewGrid" width="100%">
+                                                        <td align="left" valign="top" width="16%"><b>Find It and Fix It</b>
+                                                        </td>
+                                                        <td align="center" valign="top" width="4%">:</td>
+                                                        <td align="" valign="top" width="80%">
+                                                            <table width="100%">
+                                                                <tr>
+                                                                    <td>
+                                                                        <div style="min-height: 302px;">
+                                                                            <asp:GridView ID="gvSLTFindItFixItView" runat="server" Width="100%" AutoGenerateColumns="false"
+                                                                                EmptyDataText="No Record Found" OnRowCommand="gvSLTFindItFixItView_RowCommand">
+                                                                                <Columns>
+                                                                                    <asp:TemplateField HeaderText="Number">
+                                                                                        <ItemStyle Width="18%" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton runat="server" Text='<%# Container.DataItemIndex + 1 %>'
+                                                                                                CommandName="ViewFindFix" CausesValidation="false" CommandArgument='<%#Eval("PK_Find_it_Fix_it")%>' />
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                    <asp:TemplateField HeaderText="Department">
+                                                                                        <ItemStyle Width="18%" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton runat="server" CommandArgument='<%#Eval("PK_Find_it_Fix_it")%>' CommandName="ViewFindFix"><%#Eval("Department_Name") %></asp:LinkButton>
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                    <asp:TemplateField HeaderText="Category">
+                                                                                        <ItemStyle Width="18%" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton runat="server" CommandArgument='<%#Eval("PK_Find_it_Fix_it")%>' CommandName="ViewFindFix"><%#Eval("Category_Name") %></asp:LinkButton>
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                    <asp:TemplateField HeaderText="Find it Description">
+                                                                                        <ItemStyle Width="15%" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton runat="server" CommandArgument='<%#Eval("PK_Find_it_Fix_it")%>' CommandName="ViewFindFix" ToolTip='<%#Eval("Find_It_Description") %>' ><%#(Eval("Find_It_Description")).ToString().Length <= 20 ? Eval("Find_It_Description") : (Eval("Find_It_Description")).ToString().Substring(0,20)%></asp:LinkButton>
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                    <asp:TemplateField HeaderText="Fix it Description">
+                                                                                        <ItemStyle Width="15%" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton runat="server" CommandArgument='<%#Eval("PK_Find_it_Fix_it")%>' CommandName="ViewFindFix" ToolTip='<%#Eval("Fixt_It_Description") %>' ><%#(Eval("Fixt_It_Description")).ToString().Length <= 20 ? Eval("Fixt_It_Description") : (Eval("Fixt_It_Description")).ToString().Substring(0,20)%></asp:LinkButton>
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                    <asp:TemplateField HeaderText="End Date">
+                                                                                        <ItemStyle Width="15%" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton runat="server" CommandArgument='<%#Eval("PK_Find_it_Fix_it")%>' CommandName="ViewFindFix"><%#Eval("PK_Find_it_Fix_it_Attachments").ToString() == "0" ? "N" : "Y"%></asp:LinkButton>
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                </Columns>
+                                                                            </asp:GridView>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <%-- <td colspan="6" align="center">
+                                                                            <asp:Button ID="btnSave_SLTSafety" runat="server" Text="Save" OnClick="btnSave_SLTSafety_Click" Visible="false" />
+                                                                            &nbsp;&nbsp;<asp:Button ID="Button3" runat="server" Text="View Audit Trail"
+                                                                                OnClientClick="javascript:return AuditPopUpMeeting('SLTSafetyWalk');" Visible="false" />
+                                                                        </td>--%>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                    <tr id="tr_FindItFixItView" runat="server" style="display: none;">
+                                                        <td align="left" valign="top" width="100%">
+                                                            <table cellpadding="4" cellspacing="2" border="0" width="100%">
+                                                                <tr>
+                                                                    <td align="left" valign="top" width="30%">Department&nbsp;<span runat="server" id="Span9" style="color: Red; display: none;">*</span>
+                                                                    </td>
+                                                                    <td align="center" valign="top" width="4%">:
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="64%">
+                                                                        <%--<asp:DropDownList ID="DropDownList1" runat="server" SkinID="dropGen" Width="225px"></asp:DropDownList>--%>
+                                                                        <asp:Label ID="lblFindItFixItDepartment" runat="server" Text='<%# clsGeneral.FormatDBNullDateToDisplay(Eval("End_Date")) %>' />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr runat="server">
+                                                                    <td align="left" valign="top" width="30%">Category&nbsp;<span runat="server" id="Span45" style="color: Red; display: none;">*</span>
+                                                                    </td>
+                                                                    <td align="center" valign="top" width="4%">:
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="64%">
+                                                                        <%--<asp:DropDownList ID="DropDownList2" runat="server" SkinID="dropGen" Width="225px"></asp:DropDownList>--%>
+                                                                        <asp:Label ID="lblCategory" runat="server" Text='<%# clsGeneral.FormatDBNullDateToDisplay(Eval("End_Date")) %>' />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr runat="server">
+                                                                    <td align="left" valign="top" width="30%">Associate&nbsp;<span runat="server" id="Span47" style="color: Red; display: none;">*</span>
+                                                                    </td>
+                                                                    <td align="center" valign="top" width="4%">:
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="64%">
+                                                                        <%--<asp:DropDownList ID="DropDownList3" runat="server" SkinID="dropGen" Width="225px"></asp:DropDownList>--%>
+                                                                        <asp:Label ID="lblAssociate" runat="server" Text='<%# clsGeneral.FormatDBNullDateToDisplay(Eval("End_Date")) %>' />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" valign="top" width="30%">Find it Description&nbsp;<span id="Span54" runat="server" style="color: Red; display: none;">*</span>
+                                                                    </td>
+                                                                    <td align="center" valign="top" width="4%">:
+                                                                    </td>
+                                                                    <td align="left" colspan="4" valign="top" width="64%">
+                                                                        <%--<uc:ctrlMultiLineTextBox ID="CtrlMultiLineTextBox1" runat="server" />--%>
+                                                                        <asp:Label ID="lblFindItDescription" runat="server" Text='<%# clsGeneral.FormatDBNullDateToDisplay(Eval("End_Date")) %>' />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" valign="top" width="30%">Fix it Description&nbsp;<span id="Span55" runat="server" style="color: Red; display: none;">*</span>
+                                                                    </td>
+                                                                    <td align="center" valign="top" width="4%">:
+                                                                    </td>
+                                                                    <td align="left" colspan="4" valign="top" width="64%">
+                                                                        <%--<uc:ctrlMultiLineTextBox ID="CtrlMultiLineTextBox2" runat="server" />--%>
+                                                                        <asp:Label ID="lblFixItDescription" runat="server" Text='<%# clsGeneral.FormatDBNullDateToDisplay(Eval("End_Date")) %>' />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" valign="top" width="30%">RCLM Comments&nbsp;<span id="Span56" runat="server" style="color: Red; display: none">*</span>
+                                                                    </td>
+                                                                    <td align="center" valign="top" width="4%">:
+                                                                    </td>
+                                                                    <td align="left" colspan="4" valign="top" width="64%">
+                                                                        <%--<uc:ctrlMultiLineTextBox ID="CtrlMultiLineTextBox3" runat="server" />--%>
+                                                                        <asp:Label ID="lblRCLMComments" runat="server" Text='<%# clsGeneral.FormatDBNullDateToDisplay(Eval("End_Date")) %>' />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="6">
+                                                                        <uc:ctrlFindItFixItAttachment ID="AttachmentsView" runat="server" PanelNumber="5" AttachmentTable="Find_it_Fix_it_Attachments" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="6" align="center">
+                                                                        <%--<asp:Button ID="Button2" runat="server" Text="Save" OnClick="btnSLTFindItFixItSave_Click" CausesValidation="true" ValidationGroup="vsErrorFindItAndFixIt" />--%>
+                                                                        <asp:Button ID="btnFindItFixItView_Cancel" runat="server" OnClick="btnFindItFixItView_Cancel_Click" Text="Cancel" />
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+
+                                                </table>
                                             </asp:Panel>
                                             <asp:Panel ID="pnl6View" runat="server" Style="display: none;">
                                                 <div class="bandHeaderRow">
@@ -6046,7 +6351,7 @@ function DisableButton() {
                                             </asp:Panel>
                                             <asp:Panel ID="pnl10View" runat="server" Style="display: none">
                                                 <div class="bandHeaderRow">
-                                                   Safety Training
+                                                    Safety Training
                                                 </div>
                                                 <table cellpadding="4" cellspacing="1" width="100%">
                                                     <tr>
@@ -6256,39 +6561,39 @@ function DisableButton() {
                                                     </tr>
 
                                                     <tr>
-                                                    <td colspan="6" align="left">
-                                                        <b>SABA Weekly Training Report Attachments</b>
-                                                        <br />
-                                                        <i>Click to view details</i>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="6">&nbsp;
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="6">
-                                                        <asp:GridView ID="gvSLT_TrainingAttachmentView" runat="server" Width="100%" OnRowDataBound="gvSLT_TrainingAttachmentView_RowDataBound"
-                                                            EmptyDataText="Currently there is no attachment<br/>Please add one or more attachment">
-                                                            <Columns>
-                                                                <asp:TemplateField HeaderText="File Name">
-                                                                    <ItemStyle Width="35%" />
-                                                                    <ItemTemplate>
-                                                                        <a id="lnkTrainingAttachFile" runat="server" href="#">
-                                                                            <%# Eval("Attachment_Name1")%>
-                                                                        </a>
-                                                                    </ItemTemplate>
-                                                                </asp:TemplateField>
-                                                                <asp:TemplateField HeaderText="Type">
-                                                                    <ItemStyle Width="35%" />
-                                                                    <ItemTemplate>
-                                                                        <%# Eval("Attachment_Description")%>
-                                                                    </ItemTemplate>
-                                                                </asp:TemplateField>
-                                                            </Columns>
-                                                        </asp:GridView>
-                                                    </td>
-                                                </tr>
+                                                        <td colspan="6" align="left">
+                                                            <b>SABA Weekly Training Report Attachments</b>
+                                                            <br />
+                                                            <i>Click to view details</i>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="6">&nbsp;
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="6">
+                                                            <asp:GridView ID="gvSLT_TrainingAttachmentView" runat="server" Width="100%" OnRowDataBound="gvSLT_TrainingAttachmentView_RowDataBound"
+                                                                EmptyDataText="Currently there is no attachment<br/>Please add one or more attachment">
+                                                                <Columns>
+                                                                    <asp:TemplateField HeaderText="File Name">
+                                                                        <ItemStyle Width="35%" />
+                                                                        <ItemTemplate>
+                                                                            <a id="lnkTrainingAttachFile" runat="server" href="#">
+                                                                                <%# Eval("Attachment_Name1")%>
+                                                                            </a>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Type">
+                                                                        <ItemStyle Width="35%" />
+                                                                        <ItemTemplate>
+                                                                            <%# Eval("Attachment_Description")%>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                </Columns>
+                                                            </asp:GridView>
+                                                        </td>
+                                                    </tr>
 
                                                 </table>
                                             </asp:Panel>
@@ -6457,7 +6762,7 @@ function DisableButton() {
                                                             </asp:GridView>
                                                         </td>
                                                     </tr>
-                                                    
+
                                                     <tr id="tr_suggview" runat="server" style="display: none">
                                                         <td colspan="6">
                                                             <table cellpadding="4" cellspacing="1" border="0" width="100%">
@@ -6617,9 +6922,9 @@ function DisableButton() {
                                                     </tr>
                                                 </table>
                                             </asp:Panel>
-                                             <asp:Panel ID="pnl17View" runat="server" Style="display: none;">
-                                                 <asp:Panel ID="pnlBTSecurityView" runat="server">
-                                                     <div class="bandHeaderRow">
+                                            <asp:Panel ID="pnl17View" runat="server" Style="display: none;">
+                                                <asp:Panel ID="pnlBTSecurityView" runat="server">
+                                                    <div class="bandHeaderRow">
                                                         BT Security Walk
                                                     </div>
                                                     <table cellpadding="3" cellspacing="1" border="0" width="100%">
@@ -6923,9 +7228,9 @@ function DisableButton() {
                                                             </td>
                                                         </tr>
                                                     </table>
-                                                 </asp:Panel>
-                                                 <asp:Panel ID="pnlBTSecurityGridView" runat="server">
-                                                     <table>
+                                                </asp:Panel>
+                                                <asp:Panel ID="pnlBTSecurityGridView" runat="server">
+                                                    <table>
                                                         <tr>
                                                             <td>
                                                                 <asp:Label ID="lblBTSecurityView" runat="server"></asp:Label>
@@ -6939,7 +7244,7 @@ function DisableButton() {
                                                                         <Columns>
                                                                             <asp:TemplateField HeaderText="Month" ItemStyle-Width="15%">
                                                                                 <ItemTemplate>
-                                                                                   <asp:HiddenField ID="hdnBTSecMonthNumber" runat="server" Value='<%# Eval("MonthNum") %>' />
+                                                                                    <asp:HiddenField ID="hdnBTSecMonthNumber" runat="server" Value='<%# Eval("MonthNum") %>' />
                                                                                     <asp:HiddenField ID="hdnBTSecActualMeetingDate" runat="server" Value='<%# Eval("Actual_Meeting_Date") %>' />
                                                                                     <asp:HiddenField ID="hdnBTSec_Walk_Comp" runat="server" Value='<%# Convert.ToBoolean(Eval("BT_Security_Walk_Comp")) %>' />
                                                                                     <asp:HiddenField ID="hdnPK_SLT_BTSec_Walk" runat="server" Value='<%# Eval("PK_SLT_BT_Security_Walk") %>' />
@@ -6981,8 +7286,8 @@ function DisableButton() {
                                                             </td>
                                                         </tr>
                                                     </table>
-                                                 </asp:Panel>
-                                             </asp:Panel>
+                                                </asp:Panel>
+                                            </asp:Panel>
                                         </div>
                                         <asp:Panel ID="pnl14View" runat="server" Style="display: none;">
                                             <%--Height="610px"--%>
@@ -7121,7 +7426,7 @@ function DisableButton() {
                                                     <td align="center" width="4%" valign="top"></td>
                                                     <td align="left" width="28%" valign="top"></td>
                                                 </tr>
-                                                
+
 
                                                 <tr>
                                                     <td colspan="6">
@@ -7133,7 +7438,7 @@ function DisableButton() {
                                                                 </tr>
                                                             </table>
                                                         </div>
-                                                        <asp:Panel ID="pnlAttachmentDetailsView" runat="server" Width="714px" >
+                                                        <asp:Panel ID="pnlAttachmentDetailsView" runat="server" Width="714px">
                                                             <table cellpadding="0" cellspacing="0" width="100%" style="height: 250px;">
                                                                 <tr>
                                                                     <td width="100%" valign="top">
@@ -7191,7 +7496,7 @@ function DisableButton() {
                                             <asp:Button ID="btnHdnSend" runat="server" OnClick="btnSend_Click" Style="display: none" />
                                             <asp:Button ID="btnhdnBindRLCM_Training" runat="server" OnClick="btnhdnBindRLCM_Training_Click"
                                                 Style="display: none" />
-                                            <asp:Button ID="btnShowMemberHistory" Text="Show Member History" runat="server" OnClick="btnShowMemberHistory_Click"/>
+                                            <asp:Button ID="btnShowMemberHistory" Text="Show Member History" runat="server" OnClick="btnShowMemberHistory_Click" />
                                             &nbsp;<%--<asp:Button ID="btnSendTO_RLCM" runat="server" Text="Send Minutes to RLCM" style="display:none;width:160px"   Enabled="false" OnClientClick="return CheckScheduleidForRLCM();"  OnClick="btnSendTO_RLCM_Click" />--%>
                                         </td>
                                     </tr>
@@ -7254,6 +7559,10 @@ function DisableButton() {
         Display="None" ValidationGroup="vsErrorMeetingReview" />
     <input id="hdnControlIDsReview" runat="server" type="hidden" />
     <input id="hdnErrorMsgsReview" runat="server" type="hidden" />
+    <asp:CustomValidator ID="CustomValidatorFindItFixIt" runat="server" ErrorMessage="" ClientValidationFunction="ValidateFields"
+        Display="None" ValidationGroup="vsErrorFindItAndFixIt" />
+    <input id="hdnControlIDsFindFix" runat="server" type="hidden" />
+    <input id="hdnErrormsgsFindFix" runat="server" type="hidden" />
     <script type="text/javascript">
 
         function ValidateFields(sender, args) {
@@ -7322,6 +7631,9 @@ function DisableButton() {
             else if (validatorID.indexOf('Review') > 0) {
                 ctrlIDs = document.getElementById('<%=hdnControlIDsReview.ClientID%>').value.split(','); hdnID = '<%=hdnControlIDsReview.ClientID%>'; Messages = document.getElementById('<%=hdnErrorMsgsReview.ClientID%>').value.split(',');
             }
+            else if (validatorID.indexOf('FindItFixIt') > 0) {
+                ctrlIDs = document.getElementById('<%=hdnControlIDsFindFix.ClientID%>').value.split(','); hdnID = '<%=hdnControlIDsFindFix.ClientID%>'; Messages = document.getElementById('<%=hdnErrormsgsFindFix.ClientID%>').value.split(',');
+             }
 
     var focusCtrlID = "";
 

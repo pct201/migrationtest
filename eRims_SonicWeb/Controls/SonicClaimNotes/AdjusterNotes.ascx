@@ -138,6 +138,7 @@
                         <asp:Button ID="btnView" runat="server" Text=" View " OnClick="btnView_Click" OnClientClick="return CheckSelectedAdjNotes('View',true);" />&nbsp;&nbsp;
                         <asp:Button ID="btnPrint" runat="server" Text=" Print " OnClick="btnPrint_Click" OnClientClick="return CheckSelectedAdjNotes('Print',true);" />                            
                         <asp:Button ID="btnShowAPEVNotes" runat="server" Text="Show Specific Notes Only" OnClick="btnShowAPEVNotes_Click" Visible="false"/>
+                        <asp:Button ID="btnPrintAll" runat="server" Text=" Print All " OnClick="btnPrintAll_Click" /> 
                     </td>
                 </tr>
             </table>
