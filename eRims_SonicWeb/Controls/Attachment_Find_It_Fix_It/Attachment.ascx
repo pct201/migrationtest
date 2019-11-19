@@ -372,7 +372,6 @@
         }
 
         for (j = 1; j <= hndCount; j++) {
-            debugger;
             var FolderName = document.getElementById('ctl00_ContentPlaceHolder1_Attachments_Attachment' + j + '_txtAttachmentNameAdd').value;
             var FileName_value = document.getElementById('ctl00_ContentPlaceHolder1_Attachments_Attachment' + j + '_fpFile').value;
             var rblFind = $('#ctl00_ContentPlaceHolder1_Attachments_Attachment'+j+'_rblAttachmentType_0').prop("checked");

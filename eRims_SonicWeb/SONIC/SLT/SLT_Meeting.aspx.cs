@@ -4585,6 +4585,11 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
     //}
     #endregion
     #region "Find It and Fix It"
+    /// <summary>
+    /// Handles Find it and Fix It Add Button Click
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void lnkFindItFixItAdd_Click(object sender, EventArgs e)
     {
         tr_FindItFixIt.Style.Add("display", "none");
@@ -4601,6 +4606,11 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
     }
 
+    /// <summary>
+    /// Handles Find it and Fix It Cancel Button Click
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void btnFindItFixIt_Cancel_Click(object sender, EventArgs e)
     {
         tr_FindItFixItAdd.Style.Add("display", "none");
@@ -4609,6 +4619,11 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
     }
 
+    /// <summary>
+    /// Handles Find it and Fix It Cancel Button Click In View Mode
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void btnFindItFixItView_Cancel_Click(object sender, EventArgs e)
     {
         tr_FindItFixItView.Style.Add("display", "none");
@@ -7190,7 +7205,6 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         if (StrOperation.ToLower() != "view")
         {
             gvSLTFindItFixIt.DataSource = dtFindItFixIt;
-            //gvSLTFindItFixIt.Columns.Add("")
             gvSLTFindItFixIt.DataBind();
         }
         else
@@ -7200,23 +7214,26 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         }
     }
 
+    /// <summary>
+    /// Saving Value For Find It and Fix It
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void btnSLTFindItFixItSave_Click(object sender, EventArgs e)
     {
         clsFind_it_Fix_it objFindItFixIt = new clsFind_it_Fix_it();
         objFindItFixIt.FK_SLT_Meeting = PK_SLT_Meeting;
+        objFindItFixIt.PK_Find_it_Fix_it = PK_Find_It_Fix_It;
         if (drpPK_FindItFixIt_Department.SelectedIndex > 0)
             objFindItFixIt.FK_Lu_Department = Convert.ToDecimal(drpPK_FindItFixIt_Department.SelectedItem.Value);
-
         if (drpPK_FindItFixIt_Category.SelectedIndex > 0)
             objFindItFixIt.FK_Lu_Category = Convert.ToDecimal(drpPK_FindItFixIt_Category.SelectedItem.Value);
-
         if (drpFK_SLT_Members_As_Associate.SelectedIndex > 0)
             objFindItFixIt.FK_Members = Convert.ToDecimal(drpFK_SLT_Members_As_Associate.SelectedItem.Value);
-
         objFindItFixIt.Find_It_Description = txtFindIt_Description.Text;
         objFindItFixIt.Fixt_it_Description = txtFixIt_Description.Text;
         objFindItFixIt.RCLM_Comments = txtRCLM_Comments.Text;
-
+        
         if (PK_Find_It_Fix_It > 0)
             objFindItFixIt.Update();
         else

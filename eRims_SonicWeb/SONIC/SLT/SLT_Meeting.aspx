@@ -5355,16 +5355,16 @@ function DisableButton() {
                                                                                     <asp:TemplateField HeaderText="Find it Description">
                                                                                         <ItemStyle Width="15%" />
                                                                                         <ItemTemplate>
-                                                                                            <asp:LinkButton runat="server" CommandArgument='<%#Eval("PK_Find_it_Fix_it")%>' CommandName="ViewFindFix" ToolTip='<%#Eval("Find_It_Description") %>' ><%#(Eval("Find_It_Description")).ToString().Length <= 20 ? Eval("Find_It_Description") : (Eval("Find_It_Description")).ToString().Substring(0,20)%></asp:LinkButton>
+                                                                                            <asp:LinkButton runat="server" CommandArgument='<%#Eval("PK_Find_it_Fix_it")%>' CommandName="ViewFindFix" ToolTip='<%#Eval("Find_It_Description") %>'><%#(Eval("Find_It_Description")).ToString().Length <= 20 ? Eval("Find_It_Description") : (Eval("Find_It_Description")).ToString().Substring(0,20)%></asp:LinkButton>
                                                                                         </ItemTemplate>
                                                                                     </asp:TemplateField>
                                                                                     <asp:TemplateField HeaderText="Fix it Description">
                                                                                         <ItemStyle Width="15%" />
                                                                                         <ItemTemplate>
-                                                                                            <asp:LinkButton runat="server" CommandArgument='<%#Eval("PK_Find_it_Fix_it")%>' CommandName="ViewFindFix" ToolTip='<%#Eval("Fixt_It_Description") %>' ><%#(Eval("Fixt_It_Description")).ToString().Length <= 20 ? Eval("Fixt_It_Description") : (Eval("Fixt_It_Description")).ToString().Substring(0,20)%></asp:LinkButton>
+                                                                                            <asp:LinkButton runat="server" CommandArgument='<%#Eval("PK_Find_it_Fix_it")%>' CommandName="ViewFindFix" ToolTip='<%#Eval("Fixt_It_Description") %>'><%#(Eval("Fixt_It_Description")).ToString().Length <= 20 ? Eval("Fixt_It_Description") : (Eval("Fixt_It_Description")).ToString().Substring(0,20)%></asp:LinkButton>
                                                                                         </ItemTemplate>
                                                                                     </asp:TemplateField>
-                                                                                    <asp:TemplateField HeaderText="End Date">
+                                                                                    <asp:TemplateField HeaderText="File (Y or N)">
                                                                                         <ItemStyle Width="15%" />
                                                                                         <ItemTemplate>
                                                                                             <asp:LinkButton runat="server" CommandArgument='<%#Eval("PK_Find_it_Fix_it")%>' CommandName="ViewFindFix"><%#Eval("PK_Find_it_Fix_it_Attachments").ToString() == "0" ? "N" : "Y"%></asp:LinkButton>
@@ -5376,11 +5376,6 @@ function DisableButton() {
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <%-- <td colspan="6" align="center">
-                                                                            <asp:Button ID="btnSave_SLTSafety" runat="server" Text="Save" OnClick="btnSave_SLTSafety_Click" Visible="false" />
-                                                                            &nbsp;&nbsp;<asp:Button ID="Button3" runat="server" Text="View Audit Trail"
-                                                                                OnClientClick="javascript:return AuditPopUpMeeting('SLTSafetyWalk');" Visible="false" />
-                                                                        </td>--%>
                                                                 </tr>
                                                             </table>
                                                         </td>
@@ -5394,7 +5389,6 @@ function DisableButton() {
                                                                     <td align="center" valign="top" width="4%">:
                                                                     </td>
                                                                     <td align="left" valign="top" width="64%">
-                                                                        <%--<asp:DropDownList ID="DropDownList1" runat="server" SkinID="dropGen" Width="225px"></asp:DropDownList>--%>
                                                                         <asp:Label ID="lblFindItFixItDepartment" runat="server" Text='<%# clsGeneral.FormatDBNullDateToDisplay(Eval("End_Date")) %>' />
                                                                     </td>
                                                                 </tr>
@@ -5404,7 +5398,6 @@ function DisableButton() {
                                                                     <td align="center" valign="top" width="4%">:
                                                                     </td>
                                                                     <td align="left" valign="top" width="64%">
-                                                                        <%--<asp:DropDownList ID="DropDownList2" runat="server" SkinID="dropGen" Width="225px"></asp:DropDownList>--%>
                                                                         <asp:Label ID="lblCategory" runat="server" Text='<%# clsGeneral.FormatDBNullDateToDisplay(Eval("End_Date")) %>' />
                                                                     </td>
                                                                 </tr>
@@ -5414,7 +5407,6 @@ function DisableButton() {
                                                                     <td align="center" valign="top" width="4%">:
                                                                     </td>
                                                                     <td align="left" valign="top" width="64%">
-                                                                        <%--<asp:DropDownList ID="DropDownList3" runat="server" SkinID="dropGen" Width="225px"></asp:DropDownList>--%>
                                                                         <asp:Label ID="lblAssociate" runat="server" Text='<%# clsGeneral.FormatDBNullDateToDisplay(Eval("End_Date")) %>' />
                                                                     </td>
                                                                 </tr>
@@ -5424,7 +5416,6 @@ function DisableButton() {
                                                                     <td align="center" valign="top" width="4%">:
                                                                     </td>
                                                                     <td align="left" colspan="4" valign="top" width="64%">
-                                                                        <%--<uc:ctrlMultiLineTextBox ID="CtrlMultiLineTextBox1" runat="server" />--%>
                                                                         <asp:Label ID="lblFindItDescription" runat="server" Text='<%# clsGeneral.FormatDBNullDateToDisplay(Eval("End_Date")) %>' />
                                                                     </td>
                                                                 </tr>
@@ -5434,7 +5425,6 @@ function DisableButton() {
                                                                     <td align="center" valign="top" width="4%">:
                                                                     </td>
                                                                     <td align="left" colspan="4" valign="top" width="64%">
-                                                                        <%--<uc:ctrlMultiLineTextBox ID="CtrlMultiLineTextBox2" runat="server" />--%>
                                                                         <asp:Label ID="lblFixItDescription" runat="server" Text='<%# clsGeneral.FormatDBNullDateToDisplay(Eval("End_Date")) %>' />
                                                                     </td>
                                                                 </tr>
@@ -5444,7 +5434,6 @@ function DisableButton() {
                                                                     <td align="center" valign="top" width="4%">:
                                                                     </td>
                                                                     <td align="left" colspan="4" valign="top" width="64%">
-                                                                        <%--<uc:ctrlMultiLineTextBox ID="CtrlMultiLineTextBox3" runat="server" />--%>
                                                                         <asp:Label ID="lblRCLMComments" runat="server" Text='<%# clsGeneral.FormatDBNullDateToDisplay(Eval("End_Date")) %>' />
                                                                     </td>
                                                                 </tr>
@@ -5455,7 +5444,6 @@ function DisableButton() {
                                                                 </tr>
                                                                 <tr>
                                                                     <td colspan="6" align="center">
-                                                                        <%--<asp:Button ID="Button2" runat="server" Text="Save" OnClick="btnSLTFindItFixItSave_Click" CausesValidation="true" ValidationGroup="vsErrorFindItAndFixIt" />--%>
                                                                         <asp:Button ID="btnFindItFixItView_Cancel" runat="server" OnClick="btnFindItFixItView_Cancel_Click" Text="Cancel" />
                                                                     </td>
                                                                 </tr>
@@ -7633,7 +7621,7 @@ function DisableButton() {
             }
             else if (validatorID.indexOf('FindItFixIt') > 0) {
                 ctrlIDs = document.getElementById('<%=hdnControlIDsFindFix.ClientID%>').value.split(','); hdnID = '<%=hdnControlIDsFindFix.ClientID%>'; Messages = document.getElementById('<%=hdnErrormsgsFindFix.ClientID%>').value.split(',');
-             }
+            }
 
     var focusCtrlID = "";
 

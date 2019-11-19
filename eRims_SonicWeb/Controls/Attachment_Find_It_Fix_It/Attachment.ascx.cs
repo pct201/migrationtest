@@ -511,7 +511,7 @@ public partial class Controls_Attachment_OC_Attachment : System.Web.UI.UserContr
 
                     RadioButtonList rblAttachmentType = (RadioButtonList)obj.FindControl("rblAttachmentType");
                     if (rblAttachmentType != null)
-                        objFindItFixItAttachments.Attachment_Type = rblAttachmentType.Text == "1" ? "Find It" : "Fix It";
+                        objFindItFixItAttachments.Attachment_Type = rblAttachmentType.Text;
 
                     string strUploadPath = AppConfig.Find_it_Fix_it_AttachmentsDocPath;
                     objFindItFixItAttachments.File_Name = clsGeneral.UploadFile(obj.FileBrowser, strUploadPath, false, false);
