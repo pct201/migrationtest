@@ -186,7 +186,7 @@ namespace ERIMS.DAL
 		/// Inserts a record into the Find_it_Fix_it table.
 		/// </summary>
 		/// <returns></returns>
-		public void Insert()
+		public int Insert()
 		{
 			Database db = DatabaseFactory.CreateDatabase();
 			DbCommand dbCommand = db.GetStoredProcCommand("Find_it_Fix_itInsert");
@@ -215,10 +215,12 @@ namespace ERIMS.DAL
 			
 			db.AddInParameter(dbCommand, "FK_SLT_Meeting", DbType.Decimal, this._FK_SLT_Meeting);
 
-			// Execute the query and return the new identity value
-			db.ExecuteNonQuery(dbCommand);
-            
-		}
+            // Execute the query and return the new identity value
+            int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
+
+            return returnValue;
+
+        }
 
 		/// <summary>
 		/// Selects a single record from the Find_it_Fix_it table by a primary key.

@@ -3889,7 +3889,7 @@ function DisableButton() {
                                                         <td colspan="6" style="height: 15px;"></td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" width="18%" valign="top">Safety Walk Conducted and 100% Participated
+                                                        <td align="left" width="18%" valign="top">Find It and Fix It Conducted
                                                         </td>
                                                         <td align="center" width="4%" valign="top">:
                                                         </td>
@@ -7366,7 +7366,7 @@ function DisableButton() {
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td align="left" width="18%" valign="top">Safety Walk Conducted and 100% Participated
+                                                    <td align="left" width="18%" valign="top">Find It and Fix It Conducted
                                                     </td>
                                                     <td align="center" width="4%" valign="top">:
                                                     </td>

@@ -430,7 +430,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Safety Walk conducted and 100% participated
+                    <td>Find It and Fix It Conducted
                     </td>
                     <td align="center" style="width: 5%">:
                     </td>

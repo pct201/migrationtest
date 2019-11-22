@@ -7237,7 +7237,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         if (PK_Find_It_Fix_It > 0)
             objFindItFixIt.Update();
         else
-           objFindItFixIt.Insert();
+            PK_Find_It_Fix_It = objFindItFixIt.Insert();
 
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
     }
