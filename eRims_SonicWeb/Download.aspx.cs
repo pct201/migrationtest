@@ -173,6 +173,52 @@ public partial class Download : System.Web.UI.Page
                     }
                 }
             }
+            else if (Request.QueryString["tbl"] == "PM_FirstRepose_AEDEquipment_Attachments")
+            {
+                if (!string.IsNullOrEmpty(Request.QueryString["OC_Attch_Id"]))
+                {
+                    clsPM_FirstRepose_AEDEquipment_Attachments objPM_FirstRepose_AEDEquipment_Attachments = new clsPM_FirstRepose_AEDEquipment_Attachments();
+                    DataTable dtAttachments = objPM_FirstRepose_AEDEquipment_Attachments.SelectByPK(clsGeneral.GetDecimal
+                                                (Encryption.Decrypt(Request.QueryString["OC_Attch_Id"]).ToString())).Tables[0];
+
+                    if (dtAttachments.Rows.Count > 0)
+                    {
+                        string strRpFileName = Convert.ToString(dtAttachments.Rows[0]["NewAttachment_Name"]);
+                        string strOriginalFileName = Convert.ToString(dtAttachments.Rows[0]["File_Name"]);
+                        string strRpFilePath = AppConfig.PM_Respiratory_Protection_AttachmentsDocPath + strOriginalFileName;
+                        // Transfer File
+                        HttpContext.Current.Response.Clear();
+                        HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", strRpFileName));
+                        HttpContext.Current.Response.ContentType = "application/octet-stream";
+                        HttpContext.Current.Response.TransmitFile(strRpFilePath);
+                        HttpContext.Current.Response.Flush();
+                        HttpContext.Current.Response.End();
+                    }
+                }
+            }
+            else if (Request.QueryString["tbl"] == "PM_AssociateTrainingFirstRepose_AED_Attachments")
+            {
+                if (!string.IsNullOrEmpty(Request.QueryString["OC_Attch_Id"]))
+                {
+                    clsPM_AssociateTrainingFirstRepose_AED_Attachments objPM_AssociateTrainingFirstRepose_AED_Attachments = new clsPM_AssociateTrainingFirstRepose_AED_Attachments();
+                    DataTable dtAttachments = objPM_AssociateTrainingFirstRepose_AED_Attachments.SelectByPK(clsGeneral.GetDecimal
+                                                (Encryption.Decrypt(Request.QueryString["OC_Attch_Id"]).ToString())).Tables[0];
+
+                    if (dtAttachments.Rows.Count > 0)
+                    {
+                        string strRpFileName = Convert.ToString(dtAttachments.Rows[0]["NewAttachment_Name"]);
+                        string strOriginalFileName = Convert.ToString(dtAttachments.Rows[0]["File_Name"]);
+                        string strRpFilePath = AppConfig.PM_Respiratory_Protection_AttachmentsDocPath + strOriginalFileName;
+                        // Transfer File
+                        HttpContext.Current.Response.Clear();
+                        HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", strRpFileName));
+                        HttpContext.Current.Response.ContentType = "application/octet-stream";
+                        HttpContext.Current.Response.TransmitFile(strRpFilePath);
+                        HttpContext.Current.Response.Flush();
+                        HttpContext.Current.Response.End();
+                    }
+                }
+            }
             else if (!string.IsNullOrEmpty(Request.QueryString["attachfile"]))
             {
                 string strFilePath = Encryption.Decrypt(Request.QueryString["attachfile"]);

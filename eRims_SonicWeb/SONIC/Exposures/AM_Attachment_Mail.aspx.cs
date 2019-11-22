@@ -64,7 +64,21 @@ public partial class SONIC_Exposures_AM_Attachment_Mail : System.Web.UI.Page
                 {
                     dtAttachments = PM_Hearing_Conservation.SelectAttachmentByPK(clsGeneral.GetDecimal
                        (Encryption.Decrypt(Request.QueryString["OC_Attch_Id"]).ToString())).Tables[0];
-                }             
+                }
+
+                else if (!string.IsNullOrEmpty(Request.QueryString["tbl"]) && Convert.ToString(Request.QueryString["tbl"]) == "PM_FirstRepose_AEDEquipment_Attachments")
+                {
+                    clsPM_FirstRepose_AEDEquipment_Attachments objPM_FirstRepose_AEDEquipment_Attachments = new clsPM_FirstRepose_AEDEquipment_Attachments();
+                    dtAttachments = objPM_FirstRepose_AEDEquipment_Attachments.SelectByPK(clsGeneral.GetDecimal
+                       (Encryption.Decrypt(Request.QueryString["OC_Attch_Id"]).ToString())).Tables[0];
+                }
+
+                else if (!string.IsNullOrEmpty(Request.QueryString["tbl"]) && Convert.ToString(Request.QueryString["tbl"]) == "PM_AssociateTrainingFirstRepose_AED_Attachments")
+                {
+                    clsPM_AssociateTrainingFirstRepose_AED_Attachments objPM_AssociateTrainingFirstRepose_AED_Attachments = new clsPM_AssociateTrainingFirstRepose_AED_Attachments();
+                    dtAttachments = objPM_AssociateTrainingFirstRepose_AED_Attachments.SelectByPK(clsGeneral.GetDecimal
+                       (Encryption.Decrypt(Request.QueryString["OC_Attch_Id"]).ToString())).Tables[0];
+                } 
 
                 if (dtAttachments.Rows.Count > 0)
                 {

@@ -1793,7 +1793,107 @@
                                                                 </Columns>
                                                             </asp:GridView>
                                                         </td>
-                                                    </tr>                                                   
+                                                    </tr>      
+                                                    <tr>
+                                                        <td colspan="6">
+                                                            &nbsp;
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" width="14%" valign="top">
+                                                            First Response And AED Equipment<br />
+                                                            <asp:LinkButton ID="lnkAEDEquipment" runat="server" Text="--Add--" CausesValidation="true"
+                                                                ValidationGroup="vsErrorGroup" OnClick="lnkAddGridRecord_Click" OnClientClick="return ValSave();" />
+                                                        </td>
+                                                        <td align="center" width="4%" valign="top">
+                                                            :
+                                                        </td>
+                                                        <td colspan="4" align="left" valign="top">
+                                                            <asp:GridView ID="gvFirstResponseAEDEquipment" runat="server" Width="100%" AutoGenerateColumns="false"
+                                                                EmptyDataText="No Record Exists" OnRowCommand="GridView_RowCommand">
+                                                                <Columns>
+                                                                    <asp:TemplateField HeaderText="AED Locations">
+                                                                        <ItemStyle Width="18%" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkAEDLocation" runat="server" Text='<%#Eval("AED_Location_Desc") %>'
+                                                                                CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_FirstRepose_AEDEquipment") %>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                      <asp:TemplateField HeaderText="AED Manufacturer">
+                                                                        <ItemStyle Width="18%" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkAEDManufacturer" runat="server" Text='<%#  Eval("AEDManufacturer") %>'
+                                                                                CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_FirstRepose_AEDEquipment") %>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="AED Install Date">
+                                                                        <ItemStyle Width="18%" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkAEDInstallDate" runat="server" Text='<%#clsGeneral.FormatDBNullDateToDisplay( Eval("AEDInstallDate")) %>'
+                                                                                CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_FirstRepose_AEDEquipment") %>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>                                                                 
+                                                                    <asp:TemplateField HeaderText="Remove">
+                                                                        <ItemStyle Width="10%" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkRemove" runat="server" Text="Remove" CommandName="RemoveDetails"
+                                                                                CommandArgument='<%# Eval("PK_PM_FirstRepose_AEDEquipment") %>' OnClientClick="return confirm('Are you sure to remove the record?');" />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                </Columns>
+                                                            </asp:GridView>
+                                                        </td>
+                                                    </tr>    
+                                                    <tr>
+                                                        <td colspan="6">
+                                                            &nbsp;
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" width="14%" valign="top">
+                                                            First Response And AED Associate Training<br />
+                                                            <asp:LinkButton ID="lnkAEDAssociateTraining" runat="server" Text="--Add--" CausesValidation="true"
+                                                                ValidationGroup="vsErrorGroup" OnClick="lnkAddGridRecord_Click" OnClientClick="return ValSave();" />
+                                                        </td>
+                                                        <td align="center" width="4%" valign="top">
+                                                            :
+                                                        </td>
+                                                        <td colspan="4" align="left" valign="top">
+                                                            <asp:GridView ID="gvFirstResponseAEDAssociateTraining" runat="server" Width="100%" AutoGenerateColumns="false"
+                                                                EmptyDataText="No Record Exists" OnRowCommand="GridView_RowCommand">
+                                                                <Columns>
+                                                                    <asp:TemplateField HeaderText="Associate Name">
+                                                                        <ItemStyle Width="18%" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkAssociateName" runat="server" Text='<%#Eval("AssociateName") %>'
+                                                                                CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_AssociateTrainingFirstRepose_AED") %>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                      <asp:TemplateField HeaderText="Associate Title">
+                                                                        <ItemStyle Width="18%" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkAssociateTitle" runat="server" Text='<%#  Eval("AssociateTitle") %>'
+                                                                                CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_AssociateTrainingFirstRepose_AED") %>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Associate Training Date">
+                                                                        <ItemStyle Width="18%" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkAssociateTrainingDate" runat="server" Text='<%#clsGeneral.FormatDBNullDateToDisplay( Eval("AssociateTrainingDate")) %>'
+                                                                                CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_AssociateTrainingFirstRepose_AED") %>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>                                                                 
+                                                                    <asp:TemplateField HeaderText="Remove">
+                                                                        <ItemStyle Width="10%" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkRemove" runat="server" Text="Remove" CommandName="RemoveDetails"
+                                                                                CommandArgument='<%# Eval("PK_PM_AssociateTrainingFirstRepose_AED") %>' OnClientClick="return confirm('Are you sure to remove the record?');" />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                </Columns>
+                                                            </asp:GridView>
+                                                        </td>
+                                                    </tr>                                 
                                                 </table>
                                             </asp:Panel>
                                             <div id="dvAttachment" runat="server" style="display: none;">
@@ -2901,7 +3001,89 @@
                                                                 </Columns>
                                                             </asp:GridView>
                                                         </td>
-                                                    </tr>                                                   
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="6">
+                                                            &nbsp;
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" width="14%" valign="top">
+                                                            First Response And AED Equipment<br /> 
+                                                        </td>
+                                                        <td align="center" width="4%" valign="top">
+                                                            :
+                                                        </td>
+                                                        <td colspan="4" align="left" valign="top">
+                                                            <asp:GridView ID="gvFirstResponseAEDEquipmentView" runat="server" Width="100%" AutoGenerateColumns="false"
+                                                                EmptyDataText="No Record Exists" OnRowCommand="GridView_RowCommand">
+                                                                <Columns>
+                                                                    <asp:TemplateField HeaderText="AED Locations">
+                                                                        <ItemStyle Width="18%" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkAEDLocation" runat="server" Text='<%#Eval("AED_Location_Desc") %>'
+                                                                                CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_FirstRepose_AEDEquipment") %>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                      <asp:TemplateField HeaderText="AED Manufacturer">
+                                                                        <ItemStyle Width="18%" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkAEDManufacturer" runat="server" Text='<%#  Eval("AEDManufacturer") %>'
+                                                                                CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_FirstRepose_AEDEquipment") %>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="AED Install Date">
+                                                                        <ItemStyle Width="18%" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkAEDInstallDate" runat="server" Text='<%#clsGeneral.FormatDBNullDateToDisplay( Eval("AEDInstallDate")) %>'
+                                                                                CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_FirstRepose_AEDEquipment") %>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>                                                                 
+                                                                </Columns>
+                                                            </asp:GridView>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="6">
+                                                            &nbsp;
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" width="14%" valign="top">
+                                                            First Response And AED Associate Training
+                                                        </td>
+                                                        <td align="center" width="4%" valign="top">
+                                                            :
+                                                        </td>
+                                                        <td colspan="4" align="left" valign="top">
+                                                            <asp:GridView ID="gvFirstResponseAEDAssociateTrainingView" runat="server" Width="100%" AutoGenerateColumns="false"
+                                                                EmptyDataText="No Record Exists" OnRowCommand="GridView_RowCommand">
+                                                                <Columns>
+                                                                    <asp:TemplateField HeaderText="Associate Name">
+                                                                        <ItemStyle Width="18%" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkAssociateName" runat="server" Text='<%#Eval("AssociateName") %>'
+                                                                                CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_AssociateTrainingFirstRepose_AED") %>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                      <asp:TemplateField HeaderText="Associate Title">
+                                                                        <ItemStyle Width="18%" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkAssociateTitle" runat="server" Text='<%#  Eval("AssociateTitle") %>'
+                                                                                CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_AssociateTrainingFirstRepose_AED") %>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Associate Training Date">
+                                                                        <ItemStyle Width="18%" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkAssociateTrainingDate" runat="server" Text='<%#clsGeneral.FormatDBNullDateToDisplay( Eval("AssociateTrainingDate")) %>'
+                                                                                CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_AssociateTrainingFirstRepose_AED") %>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>                                                                 
+                                                                </Columns>
+                                                            </asp:GridView>
+                                                        </td>
+                                                    </tr>                                                                 
                                                 </table>                                      
                                             </asp:Panel>
                                             <asp:Panel ID="pnl9View" runat="server" Style="display: none;">                                                 

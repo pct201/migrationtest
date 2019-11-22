@@ -1442,7 +1442,19 @@
                                                             <asp:RadioButtonList runat="server" ID="rdoAdmitted_to_Hospital" SkinID="YesNoUnknownType">
                                                             </asp:RadioButtonList>
                                                         </td>
-                                                        <td colspan="3">&nbsp;</td>
+                                                         <td align="left">Return to Work Date
+                                                        </td>
+                                                        <td align="center">:
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:TextBox ID="txtReturnToWorkDate" runat="server" Width="150px" SkinID="txtDate"></asp:TextBox>
+                                                                    <img alt="Return To Work Date" style="vertical-align: middle" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtReturnToWorkDate', 'mm/dd/y');"
+                                                                        onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
+                                                                        align="middle" /><br />
+                                                                    <asp:RangeValidator ID="rvReturnToWorkDate" ControlToValidate="txtReturnToWorkDate"
+                                                                        MinimumValue="01/01/1753" MaximumValue="12/31/9999" Type="Date" ErrorMessage="Return To Work Date is not valid."
+                                                                        runat="server" SetFocusOnError="true" ValidationGroup="vsOSHAInfoGroup" Display="none" />
+                                                        </td>
                                                     </tr>
                                                     <tr>
                                                         <td align="left" valign="top">What was the associate doing just before the incident occurred?
@@ -2572,7 +2584,13 @@
                                                                 <td align="left">
                                                                     <asp:Label runat="server" ID="lblAdmitted_to_Hospital"></asp:Label>
                                                                 </td>
-                                                                <td colspan="3">&nbsp;</td>
+                                                                <td align="left">Return to Work Date
+                                                                </td>
+                                                                <td align="center">:
+                                                                </td>
+                                                                <td align="left">
+                                                                    <asp:Label runat="server" ID="lblReturntoWorkDate"></asp:Label>
+                                                                </td>
                                                             </tr>
                                                             <tr>
                                                                 <td align="left" valign="top">What was the associate doing just before the incident occurred?

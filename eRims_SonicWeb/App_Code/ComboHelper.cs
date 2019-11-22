@@ -99,6 +99,25 @@ public class ComboHelper
         }
     }
 
+
+    /// <summary>
+    /// Fill AED Location
+    /// </summary>
+    /// <param name="dropDowns"></param>
+    /// <param name="booladdSelectAsFirstElement"></param>
+    public static void FillAEDLocations(ListBox[] dropDowns)
+    {
+        DataTable dtAED_Location = clsLU_AED_Location.SelectAll().Tables[0];
+        foreach (ListBox ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Fld_Desc";
+            ddlToFill.DataValueField = "PK_LU_AED_Location";
+            ddlToFill.DataSource = dtAED_Location;
+            ddlToFill.DataBind();
+        }
+    }
+
     /// <summary>
     /// Fill Location
     /// </summary>

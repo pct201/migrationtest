@@ -141,7 +141,7 @@ namespace ERIMS.DAL
 
         private decimal? _FK_Nature_of_Injury;
         private decimal? _FK_Body_Parts_Affected;
-
+        private DateTime? _Return_To_Work_Date;
         #endregion
 
 
@@ -1306,6 +1306,16 @@ namespace ERIMS.DAL
             get { return _FK_Body_Parts_Affected; }
             set { _FK_Body_Parts_Affected = value; }
         }
+
+        /// <summary>
+        /// Gets or sets the Return_To_Work_Date value.
+        /// </summary>
+        public DateTime? Return_To_Work_Date
+        {
+            get { return _Return_To_Work_Date; }
+            set { _Return_To_Work_Date = value; }
+        }
+        
         #endregion
 
         #region Constructors
@@ -1641,6 +1651,12 @@ namespace ERIMS.DAL
                     this._FK_Body_Parts_Affected = null;
                 else
                     this._FK_Body_Parts_Affected = (decimal)drInvestigation["FK_Body_Parts_Affected"];
+
+                if (drInvestigation["Return_To_Work_Date"] == DBNull.Value)
+                    this._Return_To_Work_Date = null;
+                else
+                    this._Return_To_Work_Date = (DateTime?)drInvestigation["Return_To_Work_Date"];
+                
             }
             else
             {
@@ -1709,6 +1725,7 @@ namespace ERIMS.DAL
                 this._Slipping = string.Empty;
                 this._FK_Nature_of_Injury = null;
                 this._FK_Body_Parts_Affected = null;
+                this.Return_To_Work_Date = (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue;
             }
         }
 
@@ -1913,6 +1930,8 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Slipping", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Slipping", DbType.String, this._Slipping);
+
+            db.AddInParameter(dbCommand, "Return_to_Work_Date", DbType.DateTime, this._Return_To_Work_Date);
 
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -2151,7 +2170,7 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "FK_Nature_of_Injury", DbType.Decimal, this._FK_Nature_of_Injury);
             db.AddInParameter(dbCommand, "FK_Body_Parts_Affected", DbType.Decimal, this._FK_Body_Parts_Affected);
-
+            db.AddInParameter(dbCommand, "Return_to_Work_Date", DbType.DateTime, this._Return_To_Work_Date);
             db.ExecuteNonQuery(dbCommand);
         }
 

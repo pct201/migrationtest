@@ -617,6 +617,7 @@ public partial class Exposures_Investigation : clsBasePage
             objInvestigation.Time_Began_Work = txtTime_Began_Work.Text;
             objInvestigation.Activity_Before_Incident = txtActivity_Before_Incident.Text.Trim();
             objInvestigation.Object_Substance_Involved = txtObject_Substance_Involved.Text.Trim();
+            objInvestigation.Return_To_Work_Date = clsGeneral.FormatDateToStore(txtReturnToWorkDate);
             //use to check selected value if it is "-1" than value set to null.
             if (rdoAdmitted_to_Hospital.SelectedValue != "-1")
             {
@@ -1316,6 +1317,8 @@ public partial class Exposures_Investigation : clsBasePage
         else
             lblAdmitted_to_Hospital.Text = "unknown";
 
+        lblReturntoWorkDate.Text = clsGeneral.FormatDBNullDateToDisplay(objInvestigation.Return_To_Work_Date);
+
         #endregion
 
         if (bIsUserRLCMOfficer)
@@ -1708,6 +1711,8 @@ public partial class Exposures_Investigation : clsBasePage
         }
         else
             rdoAdmitted_to_Hospital.SelectedValue = "-1";
+
+        txtReturnToWorkDate.Text = clsGeneral.FormatDBNullDateToDisplay(objInvestigation.Return_To_Work_Date);
 
         #endregion
 

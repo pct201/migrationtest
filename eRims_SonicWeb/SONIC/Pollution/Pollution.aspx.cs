@@ -810,6 +810,13 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
         gvRespiratoryProtection.DataBind();
         gvRespiratoryProtectionView.DataBind();
 
+        //First Response and AED Equipments
+        gvFirstResponseAEDEquipment.DataSource = dsGrids.Tables[18];
+        gvFirstResponseAEDEquipment.DataBind();
+
+        //First Response and AED Equipments
+        gvFirstResponseAEDAssociateTraining.DataSource = dsGrids.Tables[19];
+        gvFirstResponseAEDAssociateTraining.DataBind();
     }
 
     /// <summary>
@@ -893,6 +900,12 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
         BindGridOshaLog();
         BindGridHearingConversation();
         //BindGridViewOshaLog();
+
+        gvFirstResponseAEDEquipmentView.DataSource = dsGrids.Tables[18];
+        gvFirstResponseAEDEquipmentView.DataBind();
+
+        gvFirstResponseAEDAssociateTrainingView.DataSource = dsGrids.Tables[19];
+        gvFirstResponseAEDAssociateTrainingView.DataBind();
     }
 
     /// <summary>
@@ -1121,6 +1134,32 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
         }
     }
 
+    private void BindGridFirstResponseAEDEquipment()
+    {
+        if (PK_PM_Site_Information > 0)
+        {
+            DataTable dtFirstResponseAEDEquipment = clsPM_FirstRepose_AEDEquipment.SelectByFK_SiteInfo(PK_PM_Site_Information).Tables[0];
+            gvFirstResponseAEDEquipment.DataSource = dtFirstResponseAEDEquipment;
+            gvFirstResponseAEDEquipment.DataBind();
+        }
+        {
+            gvFirstResponseAEDEquipment.DataBind();
+        }
+    }
+
+    private void BindGridFirstResponseAEDAssociateTraining()
+    {
+        if (PK_PM_Site_Information > 0)
+        {
+            DataTable dtFirstResponseAEDAssociateTraining = clsPM_AssociateTrainingFirstRepose_AED.SelectByFK_SiteInfo(PK_PM_Site_Information).Tables[0];
+            gvFirstResponseAEDAssociateTraining.DataSource = dtFirstResponseAEDAssociateTraining;
+            gvFirstResponseAEDAssociateTraining.DataBind();
+        }
+        {
+            gvFirstResponseAEDAssociateTraining.DataBind();
+        }
+    }
+
     //private void BindGridViewOshaLog()
     //{
 
@@ -1230,6 +1269,8 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
         else if (strLinkID == "lnkViolations") strURL = "PM_Violation.aspx?";
         else if (strLinkID == "lnkHearingConversation") strURL = "PM_Hearing_Conservation.aspx?";
         else if (strLinkID == "lnkRespiratoryProtection") strURL = "PM_Respiratory_Protection.aspx?";
+        else if (strLinkID == "lnkAEDEquipment") strURL = "PM_FirstRepose_AEDEquipment.aspx?";
+        else if (strLinkID == "lnkAEDAssociateTraining") strURL = "PM_FirstRepose_AEDAssociateTraining.aspx?";
 
         // redirect to page with ID and operation
         strURL = strURL + "fid=" + Encryption.Encrypt(PK_PM_Site_Information.ToString()) + "&loc=" + Request.QueryString["loc"];
@@ -1336,6 +1377,8 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
             else if (strGridID.IndexOf("gvViolations") > -1) strURL = "PM_Violation.aspx?";
             else if (strGridID.IndexOf("gvHearingConversation") > -1) strURL = "PM_Hearing_Conservation.aspx?";
             else if (strGridID.IndexOf("gvRespiratoryProtection") > -1) strURL = "PM_Respiratory_Protection.aspx?";
+            else if (strGridID.IndexOf("gvFirstResponseAEDEquipment") > -1) strURL = "PM_FirstRepose_AEDEquipment.aspx?";
+            else if (strGridID.IndexOf("gvFirstResponseAEDAssociateTraining") > -1) strURL = "PM_FirstRepose_AEDAssociateTraining.aspx?";
 
             // redirect to page with ID and operation
             strURL = strURL + "id=" + Encryption.Encrypt(e.CommandArgument.ToString()) + "&op=" + (e.CommandName == "EditDetails" ? "edit" : "view") + "&fid=" + Encryption.Encrypt(PK_PM_Site_Information.ToString()) + "&loc=" + Request.QueryString["loc"];
@@ -1462,6 +1505,18 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
                 intPanel = 7;
                 clsPM_Respiratory_Protection.DeleteByPK(clsGeneral.GetDecimal(e.CommandArgument));
                 BindGridRespiratory();
+            }
+            else if (strGridID == "gvFirstResponseAEDEquipment")
+            {
+                intPanel = 7;
+                clsPM_FirstRepose_AEDEquipment.DeleteByPK(clsGeneral.GetDecimal(e.CommandArgument));
+                BindGridFirstResponseAEDEquipment();
+            }
+            else if (strGridID == "gvFirstResponseAEDAssociateTraining")
+            {
+                intPanel = 7;
+                clsPM_AssociateTrainingFirstRepose_AED.DeleteByPK(clsGeneral.GetDecimal(e.CommandArgument));
+                BindGridFirstResponseAEDAssociateTraining();
             }
             #endregion
             // show specified panel

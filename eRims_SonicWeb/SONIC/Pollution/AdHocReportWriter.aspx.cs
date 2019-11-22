@@ -2007,6 +2007,10 @@ public partial class Pollution_AdHocReportWriter : clsBasePage
                         lst_F.DataValueField = "PK_LU_VOC_Category";
                         lst_F.DataBind();
                     }
+                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "aed locations")
+                    {
+                        ComboHelper.FillAEDLocations(new ListBox[] { lst_F });
+                    }
                     else
                         AdHocReportHelper.FillFilterDropDown(lstAdHoc[0].Field_Header, new ListBox[] { lst_F }, false, "Pollution");
                     pnlText_F.Visible = false;
