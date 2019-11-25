@@ -1481,6 +1481,8 @@
                                                             <%-- Save & E-Mail to RLCM button is shifted over here. --%>
                                                             <asp:Button runat="server" ID="btnWC_OSHA" Text="Save & E-Mail to RLCM" OnClick="btnWC_OSHA_Click" OnClientClick="return CheckValidationOSHAInfo();"
                                                                 CausesValidation="true" ValidationGroup="vsOSHAInfoGroup" />
+                                                            <asp:Button runat="server" ID="btnGeneratePDF_OSHA" Text="Generate PDF" OnClick="btnGeneratePDF_OSHA_Click" OnClientClick="return CheckValidationOSHAInfo();"
+                                                                CausesValidation="true" ValidationGroup="vsOSHAInfoGroup" />
                                                         </td>
                                                     </tr>
                                                 </table>

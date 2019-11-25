@@ -482,6 +482,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         else
         {
             txtMeeting_Comment.Width = txtSuggestion_Description.Width = txtSuggestion_Notes.Width = 527;
+            Attachments.PK_ID = PK_Find_It_Fix_It;
             //Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
             string CtrlID = string.Empty;
             if (Request.Form[hdnSourceID.UniqueID] != null &&

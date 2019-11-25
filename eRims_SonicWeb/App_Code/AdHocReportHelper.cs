@@ -392,6 +392,7 @@ public class AdHocReportHelper
             {
                 if (strTable == "LU_Importance" || strTable == "LU_Item_Status" || strTable == "LU_Procedure_Source" || strTable == "LU_SLT_Role" || strTable == "LU_Suggetion_Source" || strTable == "LU_Work_Status")
                     dsData.Tables[0].DefaultView.RowFilter = " Active = 1 ";
+                else if (strTable == "SLT_Members") { }
                 else
                     dsData.Tables[0].DefaultView.RowFilter = " Active = 'Y' ";
             }
@@ -403,6 +404,12 @@ public class AdHocReportHelper
                 dc.DataType = System.Type.GetType("System.String");
                 if (strTable.ToUpper() == "LU_SIC".ToUpper())
                     dc.Expression = "Fld_Code";
+                else if (strTable.ToLower() == "LU_SLT_Safety_Walk_Department".ToLower())
+                    dc.Expression = "Department";
+                else if (strTable.ToLower() == "LU_Find_Fix_Category".ToLower())
+                    dc.Expression = "Description";
+                else if (strTable.ToLower() == "SLT_Members".ToLower())
+                    dc.Expression = "SLT_Member_Name";
                 else
                     dc.Expression = "Fld_Desc";
                 dsData.Tables[0].Columns.Add(dc);

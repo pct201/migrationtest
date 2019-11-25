@@ -10,6 +10,8 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using System.Text;
 using ERIMS.DAL;
+using Winnovative.WnvHtmlConvert;
+using System.IO;
 
 /// <summary>
 /// Date : 30 SEP 2008
@@ -1239,7 +1241,7 @@ public partial class Exposures_Investigation : clsBasePage
         }
 
         lblFK_Nature_Of_Injury.Text = new LU_Nature_of_Injury((objInvestigation.FK_Nature_of_Injury != null) ? Convert.ToDecimal(objInvestigation.FK_Nature_of_Injury) : 0).Description;
-        lblFK_Body_Parts_Affected.Text = new LU_Part_Of_Body(objInvestigation.FK_Body_Parts_Affected!=null ? Convert.ToDecimal(objInvestigation.FK_Body_Parts_Affected) : 0).Description;
+        lblFK_Body_Parts_Affected.Text = new LU_Part_Of_Body(objInvestigation.FK_Body_Parts_Affected != null ? Convert.ToDecimal(objInvestigation.FK_Body_Parts_Affected) : 0).Description;
 
         #endregion
 
@@ -1545,41 +1547,41 @@ public partial class Exposures_Investigation : clsBasePage
         {
             //if (ddlSonic_Cause_Code.SelectedItem.Value.Contains(Convert.ToString(PK_Focus_Area)))
             //{
-                if (PK_Focus_Area > 0)
+            if (PK_Focus_Area > 0)
+            {
+                for (int i = ddlSonic_Cause_Code.Items.Count - 1; i > 0; i--)
                 {
-                    for (int i = ddlSonic_Cause_Code.Items.Count - 1; i > 0; i--)
+                    if (ddlSonic_Cause_Code.Items[i].Value.Contains("S0-" + PK_Focus_Area + " -") || ddlSonic_Cause_Code.Items[i].Value.Contains("S" + PK_Focus_Area + " -") || ddlSonic_Cause_Code.Items[i].Value.Contains("S-" + PK_Focus_Area + ""))
                     {
-                        if (ddlSonic_Cause_Code.Items[i].Value.Contains("S0-" + PK_Focus_Area + " -") || ddlSonic_Cause_Code.Items[i].Value.Contains("S" + PK_Focus_Area + " -") || ddlSonic_Cause_Code.Items[i].Value.Contains("S-" + PK_Focus_Area + ""))
-                        {
-                            ddlSonic_Cause_Code.ClearSelection();
-                            ListItem lst = ddlSonic_Cause_Code.Items.FindByText(objInvestigation.Sonic_Cause_Code);
-                            if (lst != null)
-                                lst.Selected = true;
-                        }
-                        else
-                        {
-                            ddlSonic_Cause_Code.Items.RemoveAt(i);
-                        }
+                        ddlSonic_Cause_Code.ClearSelection();
+                        ListItem lst = ddlSonic_Cause_Code.Items.FindByText(objInvestigation.Sonic_Cause_Code);
+                        if (lst != null)
+                            lst.Selected = true;
                     }
-                    //else
-                    //{
-                    //    for (int i = ddlSonic_Cause_Code.Items.Count - 1; i > 0; i--)
-                    //    {
-                    //        ddlSonic_Cause_Code.Items.RemoveAt(i);
-                    //    }
-
-                    //    ddlSonic_Cause_Code.SelectedIndex = 0;
-                    //}
-                }
-                else
-                {
-                    for (int i = ddlSonic_Cause_Code.Items.Count - 1; i > 0; i--)
+                    else
                     {
                         ddlSonic_Cause_Code.Items.RemoveAt(i);
                     }
-
-                    ddlSonic_Cause_Code.SelectedIndex = 0;
                 }
+                //else
+                //{
+                //    for (int i = ddlSonic_Cause_Code.Items.Count - 1; i > 0; i--)
+                //    {
+                //        ddlSonic_Cause_Code.Items.RemoveAt(i);
+                //    }
+
+                //    ddlSonic_Cause_Code.SelectedIndex = 0;
+                //}
+            }
+            else
+            {
+                for (int i = ddlSonic_Cause_Code.Items.Count - 1; i > 0; i--)
+                {
+                    ddlSonic_Cause_Code.Items.RemoveAt(i);
+                }
+
+                ddlSonic_Cause_Code.SelectedIndex = 0;
+            }
             //}
         }
         #endregion
@@ -1760,7 +1762,7 @@ public partial class Exposures_Investigation : clsBasePage
                 }
                 else
                     strSubject = "Location " + objLocation.Sonic_Location_Code + " - " + objLocation.dba + " has completed the Investigation associated with WC-" + objWCFR.WC_FR_Number;
-                
+
                 clsGeneral.SendMailMessage(AppConfig.MailFrom, strTo, "", AppConfig.MailCC, strSubject, strBody.ToString(), true);
                 ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "alert('Mail sent successfully')", true);
             }
@@ -2415,7 +2417,7 @@ public partial class Exposures_Investigation : clsBasePage
         if (ddlSonic_Cause_Code.SelectedValue.Contains("S0-2") || ddlSonic_Cause_Code.SelectedValue.Contains("S2"))
         {
             rdoSlipping.Enabled = true;
-            if(!bEdit)
+            if (!bEdit)
                 rdoSlipping.SelectedValue = "N";
         }
         else
@@ -2739,7 +2741,7 @@ public partial class Exposures_Investigation : clsBasePage
     protected void ddlSonic_Cause_Code_SelectedIndexChanged(object sender, EventArgs e)
     {
         ChangeSlippingValue(false);
-        
+
         if (hdnOriginalSonicCode.Value != ddlSonic_Cause_Code.SelectedItem.Text && ddlSonic_Cause_Code.SelectedItem.Text.IndexOf("--SELECT--") == -1)
         {
             ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:OpenWizardPopup();", true);
@@ -2813,4 +2815,170 @@ public partial class Exposures_Investigation : clsBasePage
     }
 
     #endregion
+
+    protected void btnGeneratePDF_OSHA_Click(object sender, EventArgs e)
+    {
+        if (PK_Investigation_ID > 0)
+        {
+            string strFileName = "OSHA Fields Log.pdf";
+            PdfConverter objPdf = new PdfConverter();
+            objPdf.LicenseKey = AppConfig._strHtmltoPDFConverterKey;
+
+            objPdf.PdfDocumentOptions.TopMargin = 20;
+            objPdf.PdfDocumentOptions.LeftMargin = 20;
+            objPdf.PdfDocumentOptions.RightMargin = 20;
+            objPdf.PdfDocumentOptions.BottomMargin = 20;
+            objPdf.PdfDocumentOptions.ShowHeader = false;
+            objPdf.PdfDocumentOptions.ShowFooter = false;
+            objPdf.PdfDocumentOptions.EmbedFonts = false;
+
+            objPdf.PdfDocumentOptions.LiveUrlsEnabled = false;
+            objPdf.RightToLeftEnabled = false;
+            objPdf.PdfSecurityOptions.CanPrint = true;
+            objPdf.PdfSecurityOptions.CanEditContent = true;
+            objPdf.PdfSecurityOptions.UserPassword = "";
+            objPdf.PdfDocumentOptions.PdfPageOrientation = PDFPageOrientation.Portrait;
+            objPdf.PdfDocumentOptions.PdfCompressionLevel = PdfCompressionLevel.NoCompression;
+            objPdf.PdfDocumentOptions.PdfPageSize = PdfPageSize.A4;
+
+            objPdf.AvoidTextBreak = false;
+
+            StringBuilder sbHtml = new StringBuilder();
+            objPdf.PdfDocumentInfo.AuthorName = "eRIMS2";
+            Byte[] pdfByte = null;
+
+            sbHtml = getHtmlForOSHA(PK_Investigation_ID);
+
+            pdfByte = objPdf.GetPdfBytesFromHtmlString(sbHtml.ToString());
+
+            HttpContext.Current.Response.Clear();
+            HttpContext.Current.Response.AddHeader("Content-Type", "binary/octet-stream");
+            HttpContext.Current.Response.AddHeader("Content-Disposition", ("attachment; filename=" + strFileName + "; size=") + pdfByte.Length.ToString());
+            HttpContext.Current.Response.Flush();
+            HttpContext.Current.Response.BinaryWrite(pdfByte);
+            HttpContext.Current.Response.Flush();
+            HttpContext.Current.Response.End();
+        }
+    }
+
+    public static StringBuilder getHtmlForOSHA(decimal _PK)
+    {
+        DataSet dsInvestigation = Investigation.SelectByPK(Convert.ToInt32(_PK));
+
+        StringBuilder strBody = new StringBuilder();
+
+        if (dsInvestigation != null && dsInvestigation.Tables.Count > 0 && dsInvestigation.Tables[0].Rows.Count > 0)
+        {
+            DataTable dtInvestigation = dsInvestigation.Tables[0];
+            //WC_FR objWC_FR = new WC_FR(Convert.ToDecimal(dtInvestigation.Rows[0]["FK_WC_FR_ID"]));
+            string strActionableEvent = string.Empty;
+
+            //strBody.Append("<table cellpadding='3' cellspacing='1' border='1' Style='border-color:black;' width='100%'>");
+            //strBody.Append("<tbody>");
+
+            //strBody.Append("<tr>");
+            //strBody.Append("<td align='left' style='width:12%'><span>Investigation ID</span></td>");
+            //strBody.Append("<td align='left' style='width:14%'><span>WC First Report ID</span></td>");
+            //strBody.Append("<td align='left' style='width:12%'><span>Claim Number</span></td>");
+            //strBody.Append("<td align='left' style='width:17%'><span>RM Location Number</span></td>");
+            //strBody.Append("<td align='left' style='width:17%'><span>SONIC Location d/b/a</span></td>");
+            //strBody.Append("<td align='left' style='width:15%'><span>City</span></td>");
+            //strBody.Append("<td align='left' style='width:13%'><span>State</span></td>");
+            //strBody.Append("<td align='left' style='width:12%;'><span>Zip</span></td>");
+            //strBody.Append("</tr>");
+
+            //strBody.Append("<tr style='background-color:White;'>");
+            //strBody.Append("<td align='left'><span>"+ dtInvestigation.Rows[0]["PK_Investigation_ID"] + "</span></td>");
+            //strBody.Append("<td align='left'><span>"+ new WC_FR(Convert.ToDecimal(dtInvestigation.Rows[0]["FK_WC_FR_ID"])).WC_FR_Number.ToString()+ "</span></td>");
+            //strBody.Append("<td align='left'><span>YMA C 35358</span></td>");
+            //strBody.Append("<td align='left'><span>258</span></td>");
+            //strBody.Append("<td align='left'><span>Beverly Hills BMW</span></td>");
+            //strBody.Append("<td align='left'><span>Los Angeles</span></td>");
+            //strBody.Append("<td align='left'><span>California</span></td>");
+            //strBody.Append("<td align='left'><span>90036</span></td>");
+            //strBody.Append("</tr>");
+
+            //strBody.Append("</tbody>");
+            //strBody.Append("</table>");
+
+            //strBody.Append("</br></br></br></br>");
+
+            strBody.Append("<table cellpadding='3' cellspacing='1' style='border: 1px solid Black; background-color:#9a9a9a' width='100%'>");
+            strBody.Append("<tr><td style='color:black; font-weight:bold;'>OSHA Log Fields</td><tr>");
+            strBody.Append("</table>");
+            strBody.Append("</br>");
+
+            strBody.Append("<table cellpadding='3' cellspacing='1' border='0' width='100 %'>");
+
+            strBody.Append("<tr>");
+            strBody.Append("<td align='left' style='width: 24 %;'>Name of Physician or Other Health Care Professional</td>");
+            strBody.Append("<td align='center' style='width: 2 %;'>:</td>");
+            strBody.Append("<td align='left' style='width:24%;'><Label>" + dtInvestigation.Rows[0]["Physician_Other_Professional"] + "</Label></td>");
+            strBody.Append("<td align='left' style='width:24%;'>&nbsp;</td>");
+            strBody.Append("<td align='center' style='width:2%;'>&nbsp;</td>");
+            strBody.Append("<td align='left' style='width:24%;'>&nbsp;</td>");
+            strBody.Append("</tr>");
+
+            strBody.Append("<tr>");
+            strBody.Append("<td align='left' valign='top'>If Treatment is Given Away from the Worksite, Facility Where it Was Given</td>");
+            strBody.Append("<td align='center' valign='top'>:</td>");
+            strBody.Append("<td align='left'><Label>" + dtInvestigation.Rows[0]["Facility"] + "</Label></td>");
+            strBody.Append("<td align='left'>Treatment Facility Address</td>");
+            strBody.Append("<td align='center'>:</td>");
+            strBody.Append("<td align='left'><Label>" + dtInvestigation.Rows[0]["Facility_Address"] + "</Label></td>");
+            strBody.Append("</tr>");
+
+            strBody.Append("<tr>");
+            strBody.Append("<td align='left'>Treatment Facility City</td>");
+            strBody.Append("<td align='center'>:</td>");
+            strBody.Append("<td align='left'><Label>" + dtInvestigation.Rows[0]["Facility_City"] + "</Label></td>");
+            strBody.Append("<td align='left'>Treatment Facility State</td>");
+            strBody.Append("<td align='center'>:</td>");
+            strBody.Append("<td align='left'><Label>" + new State(String.IsNullOrEmpty(Convert.ToString(dtInvestigation.Rows[0]["FK_State_Facility"])) ? 0 : Convert.ToDecimal(dtInvestigation.Rows[0]["FK_State_Facility"])).FLD_state + "</Label></td>");
+            strBody.Append("</tr>");
+
+            strBody.Append("<tr>");
+            strBody.Append("<td align='left'>Treatment Facility Zip Code (XXXXX-XXXX)</td>");
+            strBody.Append("<td align='center'>:</td>");
+            strBody.Append("<td align='left'><Label>" + dtInvestigation.Rows[0]["Facility_Zip_Code"] + "</Label></td>");
+            strBody.Append("<td align='left'>&nbsp;</td>");
+            strBody.Append("<td align='center'>&nbsp;</td>");
+            strBody.Append("<td align='left'>&nbsp;</td>");
+            strBody.Append("</tr>");
+
+            strBody.Append("<tr>");
+            strBody.Append("<td align='left'>Was Associate Treated in an Emergency Room?</td>");
+            strBody.Append("<td align='center'>:</td>");
+            strBody.Append("<td align='left'><Label>" + (dtInvestigation.Rows[0]["Emergency_Room"].ToString() == "Y" ? "Yes" : "No") + "</Label></td>");
+            strBody.Append("<td align='left'>Time Associate Began Work (HH:MM)</td>");
+            strBody.Append("<td align='center'>:</td>");
+            strBody.Append("<td align='left'><Label>" + dtInvestigation.Rows[0]["Time_Began_Work"] + "</Label></td>");
+            strBody.Append("</tr>");
+
+            strBody.Append("<tr>");
+            strBody.Append("<td align='left'>Admitted to Hospital</td>");
+            strBody.Append("<td align='center'>:</td>");
+            strBody.Append("<td align='left'><Label>" + (dtInvestigation.Rows[0]["Admitted_to_Hospital"].ToString() != "1" ? dtInvestigation.Rows[0]["Admitted_to_Hospital"].ToString() == "2" ? "No" : "Unknown" : "Yes") + "</Label></td>");
+            strBody.Append("<td align='left'>Return to Work Date</td>");
+            strBody.Append("<td align='center'>:</td>");
+            strBody.Append("<td align='left'><Label> " + clsGeneral.FormatDBNullDateToDisplay(dtInvestigation.Rows[0]["Return_to_Work_Date"]) + "</Label></td>");
+            strBody.Append("</tr>");
+
+            strBody.Append("<tr>");
+            strBody.Append("<td align='left' valign='top'>What was the associate doing just before the incident occurred?</td>");
+            strBody.Append("<td align='center' valign='top'>:</td>");
+            strBody.Append("<td align='left' colspan='4'><Label> " + dtInvestigation.Rows[0]["Activity_Before_Incident"] + " </Label></td>");
+            strBody.Append("</tr>");
+
+            strBody.Append("<tr>");
+            strBody.Append("<td align='left' valign='top'>Describe any object or substance that directly harmed the associate</td>");
+            strBody.Append("<td align='center' valign='top'>:</td>");
+            strBody.Append("<td align='left' colspan='4'><Label>" + dtInvestigation.Rows[0]["Object_Substance_Involved"] + "</Label></td>");
+            strBody.Append("</tr>");
+
+            strBody.Append("</table>");
+        }
+
+        return strBody;
+    }
 }

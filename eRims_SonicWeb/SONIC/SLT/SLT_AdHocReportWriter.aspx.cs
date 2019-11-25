@@ -592,7 +592,7 @@ public partial class SLT_AdHocReportWriter : clsBasePage
         else if (strID == "drpAmount_F9") drpDwn = drpFilter9;
         else if (strID == "drpAmount_F10") drpDwn = drpFilter10;
 
-        if (drpDwn.SelectedItem.Text == "Meeting held and 100% Participation" || drpDwn.SelectedItem.Text == "Safety Walk conducted and 100% participated" ||
+        if (drpDwn.SelectedItem.Text == "Meeting held and 100% Participation" || drpDwn.SelectedItem.Text == "Find It and Fix It Conducted" ||
             drpDwn.SelectedItem.Text == "Incident Review Conducted" || drpDwn.SelectedItem.Text == "Quality Review Points" || drpDwn.SelectedItem.Text == "SLT Score"
             || drpDwn.SelectedItem.Text == "Safety Walk - Overwrite Points" || drpDwn.SelectedItem.Text == "Incident Review - Overwrite Points" ||
             drpDwn.SelectedItem.Text == "Quality Review - Overwrite Points" || drpDwn.SelectedItem.Text == "Meeting held - Overwrite Points")
@@ -2803,7 +2803,7 @@ public partial class SLT_AdHocReportWriter : clsBasePage
 
         bool isDollarSign = true;
         bool bShowDecPoint = true;
-        if (objFilter.Field_Header == "Meeting held and 100% Participation" || objFilter.Field_Header == "Safety Walk conducted and 100% participated" || objFilter.Field_Header == "Incident Review Conducted" ||
+        if (objFilter.Field_Header == "Meeting held and 100% Participation" || objFilter.Field_Header == "Find It and Fix It Conducted" || objFilter.Field_Header == "Incident Review Conducted" ||
            objFilter.Field_Header == "Quality Review Points" || objFilter.Field_Header == "SLT Score" ||
            objFilter.Field_Header == "Safety Walk - Overwrite Points" || objFilter.Field_Header == "Incident Review - Overwrite Points" ||
            objFilter.Field_Header == "Quality Review - Overwrite Points" || objFilter.Field_Header == "Meeting held - Overwrite Points")

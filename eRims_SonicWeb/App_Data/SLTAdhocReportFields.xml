@@ -24,4 +24,7 @@
   <Field Title="Safety Walk - Participated" TableName="" Type="drpYesNoInt" HasCode="N" ></Field>
   <Field Title="Inspection - RLCM Notified" TableName="" Type="drpYesNoInt" HasCode="N" ></Field>
   <Field Title="Training Suggestions - Completed" TableName="" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Find It and Fix It - Department" TableName="LU_SLT_Safety_Walk_Department" Type="DropDown" HasCode="Y" ></Field>
+  <Field Title="Find It and Fix It - Category" TableName="LU_Find_Fix_Category" Type="DropDown" HasCode="Y" ></Field>
+  <Field Title="Find It and Fix It - Associate" TableName="SLT_Members" Type="DropDown" HasCode="Y" ></Field>
 </AdHocReportField>

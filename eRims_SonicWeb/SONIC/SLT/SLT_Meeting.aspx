@@ -2054,7 +2054,7 @@ function DisableButton() {
                                                             <asp:LinkButton runat="server" ID="lnkFindItFixItAdd" OnClick="lnkFindItFixItAdd_Click">--Add--</asp:LinkButton>
                                                         </td>
                                                         <td align="center" valign="top" width="4%">:</td>
-                                                        <td align="" valign="top" width="100%">
+                                                        <td align="" valign="top" width="80%">
                                                             <table width="100%">
                                                                 <tr>
                                                                     <td>
@@ -2093,7 +2093,7 @@ function DisableButton() {
                                                                                             <asp:LinkButton runat="server" CommandArgument='<%#Eval("PK_Find_it_Fix_it")%>' CommandName="EditFindFix" ToolTip='<%#Eval("Fixt_It_Description")%>'><%#(Eval("Fixt_It_Description")).ToString().Length <= 20 ? Eval("Fixt_It_Description") : (Eval("Fixt_It_Description")).ToString().Substring(0,20)%></asp:LinkButton>
                                                                                         </ItemTemplate>
                                                                                     </asp:TemplateField>
-                                                                                    <asp:TemplateField HeaderText="File (Y or N)">
+                                                                                    <asp:TemplateField HeaderText="Pic (Y or N)">
                                                                                         <ItemStyle Width="15%" />
                                                                                         <ItemTemplate>
                                                                                             <asp:LinkButton runat="server" CommandArgument='<%#Eval("PK_Find_it_Fix_it")%>' CommandName="EditFindFix"><%#Eval("PK_Find_it_Fix_it_Attachments").ToString() == "0" ? "N" : "Y"%></asp:LinkButton>
@@ -5364,7 +5364,7 @@ function DisableButton() {
                                                                                             <asp:LinkButton runat="server" CommandArgument='<%#Eval("PK_Find_it_Fix_it")%>' CommandName="ViewFindFix" ToolTip='<%#Eval("Fixt_It_Description") %>'><%#(Eval("Fixt_It_Description")).ToString().Length <= 20 ? Eval("Fixt_It_Description") : (Eval("Fixt_It_Description")).ToString().Substring(0,20)%></asp:LinkButton>
                                                                                         </ItemTemplate>
                                                                                     </asp:TemplateField>
-                                                                                    <asp:TemplateField HeaderText="File (Y or N)">
+                                                                                    <asp:TemplateField HeaderText="Pic (Y or N)">
                                                                                         <ItemStyle Width="15%" />
                                                                                         <ItemTemplate>
                                                                                             <asp:LinkButton runat="server" CommandArgument='<%#Eval("PK_Find_it_Fix_it")%>' CommandName="ViewFindFix"><%#Eval("PK_Find_it_Fix_it_Attachments").ToString() == "0" ? "N" : "Y"%></asp:LinkButton>
