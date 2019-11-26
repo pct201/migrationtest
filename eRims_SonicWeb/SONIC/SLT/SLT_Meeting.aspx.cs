@@ -6439,12 +6439,12 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         #endregion
 
         #region " Safety Walk "
-        DateTime startOfMonth = new DateTime(AppConfig.New_SLT_Safety_Walk_Date.Year, AppConfig.New_SLT_Safety_Walk_Date.Month, 1);
-        TimeSpan ts = Actual_Meeting_Date.Subtract(startOfMonth);
-        if (ts.Days < 0)
-        {
-            strCtrlsIDs = "";
-            strMessages = "";
+        //DateTime startOfMonth = new DateTime(AppConfig.New_SLT_Safety_Walk_Date.Year, AppConfig.New_SLT_Safety_Walk_Date.Month, 1);
+        //TimeSpan ts = Actual_Meeting_Date.Subtract(startOfMonth);
+        //if (ts.Days < 0)
+        //{
+        //    strCtrlsIDs = "";
+        //    strMessages = "";
             //dtFields = clsScreen_Validators.SelectByScreen(180).Tables[0];
             //dtFields.DefaultView.RowFilter = "IsRequired = '1'";
             //dtFields = dtFields.DefaultView.ToTable();
@@ -6459,18 +6459,18 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             //}
 
             //strCtrlsIDs += txtSafety_Walk_Comp_Date.ClientID + ","; strMessages += "Please enter [Safety Walk]/Date Completed" + ",";
-            strCtrlsIDs = strCtrlsIDs.TrimEnd(',');
-            strMessages = strMessages.TrimEnd(',');
+        //    strCtrlsIDs = strCtrlsIDs.TrimEnd(',');
+        //    strMessages = strMessages.TrimEnd(',');
 
-            hdnControlIDsSafety.Value = strCtrlsIDs;
-            hdnErrorMsgsSafety.Value = strMessages;
-        }
+        //    hdnControlIDsSafety.Value = strCtrlsIDs;
+        //    hdnErrorMsgsSafety.Value = strMessages;
+        //}
         #endregion
 
         #region " Find It and Fix It "
         strCtrlsIDs = "";
         strMessages = "";
-        dtFields = clsScreen_Validators.SelectByScreen(243).Tables[0];
+        dtFields = clsScreen_Validators.SelectByScreenName("Find It and Fix It").Tables[0];
         dtFields.DefaultView.RowFilter = "IsRequired = '1'";
         dtFields = dtFields.DefaultView.ToTable();
         foreach (DataRow drField in dtFields.Rows)

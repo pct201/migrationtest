@@ -513,11 +513,11 @@ public partial class Controls_Attachment_OC_Attachment : System.Web.UI.UserContr
             }
             else if (AttachmentTable == "PM_FirstRepose_AEDEquipment_Attachments")
             {
-                Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:alert('Please Save First Repose AED Equipment Details First');ShowPanel(" + PanelNumber + ");", true);
+                Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:alert('Please Save First Repose AED Equipment Details First');", true);
             }
             else if (AttachmentTable == "PM_AssociateTrainingFirstRepose_AED_Attachments")
             {
-                Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:alert('Please Save Associate Training for First Response and AED Details First');ShowPanel(" + PanelNumber + ");", true);
+                Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:alert('Please Save Associate Training for First Response and AED Details First');", true);
             }
             return;
         }
