@@ -363,6 +363,7 @@
     <Triggers>
         <asp:PostBackTrigger ControlID="btnPrintSelectedNotes" />
         <asp:PostBackTrigger ControlID="btnPrint" />
+        <asp:PostBackTrigger ControlID="btnPrintAll" />
     </Triggers>
 </asp:UpdatePanel>
 <br />
