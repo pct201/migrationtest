@@ -213,6 +213,7 @@
           <siteMapNode url="Administrator/LU_Document_Type.aspx" title="Document Type" description="Document Type" />
         </siteMapNode>
         <siteMapNode url="" title ="EHS" description="" roles="" >
+          <siteMapNode url="Administrator/AED_Location.aspx" title ="AED Locations" description="" roles="" />
           <siteMapNode url="Administrator/Agency.aspx" title ="Agency" description="" roles="" />
           <siteMapNode url="Administrator/LU_Chemical_Family.aspx" title ="Chemical Family" description="" roles="" />
           <siteMapNode url="Administrator/Chemical_Type.aspx" title ="Chemical Type" description="" roles="" />
