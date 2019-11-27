@@ -431,7 +431,7 @@
                                                                                             <td align="left" style="width: 120px;">Cause of Incident</td>
                                                                                             <td align="left" style="width: 100px;">Date of Incident</td>
                                                                                             <td align="right" style="width: 100px;">Claim Charge</td>
-                                                                                            <td align="left" style="width: 130px;">&nbsp;Date Reported to SRS</td>
+                                                                                            <td align="left" style="width: 130px;">&nbsp;Date Reported to TPA</td>
                                                                                             <td align="right" style="width: 70px;">Report Lag</td>
                                                                                             <td align="right" style="width: 100px;">Report Lag Credit</td>
                                                                                             <td align="right" style="width: 110px;">Report Lag Charge</td>
@@ -443,7 +443,7 @@
                                                                                             <td align="left" style="width: 130px;">Claim Reopened Date
                                                                                             </td>
                                                                                             <td align="right" style="width: 140px;">Claim Reopened Charge</td>
-                                                                                            <td align="right" style="width: 140px;">SureGrip Discount</td>
+                                                                                            <td align="right" style="width: 140px;">Safety Shoe Discount</td>
                                                                                             <td align="right" style="width: 100px;">Total Charge</td>
                                                                                         </tr>
                                                                                     </table>

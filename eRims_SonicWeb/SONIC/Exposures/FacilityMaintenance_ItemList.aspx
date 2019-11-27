@@ -166,7 +166,7 @@
                                                                                 <tbody>
                                                                                     <tr>
                                                                                         <td align="left" width="100%">
-                                                                                            <span class="LeftMenuSelected" id="PropertyMenu7" onclick="javascript:void(0);">Facility Maintenance
+                                                                                            <span class="LeftMenuSelected" id="PropertyMenu7" onclick="javascript:void(0);">Stormwater Retention Pond
                                                                                             </span>&nbsp;<span id="Span2" runat="server" style="color: Red; display: none">*</span>
                                                                                         </td>
                                                                                     </tr>
@@ -246,7 +246,7 @@
                                                 <asp:UpdatePanel runat="server" ID="updPropertyCope" UpdateMode="Always">
                                                     <ContentTemplate>
                                                         <div id="Div1" class="bandHeaderRow" runat="server">
-                                                            Maintenance
+                                                            Stormwater Retention Pond
                                                         </div>
                                                         <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                             <tr>
