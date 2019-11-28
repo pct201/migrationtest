@@ -18,16 +18,16 @@
             <asp:GridView ID="gvFiles" runat="server" Width="100%" AutoGenerateColumns="false"
                 EmptyDataText="No Files Found." OnRowCommand="gvFiles_RowCommand" OnRowDataBound="gvFiles_RowDataBound">
                 <Columns>
-                     <asp:TemplateField HeaderText="Attachment Name" >
+                     <%--<asp:TemplateField HeaderText="Attachment Name" >
                         <ItemStyle Width="20%" />
                         <HeaderStyle HorizontalAlign="Center"/>
                         <ItemTemplate  >
                             <asp:LinkButton ID="lnkDocNewName" runat="server" Text='<%# Convert.ToString(Eval("NewAttachment_Name")) %>' />
                         </ItemTemplate>
-                    </asp:TemplateField>
-                    <asp:TemplateField HeaderText="File Name" >
+                    </asp:TemplateField>--%>
+                    <asp:TemplateField HeaderText="Attachment Name" >
                         <ItemStyle Width="20%" />
-                        <HeaderStyle HorizontalAlign="Center"/>
+                        <HeaderStyle HorizontalAlign="Left"/>
                         <ItemTemplate  >
                             <asp:LinkButton ID="lnkDocName" runat="server" Text='<%# Convert.ToString(Eval("Attachment_Name")) %>' />
                             <input type="hidden" id="hdnID" runat="server" value='<%#Eval("PK_Find_it_Fix_it_Attachments")%>' />
@@ -36,7 +36,7 @@
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="Attachment Type" >
                         <ItemStyle Width="30%" />
-                        <HeaderStyle HorizontalAlign="Center"/>
+                        <HeaderStyle HorizontalAlign="Left"/>
                         <ItemTemplate  >
                             <asp:LinkButton ID="lnkDocType" runat="server" Text='<%# Convert.ToString(Eval("Attachment_Type")) %>' />
                         </ItemTemplate>

@@ -128,8 +128,8 @@ public partial class Controls_Attachment_OC_Attachment : System.Web.UI.UserContr
             LinkButton lnkDocName = (LinkButton)e.Row.FindControl("lnkDocName");
             lnkDocName.OnClientClick = "javascript:openWindow('../../Download.aspx?FindFix_Attch_Id=" + Encryption.Encrypt(strPK_ID) + "&tbl=" + AttachmentTable + "');return false;";
 
-            LinkButton lnkDocNewName = (LinkButton)e.Row.FindControl("lnkDocNewName");
-            lnkDocNewName.OnClientClick = "javascript:openWindow('../../Download.aspx?FindFix_Attch_Id=" + Encryption.Encrypt(strPK_ID) + "&tbl=" + AttachmentTable + "');return false;";
+            //LinkButton lnkDocNewName = (LinkButton)e.Row.FindControl("lnkDocNewName");
+            //lnkDocNewName.OnClientClick = "javascript:openWindow('../../Download.aspx?FindFix_Attch_Id=" + Encryption.Encrypt(strPK_ID) + "&tbl=" + AttachmentTable + "');return false;";
 
             LinkButton lnkDocType = (LinkButton)e.Row.FindControl("lnkDocType");
             lnkDocType.OnClientClick = "javascript:openWindow('../../Download.aspx?FindFix_Attch_Id=" + Encryption.Encrypt(strPK_ID) + "&tbl=" + AttachmentTable + "');return false;";
@@ -137,13 +137,13 @@ public partial class Controls_Attachment_OC_Attachment : System.Web.UI.UserContr
             LinkButton lnkEmail = (LinkButton)e.Row.FindControl("lnkEmail");
             lnkEmail.OnClientClick = "javascript:ShowDialog('" + AppConfig.SiteURL + "SONIC/Exposures/AM_Attachment_Mail.aspx?FindFix_Attch_Id=" + Encryption.Encrypt(strPK_ID) + "&tbl=" + AttachmentTable + "');return false;";
         }
-        if (e.Row.RowType == DataControlRowType.Header)
-        {
-            if (AttachmentTable == "Find_it_Fix_it_Attachments")
-                e.Row.Cells[0].Text = "";
-            else
-                e.Row.Cells[0].Text = "Document";
-        }
+        //if (e.Row.RowType == DataControlRowType.Header)
+        //{
+        //    if (AttachmentTable == "Find_it_Fix_it_Attachments")
+        //        e.Row.Cells[0].Text = "";
+        //    else
+        //        e.Row.Cells[0].Text = "Document";
+        //}
     }
 
     /// <summary>

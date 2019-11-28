@@ -140,6 +140,8 @@ public partial class Controls_Attachment_OC_Attachment : System.Web.UI.UserContr
         {
             if (AttachmentTable == "PM_Respiratory_Protection_Attachments")
                 e.Row.Cells[0].Text = "File Name";
+            else if (AttachmentTable == "PM_FirstRepose_AEDEquipment_Attachments" || AttachmentTable == "PM_AssociateTrainingFirstRepose_AED_Attachments")
+                e.Row.Cells[0].Text = "Document Name";
             else
                 e.Row.Cells[0].Text = "Document";
         }
