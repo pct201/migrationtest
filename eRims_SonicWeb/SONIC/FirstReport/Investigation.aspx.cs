@@ -1319,7 +1319,7 @@ public partial class Exposures_Investigation : clsBasePage
         else
             lblAdmitted_to_Hospital.Text = "unknown";
 
-        if (objInvestigation.Return_To_Work_Date != null)
+        if (clsGeneral.FormatDBNullDateToDisplay(objInvestigation.Return_To_Work_Date) != string.Empty)
         {
             lblReturntoWorkDate.Text = clsGeneral.FormatDBNullDateToDisplay(objInvestigation.Return_To_Work_Date);
         }
@@ -1727,7 +1727,7 @@ public partial class Exposures_Investigation : clsBasePage
             rdoAdmitted_to_Hospital.SelectedValue = "-1";
 
        
-        if(objInvestigation.Return_To_Work_Date != null)
+        if(clsGeneral.FormatDBNullDateToDisplay(objInvestigation.Return_To_Work_Date) != string.Empty)
         {
             txtReturnToWorkDate.Text = clsGeneral.FormatDBNullDateToDisplay(objInvestigation.Return_To_Work_Date);
         }
