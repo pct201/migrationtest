@@ -172,7 +172,7 @@
                                                                                 <tbody>
                                                                                     <tr>
                                                                                         <td align="left" width="100%">
-                                                                                            <span class="LeftMenuStatic" id="PropertyMenu7" onclick="javascript:RedirectTo(10);">Facility Maintenance
+                                                                                            <span class="LeftMenuStatic" id="PropertyMenu7" onclick="javascript:RedirectTo(10);">Stormwater Retention Pond
                                                                                             </span>&nbsp;<span id="Span2" runat="server" style="color: Red; display: none">*</span>
                                                                                         </td>
                                                                                     </tr>
