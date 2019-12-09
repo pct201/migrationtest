@@ -254,7 +254,7 @@
                                                                     <asp:GridView ID="gvMaintenance" runat="server" EmptyDataText="No Facility Maintenance Information Exists"
                                                                         AutoGenerateColumns="false" Width="100%" OnRowCommand="gvMaintenance_RowCommand" >
                                                                         <Columns>
-                                                                            <asp:TemplateField HeaderText="Maintenance Number">
+                                                                            <asp:TemplateField HeaderText="Number">
                                                                                 <ItemStyle Width="20%" />
                                                                                 <ItemTemplate>
                                                                                     <asp:LinkButton ID="lnkViewMaintenanceDetail1" CausesValidation="false" runat="server" Text='<%# Eval("Item_Number")%>'

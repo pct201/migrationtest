@@ -299,16 +299,26 @@
                                                                         Display="None" SetFocusOnError="true" ControlToValidate="ddlBuilding"
                                                                         ValidationGroup="vsErrorPropertyCope" InitialValue="0"></asp:RequiredFieldValidator>
                                                                 </td>
-                                                                <td align="left" valign="top">Requester
+                                                                <td align="left" width="18%" valign="top">Inspection Date
+                                                                </td>
+                                                                <td align="center" width="4%" valign="top">:
+                                                                </td>
+                                                                <td align="left" width="28%" valign="top">
+                                                                    <asp:TextBox ID="txtInspectionDate" Width="170px" runat="server" SkinID="txtDate" onpaste="return false"></asp:TextBox>
+                                                                    <img alt="Inspection Date" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtInspectionDate', 'mm/dd/y');"
+                                                                        onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
+                                                                        align="middle" />
+                                                                </td>
+                                                                <%--<td align="left" valign="top">Requester
                                                                 </td>
                                                                 <td align="center" valign="top">:
                                                                 </td>
                                                                 <td align="left" valign="top">
                                                                     <asp:DropDownList runat="server" ID="ddlRequester" SkinID="ddlExposure">
                                                                     </asp:DropDownList>
-                                                                </td>
+                                                                </td>--%>
                                                             </tr>
-                                                            <tr>
+                                                            <%--<tr>
                                                                 <td align="left" valign="top">Telephone
                                                                 </td>
                                                                 <td align="center" valign="top">:
@@ -329,8 +339,8 @@
                                                                         ValidationGroup="vsErrorPropertyCope" Display="None" ErrorMessage="Email Address Is Invalid."
                                                                         SetFocusOnError="True" Text="*" ToolTip="Email Address Is Invalid" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*">*</asp:RegularExpressionValidator>
                                                                 </td>
-                                                            </tr>
-                                                            <tr>
+                                                            </tr>--%>
+                                                           <%-- <tr>
                                                                 <td align="left" width="18%" valign="top">Inspection Date
                                                                 </td>
                                                                 <td align="center" width="4%" valign="top">:
@@ -349,7 +359,7 @@
                                                                     <asp:DropDownList runat="server" ID="ddlInspector" SkinID="ddlExposure">
                                                                     </asp:DropDownList>
                                                                 </td>
-                                                            </tr>
+                                                            </tr>--%>
                                                             <%--<tr>
                                                                 <td align="left" width="18%" valign="top">Date PCA Ordered
                                                                 </td>
@@ -381,14 +391,22 @@
                                                                     <asp:DropDownList runat="server" AutoPostBack="true" ID="ddlFocusArea" SkinID="ddlExposure" OnSelectedIndexChanged="ddlFocusArea_SelectedIndexChanged">
                                                                     </asp:DropDownList>
                                                                 </td>
-                                                                <td align="left" width="18%" valign="top">Item
+                                                                <td align="left" width="18%" valign="top">Inspection Type
+                                                                </td>
+                                                                <td align="center" width="4%" valign="top">:
+                                                                </td>
+                                                                <td align="left" width="28%" valign="top">
+                                                                    <asp:DropDownList runat="server" ID="ddlScopeOfWork" SkinID="ddlExposure">
+                                                                    </asp:DropDownList>
+                                                                </td>
+                                                               <%-- <td align="left" width="18%" valign="top">Item
                                                                 </td>
                                                                 <td align="center" width="4%" valign="top">:
                                                                 </td>
                                                                 <td align="left" width="28%" valign="top">
                                                                     <asp:DropDownList runat="server" ID="ddlFocusAreaItem" SkinID="ddlExposure">
                                                                     </asp:DropDownList>
-                                                                </td>
+                                                                </td>--%>
                                                             </tr>
                                                             <%--<tr>
                                                                 <td align="left" width="18%" valign="top">PCA Conducted By
@@ -419,16 +437,6 @@
                                                                         onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
                                                                         align="middle" />
                                                                 </td>
-                                                                <td align="left" width="18%" valign="top">Inspection Type
-                                                                </td>
-                                                                <td align="center" width="4%" valign="top">:
-                                                                </td>
-                                                                <td align="left" width="28%" valign="top">
-                                                                    <asp:DropDownList runat="server" ID="ddlScopeOfWork" SkinID="ddlExposure">
-                                                                    </asp:DropDownList>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
                                                                 <td align="left" width="18%" valign="top">Estimated End Date
                                                                 </td>
                                                                 <td align="center" width="4%" valign="top">:
@@ -443,7 +451,31 @@
                                                                         SetFocusOnError="true" Text="*" ToolTip="Estimated End Date Must be Greater Than Or Equal to Estimated Start Date"
                                                                         Type="Date" Operator="GreaterThanEqual"></asp:CompareValidator>
                                                                 </td>
-                                                                <td align="left" width="18%" valign="top">Actual Start Date
+                                                                <%--<td align="left" width="18%" valign="top">Inspection Type
+                                                                </td>
+                                                                <td align="center" width="4%" valign="top">:
+                                                                </td>
+                                                                <td align="left" width="28%" valign="top">
+                                                                    <asp:DropDownList runat="server" ID="ddlScopeOfWork" SkinID="ddlExposure">
+                                                                    </asp:DropDownList>
+                                                                </td>--%>
+                                                            </tr>
+                                                            <tr>
+                                                                <%--<td align="left" width="18%" valign="top">Estimated End Date
+                                                                </td>
+                                                                <td align="center" width="4%" valign="top">:
+                                                                </td>
+                                                                <td align="left" width="28%" valign="top">
+                                                                    <asp:TextBox ID="txtEstimatedEndDate" Width="170px" AutoPostBack="true" runat="server" SkinID="txtDate" onpaste="return false"></asp:TextBox>
+                                                                    <img alt="Estimated End Date" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtEstimatedEndDate', 'mm/dd/y');"
+                                                                        onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
+                                                                        align="middle" />
+                                                                    <asp:CompareValidator ID="cvEstimatedEndDate" runat="server" ControlToCompare="txtEstimatedStartDate" ControlToValidate="txtEstimatedEndDate"
+                                                                        ValidationGroup="vsErrorPropertyCope" Display="None" ErrorMessage="Estimated End Date Must be Greater Than Or Equal to Estimated Start Date"
+                                                                        SetFocusOnError="true" Text="*" ToolTip="Estimated End Date Must be Greater Than Or Equal to Estimated Start Date"
+                                                                        Type="Date" Operator="GreaterThanEqual"></asp:CompareValidator>
+                                                                </td>--%>
+                                                                <%--<td align="left" width="18%" valign="top">Actual Start Date
                                                                 </td>
                                                                 <td align="center" width="4%" valign="top">:
                                                                 </td>
@@ -452,7 +484,7 @@
                                                                     <img alt="Actual Start Date" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtActualStartDate', 'mm/dd/y');"
                                                                         onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
                                                                         align="middle" />
-                                                                </td>
+                                                                </td>--%>
                                                                 <%--<td align="left" width="18%" valign="top">Number Of Days
                                                                 </td>
                                                                 <td align="center" width="4%" valign="top">:
@@ -461,7 +493,7 @@
                                                                     <asp:TextBox ID="txtNumberOfDays" Width="170px" runat="server" SkinID="txtGeneral" onpaste="return false"></asp:TextBox>
                                                                 </td>--%>
                                                             </tr>
-                                                            <tr>
+                                                            <%--<tr>
                                                                 <td align="left" valign="top">Maintenance Type
                                                                 </td>
                                                                 <td align="center" valign="top">:
@@ -478,7 +510,7 @@
                                                                     <asp:DropDownList runat="server" ID="ddlResponsibleParty" AutoPostBack="true" SkinID="ddlExposure" OnSelectedIndexChanged="ddlResponsibleParty_SelectedIndexChanged">
                                                                     </asp:DropDownList>
                                                                 </td>
-                                                            </tr>
+                                                            </tr>--%>
                                                             <tr>
                                                                 <td align="left" valign="top">Status
                                                                 </td>
@@ -488,16 +520,22 @@
                                                                     <asp:DropDownList runat="server" ID="ddlStatus" SkinID="ddlExposure">
                                                                     </asp:DropDownList>
                                                                 </td>
-                                                                <td align="left" width="18%" valign="top">Approved By
+                                                                <td align="left" width="18%" valign="top">Actual Amount
+                                                                </td>
+                                                                <td align="center" width="4%" valign="top">:
+                                                                </td>
+                                                                <td align="left" width="28%" valign="top">$&nbsp;<asp:TextBox runat="server" ID="txtActualAmount" onpaste="return false" onkeypress="return FormatNumber(event,this.id,10 ,false);" MaxLength="11"></asp:TextBox>
+                                                                </td>
+                                                                <%--<td align="left" width="18%" valign="top">Approved By
                                                                 </td>
                                                                 <td align="center" width="4%" valign="top">:
                                                                 </td>
                                                                 <td align="left" width="28%" valign="top">
                                                                     <asp:DropDownList runat="server" ID="ddlApprovedBy" SkinID="ddlExposure">
                                                                     </asp:DropDownList>
-                                                                </td>
+                                                                </td>--%>
                                                             </tr>
-                                                            <tr>
+                                                            <%--<tr>
                                                                 <td align="left" valign="top">Vendor
                                                                 </td>
                                                                 <td align="center" valign="top">:
@@ -513,36 +551,36 @@
                                                                 <td align="left" width="28%" valign="top">
                                                                     <asp:TextBox ID="txtContactName" Width="170px" runat="server" SkinID="txtGeneral" onpaste="return false" MaxLength="75"></asp:TextBox>
                                                                 </td>
-                                                            </tr>
-                                                            <tr>
+                                                            </tr>--%>
+                                                            <%--<tr>
                                                                 <td align="left" valign="top">Estimated Amount
                                                                 </td>
                                                                 <td align="center" valign="top">:
                                                                 </td>
                                                                 <td align="left" valign="top">$&nbsp;<asp:TextBox runat="server" ID="txtEstAmount" onpaste="return false" onkeypress="return FormatNumber(event,this.id,10 ,false);" MaxLength="11"></asp:TextBox>
-                                                                </td>
+                                                                </td>-
                                                                 <td align="left" width="18%" valign="top">Actual Amount
                                                                 </td>
                                                                 <td align="center" width="4%" valign="top">:
                                                                 </td>
                                                                 <td align="left" width="28%" valign="top">$&nbsp;<asp:TextBox runat="server" ID="txtActualAmount" onpaste="return false" onkeypress="return FormatNumber(event,this.id,10 ,false);" MaxLength="11"></asp:TextBox>
                                                                 </td>
-                                                            </tr>
-                                                            <tr>
+                                                            </tr>--%>
+                                                            <%--<tr>
                                                                 <td align="left" valign="top">Prposal Amount
                                                                 </td>
                                                                 <td align="center" valign="top">:
                                                                 </td>
                                                                 <td align="left" valign="top">$&nbsp;<asp:TextBox runat="server" ID="txtProposalAmount" onpaste="return false" onkeypress="return FormatNumber(event,this.id,10 ,false);" MaxLength="11"></asp:TextBox>
                                                                 </td>
-                                                                <%--<td align="left" width="18%" valign="top">Variance
+                                                                <td align="left" width="18%" valign="top">Variance
                                                                 </td>
                                                                 <td align="center" width="4%" valign="top">:
                                                                 </td>
                                                                 <td align="left" width="28%" valign="top">$&nbsp;<asp:TextBox runat="server" ID="txtVariance" onpaste="return false" onkeypress="return FormatNumber(event,this.id,10 ,false);" MaxLength="11"></asp:TextBox>
-                                                                </td>--%>
-                                                            </tr>
-                                                            <tr>
+                                                                </td>
+                                                            </tr>--%>
+                                                            <%--<tr>
                                                                 <td align="left" valign="top">Title
                                                                 </td>
                                                                 <td align="center" valign="top">:
@@ -550,7 +588,7 @@
                                                                 <td align="left" valign="top">
                                                                     <asp:TextBox ID="txtTitle" Width="170px" runat="server" SkinID="txtGeneral" onpaste="return false" MaxLength="75"></asp:TextBox>
                                                                 </td>
-                                                            </tr>
+                                                            </tr>--%>
                                                             <tr>
                                                                 <td align="left" colspan="6">Repair Description&nbsp;<span id="Span104" style="color: Red; display: none;"
                                                                     runat="server">*</span>
@@ -713,15 +751,22 @@
                                                         <td align="left" valign="top">
                                                             <asp:Label ID="lblBuilding" Width="170px" runat="server" SkinID="lblText"></asp:Label>
                                                         </td>
-                                                        <td align="left" valign="top">Requester
+                                                        <td align="left" width="18%" valign="top">Inspection Date
+                                                        </td>
+                                                        <td align="center" width="4%" valign="top">:
+                                                        </td>
+                                                        <td align="left" width="28%" valign="top">
+                                                            <asp:Label ID="lblInspectionDate" Width="170px" runat="server" SkinID="lblText"></asp:Label>
+                                                        </td>
+                                                        <%--<td align="left" valign="top">Requester
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
                                                             <asp:Label ID="lblRequester" Width="170px" runat="server" SkinID="lblText"></asp:Label>
-                                                        </td>
+                                                        </td>--%>
                                                     </tr>
-                                                    <tr>
+                                                   <%-- <tr>
                                                         <td align="left" valign="top">Telephone
                                                         </td>
                                                         <td align="center" valign="top">:
@@ -736,8 +781,8 @@
                                                         <td align="left" valign="top">
                                                             <asp:Label ID="lblEmail" Width="170px" runat="server" SkinID="lblText"></asp:Label>
                                                         </td>
-                                                    </tr>
-                                                    <tr>
+                                                    </tr>--%>
+                                                  <%--<tr>
                                                         <td align="left" width="18%" valign="top">Inspection Date
                                                         </td>
                                                         <td align="center" width="4%" valign="top">:
@@ -752,7 +797,7 @@
                                                         <td align="left" width="28%" valign="top">
                                                             <asp:Label ID="lblInspector" Width="170px" runat="server" SkinID="lblText"></asp:Label>
                                                         </td>
-                                                    </tr>
+                                                    </tr>--%>
                                                     <%--<tr>
                                                         <td align="left" width="18%" valign="top">Date PCA Ordered
                                                         </td>
@@ -793,13 +838,20 @@
                                                         <td align="left" valign="top">
                                                             <asp:Label ID="lblFocusArea" Width="170px" runat="server" SkinID="lblText"></asp:Label>
                                                         </td>
-                                                        <td align="left" width="18%" valign="top">Item
+                                                        <td align="left" width="18%" valign="top">Inspection Type
+                                                        </td>
+                                                        <td align="center" width="4%" valign="top">:
+                                                        </td>
+                                                        <td align="left" width="28%" valign="top">
+                                                            <asp:Label ID="lblScopeOfWork" Width="170px" runat="server" SkinID="lblText"></asp:Label>
+                                                        </td>
+                                                        <%--<td align="left" width="18%" valign="top">Item
                                                         </td>
                                                         <td align="center" width="4%" valign="top">:
                                                         </td>
                                                         <td align="left" width="28%" valign="top">
                                                             <asp:Label ID="lblFocusAreaItem" Width="170px" runat="server" SkinID="lblText"></asp:Label>
-                                                        </td>
+                                                        </td>--%>
                                                     </tr>
                                                     <tr>
                                                         <td align="left" width="18%" valign="top">Estimated Start Date
@@ -809,15 +861,22 @@
                                                         <td align="left" width="28%" valign="top">
                                                             <asp:Label ID="lblEstimatedStartDate" Width="170px" runat="server" SkinID="lblText"></asp:Label>
                                                         </td>
-                                                        <td align="left" width="18%" valign="top">Inspection Type
+                                                        <td align="left" width="18%" valign="top">Estimated End Date
+                                                        </td>
+                                                        <td align="center" width="4%" valign="top">:
+                                                        </td>
+                                                        <td align="left" width="28%" valign="top">
+                                                            <asp:Label ID="lblEstimatedEndDate" Width="170px" runat="server" SkinID="lblText"></asp:Label>
+                                                        </td>
+                                                        <%--<td align="left" width="18%" valign="top">Inspection Type
                                                         </td>
                                                         <td align="center" width="4%" valign="top">:
                                                         </td>
                                                         <td align="left" width="28%" valign="top">
                                                             <asp:Label ID="lblScopeOfWork" Width="170px" runat="server" SkinID="lblText"></asp:Label>
-                                                        </td>
+                                                        </td>--%>
                                                     </tr>
-                                                    <tr>
+                                                    <%--<tr>
                                                         <td align="left" width="18%" valign="top">Estimated End Date
                                                         </td>
                                                         <td align="center" width="4%" valign="top">:
@@ -832,15 +891,15 @@
                                                         <td align="left" width="28%" valign="top">
                                                             <asp:Label ID="lblActualStartDate" Width="170px" runat="server" SkinID="lblText"></asp:Label>
                                                         </td>
-                                                        <%--<td align="left" width="18%" valign="top">Number Of Days
+                                                        <td align="left" width="18%" valign="top">Number Of Days
                                                         </td>
                                                         <td align="center" width="4%" valign="top">:
                                                         </td>
                                                         <td align="left" width="28%" valign="top">
                                                             <asp:Label ID="lblNumberOfDays" Width="170px" runat="server" SkinID="lblText"></asp:Label>
-                                                        </td>--%>
-                                                    </tr>
-                                                    <tr>
+                                                        </td>
+                                                    </tr>--%>
+                                                    <%--<tr>
                                                         <td align="left" valign="top">Maintenance Type
                                                         </td>
                                                         <td align="center" valign="top">:
@@ -855,7 +914,7 @@
                                                         <td align="left" width="28%" valign="top">
                                                             <asp:Label ID="lblResponsibleParty" Width="170px" runat="server" SkinID="lblText"></asp:Label>
                                                         </td>
-                                                    </tr>
+                                                    </tr>--%>
                                                     <tr>
                                                         <td align="left" valign="top">Status
                                                         </td>
@@ -864,15 +923,21 @@
                                                         <td align="left" valign="top">
                                                             <asp:Label ID="lblStatus" Width="170px" runat="server" SkinID="lblText"></asp:Label>
                                                         </td>
-                                                        <td align="left" width="18%" valign="top">Approved By
+                                                        <td align="left" width="18%" valign="top">Actual Amount
+                                                        </td>
+                                                        <td align="center" width="4%" valign="top">:
+                                                        </td>
+                                                        <td align="left" width="28%" valign="top">$&nbsp;<asp:Label ID="lblActualAmmount" Width="170px" runat="server" SkinID="lblText"></asp:Label>
+                                                        </td>
+                                                        <%--<td align="left" width="18%" valign="top">Approved By
                                                         </td>
                                                         <td align="center" width="4%" valign="top">:
                                                         </td>
                                                         <td align="left" width="28%" valign="top">
                                                             <asp:Label ID="lblApprovedBy" Width="170px" runat="server" SkinID="lblText"></asp:Label>
-                                                        </td>
+                                                        </td>--%>
                                                     </tr>
-                                                    <tr>
+                                                    <%--<tr>
                                                         <td align="left" valign="top">Vendor
                                                         </td>
                                                         <td align="center" valign="top">:
@@ -887,8 +952,8 @@
                                                         <td align="left" width="28%" valign="top">
                                                             <asp:Label ID="lblContactName" Width="170px" runat="server" SkinID="lblText"></asp:Label>
                                                         </td>
-                                                    </tr>
-                                                    <tr>
+                                                    </tr>--%>
+                                                    <%--<tr>
                                                         <td align="left" valign="top">Estimated Amount
                                                         </td>
                                                         <td align="center" valign="top">:
@@ -901,22 +966,22 @@
                                                         </td>
                                                         <td align="left" width="28%" valign="top">$&nbsp;<asp:Label ID="lblActualAmmount" Width="170px" runat="server" SkinID="lblText"></asp:Label>
                                                         </td>
-                                                    </tr>
-                                                    <tr>
+                                                    </tr>--%>
+                                                    <%--<tr>
                                                         <td align="left" valign="top">Prposal Amount
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">$&nbsp;<asp:Label ID="lblProposalAmount" Width="170px" runat="server" SkinID="lblText"></asp:Label>
                                                         </td>
-                                                        <%--<td align="left" width="18%" valign="top">Variance
+                                                        <td align="left" width="18%" valign="top">Variance
                                                         </td>
                                                         <td align="center" width="4%" valign="top">:
                                                         </td>
                                                         <td align="left" width="28%" valign="top">$&nbsp;<asp:Label ID="lblVariance" Width="170px" runat="server" SkinID="lblText"></asp:Label>
-                                                        </td>--%>
-                                                    </tr>
-                                                    <tr>
+                                                        </td>
+                                                    </tr>--%>
+                                                    <%--<tr>
                                                         <td align="left" valign="top">Title
                                                         </td>
                                                         <td align="center" valign="top">:
@@ -924,7 +989,7 @@
                                                         <td align="left" valign="top">
                                                             <asp:Label ID="lblTitle" Width="170px" runat="server" SkinID="lblText"></asp:Label>
                                                         </td>
-                                                    </tr>
+                                                    </tr>--%>
                                                     <tr>
                                                         <td align="left" colspan="6">Repair Description&nbsp;<span id="Span3" style="color: Red; display: none;"
                                                             runat="server">*</span>
