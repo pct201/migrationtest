@@ -427,7 +427,7 @@
                                                                 </td>
                                                             </tr>--%>
                                                             <tr>
-                                                                <td align="left" width="18%" valign="top">Estimated Start Date
+                                                                <td align="left" width="18%" valign="top">Start Date
                                                                 </td>
                                                                 <td align="center" width="4%" valign="top">:
                                                                 </td>
@@ -437,7 +437,7 @@
                                                                         onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
                                                                         align="middle" />
                                                                 </td>
-                                                                <td align="left" width="18%" valign="top">Estimated End Date
+                                                                <td align="left" width="18%" valign="top">End Date
                                                                 </td>
                                                                 <td align="center" width="4%" valign="top">:
                                                                 </td>
@@ -447,8 +447,8 @@
                                                                         onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
                                                                         align="middle" />
                                                                     <asp:CompareValidator ID="cvEstimatedEndDate" runat="server" ControlToCompare="txtEstimatedStartDate" ControlToValidate="txtEstimatedEndDate"
-                                                                        ValidationGroup="vsErrorPropertyCope" Display="None" ErrorMessage="Estimated End Date Must be Greater Than Or Equal to Estimated Start Date"
-                                                                        SetFocusOnError="true" Text="*" ToolTip="Estimated End Date Must be Greater Than Or Equal to Estimated Start Date"
+                                                                        ValidationGroup="vsErrorPropertyCope" Display="None" ErrorMessage="End Date Must be Greater Than Or Equal to Start Date"
+                                                                        SetFocusOnError="true" Text="*" ToolTip="End Date Must be Greater Than Or Equal to Start Date"
                                                                         Type="Date" Operator="GreaterThanEqual"></asp:CompareValidator>
                                                                 </td>
                                                                 <%--<td align="left" width="18%" valign="top">Inspection Type
@@ -854,14 +854,14 @@
                                                         </td>--%>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" width="18%" valign="top">Estimated Start Date
+                                                        <td align="left" width="18%" valign="top">Start Date
                                                         </td>
                                                         <td align="center" width="4%" valign="top">:
                                                         </td>
                                                         <td align="left" width="28%" valign="top">
                                                             <asp:Label ID="lblEstimatedStartDate" Width="170px" runat="server" SkinID="lblText"></asp:Label>
                                                         </td>
-                                                        <td align="left" width="18%" valign="top">Estimated End Date
+                                                        <td align="left" width="18%" valign="top">End Date
                                                         </td>
                                                         <td align="center" width="4%" valign="top">:
                                                         </td>
