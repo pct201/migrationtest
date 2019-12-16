@@ -69,7 +69,7 @@
         </td>
     </tr>
 </table>
-<table cellpadding="1" cellspacing="1" width="100%" id="tblAddEditAttachment" runat="server">
+<table cellpadding="1" cellspacing="1" width="100%" id="tblAddEditAttachment" runat="server" border="1">
     <tr>
         <td width="100%" class="bandHeaderRow">
             <asp:Label ID="lblAttachHeader" runat="server" Text="Add Attachment"></asp:Label>
@@ -77,11 +77,11 @@
         </td>
     </tr>
     <tr>
-        <td>&nbsp;
+        <td style="border:none;">&nbsp;
         </td>
     </tr>
     <tr>
-        <td width="100%">
+        <td width="100%" style="border:none;">
             <table cellpadding="3" cellspacing="1" width="100%" id="tblEditAttachment" runat="server" visible="false">
                 <tr>
                     <td width="18%" align="left">Attachment Name

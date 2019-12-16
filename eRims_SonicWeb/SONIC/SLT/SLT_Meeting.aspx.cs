@@ -860,6 +860,19 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         drpFK_Employee.Items.Insert(0, new ListItem("-- Select --", "0"));
     }
 
+    private void BindAllAssociates()
+    {
+        DataSet dsAssociate = SLT_Members.SLT_MembersSelectByFK_SLT_Meeting(PK_SLT_Meeting);
+        if(dsAssociate.Tables.Count > 0)
+        {
+            drpFK_SLT_Members_As_Associate.DataSource = dsAssociate.Tables[0];
+            drpFK_SLT_Members_As_Associate.DataTextField = "Full_Name";
+            drpFK_SLT_Members_As_Associate.DataValueField = "PK_SLT_Members";
+            drpFK_SLT_Members_As_Associate.DataBind();
+        }
+        drpFK_SLT_Members_As_Associate.Items.Insert(0, new ListItem("-- Select --", "0"));
+    }
+
     #endregion
     #region "MeetingSchehule"
     private void BindAttendeesGrid()
@@ -1131,7 +1144,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         drpMeeting_AgendaYear.Items.Clear();
         ddlEmployeeSignedupYear.Items.Clear();
 
-        for (int i = DateTime.Now.Year; i >= 2007; i--)
+        for (int i = ((DateTime.Now.Year)+1); i >= 2007; i--)
         {
             ddlYear.Items.Add(new ListItem(i.ToString(), i.ToString()));
             drpProcedureYear.Items.Add(new ListItem(i.ToString(), i.ToString()));
@@ -1142,6 +1155,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             //ddlYear_Claim_Management.Items.Add(new ListItem(i.ToString(), i.ToString()));
         }
         ddlYearIncident.SelectedValue = DateTime.Now.Year.ToString();
+        drpProcedureYear.SelectedValue = DateTime.Now.Year.ToString();
         //ddlYear_Claim_Management.SelectedValue = DateTime.Now.Year.ToString();
         FillMonth(ddlMonth, false);
         FillMonth(drpMeeting_AgendaMonth, true);
@@ -3624,27 +3638,27 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         }
         else if (hdnPanel2.Value == "5")
         {
-            if (meetingIsEditable == true)
-            {
-                TimeSpan tsTmp;
-                DateTime startOfMonth = new DateTime(AppConfig.New_SLT_Safety_Walk_Date.Year, AppConfig.New_SLT_Safety_Walk_Date.Month, 1);
-                SLT_Meeting_Schedule objSLT_Meeting_Schedule = new SLT_Meeting_Schedule(PK_SLT_Meeting_Schedule);
-                if (objSLT_Meeting_Schedule.Actual_Meeting_Date != null)
-                    tsTmp = objSLT_Meeting_Schedule.Actual_Meeting_Date.Value.Subtract(startOfMonth); //AppConfig.New_SLT_Safety_Walk_Date);
-                else tsTmp = Actual_Meeting_Date.Subtract(startOfMonth);
+            //if (meetingIsEditable == true)
+            //{
+            //    TimeSpan tsTmp;
+            //    DateTime startOfMonth = new DateTime(AppConfig.New_SLT_Safety_Walk_Date.Year, AppConfig.New_SLT_Safety_Walk_Date.Month, 1);
+            //    SLT_Meeting_Schedule objSLT_Meeting_Schedule = new SLT_Meeting_Schedule(PK_SLT_Meeting_Schedule);
+            //    if (objSLT_Meeting_Schedule.Actual_Meeting_Date != null)
+            //        tsTmp = objSLT_Meeting_Schedule.Actual_Meeting_Date.Value.Subtract(startOfMonth); //AppConfig.New_SLT_Safety_Walk_Date);
+            //    else tsTmp = Actual_Meeting_Date.Subtract(startOfMonth);
 
-                objSLT_Meeting_Schedule = null;
+            //    objSLT_Meeting_Schedule = null;
 
-                //if (tsTmp.Days < 0)
-                //{
-                //    SaveSafetyWalk();
-                //}
-                //else
-                //{
-                //    SaveNewSafetyWalk(true);
-                //}
-            }
-            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(15);", true);
+            //    //if (tsTmp.Days < 0)
+            //    //{
+            //    //    SaveSafetyWalk();
+            //    //}
+            //    //else
+            //    //{
+            //    //    SaveNewSafetyWalk(true);
+            //    //}
+            //}
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(6);", true);
         }
         else if (hdnPanel2.Value == "6")
         {
@@ -4593,11 +4607,15 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
     /// <param name="e"></param>
     protected void lnkFindItFixItAdd_Click(object sender, EventArgs e)
     {
+        BindAllAssociates();
+        Attachments.dtAttachment_FindFix = null;
         tr_FindItFixIt.Style.Add("display", "none");
         tr_FindItFixItAdd.Style.Add("display", "block");
         drpPK_FindItFixIt_Category.SelectedIndex = 0;
         drpPK_FindItFixIt_Department.SelectedIndex = 0;
         drpFK_SLT_Members_As_Associate.SelectedIndex = 0;
+        drpFindFix_Status.Value = "Open";
+        txtDate_Created_FindFix.Text = clsGeneral.FormatDateToDisplay(DateTime.Now);
         txtFindIt_Description.Text = "";
         txtFixIt_Description.Text = "";
         txtRCLM_Comments.Text = "";
@@ -4617,6 +4635,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         tr_FindItFixItAdd.Style.Add("display", "none");
         tr_FindItFixIt.Style.Add("display", "block");
         BindSLTFindItFixItGrid();
+        Session["dtAttachment"] = null;
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
     }
 
@@ -5985,7 +6004,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
     {
         if (e.CommandName == "EditFindFix")
         {
-            BindDropDowns();
+            BindAllAssociates();
             tr_FindItFixIt.Style.Add("display", "none");
             tr_FindItFixItAdd.Style.Add("display", "block");
             clsFind_it_Fix_it objFindItFixIt = new clsFind_it_Fix_it(Convert.ToDecimal(e.CommandArgument));
@@ -5999,6 +6018,11 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
 
             if (objFindItFixIt.FK_Members != null)
                 drpFK_SLT_Members_As_Associate.SelectedValue = objFindItFixIt.FK_Members.ToString();
+
+            if (objFindItFixIt.Status != null)
+                drpFindFix_Status.Value = objFindItFixIt.Status.ToString();
+
+            txtDate_Created_FindFix.Text = clsGeneral.FormatDBNullDateToDisplay(objFindItFixIt.Created_Date);
 
             txtFindIt_Description.Text = objFindItFixIt.Find_It_Description;
             txtFixIt_Description.Text = objFindItFixIt.Fixt_it_Description;
@@ -6028,6 +6052,9 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
 
             SLT_Members objEmp = new SLT_Members((decimal)objFindItFixIt.FK_Members);
             lblAssociate.Text = objEmp.First_Name + " " + objEmp.Last_Name;
+
+            lblFindFixStatus.Text = objFindItFixIt.Status;
+            lblFindFixCreated_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objFindItFixIt.Created_Date);
 
             lblFindItDescription.Text = objFindItFixIt.Find_It_Description;
             lblFixItDescription.Text = objFindItFixIt.Fixt_it_Description;
@@ -7234,13 +7261,46 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         objFindItFixIt.Find_It_Description = txtFindIt_Description.Text;
         objFindItFixIt.Fixt_it_Description = txtFixIt_Description.Text;
         objFindItFixIt.RCLM_Comments = txtRCLM_Comments.Text;
+
+        if (drpFindFix_Status.SelectedIndex > 0)
+            objFindItFixIt.Status = drpFindFix_Status.Value;
+
+        objFindItFixIt.Created_Date = Convert.ToDateTime(txtDate_Created_FindFix.Text);
         
         if (PK_Find_It_Fix_It > 0)
             objFindItFixIt.Update();
         else
+        {
             PK_Find_It_Fix_It = objFindItFixIt.Insert();
+            
+            clsFind_it_Fix_it_Attachments objFindItFixItAttachments = new clsFind_it_Fix_it_Attachments();
 
+            if (Attachments.dtAttachment_FindFix != null)
+            {
+                DataTable dtAttachment = Attachments.dtAttachment_FindFix;
+                for (int i = 0; i < dtAttachment.Rows.Count; i++)
+                {
+                    objFindItFixItAttachments.Updated_By = clsSession.UserID;
+                    objFindItFixItAttachments.Update_Date = DateTime.Now;
+                    objFindItFixItAttachments.FK_Find_it_Fix_it = PK_Find_It_Fix_It;
+
+                    objFindItFixItAttachments.Attachment_Name = Convert.ToString(dtAttachment.Rows[i]["Attachment_Name"]);
+
+                    objFindItFixItAttachments.Attachment_Type = Convert.ToString(dtAttachment.Rows[i]["Attachment_Type"]);
+
+                    objFindItFixItAttachments.File_Name = Convert.ToString(dtAttachment.Rows[i]["File_Name"]);
+
+                    objFindItFixItAttachments.Insert();
+                }
+            }
+            Session["dtAttachment"] = null;
+        }
+
+        BindSLTFindItFixItGrid();
+        tr_FindItFixIt.Style.Add("display", "block");
+        tr_FindItFixItAdd.Style.Add("display", "none");
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
+       
     }
 
 

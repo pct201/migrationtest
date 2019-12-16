@@ -818,8 +818,10 @@ function DisableButton() {
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td align="right" valign="top">
+                                                <%--<td align="right" valign="top">
                                                     <img id="img3" runat="server" alt="" src="~/Images/SLT_Menu_Icon.JPG" height="12" />
+                                                </td>--%>
+                                                <td>&nbsp;
                                                 </td>
                                                 <td align="left" valign="top">
                                                     <%--<span id="Menu5" onclick="javascript:ShowPanel(5);" class="LeftMenuStatic">Safety Walk</span>--%>
@@ -2048,55 +2050,61 @@ function DisableButton() {
                                                 </div>
                                                 <table width="100%">
                                                     <tr runat="server" id="tr_FindItFixIt" width="100%">
-                                                        <td align="left" valign="top" width="16%"><b>Find It and Fix It</b>
-                                                            <br />
-                                                            <br />
-                                                            <asp:LinkButton runat="server" ID="lnkFindItFixItAdd" OnClick="lnkFindItFixItAdd_Click">--Add--</asp:LinkButton>
-                                                        </td>
-                                                        <td align="center" valign="top" width="4%">:</td>
-                                                        <td align="" valign="top" width="80%">
+                                                        <td valign="top" width="100%">
                                                             <table width="100%">
                                                                 <tr>
                                                                     <td>
-                                                                        <div style="min-height: 302px;">
+                                                                        <div style="height: auto;">
                                                                             <asp:GridView ID="gvSLTFindItFixIt" runat="server" Width="100%" AutoGenerateColumns="false"
                                                                                 EmptyDataText="No Record Found" OnRowCommand="gvSLTFindItFixIt_RowCommand" OnRowDataBound="gvSLTFindItFixIt_RowDataBound" EnableViewState="true">
                                                                                 <Columns>
                                                                                     <asp:TemplateField HeaderText="Number">
-                                                                                        <ItemStyle Width="15%" />
+                                                                                        <ItemStyle Width="10%" />
                                                                                         <ItemTemplate>
                                                                                             <asp:LinkButton ID="lnk1" runat="server" Text='<%# Container.DataItemIndex + 1 %>'
                                                                                                 CommandName="EditFindFix" CausesValidation="false" CommandArgument='<%#Eval("PK_Find_it_Fix_it")%>' />
                                                                                         </ItemTemplate>
                                                                                     </asp:TemplateField>
                                                                                     <asp:TemplateField HeaderText="Department">
-                                                                                        <ItemStyle Width="18%" />
+                                                                                        <ItemStyle Width="14%" />
                                                                                         <ItemTemplate>
                                                                                             <asp:LinkButton runat="server" CommandArgument='<%#Eval("PK_Find_it_Fix_it")%>' CommandName="EditFindFix"><%#Eval("Department_Name") %></asp:LinkButton>
                                                                                         </ItemTemplate>
                                                                                     </asp:TemplateField>
                                                                                     <asp:TemplateField HeaderText="Category">
-                                                                                        <ItemStyle Width="18%" />
+                                                                                        <ItemStyle Width="14%" />
                                                                                         <ItemTemplate>
                                                                                             <asp:LinkButton runat="server" CommandArgument='<%#Eval("PK_Find_it_Fix_it")%>' CommandName="EditFindFix"><%#Eval("Category_Name") %></asp:LinkButton>
                                                                                         </ItemTemplate>
                                                                                     </asp:TemplateField>
                                                                                     <asp:TemplateField HeaderText="Find it Description">
-                                                                                        <ItemStyle Width="15%" />
+                                                                                        <ItemStyle Width="14%" />
                                                                                         <ItemTemplate>
                                                                                             <asp:LinkButton runat="server" CommandArgument='<%#Eval("PK_Find_it_Fix_it")%>' CommandName="EditFindFix" ToolTip='<%#Eval("Find_It_Description")%>'><%#(Eval("Find_It_Description")).ToString().Length <= 20 ? Eval("Find_It_Description") : (Eval("Find_It_Description")).ToString().Substring(0,20)%></asp:LinkButton>
                                                                                         </ItemTemplate>
                                                                                     </asp:TemplateField>
                                                                                     <asp:TemplateField HeaderText="Fix it Description">
-                                                                                        <ItemStyle Width="15%" />
+                                                                                        <ItemStyle Width="14%" />
                                                                                         <ItemTemplate>
                                                                                             <asp:LinkButton runat="server" CommandArgument='<%#Eval("PK_Find_it_Fix_it")%>' CommandName="EditFindFix" ToolTip='<%#Eval("Fixt_It_Description")%>'><%#(Eval("Fixt_It_Description")).ToString().Length <= 20 ? Eval("Fixt_It_Description") : (Eval("Fixt_It_Description")).ToString().Substring(0,20)%></asp:LinkButton>
                                                                                         </ItemTemplate>
                                                                                     </asp:TemplateField>
                                                                                     <asp:TemplateField HeaderText="Pic (Y or N)">
-                                                                                        <ItemStyle Width="15%" />
+                                                                                        <ItemStyle Width="12%" />
                                                                                         <ItemTemplate>
                                                                                             <asp:LinkButton runat="server" CommandArgument='<%#Eval("PK_Find_it_Fix_it")%>' CommandName="EditFindFix"><%#Eval("PK_Find_it_Fix_it_Attachments").ToString() == "0" ? "N" : "Y"%></asp:LinkButton>
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                    <asp:TemplateField HeaderText="Status">
+                                                                                        <ItemStyle Width="8%"/>
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton runat="server" CommandArgument='<%#Eval("PK_Find_it_Fix_it")%>' CommandName="EditFindFix"><%#Eval("Status")%></asp:LinkButton>
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                     <asp:TemplateField HeaderText="Created Date">
+                                                                                        <ItemStyle Width="18%"/>
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton runat="server" CommandArgument='<%#Eval("PK_Find_it_Fix_it")%>' CommandName="EditFindFix"><%#clsGeneral.FormatDBNullDateToDisplay(Eval("Created_Date"))%></asp:LinkButton>
                                                                                         </ItemTemplate>
                                                                                     </asp:TemplateField>
                                                                                 </Columns>
@@ -2104,13 +2112,18 @@ function DisableButton() {
                                                                         </div>
                                                                     </td>
                                                                 </tr>
-                                                                <tr>
-                                                                    <%-- <td colspan="6" align="center">
-                                                                            <asp:Button ID="btnSave_SLTSafety" runat="server" Text="Save" OnClick="btnSave_SLTSafety_Click" Visible="false" />
-                                                                            &nbsp;&nbsp;<asp:Button ID="Button3" runat="server" Text="View Audit Trail"
-                                                                                OnClientClick="javascript:return AuditPopUpMeeting('SLTSafetyWalk');" Visible="false" />
-                                                                        </td>--%>
+                                                                <tr align="center">
+                                                                    <td>
+                                                                        <asp:LinkButton runat="server" ID="lnkFindItFixItAdd" OnClick="lnkFindItFixItAdd_Click">--Add New--</asp:LinkButton>
+                                                                    </td>
                                                                 </tr>
+                                                                <%--<tr>
+                                                                    <td colspan="6" align="center">
+                                                                        <asp:Button ID="btnSave_SLTSafety" runat="server" Text="Save" OnClick="btnSave_SLTSafety_Click" Visible="false" />
+                                                                        &nbsp;&nbsp;<asp:Button ID="Button3" runat="server" Text="View Audit Trail"
+                                                                            OnClientClick="javascript:return AuditPopUpMeeting('SLTSafetyWalk');" Visible="false" />
+                                                                    </td>
+                                                                </tr>--%>
                                                             </table>
                                                         </td>
                                                     </tr>
@@ -2118,57 +2131,90 @@ function DisableButton() {
                                                         <td align="left" valign="top" width="100%">
                                                             <table cellpadding="4" cellspacing="2" border="0" width="100%">
                                                                 <tr>
-                                                                    <td align="left" valign="top" width="30%">Department&nbsp;<span runat="server" id="Span48" style="color: Red; display: none;">*</span>
+                                                                    <td align="left" valign="top" width="40%">Department&nbsp;<span runat="server" id="Span48" style="color: Red; display: none;">*</span>
                                                                     </td>
                                                                     <td align="center" valign="top" width="4%">:
                                                                     </td>
-                                                                    <td align="left" valign="top" width="64%">
-                                                                        <asp:DropDownList ID="drpPK_FindItFixIt_Department" runat="server" SkinID="dropGen" Width="225px"></asp:DropDownList>
+                                                                    <td align="left" valign="top" width="20%">
+                                                                        <asp:DropDownList ID="drpPK_FindItFixIt_Department" runat="server" SkinID="dropGen" Width="170px"></asp:DropDownList>
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="10%">Category&nbsp;<span runat="server" id="Span49" style="color: Red; display: none;">*</span>
+                                                                    </td>
+                                                                    <td align="center" valign="top" width="2%">:
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="21%">
+                                                                        <asp:DropDownList ID="drpPK_FindItFixIt_Category" runat="server" SkinID="dropGen" Width="170px"></asp:DropDownList>
                                                                     </td>
                                                                 </tr>
                                                                 <tr runat="server">
-                                                                    <td align="left" valign="top" width="30%">Category&nbsp;<span runat="server" id="Span49" style="color: Red; display: none;">*</span>
+                                                                    <td align="left" valign="top" width="40%">Associate&nbsp;<span runat="server" id="Span50" style="color: Red; display: none;">*</span>
                                                                     </td>
                                                                     <td align="center" valign="top" width="4%">:
                                                                     </td>
-                                                                    <td align="left" valign="top" width="64%">
-                                                                        <asp:DropDownList ID="drpPK_FindItFixIt_Category" runat="server" SkinID="dropGen" Width="225px"></asp:DropDownList>
+                                                                    <td align="left" valign="top" width="20%">
+                                                                        <asp:DropDownList ID="drpFK_SLT_Members_As_Associate" runat="server" SkinID="dropGen" Width="170px"></asp:DropDownList>
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="10%">Status
+                                                                    </td>
+                                                                    <td align="center" valign="top" width="2%">:
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="21%">
+                                                                        <select ID="drpFindFix_Status" runat="server" SkinID="dropGen" style="width:170px;">
+                                                                            <option>--Select--</option>
+                                                                            <option value="Active">Active</option>
+                                                                            <option value="Open">Open</option>
+                                                                            <option value="Closed">Closed</option>
+                                                                        </select>
                                                                     </td>
                                                                 </tr>
                                                                 <tr runat="server">
-                                                                    <td align="left" valign="top" width="30%">Associate&nbsp;<span runat="server" id="Span50" style="color: Red; display: none;">*</span>
+                                                                    
+                                                                </tr>
+                                                                <tr runat="server">
+                                                                    <td align="left" valign="top" width="40%">Created Date
                                                                     </td>
                                                                     <td align="center" valign="top" width="4%">:
                                                                     </td>
-                                                                    <td align="left" valign="top" width="64%">
-                                                                        <asp:DropDownList ID="drpFK_SLT_Members_As_Associate" runat="server" SkinID="dropGen" Width="225px"></asp:DropDownList>
+                                                                    <td align="left" valign="top" width="20%">
+                                                                        <asp:TextBox ID="txtDate_Created_FindFix" runat="server" Width="150px" SkinID="txtDate" />
+                                                                        <img alt="Date Completed" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtDate_Created_FindFix', 'mm/dd/y');"
+                                                                            onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
+                                                                            align="middle" />
+                                                                        <asp:RegularExpressionValidator ID="RegularExpressionValidator3" runat="server"
+                                                                            ValidationGroup="vsErrorFindItAndFixIt" Display="none" ErrorMessage="[Find It and Fix It]/Created Date is not a valid date"
+                                                                            SetFocusOnError="true" ControlToValidate="txtDate_Created_FindFix" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" width="30%">Find it Description&nbsp;<span id="Span51" runat="server" style="color: Red; display: none;">*</span>
+                                                                    <td align="left" valign="top" width="40%">Find it Description&nbsp;<span id="Span51" runat="server" style="color: Red; display: none;">*</span>&nbsp;&nbsp;
                                                                     </td>
                                                                     <td align="center" valign="top" width="4%">:
                                                                     </td>
-                                                                    <td align="left" colspan="4" valign="top" width="64%">
+                                                                    <td align="left" colspan="4" valign="top" width="56%">
                                                                         <uc:ctrlMultiLineTextBox ID="txtFindIt_Description" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" width="30%">Fix it Description&nbsp;<span id="Span52" runat="server" style="color: Red; display: none;">*</span>
+                                                                    <td align="left" valign="top" width="40%">Fix it Description&nbsp;<span id="Span52" runat="server" style="color: Red; display: none;">*</span>
                                                                     </td>
                                                                     <td align="center" valign="top" width="4%">:
                                                                     </td>
-                                                                    <td align="left" colspan="4" valign="top" width="64%">
+                                                                    <td align="left" colspan="4" valign="top" width="56%">
                                                                         <uc:ctrlMultiLineTextBox ID="txtFixIt_Description" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" width="30%">RCLM Comments&nbsp;<span id="Span53" runat="server" style="color: Red; display: none">*</span>
+                                                                    <td align="left" valign="top" width="40%">RCLM Comments&nbsp;<span id="Span53" runat="server" style="color: Red; display: none">*</span>
                                                                     </td>
                                                                     <td align="center" valign="top" width="4%">:
                                                                     </td>
-                                                                    <td align="left" colspan="4" valign="top" width="64%">
+                                                                    <td align="left" colspan="4" valign="top" width="56%">
                                                                         <uc:ctrlMultiLineTextBox ID="txtRCLM_Comments" runat="server" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="3">
+                                                                        <b>Attachments</b>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
@@ -2186,7 +2232,6 @@ function DisableButton() {
                                                             </table>
                                                         </td>
                                                     </tr>
-
                                                 </table>
                                             </asp:Panel>
                                             <asp:Panel ID="pnl6" runat="server" Style="display: none;">
@@ -5322,10 +5367,7 @@ function DisableButton() {
                                                 </div>
                                                 <table width="100%">
                                                     <tr runat="server" id="tr_FindItFixItViewGrid" width="100%">
-                                                        <td align="left" valign="top" width="16%"><b>Find It and Fix It</b>
-                                                        </td>
-                                                        <td align="center" valign="top" width="4%">:</td>
-                                                        <td align="" valign="top" width="80%">
+                                                        <td align="" valign="top" width="100%">
                                                             <table width="100%">
                                                                 <tr>
                                                                     <td>
@@ -5334,40 +5376,52 @@ function DisableButton() {
                                                                                 EmptyDataText="No Record Found" OnRowCommand="gvSLTFindItFixItView_RowCommand">
                                                                                 <Columns>
                                                                                     <asp:TemplateField HeaderText="Number">
-                                                                                        <ItemStyle Width="18%" />
+                                                                                        <ItemStyle Width="10%" />
                                                                                         <ItemTemplate>
                                                                                             <asp:LinkButton runat="server" Text='<%# Container.DataItemIndex + 1 %>'
                                                                                                 CommandName="ViewFindFix" CausesValidation="false" CommandArgument='<%#Eval("PK_Find_it_Fix_it")%>' />
                                                                                         </ItemTemplate>
                                                                                     </asp:TemplateField>
                                                                                     <asp:TemplateField HeaderText="Department">
-                                                                                        <ItemStyle Width="18%" />
+                                                                                        <ItemStyle Width="14%" />
                                                                                         <ItemTemplate>
                                                                                             <asp:LinkButton runat="server" CommandArgument='<%#Eval("PK_Find_it_Fix_it")%>' CommandName="ViewFindFix"><%#Eval("Department_Name") %></asp:LinkButton>
                                                                                         </ItemTemplate>
                                                                                     </asp:TemplateField>
                                                                                     <asp:TemplateField HeaderText="Category">
-                                                                                        <ItemStyle Width="18%" />
+                                                                                        <ItemStyle Width="14%" />
                                                                                         <ItemTemplate>
                                                                                             <asp:LinkButton runat="server" CommandArgument='<%#Eval("PK_Find_it_Fix_it")%>' CommandName="ViewFindFix"><%#Eval("Category_Name") %></asp:LinkButton>
                                                                                         </ItemTemplate>
                                                                                     </asp:TemplateField>
                                                                                     <asp:TemplateField HeaderText="Find it Description">
-                                                                                        <ItemStyle Width="15%" />
+                                                                                        <ItemStyle Width="14%" />
                                                                                         <ItemTemplate>
                                                                                             <asp:LinkButton runat="server" CommandArgument='<%#Eval("PK_Find_it_Fix_it")%>' CommandName="ViewFindFix" ToolTip='<%#Eval("Find_It_Description") %>'><%#(Eval("Find_It_Description")).ToString().Length <= 20 ? Eval("Find_It_Description") : (Eval("Find_It_Description")).ToString().Substring(0,20)%></asp:LinkButton>
                                                                                         </ItemTemplate>
                                                                                     </asp:TemplateField>
                                                                                     <asp:TemplateField HeaderText="Fix it Description">
-                                                                                        <ItemStyle Width="15%" />
+                                                                                        <ItemStyle Width="14%" />
                                                                                         <ItemTemplate>
                                                                                             <asp:LinkButton runat="server" CommandArgument='<%#Eval("PK_Find_it_Fix_it")%>' CommandName="ViewFindFix" ToolTip='<%#Eval("Fixt_It_Description") %>'><%#(Eval("Fixt_It_Description")).ToString().Length <= 20 ? Eval("Fixt_It_Description") : (Eval("Fixt_It_Description")).ToString().Substring(0,20)%></asp:LinkButton>
                                                                                         </ItemTemplate>
                                                                                     </asp:TemplateField>
                                                                                     <asp:TemplateField HeaderText="Pic (Y or N)">
-                                                                                        <ItemStyle Width="15%" />
+                                                                                        <ItemStyle Width="12%" />
                                                                                         <ItemTemplate>
                                                                                             <asp:LinkButton runat="server" CommandArgument='<%#Eval("PK_Find_it_Fix_it")%>' CommandName="ViewFindFix"><%#Eval("PK_Find_it_Fix_it_Attachments").ToString() == "0" ? "N" : "Y"%></asp:LinkButton>
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                    <asp:TemplateField HeaderText="Status">
+                                                                                        <ItemStyle Width="8%" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton runat="server" CommandArgument='<%#Eval("PK_Find_it_Fix_it")%>' CommandName="ViewFindFix"><%#Eval("Status")%></asp:LinkButton>
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                    <asp:TemplateField HeaderText="Created Date">
+                                                                                        <ItemStyle Width="18%" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton runat="server" CommandArgument='<%#Eval("PK_Find_it_Fix_it")%>' CommandName="ViewFindFix"><%# clsGeneral.FormatDBNullDateToDisplay(Eval("Created_Date"))%></asp:LinkButton>
                                                                                         </ItemTemplate>
                                                                                     </asp:TemplateField>
                                                                                 </Columns>
@@ -5384,57 +5438,71 @@ function DisableButton() {
                                                         <td align="left" valign="top" width="100%">
                                                             <table cellpadding="4" cellspacing="2" border="0" width="100%">
                                                                 <tr>
-                                                                    <td align="left" valign="top" width="30%">Department&nbsp;<span runat="server" id="Span9" style="color: Red; display: none;">*</span>
+                                                                    <td align="left" valign="top" width="40%">Department
                                                                     </td>
                                                                     <td align="center" valign="top" width="4%">:
                                                                     </td>
-                                                                    <td align="left" valign="top" width="64%">
-                                                                        <asp:Label ID="lblFindItFixItDepartment" runat="server" Text='<%# clsGeneral.FormatDBNullDateToDisplay(Eval("End_Date")) %>' />
+                                                                    <td align="left" valign="top" width="20%">
+                                                                        <asp:Label ID="lblFindItFixItDepartment" runat="server"/>
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="10%">Category
+                                                                    </td>
+                                                                    <td align="center" valign="top" width="2%">:
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="21%">
+                                                                        <asp:Label ID="lblCategory" runat="server"/>
                                                                     </td>
                                                                 </tr>
                                                                 <tr runat="server">
-                                                                    <td align="left" valign="top" width="30%">Category&nbsp;<span runat="server" id="Span45" style="color: Red; display: none;">*</span>
+                                                                    <td align="left" valign="top" width="40%">Associate
                                                                     </td>
                                                                     <td align="center" valign="top" width="4%">:
                                                                     </td>
-                                                                    <td align="left" valign="top" width="64%">
-                                                                        <asp:Label ID="lblCategory" runat="server" Text='<%# clsGeneral.FormatDBNullDateToDisplay(Eval("End_Date")) %>' />
+                                                                    <td align="left" valign="top" width="20%">
+                                                                        <asp:Label ID="lblAssociate" runat="server"/>
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="10%">Status
+                                                                    </td>
+                                                                    <td align="center" valign="top" width="2%">:
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="21%">
+                                                                        <asp:Label ID="lblFindFixStatus" runat="server"/>
                                                                     </td>
                                                                 </tr>
                                                                 <tr runat="server">
-                                                                    <td align="left" valign="top" width="30%">Associate&nbsp;<span runat="server" id="Span47" style="color: Red; display: none;">*</span>
+                                                                    <td align="left" valign="top" width="40%">Created Date
                                                                     </td>
                                                                     <td align="center" valign="top" width="4%">:
                                                                     </td>
-                                                                    <td align="left" valign="top" width="64%">
-                                                                        <asp:Label ID="lblAssociate" runat="server" Text='<%# clsGeneral.FormatDBNullDateToDisplay(Eval("End_Date")) %>' />
+                                                                    <td align="left" valign="top" width="20%">
+                                                                        <asp:Label ID="lblFindFixCreated_Date" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" width="30%">Find it Description&nbsp;<span id="Span54" runat="server" style="color: Red; display: none;">*</span>
+                                                                    <td align="left" valign="top" width="40%">Find it Description
                                                                     </td>
                                                                     <td align="center" valign="top" width="4%">:
                                                                     </td>
-                                                                    <td align="left" colspan="4" valign="top" width="64%">
-                                                                        <asp:Label ID="lblFindItDescription" runat="server" Text='<%# clsGeneral.FormatDBNullDateToDisplay(Eval("End_Date")) %>' />
+                                                                    <td align="left" colspan="4" valign="top" width="56%">
+                                                                        <asp:Label ID="lblFindItDescription" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" width="30%">Fix it Description&nbsp;<span id="Span55" runat="server" style="color: Red; display: none;">*</span>
+                                                                    <td align="left" valign="top" width="40%">Fix it Description
                                                                     </td>
                                                                     <td align="center" valign="top" width="4%">:
                                                                     </td>
-                                                                    <td align="left" colspan="4" valign="top" width="64%">
-                                                                        <asp:Label ID="lblFixItDescription" runat="server" Text='<%# clsGeneral.FormatDBNullDateToDisplay(Eval("End_Date")) %>' />
+                                                                    <td align="left" colspan="4" valign="top" width="56%">
+                                                                        <asp:Label ID="lblFixItDescription" runat="server"/>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" width="30%">RCLM Comments&nbsp;<span id="Span56" runat="server" style="color: Red; display: none">*</span>
+                                                                    <td align="left" valign="top" width="40%">RCLM Comments
                                                                     </td>
                                                                     <td align="center" valign="top" width="4%">:
                                                                     </td>
-                                                                    <td align="left" colspan="4" valign="top" width="64%">
-                                                                        <asp:Label ID="lblRCLMComments" runat="server" Text='<%# clsGeneral.FormatDBNullDateToDisplay(Eval("End_Date")) %>' />
+                                                                    <td align="left" colspan="4" valign="top" width="56%">
+                                                                        <asp:Label ID="lblRCLMComments" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>

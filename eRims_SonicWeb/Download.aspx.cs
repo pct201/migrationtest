@@ -171,6 +171,21 @@ public partial class Download : System.Web.UI.Page
                         HttpContext.Current.Response.Flush();
                         HttpContext.Current.Response.End();
                     }
+                    ViewState["dtAttachment"] = Session["dtAttachment"];
+                    if((DataTable)ViewState["dtAttachment"] != null)
+                    {
+                        DataTable dt = (DataTable)ViewState["dtAttachment"];
+                        string strRpFileName = Convert.ToString(dt.Rows[0]["Attachment_Name"]);
+                        string strOriginalFileName = Convert.ToString(dt.Rows[0]["File_Name"]);
+                        string strRpFilePath = AppConfig.Find_it_Fix_it_AttachmentsDocPath + strOriginalFileName;
+
+                        HttpContext.Current.Response.Clear();
+                        HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", strRpFileName +"."+ strOriginalFileName.Substring(strOriginalFileName.LastIndexOf('.') + 1)));
+                        HttpContext.Current.Response.ContentType = "application/octet-stream";
+                        HttpContext.Current.Response.TransmitFile(strRpFilePath);
+                        HttpContext.Current.Response.Flush();
+                        HttpContext.Current.Response.End();
+                    }
                 }
             }
             else if (Request.QueryString["tbl"] == "PM_FirstRepose_AEDEquipment_Attachments")

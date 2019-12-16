@@ -93,7 +93,7 @@ public class clsGeneral : System.Web.UI.Page
 
     public static string[] PollutionTableName = { "PM_SI_UP_Attachments", "PM_SI_FI_Attachments", "PM_Permits_Attachments", "PM_CR_CI_Attachments", "PM_CR_PI_Attachments", "PM_Receiving_TSDF_Attachments", "PM_Waste_Hauler_Attachments", "PM_Waste_Removal_Attachments", "PM_Frequency_Attachments", "PM_Phase_I_Attachments", "PM_EPA_Inspection_Attachments", "PM_Remediation_Grid_Attachments", "PM_Violation_Attachments", "PM_Attachments", "PM_Equipment_Attachments", "PM_Equipment_Tank", "PM_Equipment_Spray_Booth", "PM_Equipment_OWS", "PM_Equipment_Hydraulic_Lift", "PM_Equipment_PGCC", "PM_CR_Grids_Attachments", "PM_Compliance_Reporting_OSHA_Attachments", "PM_Hearing_Conservation_Attachments", "PM_Respiratory_Protection_Attachments" };
 
-    public static string[] SLT_TablesNames = { "SLT_Safety_Walk", "SLT_Training", "SLT_Meeting_Review", "Main_Wall_Attachment", "SLT_BT_Security_Walk", "Dashboard_Wall_Attachment" };
+    public static string[] SLT_TablesNames = { "Find_it_Fix_it_Attachments", "SLT_Safety_Walk", "SLT_Training", "SLT_Meeting_Review", "Main_Wall_Attachment", "SLT_BT_Security_Walk", "Dashboard_Wall_Attachment" };
 
     public static string[] VideoRequestStatus = { "", "Submitted", "Sonic Approved", "Sonic Denied", "ACI Delivered", "Closed", "Open"};
 
@@ -258,7 +258,8 @@ public class clsGeneral : System.Web.UI.Page
         SLT_Meeting_Review = 2, //#Issue 3439 pt. 4
         Main_Wall_Attachment = 3,
         SLT_BT_Security_Walk = 4,
-        Dashboard_Wall_Attachment = 5
+        Dashboard_Wall_Attachment = 5,
+        Find_it_Fix_it_Attachments = 6
     }
 
     public enum VideoRequest_Status : int
@@ -663,6 +664,10 @@ public class clsGeneral : System.Web.UI.Page
         else if (tbl == PollutionTableName[(int)clsGeneral.Pollution_Tables.PM_Respiratory_Protection_Attachments])
         {
             strUploadPath = AppConfig.PM_Respiratory_Protection_AttachmentsDocPath;
+        }
+        else if (tbl == SLT_TablesNames[(int)clsGeneral.SLT_Tables.Find_it_Fix_it_Attachments])
+        {
+            strUploadPath = AppConfig.Find_it_Fix_it_AttachmentsDocPath;
         }
 
         return strUploadPath;

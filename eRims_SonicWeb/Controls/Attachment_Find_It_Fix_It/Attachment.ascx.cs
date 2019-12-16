@@ -88,6 +88,32 @@ public partial class Controls_Attachment_OC_Attachment : System.Web.UI.UserContr
         set { ViewState["PK_ID"] = value; }
     }
 
+    public DataTable dtAttachment_FindFix
+    {
+        get
+        {
+            DataTable dtTemp1 = new DataTable("Attachment");
+            if (ViewState["dtAttachment"] == null)
+            {
+                dtTemp1.Columns.Add("PK_Find_it_Fix_it_Attachments");
+                dtTemp1.Columns.Add("Attachment_Type");
+                dtTemp1.Columns.Add("File_Name");
+                dtTemp1.Columns.Add("FK_Table");
+                dtTemp1.Columns.Add("Attachment_Name");
+                //dtTemp1.Columns.Add("Attach_Date");
+            }
+            else
+            {
+                dtTemp1 = (DataTable)ViewState["dtAttachment"];
+            }
+            return dtTemp1;
+        }
+        set
+        {
+            ViewState["dtAttachment"] = value;
+        }
+    }
+
     #endregion
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -134,8 +160,15 @@ public partial class Controls_Attachment_OC_Attachment : System.Web.UI.UserContr
             LinkButton lnkDocType = (LinkButton)e.Row.FindControl("lnkDocType");
             lnkDocType.OnClientClick = "javascript:openWindow('../../Download.aspx?FindFix_Attch_Id=" + Encryption.Encrypt(strPK_ID) + "&tbl=" + AttachmentTable + "');return false;";
 
-            LinkButton lnkEmail = (LinkButton)e.Row.FindControl("lnkEmail");
-            lnkEmail.OnClientClick = "javascript:ShowDialog('" + AppConfig.SiteURL + "SONIC/Exposures/AM_Attachment_Mail.aspx?FindFix_Attch_Id=" + Encryption.Encrypt(strPK_ID) + "&tbl=" + AttachmentTable + "');return false;";
+            if (strPK_ID == "0")
+            {
+                ((LinkButton)e.Row.FindControl("lnkEmail")).Enabled = false;
+            }
+            else
+            {
+                LinkButton lnkEmail = (LinkButton)e.Row.FindControl("lnkEmail");
+                lnkEmail.OnClientClick = "javascript:ShowDialog('" + AppConfig.SiteURL + "SONIC/Exposures/AM_Attachment_Mail.aspx?OC_Attch_Id=" + Encryption.Encrypt(strPK_ID) + "&tbl=" + AttachmentTable + "');return false;";
+            }
         }
         //if (e.Row.RowType == DataControlRowType.Header)
         //{
@@ -176,6 +209,20 @@ public partial class Controls_Attachment_OC_Attachment : System.Web.UI.UserContr
                         File.Delete(AppConfig.Find_it_Fix_it_AttachmentsDocPath + strArgs[1]);
                 }
                 BindGridFiles();
+                Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:ShowPanel(" + PanelNumber + ");", true);
+            }
+            else if (dtAttachment_FindFix != null)
+            {
+                GridViewRow gvr = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+                int RowIndex = gvr.RowIndex;
+                dtAttachment_FindFix.Rows.RemoveAt(RowIndex);
+
+                if (File.Exists(AppConfig.Find_it_Fix_it_AttachmentsDocPath + strArgs[1]))
+                    File.Delete(AppConfig.Find_it_Fix_it_AttachmentsDocPath + strArgs[1]);
+
+                ViewState["dtAttachment"] = dtAttachment_FindFix;
+                gvFiles.DataSource = dtAttachment_FindFix;
+                gvFiles.DataBind();
                 Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:ShowPanel(" + PanelNumber + ");", true);
             }
         }
@@ -226,8 +273,16 @@ public partial class Controls_Attachment_OC_Attachment : System.Web.UI.UserContr
         }
         else
         {
-            gvFiles.DataSource = null;
-            gvFiles.DataBind();
+            if (dtAttachment_FindFix.Rows.Count > 0)
+            {
+                gvFiles.DataSource = dtAttachment_FindFix;
+                gvFiles.DataBind();
+            }
+            else
+            {
+                gvFiles.DataSource = null;
+                gvFiles.DataBind();
+            }
             //btnEmail.Visible = btnViewPDF.Visible = false;
         }
     }
@@ -462,17 +517,16 @@ public partial class Controls_Attachment_OC_Attachment : System.Web.UI.UserContr
     protected void btnSaveAttachments_Click(object sender, EventArgs e)
     {
         string tbl = string.Empty;
-        if (PK_ID == 0)
-        {
-            if (AttachmentTable == "Find_it_Fix_it_Attachments")
-            {
-                Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:alert('Please Save Find it And Fix It Details First');ShowPanel(5);", true);
-            }
+        //if (PK_ID == 0)
+        //{
+        //    if (AttachmentTable == "Find_it_Fix_it_Attachments")
+        //    {
+        //        Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:alert('Please Save Find it And Fix It Details First');ShowPanel(5);", true);
+        //    }
+        //    return;
+        //}
 
-            return;
-        }
-
-        Is_AttachmentExists = false;
+        Is_AttachmentExists = true;
         SaveAttachment(Attachment1);
         SaveAttachment(Attachment2);
         SaveAttachment(Attachment3);
@@ -484,6 +538,7 @@ public partial class Controls_Attachment_OC_Attachment : System.Web.UI.UserContr
         SaveAttachment(Attachment9);
         SaveAttachment(Attachment10);
         BindGridFiles();
+        Session["dtAttachment"] = ViewState["dtAttachment"];
         if (Is_AttachmentExists)
             Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:alert('Attachment saved successfully');ShowPanel(" + PanelNumber + ");", true);
         //tblAddAttachment.Visible = false;
@@ -497,71 +552,57 @@ public partial class Controls_Attachment_OC_Attachment : System.Web.UI.UserContr
         {
             if (AttachmentTable == "Find_it_Fix_it_Attachments")
             {
-                clsFind_it_Fix_it_Attachments objFindItFixItAttachments = new clsFind_it_Fix_it_Attachments();
-
-                objFindItFixItAttachments.Updated_By = clsSession.UserID;
-                objFindItFixItAttachments.Update_Date = DateTime.Now;
-                objFindItFixItAttachments.FK_Find_it_Fix_it = PK_ID;
-
-                if (!string.IsNullOrEmpty(obj.FileBrowser.PostedFile.FileName))
+                if (PK_ID != 0)
                 {
-                    TextBox txtAttachmentNameAdd = (TextBox)obj.FindControl("txtAttachmentNameAdd");
-                    if (txtAttachmentNameAdd != null)
-                        objFindItFixItAttachments.Attachment_Name = txtAttachmentNameAdd.Text;
+                    clsFind_it_Fix_it_Attachments objFindItFixItAttachments = new clsFind_it_Fix_it_Attachments();
 
-                    RadioButtonList rblAttachmentType = (RadioButtonList)obj.FindControl("rblAttachmentType");
-                    if (rblAttachmentType != null)
-                        objFindItFixItAttachments.Attachment_Type = rblAttachmentType.Text;
+                    objFindItFixItAttachments.Updated_By = clsSession.UserID;
+                    objFindItFixItAttachments.Update_Date = DateTime.Now;
+                    objFindItFixItAttachments.FK_Find_it_Fix_it = PK_ID;
 
-                    string strUploadPath = AppConfig.Find_it_Fix_it_AttachmentsDocPath;
-                    objFindItFixItAttachments.File_Name = clsGeneral.UploadFile(obj.FileBrowser, strUploadPath, false, false);
+                    if (!string.IsNullOrEmpty(obj.FileBrowser.PostedFile.FileName))
+                    {
+                        TextBox txtAttachmentNameAdd = (TextBox)obj.FindControl("txtAttachmentNameAdd");
+                        if (txtAttachmentNameAdd != null)
+                            objFindItFixItAttachments.Attachment_Name = txtAttachmentNameAdd.Text;
 
-                    PK_AM_Attachments = objFindItFixItAttachments.Insert();
-                    Is_AttachmentExists = true;
-                    txtAttachmentNameAdd.Text = string.Empty;
+                        RadioButtonList rblAttachmentType = (RadioButtonList)obj.FindControl("rblAttachmentType");
+                        if (rblAttachmentType != null)
+                            objFindItFixItAttachments.Attachment_Type = rblAttachmentType.Text;
+
+                        string strUploadPath = AppConfig.Find_it_Fix_it_AttachmentsDocPath;
+                        objFindItFixItAttachments.File_Name = clsGeneral.UploadFile(obj.FileBrowser, strUploadPath, false, false);
+
+                        PK_AM_Attachments = objFindItFixItAttachments.Insert();
+                        Is_AttachmentExists = true;
+                        txtAttachmentNameAdd.Text = string.Empty;
+                    }
+                }
+                else
+                {
+                    DataTable dtTemp = dtAttachment_FindFix;
+                    DataRow drAttachment = dtTemp.NewRow();
+                    drAttachment["PK_Find_it_Fix_it_Attachments"] = 0;
+                    if (!string.IsNullOrEmpty(obj.FileBrowser.PostedFile.FileName))
+                    {
+                        TextBox txtAttachmentNameAdd = (TextBox)obj.FindControl("txtAttachmentNameAdd");
+                        if (txtAttachmentNameAdd != null)
+                            drAttachment["Attachment_Name"] = txtAttachmentNameAdd.Text;
+
+                        RadioButtonList rblAttachmentType = (RadioButtonList)obj.FindControl("rblAttachmentType");
+                        if (rblAttachmentType != null)
+                            drAttachment["Attachment_Type"] = rblAttachmentType.Text;
+
+                        drAttachment["File_Name"] = clsGeneral.UploadFile(obj.FileBrowser, AppConfig.Find_it_Fix_it_AttachmentsDocPath, false, false);
+
+                        dtTemp.Rows.Add(drAttachment);
+                        ViewState["dtAttachment"] = dtTemp;
+                        dtAttachment_FindFix = (DataTable)ViewState["dtAttachment"];
+                        txtAttachmentNameAdd.Text = string.Empty;
+                    }
                 }
             }
-
             string strFolder = string.Empty; //strNewFileName = string.Empty;// strFileToAttach = string.Empty;
-
-            //clsAM_Attachments objAM_Attachments = new clsAM_Attachments();
-            //bool bValid = true;
-            //string strExtension;
-            //// check file Extensions for new file name provided by user
-
-            //if (!string.IsNullOrEmpty(obj.FileBrowser.PostedFile.FileName))
-            //    strExtension = obj.FileBrowser.PostedFile.FileName.Substring(obj.FileBrowser.PostedFile.FileName.LastIndexOf("."));
-            //else
-            //    strExtension = objAM_Attachments.Attachment_Filename.Substring(objAM_Attachments.Attachment_Filename.LastIndexOf("."));
-
-
-            // show error message if extensions are not same
-            //if (!bValid)
-            //{
-            //    Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:" + (PanelNumber > 0 ? "ShowPanel(" + PanelNumber + ");" : "") + "alert('The extension for the new file name must be same as the old file name.');", true);
-            //}
-            //else
-            //{
-            //    // set properties from page controls
-            //    objAM_Attachments.FK_LU_Location = Location_ID;
-            //    //objAM_Attachments.Attachment_Type = Convert.ToDecimal(obj.DropdownFolder.SelectedValue);
-            //    objAM_Attachments.Updated_By = clsSession.UserID;
-            //    objAM_Attachments.Updated_Date = DateTime.Now;
-            //    objAM_Attachments.Attach_Date = DateTime.Now;
-
-            //    if (!string.IsNullOrEmpty(obj.FileBrowser.PostedFile.FileName))
-            //    {
-            //        objAM_Attachments.Attachment_Description = obj.FileBrowser.PostedFile.FileName.Substring(obj.FileBrowser.PostedFile.FileName.LastIndexOf("\\") + 1);
-            //        // upload the document
-            //        string strUploadPath = AppConfig.strAPDocumentPath;
-            //        // upload and set the filename.
-            //        objAM_Attachments.Attachment_Filename = clsGeneral.UploadFile(obj.FileBrowser, strUploadPath, false, false);
-
-            //        //Insert the attachment record
-            //        PK_AM_Attachments = objAM_Attachments.Insert();
-            //        Is_AttachmentExists = true;
-            //    }
-            //}
         }
     }
 
