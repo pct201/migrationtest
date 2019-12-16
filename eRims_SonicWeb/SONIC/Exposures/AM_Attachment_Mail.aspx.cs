@@ -78,9 +78,15 @@ public partial class SONIC_Exposures_AM_Attachment_Mail : System.Web.UI.Page
                     clsPM_AssociateTrainingFirstRepose_AED_Attachments objPM_AssociateTrainingFirstRepose_AED_Attachments = new clsPM_AssociateTrainingFirstRepose_AED_Attachments();
                     dtAttachments = objPM_AssociateTrainingFirstRepose_AED_Attachments.SelectByPK(clsGeneral.GetDecimal
                        (Encryption.Decrypt(Request.QueryString["OC_Attch_Id"]).ToString())).Tables[0];
-                } 
+                }
+                
+                else if (!string.IsNullOrEmpty(Request.QueryString["tbl"]) && Convert.ToString(Request.QueryString["tbl"]) == "Find_it_Fix_it_Attachments")
+                {
+                    dtAttachments = clsFind_it_Fix_it_Attachments.SelectByPK(clsGeneral.GetDecimal
+                       (Encryption.Decrypt(Request.QueryString["OC_Attch_Id"]).ToString())).Tables[0];
+                }
 
-                if (dtAttachments.Rows.Count > 0)
+                    if (dtAttachments.Rows.Count > 0)
                 {
                     string strRpFileName = Convert.ToString(dtAttachments.Rows[0]["NewAttachment_Name"]);
                     string strOriginalFileName = Convert.ToString(dtAttachments.Rows[0]["File_Name"]);
