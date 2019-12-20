@@ -163,9 +163,9 @@ public partial class SONIC_Pollution_PM_FirstRepose_AEDEquipment : clsBasePage
         objPM_FirstRepose_AEDEquipment.AEDManufacturer = Convert.ToString(txtAEDManufacturer.Text);
         if (drpFK_AEDLoaction.SelectedIndex > 0) objPM_FirstRepose_AEDEquipment.FK_LU_AED_Location = clsGeneral.GetDecimal(drpFK_AEDLoaction.SelectedValue);
         objPM_FirstRepose_AEDEquipment.AEDInstallDate = clsGeneral.FormatNullDateToStore(txtInstallDate.Text);
-        objPM_FirstRepose_AEDEquipment.AssociateName = Convert.ToString(txtAssociateName.Text);
-        objPM_FirstRepose_AEDEquipment.AssociateTitle = Convert.ToString(txtAssociateTitle.Text);
-        objPM_FirstRepose_AEDEquipment.AssociateTrainingDate = clsGeneral.FormatNullDateToStore(txtTrainingDate.Text);
+        //objPM_FirstRepose_AEDEquipment.AssociateName = Convert.ToString(txtAssociateName.Text);
+        //objPM_FirstRepose_AEDEquipment.AssociateTitle = Convert.ToString(txtAssociateTitle.Text);
+        //objPM_FirstRepose_AEDEquipment.AssociateTrainingDate = clsGeneral.FormatNullDateToStore(txtTrainingDate.Text);
         objPM_FirstRepose_AEDEquipment.Notes_Comments = Convert.ToString(txtNotesComments.Text);
         objPM_FirstRepose_AEDEquipment.Updated_By = clsSession.UserID;
         objPM_FirstRepose_AEDEquipment.Update_Date = DateTime.Now;
@@ -197,9 +197,9 @@ public partial class SONIC_Pollution_PM_FirstRepose_AEDEquipment : clsBasePage
         txtAEDManufacturer.Text = objPM_FirstRepose_AEDEquipment.AEDManufacturer;
         if (objPM_FirstRepose_AEDEquipment.FK_LU_AED_Location != null) drpFK_AEDLoaction.SelectedValue = objPM_FirstRepose_AEDEquipment.FK_LU_AED_Location.ToString();
         txtInstallDate.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_FirstRepose_AEDEquipment.AEDInstallDate);
-        txtAssociateName.Text = objPM_FirstRepose_AEDEquipment.AssociateName;
-        txtAssociateTitle.Text = objPM_FirstRepose_AEDEquipment.AssociateTitle;
-        txtTrainingDate.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_FirstRepose_AEDEquipment.AssociateTrainingDate );
+        //txtAssociateName.Text = objPM_FirstRepose_AEDEquipment.AssociateName;
+        //txtAssociateTitle.Text = objPM_FirstRepose_AEDEquipment.AssociateTitle;
+        //txtTrainingDate.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_FirstRepose_AEDEquipment.AssociateTrainingDate );
         txtNotesComments.Text = objPM_FirstRepose_AEDEquipment.Notes_Comments;
     }
 
@@ -219,9 +219,9 @@ public partial class SONIC_Pollution_PM_FirstRepose_AEDEquipment : clsBasePage
         lblAEDManufacturer.Text = Convert.ToString(dtAEDEquipment.Rows[0]["AEDManufacturer"]);
         lblFK_AEDLoaction.Text = Convert.ToString(dtAEDEquipment.Rows[0]["AED_Location_Desc"]);
         lblInstallDate.Text = clsGeneral.FormatDBNullDateToDisplay(dtAEDEquipment.Rows[0]["AEDInstallDate"]);
-        lblAssociateName.Text = Convert.ToString(dtAEDEquipment.Rows[0]["AssociateName"]);
-        lblAssociateTitle.Text = Convert.ToString(dtAEDEquipment.Rows[0]["AssociateTitle"]);
-        lblTrainingDate.Text = clsGeneral.FormatDBNullDateToDisplay(dtAEDEquipment.Rows[0]["AssociateTrainingDate"]);
+        //lblAssociateName.Text = Convert.ToString(dtAEDEquipment.Rows[0]["AssociateName"]);
+        //lblAssociateTitle.Text = Convert.ToString(dtAEDEquipment.Rows[0]["AssociateTitle"]);
+        //lblTrainingDate.Text = clsGeneral.FormatDBNullDateToDisplay(dtAEDEquipment.Rows[0]["AssociateTrainingDate"]);
         lblNotesComments.Text = Convert.ToString(dtAEDEquipment.Rows[0]["Notes_Comments"]);
     }
     #endregion
@@ -263,21 +263,21 @@ public partial class SONIC_Pollution_PM_FirstRepose_AEDEquipment : clsBasePage
                     strMessages += "Please select [First Response and AED]/AED Install Date" + ",";
                     Span3.Style["display"] = "inline-block";
                     break;
-                case "Associate Name":
-                    strCtrlsIDs += txtAssociateName.ClientID + ",";
-                    strMessages += "Please enter [First Response and AED]/Training Required Associate Name" + ",";
-                    Span4.Style["display"] = "inline-block";
-                    break;
-                case "Associate Title":
-                    strCtrlsIDs += txtAssociateTitle.ClientID + ",";
-                    strMessages += "Please enter [First Response and AED]/Associate Title" + ",";
-                    Span5.Style["display"] = "inline-block";
-                    break;
-                case "Training Date":
-                    strCtrlsIDs += txtTrainingDate.ClientID + ",";
-                    strMessages += "Please select [First Response and AED]/Training Date" + ",";
-                    Span6.Style["display"] = "inline-block";
-                    break;
+                //case "Associate Name":
+                //    strCtrlsIDs += txtAssociateName.ClientID + ",";
+                //    strMessages += "Please enter [First Response and AED]/Training Required Associate Name" + ",";
+                //    Span4.Style["display"] = "inline-block";
+                //    break;
+                //case "Associate Title":
+                //    strCtrlsIDs += txtAssociateTitle.ClientID + ",";
+                //    strMessages += "Please enter [First Response and AED]/Associate Title" + ",";
+                //    Span5.Style["display"] = "inline-block";
+                //    break;
+                //case "Training Date":
+                //    strCtrlsIDs += txtTrainingDate.ClientID + ",";
+                //    strMessages += "Please select [First Response and AED]/Training Date" + ",";
+                //    Span6.Style["display"] = "inline-block";
+                //    break;
             }
             #endregion
         }

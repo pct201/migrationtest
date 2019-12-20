@@ -189,7 +189,8 @@
                                                         <td colspan="4" class="Spacer">&nbsp;
                                                         </td>
                                                     </tr>
-                                                    <tr>
+                                                    <%-- Commented due to changes in Story 102 (19-12-2019) --%>
+                                                    <%--<tr>
                                                         <td align="left" width="18%" valign="top">Training Required Associate Name&nbsp;<span id="Span4" style="color: Red; display: none;" runat="server">*</span>
                                                         </td>
                                                         <td align="center" valign="top" width="4%">:
@@ -197,8 +198,8 @@
                                                         <td align="left" valign="top" colspan="2">
                                                             <asp:TextBox ID="txtAssociateName" runat="server" Width="150px" MaxLength="150"/>
                                                         </td>
-                                                    </tr>
-                                                    <tr>
+                                                    </tr>--%>
+                                                    <%--<tr>
                                                         <td align="left" width="18%" valign="top">Associate Title&nbsp;<span id="Span5" style="color: Red; display: none;" runat="server">*</span>
                                                         </td>
                                                         <td align="center" valign="top" width="4%">:
@@ -206,8 +207,8 @@
                                                         <td align="left" valign="top" colspan="2">
                                                             <asp:TextBox ID="txtAssociateTitle" runat="server" Width="150px" MaxLength="150"/>
                                                         </td>
-                                                    </tr>
-                                                    <tr>
+                                                    </tr>--%>
+                                                    <%--<tr>
                                                         <td align="left" width="18%" valign="top">Training Date&nbsp;<span id="Span6" style="color: Red; display: none;" runat="server">*</span>
                                                         </td>
                                                         <td align="center" valign="top" width="4%">:
@@ -221,7 +222,7 @@
                                                                 Display="none" ErrorMessage="[Respiratory Protection]/Date is not a valid date" SetFocusOnError="true"
                                                                 ControlToValidate="txtTrainingDate" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
                                                         </td>
-                                                    </tr>
+                                                    </tr>--%>
                                                     <tr>
                                                         <td colspan="4" class="Spacer">&nbsp;
                                                         </td>
@@ -293,7 +294,7 @@
                                                     <td colspan="4" class="Spacer">&nbsp;
                                                     </td>
                                                 </tr>
-                                                <tr>
+                                                <%--<tr>
                                                     <td align="left" width="18%" valign="top">Training Required Associate Name&nbsp;<span id="Span10" style="color: Red;" runat="server">*</span>
                                                     </td>
                                                     <td align="center" valign="top" width="4%">:
@@ -301,8 +302,8 @@
                                                     <td align="left" valign="top" colspan="2">
                                                         <asp:Label ID="lblAssociateName" runat="server" />
                                                     </td>
-                                                </tr>
-                                                <tr>
+                                                </tr>--%>
+                                                <%--<tr>
                                                     <td align="left" width="18%" valign="top">Associate Title&nbsp;<span id="Span11" style="color: Red;" runat="server">*</span>
                                                     </td>
                                                     <td align="center" valign="top" width="4%">:
@@ -310,8 +311,8 @@
                                                     <td align="left" valign="top" colspan="2">
                                                         <asp:Label ID="lblAssociateTitle" runat="server" />
                                                     </td>
-                                                </tr>
-                                                <tr>
+                                                </tr>--%>
+                                                <%--<tr>
                                                     <td align="left" width="18%" valign="top">Training Date&nbsp;<span id="Span12" style="color: Red;" runat="server">*</span>
                                                     </td>
                                                     <td align="center" valign="top" width="4%">:
@@ -319,7 +320,7 @@
                                                     <td align="left" valign="top" colspan="2">
                                                         <asp:Label ID="lblTrainingDate" runat="server" />
                                                     </td>
-                                                </tr>
+                                                </tr>--%>
                                                 <tr>
                                                     <td colspan="4" class="Spacer">&nbsp;
                                                     </td>
