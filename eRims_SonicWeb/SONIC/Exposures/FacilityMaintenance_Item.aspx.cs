@@ -28,6 +28,18 @@ public partial class SONIC_Exposures_FacilityMaintenance_Item : System.Web.UI.Pa
         set { ViewState["PK_Facility_Construction_Maintenance_Item"] = value; }
     }
 
+    public DataTable dtAttachment_FacilityMaintenance
+    {
+        get { return (DataTable)Session["dtAttachment"]; }
+        set { Session["dtAttachment"] = value; }
+    }
+
+    public DataTable dtNotes_FacilityMaintenance
+    {
+        get { return (DataTable)Session["dtNotes"]; }
+        set { Session["dtNotes"] = value; }
+    }
+
     #endregion
 
     #region Page Load Events
@@ -85,6 +97,11 @@ public partial class SONIC_Exposures_FacilityMaintenance_Item : System.Web.UI.Pa
                 BindMaintenanceStatusDropDown();
                 //BindContractorSecurityDropDown();
                 //BindFirm();
+                if(Request.QueryString["flag"] != "1")
+                {
+                    dtAttachment_FacilityMaintenance = null;
+                    dtNotes_FacilityMaintenance = null;
+                }
                 BindAttachmentGrid();
 
                 if (PK_Facility_Construction_Maintenance_Item > 0)
@@ -199,14 +216,14 @@ public partial class SONIC_Exposures_FacilityMaintenance_Item : System.Web.UI.Pa
     /// <param name="e"></param>
     protected void btnNotesAdd_Click(object sender, EventArgs e)
     {
-        if (PK_Facility_Construction_Maintenance_Item > 0)
-        {
-            Response.Redirect(String.Format("MaintenanceNotes.aspx?loc={0}&item={1}&op={2}", Request.QueryString["loc"].ToString(), Encryption.Encrypt(PK_Facility_Construction_Maintenance_Item.ToString()), "edit"));
-        }
-        else
-        {
-            ScriptManager.RegisterStartupScript(this, GetType(), "alertmessage", "javascript: alert('Please save Maintenance Details first.');", true);
-        }
+        //if (PK_Facility_Construction_Maintenance_Item > 0)
+        //{
+        Response.Redirect(String.Format("MaintenanceNotes.aspx?loc={0}&item={1}&op={2}", Request.QueryString["loc"].ToString(), Encryption.Encrypt(PK_Facility_Construction_Maintenance_Item.ToString()), "edit"));
+        //}
+        //else
+        //{
+        //    ScriptManager.RegisterStartupScript(this, GetType(), "alertmessage", "javascript: alert('Please save Maintenance Details first.');", true);
+        //}
     }
 
     /// <summary>
@@ -216,14 +233,14 @@ public partial class SONIC_Exposures_FacilityMaintenance_Item : System.Web.UI.Pa
     /// <param name="e"></param>
     protected void btnAttachmentAdd_Click(object sender, EventArgs e)
     {
-        if (PK_Facility_Construction_Maintenance_Item > 0)
-        {
-            ScriptManager.RegisterStartupScript(this, GetType(), "openAttachmentPoppup", "javascript:AddMaintenanceAttachment(" + PK_Facility_Construction_Maintenance_Item + ");", true);
-        }
-        else
-        {
-            ScriptManager.RegisterStartupScript(this, GetType(), "alertmessage", "javascript: alert('Please save Maintenance Details first.');", true);
-        }
+        //if (PK_Facility_Construction_Maintenance_Item > 0)
+        //{
+        ScriptManager.RegisterStartupScript(this, GetType(), "openAttachmentPoppup", "javascript:AddMaintenanceAttachment(" + PK_Facility_Construction_Maintenance_Item + ");", true);
+        //}
+        //else
+        //{
+        //    ScriptManager.RegisterStartupScript(this, GetType(), "alertmessage", "javascript: alert('Please save Maintenance Details first.');", true);
+        //}
     }
 
     /// <summary>
@@ -240,8 +257,20 @@ public partial class SONIC_Exposures_FacilityMaintenance_Item : System.Web.UI.Pa
 
         if (e.CommandName == "Remove")
         {
-            Facility_Maintenance_Notes.Delete(Convert.ToInt32(e.CommandArgument));
-            ScriptManager.RegisterStartupScript(this, GetType(), "btnSave", "javascript: alert('Notes Details Deleted Successfully.');", true);
+            if (PK_Facility_Construction_Maintenance_Item != 0)
+            {
+                Facility_Maintenance_Notes.Delete(Convert.ToInt32(e.CommandArgument));
+                ScriptManager.RegisterStartupScript(this, GetType(), "btnSave", "javascript: alert('Notes Details Deleted Successfully.');", true);
+            }
+            else
+            {
+                if (dtNotes_FacilityMaintenance != null && dtNotes_FacilityMaintenance.Rows.Count > 0)
+                {
+                    GridViewRow gvr = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+                    int RowIndex = gvr.RowIndex;
+                    dtNotes_FacilityMaintenance.Rows.RemoveAt(RowIndex);
+                }
+            }
             BindNotesGrid();
             BindNotesViewGrid();
         }
@@ -261,8 +290,20 @@ public partial class SONIC_Exposures_FacilityMaintenance_Item : System.Web.UI.Pa
 
         if (e.CommandName == "Remove")
         {
-            Facility_Maintenance_Notes.Delete(Convert.ToInt32(e.CommandArgument));
-            ScriptManager.RegisterStartupScript(this, GetType(), "btnSave", "javascript: alert('Notes Details Deleted Successfully.');", true);
+            if (PK_Facility_Construction_Maintenance_Item != 0)
+            {
+                Facility_Maintenance_Notes.Delete(Convert.ToInt32(e.CommandArgument));
+                ScriptManager.RegisterStartupScript(this, GetType(), "btnSave", "javascript: alert('Notes Details Deleted Successfully.');", true);
+            }
+            else
+            {
+                if (dtNotes_FacilityMaintenance != null && dtNotes_FacilityMaintenance.Rows.Count > 0)
+                {
+                    GridViewRow gvr = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+                    int RowIndex = gvr.RowIndex;
+                    dtNotes_FacilityMaintenance.Rows.RemoveAt(RowIndex);
+                }
+            }
             BindNotesGrid();
             BindNotesViewGrid();
         }
@@ -279,14 +320,31 @@ public partial class SONIC_Exposures_FacilityMaintenance_Item : System.Web.UI.Pa
         {
             try
             {
-                string[] attachDetails = e.CommandArgument.ToString().Split(':');
-                string strPath = clsGeneral.GetAttachmentDocPath(clsGeneral.TableNames[(int)clsGeneral.Tables.Maintenance]) + attachDetails[1];
-                if (File.Exists(strPath))
+                if (PK_Facility_Construction_Maintenance_Item != 0)
                 {
-                    File.Delete(strPath);
-                }
+                    string[] attachDetails = e.CommandArgument.ToString().Split(':');
+                    string strPath = clsGeneral.GetAttachmentDocPath(clsGeneral.TableNames[(int)clsGeneral.Tables.Maintenance]) + attachDetails[1];
+                    if (File.Exists(strPath))
+                    {
+                        File.Delete(strPath);
+                    }
 
-                ERIMSAttachment.DeleteByPK(Convert.ToInt64(attachDetails[0]));
+                    ERIMSAttachment.DeleteByPK(Convert.ToInt64(attachDetails[0]));
+                }
+                else
+                {
+                    if (dtAttachment_FacilityMaintenance != null && dtAttachment_FacilityMaintenance.Rows.Count > 0)
+                    {
+                        GridViewRow gvr = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+                        int RowIndex = gvr.RowIndex;
+                        dtAttachment_FacilityMaintenance.Rows.RemoveAt(RowIndex);
+
+                        string[] attachDetails = e.CommandArgument.ToString().Split(':');
+                        string strPath = clsGeneral.GetAttachmentDocPath(clsGeneral.TableNames[(int)clsGeneral.Tables.Maintenance]) + attachDetails[1];
+                        if (File.Exists(strPath))
+                            File.Delete(strPath);
+                    }
+                }
                 BindAttachmentGrid();
             }
             catch (Exception ex)
@@ -379,8 +437,16 @@ public partial class SONIC_Exposures_FacilityMaintenance_Item : System.Web.UI.Pa
     /// </summary>
     private void BindNotesGrid()
     {
-        gvNotes.DataSource = Facility_Maintenance_Notes.SelectByFK_Table(PK_Facility_Construction_Maintenance_Item, ctrlPageSonicNotes.CurrentPage, ctrlPageSonicNotes.PageSize);
-        gvNotes.DataBind();
+        if (PK_Facility_Construction_Maintenance_Item == 0 && dtNotes_FacilityMaintenance != null)
+        {
+            gvNotes.DataSource = dtNotes_FacilityMaintenance;
+            gvNotes.DataBind();
+        }
+        else
+        {
+            gvNotes.DataSource = Facility_Maintenance_Notes.SelectByFK_Table(PK_Facility_Construction_Maintenance_Item, ctrlPageSonicNotes.CurrentPage, ctrlPageSonicNotes.PageSize);
+            gvNotes.DataBind();
+        }
     }
 
     /// <summary>
@@ -388,9 +454,18 @@ public partial class SONIC_Exposures_FacilityMaintenance_Item : System.Web.UI.Pa
     /// </summary>
     private void BindAttachmentGrid()
     {
-        gvAttachmentDetails.DataSource = gvAttachmentDetailsView.DataSource = ERIMSAttachment.SelectAttachmentTableNameForeignKey("Facility_Construction_Maintenance_Item", PK_Facility_Construction_Maintenance_Item.ToString()).Tables[0];
-        gvAttachmentDetails.DataBind();
-        gvAttachmentDetailsView.DataBind();
+        if (PK_Facility_Construction_Maintenance_Item == 0 && dtAttachment_FacilityMaintenance != null)
+        {
+            gvAttachmentDetails.DataSource = gvAttachmentDetailsView.DataSource = dtAttachment_FacilityMaintenance;
+            gvAttachmentDetails.DataBind();
+            gvAttachmentDetailsView.DataBind();
+        }
+        else
+        {
+            gvAttachmentDetails.DataSource = gvAttachmentDetailsView.DataSource = ERIMSAttachment.SelectAttachmentTableNameForeignKey("Facility_Construction_Maintenance_Item", PK_Facility_Construction_Maintenance_Item.ToString()).Tables[0];
+            gvAttachmentDetails.DataBind();
+            gvAttachmentDetailsView.DataBind();
+        }
     }
 
     /// <summary>
@@ -398,8 +473,16 @@ public partial class SONIC_Exposures_FacilityMaintenance_Item : System.Web.UI.Pa
     /// </summary>
     private void BindNotesViewGrid()
     {
-        gvNotesView.DataSource = Facility_Maintenance_Notes.SelectByFK_Table(PK_Facility_Construction_Maintenance_Item, ctrlPageSonicNotesView.CurrentPage, ctrlPageSonicNotesView.PageSize);
-        gvNotesView.DataBind();
+        if (PK_Facility_Construction_Maintenance_Item == 0 && dtNotes_FacilityMaintenance != null)
+        {
+            gvNotesView.DataSource = dtNotes_FacilityMaintenance;
+            gvNotesView.DataBind();
+        }
+        else
+        {
+            gvNotesView.DataSource = Facility_Maintenance_Notes.SelectByFK_Table(PK_Facility_Construction_Maintenance_Item, ctrlPageSonicNotesView.CurrentPage, ctrlPageSonicNotesView.PageSize);
+            gvNotesView.DataBind();
+        }
     }
 
     /// <summary>
@@ -671,8 +754,40 @@ public partial class SONIC_Exposures_FacilityMaintenance_Item : System.Web.UI.Pa
         else
         {
             PK_Facility_Construction_Maintenance_Item = facility_Construction_Maintenance_Item.Insert();
-        }
 
+            if (dtAttachment_FacilityMaintenance != null && dtAttachment_FacilityMaintenance.Rows.Count > 0)
+            {
+                for (int i = 0; i < dtAttachment_FacilityMaintenance.Rows.Count; i++)
+                {
+                    ERIMSAttachment objAttachment = new ERIMSAttachment();
+                    objAttachment.Attachment_Name = objAttachment.Attachment_Description = dtAttachment_FacilityMaintenance.Rows[i]["Attachment_Name"].ToString();
+                    objAttachment.Attachment_Table = dtAttachment_FacilityMaintenance.Rows[i]["Attachment_Table"].ToString(); ;
+                    objAttachment.Foreign_Key = PK_Facility_Construction_Maintenance_Item;
+                    objAttachment.FK_Attachment_Type = 0;
+                    objAttachment.Updated_By = clsSession.UserID;
+                    objAttachment.Update_Date = DateTime.Today;
+
+                    objAttachment.Insert();
+                }
+                dtAttachment_FacilityMaintenance = null;
+            }
+
+            if (dtNotes_FacilityMaintenance != null && dtNotes_FacilityMaintenance.Rows.Count > 0)
+            {
+                for (int i = 0; i < dtNotes_FacilityMaintenance.Rows.Count; i++)
+                {
+                    Facility_Maintenance_Notes facility_Maintenance_Notes = new Facility_Maintenance_Notes();
+                    facility_Maintenance_Notes.Note = dtNotes_FacilityMaintenance.Rows[i]["Note"].ToString();
+                    facility_Maintenance_Notes.Note_Date = !string.IsNullOrEmpty(dtNotes_FacilityMaintenance.Rows[i]["Note_Date"].ToString()) ? clsGeneral.FormatNullDateToStore(dtNotes_FacilityMaintenance.Rows[i]["Note_Date"].ToString()) : clsGeneral.FormatDateToStore(DateTime.Now);
+                    facility_Maintenance_Notes.FK_Facility_Maintenance_Item = PK_Facility_Construction_Maintenance_Item;
+                    facility_Maintenance_Notes.Author_Table = "Security";
+                    facility_Maintenance_Notes.FK_Author = Convert.ToInt32(clsSession.UserID);
+
+                    facility_Maintenance_Notes.Insert();
+                }
+                dtNotes_FacilityMaintenance = null;
+            }
+        }
         ScriptManager.RegisterStartupScript(this, GetType(), "btnSave", "javascript: alert('Maintenance Details Saved Successfully.'); location.href = '" + String.Format("FacilityMaintenance_Item.aspx?loc={0}&item={1}&op={2}", Request.QueryString["loc"].ToString(), Encryption.Encrypt(PK_Facility_Construction_Maintenance_Item.ToString()), "View") + "'", true);
     }
 
@@ -697,5 +812,5 @@ public partial class SONIC_Exposures_FacilityMaintenance_Item : System.Web.UI.Pa
     }
 
     #endregion
-    
+
 }

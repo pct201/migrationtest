@@ -5,6 +5,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using ERIMS.DAL;
 using System.IO;
+using System.Data;
 
 public partial class SONIC_Exposures_MaintenanceAddAttachment : System.Web.UI.Page
 {
@@ -26,6 +27,31 @@ public partial class SONIC_Exposures_MaintenanceAddAttachment : System.Web.UI.Pa
     {
         get { return Convert.ToString(ViewState["Table_Name"]); }
         set { ViewState["Table_Name"] = value; }
+    }
+
+    public DataTable dtAttachment_FacilityMaintenance
+    {
+        get
+        {
+            DataTable dtTemp1 = new DataTable("Attachment");
+            if (ViewState["dtAttachment"] == null)
+            {
+                dtTemp1.Columns.Add("PK_Attachment_Id");
+                dtTemp1.Columns.Add("Attachment_Table");
+                dtTemp1.Columns.Add("Attachment_Name");
+                dtTemp1.Columns.Add("Attachment_Description");
+                dtTemp1.Columns.Add("AttachedBy");
+            }
+            else
+            {
+                dtTemp1 = (DataTable)ViewState["dtAttachment"];
+            }
+            return dtTemp1;
+        }
+        set
+        {
+            ViewState["dtAttachment"] = value;
+        }
     }
 
     #endregion
@@ -53,6 +79,7 @@ public partial class SONIC_Exposures_MaintenanceAddAttachment : System.Web.UI.Pa
                 BindAttachmentGrid();
             }
         }
+        dtAttachment_FacilityMaintenance = (DataTable)Session["dtAttachment"];
     }
 
     /// <summary>
@@ -62,20 +89,41 @@ public partial class SONIC_Exposures_MaintenanceAddAttachment : System.Web.UI.Pa
     /// <param name="e"></param>
     protected void btnContinue_Click(object sender, EventArgs e)
     {
-        //set values to store in database
-        ERIMSAttachment objAttachment = new ERIMSAttachment();
-        objAttachment.Attachment_Table = Table_Name;
-        objAttachment.Foreign_Key = FK_Maintenance_Item;
-        objAttachment.FK_Attachment_Type = 0;        
-        objAttachment.Updated_By = clsSession.UserID;
-        objAttachment.Update_Date = DateTime.Today;
-        // upload the document
-        string strUploadPath = clsGeneral.GetAttachmentDocPath(clsGeneral.TableNames[(int)clsGeneral.Tables.Maintenance]);
-        string DocPath = string.Concat(strUploadPath, "\\");
-        // upload and set the filename.
-        objAttachment.Attachment_Name = objAttachment.Attachment_Description = clsGeneral.UploadFile(fpFile, DocPath, false, false);        
-        objAttachment.Insert();
-        ScriptManager.RegisterStartupScript(this, GetType(), "openAttachmentPoppup", "javascript:alert('Attachment Saved successfully.'); ClosePage();", true);
+        if (FK_Maintenance_Item != 0)
+        {
+            //set values to store in database
+            ERIMSAttachment objAttachment = new ERIMSAttachment();
+            objAttachment.Attachment_Table = Table_Name;
+            objAttachment.Foreign_Key = FK_Maintenance_Item;
+            objAttachment.FK_Attachment_Type = 0;
+            objAttachment.Updated_By = clsSession.UserID;
+            objAttachment.Update_Date = DateTime.Today;
+            // upload the document
+            string strUploadPath = clsGeneral.GetAttachmentDocPath(clsGeneral.TableNames[(int)clsGeneral.Tables.Maintenance]);
+            string DocPath = string.Concat(strUploadPath, "\\");
+            // upload and set the filename.
+            objAttachment.Attachment_Name = objAttachment.Attachment_Description = clsGeneral.UploadFile(fpFile, DocPath, false, false);
+            objAttachment.Insert();
+            ScriptManager.RegisterStartupScript(this, GetType(), "openAttachmentPoppup", "javascript:alert('Attachment Saved successfully.'); ClosePage();", true);
+        }
+        else
+        {
+            DataTable dtTemp = dtAttachment_FacilityMaintenance;
+            DataRow drAttachment = dtTemp.NewRow();
+            drAttachment["PK_Attachment_Id"] = 0;
+            drAttachment["Attachment_Table"] = Table_Name;
+            string strUploadPath = clsGeneral.GetAttachmentDocPath(clsGeneral.TableNames[(int)clsGeneral.Tables.Maintenance]);
+            string DocPath = string.Concat(strUploadPath, "\\");
+            drAttachment["Attachment_Name"] = drAttachment["Attachment_Description"] = clsGeneral.UploadFile(fpFile, DocPath, false, false);
+            drAttachment["AttachedBy"] = (clsSession.LastName == string.Empty ? "" : clsSession.LastName + " ") + (clsSession.FirstName == string.Empty ? "" : clsSession.FirstName) + "- Sonic";
+
+            dtTemp.Rows.Add(drAttachment);
+            ViewState["dtAttachment"] = dtTemp;
+            dtAttachment_FacilityMaintenance = (DataTable)ViewState["dtAttachment"];
+            Session["dtAttachment"] = dtAttachment_FacilityMaintenance;
+            ScriptManager.RegisterStartupScript(this, GetType(), "openAttachmentPoppup", "javascript:alert('Attachment Saved successfully.'); ClosePage();", true);
+        }
+        BindAttachmentGrid();
     }
 
     /// <summary>
@@ -89,14 +137,29 @@ public partial class SONIC_Exposures_MaintenanceAddAttachment : System.Web.UI.Pa
         {
             try
             {
-                string[] attachDetails = e.CommandArgument.ToString().Split(':');
-                string strPath = clsGeneral.GetAttachmentDocPath(clsGeneral.TableNames[(int)clsGeneral.Tables.Maintenance]) + attachDetails[1];
-                if (File.Exists(strPath))
+                if (FK_Maintenance_Item != 0)
                 {
-                    File.Delete(strPath);
+                    string[] attachDetails = e.CommandArgument.ToString().Split(':');
+                    string strPath = clsGeneral.GetAttachmentDocPath(clsGeneral.TableNames[(int)clsGeneral.Tables.Maintenance]) + attachDetails[1];
+                    if (File.Exists(strPath))
+                    {
+                        File.Delete(strPath);
+                    }
+                    ERIMSAttachment.DeleteByPK(Convert.ToInt64(attachDetails[0]));
                 }
+                else
+                {
+                    GridViewRow gvr = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+                    int RowIndex = gvr.RowIndex;
+                    dtAttachment_FacilityMaintenance.Rows.RemoveAt(RowIndex);
 
-                ERIMSAttachment.DeleteByPK(Convert.ToInt64(attachDetails[0]));
+                    string[] attachDetails = e.CommandArgument.ToString().Split(':');
+                    string strPath = clsGeneral.GetAttachmentDocPath(clsGeneral.TableNames[(int)clsGeneral.Tables.Maintenance]) + attachDetails[1];
+                    if (File.Exists(strPath))
+                        File.Delete(strPath);
+
+                    ViewState["dtAttachment"] = dtAttachment_FacilityMaintenance;
+                }
                 BindAttachmentGrid();
             }
             catch (Exception ex)
@@ -118,9 +181,18 @@ public partial class SONIC_Exposures_MaintenanceAddAttachment : System.Web.UI.Pa
     /// </summary>
     private void BindAttachmentGrid()
     {
-        gvAttachmentDetailsView.DataSource = ERIMSAttachment.SelectAttachmentTableNameForeignKey(Table_Name, FK_Maintenance_Item.ToString()).Tables[0];
-        gvAttachmentDetailsView.DataBind();
-        divAttachmentView.Visible = true;
+        if (FK_Maintenance_Item != 0)
+        {
+            gvAttachmentDetailsView.DataSource = ERIMSAttachment.SelectAttachmentTableNameForeignKey(Table_Name, FK_Maintenance_Item.ToString()).Tables[0];
+            gvAttachmentDetailsView.DataBind();
+            divAttachmentView.Visible = true;
+        }
+        else if (FK_Maintenance_Item == 0 && dtAttachment_FacilityMaintenance.Rows.Count > 0)
+        {
+            gvAttachmentDetailsView.DataSource = dtAttachment_FacilityMaintenance;
+            gvAttachmentDetailsView.DataBind();
+            divAttachmentView.Visible = true;
+        }
     }
 
     #endregion

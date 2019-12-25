@@ -712,7 +712,7 @@
                                                             <tr>
                                                                 <td colspan="6" width="100%" align="center">
                                                                     <asp:Button runat="server" ID="btnMaintenanceSave" Text="Save & View" CausesValidation="true" ValidationGroup="vsErrorPropertyCope" OnClick="btnMaintenanceSave_Click" />&nbsp;
-                                                                    <asp:Button runat="server" ID="btnBindAttachmentGrid" Text="Bind Attachment" CausesValidation="true" ValidationGroup="vsErrorPropertyCope" OnClick="btnBindAttachmentGrid_Click" Style="display: none" />&nbsp;
+                                                                    <asp:Button runat="server" ID="btnBindAttachmentGrid" Text="Bind Attachment" CausesValidation="true" OnClick="btnBindAttachmentGrid_Click" Style="display: none" />&nbsp;
                                                                     <asp:Button ID="btnViewAuditPropertyCOPE" runat="server" Text="View Audit Trail"
                                                                         OnClientClick="javascript:return AuditPopUp('COPE');" Visible="false" />
                                                                 </td>

@@ -1,5 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="Attachment.ascx.cs" Inherits="Controls_Attachment_OC_Attachment" %>
-<%@ Register Src="~/Controls/Attachment_Find_It_Fix_It/AM_Attach_Section.ascx"
+<%@ Register Src="~/Controls/Attachment_AED_First_Response/AM_Attach_Section.ascx"
     TagName="AttachmentSection" TagPrefix="uc" %>
 <input type="hidden" id="hdnBackTo" runat="server" />
 <div>
@@ -18,40 +18,26 @@
             <asp:GridView ID="gvFiles" runat="server" Width="100%" AutoGenerateColumns="false"
                 EmptyDataText="No Files Found." OnRowCommand="gvFiles_RowCommand" OnRowDataBound="gvFiles_RowDataBound">
                 <Columns>
-                     <%--<asp:TemplateField HeaderText="Attachment Name" >
-                        <ItemStyle Width="20%" />
-                        <HeaderStyle HorizontalAlign="Center"/>
-                        <ItemTemplate  >
-                            <asp:LinkButton ID="lnkDocNewName" runat="server" Text='<%# Convert.ToString(Eval("NewAttachment_Name")) %>' />
-                        </ItemTemplate>
-                    </asp:TemplateField>--%>
-                    <asp:TemplateField HeaderText="Attachment Name" >
-                        <ItemStyle Width="20%" />
+                    <asp:TemplateField HeaderText="File Name" >
+                        <ItemStyle Width="70%" />
                         <HeaderStyle HorizontalAlign="Left"/>
                         <ItemTemplate  >
                             <asp:LinkButton ID="lnkDocName" runat="server" Text='<%# Convert.ToString(Eval("Attachment_Name")) %>' />
-                            <input type="hidden" id="hdnID" runat="server" value='<%#Eval("PK_Find_it_Fix_it_Attachments")%>' />
+                            <input type="hidden" id="hdnID" runat="server" value='<%#Eval("PK_Attachments")%>' />
                             <input type="hidden" id="hdnFileName" runat="server" value='<%#Eval("File_Name") %>' />
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <asp:TemplateField HeaderText="Attachment Type" >
-                        <ItemStyle Width="30%" />
-                        <HeaderStyle HorizontalAlign="Left"/>
-                        <ItemTemplate  >
-                            <asp:LinkButton ID="lnkDocType" runat="server" Text='<%# Convert.ToString(Eval("Attachment_Type")) %>' />
-                        </ItemTemplate>
-                    </asp:TemplateField>
-                    <%--<asp:TemplateField HeaderText="Email">
+                    <asp:TemplateField HeaderText="Email">
                         <ItemStyle Width="15%" />
                         <ItemTemplate>
                             <asp:LinkButton ID="lnkEmail" runat="server">
                                 <img src="../../Images/Email_Attachment.jpg" alt="E-Mail" /></asp:LinkButton>
                         </ItemTemplate>
-                    </asp:TemplateField>--%>
+                    </asp:TemplateField>
                     <asp:TemplateField HeaderText="Delete">
                         <ItemStyle Width="15%" />
                         <ItemTemplate>
-                            <asp:LinkButton ID="lnkDelete" CommandArgument='<%# Eval("PK_Find_it_Fix_it_Attachments") + ":" + Eval("File_Name") %>'
+                            <asp:LinkButton ID="lnkDelete" CommandArgument='<%# Eval("PK_Attachments") + ":" + Eval("File_Name") %>'
                                 CommandName="DeleteAttachment" runat="server" OnClientClick="return confirm('Are you sure to delete the attachment?')">
                                 <img src="../../Images/delete_Attachment.jpg" alt="delete" /></asp:LinkButton>
                         </ItemTemplate>
@@ -69,7 +55,7 @@
         </td>
     </tr>
 </table>
-<table cellpadding="1" cellspacing="1" width="100%" id="tblAddEditAttachment" runat="server" border="1">
+<table cellpadding="1" cellspacing="1" width="100%" id="tblAddEditAttachment" runat="server">
     <tr>
         <td width="100%" class="bandHeaderRow">
             <asp:Label ID="lblAttachHeader" runat="server" Text="Add Attachment"></asp:Label>
@@ -77,33 +63,23 @@
         </td>
     </tr>
     <tr>
-        <td style="border:none;">&nbsp;
+        <td>&nbsp;
         </td>
     </tr>
     <tr>
-        <td width="100%" style="border:none;">
+        <td width="100%">
             <table cellpadding="3" cellspacing="1" width="100%" id="tblEditAttachment" runat="server" visible="false">
                 <tr>
                     <td width="18%" align="left">Attachment Name
                     </td>
                     <td width="4%" align="center">:
                     </td>
-                    <td align="left" width="27%">
+                    <td align="left">
                         <asp:TextBox ID="txtAttachmentNameEdit" runat="server" Width="150px">
                         </asp:TextBox>
                         <asp:RequiredFieldValidator ID="rfvAttachment" runat="server" ControlToValidate="txtAttachmentName"
                             ValidationGroup="AddAttachment" ErrorMessage="Please Enter Attachment Name"
                             SetFocusOnError="true" Display="None" />
-                    </td>
-                    <td width="18%" align="left">Attachment Type
-                    </td>
-                    <td width="4%" align="center">:
-                    </td>
-                    <td align="left" width="27%">
-                        <asp:RadioButtonList runat="server" ID="rblAttachmentType">
-                            <asp:ListItem Text="Find It" Value="1" />
-                         <asp:ListItem Text="Fix It" Value="2" />
-                        </asp:RadioButtonList>
                     </td>
                 </tr>
                 <tr>
@@ -343,6 +319,7 @@
     }
 
     function FinalValidate() {
+
         var hndCount = $('#hndCounthtml').val();
         if (hndCount == '') {
             hndCount = 1;
@@ -372,16 +349,15 @@
         }
 
         for (j = 1; j <= hndCount; j++) {
+
             var FolderName = document.getElementById('ctl00_ContentPlaceHolder1_Attachments_Attachment' + j + '_txtAttachmentNameAdd').value;
             var FileName_value = document.getElementById('ctl00_ContentPlaceHolder1_Attachments_Attachment' + j + '_fpFile').value;
-            var rblFind = $('#ctl00_ContentPlaceHolder1_Attachments_Attachment'+j+'_rblAttachmentType_0').prop("checked");
-            var rblFix = $('#ctl00_ContentPlaceHolder1_Attachments_Attachment'+j+'_rblAttachmentType_1').prop("checked");
-            if (parseInt(FolderName) != 0 && FileName_value != "" && (rblFind != false || rblFix != false)) {
+            if (parseInt(FolderName) != 0 && FileName_value != "") {
                 IsFolderSelected = "true";
             }
         }
         if (IsFolderSelected == "false") {
-            alert('Please select Folder, File And Attachment Type for an attachment');
+            alert('Please select Folder and File both for an attachment');
             return false;
         }
         if (IsFileSelected == "false") {

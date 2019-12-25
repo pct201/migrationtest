@@ -3,7 +3,7 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 <%@ Register Src="~/Controls/NotesWithSpellCheck/Notes.ascx" TagName="ctrlMultiLineTextBox"
     TagPrefix="uc" %>
-<%@ Register Src="~/Controls/Attchment-Occupational/Attachment.ascx" TagName="ctrlAttachment"
+<%@ Register Src="~/Controls/Attachment_AED_First_Response/Attachment.ascx" TagName="ctrlAttachment"
     TagPrefix="uc" %>
 <%@ Register Src="~/Controls/ExposuresTab/ExposuresTab.ascx" TagName="CtlTab" TagPrefix="uc" %>
 <%@ Register Src="~/Controls/ExposureInfo/EnviroExposureInfo.ascx" TagName="ctrlExposureInfo"

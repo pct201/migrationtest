@@ -1,16 +1,18 @@
-﻿using ERIMS.DAL;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.IO;
 using System.Web;
 using System.Web.UI;
-using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
+using System.Data;
+using ERIMS.DAL;
+using System.IO;
+using System.Web.UI.HtmlControls;
 using ASP;
+using Microsoft.Practices.EnterpriseLibrary.Data;
 
 public partial class Controls_Attachment_OC_Attachment : System.Web.UI.UserControl
 {
+
     #region " Properties "
 
     /// <summary>
@@ -88,15 +90,14 @@ public partial class Controls_Attachment_OC_Attachment : System.Web.UI.UserContr
         set { ViewState["PK_ID"] = value; }
     }
 
-    public DataTable dtAttachment_FindFix
+    public DataTable dtAttachment_AEDFirstResponse
     {
         get
         {
             DataTable dtTemp1 = new DataTable("Attachment");
             if (ViewState["dtAttachment"] == null)
             {
-                dtTemp1.Columns.Add("PK_Find_it_Fix_it_Attachments");
-                dtTemp1.Columns.Add("Attachment_Type");
+                dtTemp1.Columns.Add("PK_Attachments");
                 dtTemp1.Columns.Add("File_Name");
                 dtTemp1.Columns.Add("FK_Table");
                 dtTemp1.Columns.Add("Attachment_Name");
@@ -115,6 +116,7 @@ public partial class Controls_Attachment_OC_Attachment : System.Web.UI.UserContr
     }
 
     #endregion
+
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -124,14 +126,23 @@ public partial class Controls_Attachment_OC_Attachment : System.Web.UI.UserContr
             {
                 tblAddEditAttachment.Visible = false;
             }
-            if (AttachmentTable == "Find_it_Fix_it_Attachments")
+            if (AttachmentTable == "PM_FirstRepose_AEDEquipment_Attachments")
             {
-                Attachment1.Table_Name = Attachment2.Table_Name = Attachment3.Table_Name = Attachment4.Table_Name = "Find_it_Fix_it_Attachments";
-                Attachment5.Table_Name = Attachment6.Table_Name = Attachment7.Table_Name = Attachment8.Table_Name = "Find_it_Fix_it_Attachments";
-                Attachment9.Table_Name = Attachment10.Table_Name = "Find_it_Fix_it_Attachments";
+                Attachment1.Table_Name = Attachment2.Table_Name = Attachment3.Table_Name = Attachment4.Table_Name = "PM_FirstRepose_AEDEquipment_Attachments";
+                Attachment5.Table_Name = Attachment6.Table_Name = Attachment7.Table_Name = Attachment8.Table_Name = "PM_FirstRepose_AEDEquipment_Attachments";
+                Attachment9.Table_Name = Attachment10.Table_Name = "PM_FirstRepose_AEDEquipment_Attachments";
             }
+            else if (AttachmentTable == "PM_AssociateTrainingFirstRepose_AED_Attachments")
+            {
+                Attachment1.Table_Name = Attachment2.Table_Name = Attachment3.Table_Name = Attachment4.Table_Name = "PM_AssociateTrainingFirstRepose_AED_Attachments";
+                Attachment5.Table_Name = Attachment6.Table_Name = Attachment7.Table_Name = Attachment8.Table_Name = "PM_AssociateTrainingFirstRepose_AED_Attachments";
+                Attachment9.Table_Name = Attachment10.Table_Name = "PM_AssociateTrainingFirstRepose_AED_Attachments";
+            }
+
         }
     }
+
+
     #region " Grid Events"
 
     /// <summary>
@@ -149,34 +160,29 @@ public partial class Controls_Attachment_OC_Attachment : System.Web.UI.UserContr
             }
 
             string strFileName = DataBinder.Eval(e.Row.DataItem, "File_Name").ToString();
-            string strPK_ID = DataBinder.Eval(e.Row.DataItem, "PK_Find_it_Fix_it_Attachments").ToString();
+            string strPK_ID = DataBinder.Eval(e.Row.DataItem, "PK_Attachments").ToString();
 
             LinkButton lnkDocName = (LinkButton)e.Row.FindControl("lnkDocName");
-            lnkDocName.OnClientClick = "javascript:openWindow('../../Download.aspx?FindFix_Attch_Id=" + Encryption.Encrypt(strPK_ID) + "&tbl=" + AttachmentTable + "');return false;";
+            lnkDocName.OnClientClick = "javascript:openWindow('../../Download.aspx?OC_Attch_Id=" + Encryption.Encrypt(strPK_ID) + "&tbl=" + AttachmentTable + "');return false;";
 
-            //LinkButton lnkDocNewName = (LinkButton)e.Row.FindControl("lnkDocNewName");
-            //lnkDocNewName.OnClientClick = "javascript:openWindow('../../Download.aspx?FindFix_Attch_Id=" + Encryption.Encrypt(strPK_ID) + "&tbl=" + AttachmentTable + "');return false;";
 
-            LinkButton lnkDocType = (LinkButton)e.Row.FindControl("lnkDocType");
-            lnkDocType.OnClientClick = "javascript:openWindow('../../Download.aspx?FindFix_Attch_Id=" + Encryption.Encrypt(strPK_ID) + "&tbl=" + AttachmentTable + "');return false;";
-
-            //if (strPK_ID == "0")
-            //{
-            //    ((LinkButton)e.Row.FindControl("lnkEmail")).Enabled = false;
-            //}
-            //else
-            //{
-            //    LinkButton lnkEmail = (LinkButton)e.Row.FindControl("lnkEmail");
-            //    lnkEmail.OnClientClick = "javascript:ShowDialog('" + AppConfig.SiteURL + "SONIC/Exposures/AM_Attachment_Mail.aspx?OC_Attch_Id=" + Encryption.Encrypt(strPK_ID) + "&tbl=" + AttachmentTable + "');return false;";
-            //}
+            if (strPK_ID == "0")
+            {
+                ((LinkButton)e.Row.FindControl("lnkEmail")).Enabled = false;
+            }
+            else
+            {
+                LinkButton lnkEmail = (LinkButton)e.Row.FindControl("lnkEmail");
+                lnkEmail.OnClientClick = "javascript:ShowDialog('" + AppConfig.SiteURL + "SONIC/Exposures/AM_Attachment_Mail.aspx?OC_Attch_Id=" + Encryption.Encrypt(strPK_ID) + "&tbl=" + AttachmentTable + "');return false;";
+            }
         }
-        //if (e.Row.RowType == DataControlRowType.Header)
-        //{
-        //    if (AttachmentTable == "Find_it_Fix_it_Attachments")
-        //        e.Row.Cells[0].Text = "";
-        //    else
-        //        e.Row.Cells[0].Text = "Document";
-        //}
+        if (e.Row.RowType == DataControlRowType.Header)
+        {
+            if (AttachmentTable == "PM_FirstRepose_AEDEquipment_Attachments" || AttachmentTable == "PM_AssociateTrainingFirstRepose_AED_Attachments")
+                e.Row.Cells[0].Text = "Document Name";
+            else
+                e.Row.Cells[0].Text = "Document";
+        }
     }
 
     /// <summary>
@@ -202,29 +208,33 @@ public partial class Controls_Attachment_OC_Attachment : System.Web.UI.UserContr
 
             if (PK_ID > 0)
             {
-                if (AttachmentTable == "Find_it_Fix_it_Attachments")
+                if (AttachmentTable == "PM_FirstRepose_AEDEquipment_Attachments")
                 {
-                    clsFind_it_Fix_it_Attachments.DeleteByPK(clsGeneral.GetDecimal(strArgs[0]));
-                    if (File.Exists(AppConfig.Find_it_Fix_it_AttachmentsDocPath + strArgs[1]))
-                        File.Delete(AppConfig.Find_it_Fix_it_AttachmentsDocPath + strArgs[1]);
+                    clsPM_FirstRepose_AEDEquipment_Attachments.DeleteByPK(clsGeneral.GetDecimal(strArgs[0]));
+                    if (File.Exists(AppConfig.PM_Hearing_ConservationAttachmentsDocPath + strArgs[1]))
+                        File.Delete(AppConfig.PM_Hearing_ConservationAttachmentsDocPath + strArgs[1]);
                 }
-                BindGridFiles();
-                Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:ShowPanel(" + PanelNumber + ");", true);
+                else if (AttachmentTable == "PM_AssociateTrainingFirstRepose_AED_Attachments")
+                {
+                    clsPM_AssociateTrainingFirstRepose_AED_Attachments.DeleteByPK(clsGeneral.GetDecimal(strArgs[0]));
+                    if (File.Exists(AppConfig.PM_Hearing_ConservationAttachmentsDocPath + strArgs[1]))
+                        File.Delete(AppConfig.PM_Hearing_ConservationAttachmentsDocPath + strArgs[1]);
+                }
+                
             }
-            else if (dtAttachment_FindFix != null)
+            else if (dtAttachment_AEDFirstResponse != null)
             {
                 GridViewRow gvr = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
                 int RowIndex = gvr.RowIndex;
-                dtAttachment_FindFix.Rows.RemoveAt(RowIndex);
+                dtAttachment_AEDFirstResponse.Rows.RemoveAt(RowIndex);
 
-                if (File.Exists(AppConfig.Find_it_Fix_it_AttachmentsDocPath + strArgs[1]))
-                    File.Delete(AppConfig.Find_it_Fix_it_AttachmentsDocPath + strArgs[1]);
+                if (File.Exists(AppConfig.PM_Respiratory_Protection_AttachmentsDocPath + strArgs[1]))
+                    File.Delete(AppConfig.PM_Respiratory_Protection_AttachmentsDocPath + strArgs[1]);
 
-                ViewState["dtAttachment"] = dtAttachment_FindFix;
-                gvFiles.DataSource = dtAttachment_FindFix;
-                gvFiles.DataBind();
-                Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:ShowPanel(" + PanelNumber + ");", true);
+                ViewState["dtAttachment"] = dtAttachment_AEDFirstResponse;
             }
+            BindGridFiles();
+            Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:ShowPanel(" + PanelNumber + ");", true);
         }
     }
 
@@ -255,27 +265,30 @@ public partial class Controls_Attachment_OC_Attachment : System.Web.UI.UserContr
         }
     }
 
-    public void BindGridFiles()
+    private void BindGridFiles()
     {
         if (PK_ID > 0)
         {
-            if (AttachmentTable == "Find_it_Fix_it_Attachments")
+            if (AttachmentTable == "PM_FirstRepose_AEDEquipment_Attachments")
             {
-                lblAttachHeader.Text = lblAttachHeaderView.Text = "Add Attachment";
-                DataTable dtAttachment = clsFind_it_Fix_it_Attachments.SelectByFK_Find_It_Fix_It(PK_ID).Tables[0];
+                lblAttachHeader.Text = lblAttachHeaderView.Text = "Add Document";
+                DataTable dtAttachment = clsPM_FirstRepose_AEDEquipment_Attachments.SelectByFK(PK_ID).Tables[0];
                 gvFiles.DataSource = dtAttachment;
                 gvFiles.DataBind();
-
-                //btnViewPDF.Visible =(dtAttachment.Rows.Count > 0);
-                //btnEmail.Visible = (dtAttachment.Rows.Count > 0);
             }
-            //Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:ShowPanel(" + PanelNumber + ");", true);
+            else if (AttachmentTable == "PM_AssociateTrainingFirstRepose_AED_Attachments")
+            {
+                lblAttachHeader.Text = lblAttachHeaderView.Text = "Add Document";
+                DataTable dtAttachment = clsPM_AssociateTrainingFirstRepose_AED_Attachments.SelectByFK(PK_ID).Tables[0];
+                gvFiles.DataSource = dtAttachment;
+                gvFiles.DataBind();
+            }
         }
         else
         {
-            if (dtAttachment_FindFix.Rows.Count > 0)
+            if (dtAttachment_AEDFirstResponse.Rows.Count > 0)
             {
-                gvFiles.DataSource = dtAttachment_FindFix;
+                gvFiles.DataSource = dtAttachment_AEDFirstResponse;
                 gvFiles.DataBind();
             }
             else
@@ -517,14 +530,6 @@ public partial class Controls_Attachment_OC_Attachment : System.Web.UI.UserContr
     protected void btnSaveAttachments_Click(object sender, EventArgs e)
     {
         string tbl = string.Empty;
-        //if (PK_ID == 0)
-        //{
-        //    if (AttachmentTable == "Find_it_Fix_it_Attachments")
-        //    {
-        //        Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:alert('Please Save Find it And Fix It Details First');ShowPanel(5);", true);
-        //    }
-        //    return;
-        //}
 
         Is_AttachmentExists = true;
         SaveAttachment(Attachment1);
@@ -538,84 +543,107 @@ public partial class Controls_Attachment_OC_Attachment : System.Web.UI.UserContr
         SaveAttachment(Attachment9);
         SaveAttachment(Attachment10);
         BindGridFiles();
-        Session["dtAttachment"] = ViewState["dtAttachment"];
         if (Is_AttachmentExists)
             Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:alert('Attachment saved successfully');ShowPanel(" + PanelNumber + ");", true);
-        //tblAddAttachment.Visible = false;
-        //tblFileList.Visible = tblAddEditAttachment.Visible = false;
     }
 
 
-    private void SaveAttachment(controls_attachment_find_it_fix_it_am_attach_section_ascx obj)
+    private void SaveAttachment(controls_attachment_aed_first_response_am_attach_section_ascx obj)
     {
         if (obj.FileBrowser.HasFile)
         {
-            if (AttachmentTable == "Find_it_Fix_it_Attachments")
+            if (AttachmentTable == "PM_FirstRepose_AEDEquipment_Attachments")
             {
                 if (PK_ID != 0)
                 {
-                    clsFind_it_Fix_it_Attachments objFindItFixItAttachments = new clsFind_it_Fix_it_Attachments();
-
-                    objFindItFixItAttachments.Updated_By = clsSession.UserID;
-                    objFindItFixItAttachments.Update_Date = DateTime.Now;
-                    objFindItFixItAttachments.FK_Find_it_Fix_it = PK_ID;
+                    clsPM_FirstRepose_AEDEquipment_Attachments objPM_FirstRepose_AEDEquipment_Attachments = new clsPM_FirstRepose_AEDEquipment_Attachments();
+                    objPM_FirstRepose_AEDEquipment_Attachments.Updated_By = clsSession.UserID;
+                    objPM_FirstRepose_AEDEquipment_Attachments.Update_Date = DateTime.Now;
+                    objPM_FirstRepose_AEDEquipment_Attachments.FK_PM_FirstRepose_AEDEquipment = PK_ID;
 
                     if (!string.IsNullOrEmpty(obj.FileBrowser.PostedFile.FileName))
                     {
                         TextBox txtAttachmentNameAdd = (TextBox)obj.FindControl("txtAttachmentNameAdd");
                         if (txtAttachmentNameAdd != null)
-                            objFindItFixItAttachments.Attachment_Name = txtAttachmentNameAdd.Text;
+                            objPM_FirstRepose_AEDEquipment_Attachments.Attachment_Name = txtAttachmentNameAdd.Text;
+                        string strUploadPath = AppConfig.PM_Respiratory_Protection_AttachmentsDocPath;
+                        objPM_FirstRepose_AEDEquipment_Attachments.File_Name = clsGeneral.UploadFile(obj.FileBrowser, strUploadPath, false, false);
 
-                        RadioButtonList rblAttachmentType = (RadioButtonList)obj.FindControl("rblAttachmentType");
-                        if (rblAttachmentType != null)
-                            objFindItFixItAttachments.Attachment_Type = rblAttachmentType.Text;
-
-                        string strUploadPath = AppConfig.Find_it_Fix_it_AttachmentsDocPath;
-                        objFindItFixItAttachments.File_Name = clsGeneral.UploadFile(obj.FileBrowser, strUploadPath, false, false);
-
-                        PK_AM_Attachments = objFindItFixItAttachments.Insert();
+                        PK_AM_Attachments = objPM_FirstRepose_AEDEquipment_Attachments.Insert();
                         Is_AttachmentExists = true;
                         txtAttachmentNameAdd.Text = string.Empty;
                     }
                 }
                 else
                 {
-                    DataTable dtTemp = dtAttachment_FindFix;
+                    DataTable dtTemp = dtAttachment_AEDFirstResponse;
                     DataRow drAttachment = dtTemp.NewRow();
-                    drAttachment["PK_Find_it_Fix_it_Attachments"] = 0;
+                    drAttachment["PK_Attachments"] = 0;
                     if (!string.IsNullOrEmpty(obj.FileBrowser.PostedFile.FileName))
                     {
                         TextBox txtAttachmentNameAdd = (TextBox)obj.FindControl("txtAttachmentNameAdd");
                         if (txtAttachmentNameAdd != null)
                             drAttachment["Attachment_Name"] = txtAttachmentNameAdd.Text;
 
-                        RadioButtonList rblAttachmentType = (RadioButtonList)obj.FindControl("rblAttachmentType");
-                        if (rblAttachmentType != null)
-                            drAttachment["Attachment_Type"] = rblAttachmentType.Text;
-
-                        drAttachment["File_Name"] = clsGeneral.UploadFile(obj.FileBrowser, AppConfig.Find_it_Fix_it_AttachmentsDocPath, false, false);
+                        drAttachment["File_Name"] = clsGeneral.UploadFile(obj.FileBrowser, AppConfig.PM_Respiratory_Protection_AttachmentsDocPath, false, false);
 
                         dtTemp.Rows.Add(drAttachment);
                         ViewState["dtAttachment"] = dtTemp;
-                        dtAttachment_FindFix = (DataTable)ViewState["dtAttachment"];
+                        dtAttachment_AEDFirstResponse = (DataTable)ViewState["dtAttachment"];
                         txtAttachmentNameAdd.Text = string.Empty;
                     }
                 }
             }
-            string strFolder = string.Empty; //strNewFileName = string.Empty;// strFileToAttach = string.Empty;
+            else if (AttachmentTable == "PM_AssociateTrainingFirstRepose_AED_Attachments")
+            {
+                if (PK_ID != 0)
+                {
+                    clsPM_AssociateTrainingFirstRepose_AED_Attachments objPM_AssociateTrainingFirstRepose_AED_Attachments = new clsPM_AssociateTrainingFirstRepose_AED_Attachments();
+                    objPM_AssociateTrainingFirstRepose_AED_Attachments.Updated_By = clsSession.UserID;
+                    objPM_AssociateTrainingFirstRepose_AED_Attachments.Update_Date = DateTime.Now;
+                    objPM_AssociateTrainingFirstRepose_AED_Attachments.FK_PM_AssociateTrainingFirstRepose_AED = PK_ID;
+
+                    if (!string.IsNullOrEmpty(obj.FileBrowser.PostedFile.FileName))
+                    {
+                        TextBox txtAttachmentNameAdd = (TextBox)obj.FindControl("txtAttachmentNameAdd");
+                        if (txtAttachmentNameAdd != null)
+                            objPM_AssociateTrainingFirstRepose_AED_Attachments.Attachment_Name = txtAttachmentNameAdd.Text;
+                        string strUploadPath = AppConfig.PM_Respiratory_Protection_AttachmentsDocPath;
+                        objPM_AssociateTrainingFirstRepose_AED_Attachments.File_Name = clsGeneral.UploadFile(obj.FileBrowser, strUploadPath, false, false);
+
+                        PK_AM_Attachments = objPM_AssociateTrainingFirstRepose_AED_Attachments.Insert();
+                        Is_AttachmentExists = true;
+                        txtAttachmentNameAdd.Text = string.Empty;
+                    }
+                }
+                else
+                {
+                    DataTable dtTemp = dtAttachment_AEDFirstResponse;
+                    DataRow drAttachment = dtTemp.NewRow();
+                    drAttachment["PK_Attachments"] = 0;
+                    if (!string.IsNullOrEmpty(obj.FileBrowser.PostedFile.FileName))
+                    {
+                        TextBox txtAttachmentNameAdd = (TextBox)obj.FindControl("txtAttachmentNameAdd");
+                        if (txtAttachmentNameAdd != null)
+                            drAttachment["Attachment_Name"] = txtAttachmentNameAdd.Text;
+
+                        drAttachment["File_Name"] = clsGeneral.UploadFile(obj.FileBrowser, AppConfig.PM_Respiratory_Protection_AttachmentsDocPath, false, false);
+
+                        dtTemp.Rows.Add(drAttachment);
+                        ViewState["dtAttachment"] = dtTemp;
+                        dtAttachment_AEDFirstResponse = (DataTable)ViewState["dtAttachment"];
+                        txtAttachmentNameAdd.Text = string.Empty;
+                    }
+                }
+            }
+
+            string strFolder = string.Empty;
         }
     }
 
-    //protected void btnCancelAttachment_Add_Click(object sender, EventArgs e)
-    //{
-    //    //tblFileList.Visible = tblAddEditAttachment.Visible = false;
-    //    Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:ShowPanel(" + PanelNumber + ");", true);
-    //}
-
-    private void SetDefaultsForAttachment(Controls_Attachment_AssetProtection_AM_Attach_Section objAttachemnt)
+    private void SetDefaultsForAttachment(Controls_Attachment_AED_First_Response_AM_Attach_Section objAttachemnt)
     {
         objAttachemnt.TextBoxFiletoAttach.Text = "";
-        //objAttachemnt.DropdownFolder.SelectedIndex = -1;
     }
 
     #endregion

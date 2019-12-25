@@ -174,6 +174,23 @@ public partial class SONIC_Pollution_PM_FirstRepose_AEDAssociateTraining : clsBa
         {
             _retVal = objPM_AssociateTrainingFirstRepose_AED.Insert();
             PK_PM_AssociateTrainingFirstRepose_AED = _retVal;
+
+            clsPM_AssociateTrainingFirstRepose_AED_Attachments objAttachments = new clsPM_AssociateTrainingFirstRepose_AED_Attachments();
+
+            if (Attachments.dtAttachment_AEDFirstResponse != null)
+            {
+                DataTable dtAttachment = Attachments.dtAttachment_AEDFirstResponse;
+                for (int i = 0; i < dtAttachment.Rows.Count; i++)
+                {
+                    objAttachments.Updated_By = clsSession.UserID;
+                    objAttachments.Update_Date = DateTime.Now;
+                    objAttachments.FK_PM_AssociateTrainingFirstRepose_AED = PK_PM_AssociateTrainingFirstRepose_AED;
+                    objAttachments.Attachment_Name = Convert.ToString(dtAttachment.Rows[i]["Attachment_Name"]);
+                    objAttachments.File_Name = Convert.ToString(dtAttachment.Rows[i]["File_Name"]);
+
+                    objAttachments.Insert();
+                }
+            }
         }
         Response.Redirect("PM_FirstRepose_AEDAssociateTraining.aspx?op=view&id=" + Encryption.Encrypt(Convert.ToString(PK_PM_AssociateTrainingFirstRepose_AED)) + "&loc=" + Encryption.Encrypt(Convert.ToString(FK_LU_Location_ID)) + "&fid=" + Encryption.Encrypt(Convert.ToString(FK_PM_Site_Information)));
     }

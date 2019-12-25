@@ -179,6 +179,23 @@ public partial class SONIC_Pollution_PM_FirstRepose_AEDEquipment : clsBasePage
         {
             _retVal = objPM_FirstRepose_AEDEquipment.Insert();
             PK_PM_FirstRepose_AEDEquipment = _retVal;
+
+            clsPM_FirstRepose_AEDEquipment_Attachments objAttachments = new clsPM_FirstRepose_AEDEquipment_Attachments();
+
+            if (Attachments.dtAttachment_AEDFirstResponse != null)
+            {
+                DataTable dtAttachment = Attachments.dtAttachment_AEDFirstResponse;
+                for (int i = 0; i < dtAttachment.Rows.Count; i++)
+                {
+                    objAttachments.Updated_By = clsSession.UserID;
+                    objAttachments.Update_Date = DateTime.Now;
+                    objAttachments.FK_PM_FirstRepose_AEDEquipment = PK_PM_FirstRepose_AEDEquipment;
+                    objAttachments.Attachment_Name = Convert.ToString(dtAttachment.Rows[i]["Attachment_Name"]);
+                    objAttachments.File_Name = Convert.ToString(dtAttachment.Rows[i]["File_Name"]);
+
+                    objAttachments.Insert();
+                }
+            }
         }
         Response.Redirect("PM_FirstRepose_AEDEquipment.aspx?op=view&id=" + Encryption.Encrypt(Convert.ToString(PK_PM_FirstRepose_AEDEquipment)) + "&loc=" + Encryption.Encrypt(Convert.ToString(FK_LU_Location_ID)) + "&fid=" + Encryption.Encrypt(Convert.ToString(FK_PM_Site_Information)));
     }
