@@ -162,18 +162,21 @@ public partial class Controls_Attachment_OC_Attachment : System.Web.UI.UserContr
             string strFileName = DataBinder.Eval(e.Row.DataItem, "File_Name").ToString();
             string strPK_ID = DataBinder.Eval(e.Row.DataItem, "PK_Attachments").ToString();
 
-            LinkButton lnkDocName = (LinkButton)e.Row.FindControl("lnkDocName");
-            lnkDocName.OnClientClick = "javascript:openWindow('../../Download.aspx?OC_Attch_Id=" + Encryption.Encrypt(strPK_ID) + "&tbl=" + AttachmentTable + "');return false;";
+            
 
 
             if (strPK_ID == "0")
             {
                 ((LinkButton)e.Row.FindControl("lnkEmail")).Enabled = false;
+                ((LinkButton)e.Row.FindControl("lnkDocName")).Enabled = false;
             }
             else
             {
                 LinkButton lnkEmail = (LinkButton)e.Row.FindControl("lnkEmail");
                 lnkEmail.OnClientClick = "javascript:ShowDialog('" + AppConfig.SiteURL + "SONIC/Exposures/AM_Attachment_Mail.aspx?OC_Attch_Id=" + Encryption.Encrypt(strPK_ID) + "&tbl=" + AttachmentTable + "');return false;";
+
+                LinkButton lnkDocName = (LinkButton)e.Row.FindControl("lnkDocName");
+                lnkDocName.OnClientClick = "javascript:openWindow('../../Download.aspx?OC_Attch_Id=" + Encryption.Encrypt(strPK_ID) + "&tbl=" + AttachmentTable + "');return false;";
             }
         }
         if (e.Row.RowType == DataControlRowType.Header)
