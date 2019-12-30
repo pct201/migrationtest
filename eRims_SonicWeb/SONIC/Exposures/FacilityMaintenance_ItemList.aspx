@@ -255,33 +255,33 @@
                                                                         AutoGenerateColumns="false" Width="100%" OnRowCommand="gvMaintenance_RowCommand" >
                                                                         <Columns>
                                                                             <asp:TemplateField HeaderText="Number">
-                                                                                <ItemStyle Width="20%" />
+                                                                                <ItemStyle Width="25%" />
                                                                                 <ItemTemplate>
                                                                                     <asp:LinkButton ID="lnkViewMaintenanceDetail1" CausesValidation="false" runat="server" Text='<%# Eval("Item_Number")%>'
                                                                                         CommandName="MaintenanceDetails" CommandArgument='<%# Eval("PK_Facility_Construction_Maintenance_Item")%>'></asp:LinkButton>
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
                                                                             <asp:TemplateField HeaderText="Building Number">
-                                                                                <ItemStyle Width="20%" />
+                                                                                <ItemStyle Width="25%" />
                                                                                 <ItemTemplate>
                                                                                     <asp:LinkButton ID="lnkViewMaintenanceDetail2" CausesValidation="false" runat="server" Text='<%# Eval("Building_Number")%>'
                                                                                         CommandName="MaintenanceDetails" CommandArgument='<%# Eval("PK_Facility_Construction_Maintenance_Item")%>'></asp:LinkButton>
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
                                                                             <asp:TemplateField HeaderText="Type">
-                                                                                <ItemStyle Width="20%" />
+                                                                                <ItemStyle Width="25%" />
                                                                                 <ItemTemplate>
                                                                                     <%# Eval("Maintenance_Type")%>
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
-                                                                            <asp:TemplateField HeaderText="Title">
+                                                                            <%--<asp:TemplateField HeaderText="Title">
                                                                                 <ItemStyle Width="35%" />
                                                                                 <ItemTemplate>
                                                                                     <%# Eval("Title") %>
                                                                                 </ItemTemplate>
-                                                                            </asp:TemplateField>
+                                                                            </asp:TemplateField>--%>
                                                                             <asp:TemplateField HeaderText="Status">
-                                                                                <ItemStyle Width="35%" />
+                                                                                <ItemStyle Width="25%" />
                                                                                 <ItemTemplate>
                                                                                     <%# Eval("Maintenance_Status") %>
                                                                                 </ItemTemplate>

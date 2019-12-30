@@ -27,13 +27,13 @@
                             <input type="hidden" id="hdnFileName" runat="server" value='<%#Eval("File_Name") %>' />
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <asp:TemplateField HeaderText="Email">
+                  <%--  <asp:TemplateField HeaderText="Email">
                         <ItemStyle Width="15%" />
                         <ItemTemplate>
                             <asp:LinkButton ID="lnkEmail" runat="server">
                                 <img src="../../Images/Email_Attachment.jpg" alt="E-Mail" /></asp:LinkButton>
                         </ItemTemplate>
-                    </asp:TemplateField>
+                    </asp:TemplateField>--%>
                     <asp:TemplateField HeaderText="Delete">
                         <ItemStyle Width="15%" />
                         <ItemTemplate>
