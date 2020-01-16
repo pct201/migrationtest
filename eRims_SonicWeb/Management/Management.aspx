@@ -256,6 +256,7 @@
         }
 
         function SetApprovalSubmissionOnSaveButton() {
+            debugger;
             if (Page_ClientValidate('vsManagementGroup')) {
 
                 var selectedWork = $('#ctl00_ContentPlaceHolder1_drpFK_Work_Completed option:selected').text().trim().toLowerCase();
@@ -1664,7 +1665,7 @@
                                                                             <img onmouseover="javascript:this.style.cursor='hand';" onclick="return showCalendar('<%= txtGM_Last_Email_Date.ClientID %>', 'mm/dd/y');"
                                                                                 alt="GM Last Email Date" src="../Images/iconPicDate.gif" align="middle" /><br />
                                                                             <asp:RegularExpressionValidator ID="revtxtGM_Last_Email_Date" runat="server" ControlToValidate="txtGM_Last_Email_Date"
-                                                                                ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([01])(\d{1})|([8901])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([2-9])(\d{1})|(20)([01])(\d{1})|([8901])(\d{1})))$"
+                                                                                ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$"
                                                                                 ErrorMessage="[Approvals]/Date Not Valid(GM Last E-Mail Date)" Display="none" ValidationGroup="vsManagementGroup">
                                                                             </asp:RegularExpressionValidator>
                                                                             <%--<asp:CustomValidator ID="cvGM_Last_Email_Date" runat="server" ControlToValidate="txtGM_Last_Email_Date"
@@ -1692,7 +1693,7 @@
                                                                             <img onmouseover="javascript:this.style.cursor='hand';" onclick="return showCalendar('<%= txtGM_Response_Date.ClientID %>', 'mm/dd/y');"
                                                                                 alt="GM Response Date" src="../Images/iconPicDate.gif" align="middle" /><br />
                                                                             <asp:RegularExpressionValidator ID="revtxtGM_Response_Date" runat="server" ControlToValidate="txtGM_Response_Date"
-                                                                                ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([01])(\d{1})|([8901])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([2-9])(\d{1})|(20)([01])(\d{1})|([8901])(\d{1})))$"
+                                                                                ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$"
                                                                                 ErrorMessage="[Approvals]/Date Not Valid(GM Response Date)" Display="none" ValidationGroup="vsManagementGroup"></asp:RegularExpressionValidator>
                                                                             <%--  <asp:CustomValidator ID="cvGM_Response_Date" runat="server" ControlToValidate="txtGM_Response_Date"
                                                                                 ValidationGroup="vsManagementGroup" ClientValidationFunction="CheckDate" ErrorMessage="[Approvals]/GM Response Date is not valid."
@@ -1733,7 +1734,7 @@
                                                                             <img onmouseover="javascript:this.style.cursor='hand';" onclick="return showCalendar('<%= txtRLCM_Last_Email_Date.ClientID %>', 'mm/dd/y');"
                                                                                 alt="RLCM Last Email Date" src="../Images/iconPicDate.gif" align="middle" /><br />
                                                                             <asp:RegularExpressionValidator ID="revtxtRLCM_Last_Email_Date" runat="server" ControlToValidate="txtRLCM_Last_Email_Date"
-                                                                                ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([01])(\d{1})|([8901])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([2-9])(\d{1})|(20)([01])(\d{1})|([8901])(\d{1})))$"
+                                                                                ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$"
                                                                                 ErrorMessage="[Approvals]/Date Not Valid(Last E-Mail Date)" Display="none" ValidationGroup="vsManagementGroup"></asp:RegularExpressionValidator>
                                                                             <%--  <asp:CustomValidator ID="cvRLCM_Last_Email_Date" runat="server" ControlToValidate="txtRLCM_Last_Email_Date"
                                                                                 ValidationGroup="vsManagementGroup" ClientValidationFunction="CheckDate" ErrorMessage="[Approvals]/RLCM Last Email Date is not valid."
@@ -1760,7 +1761,7 @@
                                                                             <img onmouseover="javascript:this.style.cursor='hand';" onclick="return showCalendar('<%= txtRLCM_Response_Date.ClientID %>', 'mm/dd/y');"
                                                                                 alt="RLCM Response Date" src="../Images/iconPicDate.gif" align="middle" /><br />
                                                                             <asp:RegularExpressionValidator ID="revtxtRLCM_Response_Date" runat="server" ControlToValidate="txtRLCM_Response_Date"
-                                                                                ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([01])(\d{1})|([8901])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([2-9])(\d{1})|(20)([01])(\d{1})|([8901])(\d{1})))$"
+                                                                                ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$"
                                                                                 ErrorMessage="[Approvals]/Date Not Valid(RLCM Response Date)" Display="none" ValidationGroup="vsManagementGroup"></asp:RegularExpressionValidator>
                                                                             <%-- <asp:CustomValidator ID="cvRLCM_Response_Date" runat="server" ControlToValidate="txtRLCM_Response_Date"
                                                                                 ValidationGroup="vsManagementGroup" ClientValidationFunction="CheckDate" ErrorMessage="[Approvals]/RLCM Response Date is not valid."
@@ -1801,7 +1802,7 @@
                                                                             <img onmouseover="javascript:this.style.cursor='hand';" onclick="return showCalendar('<%= txtNAPM_Last_Email_Date.ClientID %>', 'mm/dd/y');"
                                                                                 alt="NAPM Last Email Date" src="../Images/iconPicDate.gif" align="middle" /><br />
                                                                             <asp:RegularExpressionValidator ID="revtxtNAPM_Last_Email_Date" runat="server" ControlToValidate="txtNAPM_Last_Email_Date"
-                                                                                ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([01])(\d{1})|([8901])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([2-9])(\d{1})|(20)([01])(\d{1})|([8901])(\d{1})))$"
+                                                                                ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$"
                                                                                 ErrorMessage="[Approvals]/Date Not Valid(Last E-Mail Date)" Display="none" ValidationGroup="vsManagementGroup"></asp:RegularExpressionValidator>
                                                                             <%-- <asp:CustomValidator ID="cvNAPM_Last_Email_Date" runat="server" ControlToValidate="txtNAPM_Last_Email_Date"
                                                                                 ValidationGroup="vsManagementGroup" ClientValidationFunction="CheckDate" ErrorMessage="[Approvals]/NAPM Last Email Date is not valid."
@@ -1828,7 +1829,7 @@
                                                                             <img onmouseover="javascript:this.style.cursor='hand';" onclick="return showCalendar('<%= txtNAPM_Response_Date.ClientID %>', 'mm/dd/y');"
                                                                                 alt="NAPM Response Date" src="../Images/iconPicDate.gif" align="middle" /><br />
                                                                             <asp:RegularExpressionValidator ID="revtxtNAPM_Response_Date" runat="server" ControlToValidate="txtNAPM_Response_Date"
-                                                                                ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([01])(\d{1})|([8901])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([2-9])(\d{1})|(20)([01])(\d{1})|([8901])(\d{1})))$"
+                                                                                ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$"
                                                                                 ErrorMessage="[Approvals]/Date Not Valid(NAPM Response Date)" Display="none" ValidationGroup="vsManagementGroup"></asp:RegularExpressionValidator>
                                                                             <%-- <asp:CustomValidator ID="cvNAPM_Response_Date" runat="server" ControlToValidate="txtNAPM_Response_Date"
                                                                                 ValidationGroup="vsManagementGroup" ClientValidationFunction="CheckDate" ErrorMessage="[Approvals]/NAPM Response Date is not valid."
