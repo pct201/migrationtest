@@ -84,13 +84,13 @@ public class SLT_Reports : System.Web.UI.Page
         //    else if (Score >= 30) Score_Desc = Charts.Platinum_Label;
         //    else Score_Desc = "";
         //}
-        Score = Convert.ToDecimal((objSLT_Meeting_Schedule.Full_Participation == null ? 0 : objSLT_Meeting_Schedule.Full_Participation) + 
-            (objSLT_Meeting_Schedule.Full_SW_Participation==null ? 0 :objSLT_Meeting_Schedule.Full_SW_Participation) + 
-            (objSLT_Meeting_Schedule.Incident_Review == null ? 0 : objSLT_Meeting_Schedule.Incident_Review) + 
+        Score = Convert.ToDecimal((objSLT_Meeting_Schedule.Full_Participation == null ? 0 : objSLT_Meeting_Schedule.Full_Participation) +
+            (objSLT_Meeting_Schedule.Full_SW_Participation == null ? 0 : objSLT_Meeting_Schedule.Full_SW_Participation) +
+            (objSLT_Meeting_Schedule.Incident_Review == null ? 0 : objSLT_Meeting_Schedule.Incident_Review) +
             (objSLT_Meeting_Schedule.RLCM_Score == null ? 0 : objSLT_Meeting_Schedule.RLCM_Score));
 
         strBody = strBody.Replace("[Total_Points]", Convert.ToString(Score));
-        
+
         if (Score > 0)
         {
             Score = (Score * 100) / Convert.ToDecimal(2.5);
@@ -162,7 +162,7 @@ public class SLT_Reports : System.Web.UI.Page
         string style = "style='font-size: 11pt; font-weight: normal;  font-family: Calibri;'>";
         string styleHeader = "<span style='font-family: Calibri;'>";
         sbGrid.Append("<table cellpadding='0' cellspacing='0' border='0' width='100%' align='center'>");
-        DataTable DtAttendees = SLT_Members.SLT_MembersSelectByFk(PK_SLT_Meeting, 0,PK_SLT_Meeting_Schedule).Tables[0];
+        DataTable DtAttendees = SLT_Members.SLT_MembersSelectByFk(PK_SLT_Meeting, 0, PK_SLT_Meeting_Schedule).Tables[0];
         // DataTable DtAttendees = SLT_Meeting_Attendees.SelectBYFK(PK_SLT_Meeting_Schedule).Tables[0];
         if (DtAttendees.Rows.Count > 0)
         {
@@ -551,7 +551,7 @@ public class SLT_Reports : System.Web.UI.Page
                     DataView dv = new DataView(dtObservationAttachment);
                     dv.RowFilter = "FK_SLT_Safety_Walk_Responses =" + Convert.ToString(dr["PK_SLT_Safety_Walk_Responses"]);
 
-                    sbtbl.Append("<tr>" + "<td align='left' colspan='6'>" + style + "Attachments</span>" + GetOpenObservationAttachmetHTML(dv.ToTable()) + "</td>" +"</tr>");
+                    sbtbl.Append("<tr>" + "<td align='left' colspan='6'>" + style + "Attachments</span>" + GetOpenObservationAttachmetHTML(dv.ToTable()) + "</td>" + "</tr>");
                 }
                 sbtbl.Append("<tr><td colspan='4'>&nbsp;</td></tr>");
                 //sbtbl.Append("<tr><th align='left' valign='bottom' width='20%'>" + styleHeader + "Month</span></th>");
@@ -724,7 +724,7 @@ public class SLT_Reports : System.Web.UI.Page
 
         #region "Meeting Review"
 
-        string strNext_Meeting = "", strMeeting_Place = "", strNext_meeting_Time = "", strActualMeetingDate="";
+        string strNext_Meeting = "", strMeeting_Place = "", strNext_meeting_Time = "", strActualMeetingDate = "";
         int intNextMonth = 0, iNextYear = 0;
         DataTable dtNextMeeting = SLT_Meeting_Schedule.SelectNextMeeting(PK_SLT_Meeting_Schedule, PK_SLT_Meeting).Tables[0];
         if (dtNextMeeting.Rows.Count > 0)
@@ -889,7 +889,7 @@ public class SLT_Reports : System.Web.UI.Page
                                 "<tr>" +
                                     "<td style='width: 30%' align='left'>" + style + "a.Show Sonic Guidance?</span></td>" +
                                     "<td style='width: 2%' align='center'>" + style + ":</span> </td>" +
-                                    "<td style='width: 68%' align='left' colspan='4'>" + style + "Yes</span>" +" </td>" +
+                                    "<td style='width: 68%' align='left' colspan='4'>" + style + "Yes</span>" + " </td>" +
                                " </tr>"
                                );
                 //if rblGuidance == Y  not getting in db
@@ -925,14 +925,14 @@ public class SLT_Reports : System.Web.UI.Page
                     sbtbl.Append("<tr>" +
                                             "<td style='width: 30%' align='left' valign='top'>" + style + "What Needs to be done?</span></td>" +
                                             "<td style='width: 2%' align='center' valign='top'>" + style + ":</span> </td>" +
-                                            "<td style='width: 68%' align='left' colspan='4'>" + style + clsGeneral.ReplaceSpaceAndNewLine(Convert.ToString(dr["What_Needs_To_Be_Done"])) + "</span>" +"</td>" +
+                                            "<td style='width: 68%' align='left' colspan='4'>" + style + clsGeneral.ReplaceSpaceAndNewLine(Convert.ToString(dr["What_Needs_To_Be_Done"])) + "</span>" + "</td>" +
                                  "</tr>");
                 }
 
                 sbtbl.Append("<tr>" +
                                         " <td style='width: 30%' align='left'>" + style + "Add a picture or document?</span></td>" +
                                         "<td style='width: 2%' align='center'>" + style + ":</span> </td>" +
-                                        "<td style='width: 68%' align='left' colspan='4'>" + style + Convert.ToString(dr["Add a Picture or Document?"]) + "</span>" +"</td>" +
+                                        "<td style='width: 68%' align='left' colspan='4'>" + style + Convert.ToString(dr["Add a Picture or Document?"]) + "</span>" + "</td>" +
                              "</tr>");
 
                 if (Convert.ToString(dr["Observation_Acceptable"]) == "No") //rblObservation =="N"
@@ -950,7 +950,7 @@ public class SLT_Reports : System.Web.UI.Page
                                  "<tr>" +
                                          "<td style='width: 30%' align='left' valign='top'>" + style + "Completion Date</span></td>" +
                                          " <td style='width: 2%' align='center' valign='top'>" + style + ":</span> </td>" +
-                                         "<td style='width: 68%' align='left' colspan='4'>" + style + Convert.ToString(dr["Completed_Date"]) + "</span>" +"</td>" +
+                                         "<td style='width: 68%' align='left' colspan='4'>" + style + Convert.ToString(dr["Completed_Date"]) + "</span>" + "</td>" +
                                   "</tr>");
                 }
 
@@ -1133,162 +1133,197 @@ public class SLT_Reports : System.Web.UI.Page
         strBody = strBody.Replace("[Location_Dba]", objLU_Location.dba);
         strBody = strBody.Replace("[Meeting_Date]", clsGeneral.FormatDBNullDateToDisplay(objSLT_Meeting_Schedule.Scheduled_Meeting_Date));
         strBody = strBody.Replace("[Attendees_info]", GetMembersDetails());
-
-        #region "Safety Walk Open Observation"
         int intMonth = objSLT_Meeting_Schedule.Scheduled_Meeting_Date != null ? Convert.ToInt32(Convert.ToDateTime(objSLT_Meeting_Schedule.Scheduled_Meeting_Date).Month) : Convert.ToInt32(DateTime.Now.Month);
         int iYear = objSLT_Meeting_Schedule.Scheduled_Meeting_Date != null ? Convert.ToInt32(Convert.ToDateTime(objSLT_Meeting_Schedule.Scheduled_Meeting_Date).Year) : Convert.ToInt32(DateTime.Now.Year);
-        StringBuilder sbtbl = new StringBuilder();
 
-        DataTable dtOpenObservation = LU_SLT_Safety_Walk_Focus_Area.GetSLTSafetyWalkOpenObservation(objSLT_Meeting_Schedule.FK_SLT_Meeting.Value, intMonth, objSLT_Meeting_Schedule.PK_SLT_Meeting_Schedule.Value, iYear, false).Tables[0];
-        if (dtOpenObservation.Rows.Count > 0)
-        {
-            string styleHeader = "<span style='font-family: Calibri;'>";
-            sbtbl.Append("<table cellpadding='0' cellspacing='0' border='0' width='100%' align='center'>");
-            sbtbl.Append("<tr><th align='left' valign='bottom' width='20%'>" + styleHeader + "Month</span></th>");
-            sbtbl.Append("<th align='left' valign='bottom' width='30%'>" + styleHeader + "Focus Area</span></th>");
-            sbtbl.Append("<th align='left' valign='bottom' width='20%'>" + styleHeader + "Date Completed</span></th>");
-            sbtbl.Append("<th align='center' valign='bottom' width='25%'>" + styleHeader + " Observations Open</span></th></tr>");
-            foreach (DataRow dr in dtOpenObservation.Rows)
-            {
-                string style = "<span style='font-size: 11pt; font-family: Calibri'>";
-                sbtbl.Append("<tr><td align='left' valign='top'>" + style + Convert.ToString(dr["Month"]) + "</span></td>");
-                sbtbl.Append("<td align='left' valign='top'>" + style + Convert.ToString(dr["Focus_Area"]) + "</span></td>");
-                sbtbl.Append("<td align='left' valign='top'>" + style + clsGeneral.FormatDBNullDateToDisplay(dr["Safety_Walk_Comp_Date"]) + "</span></td>");
-                sbtbl.Append("<td align='center' valign='top'>" + style + Convert.ToString(dr["Observations_Open"]) + "</span></td>");
-                sbtbl.Append("</tr>");
-            }
+        #region "Safety Walk Open Observation"
 
-            #region Bind Questions
-            sbtbl.Append("<tr><th align='left' valign='bottom' colspan='4'>" + styleHeader + "Questions</th></tr>");
-            DataTable dtQuestionOfOpenObservation = LU_SLT_Safety_Walk_Focus_Area.GetQuestions_OfOpenObservation(intMonth, objSLT_Meeting_Schedule.PK_SLT_Meeting_Schedule.Value, iYear).Tables[0];
-            sbtbl.Append("<tr><td colspan='4'><table cellpadding='0' cellspacing='0' border='0' width='100%' align='center'>");
-            foreach (DataRow drQue in dtQuestionOfOpenObservation.Rows)
-            {
-                string style = "<span style='font-size: 11pt; font-family: Calibri'>";
-                sbtbl.Append("<tr><td align='left' valign='top' style='width:5%;'>" + style + Convert.ToString(drQue["Sort_Order"]) + ". &nbsp;</span></td>");
-                sbtbl.Append("<td align='left' valign='top'>" + style + Convert.ToString(drQue["Question"]) + "</span></td>");
-                sbtbl.Append("</tr>");
-                sbtbl.Append("<tr><td colspan='2'>&nbsp;</td></tr>");
-            }
-            sbtbl.Append("</table></td></tr>");
-            #endregion
+        //StringBuilder sbtbl = new StringBuilder();
 
-            sbtbl.Append("<tr><td colspan='4'>&nbsp;</td></tr>");
-            sbtbl.Append("</table>");
+        //DataTable dtOpenObservation = LU_SLT_Safety_Walk_Focus_Area.GetSLTSafetyWalkOpenObservation(objSLT_Meeting_Schedule.FK_SLT_Meeting.Value, intMonth, objSLT_Meeting_Schedule.PK_SLT_Meeting_Schedule.Value, iYear, false).Tables[0];
+        //if (dtOpenObservation.Rows.Count > 0)
+        //{
+        //    string styleHeader = "<span style='font-family: Calibri;'>";
+        //    sbtbl.Append("<table cellpadding='0' cellspacing='0' border='0' width='100%' align='center'>");
+        //    sbtbl.Append("<tr><th align='left' valign='bottom' width='20%'>" + styleHeader + "Month</span></th>");
+        //    sbtbl.Append("<th align='left' valign='bottom' width='30%'>" + styleHeader + "Focus Area</span></th>");
+        //    sbtbl.Append("<th align='left' valign='bottom' width='20%'>" + styleHeader + "Date Completed</span></th>");
+        //    sbtbl.Append("<th align='center' valign='bottom' width='25%'>" + styleHeader + " Observations Open</span></th></tr>");
+        //    foreach (DataRow dr in dtOpenObservation.Rows)
+        //    {
+        //        string style = "<span style='font-size: 11pt; font-family: Calibri'>";
+        //        sbtbl.Append("<tr><td align='left' valign='top'>" + style + Convert.ToString(dr["Month"]) + "</span></td>");
+        //        sbtbl.Append("<td align='left' valign='top'>" + style + Convert.ToString(dr["Focus_Area"]) + "</span></td>");
+        //        sbtbl.Append("<td align='left' valign='top'>" + style + clsGeneral.FormatDBNullDateToDisplay(dr["Safety_Walk_Comp_Date"]) + "</span></td>");
+        //        sbtbl.Append("<td align='center' valign='top'>" + style + Convert.ToString(dr["Observations_Open"]) + "</span></td>");
+        //        sbtbl.Append("</tr>");
+        //    }
 
-        }
-        else
-        {
-            strBody.Replace("[SafetyWalk_Observation]", "<span style='font-size: 11pt; font-family: Calibri'>No records Found</span>");
-        }
-        strBody = strBody.Replace("[SafetyWalk_Observation]", sbtbl.ToString());
+        //    #region Bind Questions
+        //    sbtbl.Append("<tr><th align='left' valign='bottom' colspan='4'>" + styleHeader + "Questions</th></tr>");
+        //    DataTable dtQuestionOfOpenObservation = LU_SLT_Safety_Walk_Focus_Area.GetQuestions_OfOpenObservation(intMonth, objSLT_Meeting_Schedule.PK_SLT_Meeting_Schedule.Value, iYear).Tables[0];
+        //    sbtbl.Append("<tr><td colspan='4'><table cellpadding='0' cellspacing='0' border='0' width='100%' align='center'>");
+        //    foreach (DataRow drQue in dtQuestionOfOpenObservation.Rows)
+        //    {
+        //        string style = "<span style='font-size: 11pt; font-family: Calibri'>";
+        //        sbtbl.Append("<tr><td align='left' valign='top' style='width:5%;'>" + style + Convert.ToString(drQue["Sort_Order"]) + ". &nbsp;</span></td>");
+        //        sbtbl.Append("<td align='left' valign='top'>" + style + Convert.ToString(drQue["Question"]) + "</span></td>");
+        //        sbtbl.Append("</tr>");
+        //        sbtbl.Append("<tr><td colspan='2'>&nbsp;</td></tr>");
+        //    }
+        //    sbtbl.Append("</table></td></tr>");
+        //#endregion
+
+        //sbtbl.Append("<tr><td colspan='4'>&nbsp;</td></tr>");
+        //sbtbl.Append("</table>");
+
+        //}
+        //else
+        //{
+        //    strBody.Replace("[SafetyWalk_Observation]", "<span style='font-size: 11pt; font-family: Calibri'>No records Found</span>");
+        //}
+        //strBody = strBody.Replace("[SafetyWalk_Observation]", sbtbl.ToString());
         #endregion
 
         #region "Safety Walk Open Observation For Prior Months"
-        StringBuilder sbtblPriorMnth = new StringBuilder();
+        //StringBuilder sbtblPriorMnth = new StringBuilder();
 
-        DataTable dtOpenObservationPriorMonths = LU_SLT_Safety_Walk_Focus_Area.GetSLTSafetyWalkOpenObservation(objSLT_Meeting_Schedule.FK_SLT_Meeting.Value, intMonth, objSLT_Meeting_Schedule.PK_SLT_Meeting_Schedule.Value, iYear, true).Tables[0];
-        if (dtOpenObservationPriorMonths.Rows.Count > 0)
-        {
+        //DataTable dtOpenObservationPriorMonths = LU_SLT_Safety_Walk_Focus_Area.GetSLTSafetyWalkOpenObservation(objSLT_Meeting_Schedule.FK_SLT_Meeting.Value, intMonth, objSLT_Meeting_Schedule.PK_SLT_Meeting_Schedule.Value, iYear, true).Tables[0];
+        //if (dtOpenObservationPriorMonths.Rows.Count > 0)
+        //{
 
-            string styleHeader = "<span style='font-family: Calibri;'>";
-            sbtblPriorMnth.Append("<table cellpadding='0' cellspacing='0' border='0' width='100%' align='center'>");
-            foreach (DataRow dr in dtOpenObservationPriorMonths.Rows)
-            {
-                sbtblPriorMnth.Append("<tr><th align='left' valign='bottom' width='20%'>" + styleHeader + "Month</span></th>");
-                sbtblPriorMnth.Append("<th align='left' valign='bottom' width='30%'>" + styleHeader + "Focus Area</span></th>");
-                sbtblPriorMnth.Append("<th align='left' valign='bottom' width='20%'>" + styleHeader + "Date Completed</span></th>");
-                sbtblPriorMnth.Append("<th align='center' valign='bottom' width='25%'>" + styleHeader + " Observations Open</span></th></tr>");
+        //    string styleHeader = "<span style='font-family: Calibri;'>";
+        //    sbtblPriorMnth.Append("<table cellpadding='0' cellspacing='0' border='0' width='100%' align='center'>");
+        //    foreach (DataRow dr in dtOpenObservationPriorMonths.Rows)
+        //    {
+        //        sbtblPriorMnth.Append("<tr><th align='left' valign='bottom' width='20%'>" + styleHeader + "Month</span></th>");
+        //        sbtblPriorMnth.Append("<th align='left' valign='bottom' width='30%'>" + styleHeader + "Focus Area</span></th>");
+        //        sbtblPriorMnth.Append("<th align='left' valign='bottom' width='20%'>" + styleHeader + "Date Completed</span></th>");
+        //        sbtblPriorMnth.Append("<th align='center' valign='bottom' width='25%'>" + styleHeader + " Observations Open</span></th></tr>");
 
-                string style = "<span style='font-size: 11pt; font-family: Calibri'>";
-                sbtblPriorMnth.Append("<tr><td align='left' valign='top'>" + style + Convert.ToString(dr["Month"]) + "</span></td>");
-                sbtblPriorMnth.Append("<td align='left' valign='top'>" + style + Convert.ToString(dr["Focus_Area"]) + "</span></td>");
-                sbtblPriorMnth.Append("<td align='left' valign='top'>" + style + clsGeneral.FormatDBNullDateToDisplay(dr["Safety_Walk_Comp_Date"]) + "</span></td>");
-                sbtblPriorMnth.Append("<td align='center' valign='top'>" + style + Convert.ToString(dr["Observations_Open"]) + "</span></td>");
-                sbtblPriorMnth.Append("</tr>");
+        //        string style = "<span style='font-size: 11pt; font-family: Calibri'>";
+        //        sbtblPriorMnth.Append("<tr><td align='left' valign='top'>" + style + Convert.ToString(dr["Month"]) + "</span></td>");
+        //        sbtblPriorMnth.Append("<td align='left' valign='top'>" + style + Convert.ToString(dr["Focus_Area"]) + "</span></td>");
+        //        sbtblPriorMnth.Append("<td align='left' valign='top'>" + style + clsGeneral.FormatDBNullDateToDisplay(dr["Safety_Walk_Comp_Date"]) + "</span></td>");
+        //        sbtblPriorMnth.Append("<td align='center' valign='top'>" + style + Convert.ToString(dr["Observations_Open"]) + "</span></td>");
+        //        sbtblPriorMnth.Append("</tr>");
 
-                #region Bind Questions
-                decimal ScheduleID = 0;
-                if (!string.IsNullOrEmpty(Convert.ToString(dr["PK_SLT_Meeting_Schedule"])))
-                    ScheduleID = Convert.ToDecimal(dr["PK_SLT_Meeting_Schedule"]);
-                else
-                    ScheduleID = 0;
-                sbtblPriorMnth.Append("<tr><th align='left' valign='bottom' colspan='4'>" + styleHeader + "Questions</th></tr>");
-                DataTable dtQuestionOfOpenObservation = LU_SLT_Safety_Walk_Focus_Area.GetQuestions_OfOpenObservation(Convert.ToInt32(dr["MonthNum"]), ScheduleID, iYear).Tables[0];
-                sbtblPriorMnth.Append("<tr><td colspan='4'><table cellpadding='0' cellspacing='0' border='0' width='100%' align='center'>");
-                foreach (DataRow drQue in dtQuestionOfOpenObservation.Rows)
-                {
-                    sbtblPriorMnth.Append("<tr><td align='left' valign='top' style='width:5%;'>" + style + Convert.ToString(drQue["Sort_Order"]) + ". &nbsp;</span></td>");
-                    sbtblPriorMnth.Append("<td align='left' valign='top'>" + style + Convert.ToString(drQue["Question"]) + "</span></td>");
-                    sbtblPriorMnth.Append("</tr>");
-                    sbtblPriorMnth.Append("<tr><td colspan='2'> &nbsp; </td></tr>");
-                }
+        //        #region Bind Questions
+        //        decimal ScheduleID = 0;
+        //        if (!string.IsNullOrEmpty(Convert.ToString(dr["PK_SLT_Meeting_Schedule"])))
+        //            ScheduleID = Convert.ToDecimal(dr["PK_SLT_Meeting_Schedule"]);
+        //        else
+        //            ScheduleID = 0;
+        //        sbtblPriorMnth.Append("<tr><th align='left' valign='bottom' colspan='4'>" + styleHeader + "Questions</th></tr>");
+        //        DataTable dtQuestionOfOpenObservation = LU_SLT_Safety_Walk_Focus_Area.GetQuestions_OfOpenObservation(Convert.ToInt32(dr["MonthNum"]), ScheduleID, iYear).Tables[0];
+        //        sbtblPriorMnth.Append("<tr><td colspan='4'><table cellpadding='0' cellspacing='0' border='0' width='100%' align='center'>");
+        //        foreach (DataRow drQue in dtQuestionOfOpenObservation.Rows)
+        //        {
+        //            sbtblPriorMnth.Append("<tr><td align='left' valign='top' style='width:5%;'>" + style + Convert.ToString(drQue["Sort_Order"]) + ". &nbsp;</span></td>");
+        //            sbtblPriorMnth.Append("<td align='left' valign='top'>" + style + Convert.ToString(drQue["Question"]) + "</span></td>");
+        //            sbtblPriorMnth.Append("</tr>");
+        //            sbtblPriorMnth.Append("<tr><td colspan='2'> &nbsp; </td></tr>");
+        //        }
 
-                sbtblPriorMnth.Append("</table></td></tr>");
+        //        sbtblPriorMnth.Append("</table></td></tr>");
 
-                #endregion
-            }
+        //        #endregion
+        //    }
 
-            sbtblPriorMnth.Append("<tr><td colspan='4'>&nbsp;</td></tr>");
-            sbtblPriorMnth.Append("</table>");
-        }
-        else
-        {
-            strBody.Replace("[SafetyWalk_Observation_PriorMonths]", "<span style='font-size: 11pt; font-family: Calibri'>No records Found</span>");
-        }
-        strBody = strBody.Replace("[SafetyWalk_Observation_PriorMonths]", sbtblPriorMnth.ToString());
+        //    sbtblPriorMnth.Append("<tr><td colspan='4'>&nbsp;</td></tr>");
+        //    sbtblPriorMnth.Append("</table>");
+        //}
+        //else
+        //{
+        //    strBody.Replace("[SafetyWalk_Observation_PriorMonths]", "<span style='font-size: 11pt; font-family: Calibri'>No records Found</span>");
+        //}
+        //strBody = strBody.Replace("[SafetyWalk_Observation_PriorMonths]", sbtblPriorMnth.ToString());
         #endregion
 
         #region "Safety Walk Open Observation For Next Months"
 
-        StringBuilder sbNextMonth = new StringBuilder();
+        //StringBuilder sbNextMonth = new StringBuilder();
 
-        DataSet dsObservation = LU_SLT_Safety_Walk_Focus_Area.GetSLTQuestions_OfNextMeeting(objSLT_Meeting_Schedule.FK_SLT_Meeting.Value, objSLT_Meeting_Schedule.PK_SLT_Meeting_Schedule.Value);
-        DataTable dtNextMeetingOpenObservation = dsObservation.Tables[0];
-        if (dtNextMeetingOpenObservation.Rows.Count > 0)
+        //DataSet dsObservation = LU_SLT_Safety_Walk_Focus_Area.GetSLTQuestions_OfNextMeeting(objSLT_Meeting_Schedule.FK_SLT_Meeting.Value, objSLT_Meeting_Schedule.PK_SLT_Meeting_Schedule.Value);
+        //DataTable dtNextMeetingOpenObservation = dsObservation.Tables[0];
+        //if (dtNextMeetingOpenObservation.Rows.Count > 0)
+        //{
+        //    string styleHeader = "<span style='font-family: Calibri;'>";
+        //    sbNextMonth.Append("<table cellpadding='0' cellspacing='0' border='0' width='100%' align='center'>");
+        //    sbNextMonth.Append("<tr><th align='left' valign='bottom' width='20%'>" + styleHeader + "Month</span></th>");
+        //    sbNextMonth.Append("<th align='left' valign='bottom' width='30%'>" + styleHeader + "Focus Area</span></th>");
+        //    sbNextMonth.Append("<th align='left' valign='bottom' width='20%'>" + styleHeader + "Date Completed</span></th>");
+        //    sbNextMonth.Append("<th align='center' valign='bottom' width='25%'>" + styleHeader + " Observations Open</span></th></tr>");
+        //    foreach (DataRow dr in dtNextMeetingOpenObservation.Rows)
+        //    {
+        //        string style = "<span style='font-size: 11pt; font-family: Calibri'>";
+        //        sbNextMonth.Append("<tr><td align='left' valign='top'>" + style + Convert.ToString(dr["Month"]) + "</span></td>");
+        //        sbNextMonth.Append("<td align='left' valign='top'>" + style + Convert.ToString(dr["Focus_Area"]) + "</span></td>");
+        //        sbNextMonth.Append("<td align='left' valign='top'>" + style + clsGeneral.FormatDBNullDateToDisplay(dr["Safety_Walk_Comp_Date"]) + "</span></td>");
+        //        sbNextMonth.Append("<td align='center' valign='top'>" + style + Convert.ToString(dr["Observations_Open"]) + "</span></td>");
+        //        sbNextMonth.Append("</tr>");
+        //    }
+
+        //    #region Bind Questions
+        //    sbNextMonth.Append("<tr><th align='left' valign='bottom' colspan='4'>" + styleHeader + "Questions</th></tr>");
+        //    DataTable dtNextMeetingQuestionOfOpenObservation = dsObservation.Tables[1];
+        //    sbNextMonth.Append("<tr><td colspan='4'><table cellpadding='0' cellspacing='0' border='0' width='100%' align='center'>");
+        //    foreach (DataRow drQue in dtNextMeetingQuestionOfOpenObservation.Rows)
+        //    {
+        //        string style = "<span style='font-size: 11pt; font-family: Calibri'>";
+        //        sbNextMonth.Append("<tr><td align='left' valign='top' style='width:5%;'>" + style + Convert.ToString(drQue["Sort_Order"]) + ". &nbsp;</span></td>");
+        //        sbNextMonth.Append("<td align='left' valign='top'>" + style + Convert.ToString(drQue["Question"]) + "</span></td>");
+        //        sbNextMonth.Append("</tr>");
+        //        sbNextMonth.Append("<tr><td colspan='2'>&nbsp;</td></tr>");
+        //    }
+        //    sbNextMonth.Append("</table></td></tr>");
+        //    #endregion
+
+        //    sbNextMonth.Append("<tr><td colspan='4'>&nbsp;</td></tr>");
+        //    sbNextMonth.Append("</table>");
+
+        //}
+        //else
+        //{
+        //    strBody.Replace("[SafetyWalk_Observation_NextMonths]", "<span style='font-size: 11pt; font-family: Calibri'>No records Found</span>");
+        //}
+        //strBody = strBody.Replace("[SafetyWalk_Observation_NextMonths]", sbNextMonth.ToString());
+        #endregion
+
+        #region "Find It and Fix It"
+        StringBuilder sbFindFix = new StringBuilder();
+
+        DataSet dsFindFix = clsFind_it_Fix_it.Find_it_Fix_itSelectByFK_SLT_Meeting(PK_SLT_Meeting);
+        DataTable dtFindFix = dsFindFix.Tables[0];
+        if (dtFindFix.Rows.Count > 0)
         {
             string styleHeader = "<span style='font-family: Calibri;'>";
-            sbNextMonth.Append("<table cellpadding='0' cellspacing='0' border='0' width='100%' align='center'>");
-            sbNextMonth.Append("<tr><th align='left' valign='bottom' width='20%'>" + styleHeader + "Month</span></th>");
-            sbNextMonth.Append("<th align='left' valign='bottom' width='30%'>" + styleHeader + "Focus Area</span></th>");
-            sbNextMonth.Append("<th align='left' valign='bottom' width='20%'>" + styleHeader + "Date Completed</span></th>");
-            sbNextMonth.Append("<th align='center' valign='bottom' width='25%'>" + styleHeader + " Observations Open</span></th></tr>");
-            foreach (DataRow dr in dtNextMeetingOpenObservation.Rows)
+            sbFindFix.Append("<table cellpadding='0' cellspacing='0' border='0' width='100%' align='center'>");
+            sbFindFix.Append("<tr><th align='left' valign='bottom' width='20%'>" + styleHeader + "Department</span></th>");
+            sbFindFix.Append("<th align='left' valign='bottom' width='20%'>" + styleHeader + "Category</span></th>");
+            sbFindFix.Append("<th align='left' valign='bottom' width='20%'>" + styleHeader + "Find it description</span></th>");
+            sbFindFix.Append("<th align='left' valign='bottom' width='20%'>" + styleHeader + "Fix it description</span></th>");
+            sbFindFix.Append("<th align='left' valign='bottom' width='20%'>" + styleHeader + "Pic (Y or N)</span></th></tr>");
+            foreach (DataRow dr in dtFindFix.Rows)
             {
                 string style = "<span style='font-size: 11pt; font-family: Calibri'>";
-                sbNextMonth.Append("<tr><td align='left' valign='top'>" + style + Convert.ToString(dr["Month"]) + "</span></td>");
-                sbNextMonth.Append("<td align='left' valign='top'>" + style + Convert.ToString(dr["Focus_Area"]) + "</span></td>");
-                sbNextMonth.Append("<td align='left' valign='top'>" + style + clsGeneral.FormatDBNullDateToDisplay(dr["Safety_Walk_Comp_Date"]) + "</span></td>");
-                sbNextMonth.Append("<td align='center' valign='top'>" + style + Convert.ToString(dr["Observations_Open"]) + "</span></td>");
-                sbNextMonth.Append("</tr>");
+                sbFindFix.Append("<tr><td align='left' valign='top'>" + style + Convert.ToString(dr["Department_Name"]) + "</span></td>");
+                sbFindFix.Append("<td align='left' valign='top'>" + style + Convert.ToString(dr["Category_Name"]) + "</span></td>");
+                sbFindFix.Append("<td align='left' valign='top'>" + style + (Convert.ToString(dr["Find_It_Description"]).Length <= 20 ? dr["Find_It_Description"].ToString() : dr["Find_It_Description"].ToString().Substring(0,20)) + "</span></td>");
+                sbFindFix.Append("<td align='left' valign='top'>" + style + (Convert.ToString(dr["Fixt_It_Description"]).Length <= 20 ? dr["Fixt_It_Description"].ToString() : dr["Fixt_It_Description"].ToString().Substring(0, 20)) + "</span></td>");
+                sbFindFix.Append("<td align='left' valign='top'>" + style + Convert.ToString(dr["PK_Find_it_Fix_it_Attachments"].ToString() == "0" ? "N" : "Y") + "</span></td>");
+                sbFindFix.Append("</tr>");
             }
 
-            #region Bind Questions
-            sbNextMonth.Append("<tr><th align='left' valign='bottom' colspan='4'>" + styleHeader + "Questions</th></tr>");
-            DataTable dtNextMeetingQuestionOfOpenObservation = dsObservation.Tables[1];
-            sbNextMonth.Append("<tr><td colspan='4'><table cellpadding='0' cellspacing='0' border='0' width='100%' align='center'>");
-            foreach (DataRow drQue in dtNextMeetingQuestionOfOpenObservation.Rows)
-            {
-                string style = "<span style='font-size: 11pt; font-family: Calibri'>";
-                sbNextMonth.Append("<tr><td align='left' valign='top' style='width:5%;'>" + style + Convert.ToString(drQue["Sort_Order"]) + ". &nbsp;</span></td>");
-                sbNextMonth.Append("<td align='left' valign='top'>" + style + Convert.ToString(drQue["Question"]) + "</span></td>");
-                sbNextMonth.Append("</tr>");
-                sbNextMonth.Append("<tr><td colspan='2'>&nbsp;</td></tr>");
-            }
-            sbNextMonth.Append("</table></td></tr>");
-            #endregion
-
-            sbNextMonth.Append("<tr><td colspan='4'>&nbsp;</td></tr>");
-            sbNextMonth.Append("</table>");
+            sbFindFix.Append("<tr><td colspan='4'>&nbsp;</td></tr>");
+            sbFindFix.Append("</table>");
 
         }
         else
         {
-            strBody.Replace("[SafetyWalk_Observation_NextMonths]", "<span style='font-size: 11pt; font-family: Calibri'>No records Found</span>");
+            strBody.Replace("[Find_It_and_Fix_It]", "<span style='font-size: 11pt; font-family: Calibri'>No records Found</span>");
         }
-        strBody = strBody.Replace("[SafetyWalk_Observation_NextMonths]", sbNextMonth.ToString());
-
-
+        strBody = strBody.Replace("[Find_It_and_Fix_It]", sbFindFix.ToString());
 
         #endregion
 
