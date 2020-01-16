@@ -901,7 +901,7 @@
                                                                         onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
                                                                         align="middle" /><br />
                                                                     <asp:RegularExpressionValidator ID="revtxtDate_Of_Loss" runat="server" ControlToValidate="txtDate_Of_Loss"
-                                                                        ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([01])(\d{1})|([8901])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([2-9])(\d{1})|(20)([01])(\d{1})|([8901])(\d{1})))$"
+                                                                        ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$"
                                                                         ErrorMessage="Date Reported to Sonic is not valid." Display="none" ValidationGroup="vsLossInfoGroup"></asp:RegularExpressionValidator>
                                                                     <asp:CompareValidator ID="CompareValidator1" runat="server" ControlToValidate="txtDate_Of_Loss"
                                                                         ValidationGroup="vsLossInfoGroup" ErrorMessage=" Date of Loss Should Not Be Future Date."
