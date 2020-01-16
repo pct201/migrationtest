@@ -1734,9 +1734,12 @@ public partial class Exposures_Investigation : clsBasePage
         else
         {
             DataTable dtClaimInfo = WC_ClaimInfo.Select_Claim_Number(Convert.ToInt32(FK_WC_FR), "WC");
-            DataSet dtClaimDetail = WC_ClaimInfo.SelectByPK(Convert.ToInt32(Convert.ToInt32(dtClaimInfo.Rows[0]["ClaimID"])));
-            if(dtClaimDetail.Tables[0].Rows[0]["Date_Return_To_Work"] != null && dtClaimDetail.Tables[0].Rows[0]["Date_Return_To_Work"].ToString() != string.Empty)
-                txtReturnToWorkDate.Text = clsGeneral.FormatDateToDisplay(Convert.ToDateTime(dtClaimDetail.Tables[0].Rows[0]["Date_Return_To_Work"]));
+            if (dtClaimInfo.Rows.Count > 0)
+            {
+                DataSet dtClaimDetail = WC_ClaimInfo.SelectByPK(Convert.ToInt32(Convert.ToInt32(dtClaimInfo.Rows[0]["ClaimID"])));
+                if (dtClaimDetail.Tables[0].Rows[0]["Date_Return_To_Work"] != null && dtClaimDetail.Tables[0].Rows[0]["Date_Return_To_Work"].ToString() != string.Empty)
+                    txtReturnToWorkDate.Text = clsGeneral.FormatDateToDisplay(Convert.ToDateTime(dtClaimDetail.Tables[0].Rows[0]["Date_Return_To_Work"]));
+            }
         }
 
         #endregion
