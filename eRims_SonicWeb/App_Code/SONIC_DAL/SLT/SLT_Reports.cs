@@ -258,10 +258,11 @@ public class SLT_Reports : System.Web.UI.Page
 
         DataSet dsFindFix = clsFind_it_Fix_it.Find_it_Fix_itSelectByFK_SLT_Meeting(PK_SLT_Meeting);
         DataTable dtFindFix = dsFindFix.Tables[0];
+
         if (dtFindFix.Rows.Count > 0)
         {
             string styleHeader = "<span style='font-family: Calibri;'>";
-            sbFindFix.Append("<table cellpadding='0' cellspacing='0' border='0' width='100%' align='center'>");
+            sbFindFix.Append("<table cellpadding='0' cellspacing='5' border='0' width='100%' align='center'>");
             sbFindFix.Append("<tr><th align='left' valign='bottom' width='20%'>" + styleHeader + "Department</span></th>");
             sbFindFix.Append("<th align='left' valign='bottom' width='20%'>" + styleHeader + "Category</span></th>");
             sbFindFix.Append("<th align='left' valign='bottom' width='20%'>" + styleHeader + "Find it description</span></th>");
@@ -276,6 +277,19 @@ public class SLT_Reports : System.Web.UI.Page
                 sbFindFix.Append("<td align='left' valign='top'>" + style + (Convert.ToString(dr["Fixt_It_Description"]).Length <= 20 ? dr["Fixt_It_Description"].ToString() : dr["Fixt_It_Description"].ToString().Substring(0, 20)) + "</span></td>");
                 sbFindFix.Append("<td align='left' valign='top'>" + style + Convert.ToString(dr["PK_Find_it_Fix_it_Attachments"].ToString() == "0" ? "N" : "Y") + "</span></td>");
                 sbFindFix.Append("</tr>");
+                DataTable dtFindFixAttachments = clsFind_it_Fix_it_Attachments.SelectByFK_Find_It_Fix_It(Convert.ToDecimal(dr["PK_Find_it_Fix_it"])).Tables[0];
+                if (dtFindFixAttachments != null)
+                {
+                    sbFindFix.Append("<tr>");
+                    sbFindFix.Append("<td colspan='5'>");
+                    foreach (DataRow attachment in dtFindFixAttachments.Rows)
+                    {
+                        sbFindFix.Append("<img src='" + AppConfig.Find_it_Fix_it_AttachmentsDocPath + attachment["File_Name"] + "' height='100' width='100' style='margin-top:10px;'/>");
+                    }
+                    sbFindFix.Append("</td>");
+                    sbFindFix.Append("</tr>");
+                }
+
             }
 
             sbFindFix.Append("<tr><td colspan='4'>&nbsp;</td></tr>");
@@ -629,10 +643,11 @@ public class SLT_Reports : System.Web.UI.Page
 
         DataSet dsFindFix = clsFind_it_Fix_it.Find_it_Fix_itSelectByFK_SLT_Meeting(PK_SLT_Meeting);
         DataTable dtFindFix = dsFindFix.Tables[0];
+
         if (dtFindFix.Rows.Count > 0)
         {
             string styleHeader = "<span style='font-family: Calibri;'>";
-            sbFindFix.Append("<table cellpadding='0' cellspacing='0' border='0' width='100%' align='center'>");
+            sbFindFix.Append("<table cellpadding='0' cellspacing='5' border='0' width='100%' align='center'>");
             sbFindFix.Append("<tr><th align='left' valign='bottom' width='20%'>" + styleHeader + "Department</span></th>");
             sbFindFix.Append("<th align='left' valign='bottom' width='20%'>" + styleHeader + "Category</span></th>");
             sbFindFix.Append("<th align='left' valign='bottom' width='20%'>" + styleHeader + "Find it description</span></th>");
@@ -647,6 +662,19 @@ public class SLT_Reports : System.Web.UI.Page
                 sbFindFix.Append("<td align='left' valign='top'>" + style + (Convert.ToString(dr["Fixt_It_Description"]).Length <= 20 ? dr["Fixt_It_Description"].ToString() : dr["Fixt_It_Description"].ToString().Substring(0, 20)) + "</span></td>");
                 sbFindFix.Append("<td align='left' valign='top'>" + style + Convert.ToString(dr["PK_Find_it_Fix_it_Attachments"].ToString() == "0" ? "N" : "Y") + "</span></td>");
                 sbFindFix.Append("</tr>");
+                DataTable dtFindFixAttachments = clsFind_it_Fix_it_Attachments.SelectByFK_Find_It_Fix_It(Convert.ToDecimal(dr["PK_Find_it_Fix_it"])).Tables[0];
+                if (dtFindFixAttachments != null)
+                {
+                    sbFindFix.Append("<tr>");
+                    sbFindFix.Append("<td colspan='5'>");
+                    foreach (DataRow attachment in dtFindFixAttachments.Rows)
+                    {
+                        sbFindFix.Append("<img src='" + AppConfig.Find_it_Fix_it_AttachmentsDocPath + attachment["File_Name"] + "' height='100' width='100' style='margin-top:10px;'/>");
+                    }
+                    sbFindFix.Append("</td>");
+                    sbFindFix.Append("</tr>");
+                }
+
             }
 
             sbFindFix.Append("<tr><td colspan='4'>&nbsp;</td></tr>");
@@ -1365,10 +1393,11 @@ public class SLT_Reports : System.Web.UI.Page
 
         DataSet dsFindFix = clsFind_it_Fix_it.Find_it_Fix_itSelectByFK_SLT_Meeting(PK_SLT_Meeting);
         DataTable dtFindFix = dsFindFix.Tables[0];
+
         if (dtFindFix.Rows.Count > 0)
         {
             string styleHeader = "<span style='font-family: Calibri;'>";
-            sbFindFix.Append("<table cellpadding='0' cellspacing='0' border='0' width='100%' align='center'>");
+            sbFindFix.Append("<table cellpadding='0' cellspacing='5' border='0' width='100%' align='center'>");
             sbFindFix.Append("<tr><th align='left' valign='bottom' width='20%'>" + styleHeader + "Department</span></th>");
             sbFindFix.Append("<th align='left' valign='bottom' width='20%'>" + styleHeader + "Category</span></th>");
             sbFindFix.Append("<th align='left' valign='bottom' width='20%'>" + styleHeader + "Find it description</span></th>");
@@ -1379,10 +1408,23 @@ public class SLT_Reports : System.Web.UI.Page
                 string style = "<span style='font-size: 11pt; font-family: Calibri'>";
                 sbFindFix.Append("<tr><td align='left' valign='top'>" + style + Convert.ToString(dr["Department_Name"]) + "</span></td>");
                 sbFindFix.Append("<td align='left' valign='top'>" + style + Convert.ToString(dr["Category_Name"]) + "</span></td>");
-                sbFindFix.Append("<td align='left' valign='top'>" + style + (Convert.ToString(dr["Find_It_Description"]).Length <= 20 ? dr["Find_It_Description"].ToString() : dr["Find_It_Description"].ToString().Substring(0,20)) + "</span></td>");
+                sbFindFix.Append("<td align='left' valign='top'>" + style + (Convert.ToString(dr["Find_It_Description"]).Length <= 20 ? dr["Find_It_Description"].ToString() : dr["Find_It_Description"].ToString().Substring(0, 20)) + "</span></td>");
                 sbFindFix.Append("<td align='left' valign='top'>" + style + (Convert.ToString(dr["Fixt_It_Description"]).Length <= 20 ? dr["Fixt_It_Description"].ToString() : dr["Fixt_It_Description"].ToString().Substring(0, 20)) + "</span></td>");
                 sbFindFix.Append("<td align='left' valign='top'>" + style + Convert.ToString(dr["PK_Find_it_Fix_it_Attachments"].ToString() == "0" ? "N" : "Y") + "</span></td>");
                 sbFindFix.Append("</tr>");
+                DataTable dtFindFixAttachments = clsFind_it_Fix_it_Attachments.SelectByFK_Find_It_Fix_It(Convert.ToDecimal(dr["PK_Find_it_Fix_it"])).Tables[0];
+                if (dtFindFixAttachments != null)
+                {
+                    sbFindFix.Append("<tr>");
+                    sbFindFix.Append("<td colspan='5'>");
+                    foreach (DataRow attachment in dtFindFixAttachments.Rows)
+                    {
+                        sbFindFix.Append("<img src='" + AppConfig.Find_it_Fix_it_AttachmentsDocPath + attachment["File_Name"] + "' height='100' width='100' style='margin-top:10px;'/>");
+                    }
+                    sbFindFix.Append("</td>");
+                    sbFindFix.Append("</tr>");
+                }
+
             }
 
             sbFindFix.Append("<tr><td colspan='4'>&nbsp;</td></tr>");

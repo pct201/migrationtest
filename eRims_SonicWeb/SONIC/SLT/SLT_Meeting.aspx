@@ -2204,12 +2204,12 @@ function DisableButton() {
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" width="40%">RCLM Comments&nbsp;<span id="Span53" runat="server" style="color: Red; display: none">*</span>
+                                                                    <td align="left" valign="top" width="40%">RLCM Comments&nbsp;<span id="Span53" runat="server" style="color: Red; display: none">*</span>
                                                                     </td>
                                                                     <td align="center" valign="top" width="4%">:
                                                                     </td>
                                                                     <td align="left" colspan="4" valign="top" width="56%">
-                                                                        <uc:ctrlMultiLineTextBox ID="txtRCLM_Comments" runat="server" />
+                                                                        <uc:ctrlMultiLineTextBox ID="txtRLCM_Comments" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
@@ -5497,12 +5497,12 @@ function DisableButton() {
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left" valign="top" width="40%">RCLM Comments
+                                                                    <td align="left" valign="top" width="40%">RLCM Comments
                                                                     </td>
                                                                     <td align="center" valign="top" width="4%">:
                                                                     </td>
                                                                     <td align="left" colspan="4" valign="top" width="56%">
-                                                                        <asp:Label ID="lblRCLMComments" runat="server" />
+                                                                        <asp:Label ID="lblRLCMComments" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>

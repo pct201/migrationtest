@@ -162,6 +162,11 @@ public partial class Download : System.Web.UI.Page
                     {
                         string strRpFileName = Convert.ToString(dtAttachments.Rows[0]["NewAttachment_Name"]);
                         string strOriginalFileName = Convert.ToString(dtAttachments.Rows[0]["File_Name"]);
+                        if (strRpFileName == string.Empty)
+                        {
+                            strRpFileName = strOriginalFileName.Substring(12, strOriginalFileName.Length-12);
+                        }
+                        
                         string strRpFilePath = AppConfig.Find_it_Fix_it_AttachmentsDocPath + strOriginalFileName;
                         // Transfer File
                         HttpContext.Current.Response.Clear();

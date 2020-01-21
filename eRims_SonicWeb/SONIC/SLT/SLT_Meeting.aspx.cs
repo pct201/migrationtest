@@ -4618,7 +4618,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         txtDate_Created_FindFix.Text = clsGeneral.FormatDateToDisplay(DateTime.Now);
         txtFindIt_Description.Text = "";
         txtFixIt_Description.Text = "";
-        txtRCLM_Comments.Text = "";
+        txtRLCM_Comments.Text = "";
         Attachments.PK_ID = 0;
         Attachments.BindGridFiles();
         PK_Find_It_Fix_It = 0;
@@ -6026,7 +6026,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
 
             txtFindIt_Description.Text = objFindItFixIt.Find_It_Description;
             txtFixIt_Description.Text = objFindItFixIt.Fixt_it_Description;
-            txtRCLM_Comments.Text = objFindItFixIt.RCLM_Comments;
+            txtRLCM_Comments.Text = objFindItFixIt.RCLM_Comments;
 
             Attachments.PK_ID = Convert.ToDecimal(e.CommandArgument);
             Attachments.BindGridFiles();
@@ -6058,7 +6058,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
 
             lblFindItDescription.Text = objFindItFixIt.Find_It_Description;
             lblFixItDescription.Text = objFindItFixIt.Fixt_it_Description;
-            lblRCLMComments.Text = objFindItFixIt.RCLM_Comments;
+            lblRLCMComments.Text = objFindItFixIt.RCLM_Comments;
 
             AttachmentsView.StrOperation = StrOperation;
             AttachmentsView.PK_ID = Convert.ToDecimal(e.CommandArgument);
@@ -7260,7 +7260,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             objFindItFixIt.FK_Members = Convert.ToDecimal(drpFK_SLT_Members_As_Associate.SelectedItem.Value);
         objFindItFixIt.Find_It_Description = txtFindIt_Description.Text;
         objFindItFixIt.Fixt_it_Description = txtFixIt_Description.Text;
-        objFindItFixIt.RCLM_Comments = txtRCLM_Comments.Text;
+        objFindItFixIt.RCLM_Comments = txtRLCM_Comments.Text;
 
         if (drpFindFix_Status.SelectedIndex > 0)
             objFindItFixIt.Status = drpFindFix_Status.Value;
