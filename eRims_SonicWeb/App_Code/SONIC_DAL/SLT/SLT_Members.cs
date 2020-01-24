@@ -590,5 +590,16 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "FK_SLT_Meeting", DbType.Decimal, FK_SLT_Meeting);
             return (db.ExecuteDataSet(dbCommand));
         }
-	}
+
+        /// <summary>
+        /// Selects Members from the SLT_Members table by a FK_SLT_Meeting.
+        /// </summary>
+        public static DataSet SLT_Members_As_AssociateSelectByFK_SLT_Meeting(decimal FK_SLT_Meeting)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("SLT_Members_As_AssociateSelectByFK_SLT_Meeting");
+            db.AddInParameter(dbCommand, "FK_SLT_Meeting", DbType.Decimal, FK_SLT_Meeting);
+            return (db.ExecuteDataSet(dbCommand));
+        }
+    }
 }

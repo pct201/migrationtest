@@ -2161,7 +2161,6 @@ function DisableButton() {
                                                                     <td align="left" valign="top" width="21%">
                                                                         <select ID="drpFindFix_Status" runat="server" SkinID="dropGen" style="width:170px;">
                                                                             <option>--Select--</option>
-                                                                            <option value="Active">Active</option>
                                                                             <option value="Open">Open</option>
                                                                             <option value="Closed">Closed</option>
                                                                         </select>

@@ -862,7 +862,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
 
     private void BindAllAssociates()
     {
-        DataSet dsAssociate = SLT_Members.SLT_MembersSelectByFK_SLT_Meeting(PK_SLT_Meeting);
+        DataSet dsAssociate = SLT_Members.SLT_Members_As_AssociateSelectByFK_SLT_Meeting(PK_SLT_Meeting);
         if(dsAssociate.Tables.Count > 0)
         {
             drpFK_SLT_Members_As_Associate.DataSource = dsAssociate.Tables[0];
@@ -1219,13 +1219,6 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         DrpAssigned_To_Sugg.DataValueField = "PK_SLT_Members";
         DrpAssigned_To_Sugg.DataBind();
         DrpAssigned_To_Sugg.Items.Insert(0, new ListItem("--Select--", "0"));
-
-        drpFK_SLT_Members_As_Associate.Items.Clear();
-        drpFK_SLT_Members_As_Associate.DataSource = dtMembers;
-        drpFK_SLT_Members_As_Associate.DataTextField = "FullName";
-        drpFK_SLT_Members_As_Associate.DataValueField = "PK_SLT_Members";
-        drpFK_SLT_Members_As_Associate.DataBind();
-        drpFK_SLT_Members_As_Associate.Items.Insert(0, new ListItem("--Select--", "0"));
     }
     private void BindDropDownsForView()
     {
@@ -6017,7 +6010,15 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                 drpPK_FindItFixIt_Category.SelectedValue = objFindItFixIt.FK_Lu_Category.ToString();
 
             if (objFindItFixIt.FK_Members != null)
-                drpFK_SLT_Members_As_Associate.SelectedValue = objFindItFixIt.FK_Members.ToString();
+            {
+                if (drpFK_SLT_Members_As_Associate.Items.FindByValue(Convert.ToString(objFindItFixIt.FK_Members)) != null) {
+                    drpFK_SLT_Members_As_Associate.SelectedValue = objFindItFixIt.FK_Members.ToString();
+                }
+                else
+                {
+                    drpFK_SLT_Members_As_Associate.SelectedValue = "0";
+                }
+            }
 
             if (objFindItFixIt.Status != null)
                 drpFindFix_Status.Value = objFindItFixIt.Status.ToString();
@@ -6505,11 +6506,11 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             #region " set validation control IDs and messages "
             switch (Convert.ToString(drField["Field_Name"]))
             {
-                case "Department": strCtrlsIDs += drpPK_FindItFixIt_Department.ClientID + ","; strMessages += "Please select [Find it and Fix It]/Please Select Department" + ","; Span48.Style["display"] = "inline-block"; break;
-                case "Category": strCtrlsIDs += drpPK_FindItFixIt_Category.ClientID + ","; strMessages += "Please select [Find it and Fix It]/Please Select Category" + ","; Span49.Style["display"] = "inline-block"; break;
-                case "Associate": strCtrlsIDs += drpFK_SLT_Members_As_Associate.ClientID + ","; strMessages += "Please select [Find it and Fix It]/Please Select Associate" + ","; Span50.Style["display"] = "inline-block"; break;
-                case "Find it Description": strCtrlsIDs += txtFindIt_Description.ClientID + ","; strMessages += "Please enter [Find it and Fix It]/Please Find it Description " + ","; Span51.Style["display"] = "inline-block"; break;
-                case "Fix it Description": strCtrlsIDs += txtFixIt_Description.ClientID + ","; strMessages += "Please select [Find it and Fix It]/Please enter Fix it Description" + ","; Span52.Style["display"] = "inline-block"; break;
+                case "Department": strCtrlsIDs += drpPK_FindItFixIt_Department.ClientID + ","; strMessages += "Please select [Find it and Fix It]/Department" + ","; Span48.Style["display"] = "inline-block"; break;
+                case "Category": strCtrlsIDs += drpPK_FindItFixIt_Category.ClientID + ","; strMessages += "Please select [Find it and Fix It]/Category" + ","; Span49.Style["display"] = "inline-block"; break;
+                case "Associate": strCtrlsIDs += drpFK_SLT_Members_As_Associate.ClientID + ","; strMessages += "Please select [Find it and Fix It]/Associate" + ","; Span50.Style["display"] = "inline-block"; break;
+                case "Find it Description": strCtrlsIDs += txtFindIt_Description.ClientID + ","; strMessages += "Please enter [Find it and Fix It]/Find it Description " + ","; Span51.Style["display"] = "inline-block"; break;
+                case "Fix it Description": strCtrlsIDs += txtFixIt_Description.ClientID + ","; strMessages += "Please enter [Find it and Fix It]/Fix it Description" + ","; Span52.Style["display"] = "inline-block"; break;
             }
             #endregion
         }
