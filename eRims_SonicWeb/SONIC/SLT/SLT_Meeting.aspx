@@ -249,7 +249,7 @@ function ShowPanel(index) {
     if (op == "view") {
         ShowPanelView(index, 'true');
     }
-    else if (IsEditable == 'False' && op != "view") {
+    else if (IsEditable == 'False' && op != "view" && index != 5) {
         for (i = 1; i <= 2; i++) {
             document.getElementById("ctl00_ContentPlaceHolder1_pnl" + i).style.display = (i == index) ? "block" : "none";
             document.getElementById('ctl00_ContentPlaceHolder1_dvnonEditable').style.display = "none";
@@ -258,6 +258,7 @@ function ShowPanel(index) {
             document.getElementById("ctl00_ContentPlaceHolder1_btnNextStep").style.display = "none";
             document.getElementById("ctl00_ContentPlaceHolder1_btnSaveNnextCall").style.display = "inline";
             document.getElementById("ctl00_ContentPlaceHolder1_btnSave").style.display = "none";
+            document.getElementById("ctl00_ContentPlaceHolder1_pnl5").style.display = "none";
         }
         document.getElementById("ctl00_ContentPlaceHolder1_btnPrevious").style.display = (index == 1) ? "none" : "inline";
         //document.getElementById("ctl00_ContentPlaceHolder1_btnSendTO_RLCM").style.display = (index == 13) ? "inline" : "none";
@@ -283,6 +284,7 @@ function ShowPanel(index) {
         var i;
         for (i = 1; i <= 13; i++) {
             document.getElementById("ctl00_ContentPlaceHolder1_pnl" + i).style.display = (i == index) ? "block" : "none";
+            document.getElementById("ctl00_ContentPlaceHolder1_pnl" + i+"View").style.display = "none";
             document.getElementById("ctl00_ContentPlaceHolder1_pnl14View").style.display = "none";
             document.getElementById("ctl00_ContentPlaceHolder1_pnl14").style.display = "none";
             document.getElementById("ctl00_ContentPlaceHolder1_btnSave").style.display = "none";
@@ -468,9 +470,9 @@ function onPreviousStep() {
     if (ActiveTabIndex == 3) {
         ShowPanel(2);
     }
-    else if (ActiveTabIndex == 5) {
-        ShowPanel(15);
-    }
+    //else if (ActiveTabIndex == 5) {
+    //    ShowPanel(15);
+    //}
     else
         ShowPanel(ActiveTabIndex);
     return false;
@@ -526,7 +528,6 @@ function onPreviousStep() {
         }
 
         function SetValidationGroup() {
-
             var Index = document.getElementById("ctl00_ContentPlaceHolder1_hdnPanel2").value;
             var Schedule_id = '<%=ViewState["PK_SLT_Meeting_Schedule"] %>';
             var temp_ID = '<%=PK_Temp_Schedule_ID %>';
@@ -543,7 +544,6 @@ function onPreviousStep() {
                 if (Schedule_id > 0) {
                     if (Index == 4) ValidationGroups = "vsErrorcallToOrder";
                         //else if (Index == 5) ValidationGroups = "vsErrorSafetywalkGroup";
-                    else if (Index == 5) ValidationGroups = "vsErrorFindItAndFixIt";
                     else if (Index == 15) ValidationGroups = "vsErrorBTSecuritywalkGroup";
                     else if (Index == 6) {
                         var id_Q_Ins = '<%=ViewState["PK_SLT_Quarterly_Inspections"] %>';
@@ -569,6 +569,14 @@ function onPreviousStep() {
                         }
                         else
                             return true;
+                    }
+                    else if (Index == 5) {
+                        if (document.getElementById("ctl00_ContentPlaceHolder1_tr_FindItFixItAdd").style.display == "block") {
+                            ValidationGroups = "vsErrorFindItAndFixIt";
+                        }
+                        else {
+                            return true;
+                        }
                     }
     }
     else {

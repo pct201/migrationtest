@@ -7303,6 +7303,4 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
        
     }
-
-
 }
