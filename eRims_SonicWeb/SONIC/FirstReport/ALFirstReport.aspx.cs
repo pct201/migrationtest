@@ -478,6 +478,17 @@ public partial class SONIC_ALFirstReport : clsBasePage
     /// <param name="e"></param>
     protected void btnSubmit_Click(object sender, EventArgs e)
     {
+        UpdateLocationInformation();
+        UpdateLossInformation();
+        UpdateInsuredVehicleInformation();
+        UpdateInsuredVehicleDriverInformation();
+        UpdateInsuredVehiclePassengerInformation();
+        UpdateOtherVehicleInformation();
+        UpdateOtherDriverInformation();
+        UpdateOtherVehiclePassengerInformation();
+        UpdatePedestrianInformation();
+        UpdateWitnessInformation();
+
         //Complate AL_First Report and Send Email.      
         Int32 intRetVal = ComplateAL_FRReport(true);
 
